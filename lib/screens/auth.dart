@@ -8,6 +8,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  var _isSignin = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +38,18 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (!_isSignin)
+                            TextFormField(
+                              textCapitalization: TextCapitalization.words,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              decoration: InputDecoration(
+                                labelText: 'Username',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                            ),
+                          if (!_isSignin) const SizedBox(height: 30),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
@@ -84,16 +98,41 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                           const SizedBox(height: 30),
-                          InkWell(
-                            onTap: () {},
-                            child: Text(
-                              'Forget password?',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(
-                                      decoration: TextDecoration.underline),
-                            ),
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Text(
+                                  'Forget password?',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          decoration: TextDecoration.underline,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer),
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isSignin = !_isSignin;
+                                  });
+                                },
+                                child: Text(
+                                  'Sign Up',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
