@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/screens/auth.dart';
 
 ThemeData lightMode = ThemeData(
@@ -8,6 +9,7 @@ ThemeData lightMode = ThemeData(
     seedColor: Colors.green,
   ),
   cardColor: const Color.fromARGB(255, 218, 239, 220),
+  textTheme: GoogleFonts.openSansTextTheme(),
 );
 
 ThemeData darkMode = ThemeData(

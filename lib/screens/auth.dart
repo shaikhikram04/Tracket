@@ -17,7 +17,7 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 Image.asset(
                   'assets/images/Tracket_logo.png',
                   width: 250,
@@ -26,7 +26,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 Card(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 50,
-                    vertical: 20,
+                    vertical: 30,
                   ),
                   color: Theme.of(context).cardColor,
                   child: Form(
@@ -35,40 +35,45 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Email'),
                           TextFormField(
                             decoration: InputDecoration(
+                              labelText: 'Email',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          const Text('Password'),
+                          const SizedBox(height: 30),
                           TextFormField(
                             decoration: InputDecoration(
+                              labelText: 'Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 30),
                           SizedBox(
                             width: 300,
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {},
-                              child: const Text('Sign In'),
+                              child: Text(
+                                'Sign In',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 30),
                           InkWell(
                             onTap: () {},
-                            child: const Text(
+                            child: Text(
                               'Forget password?',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      decoration: TextDecoration.underline),
                             ),
                           ),
                         ],
