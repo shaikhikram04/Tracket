@@ -9,6 +9,11 @@ ThemeData lightMode = ThemeData(
     seedColor: Colors.green,
   ),
   cardColor: const Color.fromARGB(255, 218, 239, 220),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.green,
+    ),
+  ),
   textTheme: GoogleFonts.openSansTextTheme(),
 );
 

@@ -28,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     horizontal: 50,
                     vertical: 30,
                   ),
+                  elevation: 7,
                   color: Theme.of(context).cardColor,
                   child: Form(
                     child: Padding(
@@ -36,6 +37,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            style: Theme.of(context).textTheme.bodyLarge,
                             decoration: InputDecoration(
                               labelText: 'Email',
                               border: OutlineInputBorder(
@@ -45,7 +49,14 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           const SizedBox(height: 30),
                           TextFormField(
+                            obscureText: true,
+                            obscuringCharacter: '*',
+                            style: Theme.of(context).textTheme.bodyLarge,
                             decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.visibility),
+                              ),
                               labelText: 'Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
@@ -58,9 +69,17 @@ class _AuthScreenState extends State<AuthScreen> {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {},
+                              style:
+                                  Theme.of(context).elevatedButtonTheme.style,
                               child: Text(
                                 'Sign In',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                               ),
                             ),
                           ),
@@ -71,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               'Forget password?',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyMedium!
+                                  .labelLarge!
                                   .copyWith(
                                       decoration: TextDecoration.underline),
                             ),
