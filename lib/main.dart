@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/screens/auth.dart';
 
 ThemeData lightMode = ThemeData(
-  brightness: Brightness.light,
-  colorScheme: ColorScheme.light(
-    surface: Colors.green.shade300,
+  colorScheme: ColorScheme.fromSeed(
+    brightness: Brightness.light,
+    surface: const Color.fromARGB(255, 247, 250, 247),
+    seedColor: Colors.green,
   ),
+  cardColor: const Color.fromARGB(255, 218, 239, 220),
 );
 
 ThemeData darkMode = ThemeData(
-  brightness: Brightness.dark,
-  colorScheme: ColorScheme.dark(
-    surface: Colors.grey.shade900,
+  colorScheme: ColorScheme.fromSeed(
+    brightness: Brightness.dark,
+    surface: const Color.fromRGBO(33, 33, 33, 1),
+    seedColor: const Color(0xFF1FE073),
   ),
 );
 
@@ -27,6 +31,7 @@ class Tracket extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightMode,
       darkTheme: darkMode,
+      home: const AuthScreen(),
     );
   }
 }
