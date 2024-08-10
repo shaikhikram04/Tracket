@@ -86,7 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               style:
                                   Theme.of(context).elevatedButtonTheme.style,
                               child: Text(
-                                'Sign In',
+                                _isSignin ? 'Sign In' : 'Sign Up',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -122,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   });
                                 },
                                 child: Text(
-                                  'Sign Up',
+                                  _isSignin ? 'Sign Up' : 'Sign In',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
