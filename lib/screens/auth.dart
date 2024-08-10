@@ -9,6 +9,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   var _isSignin = true;
+  var _isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +64,19 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           const SizedBox(height: 30),
                           TextFormField(
-                            obscureText: true,
+                            obscureText: _isPasswordHidden,
                             obscuringCharacter: '*',
                             style: Theme.of(context).textTheme.bodyLarge,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordHidden = !_isPasswordHidden;
+                                  });
+                                },
+                                icon: Icon(_isPasswordHidden
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
                               ),
                               labelText: 'Password',
                               border: OutlineInputBorder(
@@ -100,18 +107,19 @@ class _AuthScreenState extends State<AuthScreen> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              InkWell(
-                                onTap: () {},
+                              TextButton(
+                                onPressed: () {},
                                 child: Text(
                                   'Forget password?',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
                                       .copyWith(
-                                          decoration: TextDecoration.underline,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimaryContainer),
+                                        decoration: TextDecoration.underline,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer,
+                                      ),
                                 ),
                               ),
                               const Spacer(),
@@ -119,6 +127,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 onPressed: () {
                                   setState(() {
                                     _isSignin = !_isSignin;
+                                    _isPasswordHidden = true;
                                   });
                                 },
                                 child: Text(
@@ -127,9 +136,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                       .textTheme
                                       .bodyLarge!
                                       .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimaryContainer),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer,
+                                      ),
                                 ),
                               ),
                             ],
