@@ -11,6 +11,18 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isSignin = true;
   var _isPasswordHidden = true;
 
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         children: [
                           if (!_isSignin)
                             TextFormField(
+                              controller: _usernameController,
                               textCapitalization: TextCapitalization.words,
                               style: Theme.of(context).textTheme.bodyLarge,
                               decoration: InputDecoration(
@@ -52,6 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           if (!_isSignin) const SizedBox(height: 30),
                           TextFormField(
+                            controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
                             style: Theme.of(context).textTheme.bodyLarge,
@@ -64,6 +78,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           const SizedBox(height: 30),
                           TextFormField(
+                            controller: _passwordController,
                             obscureText: _isPasswordHidden,
                             obscuringCharacter: '*',
                             style: Theme.of(context).textTheme.bodyLarge,
@@ -74,9 +89,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                     _isPasswordHidden = !_isPasswordHidden;
                                   });
                                 },
-                                icon: Icon(_isPasswordHidden
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
+                                icon: Icon(
+                                  _isPasswordHidden
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
                               ),
                               labelText: 'Password',
                               border: OutlineInputBorder(
@@ -128,6 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   setState(() {
                                     _isSignin = !_isSignin;
                                     _isPasswordHidden = true;
+                                    _passwordController.clear();
                                   });
                                 },
                                 child: Text(
