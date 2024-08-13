@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/screens/auth.dart';
+import 'package:tracket/screens/home.dart';
 
 ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.fromSeed(
@@ -38,7 +38,7 @@ class Tracket extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightMode,
       darkTheme: darkMode,
-      home: const AuthScreen(),
+      home: const HomeScreen(),
     );
   }
 }
