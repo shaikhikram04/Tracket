@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/widgets/matches_list.dart';
+import 'package:tracket/widgets/teams_list.dart';
+import 'package:tracket/widgets/tournament_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,16 +11,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var _selectedItem = 0;
+  var _selectedIndex = 0;
 
   void _selectItem(int index) {
     setState(() {
-      _selectedItem = index;
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget content = MatchesList();
+
+    if (_selectedIndex == 1) {
+      content = TeamsList();
+    }
+    if (_selectedIndex == 2) {
+      content = TournamentList();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -25,9 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       drawer: const Drawer(),
-      body: const Center(
-        child: Text('No Match Schedule yet!'),
-      ),
+      body: content,
       floatingActionButton: IconButton(
         iconSize: 50,
         color: Theme.of(context).colorScheme.primary,
@@ -35,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {},
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedItem,
+        currentIndex: _selectedIndex,
         elevation: 8,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         onTap: _selectItem,
