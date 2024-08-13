@@ -14,7 +14,9 @@ ThemeData lightMode = ThemeData(
       backgroundColor: Colors.green,
     ),
   ),
-  textTheme: GoogleFonts.rubikTextTheme(),
+  textTheme: GoogleFonts.rubikTextTheme().copyWith(
+    titleLarge: GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold),
+  ),
 );
 
 ThemeData darkMode = ThemeData(
