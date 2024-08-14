@@ -1,4 +1,4 @@
-enum Role {
+enum CricketRole {
   batsman,
   bowler,
   allRounder,
@@ -10,13 +10,13 @@ class Player {
     required this.name,
     required this.age,
     required this.role,
-    required this.matchesPlayed,
-    required this.totalRuns,
+    this.matchesPlayed = 0,
+    this.totalRuns = 0,
   });
 
   final String name;
   int age;
-  Role role;
+  CricketRole role;
   int matchesPlayed;
   int totalRuns;
 }
