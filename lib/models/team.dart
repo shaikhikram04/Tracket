@@ -1,6 +1,5 @@
-
-
 import 'dart:ui';
+
 import 'package:tracket/models/player.dart';
 
 class Team {
