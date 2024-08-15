@@ -7,8 +7,16 @@ class BattingScore {
   int fours = 0;
   bool isOut = false;
 
-  int get strikeRate {
-    return runs ~/ ballFaced * 100;
+  double get strikeRate {
+    if (ballFaced == 0) {
+      return 0;
+    }
+
+    return (runs / ballFaced) * 100;
+  }
+
+  void getOut() {
+    isOut = false;
   }
 }
 
@@ -19,6 +27,10 @@ class BallingScore {
   int maidenOver = 0;
 
   double get economy {
+    if (ball == 0) {
+      return 0;
+    }
+
     return runGiven / (ball / 6.0);
   }
 }
@@ -26,11 +38,11 @@ class BallingScore {
 class Inning {
   Inning({
     required this.battingTeam,
-    required this.ballingTeam,
+    required this.bowingTeam,
   });
 
   Team battingTeam;
-  Team ballingTeam;
+  Team bowingTeam;
   int runs = 0;
   double over = 0.0;
   int wickets = 0;

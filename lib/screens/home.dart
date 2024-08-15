@@ -21,13 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = MatchesList();
+    Widget content = const MatchesList();
 
     if (_selectedIndex == 1) {
-      content = TeamsList();
+      content = const TeamsList();
     }
     if (_selectedIndex == 2) {
-      content = TournamentList();
+      content = const TournamentList();
     }
 
     return Scaffold(

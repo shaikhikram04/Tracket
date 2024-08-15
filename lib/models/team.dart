@@ -10,10 +10,6 @@ class Team {
     required this.playerList,
     required this.captain,
     required this.wicketKeeper,
-    this.matchesPlayed = 0,
-    this.wins = 0,
-    this.losses = 0,
-    this.tieCount = 0,
   });
 
   final String name;
@@ -22,8 +18,8 @@ class Team {
   List<Player> playerList;
   Player captain;
   Player wicketKeeper;
-  int matchesPlayed;
-  int wins;
-  int losses;
-  int tieCount;
+  int matchesPlayed = 0;
+  int wins = 0;
+  int losses = 0;
+  int tieCount = 0;
 }
