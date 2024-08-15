@@ -1,29 +1,46 @@
 import 'package:tracket/models/team.dart';
 
+class BattingScore {
+  int runs = 0;
+  int ballFaced = 0;
+  int sixs = 0;
+  int fours = 0;
+  bool isOut = false;
+
+  int get strikeRate {
+    return runs ~/ ballFaced * 100;
+  }
+}
+
+class BallingScore {
+  int ball = 0;
+  int runGiven = 0;
+  int wicket = 0;
+  int maidenOver = 0;
+
+  double get economy {
+    return runGiven / (ball / 6.0);
+  }
+}
+
 class Inning {
   Inning({
-    required this.runs,
-    required this.over,
-    required this.wickets,
-    required this.wides,
-    required this.noBalls,
-    required this.legByes,
-    required this.byes,
-    required this.sixs,
-    required this.fours,
-    required this.balls,
+    required this.battingTeam,
+    required this.ballingTeam,
   });
 
-  int runs;
-  double over;
-  int wickets;
-  int balls;
-  int wides;
-  int noBalls;
-  int legByes;
-  int byes;
-  int fours;
-  int sixs;
+  Team battingTeam;
+  Team ballingTeam;
+  int runs = 0;
+  double over = 0.0;
+  int wickets = 0;
+  int balls = 0;
+  int wides = 0;
+  int noBalls = 0;
+  int legByes = 0;
+  int byes = 0;
+  int fours = 0;
+  int sixs = 0;
   bool declared = false;
   bool allOut = false;
 
