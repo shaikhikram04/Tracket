@@ -26,6 +26,19 @@ class Player {
     required this.battingPosition,
   });
 
+  Player.bowler({
+    required this.name,
+    required this.age,
+    required this.role,
+    required this.battingPosition,
+    required this.bowingArm,
+    required this.bowlingStyle,
+  })  : wicket = 0,
+        runGiven = 0,
+        ballDelivered = 0,
+        maiden = 0,
+        bestBalling = 0;
+
   final String name;
   int age;
   CricketRole role;
@@ -45,7 +58,7 @@ class Player {
   int? maiden;
   int? bestBalling;
   Position? bowingArm;
-  BowingStyle? ballingStyle;
+  BowingStyle? bowlingStyle;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
