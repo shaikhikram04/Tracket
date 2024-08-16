@@ -1,6 +1,9 @@
 import 'package:tracket/models/team.dart';
 
 class BattingScore {
+  BattingScore(this.uuid);
+
+  String uuid;
   int runs = 0;
   int ballFaced = 0;
   int sixs = 0;
@@ -20,7 +23,10 @@ class BattingScore {
   }
 }
 
-class BallingScore {
+class BowlingScore {
+  BowlingScore(this.uuid);
+
+  String uuid;
   int ball = 0;
   int runGiven = 0;
   int wicket = 0;
@@ -38,11 +44,16 @@ class BallingScore {
 class Inning {
   Inning({
     required this.battingTeam,
-    required this.bowingTeam,
-  });
+    required this.bowlingTeam,
+  })  : battingStats = [
+          for (final player in battingTeam.playerList) BattingScore(player.id),
+        ],
+        bowlingStats = [
+          for (final player in bowlingTeam.playerList) BowlingScore(player.id),
+        ];
 
   Team battingTeam;
-  Team bowingTeam;
+  Team bowlingTeam;
   int runs = 0;
   double over = 0.0;
   int wickets = 0;
@@ -53,6 +64,8 @@ class Inning {
   int byes = 0;
   int fours = 0;
   int sixs = 0;
+  List<BattingScore> battingStats;
+  List<BowlingScore> bowlingStats;
   bool declared = false;
   bool allOut = false;
 

@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 enum CricketRole {
   batsman,
   bowler,
@@ -18,13 +20,15 @@ enum BowingStyle {
   chinaMan,
 }
 
+const uuid = Uuid();
+
 class Player {
   Player({
     required this.name,
     required this.age,
     required this.role,
     required this.battingPosition,
-  });
+  }) : id = uuid.v4();
 
   Player.bowler({
     required this.name,
@@ -33,12 +37,14 @@ class Player {
     required this.battingPosition,
     required this.bowingArm,
     required this.bowlingStyle,
-  })  : wicket = 0,
+  })  : id = uuid.v4(),
+        wicket = 0,
         runGiven = 0,
         ballDelivered = 0,
         maiden = 0,
         bestBalling = 0;
 
+  final String id;
   final String name;
   int age;
   CricketRole role;
