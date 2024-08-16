@@ -1,5 +1,15 @@
 import 'package:tracket/models/team.dart';
 
+enum ReasonOfOut {
+  bowled,
+  lbw,
+  caught,
+  runOut,
+  stumped,
+  hitWicket,
+  retiredOut,
+}
+
 class BattingScore {
   BattingScore(this.uuid, this.name);
 
@@ -10,6 +20,7 @@ class BattingScore {
   int sixs = 0;
   int fours = 0;
   bool isOut = false;
+  ReasonOfOut? reasonOfOut;
 
   double get strikeRate {
     if (ballFaced == 0) {
@@ -19,8 +30,9 @@ class BattingScore {
     return (runs / ballFaced) * 100;
   }
 
-  void getOut() {
-    isOut = false;
+  void getOut(ReasonOfOut outReason) {
+    isOut = true;
+    reasonOfOut = outReason;
   }
 }
 
