@@ -68,8 +68,10 @@ class Inning {
             BowlingScore(player.id, player.name),
         ];
 
-  Team battingTeam;
-  Team bowlingTeam;
+  final Team battingTeam;
+  final Team bowlingTeam;
+  final List<BattingScore> battingStats;
+  final List<BowlingScore> bowlingStats;
   int runs = 0;
   double over = 0.0;
   int wickets = 0;
@@ -80,8 +82,6 @@ class Inning {
   int byes = 0;
   int fours = 0;
   int sixs = 0;
-  List<BattingScore> battingStats;
-  List<BowlingScore> bowlingStats;
   bool declared = false;
   bool allOut = false;
 
@@ -102,20 +102,41 @@ class Inning {
   }
 }
 
-class Match {
-  Match(
-    this.team1,
-    this.team2,
-    this.noOfPlayer,
-    this.over,
-    this.inning1,
-    this.inning2,
-  );
+enum TossDecision {
+  batting,
+  fielding,
+}
 
-  Team team1;
-  Team team2;
-  int over;
-  int noOfPlayer;
+class Match {
+  Match({
+    required this.team1,
+    required this.team2,
+    required this.noOfPlayer,
+    required this.over,
+    required this.isTeam1WonToss,
+    required this.tossDecision,
+  })  : inning1 = isTeam1WonToss
+            ? (tossDecision == TossDecision.batting
+                ? Inning(battingTeam: team1, bowlingTeam: team2)
+                : Inning(battingTeam: team2, bowlingTeam: team1))
+            : (tossDecision == TossDecision.batting
+                ? Inning(battingTeam: team2, bowlingTeam: team1)
+                : Inning(battingTeam: team1, bowlingTeam: team2)),
+        inning2 = isTeam1WonToss
+            ? (tossDecision == TossDecision.batting
+                ? Inning(battingTeam: team2, bowlingTeam: team1)
+                : Inning(battingTeam: team1, bowlingTeam: team2))
+            : (tossDecision == TossDecision.batting
+                ? Inning(battingTeam: team1, bowlingTeam: team2)
+                : Inning(battingTeam: team2, bowlingTeam: team1));
+
+  final Team team1;
+  final Team team2;
+  final int over;
+  final int noOfPlayer;
+  final bool isTeam1WonToss;
+  final TossDecision tossDecision;
+
   Inning inning1;
   Inning inning2;
 }
