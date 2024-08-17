@@ -26,4 +26,8 @@ class Team {
   int wins = 0;
   int losses = 0;
   int tieCount = 0;
+
+  int get winningPercent {
+    return ((wins / matchesPlayed) * 100).toInt();
+  }
 }
