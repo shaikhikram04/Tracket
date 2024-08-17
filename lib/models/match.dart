@@ -1,4 +1,5 @@
 import 'package:tracket/models/team.dart';
+import 'package:uuid/uuid.dart';
 
 enum ReasonOfOut {
   bowled,
@@ -107,6 +108,8 @@ enum TossDecision {
   fielding,
 }
 
+const uuid = Uuid();
+
 class Match {
   Match({
     required this.team1,
@@ -115,7 +118,8 @@ class Match {
     required this.over,
     required this.isTeam1WonToss,
     required this.tossDecision,
-  })  : inning1 = isTeam1WonToss
+  })  : id = uuid.v4(),
+        inning1 = isTeam1WonToss
             ? (tossDecision == TossDecision.batting
                 ? Inning(battingTeam: team1, bowlingTeam: team2)
                 : Inning(battingTeam: team2, bowlingTeam: team1))
@@ -130,6 +134,7 @@ class Match {
                 ? Inning(battingTeam: team1, bowlingTeam: team2)
                 : Inning(battingTeam: team2, bowlingTeam: team1));
 
+  final String id;
   final Team team1;
   final Team team2;
   final int over;

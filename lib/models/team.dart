@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:tracket/models/player.dart';
+import 'package:uuid/uuid.dart';
+
+const uuid = Uuid();
 
 class Team {
   Team({
@@ -10,8 +13,9 @@ class Team {
     required this.playerList,
     required this.captain,
     required this.wicketKeeper,
-  });
+  }) : id = uuid.v4();
 
+  final String id;
   final String name;
   final String shortName;
   final Image logo;
