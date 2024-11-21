@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/widgets/matches_list.dart';
-import 'package:tracket/widgets/teams_list.dart';
-import 'package:tracket/widgets/tournament_list.dart';
+import 'package:tracket/screens/matches_screen.dart';
+import 'package:tracket/screens/teams_screen.dart';
+import 'package:tracket/screens/tournament_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
-            label: 'Tournament',
+            label: 'Tournaments',
           ),
         ],
       ),
