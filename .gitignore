@@ -39,6 +39,8 @@ web/
 windows/
 analysis_options.yaml
 *.lock
+firebase.json
+lib/firebase_options.dart
 
 # Symbolication related
 app.*.symbols
