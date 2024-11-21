@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/screens/auth.dart';
@@ -35,41 +36,52 @@ ThemeData darkMode = ThemeData(
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+
+  try {
+    print('initializing firebase');
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print(e);
+  }
+
+  runApp(
+    kIsWeb
+        ? DevicePreview(
+            backgroundColor: Colors.white,
+            enabled: true,
+            defaultDevice: Devices.ios.iPhone13ProMax,
+            isToolbarVisible: true,
+            availableLocales: const [Locale('en', 'US')],
+            tools: const [
+              DeviceSection(
+                model: true,
+                orientation: false,
+                frameVisibility: false,
+                virtualKeyboard: false,
+              ),
+            ],
+            devices: [
+              Devices.android.samsungGalaxyA50,
+              Devices.android.samsungGalaxyNote20,
+              Devices.android.samsungGalaxyS20,
+              Devices.android.samsungGalaxyNote20Ultra,
+              Devices.android.onePlus8Pro,
+              Devices.android.sonyXperia1II,
+              Devices.ios.iPhoneSE,
+              Devices.ios.iPhone12,
+              Devices.ios.iPhone12Mini,
+              Devices.ios.iPhone12ProMax,
+              Devices.ios.iPhone13,
+              Devices.ios.iPhone13ProMax,
+              Devices.ios.iPhone13Mini,
+              Devices.ios.iPhoneSE,
+            ],
+            builder: (BuildContext context) => const Tracket(),
+          )
+        : const Tracket(),
   );
-  runApp(DevicePreview(
-    backgroundColor: Colors.white,
-    enabled: true,
-    defaultDevice: Devices.ios.iPhone13ProMax,
-    isToolbarVisible: true,
-    availableLocales: const [Locale('en', 'US')],
-    tools: const [
-      DeviceSection(
-        model: true,
-        orientation: false,
-        frameVisibility: false,
-        virtualKeyboard: false,
-      ),
-    ],
-    devices: [
-      Devices.android.samsungGalaxyA50,
-      Devices.android.samsungGalaxyNote20,
-      Devices.android.samsungGalaxyS20,
-      Devices.android.samsungGalaxyNote20Ultra,
-      Devices.android.onePlus8Pro,
-      Devices.android.sonyXperia1II,
-      Devices.ios.iPhoneSE,
-      Devices.ios.iPhone12,
-      Devices.ios.iPhone12Mini,
-      Devices.ios.iPhone12ProMax,
-      Devices.ios.iPhone13,
-      Devices.ios.iPhone13ProMax,
-      Devices.ios.iPhone13Mini,
-      Devices.ios.iPhoneSE,
-    ],
-    builder: (BuildContext context) => const Tracket(),
-  ));
 }
 
 class Tracket extends StatelessWidget {
