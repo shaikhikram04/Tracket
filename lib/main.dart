@@ -1,7 +1,9 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/screens/auth.dart';
 import 'package:tracket/screens/home.dart';
 
 import 'firebase_options.dart';
@@ -78,9 +80,29 @@ class Tracket extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lightMode,
+      title: 'Tracket',
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: const HomeScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          }
+
+          return const AuthScreen();
+        },
+      ),
     );
   }
 }
