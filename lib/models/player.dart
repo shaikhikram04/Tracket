@@ -35,7 +35,9 @@ const uuid = Uuid();
 
 class Player {
   Player({
-    required this.name,
+    required this.username,
+    required this.playerName,
+    required this.email,
     required this.dob,
     required this.role,
     required this.battingPosition,
@@ -47,8 +49,10 @@ class Player {
         bestBalling = BowlingFigure(0, 0);
 
   final String id;
-  final String name;
-  final Timestamp dob;
+  final String email;
+  String playerName;
+  String username;
+  Timestamp dob;
   CricketRole role;
   Position battingPosition;
   int totalTimesOut;
