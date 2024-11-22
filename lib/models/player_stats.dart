@@ -45,4 +45,27 @@ class PlayerStats {
   int runGiven;
   int ballDelivered;
   int maiden;
+
+  double get strikeRate {
+    if (ballsFaced == 0) {
+      return 0;
+    }
+    return (totalRuns / ballsFaced) * 100;
+  }
+
+  double get bowingAverage {
+    if (wicket == 0) {
+      return 0;
+    }
+
+    return runGiven / wicket;
+  }
+
+  double get economyRate {
+    if (ballDelivered == 0) {
+      return 0;
+    }
+
+    return runGiven / ballDelivered;
+  }
 }

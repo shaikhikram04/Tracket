@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracket/models/player_stats.dart';
 import 'package:uuid/uuid.dart';
 
 enum CricketRole {
@@ -20,80 +22,46 @@ enum BowingStyle {
   chinaMan,
 }
 
+class BowlingFigure {
+  int runGiven;
+  int ballDelivered;
+  BowlingFigure(
+    this.runGiven,
+    this.ballDelivered,
+  );
+}
+
 const uuid = Uuid();
 
 class Player {
   Player({
     required this.name,
-    required this.age,
-    required this.role,
-    required this.battingPosition,
-  }) : id = uuid.v4();
-
-  Player.bowler({
-    required this.name,
-    required this.age,
+    required this.dob,
     required this.role,
     required this.battingPosition,
     required this.bowingArm,
     required this.bowlingStyle,
+    required this.playerStats,
   })  : id = uuid.v4(),
-        wicket = 0,
-        runGiven = 0,
-        ballDelivered = 0,
-        maiden = 0,
-        bestBalling = 0;
+        totalTimesOut = 0,
+        bestBalling = BowlingFigure(0, 0);
 
   final String id;
   final String name;
-  int age;
+  final Timestamp dob;
   CricketRole role;
   Position battingPosition;
-  int matchesPlayed = 0;
-  int totalRuns = 0;
-  int ballsFaced = 0;
-  int highestScore = 0;
-  int totalTimesOut = 0;
-  int hundreds = 0;
-  int fifties = 0;
-  int four = 0;
-  int six = 0;
-  int? wicket;
-  int? runGiven;
-  int? ballDelivered;
-  int? maiden;
-  int? bestBalling;
+  int totalTimesOut;
+  PlayerStats playerStats;
+  BowlingFigure bestBalling = BowlingFigure(0, 0);
   Position? bowingArm;
   BowingStyle? bowlingStyle;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
-      return totalRuns.toDouble();
+      return playerStats.totalRuns.toDouble();
     }
 
-    return totalRuns / totalTimesOut;
-  }
-
-  double get strikeRate {
-    if (ballsFaced == 0) {
-      return 0;
-    }
-    return (totalRuns / ballsFaced) * 100;
-  }
-
-  double get bowingAverage {
-    if (wicket == 0) {
-      return 0;
-    }
-
-    return runGiven! / wicket!;
-  }
-
-  double get economyRate {
-    if (ballDelivered == 0) {
-      return 0;
-    }
-
-    return runGiven! / ballDelivered!;
+    return playerStats.totalRuns / totalTimesOut;
   }
 }
