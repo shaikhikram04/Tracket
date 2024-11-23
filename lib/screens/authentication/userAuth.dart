@@ -8,7 +8,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  var _isSignin = true;
+  var _isLogin = true;
   var _isPasswordHidden = true;
 
   final _usernameController = TextEditingController();
@@ -52,7 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          if (!_isSignin)
+                          if (!_isLogin)
                             TextFormField(
                               controller: _usernameController,
                               textCapitalization: TextCapitalization.words,
@@ -64,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               ),
                             ),
-                          if (!_isSignin) const SizedBox(height: 30),
+                          if (!_isLogin) const SizedBox(height: 30),
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
@@ -111,7 +111,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               style:
                                   Theme.of(context).elevatedButtonTheme.style,
                               child: Text(
-                                _isSignin ? 'Sign In' : 'Sign Up',
+                                _isLogin ? 'Login' : 'Sign Up',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -125,18 +125,19 @@ class _AuthScreenState extends State<AuthScreen> {
                           const SizedBox(height: 30),
                           Row(
                             children: [
-                              textButton(
-                                'Forget password?',
-                                true,
-                                () {},
-                              ),
+                              if (_isLogin)
+                                textButton(
+                                  'Forget password?',
+                                  true,
+                                  () {},
+                                ),
                               const Spacer(),
                               textButton(
-                                _isSignin ? 'Sign Up?' : 'Sign In?',
+                                _isLogin ? 'Sign Up?' : 'Login?',
                                 false,
                                 () {
                                   setState(() {
-                                    _isSignin = !_isSignin;
+                                    _isLogin = !_isLogin;
                                     _isPasswordHidden = true;
                                     _passwordController.clear();
                                   });
