@@ -15,6 +15,7 @@ enum Position {
 }
 
 enum BowingStyle {
+  none,
   fast,
   mediumFast,
   legSpin,
@@ -35,7 +36,6 @@ const uuid = Uuid();
 
 class Player {
   Player({
-    required this.username,
     required this.playerName,
     required this.email,
     required this.dob,
@@ -50,16 +50,15 @@ class Player {
 
   final String id;
   final String email;
-  String playerName;
-  String username;
-  Timestamp dob;
-  CricketRole role;
-  Position battingPosition;
-  int totalTimesOut;
-  PlayerStats playerStats;
+  final String playerName;
+  final Timestamp dob;
+  final CricketRole role;
+  final Position battingPosition;
+  final int totalTimesOut;
+  final PlayerStats playerStats;
   BowlingFigure bestBalling = BowlingFigure(0, 0);
   Position? bowingArm;
-  BowingStyle? bowlingStyle;
+  BowingStyle bowlingStyle;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
