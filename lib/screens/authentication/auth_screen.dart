@@ -40,40 +40,43 @@ class _AuthScreenState extends State<AuthScreen>
                     horizontal: 17,
                     vertical: 12,
                   ),
-                  child: Card(
-                    color: Theme.of(context).cardColor,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TabBar(
-                          controller: _tabController,
-                          tabs: const [
-                            Tab(
-                              child: Text(
-                                'User',
-                                style: TextStyle(fontSize: 21),
-                              ),
-                            ),
-                            Tab(
-                              child: Text(
-                                'Player',
-                                style: TextStyle(fontSize: 21),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height:
-                              height * 0.5, // Explicit height for TabBarView
-                          child: TabBarView(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minHeight: 350,
+                    ),
+                    child: Card(
+                      color: Theme.of(context).cardColor,
+                      child: Column(
+                        children: [
+                          TabBar(
                             controller: _tabController,
-                            children: const [
-                              UserAuth(),
-                              Text('Login as Player.'),
+                            tabs: const [
+                              Tab(
+                                child: Text(
+                                  'User',
+                                  style: TextStyle(fontSize: 21),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Player',
+                                  style: TextStyle(fontSize: 21),
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 436 ,
+                            child: TabBarView(
+                              controller: _tabController,
+                              children: const [
+                                UserAuth(),
+                                Text('Login as Player.'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
