@@ -25,10 +25,12 @@ class _UserAuthState extends State<UserAuth> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!_isLogin)
@@ -81,7 +83,7 @@ class _UserAuthState extends State<UserAuth> {
             ),
             const SizedBox(height: 30),
             SizedBox(
-              width: 300,
+              width: width * 0.8,
               height: 50,
               child: ElevatedButton(
                 onPressed: () {},
