@@ -44,6 +44,7 @@ class Player {
     required this.bowingArm,
     required this.bowlingStyle,
     required this.playerStats,
+    required this.createdAt,
   })  : id = uuid.v4(),
         totalTimesOut = 0,
         bestBalling = BowlingFigure(0, 0);
@@ -59,6 +60,7 @@ class Player {
   BowlingFigure bestBalling = BowlingFigure(0, 0);
   Position? bowingArm;
   BowingStyle bowlingStyle;
+  final Timestamp createdAt;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
