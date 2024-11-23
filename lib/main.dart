@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/screens/authentication/userAuth.dart';
+import 'package:tracket/screens/authentication/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
 
 import 'firebase_options.dart';
