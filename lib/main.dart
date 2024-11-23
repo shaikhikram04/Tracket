@@ -6,19 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/screens/authentication/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
+import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
 
 ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.light,
-    surface: const Color.fromARGB(255, 247, 250, 247),
-    seedColor: Colors.green,
+    surface: lightBackgroundColor,
+    seedColor: greenColor,
   ),
-  cardColor: const Color.fromARGB(255, 218, 239, 220),
+  cardColor: lightCardColor,
+  scaffoldBackgroundColor: lightBackgroundColor,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.green,
+      backgroundColor: greenColor,
     ),
   ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(
@@ -29,8 +31,8 @@ ThemeData lightMode = ThemeData(
 ThemeData darkMode = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.dark,
-    surface: const Color.fromRGBO(33, 33, 33, 1),
-    seedColor: const Color(0xFF1FE073),
+    surface: darkBackgroundColor,
+    seedColor: darkThemeColor,
   ),
 );
 
