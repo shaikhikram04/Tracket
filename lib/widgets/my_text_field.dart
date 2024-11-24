@@ -38,7 +38,7 @@ class MyTextField extends StatelessWidget {
             : null,
         labelText: label,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(5),
         ),
       ),
     );

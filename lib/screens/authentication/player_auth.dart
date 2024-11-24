@@ -42,6 +42,14 @@ class _PlayerAuthState extends State<PlayerAuth> {
         padding: const EdgeInsets.all(25),
         child: Column(
           children: [
+            Text(
+              _isLogin ? 'Login as Player' : 'Signup as Player',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
                 textController: _playerNameController,

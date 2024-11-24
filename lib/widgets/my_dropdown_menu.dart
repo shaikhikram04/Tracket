@@ -13,7 +13,7 @@ class MyDropdownMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
-      width: 330,
+      width: 337,
       menuStyle: MenuStyle(
         backgroundColor: WidgetStatePropertyAll(
           Theme.of(context).colorScheme.surface,

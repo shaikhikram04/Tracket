@@ -34,6 +34,14 @@ class _UserAuthState extends State<UserAuth> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text(
+              _isLogin ? 'Login as User' : 'Signup as user',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
                 textController: _usernameController,
