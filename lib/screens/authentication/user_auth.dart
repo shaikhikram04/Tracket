@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/widgets/my_text_field.dart';
 
 class UserAuth extends StatefulWidget {
   const UserAuth({super.key});
@@ -34,52 +35,27 @@ class _UserAuthState extends State<UserAuth> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!_isLogin)
-              TextFormField(
-                controller: _usernameController,
-                textCapitalization: TextCapitalization.words,
-                style: Theme.of(context).textTheme.bodyLarge,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
+              MyTextField(
+                textController: _usernameController,
+                label: 'Username',
               ),
             if (!_isLogin) const SizedBox(height: 30),
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              autocorrect: false,
-              style: Theme.of(context).textTheme.bodyLarge,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
+            MyTextField(
+              textController: _emailController,
+              isEmail: true,
+              label: 'Email',
             ),
             const SizedBox(height: 30),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: _isPasswordHidden,
-              obscuringCharacter: '*',
-              style: Theme.of(context).textTheme.bodyLarge,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordHidden = !_isPasswordHidden;
-                    });
-                  },
-                  icon: Icon(
-                    _isPasswordHidden ? Icons.visibility : Icons.visibility_off,
-                  ),
-                ),
-                labelText: 'Password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
+            MyTextField(
+              textController: _passwordController,
+              label: 'Password',
+              isPassword: true,
+              isPasswordHidden: _isPasswordHidden,
+              onPressed: () {
+                setState(() {
+                  _isPasswordHidden = !_isPasswordHidden;
+                });
+              },
             ),
             const SizedBox(height: 30),
             SizedBox(
