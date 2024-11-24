@@ -7,7 +7,7 @@ class MyDropdownMenu extends StatelessWidget {
     required this.hintText,
   });
 
-  final List options;
+  final List<Enum> options;
   final String hintText;
 
   @override
@@ -24,7 +24,7 @@ class MyDropdownMenu extends StatelessWidget {
         options.length,
         (index) => DropdownMenuEntry(
           value: options[index].name,
-          label: options[index].name,
+          label: options[index].name.toUpperCase(),
         ),
       ).toList(),
     );

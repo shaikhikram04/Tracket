@@ -42,11 +42,11 @@ class Player {
     required this.battingPosition,
     required this.bowingArm,
     required this.bowlingStyle,
-    required this.playerStats,
     required this.createdAt,
   })  : id = uuid.v4(),
         totalTimesOut = 0,
-        bestBalling = BowlingFigure(0, 0);
+        bestBalling = BowlingFigure(0, 0),
+        playerStats = PlayerStats();
 
   final String id;
   final String email;
