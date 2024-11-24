@@ -38,7 +38,7 @@ class _UserAuthState extends State<UserAuth> {
               _isLogin ? 'Login as User' : 'Signup as user',
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge!
+                  .headlineSmall!
                   .copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 30),

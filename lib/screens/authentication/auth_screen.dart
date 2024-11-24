@@ -69,7 +69,7 @@ class _AuthScreenState extends State<AuthScreen>
                               ],
                             ),
                             SizedBox(
-                              height: 800,
+                              height: 850,
                               child: TabBarView(
                                 controller: _tabController,
                                 children: const [

@@ -46,7 +46,7 @@ class _PlayerAuthState extends State<PlayerAuth> {
               _isLogin ? 'Login as Player' : 'Signup as Player',
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge!
+                  .headlineSmall!
                   .copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 30),
