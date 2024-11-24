@@ -38,7 +38,6 @@ class Player {
   Player({
     required this.playerName,
     required this.email,
-    required this.dob,
     required this.role,
     required this.battingPosition,
     required this.bowingArm,
@@ -52,7 +51,6 @@ class Player {
   final String id;
   final String email;
   final String playerName;
-  final Timestamp dob;
   final CricketRole role;
   final Position battingPosition;
   final int totalTimesOut;

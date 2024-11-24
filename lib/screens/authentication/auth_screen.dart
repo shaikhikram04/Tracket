@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/screens/authentication/player_auth.dart';
 import 'package:tracket/screens/authentication/user_auth.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -47,6 +48,7 @@ class _AuthScreenState extends State<AuthScreen>
                     child: Card(
                       color: Theme.of(context).cardColor,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           TabBar(
                             controller: _tabController,
@@ -66,12 +68,12 @@ class _AuthScreenState extends State<AuthScreen>
                             ],
                           ),
                           SizedBox(
-                            height: 436 ,
+                            height: 600,
                             child: TabBarView(
                               controller: _tabController,
                               children: const [
                                 UserAuth(),
-                                Text('Login as Player.'),
+                                PlayerAuth(),
                               ],
                             ),
                           ),
