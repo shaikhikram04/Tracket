@@ -52,7 +52,15 @@ class _AuthScreenState extends State<AuthScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TabBar(
+                              dividerColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              indicatorSize: TabBarIndicatorSize.tab,
                               controller: _tabController,
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              unselectedLabelStyle: const TextStyle(
+                                  fontWeight: FontWeight.normal),
                               tabs: const [
                                 Tab(
                                   child: Text(

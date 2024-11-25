@@ -51,7 +51,7 @@ Future<void> main() async {
   runApp(
     kIsWeb
         ? DevicePreview(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.grey,
             enabled: true,
             defaultDevice: Devices.ios.iPhone13ProMax,
             isToolbarVisible: true,
