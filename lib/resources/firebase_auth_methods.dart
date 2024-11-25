@@ -99,4 +99,20 @@ class FirebaseAuthMethods {
 
     return result;
   }
+
+  static Future<String> loginPlayer({
+    required String email,
+    required String password,
+  }) async {
+    String result;
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
+    }
+
+    return result;
+  }
 }
