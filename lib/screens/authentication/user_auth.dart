@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class UserAuth extends StatefulWidget {
@@ -12,9 +13,24 @@ class _UserAuthState extends State<UserAuth> {
   var _isLogin = true;
   var _isPasswordHidden = true;
 
+  final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  Future<void> _userLogin() async {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text;
+      final password = _passwordController.text;
+
+      final res =
+          await FirebaseAuthMethods.loginUser(email: email, password: password);
+
+      if (res != 'success') {
+        print(res);
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -28,6 +44,7 @@ class _UserAuthState extends State<UserAuth> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Form(
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(

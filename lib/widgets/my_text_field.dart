@@ -88,6 +88,8 @@ class MyTextField extends StatelessWidget {
                   if (value.length < 4) {
                     return '$label must contain at least 4 character';
                   }
+
+                  return null;
                 },
     );
   }

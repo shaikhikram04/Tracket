@@ -8,7 +8,7 @@ class FirebaseAuthMethods {
   static final _firestore = FirebaseFirestore.instance;
   static const uuid = Uuid();
 
-  Future<String> signupUser({
+  static Future<String> signupUser({
     required String username,
     required String email,
     required String password,
@@ -33,6 +33,25 @@ class FirebaseAuthMethods {
           .collection('users')
           .doc(userCred.user!.uid)
           .set(user.toJson);
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
+    }
+
+    return result;
+  }
+
+  static Future<String> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    String result;
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
       result = 'success';
     } catch (e) {
       result = e.toString();
