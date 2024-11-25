@@ -73,7 +73,7 @@ class FirebaseAuthMethods {
     String result;
 
     try {
-      final playerCred =await  _auth.createUserWithEmailAndPassword(
+      final playerCred = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -87,11 +87,15 @@ class FirebaseAuthMethods {
         battingPosition: battingPosition,
         bowlingArm: bowlingArm,
         bowlingStyle: bowlingStyle,
-        createdAt: Timestamp.now(), id: playerId,
+        createdAt: Timestamp.now(),
+        id: playerId,
       );
+      await _firestore.collection('players').doc(playerId).set(player.toJson);
 
-      _firestore.collection('players').doc(playerId).set(player.toJson);
-    } catch (e) {}
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
+    }
 
     return result;
   }
