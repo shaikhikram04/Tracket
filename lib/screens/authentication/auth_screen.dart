@@ -32,11 +32,15 @@ class _AuthScreenState extends State<AuthScreen>
               child: Column(
                 children: [
                   const SizedBox(height: 15),
+
+                  //* App logo
                   Image.asset(
                     'assets/images/Tracket_logo.png',
                     height: height * 0.25,
                     fit: BoxFit.cover,
                   ),
+
+                  //* Auth content
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 17,
@@ -51,6 +55,7 @@ class _AuthScreenState extends State<AuthScreen>
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            //* TabBar for show option of user & player authentication
                             TabBar(
                               dividerColor:
                                   Theme.of(context).colorScheme.secondary,
@@ -76,6 +81,8 @@ class _AuthScreenState extends State<AuthScreen>
                                 ),
                               ],
                             ),
+
+                            //* Content of TabBar for signup/login user or player
                             SizedBox(
                               height: 850,
                               child: TabBarView(

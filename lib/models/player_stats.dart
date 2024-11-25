@@ -68,4 +68,18 @@ class PlayerStats {
 
     return runGiven / ballDelivered;
   }
+
+  Map<String, dynamic> get toJson => {
+        'totalRuns': totalRuns,
+        'ballsFaced': ballsFaced,
+        'highestScore': highestScore,
+        'hundreds': hundreds,
+        'fifties': fifties,
+        'four': four,
+        'six': six,
+        'wicket': wicket,
+        'runGiven': runGiven,
+        'ballDelivered': ballDelivered,
+        'maiden': maiden,
+      };
 }

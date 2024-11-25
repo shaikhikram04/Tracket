@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tracket/models/player.dart';
 import 'package:tracket/models/user.dart' as model;
 import 'package:uuid/uuid.dart';
 
@@ -56,6 +57,41 @@ class FirebaseAuthMethods {
     } catch (e) {
       result = e.toString();
     }
+
+    return result;
+  }
+
+  static Future<String> signupPlayer({
+    required String playerName,
+    required String email,
+    required String password,
+    required CricketRole cricketRole,
+    required Position battingPosition,
+    required BowingStyle bowlingStyle,
+    Position? bowlingArm,
+  }) async {
+    String result;
+
+    try {
+      final playerCred =await  _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      String playerId = playerCred.user!.uid;
+
+      final player = Player(
+        playerName: playerName,
+        email: email,
+        role: cricketRole,
+        battingPosition: battingPosition,
+        bowlingArm: bowlingArm,
+        bowlingStyle: bowlingStyle,
+        createdAt: Timestamp.now(), id: playerId,
+      );
+
+      _firestore.collection('players').doc(playerId).set(player.toJson);
+    } catch (e) {}
 
     return result;
   }

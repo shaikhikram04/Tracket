@@ -36,15 +36,15 @@ const uuid = Uuid();
 
 class Player {
   Player({
+    required this.id,
     required this.playerName,
     required this.email,
     required this.role,
     required this.battingPosition,
-    required this.bowingArm,
+    required this.bowlingArm,
     required this.bowlingStyle,
     required this.createdAt,
-  })  : id = uuid.v4(),
-        totalTimesOut = 0,
+  })  : totalTimesOut = 0,
         bestBalling = BowlingFigure(0, 0),
         playerStats = PlayerStats();
 
@@ -56,7 +56,7 @@ class Player {
   final int totalTimesOut;
   final PlayerStats playerStats;
   BowlingFigure bestBalling = BowlingFigure(0, 0);
-  Position? bowingArm;
+  Position? bowlingArm;
   BowingStyle bowlingStyle;
   final Timestamp createdAt;
 
@@ -67,4 +67,18 @@ class Player {
 
     return playerStats.totalRuns / totalTimesOut;
   }
+
+  Map<String, dynamic> get toJson => {
+        'playerId': id,
+        'email': email,
+        'playerName': playerName,
+        'cricketRole': role.name,
+        'battingPosition': battingPosition.name,
+        'totalTimesOut': totalTimesOut,
+        'bowlingArm': bowlingArm?.name,
+        'bowlingStyle': bowlingStyle.name,
+        'createdAt': createdAt,
+        'bestBalling': [bestBalling.runGiven, bestBalling.ballDelivered],
+        ...playerStats.toJson,
+      };
 }
