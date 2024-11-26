@@ -72,24 +72,25 @@ class _PlayerAuthState extends State<PlayerAuth> {
         onSelect: onSelectRole,
       ),
       const SizedBox(height: 30),
-       MyDropdownMenu(
+      MyDropdownMenu(
         options: Position.values,
         hintText: 'Select Batting Position',
         onSelect: onSelectBattingPosition,
       ),
       const SizedBox(height: 30),
-       MyDropdownMenu(
+      MyDropdownMenu(
         options: BowingStyle.values,
         hintText: 'Select Bowling Style',
         onSelect: onSelectBowlingStyle,
       ),
       const SizedBox(height: 30),
-       MyDropdownMenu(
-        options: Position.values,
-        hintText: 'Select Bowling Arm',
-        onSelect: onSelectBowlingArm,
-      ),
-      const SizedBox(height: 30),
+      if (_isBowler)
+        MyDropdownMenu(
+          options: Position.values,
+          hintText: 'Select Bowling Arm',
+          onSelect: onSelectBowlingArm,
+        ),
+      if (_isBowler) const SizedBox(height: 30),
     ];
 
     final width = MediaQuery.of(context).size.width;
