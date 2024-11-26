@@ -17,6 +17,7 @@ class _PlayerAuthState extends State<PlayerAuth> {
   bool _isPasswordHidden = true;
   bool _isLogin = true;
   final List<CricketRole> cricketRoles = CricketRole.values;
+  bool _isBowler = false;
 
   @override
   void initState() {
