@@ -5,14 +5,17 @@ class MyDropdownMenu extends StatelessWidget {
     super.key,
     required this.options,
     required this.hintText,
+    required this.onSelect,
   });
 
   final List<Enum> options;
   final String hintText;
+  final void Function(String? value) onSelect;
 
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
+      onSelected: onSelect,
       width: 337,
       menuStyle: MenuStyle(
         backgroundColor: WidgetStatePropertyAll(

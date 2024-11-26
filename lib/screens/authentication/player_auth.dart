@@ -16,8 +16,11 @@ class _PlayerAuthState extends State<PlayerAuth> {
   late TextEditingController _passwordController;
   bool _isPasswordHidden = true;
   bool _isLogin = true;
-  final List<CricketRole> cricketRoles = CricketRole.values;
   bool _isBowler = false;
+  String _cricketRole = '';
+  String _battingPosition = '';
+  String _bowlingStyle = '';
+  String _bowlingArm = '';
 
   @override
   void initState() {
@@ -25,6 +28,31 @@ class _PlayerAuthState extends State<PlayerAuth> {
     _playerNameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+  }
+
+  void onSelectRole(String? role) {
+    _cricketRole = role!;
+  }
+
+  void onSelectBattingPosition(String? position) {
+    _battingPosition = position!;
+  }
+
+  void onSelectBowlingStyle(String? style) {
+    _bowlingStyle = style!;
+    if (style != 'none' && _isBowler == false) {
+      setState(() {
+        _isBowler = true;
+      });
+    } else if (_isBowler == true) {
+      setState(() {
+        _isBowler = false;
+      });
+    }
+  }
+
+  void onSelectBowlingArm(String? arm) {
+    _bowlingArm = arm!;
   }
 
   @override
@@ -37,6 +65,33 @@ class _PlayerAuthState extends State<PlayerAuth> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> signUpField = [
+      MyDropdownMenu(
+        options: CricketRole.values,
+        hintText: 'Select Cricket Role',
+        onSelect: onSelectRole,
+      ),
+      const SizedBox(height: 30),
+       MyDropdownMenu(
+        options: Position.values,
+        hintText: 'Select Batting Position',
+        onSelect: onSelectBattingPosition,
+      ),
+      const SizedBox(height: 30),
+       MyDropdownMenu(
+        options: BowingStyle.values,
+        hintText: 'Select Bowling Style',
+        onSelect: onSelectBowlingStyle,
+      ),
+      const SizedBox(height: 30),
+       MyDropdownMenu(
+        options: Position.values,
+        hintText: 'Select Bowling Arm',
+        onSelect: onSelectBowlingArm,
+      ),
+      const SizedBox(height: 30),
+    ];
+
     final width = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
@@ -132,27 +187,4 @@ class _PlayerAuthState extends State<PlayerAuth> {
       ),
     );
   }
-
-  List<Widget> signUpField = [
-    const MyDropdownMenu(
-      options: CricketRole.values,
-      hintText: 'Select Cricket Role',
-    ),
-    const SizedBox(height: 30),
-    const MyDropdownMenu(
-      options: Position.values,
-      hintText: 'Select Batting Position',
-    ),
-    const SizedBox(height: 30),
-    const MyDropdownMenu(
-      options: BowingStyle.values,
-      hintText: 'Select Bowling Style',
-    ),
-    const SizedBox(height: 30),
-    const MyDropdownMenu(
-      options: Position.values,
-      hintText: 'Select Bowling Arm',
-    ),
-    const SizedBox(height: 30),
-  ];
 }
