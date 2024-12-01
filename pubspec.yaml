@@ -36,6 +36,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
+  riverpod: ^2.6.1
   uuid: ^4.4.2
 
 dev_dependencies:
