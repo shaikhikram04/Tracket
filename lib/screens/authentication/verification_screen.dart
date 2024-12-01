@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/utils/colors.dart';
 
-class VerificationScreen extends StatelessWidget {
-  final int currentStep;
-
-  const VerificationScreen({
-    super.key,
-    this.currentStep = 0,
-  });
+class VerificationScreen extends ConsumerWidget {
+  const VerificationScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    int currentStep = ref.watch(verificationStepProvider);
+
     return AlertDialog(
       title: Text(
         'Email verification',
@@ -24,7 +23,6 @@ class VerificationScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(width: 20),
               _buildProgressStep(
                 step: 1,
                 currentStep: currentStep,
@@ -42,7 +40,6 @@ class VerificationScreen extends StatelessWidget {
                 currentStep: currentStep,
                 label: 'Login',
               ),
-              const SizedBox(width: 20),
             ],
           ),
           const SizedBox(height: 20),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/screens/authentication/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
@@ -79,9 +80,10 @@ Future<void> main() async {
               Devices.ios.iPhone13Mini,
               Devices.ios.iPhoneSE,
             ],
-            builder: (BuildContext context) => const Tracket(),
+            builder: (BuildContext context) =>
+                const ProviderScope(child: Tracket()),
           )
-        : const Tracket(),
+        : const ProviderScope(child: Tracket()),
   );
 }
 

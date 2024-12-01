@@ -1,18 +1,22 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/authentication/verification_screen.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
-class UserAuth extends StatefulWidget {
+class UserAuth extends ConsumerStatefulWidget {
   const UserAuth({super.key});
 
   @override
-  State<UserAuth> createState() => _UserAuthState();
+  ConsumerState<UserAuth> createState() => _UserAuthState();
 }
 
-class _UserAuthState extends State<UserAuth> {
+class _UserAuthState extends ConsumerState<UserAuth> {
   var _isLogin = true;
   var _isPasswordHidden = true;
 
@@ -20,9 +24,7 @@ class _UserAuthState extends State<UserAuth> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isVerificationSent = false;
   String _verificationMessage = '';
-  int _verificationStep = 0;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -48,9 +50,8 @@ class _UserAuthState extends State<UserAuth> {
       // Send verification email
       await userCredential.user?.sendEmailVerification();
 
+      ref.read(verificationStepProvider.notifier).updateStep(1);
       setState(() {
-        _verificationStep = 1;
-        _isVerificationSent = true;
         _verificationMessage =
             'Verification email sent! Please check your inbox.';
       });
@@ -65,52 +66,51 @@ class _UserAuthState extends State<UserAuth> {
   }
 
   void _checkEmailVerification(User user) {
-    // Periodically check if email is verified
-    Stream.periodic(const Duration(seconds: 3))
-        .asyncMap((_) async {
-          await user.reload();
-          return user.emailVerified;
-        })
-        .takeWhile((isVerified) => !isVerified)
-        .listen(
-          (isVerified) {
-            if (isVerified) {
-              setState(() {
-                _verificationStep = 2;
-              });
-              Future.delayed(const Duration(milliseconds: 600));
-              setState(() {
-                _verificationStep = 3;
-              });
-              Future.delayed(const Duration(milliseconds: 600));
-              // Email is verified, proceed to next screen
-              if (!mounted) return;
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
-              );
-            }
-          },
-          onDone: () {
-            // If user doesn't verify within a certain time, remove the user
-            if (!user.emailVerified) {
-              user.delete();
-              setState(() {
-                _verificationMessage = 'Verification failed. Please try again.';
-                _isVerificationSent = false;
-              });
-            }
-          },
+    // Create a timer that can be cancelled
+    Timer? verificationTimer;
+
+    verificationTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
+      await user.reload();
+      user = FirebaseAuth.instance.currentUser!;
+
+      if (user.emailVerified) {
+        // Cancel the timer first to stop further checks
+        verificationTimer?.cancel();
+
+        // Update verification steps with delays
+        ref.read(verificationStepProvider.notifier).updateStep(2);
+        await Future.delayed(const Duration(seconds: 1));
+
+        ref.read(verificationStepProvider.notifier).updateStep(3);
+        await Future.delayed(const Duration(seconds: 1));
+
+        // Navigate to home screen
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
         );
+      }
+    });
+
+    // Optional: Set a maximum timeout for verification
+    Future.delayed(const Duration(minutes: 5), () {
+      verificationTimer?.cancel();
+      if (!user.emailVerified) {
+        user.delete();
+        setState(() {
+          _verificationMessage = 'Verification failed. Please try again.';
+        });
+      }
+    });
   }
 
   void _showVerificationDialog() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
-        return VerificationScreen(
-          currentStep: _verificationStep,
-        );
+        return const VerificationScreen();
       },
     );
   }

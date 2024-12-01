@@ -1,4 +1,4 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class VerificationStepNotifier extends StateNotifier<int> {
   VerificationStepNotifier() : super(0);
