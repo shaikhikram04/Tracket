@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/screens/authentication/verification_screen.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
@@ -34,6 +35,8 @@ class _UserAuthState extends State<UserAuth> {
         return;
       }
 
+      _showVerificationDialog();
+
       // Create user with email and password
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -51,7 +54,7 @@ class _UserAuthState extends State<UserAuth> {
       });
 
       // Start listening for email verification
-      _checkEmailVerification(userCredential.user!);
+      // _checkEmailVerification(userCredential.user!);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _verificationMessage = e.message ?? 'An error occurred';
@@ -61,29 +64,45 @@ class _UserAuthState extends State<UserAuth> {
 
   void _checkEmailVerification(User user) {
     // Periodically check if email is verified
-    Stream.periodic(Duration(seconds: 3))
+    Stream.periodic(const Duration(seconds: 3))
         .asyncMap((_) async {
           await user.reload();
           return user.emailVerified;
         })
         .takeWhile((isVerified) => !isVerified)
-        .listen((isVerified) {
-          if (isVerified) {
-            // Email is verified, proceed to next screen
-            if (!mounted) return;
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()));
-          }
-        }, onDone: () {
-          // If user doesn't verify within a certain time, remove the user
-          if (!user.emailVerified) {
-            user.delete();
-            setState(() {
-              _verificationMessage = 'Verification failed. Please try again.';
-              _isVerificationSent = false;
-            });
-          }
-        });
+        .listen(
+          (isVerified) {
+            if (isVerified) {
+              // Email is verified, proceed to next screen
+              if (!mounted) return;
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+            }
+          },
+          onDone: () {
+            // If user doesn't verify within a certain time, remove the user
+            if (!user.emailVerified) {
+              user.delete();
+              setState(() {
+                _verificationMessage = 'Verification failed. Please try again.';
+                _isVerificationSent = false;
+              });
+            }
+          },
+        );
+  }
+
+  void _showVerificationDialog() {
+    showDialog(
+      context: context,
+      
+      builder: (context) {
+
+        return const VerificationScreen();
+      },
+    );
   }
 
   Future<void> _userLogin() async {

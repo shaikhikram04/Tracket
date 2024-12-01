@@ -11,16 +11,15 @@ class VerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return AlertDialog(
+      title: Text(
+        'Email verification',
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
       backgroundColor: Colors.white,
-      child: Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 20),
-          Text(
-            'Email verification',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
           const SizedBox(height: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,6 +109,3 @@ class VerificationScreen extends StatelessWidget {
     }
   }
 }
-
-
-
