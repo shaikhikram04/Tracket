@@ -22,6 +22,7 @@ class _UserAuthState extends State<UserAuth> {
   final _passwordController = TextEditingController();
   bool _isVerificationSent = false;
   String _verificationMessage = '';
+  int _verificationStep = 0;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -48,13 +49,14 @@ class _UserAuthState extends State<UserAuth> {
       await userCredential.user?.sendEmailVerification();
 
       setState(() {
+        _verificationStep = 1;
         _isVerificationSent = true;
         _verificationMessage =
             'Verification email sent! Please check your inbox.';
       });
 
       // Start listening for email verification
-      // _checkEmailVerification(userCredential.user!);
+      _checkEmailVerification(userCredential.user!);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _verificationMessage = e.message ?? 'An error occurred';
@@ -73,6 +75,14 @@ class _UserAuthState extends State<UserAuth> {
         .listen(
           (isVerified) {
             if (isVerified) {
+              setState(() {
+                _verificationStep = 2;
+              });
+              Future.delayed(const Duration(milliseconds: 600));
+              setState(() {
+                _verificationStep = 3;
+              });
+              Future.delayed(const Duration(milliseconds: 600));
               // Email is verified, proceed to next screen
               if (!mounted) return;
               Navigator.pushReplacement(
@@ -97,10 +107,10 @@ class _UserAuthState extends State<UserAuth> {
   void _showVerificationDialog() {
     showDialog(
       context: context,
-      
       builder: (context) {
-
-        return const VerificationScreen();
+        return VerificationScreen(
+          currentStep: _verificationStep,
+        );
       },
     );
   }

@@ -26,19 +26,19 @@ class VerificationScreen extends StatelessWidget {
             children: [
               const SizedBox(width: 20),
               _buildProgressStep(
-                step: 0,
-                currentStep: currentStep,
-                label: 'Send Email',
-              ),
-              _buildProgressLine(isActive: currentStep > 0),
-              _buildProgressStep(
                 step: 1,
                 currentStep: currentStep,
-                label: 'Verified',
+                label: 'Send Email',
               ),
               _buildProgressLine(isActive: currentStep > 1),
               _buildProgressStep(
                 step: 2,
+                currentStep: currentStep,
+                label: 'Verified',
+              ),
+              _buildProgressLine(isActive: currentStep > 2),
+              _buildProgressStep(
+                step: 3,
                 currentStep: currentStep,
                 label: 'Login',
               ),
@@ -51,8 +51,11 @@ class VerificationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressStep(
-      {required int step, required int currentStep, required String label}) {
+  Widget _buildProgressStep({
+    required int step,
+    required int currentStep,
+    required String label,
+  }) {
     bool isActive = currentStep >= step;
     return Column(
       children: [
