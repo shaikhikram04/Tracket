@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/screens/home.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class UserAuth extends StatefulWidget {
@@ -17,14 +19,82 @@ class _UserAuthState extends State<UserAuth> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isVerificationSent = false;
+  String _verificationMessage = '';
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _sendVerificationEmail() async {
+    try {
+      // Validate email and password
+      if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+        setState(() {
+          _verificationMessage = 'Please enter both email and password';
+        });
+        return;
+      }
+
+      // Create user with email and password
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      // Send verification email
+      await userCredential.user?.sendEmailVerification();
+
+      setState(() {
+        _isVerificationSent = true;
+        _verificationMessage =
+            'Verification email sent! Please check your inbox.';
+      });
+
+      // Start listening for email verification
+      _checkEmailVerification(userCredential.user!);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _verificationMessage = e.message ?? 'An error occurred';
+      });
+    }
+  }
+
+  void _checkEmailVerification(User user) {
+    // Periodically check if email is verified
+    Stream.periodic(Duration(seconds: 3))
+        .asyncMap((_) async {
+          await user.reload();
+          return user.emailVerified;
+        })
+        .takeWhile((isVerified) => !isVerified)
+        .listen((isVerified) {
+          if (isVerified) {
+            // Email is verified, proceed to next screen
+            if (!mounted) return;
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          }
+        }, onDone: () {
+          // If user doesn't verify within a certain time, remove the user
+          if (!user.emailVerified) {
+            user.delete();
+            setState(() {
+              _verificationMessage = 'Verification failed. Please try again.';
+              _isVerificationSent = false;
+            });
+          }
+        });
+  }
 
   Future<void> _userLogin() async {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text;
       final password = _passwordController.text;
 
-      final res =
-          await FirebaseAuthMethods.loginUser(email: email, password: password);
+      final res = await FirebaseAuthMethods.loginUser(
+        email: email,
+        password: password,
+      );
 
       if (res != 'success') {
         print(res);
@@ -87,7 +157,7 @@ class _UserAuthState extends State<UserAuth> {
               width: width * 0.8,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _isLogin ? _userLogin : _sendVerificationEmail,
                 style: Theme.of(context).elevatedButtonTheme.style,
                 child: Text(
                   _isLogin ? 'Login' : 'Sign Up',

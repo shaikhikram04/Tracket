@@ -21,6 +21,7 @@ class FirebaseAuthMethods {
         email: email,
         password: password,
       );
+      await userCred.user?.sendEmailVerification();
 
       final model.User user = model.User(
         email: email,
@@ -116,33 +117,5 @@ class FirebaseAuthMethods {
     return result;
   }
 
-  Future<void> sendEmailVarification(String email) async {
-    final actionCodeSettings = ActionCodeSettings(
-      url: 'https://flutter-cricket-stats-manager.page.link/verifyEmail',
-      handleCodeInApp: true,
-      iOSBundleId: 'com.example.ios',
-      androidPackageName: 'com.example.android',
-      androidInstallApp: true,
-      androidMinimumVersion: '12',
-    );
-
-    await _auth.sendSignInLinkToEmail(
-      email: email,
-      actionCodeSettings: actionCodeSettings,
-    );
-  }
-
-  Future<bool> checkEmailVarification(String email, String link) async {
-    if (_auth.isSignInWithEmailLink(link)) {
-      try {
-        _auth.signInWithEmailLink(email: email, emailLink: link);
-        print('email varified successfully');
-        return true;
-      } catch (error) {
-        print("Error verifying email: $error");
-        return false;
-      }
-    }
-    return false;
-  }
+  
 }
