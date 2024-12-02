@@ -102,7 +102,7 @@ class Tracket extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: currUser == null ? const AuthScreen() : const HomeScreen(),
+      home: currUser == null || !currUser.emailVerified ? const AuthScreen() : const HomeScreen(),
     );
   }
 }

@@ -28,6 +28,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _sendVerificationEmail() async {
+    if (!_formKey.currentState!.validate()) return;
+
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
