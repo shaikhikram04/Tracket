@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/authentication/verification_screen.dart';
@@ -81,6 +82,16 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         print(res);
       }
     }
+  }
+
+  void _toggleUser() {
+    ref.read(authScreenSizeProvider.notifier).changeScreen(
+        _isLogin ? AuthScreenType.userSignup : AuthScreenType.userLogin);
+    setState(() {
+      _isLogin = !_isLogin;
+      _isPasswordHidden = true;
+      _formKey.currentState!.reset();
+    });
   }
 
   @override
@@ -162,13 +173,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 textButton(
                   _isLogin ? 'Sign Up?' : 'Login?',
                   false,
-                  () {
-                    setState(() {
-                      _isLogin = !_isLogin;
-                      _isPasswordHidden = true;
-                      _formKey.currentState!.reset();
-                    });
-                  },
+                  _toggleUser,
                 ),
               ],
             ),

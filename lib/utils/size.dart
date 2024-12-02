@@ -1,5 +1,5 @@
-const double userLoginFormHeight = 350;
-const double userSignupFormHeight = 436;
+const double userLoginFormHeight = 412;
+const double userSignupFormHeight = 498;
 
-const double playerLoginFormHeight = 350;
+const double playerLoginFormHeight = 412;
 const double playerSignupFormHeight = 900;

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/screens/authentication/player_auth.dart';
 import 'package:tracket/screens/authentication/user_auth.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen>
+class _AuthScreenState extends ConsumerState<AuthScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -22,6 +24,8 @@ class _AuthScreenState extends State<AuthScreen>
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final tabBarViewHeight = ref.watch(authScreenSizeProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -80,7 +84,7 @@ class _AuthScreenState extends State<AuthScreen>
 
                           //* Content of TabBar for signup/login user or player
                           SizedBox(
-                            height: 850,
+                            height: tabBarViewHeight,
                             child: TabBarView(
                               controller: _tabController,
                               children: const [
