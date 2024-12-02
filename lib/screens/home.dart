@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/screens/authentication/auth_screen.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +21,22 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Future<void> _logoutUser() async {
+    final result = await FirebaseAuthMethods.logoutUser();
+    if (!mounted) return;
+    if (result != 'success') {
+      showSnackBar(result, context);
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AuthScreen(),
+        ),
+        (route) => false,
+      );
+    }
   }
 
   @override
@@ -101,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .titleLarge!
                     .copyWith(color: Colors.red),
               ),
-              onTap: () {},
+              onTap: _logoutUser,
             ),
           ],
         ),

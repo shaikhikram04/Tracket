@@ -8,6 +8,7 @@ import 'package:tracket/models/player.dart';
 import 'package:tracket/models/user.dart' as model;
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/screens/home.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseAuthMethods {
@@ -72,12 +73,7 @@ class FirebaseAuthMethods {
         //! If fail in storing user data in firestore
         if (result != 'success' && context.mounted) {
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(result),
-            ),
-          );
+          showSnackBar(result, context);
           ref.read(verificationStepProvider.notifier).updateStep(0);
           user.delete();
           return;
@@ -201,6 +197,17 @@ class FirebaseAuthMethods {
       result = e.toString();
     }
 
+    return result;
+  }
+
+  static Future<String> logoutUser() async {
+    String result;
+    try {
+      await _auth.signOut();
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
+    }
     return result;
   }
 }
