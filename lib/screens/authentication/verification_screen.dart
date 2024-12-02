@@ -6,6 +6,30 @@ import 'package:tracket/utils/colors.dart';
 class VerificationScreen extends ConsumerWidget {
   const VerificationScreen({super.key});
 
+  String getMessage(int step) {
+    String message;
+
+    switch (step) {
+      case 0:
+        message = 'Wait for email verification';
+        break;
+      case 1:
+        message = 'Verification email sent! Please check your inbox.';
+        break;
+      case 2:
+        message = 'Verification email successfully!';
+        break;
+      case -1:
+        message = 'Verification failed. Please try again.';
+        break;
+
+      default:
+        message = 'Some Error occur. Please try again';
+    }
+
+    return message;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int currentStep = ref.watch(verificationStepProvider);
@@ -43,6 +67,10 @@ class VerificationScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 20),
+          Text(
+            getMessage(currentStep),
+            style: Theme.of(context).textTheme.bodyLarge,
+          )
         ],
       ),
     );

@@ -24,44 +24,24 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String _verificationMessage = '';
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _sendVerificationEmail() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    _showVerificationDialog();
     try {
-      // Validate email and password
-      if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-        setState(() {
-          _verificationMessage = 'Please enter both email and password';
-        });
-        return;
-      }
-
-      _showVerificationDialog();
-
-      // Create user with email and password
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      // Send verification email
-      await userCredential.user?.sendEmailVerification();
+      final user =
+          await FirebaseAuthMethods.sendVerificationEmail(email, password);
 
       ref.read(verificationStepProvider.notifier).updateStep(1);
-      setState(() {
-        _verificationMessage =
-            'Verification email sent! Please check your inbox.';
-      });
 
       // Start listening for email verification
-      _checkEmailVerification(userCredential.user!);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        _verificationMessage = e.message ?? 'An error occurred';
-      });
+      _checkEmailVerification(user!);
+    } on FirebaseAuthException catch (_) {
+      ref.read(verificationStepProvider.notifier).updateStep(-1);
     }
   }
 
@@ -71,7 +51,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
     verificationTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
       await user.reload();
-      user = FirebaseAuth.instance.currentUser!;
+      user = FirebaseAuthMethods.currentUser;
 
       if (user.emailVerified) {
         // Cancel the timer first to stop further checks
@@ -81,6 +61,13 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         ref.read(verificationStepProvider.notifier).updateStep(2);
         await Future.delayed(const Duration(seconds: 1));
 
+        //* Signup user after email verification! 
+        await FirebaseAuthMethods.signupUser(
+          userId: user.uid,
+          username: _usernameController.text.trim(),
+          email: user.email!,
+        );
+  
         ref.read(verificationStepProvider.notifier).updateStep(3);
         await Future.delayed(const Duration(seconds: 1));
 
@@ -94,13 +81,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     });
 
     // Optional: Set a maximum timeout for verification
-    Future.delayed(const Duration(minutes: 5), () {
+    Future.delayed(const Duration(minutes: 3), () {
       verificationTimer?.cancel();
       if (!user.emailVerified) {
         user.delete();
-        setState(() {
-          _verificationMessage = 'Verification failed. Please try again.';
-        });
       }
     });
   }
@@ -116,7 +100,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   Future<void> _userLogin() async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {  
       final email = _emailController.text;
       final password = _passwordController.text;
 

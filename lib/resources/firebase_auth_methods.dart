@@ -9,32 +9,40 @@ class FirebaseAuthMethods {
   static final _firestore = FirebaseFirestore.instance;
   static const uuid = Uuid();
 
+  static User get currentUser => _auth.currentUser!;
+
+  static Future<User?> sendVerificationEmail(
+    String email,
+    String password,
+  ) async {
+    final userCred = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    await userCred.user?.sendEmailVerification();
+
+    
+
+    return userCred.user;
+  }
+
   static Future<String> signupUser({
+    required String userId,
     required String username,
     required String email,
-    required String password,
   }) async {
     String result;
 
     try {
-      final userCred = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await userCred.user?.sendEmailVerification();
-
       final model.User user = model.User(
         email: email,
         username: username,
         role: 'user',
         createdAt: Timestamp.now(),
-        userId: userCred.user!.uid,
+        userId: userId,
       );
 
-      await _firestore
-          .collection('users')
-          .doc(userCred.user!.uid)
-          .set(user.toJson);
+      await _firestore.collection('users').doc(userId).set(user.toJson);
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -116,6 +124,4 @@ class FirebaseAuthMethods {
 
     return result;
   }
-
-  
 }
