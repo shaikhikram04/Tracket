@@ -72,6 +72,7 @@ class MyTextField extends StatelessWidget {
               )
             : null,
         labelText: label,
+        errorMaxLines: 2,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
         ),
@@ -84,7 +85,9 @@ class MyTextField extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return '$label cannot be empty';
                   }
-
+                  if (value.trim().contains(' ')) {
+                    return '$label cannot contain a space';
+                  }
                   if (value.length < 4) {
                     return '$label must contain at least 4 character';
                   }
