@@ -22,6 +22,10 @@ class VerificationScreen extends ConsumerWidget {
       case -1:
         message = 'Verification failed. Please try again.';
         break;
+      case -2:
+        message =
+            'This email is already in use. Try another email or login with this email.';
+        break;
 
       default:
         message = 'Some Error occur. Please try again';
@@ -44,29 +48,30 @@ class VerificationScreen extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 20),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildProgressStep(
-                step: 1,
-                currentStep: currentStep,
-                label: 'Send Email',
-              ),
-              _buildProgressLine(isActive: currentStep > 1),
-              _buildProgressStep(
-                step: 2,
-                currentStep: currentStep,
-                label: 'Verified',
-              ),
-              _buildProgressLine(isActive: currentStep > 2),
-              _buildProgressStep(
-                step: 3,
-                currentStep: currentStep,
-                label: 'Login',
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
+          if (currentStep >= 0)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildProgressStep(
+                  step: 1,
+                  currentStep: currentStep,
+                  label: 'Send Email',
+                ),
+                _buildProgressLine(isActive: currentStep > 1),
+                _buildProgressStep(
+                  step: 2,
+                  currentStep: currentStep,
+                  label: 'Verified',
+                ),
+                _buildProgressLine(isActive: currentStep > 2),
+                _buildProgressStep(
+                  step: 3,
+                  currentStep: currentStep,
+                  label: 'Login',
+                ),
+              ],
+            ),
+          if (currentStep >= 0) const SizedBox(height: 20),
           Text(
             getMessage(currentStep),
             style: Theme.of(context).textTheme.bodyLarge,

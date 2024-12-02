@@ -40,8 +40,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
       // Start listening for email verification
       _checkEmailVerification(user!);
-    } on FirebaseAuthException catch (_) {
-      ref.read(verificationStepProvider.notifier).updateStep(-1);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'Email-is-already-in-use') {
+        ref.read(verificationStepProvider.notifier).updateStep(-2);
+      } else {
+        ref.read(verificationStepProvider.notifier).updateStep(-1);
+      }
     }
   }
 
@@ -61,13 +65,13 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         ref.read(verificationStepProvider.notifier).updateStep(2);
         await Future.delayed(const Duration(seconds: 1));
 
-        //* Signup user after email verification! 
+        //* Signup user after email verification!
         await FirebaseAuthMethods.signupUser(
           userId: user.uid,
           username: _usernameController.text.trim(),
           email: user.email!,
         );
-  
+
         ref.read(verificationStepProvider.notifier).updateStep(3);
         await Future.delayed(const Duration(seconds: 1));
 
@@ -100,7 +104,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   Future<void> _userLogin() async {
-    if (_formKey.currentState!.validate()) {  
+    if (_formKey.currentState!.validate()) {
       final email = _emailController.text;
       final password = _passwordController.text;
 
