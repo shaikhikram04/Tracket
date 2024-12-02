@@ -79,9 +79,11 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
         // Navigate to home screen
         if (!mounted) return;
-        Navigator.pushReplacement(
+
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
         );
       }
     });
@@ -204,7 +206,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                     setState(() {
                       _isLogin = !_isLogin;
                       _isPasswordHidden = true;
-                      _passwordController.clear();
+                      _formKey.currentState!.reset();
                     });
                   },
                 ),

@@ -19,6 +19,9 @@ class VerificationScreen extends ConsumerWidget {
       case 2:
         message = 'Verification email successfully!';
         break;
+      case 3:
+        message = 'Login successful!';
+        break;
       case -1:
         message = 'Verification failed. Please try again.';
         break;
@@ -37,46 +40,54 @@ class VerificationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int currentStep = ref.watch(verificationStepProvider);
-
-    return AlertDialog(
-      title: Text(
-        'Email verification',
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
+    final double width = MediaQuery.of(context).size.width;
+    return Dialog(
       backgroundColor: Colors.white,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 20),
-          if (currentStep >= 0)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildProgressStep(
-                  step: 1,
-                  currentStep: currentStep,
-                  label: 'Send Email',
+      child: SizedBox(
+        width: width * 0.95,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 5),
+              Text(
+                'Email verification',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 20),
+              if (currentStep >= 0)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _buildProgressStep(
+                      step: 1,
+                      currentStep: currentStep,
+                      label: 'Send Email',
+                    ),
+                    _buildProgressLine(isActive: currentStep > 1),
+                    _buildProgressStep(
+                      step: 2,
+                      currentStep: currentStep,
+                      label: 'Verified',
+                    ),
+                    _buildProgressLine(isActive: currentStep > 2),
+                    _buildProgressStep(
+                      step: 3,
+                      currentStep: currentStep,
+                      label: 'Login',
+                    ),
+                  ],
                 ),
-                _buildProgressLine(isActive: currentStep > 1),
-                _buildProgressStep(
-                  step: 2,
-                  currentStep: currentStep,
-                  label: 'Verified',
-                ),
-                _buildProgressLine(isActive: currentStep > 2),
-                _buildProgressStep(
-                  step: 3,
-                  currentStep: currentStep,
-                  label: 'Login',
-                ),
-              ],
-            ),
-          if (currentStep >= 0) const SizedBox(height: 20),
-          Text(
-            getMessage(currentStep),
-            style: Theme.of(context).textTheme.bodyLarge,
-          )
-        ],
+              if (currentStep >= 0) const SizedBox(height: 20),
+              Text(
+                getMessage(currentStep),
+                style: Theme.of(context).textTheme.bodyLarge,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
