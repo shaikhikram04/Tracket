@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/player.dart';
 import 'package:tracket/models/user.dart' as model;
+import 'package:tracket/provider/verification_step.dart';
+import 'package:tracket/screens/home.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseAuthMethods {
@@ -33,6 +39,56 @@ class FirebaseAuthMethods {
     }
 
     return user;
+  }
+
+  static void checkEmailVerification({
+    required User user,
+    required String username,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) {
+    // Create a timer that can be cancelled
+    Timer? verificationTimer;
+
+    verificationTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
+      await user.reload();
+      user = FirebaseAuthMethods.currentUser;
+
+      if (user.emailVerified) {
+        // Cancel the timer first to stop further checks
+        verificationTimer?.cancel();
+
+        // Update verification steps with delays
+        ref.read(verificationStepProvider.notifier).updateStep(2);
+        await Future.delayed(const Duration(seconds: 1));
+
+        //* Signup user after email verification!
+        await FirebaseAuthMethods.signupUser(
+          userId: user.uid,
+          username: username,
+          email: user.email!,
+        );
+
+        ref.read(verificationStepProvider.notifier).updateStep(3);
+        await Future.delayed(const Duration(seconds: 1));
+
+        // Navigate to home screen
+        if (!context.mounted) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
+        );
+      }
+    });
+
+    // Optional: Set a maximum timeout for verification
+    Future.delayed(const Duration(minutes: 3), () {
+      verificationTimer?.cancel();
+      if (!user.emailVerified) {
+        user.delete();
+      }
+    });
   }
 
   static Future<String> signupUser({

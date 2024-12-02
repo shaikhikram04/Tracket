@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/authentication/verification_screen.dart';
-import 'package:tracket/screens/home.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class UserAuth extends ConsumerStatefulWidget {
@@ -41,7 +40,13 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       ref.read(verificationStepProvider.notifier).updateStep(1);
 
       // Start listening for email verification
-      _checkEmailVerification(user!);
+      if (!mounted) return;
+      FirebaseAuthMethods.checkEmailVerification(
+        user: user!,
+        username: _usernameController.text.trim(),
+        ref: ref,
+        context: context,
+      );
     } on FirebaseAuthException catch (error) {
       if (error.code == 'Email-is-already-in-use') {
         ref.read(verificationStepProvider.notifier).updateStep(-2);
@@ -49,52 +54,6 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         ref.read(verificationStepProvider.notifier).updateStep(-1);
       }
     }
-  }
-
-  void _checkEmailVerification(User user) {
-    // Create a timer that can be cancelled
-    Timer? verificationTimer;
-
-    verificationTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
-      await user.reload();
-      user = FirebaseAuthMethods.currentUser;
-
-      if (user.emailVerified) {
-        // Cancel the timer first to stop further checks
-        verificationTimer?.cancel();
-
-        // Update verification steps with delays
-        ref.read(verificationStepProvider.notifier).updateStep(2);
-        await Future.delayed(const Duration(seconds: 1));
-
-        //* Signup user after email verification!
-        await FirebaseAuthMethods.signupUser(
-          userId: user.uid,
-          username: _usernameController.text.trim(),
-          email: user.email!,
-        );
-
-        ref.read(verificationStepProvider.notifier).updateStep(3);
-        await Future.delayed(const Duration(seconds: 1));
-
-        // Navigate to home screen
-        if (!mounted) return;
-
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false,
-        );
-      }
-    });
-
-    // Optional: Set a maximum timeout for verification
-    Future.delayed(const Duration(minutes: 3), () {
-      verificationTimer?.cancel();
-      if (!user.emailVerified) {
-        user.delete();
-      }
-    });
   }
 
   void _showVerificationDialog() {
