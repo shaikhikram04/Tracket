@@ -4,7 +4,8 @@ import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/utils/colors.dart';
 
 class VerificationScreen extends ConsumerWidget {
-  const VerificationScreen({super.key});
+  const VerificationScreen(this.email, {super.key});
+  final String email;
 
   String getMessage(int step) {
     String message;
@@ -14,7 +15,7 @@ class VerificationScreen extends ConsumerWidget {
         message = 'Wait for email verification';
         break;
       case 1:
-        message = 'Verification email sent! Please check your inbox.';
+        message = 'Verification email sent to $email! Please check your inbox.';
         break;
       case 2:
         message = 'Verification email successfully!';

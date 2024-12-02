@@ -57,11 +57,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   void _showVerificationDialog() {
+    final String email = _emailController.text.trim();
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return const VerificationScreen();
+        return VerificationScreen(email);
       },
     );
   }

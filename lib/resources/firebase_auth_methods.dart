@@ -52,7 +52,7 @@ class FirebaseAuthMethods {
 
     verificationTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
       await user.reload();
-      user = FirebaseAuthMethods.currentUser;
+      user = currentUser;
 
       if (user.emailVerified) {
         // Cancel the timer first to stop further checks
@@ -63,22 +63,36 @@ class FirebaseAuthMethods {
         await Future.delayed(const Duration(seconds: 1));
 
         //* Signup user after email verification!
-        await FirebaseAuthMethods.signupUser(
+        final result = await signupUser(
           userId: user.uid,
           username: username,
           email: user.email!,
         );
 
-        ref.read(verificationStepProvider.notifier).updateStep(3);
-        await Future.delayed(const Duration(seconds: 1));
+        //! If fail in storing user data in firestore
+        if (result != 'success' && context.mounted) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result),
+            ),
+          );
+          ref.read(verificationStepProvider.notifier).updateStep(0);
+          user.delete();
+          return;
+        } else {
+          ref.read(verificationStepProvider.notifier).updateStep(3);
+          await Future.delayed(const Duration(seconds: 1));
 
-        // Navigate to home screen
-        if (!context.mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false,
-        );
+          // Navigate to home screen
+          if (!context.mounted) return;
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            (route) => false,
+          );
+        }
       }
     });
 
