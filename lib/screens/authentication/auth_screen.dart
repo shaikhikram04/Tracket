@@ -46,55 +46,50 @@ class _AuthScreenState extends State<AuthScreen>
                       horizontal: 17,
                       vertical: 12,
                     ),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minHeight: 350,
-                      ),
-                      child: Card(
-                        color: Theme.of(context).cardColor,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            //* TabBar for show option of user & player authentication
-                            TabBar(
-                              dividerColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              indicatorSize: TabBarIndicatorSize.tab,
-                              controller: _tabController,
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                    child: Card(
+                      color: Theme.of(context).cardColor,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          //* TabBar for show option of user & player authentication
+                          TabBar(
+                            dividerColor:
+                                Theme.of(context).colorScheme.secondary,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            controller: _tabController,
+                            labelStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            unselectedLabelStyle:
+                                const TextStyle(fontWeight: FontWeight.normal),
+                            tabs: const [
+                              Tab(
+                                child: Text(
+                                  'User',
+                                  style: TextStyle(fontSize: 21),
+                                ),
                               ),
-                              unselectedLabelStyle: const TextStyle(
-                                  fontWeight: FontWeight.normal),
-                              tabs: const [
-                                Tab(
-                                  child: Text(
-                                    'User',
-                                    style: TextStyle(fontSize: 21),
-                                  ),
+                              Tab(
+                                child: Text(
+                                  'Player',
+                                  style: TextStyle(fontSize: 21),
                                 ),
-                                Tab(
-                                  child: Text(
-                                    'Player',
-                                    style: TextStyle(fontSize: 21),
-                                  ),
-                                ),
+                              ),
+                            ],
+                          ),
+
+                          //* Content of TabBar for signup/login user or player
+                          SizedBox(
+                            height: 850,
+                            child: TabBarView(
+                              controller: _tabController,
+                              children: const [
+                                UserAuth(),
+                                PlayerAuth(),
                               ],
                             ),
-
-                            //* Content of TabBar for signup/login user or player
-                            SizedBox(
-                              height: 850,
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: const [
-                                  UserAuth(),
-                                  PlayerAuth(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
