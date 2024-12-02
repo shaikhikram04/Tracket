@@ -15,15 +15,24 @@ class FirebaseAuthMethods {
     String email,
     String password,
   ) async {
-    final userCred = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    await userCred.user?.sendEmailVerification();
+    User? user;
+    try {
+      final userCred = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      user = userCred.user;
+      await user?.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        throw FirebaseAuthException(
+          code: 'Email-is-already-in-use',
+          message: 'Try another email or login with this email.',
+        );
+      }
+    }
 
-    
-
-    return userCred.user;
+    return user;
   }
 
   static Future<String> signupUser({
