@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/player.dart';
 import 'package:tracket/provider/auth_screen_size.dart';
+import 'package:tracket/provider/verification_step.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
@@ -68,6 +72,57 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       _isPasswordHidden = true;
       _formKey.currentState!.reset();
     });
+  }
+
+  Future<void> _playerSignup() async {
+    if (!_formKey.currentState!.validate()) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(36);
+      return;
+    }
+
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    showVerificationDialog(context, email);
+    try {
+      final user =
+          await FirebaseAuthMethods.sendVerificationEmail(email, password);
+
+      ref.read(verificationStepProvider.notifier).updateStep(1);
+
+      // Start listening for email verification
+      if (!mounted) return;
+      FirebaseAuthMethods.checkEmailVerification(
+        user: user!,
+        username: _playerNameController.text.trim(),
+        ref: ref,
+        context: context,
+        role: 'player',
+      );
+    } on FirebaseAuthException catch (error) {
+      Navigator.of(context).pop();
+      ref.read(verificationStepProvider.notifier).updateStep(0);
+      String title;
+      String message;
+
+      if (error.code == 'Email-is-already-in-use-as-user') {
+        title = 'Email is already in use';
+        message =
+            'This email is already in use. Try another email or login as user with this email.';
+      } else if (error.code == 'Email-is-already-in-use-as-player') {
+        title = 'Email is already in use';
+        message =
+            'This email is already in use. Try another email or login as player with this email.';
+      } else {
+        title = 'Some Error!';
+        message = 'Some error occurred. Please try again.';
+      }
+      showAlertDialog(
+        context,
+        title,
+        message,
+      );
+    }
   }
 
   @override
@@ -152,7 +207,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               width: width * 0.8,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _isLogin ? () {} : _playerSignup,
                 style: Theme.of(context).elevatedButtonTheme.style,
                 child: Text(
                   _isLogin ? 'Login' : 'Sign Up',
