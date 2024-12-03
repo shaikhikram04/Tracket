@@ -80,6 +80,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               ),
                             ),
                           ],
+                          onTap: (value) {
+                            if (_tabController.indexIsChanging) {
+                              ref
+                                  .read(authScreenSizeProvider.notifier)
+                                  .changeScreen(
+                                    value == 0
+                                        ? AuthScreenType.userLogin
+                                        : AuthScreenType.playerLogin,
+                                  );
+                            }
+                          },
                         ),
 
                         //* Content of TabBar for signup/login user or player
