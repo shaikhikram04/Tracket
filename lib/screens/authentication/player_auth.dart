@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/player.dart';
+import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
-class PlayerAuth extends StatefulWidget {
+class PlayerAuth extends ConsumerStatefulWidget {
   const PlayerAuth({super.key});
 
   @override
-  State<PlayerAuth> createState() => _PlayerAuthState();
+  ConsumerState<PlayerAuth> createState() => _PlayerAuthState();
 }
 
-class _PlayerAuthState extends State<PlayerAuth> {
+class _PlayerAuthState extends ConsumerState<PlayerAuth> {
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController _playerNameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
@@ -55,6 +58,16 @@ class _PlayerAuthState extends State<PlayerAuth> {
     _bowlingArm = arm!;
   }
 
+  void _togglePlayerAuth() {
+    ref.read(authScreenSizeProvider.notifier).changeScreen(
+        _isLogin ? AuthScreenType.playerSignup : AuthScreenType.playerLogin);
+    setState(() {
+      _isLogin = !_isLogin;
+      _isPasswordHidden = true;
+      _formKey.currentState!.reset();
+    });
+  }
+
   @override
   void dispose() {
     _playerNameController.dispose();
@@ -95,6 +108,7 @@ class _PlayerAuthState extends State<PlayerAuth> {
 
     final width = MediaQuery.of(context).size.width;
     return Form(
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
@@ -160,13 +174,7 @@ class _PlayerAuthState extends State<PlayerAuth> {
                 textButton(
                   _isLogin ? 'Sign Up?' : 'Login?',
                   false,
-                  () {
-                    setState(() {
-                      _isLogin = !_isLogin;
-                      _isPasswordHidden = true;
-                      _passwordController.clear();
-                    });
-                  },
+                  _togglePlayerAuth,
                 ),
               ],
             ),
