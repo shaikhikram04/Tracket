@@ -32,9 +32,24 @@ class FirebaseAuthMethods {
       await user?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
+        final userSnap = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: email)
+            .limit(1)
+            .get();
+
+        String code;
+        String message;
+        if (userSnap.docs.first['role'] == 'user') {
+          code = 'Email-is-already-in-use-as-user';
+          message = 'Try another email or login as user with this email.';
+        } else {
+          code = 'Email-is-already-in-use-as-player';
+          message = 'Try another email or login as player with this email.';
+        }
         throw FirebaseAuthException(
-          code: 'Email-is-already-in-use',
-          message: 'Try another email or login with this email.',
+          code: code,
+          message: message,
         );
       }
     }

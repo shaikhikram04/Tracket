@@ -28,7 +28,11 @@ class VerificationScreen extends ConsumerWidget {
         break;
       case -2:
         message =
-            'This email is already in use. Try another email or login with this email.';
+            'This email is already in use. Try another email or login as user with this email.';
+        break;
+      case -3:
+        message =
+            'This email is already in use. Try another email or login as player with this email.';
         break;
 
       default:

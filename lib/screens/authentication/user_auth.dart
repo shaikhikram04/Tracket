@@ -49,8 +49,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         context: context,
       );
     } on FirebaseAuthException catch (error) {
-      if (error.code == 'Email-is-already-in-use') {
+      if (error.code == 'Email-is-already-in-use-as-user') {
         ref.read(verificationStepProvider.notifier).updateStep(-2);
+      } else if(error.code == 'Email-is-already-in-use-as-player') {
+        ref.read(verificationStepProvider.notifier).updateStep(-3);
       } else {
         ref.read(verificationStepProvider.notifier).updateStep(-1);
       }

@@ -86,8 +86,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               ),
                             ),
                           ],
-                          onTap: (value) {
+                          onTap: (value) async {
                             if (_tabController.indexIsChanging) {
+                              await Future.delayed(
+                                  const Duration(milliseconds: 180));
                               ref
                                   .read(authScreenSizeProvider.notifier)
                                   .changeScreen(
