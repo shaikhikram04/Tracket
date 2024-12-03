@@ -22,6 +22,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final tabBarViewHeight = ref.watch(authScreenSizeProvider);
@@ -97,6 +103,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                         SizedBox(
                           height: tabBarViewHeight,
                           child: TabBarView(
+                            physics: const NeverScrollableScrollPhysics(),
                             controller: _tabController,
                             children: const [
                               UserAuth(),
