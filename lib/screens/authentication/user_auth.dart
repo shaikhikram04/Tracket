@@ -95,8 +95,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         ref: ref,
       );
     } catch (e) {
-      if (!mounted) return;
-      // showSnackBar(e.toString(), context);
+      return;
     }
   }
 
