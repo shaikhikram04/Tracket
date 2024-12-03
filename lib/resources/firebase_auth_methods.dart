@@ -47,6 +47,7 @@ class FirebaseAuthMethods {
           code = 'Email-is-already-in-use-as-player';
           message = 'Try another email or login as player with this email.';
         }
+        
         throw FirebaseAuthException(
           code: code,
           message: message,
@@ -151,6 +152,7 @@ class FirebaseAuthMethods {
     required String email,
     required String password,
     required BuildContext context,
+    required WidgetRef ref,
   }) async {
     try {
       final userCred = await _auth.signInWithEmailAndPassword(
@@ -158,8 +160,15 @@ class FirebaseAuthMethods {
         password: password,
       );
 
-      if (!userCred.user!.emailVerified) {
+      if (!userCred.user!.emailVerified && context.mounted) {
         showVerificationDialog(context, email);
+        checkEmailVerification(
+          user: userCred.user!,
+          username: '',
+          ref: ref,
+          context: context,
+          role: 'user',
+        );
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {

@@ -26,17 +26,8 @@ class VerificationScreen extends ConsumerWidget {
       case -1:
         message = 'Verification failed. Please try again.';
         break;
-      case -2:
-        message =
-            'This email is already in use. Try another email or login as user with this email.';
-        break;
-      case -3:
-        message =
-            'This email is already in use. Try another email or login as player with this email.';
-        break;
-
       default:
-        message = 'Some Error occur. Please try again';
+        message = 'Verification failed. Please try again';
     }
 
     return message;
