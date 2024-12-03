@@ -45,9 +45,11 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     _bowlingStyle = style!;
     if (style != 'none' && _isBowler == false) {
       setState(() {
+        ref.read(authScreenSizeProvider.notifier).incrementSize(86);
         _isBowler = true;
       });
     } else if (_isBowler == true) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(-86);
       setState(() {
         _isBowler = false;
       });
