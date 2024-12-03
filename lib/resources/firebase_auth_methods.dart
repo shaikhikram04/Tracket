@@ -141,23 +141,31 @@ class FirebaseAuthMethods {
     return result;
   }
 
-  static Future<String> loginUser({
+  static Future<void> loginUser({
     required String email,
     required String password,
   }) async {
-    String result;
     try {
-      await _auth.signInWithEmailAndPassword(
+      final userCred = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      result = 'success';
-    } catch (e) {
-      result = e.toString();
+      if (!userCred.user!.emailVerified) {
+        
+      }
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'user-not-found') {
+        throw FirebaseAuthException(
+          code: error.code,
+          message: 'No user found with the provided email. Sign-up first!',
+        );
+      } else if (error.code == 'invalid-credential') {
+        rethrow;
+      }
+    } catch (error) {
+      rethrow;
     }
-
-    return result;
   }
 
   static Future<String> signupPlayer({
