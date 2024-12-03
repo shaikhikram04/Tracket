@@ -22,6 +22,10 @@ class AuthScreenSizeNotifier extends StateNotifier<double> {
       state = playerSignupFormHeight;
     }
   }
+
+  void incrementSize(double size) {
+    state += size;
+  }
 }
 
 final authScreenSizeProvider =

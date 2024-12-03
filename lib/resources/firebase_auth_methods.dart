@@ -47,7 +47,7 @@ class FirebaseAuthMethods {
           code = 'Email-is-already-in-use-as-player';
           message = 'Try another email or login as player with this email.';
         }
-        
+
         throw FirebaseAuthException(
           code: code,
           message: message,
@@ -171,12 +171,15 @@ class FirebaseAuthMethods {
         );
       }
     } on FirebaseAuthException catch (error) {
+      if (!context.mounted) return;
       if (error.code == 'user-not-found') {
-        throw FirebaseAuthException(
-          code: error.code,
-          message: 'No user found with the provided email. Sign-up first!',
+        showAlertDialog(
+          context,
+          'User not found',
+          'No user found with the provided email. Sign-up first!',
         );
       } else if (error.code == 'invalid-credential') {
+        showSnackBar('Wrong email or password', context);
         rethrow;
       }
     } catch (error) {

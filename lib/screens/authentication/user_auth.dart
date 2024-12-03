@@ -28,7 +28,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> _userSignup() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(36);
+      return;
+    }
 
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
@@ -76,19 +79,22 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   Future<void> _userLogin() async {
-    if (_formKey.currentState!.validate()) {
-      final email = _emailController.text.trim();
-      final password = _passwordController.text.trim();
-
-      try {
-        await FirebaseAuthMethods.loginUser(
-          email: email,
-          password: password,
-          context: context,
-          ref: ref,
-        );
-      } catch (e) {}
+    if (!_formKey.currentState!.validate()) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(35);
+      return;
     }
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    try {
+      await FirebaseAuthMethods.loginUser(
+        email: email,
+        password: password,
+        context: context,
+        ref: ref,
+      );
+    } catch (e) {}
   }
 
   void _toggleUser() {
