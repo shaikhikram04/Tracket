@@ -62,6 +62,7 @@ class FirebaseAuthMethods {
     required String username,
     required WidgetRef ref,
     required BuildContext context,
+    required String role,
   }) {
     // Create a timer that can be cancelled
     Timer? verificationTimer;
@@ -78,12 +79,16 @@ class FirebaseAuthMethods {
         ref.read(verificationStepProvider.notifier).updateStep(2);
         await Future.delayed(const Duration(seconds: 1));
 
-        //* Signup user after email verification!
-        final result = await signupUser(
-          userId: user.uid,
-          username: username,
-          email: user.email!,
-        );
+        final String result;
+        if (role == 'user') {
+          result = await signupUser(
+            userId: user.uid,
+            username: username,
+            email: user.email!,
+          );
+        } else {
+          result = '';
+        }
 
         //! If fail in storing user data in firestore
         if (result != 'success' && context.mounted) {
@@ -103,6 +108,7 @@ class FirebaseAuthMethods {
             MaterialPageRoute(builder: (context) => const HomeScreen()),
             (route) => false,
           );
+          ref.read(verificationStepProvider.notifier).updateStep(0);
         }
       }
     });
@@ -144,6 +150,7 @@ class FirebaseAuthMethods {
   static Future<void> loginUser({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     try {
       final userCred = await _auth.signInWithEmailAndPassword(
@@ -152,7 +159,7 @@ class FirebaseAuthMethods {
       );
 
       if (!userCred.user!.emailVerified) {
-        
+        showVerificationDialog(context, email);
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {

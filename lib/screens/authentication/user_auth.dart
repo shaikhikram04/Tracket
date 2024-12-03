@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/screens/authentication/verification_screen.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class UserAuth extends ConsumerStatefulWidget {
@@ -27,13 +27,13 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
   // final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> _sendVerificationEmail() async {
+  Future<void> _userSignup() async {
     if (!_formKey.currentState!.validate()) return;
 
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
-    _showVerificationDialog();
+    showVerificationDialog(context, email);
     try {
       final user =
           await FirebaseAuthMethods.sendVerificationEmail(email, password);
@@ -47,6 +47,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         username: _usernameController.text.trim(),
         ref: ref,
         context: context,
+        role: 'user',
       );
     } on FirebaseAuthException catch (error) {
       if (error.code == 'Email-is-already-in-use-as-user') {
@@ -59,17 +60,6 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     }
   }
 
-  void _showVerificationDialog() {
-    final String email = _emailController.text.trim();
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return VerificationScreen(email);
-      },
-    );
-  }
-
   Future<void> _userLogin() async {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
@@ -79,6 +69,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         await FirebaseAuthMethods.loginUser(
           email: email,
           password: password,
+          context: context,
         );
       } catch (e) {}
     }
@@ -149,7 +140,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               width: width * 0.8,
               height: 50,
               child: ElevatedButton(
-                onPressed: _isLogin ? _userLogin : _sendVerificationEmail,
+                onPressed: _isLogin ? _userLogin : _userSignup,
                 style: Theme.of(context).elevatedButtonTheme.style,
                 child: Text(
                   _isLogin ? 'Login' : 'Sign Up',
