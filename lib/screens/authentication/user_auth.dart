@@ -51,6 +51,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
+      ref.read(verificationStepProvider.notifier).updateStep(0);
       String title;
       String message;
 
