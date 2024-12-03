@@ -25,80 +25,79 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final tabBarViewHeight = ref.watch(authScreenSizeProvider);
+    // Height of the status bar
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    // Height of the bottom inset (e.g., navigation bar)
+    final double bottomInsetHeight = MediaQuery.of(context).padding.bottom;
+    final safeAreaHeight = height - statusBarHeight - bottomInsetHeight;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: height),
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 15),
-
-                  //* App logo
-                  Image.asset(
-                    'assets/images/Tracket_logo.png',
-                    height: height * 0.25,
-                    fit: BoxFit.cover,
+            constraints: BoxConstraints(minHeight: safeAreaHeight),
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                //* App logo
+                Image.asset(
+                  'assets/images/Tracket_logo.png',
+                  height: height * 0.25,
+                  fit: BoxFit.cover,
+                ),
+                //* Auth content
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 17,
+                    vertical: 12,
                   ),
-
-                  //* Auth content
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 17,
-                      vertical: 12,
-                    ),
-                    child: Card(
-                      color: Theme.of(context).cardColor,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          //* TabBar for show option of user & player authentication
-                          TabBar(
-                            dividerColor:
-                                Theme.of(context).colorScheme.secondary,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            controller: _tabController,
-                            labelStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                  child: Card(
+                    color: Theme.of(context).cardColor,
+                    child: Column(
+                      children: [
+                        //* TabBar for show option of user & player authentication
+                        TabBar(
+                          dividerColor: Theme.of(context).colorScheme.secondary,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          controller: _tabController,
+                          labelStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          unselectedLabelStyle:
+                              const TextStyle(fontWeight: FontWeight.normal),
+                          tabs: const [
+                            Tab(
+                              child: Text(
+                                'User',
+                                style: TextStyle(fontSize: 21),
+                              ),
                             ),
-                            unselectedLabelStyle:
-                                const TextStyle(fontWeight: FontWeight.normal),
-                            tabs: const [
-                              Tab(
-                                child: Text(
-                                  'User',
-                                  style: TextStyle(fontSize: 21),
-                                ),
+                            Tab(
+                              child: Text(
+                                'Player',
+                                style: TextStyle(fontSize: 21),
                               ),
-                              Tab(
-                                child: Text(
-                                  'Player',
-                                  style: TextStyle(fontSize: 21),
-                                ),
-                              ),
+                            ),
+                          ],
+                        ),
+
+                        //* Content of TabBar for signup/login user or player
+                        SizedBox(
+                          height: tabBarViewHeight,
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: const [
+                              UserAuth(),
+                              PlayerAuth(),
                             ],
                           ),
-
-                          //* Content of TabBar for signup/login user or player
-                          SizedBox(
-                            height: tabBarViewHeight,
-                            child: TabBarView(
-                              controller: _tabController,
-                              children: const [
-                                UserAuth(),
-                                PlayerAuth(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
