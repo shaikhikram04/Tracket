@@ -169,6 +169,15 @@ class FirebaseAuthMethods {
           context: context,
           role: 'user',
         );
+      } else {
+        if (context.mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+            (route) => false,
+          );
+        }
       }
     } on FirebaseAuthException catch (error) {
       if (!context.mounted) return;

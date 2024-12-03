@@ -94,7 +94,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         context: context,
         ref: ref,
       );
-    } catch (e) {}
+    } catch (e) {
+      if (!mounted) return;
+      // showSnackBar(e.toString(), context);
+    }
   }
 
   void _toggleUser() {

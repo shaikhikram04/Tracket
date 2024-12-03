@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/screens/authentication/verification_screen.dart';
+import 'package:tracket/utils/colors.dart';
 
 void showSnackBar(String content, BuildContext context) {
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      backgroundColor: greenColor,
       content: Text(
         content,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     ),
   );
