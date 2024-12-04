@@ -85,10 +85,11 @@ class MyTextField extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return '$label cannot be empty';
                   }
-                  if (value.trim().contains(' ')) {
+
+                  if (label == 'Username' && value.trim().contains(' ')) {
                     return '$label cannot contain a space';
                   }
-                  if (value.length < 4) {
+                  if (value.trim().length < 4) {
                     return '$label must contain at least 4 character';
                   }
 

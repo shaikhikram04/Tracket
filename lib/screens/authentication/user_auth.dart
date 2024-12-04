@@ -35,6 +35,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
+    String username = _usernameController.text.trim();
 
     showVerificationDialog(context, email);
     try {
@@ -47,7 +48,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       if (!mounted) return;
       FirebaseAuthMethods.checkEmailVerification(
         user: user!,
-        username: _usernameController.text.trim(),
+        username: username,
         ref: ref,
         context: context,
         role: 'user',

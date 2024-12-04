@@ -118,6 +118,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
+    String playerName = _playerNameController.text.trim();
 
     showVerificationDialog(context, email);
     try {
@@ -130,7 +131,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       if (!mounted) return;
       FirebaseAuthMethods.checkEmailVerification(
         user: user!,
-        username: _playerNameController.text.trim(),
+        username: playerName,
         ref: ref,
         context: context,
         role: 'player',
