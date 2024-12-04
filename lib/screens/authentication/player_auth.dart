@@ -39,6 +39,19 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   void onSelectRole(String? role) {
     _cricketRole = role!;
+    if ((_cricketRole == 'bowler' || _cricketRole == 'allRounder') &&
+        !_isBowler) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(86);
+      setState(() {
+        _isBowler = true;
+      });
+    } else if ((_cricketRole == 'batsman' || _cricketRole == 'wicketKeeper') &&
+        _isBowler) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(-86);
+      setState(() {
+        _isBowler = false;
+      });
+    }
   }
 
   void onSelectBattingPosition(String? position) {
