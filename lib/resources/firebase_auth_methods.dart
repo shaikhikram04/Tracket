@@ -256,20 +256,66 @@ class FirebaseAuthMethods {
     return result;
   }
 
-  static Future<String> loginPlayer({
+  static Future<void> loginPlayer({
     required String email,
     required String password,
+    required BuildContext context,
+    required WidgetRef ref,
   }) async {
-    String result;
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final userCred = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      result = 'success';
-    } catch (e) {
-      result = e.toString();
+      if (!userCred.user!.emailVerified && context.mounted) {
+        showVerificationDialog(context, email);
+        checkEmailVerification(
+          user: userCred.user!,
+          username: '',
+          ref: ref,
+          context: context,
+          role: 'player',
+        );
+      } else {
+        final userSnap = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: email)
+            .limit(1)
+            .get();
+
+        if (userSnap.docs.first['role'] == 'user') {
+          throw FirebaseAuthException(code: 'email-used-by-user');
+        }
+
+        if (context.mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+            (route) => false,
+          );
+        }
+      }
+    } on FirebaseAuthException catch (error) {
+      if (!context.mounted) return;
+      if (error.code == 'user-not-found') {
+        showAlertDialog(
+          context,
+          'User not found',
+          'No user found with the provided email. Sign-up first!',
+        );
+      } else if (error.code == 'invalid-credential') {
+        showSnackBar('Wrong email or password', context);
+      } else if (error.code == 'email-used-by-user') {
+        showSnackBar(
+          'This email is used as a user. Please login as a player!',
+          context,
+        );
+      }
+    } catch (error) {
+      rethrow;
     }
-
-    return result;
   }
 
   static Future<String> logoutUser() async {

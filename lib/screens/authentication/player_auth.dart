@@ -176,6 +176,27 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     }
   }
 
+  Future<void> _playerLogin() async {
+    if (!_formKey.currentState!.validate()) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(35);
+      return;
+    }
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    try {
+      await FirebaseAuthMethods.loginPlayer(
+        email: email,
+        password: password,
+        context: context,
+        ref: ref,
+      );
+    } catch (e) {
+      return;
+    }
+  }
+
   @override
   void dispose() {
     _playerNameController.dispose();
@@ -259,7 +280,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               width: width * 0.8,
               height: 50,
               child: ElevatedButton(
-                onPressed: _isLogin ? () {} : _playerSignup,
+                onPressed: _isLogin ? _playerLogin : _playerSignup,
                 style: Theme.of(context).elevatedButtonTheme.style,
                 child: Text(
                   _isLogin ? 'Login' : 'Sign Up',
