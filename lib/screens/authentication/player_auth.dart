@@ -68,12 +68,12 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     _bowlingStyle = BowlingStyle.values.firstWhere(
       (element) => element.name == style,
     );
-    if (style != BowlingStyle.none && _isBowler == false) {
+    if (_bowlingStyle != BowlingStyle.none && _isBowler == false) {
       setState(() {
         ref.read(authScreenSizeProvider.notifier).incrementSize(86);
         _isBowler = true;
       });
-    } else if (_isBowler == true) {
+    } else if (_bowlingStyle == BowlingStyle.none && _isBowler == true) {
       ref.read(authScreenSizeProvider.notifier).incrementSize(-86);
       setState(() {
         _isBowler = false;
@@ -99,7 +99,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   bool _isDropdownSelected(String? dropdown, String label) {
     if (dropdown == null) {
-      if (label == 'Bowling Arm' && _bowlingStyle == 'none') {
+      if (label == 'Bowling Arm' && _bowlingStyle == BowlingStyle.none) {
         return true;
       }
       showSnackBar('Please select $label', context);

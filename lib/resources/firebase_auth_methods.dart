@@ -238,14 +238,15 @@ class FirebaseAuthMethods {
       final player = Player(
         playerName: playerName,
         email: email,
-        role: cricketRole,
+        cricketRole: cricketRole,
         battingPosition: battingPosition,
         bowlingArm: bowlingArm,
         bowlingStyle: bowlingStyle,
         createdAt: Timestamp.now(),
         id: playerId,
+        role: 'player',
       );
-      await _firestore.collection('players').doc(playerId).set(player.toJson);
+      await _firestore.collection('users').doc(playerId).set(player.toJson);
 
       result = 'success';
     } catch (e) {

@@ -36,10 +36,11 @@ const uuid = Uuid();
 
 class Player {
   Player({
+    required this.role,
     required this.id,
     required this.playerName,
     required this.email,
-    required this.role,
+    required this.cricketRole,
     required this.battingPosition,
     required this.bowlingArm,
     required this.bowlingStyle,
@@ -51,7 +52,8 @@ class Player {
   final String id;
   final String email;
   final String playerName;
-  final CricketRole role;
+  final String role;
+  final CricketRole cricketRole;
   final Position battingPosition;
   final int totalTimesOut;
   final PlayerStats playerStats;
@@ -72,7 +74,8 @@ class Player {
         'playerId': id,
         'email': email,
         'playerName': playerName,
-        'cricketRole': role.name,
+        'role': role,
+        'cricketRole': cricketRole.name,
         'battingPosition': battingPosition.name,
         'totalTimesOut': totalTimesOut,
         'bowlingArm': bowlingArm?.name,
