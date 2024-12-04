@@ -4,12 +4,12 @@ class MyDropdownMenu extends StatelessWidget {
   const MyDropdownMenu({
     super.key,
     required this.options,
-    required this.hintText,
+    required this.label,
     required this.onSelect,
   });
 
   final List<Enum> options;
-  final String hintText;
+  final String label;
   final void Function(String? value) onSelect;
 
   @override
@@ -17,12 +17,12 @@ class MyDropdownMenu extends StatelessWidget {
     return DropdownMenu(
       onSelected: onSelect,
       width: 337,
+      label: Text(label),
       menuStyle: MenuStyle(
         backgroundColor: WidgetStatePropertyAll(
           Theme.of(context).colorScheme.surface,
         ),
       ),
-      hintText: hintText,
       dropdownMenuEntries: Iterable.generate(
         options.length,
         (index) => DropdownMenuEntry(

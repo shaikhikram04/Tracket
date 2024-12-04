@@ -74,9 +74,32 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     });
   }
 
+  bool _isDropdownSelected(String dropdown, String label) {
+    if (dropdown.isEmpty) {
+      if (label == 'Bowling Arm' && _bowlingStyle == 'none') {
+        return true;
+      }
+      showSnackBar('Please select $label', context);
+      return false;
+    }
+    return true;
+  }
+
   Future<void> _playerSignup() async {
     if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(36);
+      ref.read(authScreenSizeProvider.notifier).incrementSize(60);
+      return;
+    }
+    if (!_isDropdownSelected(_cricketRole, 'Cricket Role')) {
+      return;
+    }
+    if (!_isDropdownSelected(_battingPosition, 'Batting Position')) {
+      return;
+    }
+    if (!_isDropdownSelected(_bowlingStyle, 'Bowling Style')) {
+      return;
+    }
+    if (!_isDropdownSelected(_bowlingArm, 'Bowling Arm')) {
       return;
     }
 
@@ -130,6 +153,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     _playerNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _formKey.currentState!.dispose();
     super.dispose();
   }
 
@@ -138,26 +162,26 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     List<Widget> signUpField = [
       MyDropdownMenu(
         options: CricketRole.values,
-        hintText: 'Select Cricket Role',
+        label: 'Select Cricket Role',
         onSelect: onSelectRole,
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
         options: Position.values,
-        hintText: 'Select Batting Position',
+        label: 'Select Batting Position',
         onSelect: onSelectBattingPosition,
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
         options: BowingStyle.values,
-        hintText: 'Select Bowling Style',
+        label: 'Select Bowling Style',
         onSelect: onSelectBowlingStyle,
       ),
       const SizedBox(height: 30),
       if (_isBowler)
         MyDropdownMenu(
           options: Position.values,
-          hintText: 'Select Bowling Arm',
+          label: 'Select Bowling Arm',
           onSelect: onSelectBowlingArm,
         ),
       if (_isBowler) const SizedBox(height: 30),
