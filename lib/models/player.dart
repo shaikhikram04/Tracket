@@ -14,7 +14,7 @@ enum Position {
   lefty,
 }
 
-enum BowingStyle {
+enum BowlingStyle {
   none,
   fast,
   mediumFast,
@@ -57,7 +57,7 @@ class Player {
   final PlayerStats playerStats;
   BowlingFigure bestBalling = BowlingFigure(0, 0);
   Position? bowlingArm;
-  BowingStyle bowlingStyle;
+  BowlingStyle bowlingStyle;
   final Timestamp createdAt;
 
   double get battingAverage {

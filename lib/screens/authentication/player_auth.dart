@@ -24,10 +24,10 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   bool _isPasswordHidden = true;
   bool _isLogin = true;
   bool _isBowler = false;
-  String _cricketRole = '';
-  String _battingPosition = '';
-  String _bowlingStyle = '';
-  String _bowlingArm = '';
+  CricketRole? _cricketRole;
+  Position? _battingPosition;
+  BowlingStyle? _bowlingStyle;
+  Position? _bowlingArm;
 
   @override
   void initState() {
@@ -38,14 +38,18 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   void onSelectRole(String? role) {
-    _cricketRole = role!;
-    if ((_cricketRole == 'bowler' || _cricketRole == 'allRounder') &&
+    _cricketRole = CricketRole.values.firstWhere(
+      (value) => value.name == role,
+    );
+    if ((_cricketRole == CricketRole.bowler ||
+            _cricketRole == CricketRole.allRounder) &&
         !_isBowler) {
       ref.read(authScreenSizeProvider.notifier).incrementSize(86);
       setState(() {
         _isBowler = true;
       });
-    } else if ((_cricketRole == 'batsman' || _cricketRole == 'wicketKeeper') &&
+    } else if ((_cricketRole == CricketRole.batsman ||
+            _cricketRole == CricketRole.wicketKeeper) &&
         _isBowler) {
       ref.read(authScreenSizeProvider.notifier).incrementSize(-86);
       setState(() {
@@ -55,12 +59,16 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   void onSelectBattingPosition(String? position) {
-    _battingPosition = position!;
+    _battingPosition = Position.values.firstWhere(
+      (element) => element.name == position,
+    );
   }
 
   void onSelectBowlingStyle(String? style) {
-    _bowlingStyle = style!;
-    if (style != 'none' && _isBowler == false) {
+    _bowlingStyle = BowlingStyle.values.firstWhere(
+      (element) => element.name == style,
+    );
+    if (style != BowlingStyle.none && _isBowler == false) {
       setState(() {
         ref.read(authScreenSizeProvider.notifier).incrementSize(86);
         _isBowler = true;
@@ -74,7 +82,9 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   void onSelectBowlingArm(String? arm) {
-    _bowlingArm = arm!;
+    _bowlingArm = Position.values.firstWhere(
+      (element) => element.name == arm,
+    );
   }
 
   void _togglePlayerAuth() {
@@ -87,8 +97,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     });
   }
 
-  bool _isDropdownSelected(String dropdown, String label) {
-    if (dropdown.isEmpty) {
+  bool _isDropdownSelected(String? dropdown, String label) {
+    if (dropdown == null) {
       if (label == 'Bowling Arm' && _bowlingStyle == 'none') {
         return true;
       }
@@ -103,16 +113,16 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       ref.read(authScreenSizeProvider.notifier).incrementSize(60);
       return;
     }
-    if (!_isDropdownSelected(_cricketRole, 'Cricket Role')) {
+    if (!_isDropdownSelected(_cricketRole?.name, 'Cricket Role')) {
       return;
     }
-    if (!_isDropdownSelected(_battingPosition, 'Batting Position')) {
+    if (!_isDropdownSelected(_battingPosition?.name, 'Batting Position')) {
       return;
     }
-    if (!_isDropdownSelected(_bowlingStyle, 'Bowling Style')) {
+    if (!_isDropdownSelected(_bowlingStyle?.name, 'Bowling Style')) {
       return;
     }
-    if (!_isDropdownSelected(_bowlingArm, 'Bowling Arm')) {
+    if (!_isDropdownSelected(_bowlingArm?.name, 'Bowling Arm')) {
       return;
     }
 
@@ -135,6 +145,10 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
         ref: ref,
         context: context,
         role: 'player',
+        battingPosition: _battingPosition,
+        bowlingArm: _bowlingArm,
+        bowlingStyle: _bowlingStyle,
+        cricketRole: _cricketRole,
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
@@ -187,7 +201,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
-        options: BowingStyle.values,
+        options: BowlingStyle.values,
         label: 'Select Bowling Style',
         onSelect: onSelectBowlingStyle,
       ),

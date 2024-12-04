@@ -64,6 +64,10 @@ class FirebaseAuthMethods {
     required WidgetRef ref,
     required BuildContext context,
     required String role,
+    CricketRole? cricketRole,
+    Position? battingPosition,
+    BowlingStyle? bowlingStyle,
+    Position? bowlingArm,
   }) {
     // Create a timer that can be cancelled
     Timer? verificationTimer;
@@ -88,7 +92,15 @@ class FirebaseAuthMethods {
             email: user.email!,
           );
         } else {
-          result = '';
+          result = await signupPlayer(
+            playerId: user.uid,
+            playerName: username,
+            email: user.email!,
+            cricketRole: cricketRole!,
+            battingPosition: battingPosition!,
+            bowlingStyle: bowlingStyle!,
+            bowlingArm: bowlingArm,
+          );
         }
 
         //! If fail in storing user data in firestore
@@ -212,24 +224,17 @@ class FirebaseAuthMethods {
   }
 
   static Future<String> signupPlayer({
+    required String playerId,
     required String playerName,
     required String email,
-    required String password,
     required CricketRole cricketRole,
     required Position battingPosition,
-    required BowingStyle bowlingStyle,
+    required BowlingStyle bowlingStyle,
     Position? bowlingArm,
   }) async {
     String result;
 
     try {
-      final playerCred = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      String playerId = playerCred.user!.uid;
-
       final player = Player(
         playerName: playerName,
         email: email,
