@@ -102,7 +102,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
   void _toggleUser() {
     ref.read(authScreenSizeProvider.notifier).changeScreen(
-        _isLogin ? AuthScreenType.userSignup : AuthScreenType.userLogin);
+          _isLogin ? AuthScreenType.userSignup : AuthScreenType.userLogin,
+        );
     setState(() {
       _isLogin = !_isLogin;
       _isPasswordHidden = true;

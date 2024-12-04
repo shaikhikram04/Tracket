@@ -170,6 +170,16 @@ class FirebaseAuthMethods {
           role: 'user',
         );
       } else {
+        final userSnap = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: email)
+            .limit(1)
+            .get();
+
+        if (userSnap.docs.first['role'] == 'player') {
+          throw FirebaseAuthException(code: 'email-used-by-player');
+        }
+
         if (context.mounted) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -190,6 +200,11 @@ class FirebaseAuthMethods {
       } else if (error.code == 'invalid-credential') {
         showSnackBar('Wrong email or password', context);
         rethrow;
+      } else if (error.code == 'email-used-by-player') {
+        showSnackBar(
+          'This email is used as a player. Please login as a player!',
+          context,
+        );
       }
     } catch (error) {
       rethrow;
