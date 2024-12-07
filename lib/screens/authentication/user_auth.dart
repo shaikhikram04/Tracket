@@ -146,14 +146,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
               textController: _emailController,
-              isEmail: true,
               label: 'Email',
             ),
             const SizedBox(height: 30),
             MyTextField(
               textController: _passwordController,
               label: 'Password',
-              isPassword: true,
               isPasswordHidden: _isPasswordHidden,
               onPressed: () {
                 setState(() {

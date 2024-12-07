@@ -4,22 +4,21 @@ class MyTextField extends StatelessWidget {
   const MyTextField({
     super.key,
     required this.textController,
-    this.isEmail = false,
-    this.isPassword = false,
     this.isPasswordHidden = false,
     required this.label,
     this.onPressed,
   });
 
   final TextEditingController textController;
-  final bool isEmail;
-  final bool isPassword;
   final bool isPasswordHidden;
   final String label;
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final isEmail = label == "Email";
+    final isPassword = label == 'Password';
+    
     String? emailValidator(String? value) {
       if (value == null || value.isEmpty) {
         return 'Email cannot be empty';

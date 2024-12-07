@@ -5,6 +5,7 @@ import 'package:tracket/models/player.dart';
 import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/screens/authentication/forget_password.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_text_field.dart';
@@ -197,14 +198,18 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     }
   }
 
-  void _onForgetPassword() {}
+  void _onForgetPassword() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const ForgetPassword(),
+    ));
+  }
 
   @override
   void dispose() {
     _playerNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _formKey.currentState!.dispose();
+    // _formKey.currentState.dispose();
     super.dispose();
   }
 
@@ -262,14 +267,12 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
               textController: _emailController,
-              isEmail: true,
               label: 'Email',
             ),
             const SizedBox(height: 30),
             MyTextField(
               textController: _passwordController,
               label: 'Password',
-              isPassword: true,
               isPasswordHidden: _isPasswordHidden,
               onPressed: () {
                 setState(() {
@@ -301,7 +304,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   textButton(
                     'Forget password?',
                     true,
-                    () {},
+                    _onForgetPassword,
                   ),
                 const Spacer(),
                 textButton(
