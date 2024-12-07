@@ -7,6 +7,7 @@ import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class UserAuth extends ConsumerStatefulWidget {
@@ -179,34 +180,20 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             Row(
               children: [
                 if (_isLogin)
-                  textButton(
-                    'Forget password?',
-                    true,
-                    () {},
+                  MyTextButton(
+                    text: 'Forget password?',
+                    onPressed: () {},
+                    isUnderlined: true,
                   ),
                 const Spacer(),
-                textButton(
-                  _isLogin ? 'Sign Up?' : 'Login?',
-                  false,
-                  _toggleUser,
+                MyTextButton(
+                  text: _isLogin ? 'Sign Up?' : 'Login?',
+                  onPressed: _toggleUser,
                 ),
               ],
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget textButton(String text, bool isUnderlined, void Function() onPressed) {
-    return TextButton(
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              decoration: isUnderlined ? TextDecoration.underline : null,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
-            ),
       ),
     );
   }

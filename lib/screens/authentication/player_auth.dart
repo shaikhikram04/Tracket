@@ -8,6 +8,7 @@ import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/authentication/forget_password.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
+import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class PlayerAuth extends ConsumerStatefulWidget {
@@ -301,34 +302,20 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             Row(
               children: [
                 if (_isLogin)
-                  textButton(
-                    'Forget password?',
-                    true,
-                    _onForgetPassword,
+                  MyTextButton(
+                    text: 'Forget password?',
+                    onPressed: _onForgetPassword,
+                    isUnderlined: true,
                   ),
                 const Spacer(),
-                textButton(
-                  _isLogin ? 'Sign Up?' : 'Login?',
-                  false,
-                  _togglePlayerAuth,
+                MyTextButton(
+                  text: _isLogin ? 'Sign Up?' : 'Login?',
+                  onPressed: _togglePlayerAuth,
                 ),
               ],
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget textButton(String text, bool isUnderlined, void Function() onPressed) {
-    return TextButton(
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              decoration: isUnderlined ? TextDecoration.underline : null,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
-            ),
       ),
     );
   }
