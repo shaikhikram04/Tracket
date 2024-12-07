@@ -19,7 +19,7 @@ class MyTextButton extends StatelessWidget {
         text,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               decoration: isUnderlined ? TextDecoration.underline : null,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              color: Colors.black,
             ),
       ),
     );
