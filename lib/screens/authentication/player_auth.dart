@@ -197,6 +197,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     }
   }
 
+  void _onForgetPassword() {}
+
   @override
   void dispose() {
     _playerNameController.dispose();
@@ -222,7 +224,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
-        options: BowlingStyle.values,
+        options:
+            _isBowler ? BowlingStyle.values.sublist(1) : BowlingStyle.values,
         label: 'Select Bowling Style',
         onSelect: onSelectBowlingStyle,
       ),

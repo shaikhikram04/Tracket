@@ -213,6 +213,7 @@ class FirebaseAuthMethods {
         showSnackBar('Wrong email or password', context);
         rethrow;
       } else if (error.code == 'email-used-by-player') {
+        _auth.currentUser!.delete();
         showSnackBar(
           'This email is used as a player. Please login as a player!',
           context,
@@ -308,6 +309,7 @@ class FirebaseAuthMethods {
       } else if (error.code == 'invalid-credential') {
         showSnackBar('Wrong email or password', context);
       } else if (error.code == 'email-used-by-user') {
+        _auth.signOut();
         showSnackBar(
           'This email is used as a user. Please login as a player!',
           context,
@@ -315,6 +317,19 @@ class FirebaseAuthMethods {
       }
     } catch (error) {
       rethrow;
+    }
+  }
+
+  static Future<void> resetPassword(BuildContext context, String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      if (!context.mounted) return;
+      showSnackBar(
+        'Password reset email has been send to $email. Please check your inbox.',
+        context,
+      );
+    } catch (error) {
+      return;
     }
   }
 
