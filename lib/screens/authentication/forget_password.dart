@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
@@ -11,15 +13,35 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   late TextEditingController _emailController;
+  late GlobalKey<FormState> _formKey;
+  late bool _isResetEmailSend;
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
+    _formKey = GlobalKey<FormState>();
+    _isResetEmailSend = false;
+  }
+
+  Future<void> _sendResetEmail() async {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text.trim();
+      final result = await FirebaseAuthMethods.resetPassword(email);
+      if (result == 'success') {
+        setState(() {
+          _isResetEmailSend = true;
+        });
+      } else {
+        if (!mounted) return;
+        showSnackBar('Some error occur. Please try again!', context);
+      }
+    }
   }
 
   @override
   void dispose() {
     _emailController.dispose();
+    _formKey.currentState?.dispose();
     super.dispose();
   }
 
@@ -30,6 +52,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       body: SafeArea(
         child: Center(
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 20),
@@ -63,13 +86,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         MyTextField(
                           textController: _emailController,
                           label: 'Email',
+                          borderRadius: 15,
                         ),
                         const SizedBox(height: 15),
                         Align(
                           alignment: Alignment.centerRight,
                           child: MyTextButton(
                             text: 'Send reset email',
-                            onPressed: () {},
+                            onPressed: _sendResetEmail,
                           ),
                         )
                       ],

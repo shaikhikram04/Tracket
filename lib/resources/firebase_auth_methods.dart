@@ -320,17 +320,16 @@ class FirebaseAuthMethods {
     }
   }
 
-  static Future<void> resetPassword(BuildContext context, String email) async {
+  static Future<String> resetPassword(String email) async {
+    String result;
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      if (!context.mounted) return;
-      showSnackBar(
-        'Password reset email has been send to $email. Please check your inbox.',
-        context,
-      );
+      result = 'success';
     } catch (error) {
-      return;
+      result = error.toString();
     }
+
+    return result;
   }
 
   static Future<String> logoutUser() async {

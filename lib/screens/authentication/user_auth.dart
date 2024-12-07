@@ -154,7 +154,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               textController: _passwordController,
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
-              onPressed: () {
+              changeVisibility: () {
                 setState(() {
                   _isPasswordHidden = !_isPasswordHidden;
                 });

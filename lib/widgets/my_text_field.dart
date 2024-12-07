@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/colors.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
     super.key,
     required this.textController,
-    this.isPasswordHidden = false,
     required this.label,
-    this.onPressed,
+    this.changeVisibility,
+    this.isPasswordHidden = false,
+    this.borderRadius = 5,
   });
 
   final TextEditingController textController;
   final bool isPasswordHidden;
   final String label;
-  final void Function()? onPressed;
+  final void Function()? changeVisibility;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
     final isEmail = label == "Email";
     final isPassword = label == 'Password';
-    
+
     String? emailValidator(String? value) {
       if (value == null || value.isEmpty) {
         return 'Email cannot be empty';
@@ -64,7 +67,7 @@ class MyTextField extends StatelessWidget {
       decoration: InputDecoration(
         suffixIcon: isPassword
             ? IconButton(
-                onPressed: onPressed,
+                onPressed: changeVisibility,
                 icon: Icon(
                   isPasswordHidden ? Icons.visibility : Icons.visibility_off,
                 ),
@@ -73,7 +76,8 @@ class MyTextField extends StatelessWidget {
         labelText: label,
         errorMaxLines: 2,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: const BorderSide(color: blackColor),
         ),
       ),
       validator: isEmail
