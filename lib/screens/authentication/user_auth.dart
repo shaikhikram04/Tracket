@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/screens/authentication/forget_password.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
@@ -111,6 +112,11 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       _formKey.currentState!.reset();
     });
   }
+  void _onForgetPassword() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const ForgetPassword(),
+    ));
+  }
 
   @override
   void dispose() {
@@ -182,7 +188,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 if (_isLogin)
                   MyTextButton(
                     text: 'Forget password?',
-                    onPressed: () {},
+                    onPressed: _onForgetPassword,
                     isUnderlined: true,
                   ),
                 const Spacer(),

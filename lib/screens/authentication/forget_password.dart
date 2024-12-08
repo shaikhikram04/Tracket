@@ -7,10 +7,8 @@ import 'package:tracket/widgets/my_text_field.dart';
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
     super.key,
-    required this.isPlayer,
   });
 
-  final bool isPlayer;
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -31,7 +29,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Future<void> _sendResetEmail() async {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
-      
+
       final result = await FirebaseAuthMethods.resetPassword(email);
       if (result == 'success') {
         setState(() {
