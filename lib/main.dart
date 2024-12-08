@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/screens/authentication/forget_password.dart';
+import 'package:tracket/screens/authentication/auth_screen.dart';
+import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
@@ -101,10 +102,9 @@ class Tracket extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: const ForgetPassword(),
-      // home: currUser == null || !currUser.emailVerified
-      //     ? const AuthScreen()
-      //     : const HomeScreen(),
+      home: currUser == null || !currUser.emailVerified
+          ? const AuthScreen()
+          : const HomeScreen(),
     );
   }
 }

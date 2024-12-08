@@ -5,7 +5,12 @@ import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({super.key});
+  const ForgetPassword({
+    super.key,
+    required this.isPlayer,
+  });
+
+  final bool isPlayer;
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -26,6 +31,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Future<void> _sendResetEmail() async {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
+      
       final result = await FirebaseAuthMethods.resetPassword(email);
       if (result == 'success') {
         setState(() {
@@ -38,6 +44,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     }
   }
 
+  void _onEditEmail() {
+    setState(() {
+      _isResetEmailSend = false;
+    });
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -48,6 +60,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final message = _isResetEmailSend
+        ? 'Reset email link has been send to ${_emailController.text.trim()}. Check your inbox!'
+        : 'Enter the register email. We will send the reset email on provided email.';
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -75,7 +90,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     child: Column(
                       children: [
                         Text(
-                          'Enter the register email. We will send the reset email on provided email.',
+                          message,
                           textAlign: TextAlign.left,
                           style: Theme.of(context)
                               .textTheme
@@ -83,18 +98,28 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               .copyWith(color: Colors.black),
                         ),
                         const SizedBox(height: 20),
-                        MyTextField(
-                          textController: _emailController,
-                          label: 'Email',
-                          borderRadius: 15,
-                        ),
-                        const SizedBox(height: 15),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: MyTextButton(
-                            text: 'Send reset email',
-                            onPressed: _sendResetEmail,
+                        if (!_isResetEmailSend)
+                          MyTextField(
+                            textController: _emailController,
+                            label: 'Email',
+                            borderRadius: 15,
                           ),
+                        const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            if (_isResetEmailSend)
+                              MyTextButton(
+                                text: 'Edit email',
+                                onPressed: _onEditEmail,
+                              ),
+                            const Spacer(),
+                            MyTextButton(
+                              text: _isResetEmailSend
+                                  ? 'Resend'
+                                  : 'Send reset email',
+                              onPressed: _sendResetEmail,
+                            ),
+                          ],
                         )
                       ],
                     ),
@@ -106,7 +131,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     const Icon(Icons.arrow_back),
                     MyTextButton(
                       text: 'Back to login',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 ),

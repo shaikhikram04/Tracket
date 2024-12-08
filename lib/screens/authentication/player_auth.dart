@@ -201,7 +201,9 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   void _onForgetPassword() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ForgetPassword(),
+      builder: (context) => const ForgetPassword(
+        isPlayer: true,
+      ),
     ));
   }
 
