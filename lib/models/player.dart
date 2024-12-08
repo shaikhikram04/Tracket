@@ -32,8 +32,7 @@ class BowlingFigure {
 }
 
 class Player {
-  Player(
-     {
+  Player({
     required this.role,
     required this.id,
     required this.playerName,
@@ -58,8 +57,8 @@ class Player {
   final PlayerStats playerStats;
   final String? profileImageUrl;
   BowlingFigure bestBalling = BowlingFigure(0, 0);
-  Position? bowlingArm;
-  BowlingStyle bowlingStyle;
+  final Position? bowlingArm;
+  final BowlingStyle bowlingStyle;
   final Timestamp createdAt;
 
   double get battingAverage {
@@ -75,7 +74,7 @@ class Player {
         'email': email,
         'playerName': playerName,
         'role': role,
-        'profileImageUrl':profileImageUrl,
+        'profileImageUrl': profileImageUrl,
         'cricketRole': cricketRole.name,
         'battingPosition': battingPosition.name,
         'totalTimesOut': totalTimesOut,

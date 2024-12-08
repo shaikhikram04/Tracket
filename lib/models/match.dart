@@ -12,16 +12,25 @@ enum ReasonOfOut {
 }
 
 class BattingScore {
-  BattingScore(this.uuid, this.name);
+  BattingScore({
+    required this.uuid,
+    required this.name,
+    this.reasonOfOut,
+    this.ballFaced = 0,
+    this.fours = 0,
+    this.isOut = false,
+    this.runs = 0,
+    this.sixs = 0,
+  });
 
-  String uuid;
-  String name;
-  int runs = 0;
-  int ballFaced = 0;
-  int sixs = 0;
-  int fours = 0;
-  bool isOut = false;
-  ReasonOfOut? reasonOfOut;
+  final String uuid;
+  final String name;
+  final int runs;
+  final int ballFaced;
+  final int sixs;
+  final int fours;
+  final bool isOut;
+  final ReasonOfOut? reasonOfOut;
 
   double get strikeRate {
     if (ballFaced == 0) {
@@ -31,21 +40,28 @@ class BattingScore {
     return (runs / ballFaced) * 100;
   }
 
-  void getOut(ReasonOfOut outReason) {
-    isOut = true;
-    reasonOfOut = outReason;
-  }
+  // void getOut(ReasonOfOut outReason) {
+  //   isOut = true;
+  //   reasonOfOut = outReason;
+  // }
 }
 
 class BowlingScore {
-  BowlingScore(this.uuid, this.name);
+  BowlingScore({
+    required this.uuid,
+    required this.name,
+    this.ball = 0,
+    this.maidenOver = 0,
+    this.runGiven = 0,
+    this.wicket = 0,
+  });
 
-  String uuid;
-  String name;
-  int ball = 0;
-  int runGiven = 0;
-  int wicket = 0;
-  int maidenOver = 0;
+  final String uuid;
+  final String name;
+  final int ball;
+  final int runGiven;
+  final int wicket;
+  final int maidenOver;
 
   double get economy {
     if (ball == 0) {
@@ -62,29 +78,29 @@ class Inning {
     required this.bowlingTeam,
   })  : battingStats = [
           for (final player in battingTeam.playerList)
-            BattingScore(player.id, player.playerName),
+            BattingScore(uuid: player.id, name: player.playerName),
         ],
         bowlingStats = [
           for (final player in bowlingTeam.playerList)
-            BowlingScore(player.id, player.playerName),
+            BowlingScore(name: player.playerName, uuid: player.id),
         ];
 
   final Team battingTeam;
   final Team bowlingTeam;
   final List<BattingScore> battingStats;
   final List<BowlingScore> bowlingStats;
-  int runs = 0;
-  double over = 0.0;
-  int wickets = 0;
-  int balls = 0;
-  int wides = 0;
-  int noBalls = 0;
-  int legByes = 0;
-  int byes = 0;
-  int fours = 0;
-  int sixs = 0;
-  bool declared = false;
-  bool allOut = false;
+  final int runs = 0;
+  final double over = 0.0;
+  final int wickets = 0;
+  final int balls = 0;
+  final int wides = 0;
+  final int noBalls = 0;
+  final int legByes = 0;
+  final int byes = 0;
+  final int fours = 0;
+  final int sixs = 0;
+  final bool declared = false;
+  final bool allOut = false;
 
   double get runRate {
     if (over == 0) {
@@ -98,9 +114,9 @@ class Inning {
     return wides + noBalls + legByes + byes;
   }
 
-  void declareInning() {
-    declared = true;
-  }
+  // void declareInning() {
+  //   declared = true;
+  // }
 }
 
 enum TossDecision {

@@ -32,19 +32,19 @@ class PlayerStats {
   final String? userId;
 
   //* Batting stats
-  int totalRuns;
-  int ballsFaced;
-  int highestScore;
-  int hundreds;
-  int fifties;
-  int four;
-  int six;
+  final int totalRuns;
+  final int ballsFaced;
+  final int highestScore;
+  final int hundreds;
+  final int fifties;
+  final int four;
+  final int six;
 
   //* Bowling stats
-  int wicket;
-  int runGiven;
-  int ballDelivered;
-  int maiden;
+  final int wicket;
+  final int runGiven;
+  final int ballDelivered;
+  final int maiden;
 
   double get strikeRate {
     if (ballsFaced == 0) {
