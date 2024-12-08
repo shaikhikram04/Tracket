@@ -4,6 +4,7 @@ class User {
   User({
     required this.userId,
     required this.email,
+    required this.profileImageUrl,
     required this.username,
     required this.role,
     required this.createdAt,
@@ -13,6 +14,8 @@ class User {
   final String email;
   final String username;
   final String role;
+  final String? profileImageUrl;
+
   final Timestamp createdAt;
 
   Map<String, dynamic> get toJson => {
@@ -20,6 +23,7 @@ class User {
         'email': email,
         'username': username,
         'role': role,
+        'profileImageUrl':profileImageUrl,
         'createdAt': createdAt,
       };
 }

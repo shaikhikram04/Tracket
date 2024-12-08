@@ -149,6 +149,7 @@ class FirebaseAuthMethods {
         role: 'user',
         createdAt: Timestamp.now(),
         userId: userId,
+        profileImageUrl: null,
       );
 
       await _firestore.collection('users').doc(userId).set(user.toJson);
@@ -246,6 +247,7 @@ class FirebaseAuthMethods {
         createdAt: Timestamp.now(),
         id: playerId,
         role: 'player',
+        profileImageUrl: null,
       );
       await _firestore.collection('users').doc(playerId).set(player.toJson);
 

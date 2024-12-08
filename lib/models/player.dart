@@ -32,11 +32,13 @@ class BowlingFigure {
 }
 
 class Player {
-  Player({
+  Player(
+     {
     required this.role,
     required this.id,
     required this.playerName,
     required this.email,
+    required this.profileImageUrl,
     required this.cricketRole,
     required this.battingPosition,
     required this.bowlingArm,
@@ -54,6 +56,7 @@ class Player {
   final Position battingPosition;
   final int totalTimesOut;
   final PlayerStats playerStats;
+  final String? profileImageUrl;
   BowlingFigure bestBalling = BowlingFigure(0, 0);
   Position? bowlingArm;
   BowlingStyle bowlingStyle;
@@ -72,6 +75,7 @@ class Player {
         'email': email,
         'playerName': playerName,
         'role': role,
+        'profileImageUrl':profileImageUrl,
         'cricketRole': cricketRole.name,
         'battingPosition': battingPosition.name,
         'totalTimesOut': totalTimesOut,
