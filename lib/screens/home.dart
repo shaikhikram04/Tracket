@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/screens/create_team_screen.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
@@ -18,6 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _onCreate() {
+    if (_selectedIndex == 1) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const CreateTeamScreen(),
+      ));
+    }
   }
 
   @override
@@ -43,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         iconSize: 50,
         color: Theme.of(context).colorScheme.primary,
         icon: const Icon(Icons.add_circle_sharp),
-        onPressed: () {},
+        onPressed: _onCreate,
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
