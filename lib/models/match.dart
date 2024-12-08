@@ -14,7 +14,6 @@ enum ReasonOfOut {
 class BattingScore {
   BattingScore({
     required this.uuid,
-    required this.name,
     this.reasonOfOut,
     this.ballFaced = 0,
     this.fours = 0,
@@ -24,7 +23,6 @@ class BattingScore {
   });
 
   final String uuid;
-  final String name;
   final int runs;
   final int ballFaced;
   final int sixs;
@@ -49,7 +47,6 @@ class BattingScore {
 class BowlingScore {
   BowlingScore({
     required this.uuid,
-    required this.name,
     this.ball = 0,
     this.maidenOver = 0,
     this.runGiven = 0,
@@ -57,7 +54,6 @@ class BowlingScore {
   });
 
   final String uuid;
-  final String name;
   final int ball;
   final int runGiven;
   final int wicket;
@@ -77,12 +73,12 @@ class Inning {
     required this.battingTeam,
     required this.bowlingTeam,
   })  : battingStats = [
-          for (final player in battingTeam.playerList)
-            BattingScore(uuid: player.id, name: player.playerName),
+          for (final playerId in battingTeam.playerIdList)
+            BattingScore(uuid: playerId),
         ],
         bowlingStats = [
-          for (final player in bowlingTeam.playerList)
-            BowlingScore(name: player.playerName, uuid: player.id),
+          for (final playerId in bowlingTeam.playerIdList)
+            BowlingScore(uuid: playerId),
         ];
 
   final Team battingTeam;
