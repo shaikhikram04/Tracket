@@ -112,6 +112,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       _formKey.currentState!.reset();
     });
   }
+
   void _onForgetPassword() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const ForgetPassword(),

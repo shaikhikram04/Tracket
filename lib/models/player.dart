@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/models/player_stats.dart';
-import 'package:uuid/uuid.dart';
 
 enum CricketRole {
   batsman,
@@ -31,8 +30,6 @@ class BowlingFigure {
     this.ballDelivered,
   );
 }
-
-const uuid = Uuid();
 
 class Player {
   Player({

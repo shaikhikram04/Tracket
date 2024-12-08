@@ -75,13 +75,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                           tabs: const [
                             Tab(
                               child: Text(
-                                'User',
+                                'Player',
                                 style: TextStyle(fontSize: 21),
                               ),
                             ),
                             Tab(
                               child: Text(
-                                'Player',
+                                'User',
                                 style: TextStyle(fontSize: 21),
                               ),
                             ),
@@ -108,8 +108,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                             physics: const NeverScrollableScrollPhysics(),
                             controller: _tabController,
                             children: const [
-                              UserAuth(),
                               PlayerAuth(),
+                              UserAuth(),
                             ],
                           ),
                         ),
