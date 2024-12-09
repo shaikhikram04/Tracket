@@ -4,14 +4,14 @@ import 'package:tracket/utils/colors.dart';
 class MyTextField extends StatelessWidget {
   const MyTextField({
     super.key,
-    required this.textController,
+    required this.onSave,
     required this.label,
     this.changeVisibility,
     this.isPasswordHidden = false,
     this.borderRadius = 5,
   });
 
-  final TextEditingController textController;
+  final void Function(String? value) onSave;
   final bool isPasswordHidden;
   final String label;
   final void Function()? changeVisibility;
@@ -58,7 +58,6 @@ class MyTextField extends StatelessWidget {
     }
 
     return TextFormField(
-      controller: textController,
       obscureText: isPasswordHidden,
       obscuringCharacter: '*',
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
@@ -80,6 +79,7 @@ class MyTextField extends StatelessWidget {
           borderSide: const BorderSide(color: blackColor),
         ),
       ),
+      onSaved: onSave,
       validator: isEmail
           ? emailValidator
           : isPassword

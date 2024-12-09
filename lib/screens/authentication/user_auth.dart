@@ -22,12 +22,16 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   var _isLogin = true;
   var _isPasswordHidden = true;
 
-  final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late GlobalKey<FormState> _formKey;
+  String? _username;
+  String? _email;
+  String? _password;
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormState>();
+    super.initState();
+  }
 
   Future<void> _userSignup() async {
     if (!_formKey.currentState!.validate()) {
@@ -35,9 +39,11 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       return;
     }
 
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    String username = _usernameController.text.trim();
+    _formKey.currentState!.save();
+
+    String email = _email!.trim();
+    String password = _password!.trim();
+    String username = _username!.trim();
 
     showVerificationDialog(context, email);
     try {
@@ -87,8 +93,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       return;
     }
 
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    final email = _email!.trim();
+    final password = _password!.trim();
 
     try {
       await FirebaseAuthMethods.loginUser(
@@ -121,9 +127,6 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
@@ -148,17 +151,17 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
-                textController: _usernameController,
+                onSave: (value) => _username = value,
                 label: 'Username',
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
-              textController: _emailController,
+                onSave: (value) => _email = value,
               label: 'Email',
             ),
             const SizedBox(height: 30),
             MyTextField(
-              textController: _passwordController,
+                onSave: (value) => _password = value,
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
               changeVisibility: () {

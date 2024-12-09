@@ -19,10 +19,10 @@ class PlayerAuth extends ConsumerStatefulWidget {
 }
 
 class _PlayerAuthState extends ConsumerState<PlayerAuth> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _playerNameController;
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
+  late GlobalKey<FormState> _formKey;
+  String? _playerName;
+  String? _email;
+  String? _password;
   bool _isPasswordHidden = true;
   bool _isLogin = true;
   bool _isBowler = false;
@@ -34,9 +34,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   @override
   void initState() {
     super.initState();
-    _playerNameController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _formKey = GlobalKey<FormState>();
   }
 
   void onSelectRole(String? role) {
@@ -128,9 +126,11 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       return;
     }
 
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    String playerName = _playerNameController.text.trim();
+    _formKey.currentState!.save();
+
+    String email = _email!.trim();
+    String password = _password!.trim();
+    String playerName = _playerName!.trim();
 
     showVerificationDialog(context, email);
     try {
@@ -180,12 +180,14 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   Future<void> _playerLogin() async {
     if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(35);
+      ref.read(authScreenSizeProvider.notifier).incrementSize(60);
       return;
     }
+    
+    _formKey.currentState!.save();
 
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    final email = _email!.trim();
+    final password = _password!.trim();
 
     try {
       await FirebaseAuthMethods.loginPlayer(
@@ -207,10 +209,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   @override
   void dispose() {
-    _playerNameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    // _formKey.currentState.dispose();
+    _formKey.currentState!.dispose();
     super.dispose();
   }
 
@@ -262,17 +261,17 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
-                textController: _playerNameController,
+                onSave: (value) => _playerName = value,
                 label: 'Player Name',
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
-              textController: _emailController,
+              onSave: (value) => _email = value,
               label: 'Email',
             ),
             const SizedBox(height: 30),
             MyTextField(
-              textController: _passwordController,
+              onSave: (value) => _password = value,
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
               changeVisibility: () {

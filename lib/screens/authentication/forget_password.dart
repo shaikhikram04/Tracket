@@ -15,22 +15,21 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  late TextEditingController _emailController;
+  String? _email;
   late GlobalKey<FormState> _formKey;
   late bool _isResetEmailSend;
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
     _formKey = GlobalKey<FormState>();
     _isResetEmailSend = false;
   }
 
   Future<void> _sendResetEmail() async {
     if (_formKey.currentState!.validate()) {
-      final email = _emailController.text.trim();
+      _formKey.currentState!.save();
 
-      final result = await FirebaseAuthMethods.resetPassword(email);
+      final result = await FirebaseAuthMethods.resetPassword(_email!);
       if (result == 'success') {
         setState(() {
           _isResetEmailSend = true;
@@ -50,7 +49,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   void dispose() {
-    _emailController.dispose();
     _formKey.currentState?.dispose();
     super.dispose();
   }
@@ -59,7 +57,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final message = _isResetEmailSend
-        ? 'Reset email link has been send to ${_emailController.text.trim()}. Check your inbox!'
+        ? 'Reset email link has been send to ${_email!.trim()}. Check your inbox!'
         : 'Enter the register email. We will send the reset email on provided email.';
     return Scaffold(
       body: SafeArea(
@@ -98,7 +96,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         const SizedBox(height: 20),
                         if (!_isResetEmailSend)
                           MyTextField(
-                            textController: _emailController,
+                            onSave: (value) => _email = value,
                             label: 'Email',
                             borderRadius: 15,
                           ),

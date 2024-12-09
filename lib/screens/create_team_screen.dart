@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
@@ -15,16 +17,23 @@ class CreateTeamScreen extends StatefulWidget {
 
 class _CreateTeamScreenState extends State<CreateTeamScreen> {
   late GlobalKey<FormState> _formKey;
-  late TextEditingController _teamNameController;
-  late TextEditingController _teamSNController;
+  String? _teamName;
+  String? _teamShortName;
   Uint8List? _image;
 
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _teamNameController = TextEditingController();
-    _teamSNController = TextEditingController();
+  }
+
+  Future<void> _editLogo() async {
+    final pickedImage = await pickImage(ImageSource.gallery);
+    if (pickedImage == null) return;
+
+    setState(() {
+      _image = pickedImage;
+    });
   }
 
   @override
@@ -41,12 +50,14 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 70,
-                    backgroundImage: AssetImage('assets/images/team_logo.png'),
+                    backgroundImage: _image == null
+                        ? const AssetImage('assets/images/team_logo.png')
+                        : MemoryImage(_image!),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: _editLogo,
                     label: const Text(
                       'Edit team logo',
                       style: TextStyle(color: blackColor),
@@ -62,12 +73,12 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                       child: Column(
                         children: [
                           MyTextField(
-                            textController: _teamNameController,
+                            onSave: (value) => _teamName = value,
                             label: 'Team Name',
                           ),
                           const SizedBox(height: 20),
                           MyTextField(
-                            textController: _teamSNController,
+                            onSave: (value) => _teamShortName = value,
                             label: 'Team Short Name',
                           ),
                           const SizedBox(height: 15),
