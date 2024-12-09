@@ -35,8 +35,11 @@ dependencies:
   firebase_core: ^3.8.0
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.2.1
   flutter_riverpod: ^2.6.1
   google_fonts: ^6.2.1
+  http: ^1.2.2
+  image_picker: ^1.1.2
   uuid: ^4.4.2
 
 dev_dependencies:
@@ -58,6 +61,7 @@ flutter:
     - assets/images/Tracket_logo.png
     - assets/images/Default_user_pfp.jpg
     - assets/images/team_logo.png
+    - .env
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

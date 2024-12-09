@@ -40,6 +40,9 @@ windows/
 analysis_options.yaml
 *.lock
 firebase.json
+
+# secrets
+.env
 lib/firebase_options.dart
 
 # Symbolication related

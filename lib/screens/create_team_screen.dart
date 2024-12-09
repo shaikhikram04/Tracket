@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
@@ -15,6 +17,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   late GlobalKey<FormState> _formKey;
   late TextEditingController _teamNameController;
   late TextEditingController _teamSNController;
+  Uint8List? _image;
 
   @override
   void initState() {
