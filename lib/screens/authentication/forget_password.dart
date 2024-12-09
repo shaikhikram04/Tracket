@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
@@ -8,7 +9,6 @@ class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
     super.key,
   });
-
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -121,18 +121,22 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.arrow_back),
-                    MyTextButton(
-                      text: 'Back to login',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: blackColor,
+                  ),
+                  label: Text(
+                    'Back to login',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  icon: const Icon(Icons.arrow_back),
+                )
               ],
             ),
           ),
