@@ -18,18 +18,27 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   String? _email;
   late GlobalKey<FormState> _formKey;
   late bool _isResetEmailSend;
+  late bool _isSendingEmail;
+
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
     _isResetEmailSend = false;
+    _isSendingEmail = false;
   }
 
   Future<void> _sendResetEmail() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
+      setState(() {
+        _isSendingEmail = true;
+      });
       final result = await FirebaseAuthMethods.resetPassword(_email!);
+      setState(() {
+        _isSendingEmail = false;
+      });
       if (result == 'success') {
         setState(() {
           _isResetEmailSend = true;
@@ -57,7 +66,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final message = _isResetEmailSend
-        ? 'Reset email link has been send to ${_email!.trim()}. Check your inbox!'
+        ? 'Reset email link has been send to ${_email!.trim()}. Check your inbox if you registered!'
         : 'Enter the register email. We will send the reset email on provided email.';
     return Scaffold(
       body: SafeArea(
@@ -109,6 +118,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                 onPressed: _onEditEmail,
                               ),
                             const Spacer(),
+                            if (_isSendingEmail)
+                              const SizedBox.square(
+                                dimension: 20,
+                                child: CircularProgressIndicator(),
+                              ),
                             MyTextButton(
                               text: _isResetEmailSend
                                   ? 'Resend'

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class VerificationScreen extends ConsumerWidget {
   const VerificationScreen(this.email, {super.key});
@@ -34,50 +35,61 @@ class VerificationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     int currentStep = ref.watch(verificationStepProvider);
     final double width = MediaQuery.of(context).size.width;
-    return Dialog(
-      backgroundColor: Colors.white,
-      child: SizedBox(
-        width: width * 0.95,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 5),
-              Text(
-                'Email verification',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _buildProgressStep(
-                    step: 1,
-                    currentStep: currentStep,
-                    label: 'Send Email',
-                  ),
-                  _buildProgressLine(isActive: currentStep > 1),
-                  _buildProgressStep(
-                    step: 2,
-                    currentStep: currentStep,
-                    label: 'Verified',
-                  ),
-                  _buildProgressLine(isActive: currentStep > 2),
-                  _buildProgressStep(
-                    step: 3,
-                    currentStep: currentStep,
-                    label: 'Login',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Text(
-                getMessage(currentStep),
-                style: Theme.of(context).textTheme.bodyLarge,
-              )
-            ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        showSnackBar(
+          'Please wait until verification done, otherwise verification failed!',
+          context,
+        );
+      },
+      child: Dialog(
+        backgroundColor: Colors.white,
+        child: SizedBox(
+          width: width * 0.95,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 5),
+                Text(
+                  'Email verification',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _buildProgressStep(
+                      step: 1,
+                      currentStep: currentStep,
+                      label: 'Send Email',
+                    ),
+                    _buildProgressLine(isActive: currentStep > 1),
+                    _buildProgressStep(
+                      step: 2,
+                      currentStep: currentStep,
+                      label: 'Verified',
+                    ),
+                    _buildProgressLine(isActive: currentStep > 2),
+                    _buildProgressStep(
+                      step: 3,
+                      currentStep: currentStep,
+                      label: 'Login',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  getMessage(currentStep),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                )
+              ],
+            ),
           ),
         ),
       ),
