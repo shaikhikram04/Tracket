@@ -1,3 +1,1 @@
-class UploadthingStorage {
-  
-}
+class UploadthingStorage {}
