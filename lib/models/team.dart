@@ -8,7 +8,7 @@ class Team {
     required this.name,
     required this.shortName,
     required this.logoUrl,
-    required this.playerIdList,
+    required this.playerList,
     required this.captain,
     required this.wicketKeeper,
     this.losses = 0,
@@ -23,7 +23,7 @@ class Team {
   final String shortName;
   final String logoUrl;
   final int rank;
-  final List<String> playerIdList;
+  final List<Map> playerList;
   final Player captain;
   final Player wicketKeeper;
   final int matchesPlayed;
