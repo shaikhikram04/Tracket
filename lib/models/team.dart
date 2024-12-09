@@ -1,4 +1,3 @@
-import 'package:tracket/models/player.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -9,8 +8,8 @@ class Team {
     required this.shortName,
     required this.logoUrl,
     required this.playerList,
-    required this.captain,
-    required this.wicketKeeper,
+    required this.captainId,
+    required this.wicketKeeperId,
     this.losses = 0,
     this.matchesPlayed = 0,
     this.tieCount = 0,
@@ -24,8 +23,8 @@ class Team {
   final String logoUrl;
   final int rank;
   final List<Map> playerList;
-  final Player captain;
-  final Player wicketKeeper;
+  final String captainId;
+  final String wicketKeeperId;
   final int matchesPlayed;
   final int wins;
   final int losses;
