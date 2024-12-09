@@ -10,6 +10,7 @@ class Team {
     required this.playerList,
     required this.captainId,
     required this.wicketKeeperId,
+    required this.createdBy,
     this.losses = 0,
     this.matchesPlayed = 0,
     this.tieCount = 0,
@@ -20,6 +21,7 @@ class Team {
   final String id;
   final String name;
   final String shortName;
+  final String createdBy;
   final String logoUrl;
   final int rank;
   final List<Map> playerList;
