@@ -26,6 +26,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   String? _username;
   String? _email;
   String? _password;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -97,12 +98,18 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     final password = _password!.trim();
 
     try {
+      setState(() {
+        _isLoading = true;
+      });
       await FirebaseAuthMethods.loginUser(
         email: email,
         password: password,
         context: context,
         ref: ref,
       );
+      setState(() {
+        _isLoading = false;
+      });
     } catch (e) {
       return;
     }
@@ -156,12 +163,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
-                onSave: (value) => _email = value,
+              onSave: (value) => _email = value,
               label: 'Email',
             ),
             const SizedBox(height: 30),
             MyTextField(
-                onSave: (value) => _password = value,
+              onSave: (value) => _password = value,
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
               changeVisibility: () {

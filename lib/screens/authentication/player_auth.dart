@@ -6,6 +6,7 @@ import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/authentication/forget_password.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_text_button.dart';
@@ -30,6 +31,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   Position? _battingPosition;
   BowlingStyle? _bowlingStyle;
   Position? _bowlingArm;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -183,19 +185,25 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       ref.read(authScreenSizeProvider.notifier).incrementSize(60);
       return;
     }
-    
+
     _formKey.currentState!.save();
 
     final email = _email!.trim();
     final password = _password!.trim();
 
     try {
+      setState(() {
+        _isLoading = true;
+      });
       await FirebaseAuthMethods.loginPlayer(
         email: email,
         password: password,
         context: context,
         ref: ref,
       );
+      setState(() {
+        _isLoading = false;
+      });
     } catch (e) {
       return;
     }
@@ -288,13 +296,17 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               child: ElevatedButton(
                 onPressed: _isLogin ? _playerLogin : _playerSignup,
                 style: Theme.of(context).elevatedButtonTheme.style,
-                child: Text(
-                  _isLogin ? 'Login' : 'Sign Up',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                child: _isLoading
+                    ? const CircularProgressIndicator(
+                        color: blackColor,
+                      )
+                    : Text(
+                        _isLogin ? 'Login' : 'Sign Up',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
                       ),
-                ),
               ),
             ),
             const SizedBox(height: 30),
