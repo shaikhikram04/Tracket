@@ -1,9 +1,6 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/resources/image_kit_upload_service.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_button.dart';
@@ -20,7 +17,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   late GlobalKey<FormState> _formKey;
   String? _teamName;
   String? _teamShortName;
-  File? _image;
+  Uint8List? _image;
 
   @override
   void initState() {
@@ -38,30 +35,19 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   }
 
   Future<void> _createTeam() async {
-    final ImageKitUploadService uploadService = ImageKitUploadService(
-      publicKey: dotenv.get('PUBLIC_API_KEY'),
-      privateKey: dotenv.get('PRIVATE_API_KEY'),
-      urlEndpoint: dotenv.get('URL_ENDPOINT'),
-    );
-    final uploadedImageUrl = await uploadService.uploadImage(
-      imageFile: _image!,
-      fileName: 'teamlogo',
-      folder: '/user_uploads',
-      customMetadata: {
-        'userId': '12345',
-        'uploadSource': 'mobile_app',
-      },
-    );
+    if (!_formKey.currentState!.validate()) return;
 
-    if (uploadedImageUrl != null) {
-      print('Image uploaded successfully: $uploadedImageUrl');
-    } else {
-      print('Upload failed');
+    _formKey.currentState!.save();
+
+    String? teamLogoUrl;
+    if (_image != null) {
+      //! logic for uploading image on storage and get its url
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Team'),
@@ -73,11 +59,10 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                const SizedBox(height: 50),
                 CircleAvatar(
-                    radius: 70,
+                    radius: height * 0.08,
                     backgroundImage: _image != null
-                        ? FileImage(_image!)
+                        ? MemoryImage(_image!)
                         : const AssetImage('assets/images/team_logo.png')),
                 TextButton.icon(
                   onPressed: _editLogo,

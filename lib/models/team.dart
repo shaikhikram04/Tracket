@@ -7,7 +7,7 @@ class Team {
     required this.name,
     required this.shortName,
     required this.logoUrl,
-    required this.playerList,
+    required this.playersList,
     required this.captainId,
     required this.wicketKeeperId,
     required this.createdBy,
@@ -22,9 +22,9 @@ class Team {
   final String name;
   final String shortName;
   final String createdBy;
-  final String logoUrl;
+  final String? logoUrl;
   final int rank;
-  final List<Map> playerList;
+  final List<Map> playersList;
   final String captainId;
   final String wicketKeeperId;
   final int matchesPlayed;
@@ -35,4 +35,19 @@ class Team {
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
   }
+
+  Map<String, dynamic> get toJson => {
+        'id': id,
+        'teamName': name,
+        'shortName': shortName,
+        'createdBy': createdBy,
+        'logoUrl': logoUrl,
+        'rank': rank,
+        'playersList': playersList,
+        'captainId': captainId,
+        'wicketKeeperId': wicketKeeperId,
+        'wins': wins,
+        'losses': losses,
+        'tie': tieCount,
+      };
 }
