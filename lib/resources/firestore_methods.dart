@@ -18,8 +18,6 @@ class FirestoreMethods {
         shortName: shortName,
         logoUrl: logoUrl,
         playersList: [],
-        captainId: '',
-        wicketKeeperId: '',
         createdBy: createdBy,
       );
       await _firestore.collection('teams').doc(team.id).set(team.toJson);

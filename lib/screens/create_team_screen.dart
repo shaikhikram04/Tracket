@@ -67,6 +67,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
+                const Flexible(child: SizedBox(height: 30)),
                 CircleAvatar(
                     radius: height * 0.08,
                     backgroundImage: _image != null
@@ -109,6 +110,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                     ),
                   ),
                 ),
+                const Flexible(child: SizedBox(height: 30)),
               ],
             ),
           ),
