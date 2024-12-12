@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_button.dart';
@@ -43,6 +45,12 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     if (_image != null) {
       //! logic for uploading image on storage and get its url
     }
+    FirestoreMethods.uploadTeamData(
+      teamName: _teamName!,
+      shortName: _teamShortName!,
+      createdBy: FirebaseAuthMethods.currentUserId,
+      logoUrl: teamLogoUrl,
+    );
   }
 
   @override

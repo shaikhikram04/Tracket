@@ -18,6 +18,8 @@ class FirebaseAuthMethods {
 
   static User get currentUser => _auth.currentUser!;
 
+  static String get currentUserId => currentUser.uid;
+
   static Future<User?> sendVerificationEmail(
     String email,
     String password,

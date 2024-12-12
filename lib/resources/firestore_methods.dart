@@ -4,10 +4,10 @@ import 'package:tracket/models/team.dart';
 class FirestoreMethods {
   static final _firestore = FirebaseFirestore.instance;
 
-  Future<String> uploadTeamData({
+  static Future<String> uploadTeamData({
     required String teamName,
     required String shortName,
-    String? logoUrl,
+    required String? logoUrl,
     required String createdBy,
   }) async {
     String result;

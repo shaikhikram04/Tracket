@@ -77,11 +77,11 @@ class Inning {
     required this.battingTeam,
     required this.bowlingTeam,
   })  : battingStats = [
-          for (final player in battingTeam.playerList)
+          for (final player in battingTeam.playersList)
             BattingScore(uuid: player['id'], playerName: player['name']),
         ],
         bowlingStats = [
-          for (final player in bowlingTeam.playerList)
+          for (final player in bowlingTeam.playersList)
             BowlingScore(uuid: player['id'], playerName: player['name']),
         ];
 
