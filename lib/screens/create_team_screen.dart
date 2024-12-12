@@ -1,10 +1,11 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tracket/resources/image_kit_upload_service.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
@@ -19,7 +20,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   late GlobalKey<FormState> _formKey;
   String? _teamName;
   String? _teamShortName;
-  Uint8List? _image;
+  File? _image;
 
   @override
   void initState() {
@@ -29,11 +30,34 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
 
   Future<void> _editLogo() async {
     final pickedImage = await pickImage(ImageSource.gallery);
-    if (pickedImage == null) return;
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
+  }
 
-    setState(() {
-      _image = pickedImage;
-    });
+  Future<void> _createTeam() async {
+    final ImageKitUploadService uploadService = ImageKitUploadService(
+      publicKey: dotenv.get('PUBLIC_API_KEY'),
+      privateKey: dotenv.get('PRIVATE_API_KEY'),
+      urlEndpoint: dotenv.get('URL_ENDPOINT'),
+    );
+    final uploadedImageUrl = await uploadService.uploadImage(
+      imageFile: _image!,
+      fileName: 'teamlogo',
+      folder: '/user_uploads',
+      customMetadata: {
+        'userId': '12345',
+        'uploadSource': 'mobile_app',
+      },
+    );
+
+    if (uploadedImageUrl != null) {
+      print('Image uploaded successfully: $uploadedImageUrl');
+    } else {
+      print('Upload failed');
+    }
   }
 
   @override
@@ -44,97 +68,55 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  CircleAvatar(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                CircleAvatar(
                     radius: 70,
-                    backgroundImage: _image == null
-                        ? const AssetImage('assets/images/team_logo.png')
-                        : MemoryImage(_image!),
+                    backgroundImage: _image != null
+                        ? FileImage(_image!)
+                        : const AssetImage('assets/images/team_logo.png')),
+                TextButton.icon(
+                  onPressed: _editLogo,
+                  label: const Text(
+                    'Edit team logo',
+                    style: TextStyle(color: blackColor),
                   ),
-                  TextButton.icon(
-                    onPressed: _editLogo,
-                    label: const Text(
-                      'Edit team logo',
-                      style: TextStyle(color: blackColor),
-                    ),
-                    icon: const Icon(Icons.edit),
-                  ),
-                  const SizedBox(height: 20),
-                  Card(
-                    color: Theme.of(context).cardColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 25),
-                      child: Column(
-                        children: [
-                          MyTextField(
-                            onSave: (value) => _teamName = value,
-                            label: 'Team Name',
+                  icon: const Icon(Icons.edit),
+                ),
+                const SizedBox(height: 20),
+                Card(
+                  color: Theme.of(context).cardColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 25),
+                    child: Column(
+                      children: [
+                        MyTextField(
+                          onSave: (value) => _teamName = value,
+                          label: 'Team Name',
+                        ),
+                        const SizedBox(height: 20),
+                        MyTextField(
+                          onSave: (value) => _teamShortName = value,
+                          label: 'Team Short Name',
+                        ),
+                        const SizedBox(height: 15),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: MyTextButton(
+                            text: 'Create',
+                            onPressed: _createTeam,
                           ),
-                          const SizedBox(height: 20),
-                          MyTextField(
-                            onSave: (value) => _teamShortName = value,
-                            label: 'Team Short Name',
-                          ),
-                          const SizedBox(height: 15),
-                          Container(
-                            height: 55,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black45,
-                              ),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    'No Player Selected',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                ),
-                                const Spacer(),
-                                MyTextButton(
-                                  text: 'Add Player',
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          MyDropdownMenu(
-                            options: const [],
-                            label: 'Select Caption',
-                            onSelect: (value) {},
-                          ),
-                          const SizedBox(height: 20),
-                          MyDropdownMenu(
-                            options: const [],
-                            label: 'Select WicketKeeper',
-                            onSelect: (value) {},
-                          ),
-                          const SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: MyTextButton(
-                              text: 'Create',
-                              onPressed: () {},
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
