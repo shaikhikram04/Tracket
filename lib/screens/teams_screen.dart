@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tracket/screens/create_team_screen.dart';
 
 class TeamsList extends StatelessWidget {
   const TeamsList({super.key});
@@ -90,7 +91,11 @@ class TeamsList extends StatelessWidget {
             child: const Icon(Icons.create),
             label: 'Create Team',
             onTap: () {
-              // Navigate to Create Team Screen
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CreateTeamScreen(),
+                ),
+              );
             },
           ),
         ],
