@@ -77,6 +77,8 @@ class TeamsList extends StatelessWidget {
         },
       ),
       floatingActionButton: SpeedDial(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
         animatedIcon: AnimatedIcons.menu_close,
         overlayOpacity: 0.4,
         children: [
