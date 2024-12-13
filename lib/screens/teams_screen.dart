@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -16,8 +17,46 @@ class TeamsList extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
-            return const Center(
-              child: Text('No Team created yet!'),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.group_off,
+                        size: 100,
+                        color: Colors.grey.shade400,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "No teams joined or created yet!",
+                        style: TextStyle(
+                            fontSize: 18, color: Colors.grey.shade600),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Tap the button below to join or create a team.",
+                        style: TextStyle(
+                            fontSize: 16, color: Colors.grey.shade500),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 40),
+                      ZoomIn(
+                        child: RotatedBox(
+                          quarterTurns: 1,
+                          child: Icon(
+                            Icons.arrow_outward,
+                            size: 50,
+                            color: Colors.green.shade400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
           }
           return ListView.builder(
