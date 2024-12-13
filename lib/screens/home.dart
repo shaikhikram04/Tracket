@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String title = 'Matches';
 
     if (_selectedIndex == 1) {
-      content = const TeamsList();
+      content = const TeamsScreen();
       title = 'Team';
     }
     if (_selectedIndex == 2) {
