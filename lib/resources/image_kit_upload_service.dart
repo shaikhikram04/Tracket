@@ -53,6 +53,7 @@ class ImageKitUploadService {
 
       // Prepare file details
       final fileBytes = await imageFile.readAsBytes();
+      // ignore: unused_local_variable
       final mimeType =
           lookupMimeType(imageFile.path) ?? 'application/octet-stream';
       final uploadFileName = fileName ?? imageFile.path.split('/').last;
