@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tracket/screens/create_team_screen.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
@@ -20,14 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void _onCreate() {
-    if (_selectedIndex == 1) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const CreateTeamScreen(),
-      ));
-    }
   }
 
   @override
@@ -70,26 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
             label: 'Tournaments',
-          ),
-        ],
-      ),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        overlayOpacity: 0.4,
-        children: [
-          SpeedDialChild(
-            child: const Icon(Icons.group_add),
-            label: 'Join Team',
-            onTap: () {
-              // Navigate to Join Team Screen
-            },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.create),
-            label: 'Create Team',
-            onTap: () {
-              // Navigate to Create Team Screen
-            },
           ),
         ],
       ),
