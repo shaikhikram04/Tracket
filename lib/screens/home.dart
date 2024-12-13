@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/screens/create_team_screen.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/teams_screen.dart';
@@ -32,28 +33,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Widget content = const MatchesList();
+    String title = 'Matches';
 
     if (_selectedIndex == 1) {
       content = const TeamsList();
+      title = 'Team';
     }
     if (_selectedIndex == 2) {
       content = const TournamentList();
+      title = 'Tornament';
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Cricket Stats Manager',
+        title: Text(
+          title,
         ),
       ),
       drawer: const MainDrawer(),
       body: content,
-      floatingActionButton: IconButton(
-        iconSize: 50,
-        color: Theme.of(context).colorScheme.primary,
-        icon: const Icon(Icons.add_circle_sharp),
-        onPressed: _onCreate,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         elevation: 8,
@@ -72,6 +70,26 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
             label: 'Tournaments',
+          ),
+        ],
+      ),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        overlayOpacity: 0.4,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.group_add),
+            label: 'Join Team',
+            onTap: () {
+              // Navigate to Join Team Screen
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.create),
+            label: 'Create Team',
+            onTap: () {
+              // Navigate to Create Team Screen
+            },
           ),
         ],
       ),
