@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/create_team_screen.dart';
 import 'package:tracket/screens/join_team_screen.dart';
 
@@ -61,17 +62,28 @@ class TeamsScreen extends StatelessWidget {
               ],
             );
           }
+
+          final snap = snapshot.data!.docs;
           return ListView.builder(
-            itemCount: 4,
+            itemCount: snapshot.data!.size,
             itemBuilder: (BuildContext context, int index) {
-              return const ListTile(
+              final teamData = snap[index];
+
+              final String? logoUrl = teamData['logoUrl'];
+              final String teamName = teamData['teamName'];
+              final String shortName = teamData['shortName'];
+              final bool isAdmin =
+                  FirebaseAuthMethods.currentUserId == teamData['createdBy'];
+              return ListTile(
                 leading: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/team_logo.png'),
+                  backgroundImage: logoUrl == null
+                      ? const AssetImage('assets/images/team_logo.png')
+                      : NetworkImage(logoUrl),
                   radius: 30,
                 ),
-                title: Text('Team Name'),
-                subtitle: Text('Team Short Name'),
-                trailing: Text('Role in team'),
+                title: Text(teamName),
+                subtitle: Text(shortName),
+                trailing: isAdmin ? const Text('Admin') : null,
               );
             },
           );
