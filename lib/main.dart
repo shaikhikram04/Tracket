@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/screens/authentication/auth_screen.dart';
-import 'package:tracket/screens/home.dart';
+import 'package:tracket/screens/team_details_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
@@ -26,7 +25,8 @@ ThemeData lightMode = ThemeData(
     ),
   ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(
-    titleLarge: GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold),
+    titleLarge:
+        GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
     titleMedium: GoogleFonts.rubik().copyWith(
       fontWeight: FontWeight.w900,
       fontSize: 17,
@@ -105,11 +105,13 @@ class Tracket extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: currUser == null || !currUser.emailVerified
-          ? const AuthScreen()
-          : const HomeScreen(),
+      // home: currUser == null || !currUser.emailVerified
+      //     ? const AuthScreen()
+      //     : const HomeScreen(),
 
-      // home: const JoinTeamScreen(),
+      home: const TeamDetailsScreen(
+        teamId: '',
+      ),
     );
   }
 }
