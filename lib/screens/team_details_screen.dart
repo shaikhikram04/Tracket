@@ -22,7 +22,7 @@ class TeamDetailsScreen extends StatelessWidget {
             icon: const Icon(
               Icons.edit,
               color: blackColor,
-              size: 25,
+              size: 27,
             ),
           ),
         ],

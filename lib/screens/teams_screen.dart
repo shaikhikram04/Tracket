@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/create_team_screen.dart';
 import 'package:tracket/screens/join_team_screen.dart';
+import 'package:tracket/screens/team_details_screen.dart';
 
 class TeamsScreen extends StatelessWidget {
   const TeamsScreen({super.key});
@@ -84,6 +85,13 @@ class TeamsScreen extends StatelessWidget {
                 title: Text(teamName),
                 subtitle: Text(shortName),
                 trailing: isAdmin ? const Text('Admin') : null,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TeamDetailsScreen(
+                      teamId: teamData['id'],
+                    ),
+                  ));
+                },
               );
             },
           );
