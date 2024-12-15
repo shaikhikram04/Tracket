@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class TeamDetailsScreen extends StatelessWidget {
@@ -120,49 +121,28 @@ class TeamDetailsScreen extends StatelessWidget {
               color: whiteColor,
               elevation: 7,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+                padding: const EdgeInsets.symmetric(vertical: 25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Squad',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 23),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        'Squad',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontSize: 23),
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Column(
-                      children: List.generate(
-                        6,
-                        (index) {
-                          return ListTile(
-                            onTap: () {},
-                            leading: const CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(
-                                'assets/images/Default_user_pfp.jpg',
-                              ),
-                            ),
-                            title: Row(
-                              children: [
-                                Text(
-                                  'Player Name',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(fontSize: 18),
-                                ),
-                                const SizedBox(width: 7),
-                                
-                              ],
-                            ),
-                            subtitle: const Text('Cricket Role'),
-                          );
-                        },
-                      ),
-                    ),
+                        children: List.generate(
+                      6,
+                      (index) {
+                        return const PlayerTile();
+                      },
+                    )),
                   ],
                 ),
               ),
