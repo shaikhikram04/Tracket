@@ -5,10 +5,12 @@ class StatsData extends StatelessWidget {
     super.key,
     required this.number,
     required this.label,
+    this.numColor = Colors.black,
   });
 
   final int number;
   final String label;
+  final Color numColor;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,9 @@ class StatsData extends StatelessWidget {
       children: [
         Text(
           number.toString(),
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: numColor,
+              ),
         ),
         Text(
           label,

@@ -16,7 +16,14 @@ class TeamDetailsScreen extends StatelessWidget {
         title: const Text('Team Details'),
         backgroundColor: greenColor,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.edit,
+              color: blackColor,
+              size: 25,
+            ),
+          ),
         ],
         centerTitle: false,
         shape: Border.all(color: greenColor, width: 0),
@@ -24,6 +31,7 @@ class TeamDetailsScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          //! Team Logo & name
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -35,7 +43,7 @@ class TeamDetailsScreen extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ),
             ),
-            height: height * 0.24,
+            height: height * 0.23,
             width: width,
             child: Column(
               children: [
@@ -57,6 +65,7 @@ class TeamDetailsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
+          //! Team Stats
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             color: whiteColor,
@@ -76,13 +85,42 @@ class TeamDetailsScreen extends StatelessWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      StatsData(number: 256, label: 'Matches'),
-                      StatsData(number: 148, label: 'Wins'),
-                      StatsData(number: 102, label: 'Losses'),
-                      StatsData(number: 6, label: 'Ties'),
+                      StatsData(
+                        number: 256,
+                        label: 'Matches',
+                        numColor: Color.fromARGB(255, 29, 130, 212),
+                      ),
+                      StatsData(
+                        number: 148,
+                        label: 'Wins',
+                        numColor: Color.fromARGB(255, 39, 141, 42),
+                      ),
+                      StatsData(
+                        number: 102,
+                        label: 'Losses',
+                        numColor: Colors.red,
+                      ),
+                      StatsData(
+                        number: 6,
+                        label: 'Ties',
+                        numColor: Colors.amber,
+                      ),
                     ],
                   ),
                 ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          //! Players Detail
+          const Card(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            color: whiteColor,
+            elevation: 7,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+              child: Column(
+                children: [Text('Squrd')],
               ),
             ),
           ),
