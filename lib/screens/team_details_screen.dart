@@ -140,7 +140,10 @@ class TeamDetailsScreen extends StatelessWidget {
                         children: List.generate(
                       6,
                       (index) {
-                        return const PlayerTile();
+                        return const PlayerTile(
+                          isCaptain: true,
+                          isWicketKeeper: true,
+                        );
                       },
                     )),
                   ],
