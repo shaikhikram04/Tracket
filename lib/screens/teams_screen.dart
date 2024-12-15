@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tracket/models/team.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/create_team_screen.dart';
 import 'package:tracket/screens/join_team_screen.dart';
@@ -88,7 +89,7 @@ class TeamsScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => TeamDetailsScreen(
-                      teamData: teamData,
+                      teamData: Team.formSeed(teamData),
                     ),
                   ));
                 },

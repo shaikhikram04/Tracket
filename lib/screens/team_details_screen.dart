@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/models/team.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
@@ -6,7 +7,7 @@ import 'package:tracket/widgets/stats_data.dart';
 class TeamDetailsScreen extends StatelessWidget {
   const TeamDetailsScreen({super.key, required this.teamData});
 
-  final Map<String, dynamic> teamData;
+  final Team teamData;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +51,11 @@ class TeamDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('assets/images/team_logo.png'),
+                    backgroundImage: teamData.logoUrl != null
+                        ? NetworkImage(teamData.logoUrl!)
+                        : const AssetImage('assets/images/team_logo.png'),
                   ),
                   const SizedBox(height: 10),
                   Text(
