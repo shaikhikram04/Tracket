@@ -20,7 +20,7 @@ class PlayerTile extends StatelessWidget {
         child: Row(
           children: [
             const CircleAvatar(
-              radius: 30,
+              radius: 35,
               backgroundImage: AssetImage(
                 'assets/images/Default_user_pfp.jpg',
               ),
@@ -38,7 +38,12 @@ class PlayerTile extends StatelessWidget {
                           .bodyLarge!
                           .copyWith(fontSize: 18),
                     ),
-                    if (isCaptain) const SizedBox(width: 7),
+                  ],
+                ),
+                const Text('Cricket Role'),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
                     if (isCaptain)
                       HighlightedLabel(
                         text: 'Captain',
@@ -53,8 +58,7 @@ class PlayerTile extends StatelessWidget {
                         textColor: Colors.orange.shade900,
                       ),
                   ],
-                ),
-                const Text('Cricket Role')
+                )
               ],
             )
           ],
