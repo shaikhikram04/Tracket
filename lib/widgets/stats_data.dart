@@ -18,7 +18,10 @@ class StatsData extends StatelessWidget {
           number.toString(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        Text(label),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ],
     );
   }

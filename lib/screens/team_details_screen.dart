@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/widgets/stats_data.dart';
 
 class TeamDetailsScreen extends StatelessWidget {
   const TeamDetailsScreen({super.key, required this.teamId});
@@ -55,16 +56,34 @@ class TeamDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Card(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
             color: whiteColor,
-            child: Column(
-              children: [
-                Text('Team Statistics'),
-                Row(
-                  
-                ),
-              ],
+            elevation: 7,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+              child: Column(
+                children: [
+                  Text(
+                    'Team Statistics',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontSize: 23),
+                  ),
+                  const SizedBox(height: 17),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StatsData(number: 256, label: 'Matches'),
+                      StatsData(number: 148, label: 'Wins'),
+                      StatsData(number: 102, label: 'Losses'),
+                      StatsData(number: 6, label: 'Ties'),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
