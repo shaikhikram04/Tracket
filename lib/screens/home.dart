@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/main_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,9 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         elevation: 8,
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: greenColor,
         onTap: _selectItem,
-        selectedItemColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        selectedItemColor: blackColor,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w800),
+        unselectedItemColor: unSelectColor,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_cricket),
