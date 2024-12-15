@@ -54,7 +54,7 @@ class Team {
         name: snap['teamName'],
         shortName: snap['shortName'],
         logoUrl: snap['logoUrl'],
-        playersList: snap['playersList'],
+        playersList: List.from(snap['playersList']),
         createdBy: snap['createdBy'],
         captainId: snap['captainId'],
         losses: snap['losses'],

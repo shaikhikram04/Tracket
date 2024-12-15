@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/team.dart';
 import 'package:tracket/utils/colors.dart';
@@ -59,11 +60,11 @@ class TeamDetailsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Team Name',
+                    teamData.name,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
-                    'TSN',
+                    teamData.shortName,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
@@ -88,26 +89,26 @@ class TeamDetailsScreen extends StatelessWidget {
                           .copyWith(fontSize: 23),
                     ),
                     const SizedBox(height: 17),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         StatsData(
-                          number: 256,
+                          number: teamData.matchesPlayed,
                           label: 'Matches',
-                          numColor: Color.fromARGB(255, 29, 130, 212),
+                          numColor: const Color.fromARGB(255, 29, 130, 212),
                         ),
                         StatsData(
-                          number: 148,
+                          number: teamData.wins,
                           label: 'Wins',
-                          numColor: Color.fromARGB(255, 39, 141, 42),
+                          numColor: const Color.fromARGB(255, 39, 141, 42),
                         ),
                         StatsData(
-                          number: 102,
+                          number: teamData.losses,
                           label: 'Losses',
                           numColor: Colors.red,
                         ),
                         StatsData(
-                          number: 6,
+                          number: teamData.tieCount,
                           label: 'Ties',
                           numColor: Colors.amber,
                         ),
@@ -129,26 +130,74 @@ class TeamDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Squad',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 23),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Squad',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(fontSize: 23),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            iconSize: 30,
+                            icon: const Icon(Icons.group_add),
+                          )
+                        ],
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Column(
-                        children: List.generate(
-                      6,
-                      (index) {
-                        return const PlayerTile(
-                          isCaptain: true,
-                          isWicketKeeper: true,
-                        );
-                      },
-                    )),
+                    teamData.playersList.isEmpty
+                        ? Center(
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.group_off,
+                                  size: 80,
+                                  color: Colors.grey.shade400,
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  "No Player joined yet!",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  "Tap the button above to request player to join.",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 40),
+                                ZoomIn(
+                                  child: Icon(
+                                    Icons.arrow_outward,
+                                    size: 50,
+                                    color: Colors.green.shade400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: List.generate(
+                            6,
+                            (index) {
+                              return const PlayerTile(
+                                isCaptain: true,
+                                isWicketKeeper: true,
+                              );
+                            },
+                          )),
                   ],
                 ),
               ),
