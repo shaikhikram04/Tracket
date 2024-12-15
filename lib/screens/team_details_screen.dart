@@ -55,6 +55,18 @@ class TeamDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 10),
+          Card(
+            color: whiteColor,
+            child: Column(
+              children: [
+                Text('Team Statistics'),
+                Row(
+                  
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
