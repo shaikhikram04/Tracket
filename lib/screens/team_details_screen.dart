@@ -4,9 +4,9 @@ import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class TeamDetailsScreen extends StatelessWidget {
-  const TeamDetailsScreen({super.key, required this.teamId});
+  const TeamDetailsScreen({super.key, required this.teamData});
 
-  final String teamId;
+  final Map<String, dynamic> teamData;
 
   @override
   Widget build(BuildContext context) {

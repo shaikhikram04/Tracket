@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/models/team.dart';
+import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   static final _firestore = FirebaseFirestore.instance;
+  static const uuid = Uuid();
 
   static Future<String> uploadTeamData({
     required String teamName,
@@ -19,6 +21,7 @@ class FirestoreMethods {
         logoUrl: logoUrl,
         playersList: [],
         createdBy: createdBy,
+        id: uuid.v4(),
       );
       await _firestore.collection('teams').doc(team.id).set(team.toJson);
       result = 'success';

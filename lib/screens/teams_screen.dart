@@ -68,7 +68,7 @@ class TeamsScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data!.size,
             itemBuilder: (BuildContext context, int index) {
-              final teamData = snap[index];
+              final teamData = snap[index].data();
 
               final String? logoUrl = teamData['logoUrl'];
               final String teamName = teamData['teamName'];
@@ -88,7 +88,7 @@ class TeamsScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => TeamDetailsScreen(
-                      teamId: teamData['id'],
+                      teamData: teamData,
                     ),
                   ));
                 },

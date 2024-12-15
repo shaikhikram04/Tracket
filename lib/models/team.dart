@@ -1,9 +1,6 @@
-import 'package:uuid/uuid.dart';
-
-const uuid = Uuid();
-
 class Team {
   Team({
+    required this.id,
     required this.name,
     required this.shortName,
     required this.logoUrl,
@@ -16,7 +13,7 @@ class Team {
     this.tieCount = 0,
     this.wins = 0,
     this.rank = -1,
-  }) : id = uuid.v4();
+  });
 
   final String id;
   final String name;
@@ -46,8 +43,25 @@ class Team {
         'playersList': playersList,
         'captainId': captainId,
         'wicketKeeperId': wicketKeeperId,
+        'matches': matchesPlayed,
         'wins': wins,
         'losses': losses,
         'tie': tieCount,
       };
+
+  static Team formSeed(Map<String, dynamic> snap) => Team(
+        id: snap['id'],
+        name: snap['teamName'],
+        shortName: snap['shortName'],
+        logoUrl: snap['logoUrl'],
+        playersList: snap['playersList'],
+        createdBy: snap['createdBy'],
+        captainId: snap['captainId'],
+        losses: snap['losses'],
+        matchesPlayed: snap['matches'],
+        rank: snap['rank'],
+        tieCount: snap['tie'],
+        wicketKeeperId: snap['wicketKeeperId'],
+        wins: snap['wins'],
+      );
 }
