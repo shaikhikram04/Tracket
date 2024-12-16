@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/team.dart';
+import 'package:tracket/screens/add_player_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
@@ -14,6 +15,13 @@ class TeamDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    void addPlayer() {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const AddPlayerScreen(),
+      ));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team Details'),
@@ -142,7 +150,7 @@ class TeamDetailsScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: addPlayer,
                             iconSize: 30,
                             icon: const Icon(Icons.group_add),
                           )

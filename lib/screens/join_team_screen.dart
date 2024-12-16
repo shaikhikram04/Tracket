@@ -26,7 +26,7 @@ class JoinTeamScreen extends StatelessWidget {
                 subtitle: const Text('Team Short Name'),
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: lightDrawerBgColor,
+                    backgroundColor: buttonBgColor,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
