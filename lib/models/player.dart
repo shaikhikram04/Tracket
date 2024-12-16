@@ -108,4 +108,20 @@ class Player {
         'profileImageUrl': profileImageUrl,
         'createdAt': createdAt,
       };
+
+  static Player fromSeed(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final snap = snapshot.data()!;
+
+    return Player(
+        role: snap['role'],
+        id: snap['playerId'],
+        name: snap['playerName'],
+        email: snap['email'],
+        profileImageUrl: snap['profileImageUrl'],
+        cricketRole: snap['cricketRole'],
+        battingPosition: snap['battingPosition'],
+        bowlingArm: snap['bowlingArm'],
+        bowlingStyle: snap['bowlingStyle'],
+        createdAt: snap['createdAt']);
+  }
 }

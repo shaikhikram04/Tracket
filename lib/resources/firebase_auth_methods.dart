@@ -19,6 +19,25 @@ class FirebaseAuthMethods {
 
   static String get currentUserId => currentUser.uid;
 
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getUserSnap() async {
+    final currentUser = _auth.currentUser!;
+
+    var snap =
+        await _firestore.collection('players').doc(currentUser.uid).get();
+
+    while (snap.data() == null) {
+      snap = await _firestore.collection('users').doc(currentUser.uid).get();
+    }
+
+    return snap;
+  }
+
+  static Future<Player> getUserDetail() async {
+    final snap = await getUserSnap();
+
+    return Player.fromSeed(snap);
+  }
+
   static Future<User?> sendVerificationEmail(
     String email,
     String password,
