@@ -45,12 +45,21 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     if (_image != null) {
       //! logic for uploading image on storage and get its url
     }
-    FirestoreMethods.uploadTeamData(
+
+    final result = await FirestoreMethods.uploadTeamData(
       teamName: _teamName!,
       shortName: _teamShortName!,
       createdBy: FirebaseAuthMethods.currentUserId,
       logoUrl: teamLogoUrl,
     );
+
+    if (!mounted) return;
+    if (result == 'success') {
+      showSnackBar('Team Created Successfully', context);
+      Navigator.of(context).pop();
+    } else {
+      showSnackBar('Some error occured. Please try again!', context);
+    }
   }
 
   @override
@@ -83,7 +92,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                 ),
                 const SizedBox(height: 20),
                 Card(
-                  color: Theme.of(context).cardColor,
+                  color: lightCardColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25, vertical: 25),

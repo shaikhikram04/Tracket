@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //* Light mode colors
 const lightBackgroundColor = Color.fromARGB(255, 239, 250, 239);
 const greenColor = Colors.green;
-const lightCardColor = Color.fromARGB(255, 161, 221, 168);
+const lightCardColor = Color.fromARGB(255, 171, 219, 177);
 const lightDrawerBgColor = Color.fromARGB(255, 83, 158, 86);
 const onLightDrawer = Color.fromARGB(255, 221, 229, 217);
 const blackColor = Color.fromARGB(255, 18, 20, 18);
