@@ -20,6 +20,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   String? _teamName;
   String? _teamShortName;
   Uint8List? _image;
+  bool _isAdminWantToBePlayer = false;
 
   @override
   void initState() {
@@ -51,12 +52,14 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
       shortName: _teamShortName!,
       createdBy: FirebaseAuthMethods.currentUserId,
       logoUrl: teamLogoUrl,
+      adminName: '',
+      adminCricketRole: '',
     );
 
     if (!mounted) return;
     if (result == 'success') {
-      showSnackBar('Team Created Successfully', context);
       Navigator.of(context).pop();
+      showSnackBar('Team Created Successfully', context);
     } else {
       showSnackBar('Some error occured. Please try again!', context);
     }
@@ -65,6 +68,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Team'),
@@ -101,20 +105,22 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                         MyTextField(
                           onSave: (value) => _teamName = value,
                           label: 'Team Name',
+                          borderRadius: 10,
                         ),
                         const SizedBox(height: 20),
                         MyTextField(
                           onSave: (value) => _teamShortName = value,
                           label: 'Team Short Name',
+                          borderRadius: 10,
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         Align(
                           alignment: Alignment.centerRight,
                           child: MyTextButton(
                             text: 'Create',
                             onPressed: _createTeam,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

@@ -11,6 +11,9 @@ class FirestoreMethods {
     required String shortName,
     required String? logoUrl,
     required String createdBy,
+    required String adminName,
+    required String adminCricketRole,
+    String? adminImageUrl,
   }) async {
     String result;
 
@@ -19,7 +22,14 @@ class FirestoreMethods {
         name: teamName,
         shortName: shortName,
         logoUrl: logoUrl,
-        playersList: [],
+        playersList: [
+          {
+            'id': createdBy,
+            'name': adminName,
+            'cricketRole': adminCricketRole,
+            'imageUrl': adminImageUrl,
+          }
+        ],
         createdBy: createdBy,
         id: uuid.v4(),
       );
