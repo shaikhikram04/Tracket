@@ -57,8 +57,8 @@ class Player {
     required this.bowlingArm,
     required this.bowlingStyle,
     required this.createdAt,
-  })  : totalTimesOut = 0,
-        bestBalling = BowlingFigure(0, 0),
+    this.totalTimesOut = 0,
+  })  : bestBalling = BowlingFigure(0, 0),
         playerStats = PlayerStats();
 
   Player.user({
