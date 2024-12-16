@@ -46,7 +46,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
       //! logic for uploading image on storage and get its url
     }
 
-    final result = await FirestoreMethods.uploadTeamData(
+    final result = await FirestoreMethods.createTeam(
       teamName: _teamName!,
       shortName: _teamShortName!,
       createdBy: FirebaseAuthMethods.currentUserId,

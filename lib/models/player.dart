@@ -32,10 +32,24 @@ class BowlingFigure {
 }
 
 class Player {
+  final String id;
+  final String email;
+  final String name;
+  final String role;
+  final String? profileImageUrl;
+  final CricketRole? cricketRole;
+  final Position? battingPosition;
+  final int? totalTimesOut;
+  final PlayerStats? playerStats;
+  BowlingFigure? bestBalling = BowlingFigure(0, 0);
+  final Position? bowlingArm;
+  final BowlingStyle? bowlingStyle;
+  final Timestamp createdAt;
+
   Player({
     required this.role,
     required this.id,
-    required this.playerName,
+    required this.name,
     required this.email,
     required this.profileImageUrl,
     required this.cricketRole,
@@ -47,41 +61,51 @@ class Player {
         bestBalling = BowlingFigure(0, 0),
         playerStats = PlayerStats();
 
-  final String id;
-  final String email;
-  final String playerName;
-  final String role;
-  final CricketRole cricketRole;
-  final Position battingPosition;
-  final int totalTimesOut;
-  final PlayerStats playerStats;
-  final String? profileImageUrl;
-  BowlingFigure bestBalling = BowlingFigure(0, 0);
-  final Position? bowlingArm;
-  final BowlingStyle bowlingStyle;
-  final Timestamp createdAt;
+  Player.user({
+    required this.role,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.profileImageUrl,
+    required this.createdAt,
+  })  : battingPosition = null,
+        bestBalling = null,
+        bowlingArm = null,
+        bowlingStyle = null,
+        cricketRole = null,
+        playerStats = null,
+        totalTimesOut = null;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
-      return playerStats.totalRuns.toDouble();
+      return playerStats!.totalRuns.toDouble();
     }
 
-    return playerStats.totalRuns / totalTimesOut;
+    return playerStats!.totalRuns / totalTimesOut!;
   }
 
-  Map<String, dynamic> get toJson => {
+  Map<String, dynamic> get toJsonForPlayer => {
         'playerId': id,
         'email': email,
-        'playerName': playerName,
+        'playerName': name,
         'role': role,
         'profileImageUrl': profileImageUrl,
-        'cricketRole': cricketRole.name,
-        'battingPosition': battingPosition.name,
+        'cricketRole': cricketRole!.name,
+        'battingPosition': battingPosition!.name,
         'totalTimesOut': totalTimesOut,
         'bowlingArm': bowlingArm?.name,
-        'bowlingStyle': bowlingStyle.name,
+        'bowlingStyle': bowlingStyle!.name,
         'createdAt': createdAt,
-        'bestBalling': [bestBalling.runGiven, bestBalling.ballDelivered],
-        ...playerStats.toJson,
+        'bestBalling': [bestBalling?.runGiven, bestBalling!.ballDelivered],
+        ...playerStats!.toJson,
+      };
+
+  Map<String, dynamic> get toJsonForUser => {
+        'userId': id,
+        'email': email,
+        'username': name,
+        'role': role,
+        'profileImageUrl': profileImageUrl,
+        'createdAt': createdAt,
       };
 }

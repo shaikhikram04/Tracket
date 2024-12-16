@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/player.dart';
-import 'package:tracket/models/user.dart' as model;
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/utils.dart';
@@ -141,20 +140,21 @@ class FirebaseAuthMethods {
     required String userId,
     required String username,
     required String email,
+    String? imageUrl,
   }) async {
     String result;
 
     try {
-      final model.User user = model.User(
+      final Player user = Player.user(
         email: email,
-        username: username,
+        name: username,
         role: 'user',
         createdAt: Timestamp.now(),
-        userId: userId,
-        profileImageUrl: null,
+        id: userId,
+        profileImageUrl: imageUrl,
       );
 
-      await _firestore.collection('users').doc(userId).set(user.toJson);
+      await _firestore.collection('players').doc(userId).set(user.toJsonForUser);
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -235,12 +235,13 @@ class FirebaseAuthMethods {
     required Position battingPosition,
     required BowlingStyle bowlingStyle,
     Position? bowlingArm,
+    String? imageUrl,
   }) async {
     String result;
 
     try {
       final player = Player(
-        playerName: playerName,
+        name: playerName,
         email: email,
         cricketRole: cricketRole,
         battingPosition: battingPosition,
@@ -249,9 +250,9 @@ class FirebaseAuthMethods {
         createdAt: Timestamp.now(),
         id: playerId,
         role: 'player',
-        profileImageUrl: null,
+        profileImageUrl: imageUrl,
       );
-      await _firestore.collection('users').doc(playerId).set(player.toJson);
+      await _firestore.collection('users').doc(playerId).set(player.toJsonForPlayer);
 
       result = 'success';
     } catch (e) {

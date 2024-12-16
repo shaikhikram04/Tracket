@@ -6,7 +6,7 @@ class FirestoreMethods {
   static final _firestore = FirebaseFirestore.instance;
   static const uuid = Uuid();
 
-  static Future<String> uploadTeamData({
+  static Future<String> createTeam({
     required String teamName,
     required String shortName,
     required String? logoUrl,
