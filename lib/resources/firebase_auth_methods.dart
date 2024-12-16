@@ -34,7 +34,7 @@ class FirebaseAuthMethods {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         final userSnap = await _firestore
-            .collection('users')
+            .collection('players')
             .where('email', isEqualTo: email)
             .limit(1)
             .get();
@@ -154,7 +154,10 @@ class FirebaseAuthMethods {
         profileImageUrl: imageUrl,
       );
 
-      await _firestore.collection('players').doc(userId).set(user.toJsonForUser);
+      await _firestore
+          .collection('players')
+          .doc(userId)
+          .set(user.toJsonForUser);
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -186,7 +189,7 @@ class FirebaseAuthMethods {
         );
       } else {
         final userSnap = await _firestore
-            .collection('users')
+            .collection('players')
             .where('email', isEqualTo: email)
             .limit(1)
             .get();
@@ -252,7 +255,10 @@ class FirebaseAuthMethods {
         role: 'player',
         profileImageUrl: imageUrl,
       );
-      await _firestore.collection('users').doc(playerId).set(player.toJsonForPlayer);
+      await _firestore
+          .collection('players')
+          .doc(playerId)
+          .set(player.toJsonForPlayer);
 
       result = 'success';
     } catch (e) {
@@ -285,7 +291,7 @@ class FirebaseAuthMethods {
         );
       } else {
         final userSnap = await _firestore
-            .collection('users')
+            .collection('players')
             .where('email', isEqualTo: email)
             .limit(1)
             .get();
