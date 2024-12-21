@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/player.dart';
+import 'package:tracket/models/player_stats.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/utils.dart';
@@ -274,6 +275,8 @@ class FirebaseAuthMethods {
         role: 'player',
         profileImageUrl: imageUrl,
         teamId: [],
+        bestBalling: BowlingFigure(0, 0),
+        playerStats: PlayerStats(),
       );
       await _firestore
           .collection('players')

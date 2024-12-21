@@ -59,9 +59,10 @@ class Player {
     required this.bowlingArm,
     required this.bowlingStyle,
     required this.createdAt,
+    required this.bestBalling,
+    required this.playerStats,
     this.totalTimesOut = 0,
-  })  : bestBalling = BowlingFigure(0, 0),
-        playerStats = PlayerStats();
+  });
 
   Player.user({
     required this.role,
@@ -128,6 +129,23 @@ class Player {
       bowlingStyle: snap['bowlingStyle'],
       createdAt: snap['createdAt'],
       teamId: snap['teamId'],
+      bestBalling: BowlingFigure(
+        snap['bestBalling'][0],
+        snap['bestBalling'][1],
+      ),
+      playerStats: PlayerStats(
+        ballDelivered: snap['ballDelivered'],
+        ballsFaced: snap['ballsFaced'],
+        fifties: snap['fifties'],
+        four: snap['four'],
+        highestScore: snap['highestScore'],
+        hundreds: snap['hundreds'],
+        maiden: snap['maiden'],
+        runGiven: snap['runGiven'],
+        six: snap['six'],
+        totalRuns: snap['totalRuns'],
+        wicket: snap['wicket'],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/player.dart';
+import 'package:tracket/models/player_stats.dart';
 
 class PlayerNotifier extends StateNotifier<Player> {
   PlayerNotifier(super.state);
@@ -21,7 +22,12 @@ class PlayerNotifier extends StateNotifier<Player> {
     BowlingFigure? bestBalling,
     Position? bowlingArm,
     BowlingStyle? bowlingStyle,
+    String? teamId,
+    PlayerStats? playerStats,
   }) {
+    final teamList = state.teamId;
+    if (teamId != null && teamList != null) teamList.add(teamId);
+
     final player = Player(
       role: role ?? state.role,
       id: id ?? state.id,
@@ -34,11 +40,10 @@ class PlayerNotifier extends StateNotifier<Player> {
       bowlingStyle: bowlingStyle ?? state.bowlingStyle,
       createdAt: state.createdAt,
       totalTimesOut: totalTimesOut ?? state.totalTimesOut,
-      teamId: state.teamId,
+      teamId: teamList,
+      bestBalling: bestBalling ?? state.bestBalling,
+      playerStats: playerStats ?? state.playerStats,
     );
-    if (bestBalling != null) {
-      player.bestBalling = bestBalling;
-    }
 
     state = player;
   }
@@ -58,6 +63,8 @@ final playerProvider = StateNotifierProvider<PlayerNotifier, Player>(
       bowlingStyle: null,
       createdAt: Timestamp.now(),
       teamId: [],
+      bestBalling: null,
+      playerStats: null,
     ),
   ),
 );
