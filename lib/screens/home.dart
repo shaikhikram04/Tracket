@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/screens/matches_screen.dart';
-import 'package:tracket/screens/teams_screen.dart';
+import 'package:tracket/screens/teams/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/main_drawer.dart';

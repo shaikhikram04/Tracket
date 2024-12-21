@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/models/team.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/screens/create_team_screen.dart';
-import 'package:tracket/screens/join_team_screen.dart';
-import 'package:tracket/screens/team_details_screen.dart';
+import 'package:tracket/screens/teams/create_team_screen.dart';
+import 'package:tracket/screens/teams/join_team_screen.dart';
+import 'package:tracket/screens/teams/team_details_screen.dart';
 
 class TeamsScreen extends StatelessWidget {
   const TeamsScreen({super.key});

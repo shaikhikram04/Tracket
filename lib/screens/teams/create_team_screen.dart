@@ -20,7 +20,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
   String? _teamName;
   String? _teamShortName;
   Uint8List? _image;
-  bool _isAdminWantToBePlayer = false;
 
   @override
   void initState() {
