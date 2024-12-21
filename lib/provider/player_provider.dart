@@ -34,7 +34,7 @@ class PlayerNotifier extends StateNotifier<Player> {
       bowlingStyle: bowlingStyle ?? state.bowlingStyle,
       createdAt: state.createdAt,
       totalTimesOut: totalTimesOut ?? state.totalTimesOut,
-      
+      teamId: state.teamId,
     );
     if (bestBalling != null) {
       player.bestBalling = bestBalling;
@@ -57,6 +57,7 @@ final playerProvider = StateNotifierProvider<PlayerNotifier, Player>(
       bowlingArm: null,
       bowlingStyle: null,
       createdAt: Timestamp.now(),
+      teamId: [],
     ),
   ),
 );

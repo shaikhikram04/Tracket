@@ -273,6 +273,7 @@ class FirebaseAuthMethods {
         id: playerId,
         role: 'player',
         profileImageUrl: imageUrl,
+        teamId: [],
       );
       await _firestore
           .collection('players')
