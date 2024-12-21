@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/models/team.dart';
+import 'package:tracket/screens/teams/team_details_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class JoinTeamScreen extends StatelessWidget {
@@ -14,26 +17,68 @@ class JoinTeamScreen extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('teams').snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (!snapshot.hasData || snapshot.data!.size == 0) {
+            return const Center(
+              child: Column(
+                children: [
+                  Text(
+                    'No teams available',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Please check back later or create a new team.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          final snap = snapshot.data!.docs;
           return ListView.builder(
-            itemCount: 5,
+            itemCount: snapshot.data!.size,
             itemBuilder: (context, index) {
+              final teamData = Team.formSeed(snap[index].data());
+              final isJoined = teamData.playersList.any(
+                (player) =>
+                    player['id'] == FirebaseAuth.instance.currentUser!.uid,
+              );
               return ListTile(
-                leading: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/team_logo.png'),
+                leading: CircleAvatar(
+                  backgroundImage: teamData.logoUrl == null
+                      ? const AssetImage('assets/images/team_logo.png')
+                      : NetworkImage(teamData.logoUrl!),
                   radius: 30,
                 ),
-                title: const Text('Team Name'),
-                subtitle: const Text('Team Short Name'),
+                title: Text(teamData.name),
+                subtitle: Text(teamData.shortName),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TeamDetailsScreen(teamData: teamData),
+                )),
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonBgColor,
+                    backgroundColor: isJoined ? Colors.grey : buttonBgColor,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
-                  onPressed: () {},
-                  child: const Text(
-                    'Join',
-                    style: TextStyle(
+                  onPressed: isJoined ? null : () {},
+                  child: Text(
+                    isJoined ? 'Joined' : 'Join',
+                    style: const TextStyle(
                       color: blackColor,
                     ),
                   ),
