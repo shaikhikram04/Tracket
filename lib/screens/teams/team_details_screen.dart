@@ -198,11 +198,22 @@ class TeamDetailsScreen extends StatelessWidget {
                           )
                         : Column(
                             children: List.generate(
-                            6,
+                            teamData.playersList.length,
                             (index) {
-                              return const PlayerTile(
-                                isCaptain: true,
-                                isWicketKeeper: true,
+                              final playerDetail = teamData.playersList[index];
+                              final playerId = playerDetail['id'];
+                              final isCaptain = teamData.captainId == null
+                                  ? false
+                                  : teamData.captainId == playerId;
+                              final isWicketKeeper =
+                                  teamData.wicketKeeperId == null
+                                      ? false
+                                      : teamData.wicketKeeperId == playerId;
+                              return PlayerTile(
+                                isCaptain: isCaptain,
+                                isWicketKeeper: isWicketKeeper,
+                                playerName: playerDetail['name'],
+                                cricketRole: playerDetail['cricketRole'],
                               );
                             },
                           )),
