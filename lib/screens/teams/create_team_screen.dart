@@ -1,21 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/provider/player_provider.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_text_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 
-class CreateTeamScreen extends StatefulWidget {
+class CreateTeamScreen extends ConsumerStatefulWidget {
   const CreateTeamScreen({super.key});
 
   @override
-  State<CreateTeamScreen> createState() => _CreateTeamScreenState();
+  ConsumerState<CreateTeamScreen> createState() => _CreateTeamScreenState();
 }
 
-class _CreateTeamScreenState extends State<CreateTeamScreen> {
+class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
   late GlobalKey<FormState> _formKey;
   String? _teamName;
   String? _teamShortName;
@@ -36,7 +37,11 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     }
   }
 
-  Future<void> _createTeam() async {
+  Future<void> _createTeam(
+    String playerId,
+    String playerName,
+    String playerRole,
+  ) async {
     if (!_formKey.currentState!.validate()) return;
 
     _formKey.currentState!.save();
@@ -49,10 +54,10 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     final result = await FirestoreMethods.createTeam(
       teamName: _teamName!,
       shortName: _teamShortName!,
-      createdBy: FirebaseAuthMethods.currentUserId,
+      createdBy: playerId,
       logoUrl: teamLogoUrl,
-      adminName: '',
-      adminCricketRole: '',
+      adminName: playerName,
+      adminCricketRole: playerRole,
     );
 
     if (!mounted) return;
@@ -66,6 +71,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final player = ref.watch(playerProvider);
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -117,7 +123,13 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                           alignment: Alignment.centerRight,
                           child: MyTextButton(
                             text: 'Create',
-                            onPressed: _createTeam,
+                            onPressed: () {
+                              _createTeam(
+                                player.id,
+                                player.name,
+                                player.cricketRole!.name,
+                              );
+                            },
                           ),
                         ),
                       ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/provider/player_provider.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/teams/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
@@ -17,9 +19,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   var _selectedIndex = 0;
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        loadPlayerDate();
+      },
+    );
     super.initState();
+  }
 
-    
+  Future<void> loadPlayerDate() async {
+    final player = await FirebaseAuthMethods.getUserDetail();
+    ref.read(playerProvider.notifier).setPlayer(player);
   }
 
   void _selectItem(int index) {

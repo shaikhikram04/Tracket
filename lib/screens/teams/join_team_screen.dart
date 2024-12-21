@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/team.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/teams/team_details_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
@@ -54,8 +54,7 @@ class JoinTeamScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final teamData = Team.formSeed(snap[index].data());
               final isJoined = teamData.playersList.any(
-                (player) =>
-                    player['id'] == FirebaseAuth.instance.currentUser!.uid,
+                (player) => player['id'] == FirebaseAuthMethods.currentUserId,
               );
               return ListTile(
                 leading: CircleAvatar(
