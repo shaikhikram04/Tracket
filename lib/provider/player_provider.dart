@@ -16,7 +16,7 @@ class PlayerNotifier extends StateNotifier<Player> {
           bowlingArm: null,
           bowlingStyle: null,
           createdAt: Timestamp.now(),
-          teamId: [],
+          teamsId: [],
           bestBalling: null,
           playerStats: null,
         ));
@@ -40,7 +40,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     String? teamId,
     PlayerStats? playerStats,
   }) {
-    final teamList = state.teamId;
+    final teamList = state.teamsId;
     if (teamId != null && teamList != null) teamList.add(teamId);
 
     final player = Player(
@@ -55,7 +55,7 @@ class PlayerNotifier extends StateNotifier<Player> {
       bowlingStyle: bowlingStyle ?? state.bowlingStyle,
       createdAt: state.createdAt,
       totalTimesOut: totalTimesOut ?? state.totalTimesOut,
-      teamId: teamList,
+      teamsId: teamList,
       bestBalling: bestBalling ?? state.bestBalling,
       playerStats: playerStats ?? state.playerStats,
     );

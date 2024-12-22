@@ -36,7 +36,7 @@ class Player {
   final String email;
   final String name;
   final String role;
-  final List<String>? teamId;
+  final List<String>? teamsId;
   final String? profileImageUrl;
   final CricketRole? cricketRole;
   final Position? battingPosition;
@@ -52,7 +52,7 @@ class Player {
     required this.id,
     required this.name,
     required this.email,
-    required this.teamId,
+    required this.teamsId,
     required this.profileImageUrl,
     required this.cricketRole,
     required this.battingPosition,
@@ -78,7 +78,7 @@ class Player {
         cricketRole = null,
         playerStats = null,
         totalTimesOut = null,
-        teamId = null;
+        teamsId = null;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
@@ -93,7 +93,7 @@ class Player {
         'email': email,
         'playerName': name,
         'role': role,
-        'teamId': teamId,
+        'teamsId': teamsId,
         'profileImageUrl': profileImageUrl,
         'cricketRole': cricketRole!.name,
         'battingPosition': battingPosition!.name,
@@ -128,7 +128,7 @@ class Player {
       bowlingArm: snap['bowlingArm'],
       bowlingStyle: snap['bowlingStyle'],
       createdAt: snap['createdAt'],
-      teamId: snap['teamId'],
+      teamsId: snap['teamsId'],
       bestBalling: BowlingFigure(
         snap['bestBalling'][0],
         snap['bestBalling'][1],

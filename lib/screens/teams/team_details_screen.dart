@@ -18,7 +18,9 @@ class TeamDetailsScreen extends StatelessWidget {
 
     void addPlayer() {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const AddPlayerScreen(),
+        builder: (context) => AddPlayerScreen(
+          teamId: teamData.id,
+        ),
       ));
     }
 
