@@ -97,6 +97,7 @@ class Player {
         'playerName': name,
         'role': role,
         'teamsId': teamsId,
+        'matchesPlayed': matchesPlayed,
         'profileImageUrl': profileImageUrl,
         'cricketRole': cricketRole!.name,
         'battingPosition': battingPosition!.name,
@@ -148,7 +149,8 @@ class Player {
         six: snap['six'],
         totalRuns: snap['totalRuns'],
         wicket: snap['wicket'],
-      ), matchesPlayed: snap['matchesPlayed'],
+      ),
+      matchesPlayed: snap['matchesPlayed'],
     );
   }
 }
