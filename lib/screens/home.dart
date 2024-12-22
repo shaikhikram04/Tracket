@@ -41,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const MatchesList();
+    Widget content = const MatchesScreen();
     String title = 'Matches';
 
     if (_selectedIndex == 1) {
