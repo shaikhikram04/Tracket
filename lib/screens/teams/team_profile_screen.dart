@@ -6,8 +6,8 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
-class TeamDetailsScreen extends StatelessWidget {
-  const TeamDetailsScreen({super.key, required this.teamData});
+class TeamProfileScreen extends StatelessWidget {
+  const TeamProfileScreen({super.key, required this.teamData});
 
   final Team teamData;
 

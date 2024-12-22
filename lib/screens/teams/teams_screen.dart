@@ -6,7 +6,7 @@ import 'package:tracket/models/team.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/teams/create_team_screen.dart';
 import 'package:tracket/screens/teams/join_team_screen.dart';
-import 'package:tracket/screens/teams/team_details_screen.dart';
+import 'package:tracket/screens/teams/team_profile_screen.dart';
 
 class TeamsScreen extends StatelessWidget {
   const TeamsScreen({super.key});
@@ -88,7 +88,7 @@ class TeamsScreen extends StatelessWidget {
                 trailing: isAdmin ? const Text('Admin') : null,
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TeamDetailsScreen(
+                    builder: (context) => TeamProfileScreen(
                       teamData: Team.formSeed(teamData),
                     ),
                   ));

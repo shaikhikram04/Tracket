@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/team.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/screens/teams/team_details_screen.dart';
+import 'package:tracket/screens/teams/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class JoinTeamScreen extends StatelessWidget {
@@ -67,7 +67,7 @@ class JoinTeamScreen extends StatelessWidget {
                 title: Text(teamData.name),
                 subtitle: Text(teamData.shortName),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TeamDetailsScreen(teamData: teamData),
+                  builder: (context) => TeamProfileScreen(teamData: teamData),
                 )),
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(
