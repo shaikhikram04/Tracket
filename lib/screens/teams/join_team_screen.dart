@@ -26,6 +26,7 @@ class JoinTeamScreen extends StatelessWidget {
           if (!snapshot.hasData || snapshot.data!.size == 0) {
             return const Center(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'No teams available',

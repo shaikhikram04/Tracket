@@ -4,7 +4,22 @@ import 'package:tracket/models/player.dart';
 import 'package:tracket/models/player_stats.dart';
 
 class PlayerNotifier extends StateNotifier<Player> {
-  PlayerNotifier(super.state);
+  PlayerNotifier()
+      : super(Player(
+          role: '',
+          id: '',
+          name: '',
+          email: '',
+          profileImageUrl: null,
+          cricketRole: null,
+          battingPosition: null,
+          bowlingArm: null,
+          bowlingStyle: null,
+          createdAt: Timestamp.now(),
+          teamId: [],
+          bestBalling: null,
+          playerStats: null,
+        ));
 
   void setPlayer(Player player) {
     state = player;
@@ -50,21 +65,5 @@ class PlayerNotifier extends StateNotifier<Player> {
 }
 
 final playerProvider = StateNotifierProvider<PlayerNotifier, Player>(
-  (ref) => PlayerNotifier(
-    Player(
-      role: '',
-      id: '',
-      name: '',
-      email: '',
-      profileImageUrl: null,
-      cricketRole: null,
-      battingPosition: null,
-      bowlingArm: null,
-      bowlingStyle: null,
-      createdAt: Timestamp.now(),
-      teamId: [],
-      bestBalling: null,
-      playerStats: null,
-    ),
-  ),
+  (ref) => PlayerNotifier(),
 );

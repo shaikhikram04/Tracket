@@ -26,10 +26,6 @@ class FirebaseAuthMethods {
     var snap =
         await _firestore.collection('players').doc(currentUser.uid).get();
 
-    while (snap.data() == null) {
-      snap = await _firestore.collection('users').doc(currentUser.uid).get();
-    }
-
     return snap;
   }
 

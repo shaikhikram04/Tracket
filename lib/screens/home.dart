@@ -19,17 +19,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   var _selectedIndex = 0;
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        loadPlayerDate();
+      (timeStamp) async {
+        await loadPlayerData();
       },
     );
-    super.initState();
   }
 
-  Future<void> loadPlayerDate() async {
+  Future<void> loadPlayerData() async {
     final player = await FirebaseAuthMethods.getUserDetail();
     ref.read(playerProvider.notifier).setPlayer(player);
+    print(player);
   }
 
   void _selectItem(int index) {
