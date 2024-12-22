@@ -272,7 +272,7 @@ class FirebaseAuthMethods {
         profileImageUrl: imageUrl,
         teamsId: [],
         bestBalling: BowlingFigure(0, 0),
-        playerStats: PlayerStats(),
+        playerStats: PlayerStats(), matchesPlayed: 0,
       );
       await _firestore
           .collection('players')

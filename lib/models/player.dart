@@ -36,8 +36,9 @@ class Player {
   final String email;
   final String name;
   final String role;
-  final List<String>? teamsId;
   final String? profileImageUrl;
+  final int? matchesPlayed;
+  final List<String>? teamsId;
   final CricketRole? cricketRole;
   final Position? battingPosition;
   final int? totalTimesOut;
@@ -61,6 +62,7 @@ class Player {
     required this.createdAt,
     required this.bestBalling,
     required this.playerStats,
+    required this.matchesPlayed,
     this.totalTimesOut = 0,
   });
 
@@ -78,7 +80,8 @@ class Player {
         cricketRole = null,
         playerStats = null,
         totalTimesOut = null,
-        teamsId = null;
+        teamsId = null,
+        matchesPlayed = 0;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
@@ -145,7 +148,7 @@ class Player {
         six: snap['six'],
         totalRuns: snap['totalRuns'],
         wicket: snap['wicket'],
-      ),
+      ), matchesPlayed: snap['matchesPlayed'],
     );
   }
 }

@@ -19,6 +19,7 @@ class PlayerNotifier extends StateNotifier<Player> {
           teamsId: [],
           bestBalling: null,
           playerStats: null,
+          matchesPlayed: null,
         ));
 
   void setPlayer(Player player) {
@@ -39,6 +40,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     BowlingStyle? bowlingStyle,
     String? teamId,
     PlayerStats? playerStats,
+    int? matchesPlayed,
   }) {
     final teamList = state.teamsId;
     if (teamId != null && teamList != null) teamList.add(teamId);
@@ -58,6 +60,7 @@ class PlayerNotifier extends StateNotifier<Player> {
       teamsId: teamList,
       bestBalling: bestBalling ?? state.bestBalling,
       playerStats: playerStats ?? state.playerStats,
+      matchesPlayed: matchesPlayed ?? state.matchesPlayed,
     );
 
     state = player;
