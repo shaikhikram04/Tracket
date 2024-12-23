@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/widgets/highlighted_label.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class PlayerProfileScreen extends StatefulWidget {
@@ -11,96 +12,6 @@ class PlayerProfileScreen extends StatefulWidget {
 
 class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   bool isBattingStats = true;
-  Widget buildAchievements() {
-    return Card(
-      color: whiteColor,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      elevation: 7,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Achievements',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: 23),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    'Achievement 1',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.green.shade900),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    'Achievement 2',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.blue.shade900),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.red.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    'Achievement 3',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.red.shade900),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.yellow.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    'Achievement 4',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.yellow.shade900),
-                  ),
-                ),
-              ],
-            )
-            // Add more achievements
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -259,6 +170,60 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
             buildAchievements(),
 
             const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildAchievements() {
+    return Card(
+      color: whiteColor,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      elevation: 7,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Achievements',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontSize: 23),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              children: [
+                HighlightedLabel(
+                  text: 'Achievement 1',
+                  bgColor: Colors.green.shade100,
+                  textColor: Colors.green.shade900,
+                  isLabel: false,
+                ),
+                HighlightedLabel(
+                  text: 'Achievement 2',
+                  bgColor: Colors.blue.shade100,
+                  textColor: Colors.blue.shade900,
+                  isLabel: false,
+                ),
+                HighlightedLabel(
+                  text: 'Achievement 3',
+                  bgColor: Colors.red.shade100,
+                  textColor: Colors.red.shade900,
+                  isLabel: false,
+                ),
+                HighlightedLabel(
+                  text: 'Achievement 4',
+                  bgColor: Colors.orange.shade100,
+                  textColor: Colors.orange.shade900,
+                  isLabel: false,
+                ),
+              ],
+            ),
+
+            // Add more achievements
           ],
         ),
       ),
