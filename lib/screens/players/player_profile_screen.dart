@@ -2,103 +2,110 @@ import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
-class PlayerProfileScreen extends StatelessWidget {
+class PlayerProfileScreen extends StatefulWidget {
   const PlayerProfileScreen({super.key});
+
+  @override
+  State<PlayerProfileScreen> createState() => _PlayerProfileScreenState();
+}
+
+class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
+  bool isBattingStats = true;
+  Widget buildAchievements() {
+    return Card(
+      color: whiteColor,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      elevation: 7,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Achievements',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontSize: 23),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    'Achievement 1',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.green.shade900),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    'Achievement 2',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.blue.shade900),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    'Achievement 3',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.red.shade900),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.yellow.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    'Achievement 4',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.yellow.shade900),
+                  ),
+                ),
+              ],
+            )
+            // Add more achievements
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    Widget buildAchievements() {
-      return Card(
-        color: whiteColor,
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        elevation: 7,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Achievements',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontSize: 23),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(5),
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'Achievement 1',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.green.shade900),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'Achievement 2',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.blue.shade900),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(5),
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade100,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'Achievement 3',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.red.shade900),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.yellow.shade100,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'Achievement 4',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.yellow.shade900),
-                    ),
-                  ),
-                ],
-              )
-              // Add more achievements
-            ],
-          ),
-        ),
-      );
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -212,13 +219,27 @@ class PlayerProfileScreen extends StatelessWidget {
                       unselectedLabelColor: Colors.grey,
                       indicatorColor: Colors.green,
                       indicatorSize: TabBarIndicatorSize.tab,
+                      onTap: (value) async {
+                        if (value == 0) {
+                          setState(() {
+                            isBattingStats = true;
+                          });
+                        } else {
+                          await Future.delayed(
+                              const Duration(milliseconds: 215), () {
+                            setState(() {
+                              isBattingStats = false;
+                            });
+                          });
+                        }
+                      },
                       tabs: const [
                         Tab(text: 'Batting'),
                         Tab(text: 'Bowling'),
                       ],
                     ),
                     SizedBox(
-                      height: 200,
+                      height: isBattingStats ? 270 : 150,
                       child: TabBarView(
                         children: [
                           _buildBattingStats(),
@@ -244,8 +265,7 @@ class PlayerProfileScreen extends StatelessWidget {
   }
 
   Widget _getStatBlock(dynamic number, String label) {
-    return SizedBox(
-      width: 75,
+    return Expanded(
       child: Column(
         children: [
           Text(
@@ -258,7 +278,7 @@ class PlayerProfileScreen extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 15, color: Colors.black54),
           ),
         ],
       ),
@@ -266,9 +286,9 @@ class PlayerProfileScreen extends StatelessWidget {
   }
 
   Widget _buildBattingStats() {
-    return ListView(
+    return Column(
       children: [
-        const SizedBox(height: 12),
+        const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,7 +332,7 @@ class PlayerProfileScreen extends StatelessWidget {
   }
 
   Widget _buildBowlingStats() {
-    return ListView(
+    return Column(
       children: [
         const SizedBox(height: 15),
         Row(
