@@ -39,6 +39,7 @@ class Player {
   final String? profileImageUrl;
   final int? matchesPlayed;
   final List<String>? teamsId;
+  final List<String>? achievements;
   final CricketRole? cricketRole;
   final Position? battingPosition;
   final int? totalTimesOut;
@@ -53,6 +54,7 @@ class Player {
     required this.id,
     required this.name,
     required this.email,
+    required this.achievements,
     required this.teamsId,
     required this.profileImageUrl,
     required this.cricketRole,
@@ -81,6 +83,7 @@ class Player {
         playerStats = null,
         totalTimesOut = null,
         teamsId = null,
+        achievements = null,
         matchesPlayed = 0;
 
   double get battingAverage {
@@ -106,6 +109,7 @@ class Player {
         'bowlingStyle': bowlingStyle!.name,
         'createdAt': createdAt,
         'bestBalling': [bestBalling?.runGiven, bestBalling!.ballDelivered],
+        'achievements': achievements,
         ...playerStats!.toJson,
       };
 
@@ -151,6 +155,7 @@ class Player {
         wicket: snap['wicket'],
       ),
       matchesPlayed: snap['matchesPlayed'],
+      achievements: snap['achievements'],
     );
   }
 }

@@ -241,6 +241,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                     SizedBox(
                       height: isBattingStats ? 270 : 150,
                       child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           _buildBattingStats(),
                           _buildBowlingStats(),
@@ -287,8 +288,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
 
   Widget _buildBattingStats() {
     return Column(
+      spacing: 15,
       children: [
-        const SizedBox(height: 15),
+        const SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,7 +300,6 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
             _getStatBlock(5000, 'Runs'),
           ],
         ),
-        const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,7 +309,6 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
             _getStatBlock(121, 'Highest Score'),
           ],
         ),
-        const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,7 +318,6 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
             _getStatBlock(10, 'Not Outs'),
           ],
         ),
-        const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
