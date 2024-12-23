@@ -136,6 +136,36 @@ class Player {
     }
   }
 
+  static Position getPosition(String position) {
+    switch (position) {
+      case 'righty':
+        return Position.righty;
+      case 'lefty':
+        return Position.lefty;
+      default:
+        return Position.righty;
+    }
+  }
+
+  static BowlingStyle getBowlingStyle(String style) {
+    switch (style) {
+      case 'fast':
+        return BowlingStyle.fast;
+      case 'mediumFast':
+        return BowlingStyle.mediumFast;
+      case 'legSpin':
+        return BowlingStyle.legSpin;
+      case 'offSpin':
+        return BowlingStyle.offSpin;
+      case 'chinaMan':
+        return BowlingStyle.chinaMan;
+      case 'none':
+        return BowlingStyle.none;
+      default:
+        return BowlingStyle.none;
+    }
+  }
+
   Map<String, dynamic> get toJsonForUser => {
         'userId': id,
         'email': email,
@@ -155,9 +185,9 @@ class Player {
       email: snap['email'],
       profileImageUrl: snap['profileImageUrl'],
       cricketRole: getCricketRole(snap['cricketRole']),
-      battingPosition: snap['battingPosition'],
-      bowlingArm: snap['bowlingArm'],
-      bowlingStyle: snap['bowlingStyle'],
+      battingPosition: getPosition(snap['battingPosition']),
+      bowlingArm: getPosition(snap['bowlingArm']),
+      bowlingStyle: getBowlingStyle(snap['bowlingStyle']),
       createdAt: snap['createdAt'],
       teamsId: snap['teamsId'],
       bestBalling: BowlingFigure(

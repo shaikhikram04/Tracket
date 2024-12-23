@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/screens/authentication/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
-import 'package:tracket/screens/players/player_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
