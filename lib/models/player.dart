@@ -121,6 +121,21 @@ class Player {
         ...playerStats!.toJson,
       };
 
+  static CricketRole getCricketRole(String role) {
+    switch (role) {
+      case 'batsman':
+        return CricketRole.batsman;
+      case 'bowler':
+        return CricketRole.bowler;
+      case 'allRounder':
+        return CricketRole.allRounder;
+      case 'wicketKeeper':
+        return CricketRole.wicketKeeper;
+      default:
+        return CricketRole.batsman;
+    }
+  }
+
   Map<String, dynamic> get toJsonForUser => {
         'userId': id,
         'email': email,
@@ -132,16 +147,14 @@ class Player {
         'followers': followers,
       };
 
-  static Player fromSeed(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final snap = snapshot.data()!;
-
+  static Player fromSeed(Map<String, dynamic> snap) {
     return Player(
       role: snap['role'],
       id: snap['playerId'],
       name: snap['playerName'],
       email: snap['email'],
       profileImageUrl: snap['profileImageUrl'],
-      cricketRole: snap['cricketRole'],
+      cricketRole: getCricketRole(snap['cricketRole']),
       battingPosition: snap['battingPosition'],
       bowlingArm: snap['bowlingArm'],
       bowlingStyle: snap['bowlingStyle'],

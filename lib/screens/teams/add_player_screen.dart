@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/models/player.dart';
 import 'package:tracket/screens/players/player_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
@@ -51,7 +52,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                 title: Text(playerData['playerName']),
                 subtitle: Text(playerData['cricketRole']),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const PlayerProfileScreen(),
+                  builder: (context) =>  PlayerProfileScreen(player:  Player.fromSeed(playerData)),
                 )),
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(

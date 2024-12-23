@@ -32,7 +32,7 @@ class FirebaseAuthMethods {
   static Future<Player> getUserDetail() async {
     final snap = await getUserSnap();
 
-    return Player.fromSeed(snap);
+    return Player.fromSeed(snap.data()!);
   }
 
   static Future<User?> sendVerificationEmail(

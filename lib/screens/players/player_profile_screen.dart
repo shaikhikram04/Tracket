@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/models/player.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class PlayerProfileScreen extends StatefulWidget {
-  const PlayerProfileScreen({super.key});
+  const PlayerProfileScreen({required this.player, super.key});
+
+  final Player player;
 
   @override
   State<PlayerProfileScreen> createState() => _PlayerProfileScreenState();
