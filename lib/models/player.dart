@@ -36,12 +36,12 @@ class Player {
   final String email;
   final String name;
   final String role;
-  final List<String> following;
-  final List<String> followers;
+  final List following;
+  final List followers;
   final String? profileImageUrl;
   final int? matchesPlayed;
-  final List<String>? teamsId;
-  final List<String>? achievements;
+  final List? teamsId;
+  final List? achievements;
   final CricketRole? cricketRole;
   final Position? battingPosition;
   final int? totalTimesOut;
