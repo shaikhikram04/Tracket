@@ -279,6 +279,7 @@ class FirebaseAuthMethods {
         achievements: [],
         following: [],
         followers: [],
+        innings: 0,
       );
       await _firestore
           .collection('players')

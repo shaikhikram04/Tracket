@@ -40,6 +40,7 @@ class Player {
   final List followers;
   final String? profileImageUrl;
   final int? matchesPlayed;
+  final int? innings;
   final List? teamsId;
   final List? achievements;
   final CricketRole? cricketRole;
@@ -57,6 +58,7 @@ class Player {
     required this.name,
     required this.email,
     required this.achievements,
+    required this.innings,
     required this.teamsId,
     required this.profileImageUrl,
     required this.following,
@@ -90,7 +92,8 @@ class Player {
         totalTimesOut = null,
         teamsId = null,
         achievements = null,
-        matchesPlayed = 0;
+        matchesPlayed = null,
+        innings = null;
 
   double get battingAverage {
     if (totalTimesOut == 0) {
@@ -118,6 +121,7 @@ class Player {
         'achievements': achievements,
         'following': following,
         'followers': followers,
+        'innings': innings,
         ...playerStats!.toJson,
       };
 
@@ -210,7 +214,7 @@ class Player {
       matchesPlayed: snap['matchesPlayed'],
       achievements: snap['achievements'],
       following: snap['following'],
-      followers: snap['followers'],
+      followers: snap['followers'], innings: snap['innings'],
     );
   }
 }

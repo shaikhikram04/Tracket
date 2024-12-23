@@ -55,18 +55,19 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/images/Default_user_pfp.jpg'),
+                    backgroundImage: widget.player.profileImageUrl == null
+                        ? const AssetImage('assets/images/Default_user_pfp.jpg')
+                        : NetworkImage(widget.player.profileImageUrl!),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Player Name',
+                    widget.player.name,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
-                    'Cricket Role | Team Name',
+                    widget.player.role,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
@@ -91,21 +92,21 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                           .copyWith(fontSize: 23),
                     ),
                     const SizedBox(height: 17),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         StatsData(
-                          number: 74,
+                          number: widget.player.matchesPlayed!,
                           label: 'Matches',
-                          numColor: Color.fromARGB(255, 29, 130, 212),
+                          numColor: const Color.fromARGB(255, 29, 130, 212),
                         ),
                         StatsData(
-                          number: 4500,
+                          number: widget.player.playerStats!.totalRuns,
                           label: 'Runs',
-                          numColor: Color.fromARGB(255, 39, 141, 42),
+                          numColor: const Color.fromARGB(255, 39, 141, 42),
                         ),
                         StatsData(
-                          number: 40,
+                          number: widget.player.playerStats!.wicket,
                           label: 'Wickets',
                           numColor: Colors.red,
                         ),
@@ -198,32 +199,14 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
             ),
             const SizedBox(height: 10),
             Wrap(
-              children: [
-                HighlightedLabel(
-                  text: 'Achievement 1',
-                  bgColor: Colors.green.shade100,
-                  textColor: Colors.green.shade900,
-                  isLabel: false,
+              children: List.generate(
+                widget.player.achievements!.length,
+                (index) => HighlightedLabel(
+                  text: widget.player.achievements![index],
+                  bgColor: Colors.deepOrange.shade100,
+                  textColor: Colors.deepOrange.shade900,
                 ),
-                HighlightedLabel(
-                  text: 'Achievement 2',
-                  bgColor: Colors.blue.shade100,
-                  textColor: Colors.blue.shade900,
-                  isLabel: false,
-                ),
-                HighlightedLabel(
-                  text: 'Achievement 3',
-                  bgColor: Colors.red.shade100,
-                  textColor: Colors.red.shade900,
-                  isLabel: false,
-                ),
-                HighlightedLabel(
-                  text: 'Achievement 4',
-                  bgColor: Colors.orange.shade100,
-                  textColor: Colors.orange.shade900,
-                  isLabel: false,
-                ),
-              ],
+              ),
             ),
 
             // Add more achievements
@@ -255,6 +238,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   }
 
   Widget _buildBattingStats() {
+    final playerStats = widget.player.playerStats!;
+    final notOut = widget.player.innings! - widget.player.totalTimesOut!;
     return Column(
       spacing: 15,
       children: [
@@ -263,35 +248,35 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(74, 'Matches'),
-            _getStatBlock(74, 'Innings'),
-            _getStatBlock(5000, 'Runs'),
+            _getStatBlock(widget.player.matchesPlayed, 'Matches'),
+            _getStatBlock(widget.player.innings, 'Innings'),
+            _getStatBlock(playerStats.totalRuns, 'Runs'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(120.4, 'Strike Rate'),
-            _getStatBlock(70, 'Average'),
-            _getStatBlock(121, 'Highest Score'),
+            _getStatBlock(playerStats.strikeRate, 'Strike Rate'),
+            _getStatBlock(widget.player.battingAverage, 'Average'),
+            _getStatBlock(playerStats.highestScore, 'Highest Score'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(3, 'Hundreds'),
-            _getStatBlock(30, 'Fifties'),
-            _getStatBlock(10, 'Not Outs'),
+            _getStatBlock(playerStats.hundreds, 'Hundreds'),
+            _getStatBlock(playerStats.fifties, 'Fifties'),
+            _getStatBlock(notOut, 'Not Outs'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(90, 'Sixes'),
-            _getStatBlock(120, 'Fours'),
+            _getStatBlock(playerStats.six, 'Sixes'),
+            _getStatBlock(playerStats.four, 'Fours'),
           ],
         ),
       ],
@@ -299,6 +284,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   }
 
   Widget _buildBowlingStats() {
+    final playerStats = widget.player.playerStats!;
     return Column(
       children: [
         const SizedBox(height: 15),
@@ -306,9 +292,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(74, 'Matches'),
-            _getStatBlock(55, 'Wickets'),
-            _getStatBlock(7.2, 'Economy'),
+            _getStatBlock(widget.player.matchesPlayed, 'Matches'),
+            _getStatBlock(playerStats.wicket, 'Wickets'),
+            _getStatBlock(playerStats.economyRate, 'Economy'),
           ],
         ),
         const SizedBox(height: 15),
@@ -316,7 +302,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(20, 'Average'),
+            _getStatBlock(playerStats.bowingAverage, 'Average'),
             _getStatBlock('3 / 17', 'Best Bowling'),
           ],
         ),

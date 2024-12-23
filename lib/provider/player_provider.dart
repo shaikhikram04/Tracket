@@ -23,6 +23,7 @@ class PlayerNotifier extends StateNotifier<Player> {
           achievements: [],
           following: [],
           followers: [],
+          innings: null,
         ));
 
   void setPlayer(Player player) {
@@ -47,6 +48,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     List<String>? achievements,
     List<String>? following,
     List<String>? followers,
+    int? innings,
   }) {
     final teamList = state.teamsId;
     if (teamId != null && teamList != null) teamList.add(teamId);
@@ -70,6 +72,7 @@ class PlayerNotifier extends StateNotifier<Player> {
       achievements: achievements ?? state.achievements,
       following: following ?? state.following,
       followers: followers ?? state.followers,
+      innings: innings ?? state.innings,
     );
 
     state = player;
