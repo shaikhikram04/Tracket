@@ -36,6 +36,8 @@ class Player {
   final String email;
   final String name;
   final String role;
+  final List<String> following;
+  final List<String> followers;
   final String? profileImageUrl;
   final int? matchesPlayed;
   final List<String>? teamsId;
@@ -57,6 +59,8 @@ class Player {
     required this.achievements,
     required this.teamsId,
     required this.profileImageUrl,
+    required this.following,
+    required this.followers,
     required this.cricketRole,
     required this.battingPosition,
     required this.bowlingArm,
@@ -75,6 +79,8 @@ class Player {
     required this.email,
     required this.profileImageUrl,
     required this.createdAt,
+    required this.following,
+    required this.followers,
   })  : battingPosition = null,
         bestBalling = null,
         bowlingArm = null,
@@ -110,6 +116,8 @@ class Player {
         'createdAt': createdAt,
         'bestBalling': [bestBalling?.runGiven, bestBalling!.ballDelivered],
         'achievements': achievements,
+        'following': following,
+        'followers': followers,
         ...playerStats!.toJson,
       };
 
@@ -120,6 +128,8 @@ class Player {
         'role': role,
         'profileImageUrl': profileImageUrl,
         'createdAt': createdAt,
+        'following': following,
+        'followers': followers,
       };
 
   static Player fromSeed(DocumentSnapshot<Map<String, dynamic>> snapshot) {
@@ -156,6 +166,8 @@ class Player {
       ),
       matchesPlayed: snap['matchesPlayed'],
       achievements: snap['achievements'],
+      following: snap['following'],
+      followers: snap['followers'],
     );
   }
 }

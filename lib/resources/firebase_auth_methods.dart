@@ -168,6 +168,8 @@ class FirebaseAuthMethods {
         createdAt: Timestamp.now(),
         id: userId,
         profileImageUrl: imageUrl,
+        following: [],
+        followers: [],
       );
 
       await _firestore
@@ -275,6 +277,8 @@ class FirebaseAuthMethods {
         playerStats: PlayerStats(),
         matchesPlayed: 0,
         achievements: [],
+        following: [],
+        followers: [],
       );
       await _firestore
           .collection('players')
