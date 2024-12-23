@@ -32,6 +32,9 @@ class FirestoreMethods {
         ],
         createdBy: createdBy,
         id: uuid.v4(),
+        achievements: [],
+        following: [],
+        followers: [],
       );
       await _firestore.collection('teams').doc(team.id).set(team.toJson);
       result = 'success';

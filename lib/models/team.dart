@@ -5,6 +5,9 @@ class Team {
     required this.shortName,
     required this.logoUrl,
     required this.playersList,
+    required this.achievements,
+    required this.following,
+    required this.followers,
     this.captainId,
     this.wicketKeeperId,
     required this.createdBy,
@@ -28,6 +31,9 @@ class Team {
   final int wins;
   final int losses;
   final int tieCount;
+  final List<String> achievements;
+  final List<String> following;
+  final List<String> followers;
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
@@ -47,6 +53,9 @@ class Team {
         'wins': wins,
         'losses': losses,
         'tie': tieCount,
+        'achievements': achievements,
+        'following': following,
+        'followers': followers,
       };
 
   static Team formSeed(Map<String, dynamic> snap) => Team(
@@ -63,5 +72,8 @@ class Team {
         tieCount: snap['tie'],
         wicketKeeperId: snap['wicketKeeperId'],
         wins: snap['wins'],
+        achievements: snap['achievements'],
+        following: snap['following'],
+        followers: snap['followers'],
       );
 }
