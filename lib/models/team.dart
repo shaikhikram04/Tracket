@@ -24,16 +24,16 @@ class Team {
   final String createdBy;
   final String? logoUrl;
   final int rank;
-  final List<Map> playersList;
+  final List playersList;
   final String? captainId;
   final String? wicketKeeperId;
   final int matchesPlayed;
   final int wins;
   final int losses;
   final int tieCount;
-  final List<String> achievements;
-  final List<String> following;
-  final List<String> followers;
+  final List achievements;
+  final List following;
+  final List followers;
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
