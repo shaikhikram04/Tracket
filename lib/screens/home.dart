@@ -68,6 +68,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onTap: _selectItem,
         selectedItemColor: blackColor,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w800),
+        showSelectedLabels: true,
         unselectedItemColor: unSelectColor,
         items: const [
           BottomNavigationBarItem(

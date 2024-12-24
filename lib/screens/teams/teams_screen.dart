@@ -102,7 +102,10 @@ class TeamsScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         animatedIcon: AnimatedIcons.menu_close,
-        overlayOpacity: 0.4,
+        overlayOpacity: 0.45,
+        overlayColor: Colors.black,
+        animationDuration: const Duration(milliseconds: 280),
+        animationCurve: Curves.easeInOut,
         children: [
           SpeedDialChild(
             child: const Icon(Icons.group_add),
