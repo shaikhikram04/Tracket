@@ -23,6 +23,18 @@ class AuthScreenSizeNotifier extends StateNotifier<double> {
     }
   }
 
+  void hasError() {
+    if (state == userLoginFormHeight) {
+      state = userLoginErrorHeight;
+    } else if (state == userSignupFormHeight) {
+      state = userSignupErrorHeight;
+    } else if (state == playerLoginFormHeight) {
+      state = playerLoginErrorHeight;
+    } else if (state == playerSignupFormHeight) {
+      state = playerSignupErrorHeight;
+    }
+  }
+
   void incrementSize(double size) {
     state += size;
   }

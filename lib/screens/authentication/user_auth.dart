@@ -37,7 +37,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
   Future<void> _userSignup() async {
     if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(36);
+      ref.read(authScreenSizeProvider.notifier).hasError();
       return;
     }
 
@@ -91,7 +91,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
   Future<void> _userLogin() async {
     if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(35);
+      ref.read(authScreenSizeProvider.notifier).hasError();
       return;
     }
 

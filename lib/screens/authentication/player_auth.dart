@@ -112,7 +112,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   Future<void> _playerSignup() async {
     if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(60);
+      ref.read(authScreenSizeProvider.notifier).hasError();
       return;
     }
     if (!_isDropdownSelected(_cricketRole?.name, 'Cricket Role')) {
@@ -182,7 +182,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   Future<void> _playerLogin() async {
     if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(60);
+      ref.read(authScreenSizeProvider.notifier).hasError();
       return;
     }
 
