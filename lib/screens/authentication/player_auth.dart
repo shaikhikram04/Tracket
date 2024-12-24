@@ -181,10 +181,10 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   Future<void> _playerLogin() async {
-    if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(60);
-      return;
-    }
+    // if (!_formKey.currentState!.validate()) {
+    //   ref.read(authScreenSizeProvider.notifier).incrementSize(60);
+    //   return;
+    // }
 
     _formKey.currentState!.save();
 

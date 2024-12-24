@@ -90,10 +90,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   Future<void> _userLogin() async {
-    if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).incrementSize(35);
-      return;
-    }
+    // if (!_formKey.currentState!.validate()) {
+    //   ref.read(authScreenSizeProvider.notifier).incrementSize(35);
+    //   return;
+    // }
 
     final email = _email!.trim();
     final password = _password!.trim();
