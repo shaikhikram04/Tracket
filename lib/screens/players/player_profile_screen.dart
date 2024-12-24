@@ -303,7 +303,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _getStatBlock(playerStats.bowingAverage, 'Average'),
-            _getStatBlock('3 / 17', 'Best Bowling'),
+            _getStatBlock(
+              playerStats.bestBallingFigure!.inString,
+              'Best Bowling',
+            ),
           ],
         ),
         // Add more bowling stats

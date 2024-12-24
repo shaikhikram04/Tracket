@@ -95,6 +95,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       return;
     }
 
+    _formKey.currentState!.save();
+
     final email = _email!.trim();
     final password = _password!.trim();
 

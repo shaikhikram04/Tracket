@@ -13,6 +13,23 @@ class BowlingFigure {
         'ballDelivered': ballDelivered,
         'wicket': wicket,
       };
+
+  String get over {
+    final over = ballDelivered ~/ 6;
+    final ball = ballDelivered % 6;
+
+    if (ball == 0) {
+      return '$over';
+    }
+    return '$over.$ball';
+  }
+
+  String get inString {
+    if (over == '0') {
+      return '-';
+    }
+    return '$runGiven / $wicket ($over)';
+  }
 }
 
 class PlayerStats {
