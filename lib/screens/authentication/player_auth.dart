@@ -181,10 +181,10 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   Future<void> _playerLogin() async {
-    // if (!_formKey.currentState!.validate()) {
-    //   ref.read(authScreenSizeProvider.notifier).incrementSize(60);
-    //   return;
-    // }
+    if (!_formKey.currentState!.validate()) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(60);
+      return;
+    }
 
     _formKey.currentState!.save();
 
@@ -269,11 +269,13 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
+                isLogin: _isLogin,
                 onSave: (value) => _playerName = value,
                 label: 'Player Name',
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
+              isLogin: _isLogin,
               onSave: (value) => _email = value,
               label: 'Email',
             ),
@@ -287,6 +289,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   _isPasswordHidden = !_isPasswordHidden;
                 });
               },
+              isLogin: _isLogin,
             ),
             const SizedBox(height: 30),
             if (!_isLogin) ...signUpField,

@@ -90,10 +90,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   Future<void> _userLogin() async {
-    // if (!_formKey.currentState!.validate()) {
-    //   ref.read(authScreenSizeProvider.notifier).incrementSize(35);
-    //   return;
-    // }
+    if (!_formKey.currentState!.validate()) {
+      ref.read(authScreenSizeProvider.notifier).incrementSize(35);
+      return;
+    }
 
     final email = _email!.trim();
     final password = _password!.trim();
@@ -159,16 +159,19 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
+                isLogin: _isLogin,
                 onSave: (value) => _username = value,
                 label: 'Username',
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
+              isLogin: _isLogin,
               onSave: (value) => _email = value,
               label: 'Email',
             ),
             const SizedBox(height: 30),
             MyTextField(
+              isLogin: _isLogin,
               onSave: (value) => _password = value,
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,

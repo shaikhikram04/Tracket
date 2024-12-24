@@ -105,6 +105,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         const SizedBox(height: 20),
                         if (!_isResetEmailSend)
                           MyTextField(
+                            isLogin: true,
                             onSave: (value) => _email = value,
                             label: 'Email',
                             borderRadius: 15,

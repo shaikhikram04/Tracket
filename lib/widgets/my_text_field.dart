@@ -6,6 +6,7 @@ class MyTextField extends StatelessWidget {
     super.key,
     required this.onSave,
     required this.label,
+    required this.isLogin,
     this.changeVisibility,
     this.isPasswordHidden = false,
     this.borderRadius = 5,
@@ -16,6 +17,7 @@ class MyTextField extends StatelessWidget {
   final String label;
   final void Function()? changeVisibility;
   final double borderRadius;
+  final bool isLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,9 @@ class MyTextField extends StatelessWidget {
       if (value == null || value.isEmpty) {
         return 'Password cannot be empty';
       }
+
+      if (isLogin) return null;
+
       if (value.length < 8) {
         return 'Password must be at least 8 characters long';
       }

@@ -108,12 +108,14 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     child: Column(
                       children: [
                         MyTextField(
+                          isLogin: false,
                           onSave: (value) => _teamName = value,
                           label: 'Team Name',
                           borderRadius: 10,
                         ),
                         const SizedBox(height: 20),
                         MyTextField(
+                          isLogin: false,
                           onSave: (value) => _teamShortName = value,
                           label: 'Team Short Name',
                           borderRadius: 10,
