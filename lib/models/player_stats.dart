@@ -1,3 +1,20 @@
+class BowlingFigure {
+  int runGiven;
+  int ballDelivered;
+  int wicket;
+  BowlingFigure({
+    required this.runGiven,
+    required this.ballDelivered,
+    required this.wicket,
+  });
+
+  Map<String, dynamic> get toJson => {
+        'runGiven': runGiven,
+        'ballDelivered': ballDelivered,
+        'wicket': wicket,
+      };
+}
+
 class PlayerStats {
   PlayerStats({
     this.totalRuns = 0,
@@ -11,39 +28,51 @@ class PlayerStats {
     this.runGiven = 0,
     this.ballDelivered = 0,
     this.maiden = 0,
+    this.innings = 0,
+    this.matches = 0,
+    this.bestBallingFigure,
+    this.outCount = 0,
   }) : userId = null;
 
   PlayerStats.matchStats({
     required this.userId,
     this.totalRuns = 0,
     this.ballsFaced = 0,
-    this.highestScore = 0,
-    this.hundreds = 0,
-    this.fifties = 0,
     this.four = 0,
     this.six = 0,
     this.wicket = 0,
     this.runGiven = 0,
     this.ballDelivered = 0,
     this.maiden = 0,
-  });
+  })  : matches = null,
+        innings = null,
+        highestScore = null,
+        hundreds = null,
+        fifties = null,
+        bestBallingFigure = null,
+        outCount = null;
 
   //* Identifing user uniquely
   final String? userId;
 
+  final int? matches;
+
   //* Batting stats
+  final int? innings;
   final int totalRuns;
   final int ballsFaced;
-  final int highestScore;
-  final int hundreds;
-  final int fifties;
+  final int? highestScore;
+  final int? hundreds;
+  final int? fifties;
   final int four;
   final int six;
+  final int? outCount;
 
   //* Bowling stats
   final int wicket;
   final int runGiven;
   final int ballDelivered;
+  final BowlingFigure? bestBallingFigure;
   final int maiden;
 
   double get strikeRate {
@@ -51,6 +80,14 @@ class PlayerStats {
       return 0;
     }
     return (totalRuns / ballsFaced) * 100;
+  }
+
+  double get battingAverage {
+    if (outCount == 0) {
+      return totalRuns.toDouble();
+    }
+
+    return totalRuns / outCount!;
   }
 
   double get bowingAverage {
@@ -81,5 +118,9 @@ class PlayerStats {
         'runGiven': runGiven,
         'ballDelivered': ballDelivered,
         'maiden': maiden,
+        'innings': innings,
+        'matches': matches,
+        'bestBallingFigure': bestBallingFigure?.toJson,
+        'outCount': outCount,
       };
 }

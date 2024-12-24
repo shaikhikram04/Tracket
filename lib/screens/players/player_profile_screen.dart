@@ -96,7 +96,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         StatsData(
-                          number: widget.player.matchesPlayed!,
+                          number: widget.player.playerStats!.matches!,
                           label: 'Matches',
                           numColor: const Color.fromARGB(255, 29, 130, 212),
                         ),
@@ -239,7 +239,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
 
   Widget _buildBattingStats() {
     final playerStats = widget.player.playerStats!;
-    final notOut = widget.player.innings! - widget.player.totalTimesOut!;
+    final notOut = playerStats.innings! - playerStats.outCount!;
     return Column(
       spacing: 15,
       children: [
@@ -248,8 +248,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(widget.player.matchesPlayed, 'Matches'),
-            _getStatBlock(widget.player.innings, 'Innings'),
+            _getStatBlock(playerStats.matches, 'Matches'),
+            _getStatBlock(playerStats.innings, 'Innings'),
             _getStatBlock(playerStats.totalRuns, 'Runs'),
           ],
         ),
@@ -258,7 +258,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _getStatBlock(playerStats.strikeRate, 'Strike Rate'),
-            _getStatBlock(widget.player.battingAverage, 'Average'),
+            _getStatBlock(playerStats.battingAverage, 'Average'),
             _getStatBlock(playerStats.highestScore, 'Highest Score'),
           ],
         ),
@@ -292,7 +292,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _getStatBlock(widget.player.matchesPlayed, 'Matches'),
+            _getStatBlock(playerStats.matches, 'Matches'),
             _getStatBlock(playerStats.wicket, 'Wickets'),
             _getStatBlock(playerStats.economyRate, 'Economy'),
           ],

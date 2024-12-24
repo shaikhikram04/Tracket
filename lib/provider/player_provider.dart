@@ -17,13 +17,10 @@ class PlayerNotifier extends StateNotifier<Player> {
           bowlingStyle: null,
           createdAt: Timestamp.now(),
           teamsId: [],
-          bestBalling: null,
           playerStats: null,
-          matchesPlayed: null,
           achievements: [],
           following: [],
           followers: [],
-          innings: null,
         ));
 
   void setPlayer(Player player) {
@@ -64,15 +61,11 @@ class PlayerNotifier extends StateNotifier<Player> {
       bowlingArm: bowlingArm ?? state.bowlingArm,
       bowlingStyle: bowlingStyle ?? state.bowlingStyle,
       createdAt: state.createdAt,
-      totalTimesOut: totalTimesOut ?? state.totalTimesOut,
       teamsId: teamList,
-      bestBalling: bestBalling ?? state.bestBalling,
       playerStats: playerStats ?? state.playerStats,
-      matchesPlayed: matchesPlayed ?? state.matchesPlayed,
       achievements: achievements ?? state.achievements,
       following: following ?? state.following,
       followers: followers ?? state.followers,
-      innings: innings ?? state.innings,
     );
 
     state = player;

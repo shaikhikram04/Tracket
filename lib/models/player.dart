@@ -22,15 +22,6 @@ enum BowlingStyle {
   chinaMan,
 }
 
-class BowlingFigure {
-  int runGiven;
-  int ballDelivered;
-  BowlingFigure(
-    this.runGiven,
-    this.ballDelivered,
-  );
-}
-
 class Player {
   final String id;
   final String email;
@@ -39,15 +30,11 @@ class Player {
   final List following;
   final List followers;
   final String? profileImageUrl;
-  final int? matchesPlayed;
-  final int? innings;
   final List? teamsId;
   final List? achievements;
   final CricketRole? cricketRole;
   final Position? battingPosition;
-  final int? totalTimesOut;
   final PlayerStats? playerStats;
-  BowlingFigure? bestBalling = BowlingFigure(0, 0);
   final Position? bowlingArm;
   final BowlingStyle? bowlingStyle;
   final Timestamp createdAt;
@@ -58,7 +45,6 @@ class Player {
     required this.name,
     required this.email,
     required this.achievements,
-    required this.innings,
     required this.teamsId,
     required this.profileImageUrl,
     required this.following,
@@ -68,10 +54,7 @@ class Player {
     required this.bowlingArm,
     required this.bowlingStyle,
     required this.createdAt,
-    required this.bestBalling,
     required this.playerStats,
-    required this.matchesPlayed,
-    this.totalTimesOut = 0,
   });
 
   Player.user({
@@ -84,24 +67,14 @@ class Player {
     required this.following,
     required this.followers,
   })  : battingPosition = null,
-        bestBalling = null,
         bowlingArm = null,
         bowlingStyle = null,
         cricketRole = null,
         playerStats = null,
-        totalTimesOut = null,
         teamsId = null,
-        achievements = null,
-        matchesPlayed = null,
-        innings = null;
+        achievements = null;
 
-  double get battingAverage {
-    if (totalTimesOut == 0) {
-      return playerStats!.totalRuns.toDouble();
-    }
-
-    return playerStats!.totalRuns / totalTimesOut!;
-  }
+  
 
   Map<String, dynamic> get toJsonForPlayer => {
         'playerId': id,
@@ -109,19 +82,15 @@ class Player {
         'playerName': name,
         'role': role,
         'teamsId': teamsId,
-        'matchesPlayed': matchesPlayed,
         'profileImageUrl': profileImageUrl,
         'cricketRole': cricketRole!.name,
         'battingPosition': battingPosition!.name,
-        'totalTimesOut': totalTimesOut,
         'bowlingArm': bowlingArm?.name,
         'bowlingStyle': bowlingStyle!.name,
         'createdAt': createdAt,
-        'bestBalling': [bestBalling?.runGiven, bestBalling!.ballDelivered],
         'achievements': achievements,
         'following': following,
         'followers': followers,
-        'innings': innings,
         ...playerStats!.toJson,
       };
 
@@ -194,10 +163,6 @@ class Player {
       bowlingStyle: getBowlingStyle(snap['bowlingStyle']),
       createdAt: snap['createdAt'],
       teamsId: snap['teamsId'],
-      bestBalling: BowlingFigure(
-        snap['bestBalling'][0],
-        snap['bestBalling'][1],
-      ),
       playerStats: PlayerStats(
         ballDelivered: snap['ballDelivered'],
         ballsFaced: snap['ballsFaced'],
@@ -210,11 +175,17 @@ class Player {
         six: snap['six'],
         totalRuns: snap['totalRuns'],
         wicket: snap['wicket'],
+        matches: snap['matches'],
+        innings: snap['innings'],
+        bestBallingFigure: BowlingFigure(
+          wicket: snap['bestBallingFigure']['wicket'],
+          runGiven: snap['bestBallingFigure']['runGiven'],
+          ballDelivered: snap['bestBallingFigure']['ballDelivered'],
+        ),
       ),
-      matchesPlayed: snap['matchesPlayed'],
       achievements: snap['achievements'],
       following: snap['following'],
-      followers: snap['followers'], innings: snap['innings'],
+      followers: snap['followers'],
     );
   }
 }
