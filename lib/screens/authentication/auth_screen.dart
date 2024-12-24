@@ -94,8 +94,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                                   .read(authScreenSizeProvider.notifier)
                                   .changeScreen(
                                     value == 0
-                                        ? AuthScreenType.userLogin
-                                        : AuthScreenType.playerLogin,
+                                        ? AuthScreenType.playerLogin
+                                        : AuthScreenType.userLogin,
                                   );
                             }
                           },

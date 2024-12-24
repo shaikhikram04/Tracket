@@ -312,7 +312,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                       ),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 15),
             Row(
               children: [
                 if (_isLogin)
