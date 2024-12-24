@@ -1,8 +1,8 @@
 class BowlingFigure {
-  int runGiven;
-  int ballDelivered;
-  int wicket;
-  BowlingFigure({
+  final int runGiven;
+  final int ballDelivered;
+  final int wicket;
+  const BowlingFigure({
     required this.runGiven,
     required this.ballDelivered,
     required this.wicket,
@@ -30,7 +30,11 @@ class PlayerStats {
     this.maiden = 0,
     this.innings = 0,
     this.matches = 0,
-    this.bestBallingFigure,
+    this.bestBallingFigure = const BowlingFigure(
+      runGiven: 0,
+      ballDelivered: 0,
+      wicket: 0,
+    ),
     this.outCount = 0,
   }) : userId = null;
 
