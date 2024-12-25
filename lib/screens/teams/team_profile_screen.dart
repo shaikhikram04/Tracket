@@ -1,7 +1,5 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/team.dart';
-import 'package:tracket/screens/teams/add_player_screen.dart';
 import 'package:tracket/screens/teams/team_edit_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/my_card.dart';
@@ -17,8 +15,6 @@ class TeamProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -139,7 +135,6 @@ class TeamProfileScreen extends StatelessWidget {
                               .titleMedium!
                               .copyWith(fontSize: 23),
                         ),
-                        
                       ],
                     ),
                   ),
@@ -162,7 +157,6 @@ class TeamProfileScreen extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              
                             ],
                           ),
                         )

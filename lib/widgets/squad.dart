@@ -10,12 +10,14 @@ class Squad extends StatelessWidget {
     required this.captainId,
     required this.wicketKeeperId,
     required this.teamId,
+    this.isEdit = false,
   });
 
   final List playersList;
   final String? captainId;
   final String? wicketKeeperId;
   final String teamId;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class Squad extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -93,18 +96,26 @@ class Squad extends StatelessWidget {
                 children: List.generate(
                 playersList.length,
                 (index) {
-                  final playerDetail = playersList[index];
-                  final playerId = playerDetail['id'];
-                  final isCaptain =
-                      captainId == null ? false : captainId == playerId;
-                  final isWicketKeeper = wicketKeeperId == null
-                      ? false
-                      : wicketKeeperId == playerId;
+                  // final playerDetail = playersList[index];
+                  // final playerId = playerDetail['id'];
+                  // final isCaptain =
+                  //     captainId == null ? false : captainId == playerId;
+                  // final isWicketKeeper = wicketKeeperId == null
+                  //     ? false
+                  //     : wicketKeeperId == playerId;
+                  // return PlayerTile(
+                  //   isCaptain: isCaptain,
+                  //   isWicketKeeper: isWicketKeeper,
+                  //   playerName: playerDetail['name'],
+                  //   cricketRole: playerDetail['cricketRole'],
+                  //   isEdit: isEdit,
+                  // );
                   return PlayerTile(
-                    isCaptain: isCaptain,
-                    isWicketKeeper: isWicketKeeper,
-                    playerName: playerDetail['name'],
-                    cricketRole: playerDetail['cricketRole'],
+                    isCaptain: true,
+                    isWicketKeeper: true,
+                    playerName: 'Player Name',
+                    cricketRole: 'Cricket Role',
+                    isEdit: isEdit,
                   );
                 },
               )),

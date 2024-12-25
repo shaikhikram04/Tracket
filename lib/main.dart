@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/screens/authentication/auth_screen.dart';
-import 'package:tracket/screens/home.dart';
 import 'package:tracket/screens/teams/team_edit_screen.dart';
 import 'package:tracket/utils/colors.dart';
 

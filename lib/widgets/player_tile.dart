@@ -9,6 +9,7 @@ class PlayerTile extends StatelessWidget {
     required this.playerName,
     required this.cricketRole,
     this.playerImageUrl,
+    this.isEdit = false,
   });
 
   final String playerName;
@@ -16,6 +17,7 @@ class PlayerTile extends StatelessWidget {
   final String? playerImageUrl;
   final bool isCaptain;
   final bool isWicketKeeper;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,15 @@ class PlayerTile extends StatelessWidget {
                   ],
                 )
               ],
-            )
+            ),
+            const Spacer(),
+            if (isEdit)
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.delete),
+                iconSize: 25,
+                color: Colors.red,
+              )
           ],
         ),
       ),
