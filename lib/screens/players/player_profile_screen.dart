@@ -110,7 +110,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(
-                          playerData.role,
+                          playerData.cricketRole!.name,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ],
