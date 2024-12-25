@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tracket/models/team.dart';
 import 'package:tracket/screens/teams/add_player_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/my_card.dart';
 import 'package:tracket/widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/my_elevated_button.dart';
@@ -24,6 +28,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
   late String? _teamName;
   late String? _teamShortName;
   late String? _description;
+  Uint8List? _image;
 
   List<String> _playerNames = [];
 
@@ -38,6 +43,15 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
     _playerNames =
         _playersList.map((player) => player['name'].toString()).toList();
     super.initState();
+  }
+
+  Future<void> _editLogo() async {
+    final pickedImage = await pickImage(ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
   }
 
   void addPlayer() {
@@ -68,6 +82,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
           child: Center(
             child: Column(
               children: [
+                //! Primary Info
                 MyCard(
                   child: Column(
                     spacing: 15,
@@ -79,19 +94,20 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                             .titleMedium!
                             .copyWith(fontSize: 23),
                       ),
+                      //! Team Logo
                       Row(
                         children: [
                           CircleAvatar(
                             radius: 50,
                             backgroundColor: Colors.grey,
-                            backgroundImage: _teamInfo.logoUrl != null
-                                ? NetworkImage(_teamInfo.logoUrl!)
+                            backgroundImage: _image != null
+                                ? MemoryImage(_image!)
                                 : const AssetImage(
                                     'assets/images/team_logo.png'),
                           ),
                           const SizedBox(width: 15),
                           TextButton.icon(
-                            onPressed: () {},
+                            onPressed: _editLogo,
                             label: Text(
                               'Edit team logo',
                               style: Theme.of(context).textTheme.bodyLarge,
@@ -105,6 +121,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                           ),
                         ],
                       ),
+                      //! Team Name, Short Name, Description
                       MyTextField(
                         initialText: _teamName,
                         onSave: (value) {
@@ -134,7 +151,9 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                         },
                         label: 'Description',
                         borderRadius: 15,
+                        maxLength: 100,
                       ),
+                      //! Team Player Capacity
                       Row(
                         children: [
                           const SizedBox(width: 5),
@@ -176,6 +195,8 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                     ],
                   ),
                 ),
+
+                //! Squad
                 MyCard(
                   child: Squad(
                     playersList: _playersList,
@@ -185,6 +206,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                     isEdit: true,
                   ),
                 ),
+                //! Roles
                 MyCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -197,6 +219,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                             .titleMedium!
                             .copyWith(fontSize: 23),
                       ),
+                      //! Captain, Wicketkeeper
                       MyDropdownMenu(
                         options: _playerNames,
                         label: 'Change captancy',
@@ -210,6 +233,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                     ],
                   ),
                 ),
+                //! Save Changes
                 SizedBox(
                   width: width * 0.9,
                   height: 50,

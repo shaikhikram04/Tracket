@@ -11,6 +11,7 @@ class MyTextField extends StatelessWidget {
     this.isPasswordHidden = false,
     this.borderRadius = 5,
     this.initialText,
+    this.maxLength,
   });
 
   final void Function(String? value) onSave;
@@ -20,6 +21,7 @@ class MyTextField extends StatelessWidget {
   final double borderRadius;
   final bool isLogin;
   final String? initialText;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class MyTextField extends StatelessWidget {
           borderSide: const BorderSide(color: blackColor),
         ),
       ),
+      maxLength: maxLength,
       onSaved: onSave,
       validator: isEmail
           ? emailValidator
