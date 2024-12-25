@@ -14,9 +14,10 @@ class MyDropdownMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return DropdownMenu(
       onSelected: onSelect,
-      width: 337,
+      width: width * 0.8,
       label: Text(label),
       menuStyle: MenuStyle(
         backgroundColor: WidgetStatePropertyAll(
