@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/team.dart';
 import 'package:tracket/screens/teams/add_player_screen.dart';
+import 'package:tracket/screens/teams/team_edit_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
@@ -30,7 +31,11 @@ class TeamProfileScreen extends StatelessWidget {
         backgroundColor: greenColor,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const TeamEditScreen(),
+              ));
+            },
             icon: const Icon(
               Icons.edit,
               color: blackColor,

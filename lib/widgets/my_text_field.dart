@@ -6,7 +6,7 @@ class MyTextField extends StatelessWidget {
     super.key,
     required this.onSave,
     required this.label,
-    required this.isLogin,
+     this.isLogin = false,
     this.changeVisibility,
     this.isPasswordHidden = false,
     this.borderRadius = 5,
