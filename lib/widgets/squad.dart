@@ -63,7 +63,7 @@ class Squad extends StatelessWidget {
                       size: 80,
                       color: Colors.grey.shade400,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     Text(
                       "No Player joined yet!",
                       style: TextStyle(
@@ -72,7 +72,7 @@ class Squad extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     Text(
                       "Tap the button above to request player to join.",
                       style: TextStyle(
@@ -81,7 +81,7 @@ class Squad extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
                     ZoomIn(
                       child: Icon(
                         Icons.arrow_outward,
@@ -96,25 +96,17 @@ class Squad extends StatelessWidget {
                 children: List.generate(
                 playersList.length,
                 (index) {
-                  // final playerDetail = playersList[index];
-                  // final playerId = playerDetail['id'];
-                  // final isCaptain =
-                  //     captainId == null ? false : captainId == playerId;
-                  // final isWicketKeeper = wicketKeeperId == null
-                  //     ? false
-                  //     : wicketKeeperId == playerId;
-                  // return PlayerTile(
-                  //   isCaptain: isCaptain,
-                  //   isWicketKeeper: isWicketKeeper,
-                  //   playerName: playerDetail['name'],
-                  //   cricketRole: playerDetail['cricketRole'],
-                  //   isEdit: isEdit,
-                  // );
+                  final playerDetail = playersList[index];
+                  final playerId = playerDetail['id'];
+                  final isCaptain =
+                      captainId == null ? false : captainId == playerId;
+                  final isWicketKeeper = wicketKeeperId == null
+                      ? false
+                      : wicketKeeperId == playerId;
                   return PlayerTile(
-                    isCaptain: true,
-                    isWicketKeeper: true,
-                    playerName: 'Player Name',
-                    cricketRole: 'Cricket Role',
+                    playerData: playerDetail,
+                    isCaptain: isCaptain,
+                    isWicketKeeper: isWicketKeeper,
                     isEdit: isEdit,
                   );
                 },

@@ -6,15 +6,11 @@ class PlayerTile extends StatelessWidget {
     super.key,
     this.isCaptain = false,
     this.isWicketKeeper = false,
-    required this.playerName,
-    required this.cricketRole,
-    this.playerImageUrl,
+    required this.playerData,
     this.isEdit = false,
   });
 
-  final String playerName;
-  final String cricketRole;
-  final String? playerImageUrl;
+  final Map<String, dynamic> playerData;
   final bool isCaptain;
   final bool isWicketKeeper;
   final bool isEdit;
@@ -29,8 +25,8 @@ class PlayerTile extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 35,
-              backgroundImage: playerImageUrl != null
-                  ? NetworkImage(playerImageUrl!)
+              backgroundImage: playerData['imageUrl'] != null
+                  ? NetworkImage(playerData['imageUrl']!)
                   : const AssetImage('assets/images/Default_user_pfp.jpg')
                       as ImageProvider,
             ),
@@ -41,7 +37,7 @@ class PlayerTile extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      playerName,
+                      playerData['name'],
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -49,7 +45,7 @@ class PlayerTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(cricketRole),
+                Text(playerData['cricketRole']),
                 const SizedBox(height: 2),
                 Row(
                   children: [

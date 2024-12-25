@@ -24,7 +24,7 @@ class TeamProfileScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const TeamEditScreen(),
+                builder: (context) => TeamEditScreen(teamData: teamData),
               ));
             },
             icon: const Icon(
@@ -174,10 +174,9 @@ class TeamProfileScreen extends StatelessWidget {
                                     ? false
                                     : teamData.wicketKeeperId == playerId;
                             return PlayerTile(
+                              playerData: playerDetail,
                               isCaptain: isCaptain,
                               isWicketKeeper: isWicketKeeper,
-                              playerName: playerDetail['name'],
-                              cricketRole: playerDetail['cricketRole'],
                             );
                           },
                         )),

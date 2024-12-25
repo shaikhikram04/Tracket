@@ -6,10 +6,11 @@ class MyTextField extends StatelessWidget {
     super.key,
     required this.onSave,
     required this.label,
-     this.isLogin = false,
+    this.isLogin = false,
     this.changeVisibility,
     this.isPasswordHidden = false,
     this.borderRadius = 5,
+    this.initialText,
   });
 
   final void Function(String? value) onSave;
@@ -18,6 +19,7 @@ class MyTextField extends StatelessWidget {
   final void Function()? changeVisibility;
   final double borderRadius;
   final bool isLogin;
+  final String? initialText;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class MyTextField extends StatelessWidget {
     }
 
     return TextFormField(
+      initialValue: initialText,
       obscureText: isPasswordHidden,
       obscuringCharacter: '*',
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,

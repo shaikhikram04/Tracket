@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/models/team.dart';
 import 'package:tracket/screens/teams/add_player_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/my_card.dart';
@@ -8,20 +9,41 @@ import 'package:tracket/widgets/my_text_field.dart';
 import 'package:tracket/widgets/squad.dart';
 
 class TeamEditScreen extends StatefulWidget {
-  const TeamEditScreen({super.key});
+  const TeamEditScreen({super.key, required this.teamData});
+
+  final Team teamData;
 
   @override
   State<TeamEditScreen> createState() => _TeamEditScreenState();
 }
 
 class _TeamEditScreenState extends State<TeamEditScreen> {
-  final playersList = [1, 2, 3, 4, 5];
-  int currentTeamCapacity = 15;
+  late final Team _teamInfo;
+  late List _playersList;
+  late int _currentTeamCapacity;
+  late String? _teamName;
+  late String? _teamShortName;
+  late String? _description;
+
+  List<String> _playerNames = [];
+
+  @override
+  void initState() {
+    _teamInfo = widget.teamData;
+    _playersList = _teamInfo.playersList;
+    _currentTeamCapacity = _teamInfo.maxPlayersCapacity;
+    _teamName = _teamInfo.name;
+    _teamShortName = _teamInfo.shortName;
+    _description = _teamInfo.description;
+    _playerNames =
+        _playersList.map((player) => player['name'].toString()).toList();
+    super.initState();
+  }
 
   void addPlayer() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const AddPlayerScreen(
-        teamId: '',
+      builder: (context) => AddPlayerScreen(
+        teamId: _teamInfo.id,
       ),
     ));
   }
@@ -32,9 +54,10 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Edit Team'),
+          shadowColor: blackColor,
           actions: [
             IconButton(
-              onPressed: addPlayer,
+              onPressed: () {},
               icon: const Icon(Icons.save),
               iconSize: 30,
               color: darkGreenColor,
@@ -58,11 +81,13 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                       ),
                       Row(
                         children: [
-                          const CircleAvatar(
+                          CircleAvatar(
                             radius: 50,
                             backgroundColor: Colors.grey,
-                            backgroundImage:
-                                AssetImage('assets/images/team_logo.png'),
+                            backgroundImage: _teamInfo.logoUrl != null
+                                ? NetworkImage(_teamInfo.logoUrl!)
+                                : const AssetImage(
+                                    'assets/images/team_logo.png'),
                           ),
                           const SizedBox(width: 15),
                           TextButton.icon(
@@ -81,17 +106,32 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                         ],
                       ),
                       MyTextField(
-                        onSave: (value) {},
+                        initialText: _teamName,
+                        onSave: (value) {
+                          setState(() {
+                            _teamName = value;
+                          });
+                        },
                         label: 'Team Name',
                         borderRadius: 15,
                       ),
                       MyTextField(
-                        onSave: (value) {},
+                        initialText: _teamShortName,
+                        onSave: (value) {
+                          setState(() {
+                            _teamShortName = value;
+                          });
+                        },
                         label: 'Team Short Name',
                         borderRadius: 15,
                       ),
                       MyTextField(
-                        onSave: (value) {},
+                        initialText: _description,
+                        onSave: (value) {
+                          setState(() {
+                            _description = value;
+                          });
+                        },
                         label: 'Description',
                         borderRadius: 15,
                       ),
@@ -106,9 +146,9 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                           IconButton(
                             onPressed: () {
                               setState(() {
-                                currentTeamCapacity > 0
-                                    ? currentTeamCapacity--
-                                    : currentTeamCapacity;
+                                _currentTeamCapacity > 0
+                                    ? _currentTeamCapacity--
+                                    : _currentTeamCapacity;
                               });
                             },
                             icon: const Icon(Icons.remove_circle),
@@ -116,15 +156,15 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                             color: darkGreenColor,
                           ),
                           Text(
-                            '$currentTeamCapacity',
+                            '$_currentTeamCapacity',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           IconButton(
                             onPressed: () {
                               setState(() {
-                                currentTeamCapacity < 30
-                                    ? currentTeamCapacity++
-                                    : currentTeamCapacity;
+                                _currentTeamCapacity < 30
+                                    ? _currentTeamCapacity++
+                                    : _currentTeamCapacity;
                               });
                             },
                             icon: const Icon(Icons.add_circle),
@@ -137,13 +177,14 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                   ),
                 ),
                 MyCard(
-                    child: Squad(
-                  playersList: playersList,
-                  captainId: 'captainId',
-                  wicketKeeperId: 'wicketKeeperId',
-                  teamId: 'teamId',
-                  isEdit: true,
-                )),
+                  child: Squad(
+                    playersList: _playersList,
+                    captainId: 'captainId',
+                    wicketKeeperId: 'wicketKeeperId',
+                    teamId: 'teamId',
+                    isEdit: true,
+                  ),
+                ),
                 MyCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,12 +198,12 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                             .copyWith(fontSize: 23),
                       ),
                       MyDropdownMenu(
-                        options: const [],
+                        options: _playerNames,
                         label: 'Change captancy',
                         onSelect: (value) {},
                       ),
                       MyDropdownMenu(
-                        options: const [],
+                        options: _playerNames,
                         label: 'Change Wicketkeeper',
                         onSelect: (value) {},
                       )
