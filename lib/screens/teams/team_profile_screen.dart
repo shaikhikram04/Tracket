@@ -18,13 +18,7 @@ class TeamProfileScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    void addPlayer() {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AddPlayerScreen(
-          teamId: teamData.id,
-        ),
-      ));
-    }
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -145,12 +139,7 @@ class TeamProfileScreen extends StatelessWidget {
                               .titleMedium!
                               .copyWith(fontSize: 23),
                         ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: addPlayer,
-                          iconSize: 30,
-                          icon: const Icon(Icons.group_add),
-                        )
+                        
                       ],
                     ),
                   ),
@@ -164,7 +153,7 @@ class TeamProfileScreen extends StatelessWidget {
                                 size: 80,
                                 color: Colors.grey.shade400,
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 30),
                               Text(
                                 "No Player joined yet!",
                                 style: TextStyle(
@@ -173,23 +162,7 @@ class TeamProfileScreen extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 20),
-                              Text(
-                                "Tap the button above to request player to join.",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey.shade500,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 40),
-                              ZoomIn(
-                                child: Icon(
-                                  Icons.arrow_outward,
-                                  size: 50,
-                                  color: Colors.green.shade400,
-                                ),
-                              ),
+                              
                             ],
                           ),
                         )
