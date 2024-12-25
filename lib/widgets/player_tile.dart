@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/screens/players/player_profile_screen.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
@@ -9,12 +10,18 @@ class PlayerTile extends StatelessWidget {
     this.isWicketKeeper = false,
     required this.playerData,
     this.isEdit = false,
+    this.teamId,
   });
 
   final Map<String, dynamic> playerData;
+  final String? teamId;
   final bool isCaptain;
   final bool isWicketKeeper;
   final bool isEdit;
+
+  Future<void> deletePlayer() async {
+    await FirestoreMethods.deletePlayerFromTeam(playerData, teamId!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,7 @@ class PlayerTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => PlayerProfileScreen(
-            player: null,
+            playerId: playerData['id'],
           ),
         ));
       },
@@ -76,7 +83,7 @@ class PlayerTile extends StatelessWidget {
             const Spacer(),
             if (isEdit)
               IconButton(
-                onPressed: () {},
+                onPressed: deletePlayer,
                 icon: const Icon(Icons.delete),
                 iconSize: 25,
                 color: Colors.red,

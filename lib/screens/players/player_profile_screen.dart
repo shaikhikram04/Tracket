@@ -9,8 +9,8 @@ import 'package:tracket/widgets/stats_data.dart';
 class PlayerProfileScreen extends StatefulWidget {
   const PlayerProfileScreen({
     super.key,
-    required this.player,
-    required this.playerId,
+    this.player,
+    this.playerId,
   });
 
   final Player? player;

@@ -200,9 +200,9 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                 MyCard(
                   child: Squad(
                     playersList: _playersList,
-                    captainId: 'captainId',
-                    wicketKeeperId: 'wicketKeeperId',
-                    teamId: 'teamId',
+                    captainId: _teamInfo.captainId,
+                    wicketKeeperId: _teamInfo.wicketKeeperId,
+                    teamId: _teamInfo.id,
                     isEdit: true,
                   ),
                 ),

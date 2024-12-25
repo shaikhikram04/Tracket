@@ -108,6 +108,7 @@ class Squad extends StatelessWidget {
                     isCaptain: isCaptain,
                     isWicketKeeper: isWicketKeeper,
                     isEdit: isEdit,
+                    teamId: teamId,
                   );
                 },
               )),

@@ -55,4 +55,22 @@ class FirestoreMethods {
 
     return player;
   }
+
+  static Future<void> deletePlayerFromTeam(
+    Map<String, dynamic> playerInfo,
+    String teamId,
+  ) async {
+    await _firestore.collection('teams').doc(teamId).update({
+      'playersList': FieldValue.arrayRemove([
+        {
+          'id': playerInfo['id'],
+          'cricketRole': playerInfo['cricketRole'],
+          'imageUrl': playerInfo['imageUrl'],
+          'name': playerInfo['name'],
+        }
+      ])
+    });
+
+    
+  }
 }
