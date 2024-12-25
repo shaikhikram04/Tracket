@@ -51,3 +51,11 @@ Future<Uint8List?> pickImage(ImageSource source) async {
   }
   return null;
 }
+
+List<String> enumToString(List<Enum> enums) {
+  return enums
+      .map(
+        (e) => e.name,
+      )
+      .toList();
+}

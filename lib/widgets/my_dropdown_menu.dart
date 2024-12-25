@@ -8,7 +8,7 @@ class MyDropdownMenu extends StatelessWidget {
     required this.onSelect,
   });
 
-  final List<Enum> options;
+  final List<String> options;
   final String label;
   final void Function(String? value) onSelect;
 
@@ -26,8 +26,8 @@ class MyDropdownMenu extends StatelessWidget {
       dropdownMenuEntries: Iterable.generate(
         options.length,
         (index) => DropdownMenuEntry(
-          value: options[index].name,
-          label: options[index].name.toUpperCase(),
+          value: options[index],
+          label: options[index].toUpperCase(),
         ),
       ).toList(),
     );

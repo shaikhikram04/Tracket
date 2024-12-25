@@ -225,27 +225,27 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   Widget build(BuildContext context) {
     List<Widget> signUpField = [
       MyDropdownMenu(
-        options: CricketRole.values,
+        options: enumToString(CricketRole.values),
         label: 'Select Cricket Role',
         onSelect: onSelectRole,
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
-        options: Position.values,
+        options: enumToString(Position.values),
         label: 'Select Batting Position',
         onSelect: onSelectBattingPosition,
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
         options:
-            _isBowler ? BowlingStyle.values.sublist(1) : BowlingStyle.values,
+            _isBowler ? enumToString(BowlingStyle.values.sublist(1)) : enumToString(BowlingStyle.values),
         label: 'Select Bowling Style',
         onSelect: onSelectBowlingStyle,
       ),
       const SizedBox(height: 30),
       if (_isBowler)
         MyDropdownMenu(
-          options: Position.values,
+          options: enumToString(Position.values),
           label: 'Select Bowling Arm',
           onSelect: onSelectBowlingArm,
         ),
