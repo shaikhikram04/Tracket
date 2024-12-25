@@ -1,13 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/models/player.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class PlayerProfileScreen extends StatefulWidget {
-  const PlayerProfileScreen({required this.player, super.key});
+  const PlayerProfileScreen({
+    super.key,
+    required this.player,
+    required this.playerId,
+  });
 
-  final Player player;
+  final Player? player;
+  final String? playerId;
 
   @override
   State<PlayerProfileScreen> createState() => _PlayerProfileScreenState();
@@ -15,6 +22,39 @@ class PlayerProfileScreen extends StatefulWidget {
 
 class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   bool isBattingStats = true;
+  late Player playerData;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    if (widget.player != null) {
+      playerData = widget.player!;
+    } else {
+      _loadPlayerData();
+    }
+
+    super.initState();
+  }
+
+  Future<void> _loadPlayerData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await FirestoreMethods.getPlayerFromId(widget.playerId!).then((player) {
+      setState(() {
+        playerData = player;
+      });
+    }).catchError((error) {
+      if (kDebugMode) {
+        print('Error fetching player data: $error');
+      }
+    });
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,149 +74,154 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         centerTitle: false,
         shape: Border.all(color: greenColor, width: 0),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Profile Picture and Name
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    greenColor,
-                    lightDrawerBgColor,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-              height: height * 0.23,
-              width: width,
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 10),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: widget.player.profileImageUrl == null
-                        ? const AssetImage('assets/images/Default_user_pfp.jpg')
-                        : NetworkImage(widget.player.profileImageUrl!),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    widget.player.name,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  Text(
-                    widget.player.role,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            //! Player Stats
-            Card(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              color: whiteColor,
-              elevation: 7,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
-                child: Column(
-                  children: [
-                    Text(
-                      'Player Statistics',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 23),
+                  // Profile Picture and Name
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          greenColor,
+                          lightDrawerBgColor,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                     ),
-                    const SizedBox(height: 17),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    height: height * 0.23,
+                    width: width,
+                    child: Column(
                       children: [
-                        StatsData(
-                          number: widget.player.playerStats!.matches!,
-                          label: 'Matches',
-                          numColor: const Color.fromARGB(255, 29, 130, 212),
+                        const SizedBox(height: 10),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: playerData.profileImageUrl == null
+                              ? const AssetImage(
+                                  'assets/images/Default_user_pfp.jpg')
+                              : NetworkImage(playerData.profileImageUrl!),
                         ),
-                        StatsData(
-                          number: widget.player.playerStats!.totalRuns,
-                          label: 'Runs',
-                          numColor: const Color.fromARGB(255, 39, 141, 42),
+                        const SizedBox(height: 10),
+                        Text(
+                          playerData.name,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        StatsData(
-                          number: widget.player.playerStats!.wicket,
-                          label: 'Wickets',
-                          numColor: Colors.red,
+                        Text(
+                          playerData.role,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Tabs for Detailed Stats
-            Card(
-              color: whiteColor,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              elevation: 7,
-              child: DefaultTabController(
-                length: 2,
-                child: Column(
-                  children: [
-                    TabBar(
-                      labelColor: greenColor,
-                      labelStyle: Theme.of(context).textTheme.titleMedium,
-                      unselectedLabelColor: Colors.grey,
-                      indicatorColor: Colors.green,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      onTap: (value) async {
-                        if (value == 0) {
-                          setState(() {
-                            isBattingStats = true;
-                          });
-                        } else {
-                          await Future.delayed(
-                              const Duration(milliseconds: 215), () {
-                            setState(() {
-                              isBattingStats = false;
-                            });
-                          });
-                        }
-                      },
-                      tabs: const [
-                        Tab(text: 'Batting'),
-                        Tab(text: 'Bowling'),
-                      ],
-                    ),
-                    SizedBox(
-                      height: isBattingStats ? 270 : 150,
-                      child: TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  const SizedBox(height: 20),
+                  //! Player Stats
+                  Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    color: whiteColor,
+                    elevation: 7,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 25, horizontal: 30),
+                      child: Column(
                         children: [
-                          _buildBattingStats(),
-                          _buildBowlingStats(),
+                          Text(
+                            'Player Statistics',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(fontSize: 23),
+                          ),
+                          const SizedBox(height: 17),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              StatsData(
+                                number: playerData.playerStats!.matches!,
+                                label: 'Matches',
+                                numColor:
+                                    const Color.fromARGB(255, 29, 130, 212),
+                              ),
+                              StatsData(
+                                number: playerData.playerStats!.totalRuns,
+                                label: 'Runs',
+                                numColor:
+                                    const Color.fromARGB(255, 39, 141, 42),
+                              ),
+                              StatsData(
+                                number: playerData.playerStats!.wicket,
+                                label: 'Wickets',
+                                numColor: Colors.red,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Tabs for Detailed Stats
+                  Card(
+                    color: whiteColor,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    elevation: 7,
+                    child: DefaultTabController(
+                      length: 2,
+                      child: Column(
+                        children: [
+                          TabBar(
+                            labelColor: greenColor,
+                            labelStyle: Theme.of(context).textTheme.titleMedium,
+                            unselectedLabelColor: Colors.grey,
+                            indicatorColor: Colors.green,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            onTap: (value) async {
+                              if (value == 0) {
+                                setState(() {
+                                  isBattingStats = true;
+                                });
+                              } else {
+                                await Future.delayed(
+                                    const Duration(milliseconds: 215), () {
+                                  setState(() {
+                                    isBattingStats = false;
+                                  });
+                                });
+                              }
+                            },
+                            tabs: const [
+                              Tab(text: 'Batting'),
+                              Tab(text: 'Bowling'),
+                            ],
+                          ),
+                          SizedBox(
+                            height: isBattingStats ? 270 : 150,
+                            child: TabBarView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                _buildBattingStats(),
+                                _buildBowlingStats(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Achievements Section
+                  buildAchievements(),
+
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            // Achievements Section
-            buildAchievements(),
-
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
     );
   }
 
@@ -214,13 +259,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
       ),
     ]);
 
-    if (widget.player.achievements != null &&
-        widget.player.achievements!.isNotEmpty) {
+    if (playerData.achievements != null &&
+        playerData.achievements!.isNotEmpty) {
       content = Wrap(
         children: List.generate(
-          widget.player.achievements!.length,
+          playerData.achievements!.length,
           (index) => HighlightedLabel(
-            text: widget.player.achievements![index],
+            text: playerData.achievements![index],
             bgColor: Colors.deepOrange.shade100,
             textColor: Colors.deepOrange.shade900,
           ),
@@ -277,7 +322,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   }
 
   Widget _buildBattingStats() {
-    final playerStats = widget.player.playerStats!;
+    final playerStats = playerData.playerStats!;
     final notOut = playerStats.innings! - playerStats.outCount!;
     return Column(
       spacing: 15,
@@ -323,7 +368,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   }
 
   Widget _buildBowlingStats() {
-    final playerStats = widget.player.playerStats!;
+    final playerStats = playerData.playerStats!;
     return Column(
       children: [
         const SizedBox(height: 15),

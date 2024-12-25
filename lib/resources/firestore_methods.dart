@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracket/models/player.dart';
 import 'package:tracket/models/team.dart';
 import 'package:uuid/uuid.dart';
 
@@ -43,5 +44,15 @@ class FirestoreMethods {
     }
 
     return result;
+  }
+
+  static Future<Player> getPlayerFromId(String playerId) async {
+    Player player;
+
+    final fetchedData =
+        await _firestore.collection('players').doc(playerId).get();
+    player = Player.fromSeed(fetchedData.data()!);
+
+    return player;
   }
 }
