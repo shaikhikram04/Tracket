@@ -1,4 +1,4 @@
-import 'package:tracket/models/team.dart';
+import 'package:tracket/teams/models/team.dart';
 import 'package:uuid/uuid.dart';
 
 enum ReasonOfOut {

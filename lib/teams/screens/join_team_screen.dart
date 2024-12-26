@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/models/team.dart';
+import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/screens/teams/team_profile_screen.dart';
+import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class JoinTeamScreen extends ConsumerWidget {

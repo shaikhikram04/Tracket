@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/models/player.dart';
-import 'package:tracket/models/team.dart';
+import 'package:tracket/teams/models/team.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {

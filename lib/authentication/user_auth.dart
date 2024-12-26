@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/authentication/screens/forget_password.dart';
+import 'package:tracket/authentication/forget_password.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/models/team.dart';
+import 'package:tracket/teams/models/team.dart';
 
 class TeamProviderNotifier extends StateNotifier<Team> {
   TeamProviderNotifier(super.state);

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/player_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/matches_screen.dart';
-import 'package:tracket/screens/teams/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
+import 'package:tracket/teams/screens/teams_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/main_drawer.dart';
 
@@ -30,7 +30,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<void> loadPlayerData() async {
     final player = await FirebaseAuthMethods.getUserDetail();
     ref.read(playerProvider.notifier).setPlayer(player);
-    print(player);
   }
 
   void _selectItem(int index) {

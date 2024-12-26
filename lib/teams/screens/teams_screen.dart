@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tracket/models/team.dart';
+import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/screens/teams/create_team_screen.dart';
-import 'package:tracket/screens/teams/join_team_screen.dart';
-import 'package:tracket/screens/teams/team_profile_screen.dart';
+import 'package:tracket/teams/screens/create_team_screen.dart';
+import 'package:tracket/teams/screens/join_team_screen.dart';
+import 'package:tracket/teams/screens/team_profile_screen.dart';
 
 class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});

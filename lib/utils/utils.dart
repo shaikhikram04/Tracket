@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/authentication/screens/verification_screen.dart';
+import 'package:tracket/authentication/verification_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 void showSnackBar(String content, BuildContext context) {
