@@ -273,16 +273,19 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                 isLogin: _isLogin,
                 onSave: (value) => _playerName = value,
                 label: 'Player Name',
+                validator: (value) =>nameValidator(value, 'Player name')
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
               isLogin: _isLogin,
               onSave: (value) => _email = value,
               label: 'Email',
+              validator: emailValidator,
             ),
             const SizedBox(height: 30),
             MyTextField(
               onSave: (value) => _password = value,
+              validator: (value) =>  passwordValidator(value, _isLogin),
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
               changeVisibility: () {

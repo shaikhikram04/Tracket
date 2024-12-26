@@ -112,6 +112,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             onSave: (value) => _email = value,
                             label: 'Email',
                             borderRadius: 15,
+                            validator: emailValidator,
                           ),
                         const SizedBox(height: 15),
                         Row(

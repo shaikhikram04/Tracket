@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/authentication/forget_password.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/authentication/forget_password.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
@@ -164,12 +164,14 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 isLogin: _isLogin,
                 onSave: (value) => _username = value,
                 label: 'Username',
+                validator: usernameValidator,
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
               isLogin: _isLogin,
               onSave: (value) => _email = value,
               label: 'Email',
+              validator: emailValidator,
             ),
             const SizedBox(height: 30),
             MyTextField(
@@ -182,6 +184,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                   _isPasswordHidden = !_isPasswordHidden;
                 });
               },
+              validator: (value) => passwordValidator(value, _isLogin),
             ),
             const SizedBox(height: 30),
             SizedBox(

@@ -112,6 +112,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                           onSave: (value) => _teamName = value,
                           label: 'Team Name',
                           borderRadius: 10,
+                          validator: (value) =>
+                              nameValidator(value, 'Team Name'),
                         ),
                         const SizedBox(height: 20),
                         MyTextField(
@@ -119,6 +121,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                           onSave: (value) => _teamShortName = value,
                           label: 'Team Short Name',
                           borderRadius: 10,
+                          validator: teamShortNameValidator,
                         ),
                         const SizedBox(height: 20),
                         Align(

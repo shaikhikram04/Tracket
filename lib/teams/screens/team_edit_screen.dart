@@ -111,6 +111,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         },
                         label: 'Team Name',
                         borderRadius: 15,
+                        validator: (value) => nameValidator(value, 'Team Name'),
                       ),
                       MyTextField(
                         initialText: _team.shortName,
@@ -121,6 +122,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         },
                         label: 'Team Short Name',
                         borderRadius: 15,
+                        validator: teamShortNameValidator,
                       ),
                       MyTextField(
                         initialText: _team.description,

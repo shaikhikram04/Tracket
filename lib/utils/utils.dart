@@ -134,3 +134,14 @@ String? teamShortNameValidator(String? value) {
   }
   return null;
 }
+
+String? nameValidator(String? value, String fieldName) {
+  if (value == null || value.isEmpty) {
+    return '$fieldName cannot be empty';
+  }
+
+  if (value.trim().length < 4) {
+    return '$fieldName must contain at least 4 characters';
+  }
+  return null;
+}
