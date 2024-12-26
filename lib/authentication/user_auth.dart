@@ -7,8 +7,8 @@ import 'package:tracket/authentication/forget_password.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
@@ -111,7 +111,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     setState(() {
       _isLogin = !_isLogin;
       _isPasswordHidden = true;
-      _formKey.currentState!.reset();
+      if (_formKey.currentState != null) _formKey.currentState!.reset();
     });
   }
 
@@ -121,9 +121,10 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     ));
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isPasswordHidden = !_isPasswordHidden;
+    });
   }
 
   @override
@@ -139,6 +140,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
           children: [
             Text(
               _isLogin ? 'Login as User' : 'Signup as user',
+              semanticsLabel:
+                  _isLogin ? 'Login form for users' : 'Signup form for users',
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -165,31 +168,18 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               onSave: (value) => _password = value,
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
-              changeVisibility: () {
-                setState(() {
-                  _isPasswordHidden = !_isPasswordHidden;
-                });
-              },
+              changeVisibility: _togglePasswordVisibility,
               validator: (value) => passwordValidator(value, _isLogin),
             ),
             const SizedBox(height: 30),
             SizedBox(
               width: width * 0.8,
               height: 50,
-              child: ElevatedButton(
-                onPressed: _isLogin ? _userLogin : _userSignup,
-                style: Theme.of(context).elevatedButtonTheme.style,
-                child: _isLoading
-                    ? const CircularProgressIndicator(
-                        color: blackColor,
-                      )
-                    : Text(
-                        _isLogin ? 'Login' : 'Sign Up',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                      ),
+              child: MyElevatedButton(
+                onPressed:
+                    _isLoading ? null : (_isLogin ? _userLogin : _userSignup),
+                text: _isLogin ? 'Login' : 'Sign Up',
+                isLoading: _isLoading,
               ),
             ),
             const SizedBox(height: 15),

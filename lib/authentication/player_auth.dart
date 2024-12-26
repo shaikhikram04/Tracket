@@ -191,11 +191,6 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     List<Widget> signUpField = [
       MyDropdownMenu(
@@ -236,7 +231,9 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
           children: [
             Text(
               _isLogin ? 'Login as Player' : 'Signup as Player',
-              semanticsLabel: _isLogin ? 'Login form for players' : 'Signup form for players',
+              semanticsLabel: _isLogin
+                  ? 'Login form for players'
+                  : 'Signup form for players',
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
