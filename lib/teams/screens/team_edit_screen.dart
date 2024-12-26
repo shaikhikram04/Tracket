@@ -1,9 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
+import 'package:tracket/teams/widgets/player_capacity_selector.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
@@ -20,14 +25,16 @@ class TeamEditScreen extends ConsumerStatefulWidget {
 
 class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   late final Team _team;
+  Uint8List? _image;
   late List _playersList;
-
   List<String> _playerNames = [];
+  late int _maxPlayersCapacity;
 
   @override
   void initState() {
-    _team = ref.watch(teamProvider);
+    _team = ref.read(teamProvider);
     _playersList = _team.playersList;
+    _maxPlayersCapacity = _team.maxPlayersCapacity;
 
     _playerNames =
         _playersList.map((player) => player['name'].toString()).toList();
@@ -40,6 +47,20 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         teamId: _team.id,
       ),
     ));
+  }
+
+  Future<void> _editLogo(Uint8List? image) async {
+    try {
+      final pickedImage = await pickImage(ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          _image = pickedImage;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBar('Failed to pick an image: $e', context);
+    }
   }
 
   @override
@@ -77,6 +98,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       //! Team Logo
                       TeamLogoEditor(
                         logoUrl: _team.logoUrl,
+                        image: _image,
+                        onImageChanged: _editLogo,
                       ),
                       //! Team Name, Short Name, Description
                       MyTextField(
@@ -111,44 +134,15 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         maxLength: 100,
                       ),
                       //! Team Player Capacity
-                      Row(
-                        children: [
-                          const SizedBox(width: 5),
-                          Text(
-                            'Max Players Capacity:',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {
-                              if (_team.maxPlayersCapacity > 0) {
-                                ref
-                                    .read(teamProvider.notifier)
-                                    .decrementCapacity();
-                              }
-                            },
-                            icon: const Icon(Icons.remove_circle),
-                            iconSize: 30,
-                            color: darkGreenColor,
-                          ),
-                          Text(
-                            '${_team.maxPlayersCapacity}',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              if (_team.maxPlayersCapacity < 30) {
-                                ref
-                                    .read(teamProvider.notifier)
-                                    .incrementCapacity();
-                              }
-                            },
-                            icon: const Icon(Icons.add_circle),
-                            iconSize: 30,
-                            color: darkGreenColor,
-                          ),
-                        ],
-                      ),
+                      PlayerCapacitySelector(
+                        maxPlayersCapacity: _maxPlayersCapacity,
+                        onIncrement: () => setState(
+                          () => _maxPlayersCapacity++,
+                        ),
+                        onDecrement: () => setState(
+                          () => _maxPlayersCapacity--,
+                        ),
+                      )
                     ],
                   ),
                 ),
