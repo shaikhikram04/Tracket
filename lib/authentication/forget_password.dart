@@ -36,16 +36,19 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         _isSendingEmail = true;
       });
       final result = await FirebaseAuthMethods.resetPassword(_email!);
-      setState(() {
-        _isSendingEmail = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isSendingEmail = false;
+        });
+      }
+
       if (result == 'success') {
         setState(() {
           _isResetEmailSend = true;
         });
       } else {
         if (!mounted) return;
-        showSnackBar('Some error occur. Please try again!', context);
+        showSnackBar(result, context);
       }
     }
   }
@@ -120,15 +123,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               ),
                             const Spacer(),
                             if (_isSendingEmail)
-                              const SizedBox.square(
-                                dimension: 20,
-                                child: CircularProgressIndicator(),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: SizedBox.square(
+                                  dimension: 20,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                ),
                               ),
                             MyTextButton(
                               text: _isResetEmailSend
                                   ? 'Resend'
                                   : 'Send reset email',
-                              onPressed: _sendResetEmail,
+                              onPressed:
+                                  _isSendingEmail ? null : _sendResetEmail,
                             ),
                           ],
                         )
@@ -142,14 +150,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: blackColor,
-                  ),
-                  label: Text(
-                    'Back to login',
-                    style: Theme.of(context)
+                    textStyle: Theme.of(context)
                         .textTheme
                         .bodyLarge!
                         .copyWith(fontWeight: FontWeight.w500),
+                    iconSize: 30,
                   ),
+                  label: const Text('Back to login'),
                   icon: const Icon(Icons.arrow_back),
                 )
               ],
