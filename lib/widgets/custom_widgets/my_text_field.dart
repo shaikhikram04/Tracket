@@ -12,6 +12,7 @@ class MyTextField extends StatelessWidget {
     this.borderRadius = 5,
     this.initialText,
     this.maxLength,
+    this.validator,
   });
 
   final void Function(String? value) onSave;
@@ -22,49 +23,12 @@ class MyTextField extends StatelessWidget {
   final bool isLogin;
   final String? initialText;
   final int? maxLength;
+  final String? Function(String? value)? validator;
 
   @override
   Widget build(BuildContext context) {
     final isEmail = label == "Email";
     final isPassword = label == 'Password';
-
-    String? emailValidator(String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Email cannot be empty';
-      }
-
-      //! Regular expression for validating an email
-      const emailRegex = r'^[^@\s]+@[^@\s]+\.[^@\s]+$';
-      if (!RegExp(emailRegex).hasMatch(value)) {
-        return 'Enter a valid email address';
-      }
-      return null; //? Valid email
-    }
-
-    String? passwordValidator(String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Password cannot be empty';
-      }
-
-      if (isLogin) return null;
-
-      if (value.length < 8) {
-        return 'Password must be at least 8 characters long';
-      }
-      if (!RegExp(r'[A-Z]').hasMatch(value)) {
-        return 'Password must contain at least one uppercase letter';
-      }
-      if (!RegExp(r'[a-z]').hasMatch(value)) {
-        return 'Password must contain at least one lowercase letter';
-      }
-      if (!RegExp(r'[0-9]').hasMatch(value)) {
-        return 'Password must contain at least one number';
-      }
-      if (!RegExp(r'[!@#\$%\^&\*(),.?":{}|<>]').hasMatch(value)) {
-        return 'Password must contain at least one special character';
-      }
-      return null;
-    }
 
     return TextFormField(
       initialValue: initialText,
@@ -91,29 +55,7 @@ class MyTextField extends StatelessWidget {
       ),
       maxLength: maxLength,
       onSaved: onSave,
-      validator: isEmail
-          ? emailValidator
-          : isPassword
-              ? passwordValidator
-              : (value) {
-                  if (value == null || value.isEmpty) {
-                    return '$label cannot be empty';
-                  }
-
-                  if ((label == 'Username' || label == 'Team Short Name') &&
-                      value.trim().contains(' ')) {
-                    return '$label cannot contain a space';
-                  }
-                  if (label == 'Team Short Name' && value.trim().length > 4) {
-                    return '$label must contain at most 4 character';
-                  }
-
-                  if (label != 'Team Short Name' && value.trim().length < 4) {
-                    return '$label must contain at least 4 character';
-                  }
-
-                  return null;
-                },
+      validator: validator,
     );
   }
 }
