@@ -19,8 +19,29 @@ class PlayerTile extends StatelessWidget {
   final bool isWicketKeeper;
   final bool isEdit;
 
-  Future<void> deletePlayer() async {
-    await FirestoreMethods.deletePlayerFromTeam(playerData, teamId!);
+  Future<void> deletePlayer(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Player'),
+        content: const Text('Are you sure you want to delete this player?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await FirestoreMethods.deletePlayerFromTeam(playerData, teamId!);
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -83,7 +104,7 @@ class PlayerTile extends StatelessWidget {
             const Spacer(),
             if (isEdit)
               IconButton(
-                onPressed: deletePlayer,
+                onPressed: () => deletePlayer(context),
                 icon: const Icon(Icons.delete),
                 iconSize: 25,
                 color: Colors.red,
