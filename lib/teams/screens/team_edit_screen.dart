@@ -1,18 +1,15 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/widgets/squad.dart';
+import 'package:tracket/widgets/team_logo_editor.dart';
 
 class TeamEditScreen extends ConsumerStatefulWidget {
   const TeamEditScreen({super.key});
@@ -24,7 +21,6 @@ class TeamEditScreen extends ConsumerStatefulWidget {
 class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   late final Team _team;
   late List _playersList;
-  Uint8List? _image;
 
   List<String> _playerNames = [];
 
@@ -36,15 +32,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     _playerNames =
         _playersList.map((player) => player['name'].toString()).toList();
     super.initState();
-  }
-
-  Future<void> _editLogo() async {
-    final pickedImage = await pickImage(ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _image = pickedImage;
-      });
-    }
   }
 
   void addPlayer() {
@@ -88,31 +75,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                             .copyWith(fontSize: 23),
                       ),
                       //! Team Logo
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundColor: Colors.grey,
-                            backgroundImage: _image != null
-                                ? MemoryImage(_image!)
-                                : const AssetImage(
-                                    'assets/images/team_logo.png'),
-                          ),
-                          const SizedBox(width: 15),
-                          TextButton.icon(
-                            onPressed: _editLogo,
-                            label: Text(
-                              'Edit team logo',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            style: TextButton.styleFrom(
-                              foregroundColor: blackColor,
-                              backgroundColor: lightCardColor,
-                              iconColor: blackColor,
-                            ),
-                            icon: const Icon(Icons.edit),
-                          ),
-                        ],
+                      TeamLogoEditor(
+                        logoUrl: _team.logoUrl,
                       ),
                       //! Team Name, Short Name, Description
                       MyTextField(
