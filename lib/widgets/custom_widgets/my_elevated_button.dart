@@ -9,7 +9,7 @@ class MyElevatedButton extends StatelessWidget {
     required this.text,
   });
 
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final bool isLoading;
   final String text;
 

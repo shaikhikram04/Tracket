@@ -145,3 +145,14 @@ String? nameValidator(String? value, String fieldName) {
   }
   return null;
 }
+
+String getErrorMessage(String errorCode) {
+  switch (errorCode) {
+    case 'Email-is-already-in-use-as-user':
+      return 'This email is already in use. Try another email or login as a user.';
+    case 'Email-is-already-in-use-as-player':
+      return 'This email is already in use. Try another email or login as a player.';
+    default:
+      return 'An unexpected error occurred. Please try again.';
+  }
+}

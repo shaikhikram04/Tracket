@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/authentication/forget_password.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
+import 'package:tracket/players/models/player.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/authentication/forget_password.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
@@ -40,9 +40,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   void onSelectRole(String? role) {
-    _cricketRole = CricketRole.values.firstWhere(
-      (value) => value.name == role,
-    );
+    _cricketRole = Player.getCricketRole(role!);
     if ((_cricketRole == CricketRole.bowler ||
             _cricketRole == CricketRole.allRounder) &&
         !_isBowler) {
@@ -61,15 +59,11 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   void onSelectBattingPosition(String? position) {
-    _battingPosition = Position.values.firstWhere(
-      (element) => element.name == position,
-    );
+    _battingPosition = Player.getPosition(position!);
   }
 
   void onSelectBowlingStyle(String? style) {
-    _bowlingStyle = BowlingStyle.values.firstWhere(
-      (element) => element.name == style,
-    );
+    _bowlingStyle = Player.getBowlingStyle(style!);
     if (_bowlingStyle != BowlingStyle.none && _isBowler == false) {
       setState(() {
         ref.read(authScreenSizeProvider.notifier).incrementSize(86);
@@ -84,9 +78,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
   }
 
   void onSelectBowlingArm(String? arm) {
-    _bowlingArm = Position.values.firstWhere(
-      (element) => element.name == arm,
-    );
+    _bowlingArm = Player.getPosition(arm!);
   }
 
   void _togglePlayerAuth() {
@@ -101,9 +93,6 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   bool _isDropdownSelected(String? dropdown, String label) {
     if (dropdown == null) {
-      if (label == 'Bowling Arm' && _bowlingStyle == BowlingStyle.none) {
-        return true;
-      }
       showSnackBar('Please select $label', context);
       return false;
     }
@@ -124,7 +113,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     if (!_isDropdownSelected(_bowlingStyle?.name, 'Bowling Style')) {
       return;
     }
-    if (!_isDropdownSelected(_bowlingArm?.name, 'Bowling Arm')) {
+    if (!_isDropdownSelected(_bowlingArm?.name, 'Bowling Arm') && _isBowler) {
       return;
     }
 
@@ -157,25 +146,11 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
       ref.read(verificationStepProvider.notifier).updateStep(0);
-      String title;
-      String message;
 
-      if (error.code == 'Email-is-already-in-use-as-user') {
-        title = 'Email is already in use';
-        message =
-            'This email is already in use. Try another email or login as user with this email.';
-      } else if (error.code == 'Email-is-already-in-use-as-player') {
-        title = 'Email is already in use';
-        message =
-            'This email is already in use. Try another email or login as player with this email.';
-      } else {
-        title = 'Some Error!';
-        message = 'Some error occurred. Please try again.';
-      }
       showAlertDialog(
         context,
-        title,
-        message,
+        'Error',
+        getErrorMessage(error.code),
       );
     }
   }
@@ -217,7 +192,6 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
   @override
   void dispose() {
-    _formKey.currentState!.dispose();
     super.dispose();
   }
 
@@ -262,6 +236,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
           children: [
             Text(
               _isLogin ? 'Login as Player' : 'Signup as Player',
+              semanticsLabel: _isLogin ? 'Login form for players' : 'Signup form for players',
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -270,11 +245,10 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             const SizedBox(height: 30),
             if (!_isLogin)
               MyTextField(
-                isLogin: _isLogin,
-                onSave: (value) => _playerName = value,
-                label: 'Player Name',
-                validator: (value) =>nameValidator(value, 'Player name')
-              ),
+                  isLogin: _isLogin,
+                  onSave: (value) => _playerName = value,
+                  label: 'Player Name',
+                  validator: (value) => nameValidator(value, 'Player name')),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
               isLogin: _isLogin,
@@ -285,7 +259,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             const SizedBox(height: 30),
             MyTextField(
               onSave: (value) => _password = value,
-              validator: (value) =>  passwordValidator(value, _isLogin),
+              validator: (value) => passwordValidator(value, _isLogin),
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
               changeVisibility: () {
@@ -301,7 +275,9 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               width: width * 0.8,
               height: 50,
               child: MyElevatedButton(
-                onPressed: _isLogin ? _playerLogin : _playerSignup,
+                onPressed: _isLoading
+                    ? null
+                    : (_isLogin ? _playerLogin : _playerSignup),
                 text: _isLogin ? 'Login' : 'Sign Up',
                 isLoading: _isLoading,
               ),

@@ -66,25 +66,11 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
       ref.read(verificationStepProvider.notifier).updateStep(0);
-      String title;
-      String message;
 
-      if (error.code == 'Email-is-already-in-use-as-user') {
-        title = 'Email is already in use';
-        message =
-            'This email is already in use. Try another email or login as user with this email.';
-      } else if (error.code == 'Email-is-already-in-use-as-player') {
-        title = 'Email is already in use';
-        message =
-            'This email is already in use. Try another email or login as player with this email.';
-      } else {
-        title = 'Some Error!';
-        message = 'Some error occurred. Please try again.';
-      }
       showAlertDialog(
         context,
-        title,
-        message,
+        'Error',
+        getErrorMessage(error.code),
       );
     }
   }
