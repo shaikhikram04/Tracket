@@ -24,7 +24,7 @@ class TeamProfileScreen extends ConsumerWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TeamEditScreen(teamData: teamData),
+                builder: (context) => const TeamEditScreen(),
               ));
             },
             icon: const Icon(

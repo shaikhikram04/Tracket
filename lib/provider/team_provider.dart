@@ -25,6 +25,14 @@ class TeamProviderNotifier extends StateNotifier<Team> {
       maxPlayersCapacity: maxPlayersCapacity,
     );
   }
+
+  void incrementCapacity() {
+    updateField(maxPlayersCapacity: state.maxPlayersCapacity + 1);
+  }
+
+  void decrementCapacity() {
+    updateField(maxPlayersCapacity: state.maxPlayersCapacity - 1);
+  }
 }
 
 final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {

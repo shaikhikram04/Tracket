@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracket/models/team.dart';
+import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/screens/teams/add_player_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
@@ -12,34 +14,25 @@ import 'package:tracket/widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/my_text_field.dart';
 import 'package:tracket/widgets/squad.dart';
 
-class TeamEditScreen extends StatefulWidget {
-  const TeamEditScreen({super.key, required this.teamData});
-
-  final Team teamData;
+class TeamEditScreen extends ConsumerStatefulWidget {
+  const TeamEditScreen({super.key});
 
   @override
-  State<TeamEditScreen> createState() => _TeamEditScreenState();
+  ConsumerState<TeamEditScreen> createState() => _TeamEditScreenState();
 }
 
-class _TeamEditScreenState extends State<TeamEditScreen> {
-  late final Team _teamInfo;
+class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
+  late final Team _team;
   late List _playersList;
-  late int _currentTeamCapacity;
-  late String? _teamName;
-  late String? _teamShortName;
-  late String? _description;
   Uint8List? _image;
 
   List<String> _playerNames = [];
 
   @override
   void initState() {
-    _teamInfo = widget.teamData;
-    _playersList = _teamInfo.playersList;
-    _currentTeamCapacity = _teamInfo.maxPlayersCapacity;
-    _teamName = _teamInfo.name;
-    _teamShortName = _teamInfo.shortName;
-    _description = _teamInfo.description;
+    _team = ref.watch(teamProvider);
+    _playersList = _team.playersList;
+
     _playerNames =
         _playersList.map((player) => player['name'].toString()).toList();
     super.initState();
@@ -57,7 +50,7 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
   void addPlayer() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => AddPlayerScreen(
-        teamId: _teamInfo.id,
+        teamId: _team.id,
       ),
     ));
   }
@@ -123,31 +116,31 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                       ),
                       //! Team Name, Short Name, Description
                       MyTextField(
-                        initialText: _teamName,
+                        initialText: _team.name,
                         onSave: (value) {
-                          setState(() {
-                            _teamName = value;
-                          });
+                          ref
+                              .read(teamProvider.notifier)
+                              .updateField(name: value);
                         },
                         label: 'Team Name',
                         borderRadius: 15,
                       ),
                       MyTextField(
-                        initialText: _teamShortName,
+                        initialText: _team.shortName,
                         onSave: (value) {
-                          setState(() {
-                            _teamShortName = value;
-                          });
+                          ref
+                              .read(teamProvider.notifier)
+                              .updateField(shortName: value);
                         },
                         label: 'Team Short Name',
                         borderRadius: 15,
                       ),
                       MyTextField(
-                        initialText: _description,
+                        initialText: _team.description,
                         onSave: (value) {
-                          setState(() {
-                            _description = value;
-                          });
+                          ref
+                              .read(teamProvider.notifier)
+                              .updateField(description: value);
                         },
                         label: 'Description',
                         borderRadius: 15,
@@ -164,27 +157,27 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                           const Spacer(),
                           IconButton(
                             onPressed: () {
-                              setState(() {
-                                _currentTeamCapacity > 0
-                                    ? _currentTeamCapacity--
-                                    : _currentTeamCapacity;
-                              });
+                              if (_team.maxPlayersCapacity > 0) {
+                                ref
+                                    .read(teamProvider.notifier)
+                                    .decrementCapacity();
+                              }
                             },
                             icon: const Icon(Icons.remove_circle),
                             iconSize: 30,
                             color: darkGreenColor,
                           ),
                           Text(
-                            '$_currentTeamCapacity',
+                            '${_team.maxPlayersCapacity}',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           IconButton(
                             onPressed: () {
-                              setState(() {
-                                _currentTeamCapacity < 30
-                                    ? _currentTeamCapacity++
-                                    : _currentTeamCapacity;
-                              });
+                              if (_team.maxPlayersCapacity < 30) {
+                                ref
+                                    .read(teamProvider.notifier)
+                                    .incrementCapacity();
+                              }
                             },
                             icon: const Icon(Icons.add_circle),
                             iconSize: 30,
@@ -200,9 +193,9 @@ class _TeamEditScreenState extends State<TeamEditScreen> {
                 MyCard(
                   child: Squad(
                     playersList: _playersList,
-                    captainId: _teamInfo.captainId,
-                    wicketKeeperId: _teamInfo.wicketKeeperId,
-                    teamId: _teamInfo.id,
+                    captainId: _team.captainId,
+                    wicketKeeperId: _team.wicketKeeperId,
+                    teamId: _team.id,
                     isEdit: true,
                   ),
                 ),
