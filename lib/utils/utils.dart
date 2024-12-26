@@ -59,3 +59,11 @@ List<String> enumToString(List<Enum> enums) {
       )
       .toList();
 }
+
+double getSafeAreaHeight(BuildContext context) {
+  final mediaQuery = MediaQuery.of(context);
+  return mediaQuery.size.height -
+      mediaQuery.padding.top -
+      mediaQuery.padding.bottom;
+}
+

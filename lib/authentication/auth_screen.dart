@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/player_auth.dart';
+import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/user_auth.dart';
+import 'package:tracket/utils/utils.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
@@ -31,14 +32,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final tabBarViewHeight = ref.watch(authScreenSizeProvider);
-    // Height of the status bar
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-    // Height of the bottom inset (e.g., navigation bar)
-    final double bottomInsetHeight = MediaQuery.of(context).padding.bottom;
-    final safeAreaHeight = height - statusBarHeight - bottomInsetHeight;
+    final safeAreaHeight = getSafeAreaHeight(context);
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -49,8 +45,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 //* App logo
                 Image.asset(
                   'assets/images/Tracket_logo.png',
-                  height: height * 0.25,
+                  height: height * 0.25 > 200
+                      ? 200
+                      : height * 0.25, //? Maximum height of 200
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.error, size: 100),
                 ),
                 //* Auth content
                 Padding(
@@ -60,6 +60,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   ),
                   child: Card(
                     color: Theme.of(context).cardColor,
+                    elevation: 5,
+                    shadowColor: Colors.grey.shade800,
                     child: Column(
                       children: [
                         //* TabBar for show option of user & player authentication
@@ -77,26 +79,35 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               child: Text(
                                 'Player',
                                 style: TextStyle(fontSize: 21),
+                                semanticsLabel: 'Player Authentication',
                               ),
                             ),
                             Tab(
                               child: Text(
                                 'User',
                                 style: TextStyle(fontSize: 21),
+                                semanticsLabel: 'User Authentication',
                               ),
                             ),
                           ],
                           onTap: (value) async {
-                            if (_tabController.indexIsChanging) {
-                              await Future.delayed(
-                                  const Duration(milliseconds: 180));
-                              ref
-                                  .read(authScreenSizeProvider.notifier)
-                                  .changeScreen(
-                                    value == 0
-                                        ? AuthScreenType.playerLogin
-                                        : AuthScreenType.userLogin,
-                                  );
+                            try {
+                              if (_tabController.indexIsChanging) {
+                                await Future.delayed(
+                                    const Duration(milliseconds: 180));
+                                ref
+                                    .read(authScreenSizeProvider.notifier)
+                                    .changeScreen(
+                                      value == 0
+                                          ? AuthScreenType.playerLogin
+                                          : AuthScreenType.userLogin,
+                                    );
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                showSnackBar(
+                                    'Error switching tabs: $e', context);
+                              }
                             }
                           },
                         ),
