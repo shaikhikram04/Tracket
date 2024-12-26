@@ -14,45 +14,45 @@ class Squad extends ConsumerWidget {
 
   final bool isEdit;
 
-  Future<void> deletePlayer(
-    BuildContext context,
-    Map<String, dynamic> playerInfo,
-    String teamId,
-  ) async {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Player'),
-        content: const Text('Are you sure you want to delete this player?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () async {
-              await FirestoreMethods.deletePlayerFromTeam(playerInfo, teamId);
-              if (context.mounted) {
-                Navigator.of(context).pop();
-              }
-            },
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.watch(teamProvider);
+    final teamId = team.id;
 
     void addPlayer() {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => AddPlayerScreen(
-          teamId: team.id,
+          teamId: teamId,
         ),
       ));
+    }
+
+    Future<void> deletePlayer(
+      Map<String, dynamic> playerInfo,
+    ) async {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Delete Player'),
+          content: const Text('Are you sure you want to delete this player?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirestoreMethods.deletePlayerFromTeam(playerInfo, teamId);
+                ref.read(teamProvider.notifier).deletePlayer(playerInfo['id']);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      );
     }
 
     return Column(
@@ -135,11 +135,9 @@ class Squad extends ConsumerWidget {
                     isCaptain: isCaptain,
                     isWicketKeeper: isWicketKeeper,
                     isEdit: isEdit,
-                    teamId: team.id,
+                    teamId: teamId,
                     onDelete: () => deletePlayer(
-                      context,
                       playerDetail,
-                      team.id,
                     ),
                   );
                 },
