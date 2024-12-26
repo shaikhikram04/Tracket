@@ -87,7 +87,6 @@ class Team {
 
   Team copyWith(
     {
-      String? id,
       String? name,
       String? shortName,
       String? logoUrl,
@@ -108,7 +107,7 @@ class Team {
     }
   ) {
     return Team(
-      id: id ?? this.id,
+      id: id,
       name: name ?? this.name,
       shortName: shortName ?? this.shortName,
       logoUrl: logoUrl ?? this.logoUrl,
