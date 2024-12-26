@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/models/team.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/screens/teams/team_edit_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/my_card.dart';
 import 'package:tracket/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
-class TeamProfileScreen extends StatelessWidget {
-  const TeamProfileScreen({super.key, required this.teamData});
-
-  final Team teamData;
+class TeamProfileScreen extends ConsumerWidget {
+  const TeamProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final teamData = ref.watch(teamProvider);
 
     return Scaffold(
       appBar: AppBar(

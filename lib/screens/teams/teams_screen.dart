@@ -92,9 +92,7 @@ class TeamsScreen extends ConsumerWidget {
                   final teamObject = Team.formSeed(teamData);
                   ref.read(teamProvider.notifier).updateTeam(teamObject);
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TeamProfileScreen(
-                      teamData: teamObject,
-                    ),
+                    builder: (context) => const TeamProfileScreen(),
                   ));
                 },
               );

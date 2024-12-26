@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/models/team.dart';
+import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/teams/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
-class JoinTeamScreen extends StatelessWidget {
+class JoinTeamScreen extends ConsumerWidget {
   const JoinTeamScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Join Team'),
@@ -66,9 +68,12 @@ class JoinTeamScreen extends StatelessWidget {
                 ),
                 title: Text(teamData.name),
                 subtitle: Text(teamData.shortName),
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TeamProfileScreen(teamData: teamData),
-                )),
+                onTap: () {
+                  ref.read(teamProvider.notifier).updateTeam(teamData);
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TeamProfileScreen(),
+                  ));
+                },
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isJoined ? Colors.grey : buttonBgColor,
