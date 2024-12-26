@@ -9,26 +9,18 @@ class VerificationScreen extends ConsumerWidget {
   final String email;
 
   String getMessage(int step) {
-    String message;
-
     switch (step) {
       case 0:
-        message = 'Wait for email verification';
-        break;
+        return 'Wait for email verification';
       case 1:
-        message = 'Verification email sent to $email! Please check your inbox.';
-        break;
+        return 'Verification email sent to $email! Please check your inbox.';
       case 2:
-        message = 'Verification email successfully!';
-        break;
+        return 'Verification email successfully!';
       case 3:
-        message = 'Login successful!';
-        break;
+        return 'Login successful!';
       default:
-        message = 'Verification failed. Please try again';
+        return 'Verification failed. Please try again';
     }
-
-    return message;
   }
 
   @override
@@ -105,8 +97,8 @@ class VerificationScreen extends ConsumerWidget {
     return Column(
       children: [
         Container(
-          width: 45,
-          height: 45,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isActive ? Colors.green : Colors.grey.shade300,
@@ -115,12 +107,12 @@ class VerificationScreen extends ConsumerWidget {
               width: 2,
             ),
           ),
-          child: Center(
-            child: Icon(
-              _getIconForStep(step),
-              color: isActive ? Colors.white : Colors.grey.shade600,
-              size: 20,
-            ),
+          child: Icon(
+            _getIconForStep(step),
+            color: isActive ? Colors.white : Colors.grey.shade600,
+            size: 18,
+            semanticLabel:
+                isActive ? 'Step $step completed' : 'Step $step pending',
           ),
         ),
         const SizedBox(height: 8),
