@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/provider/player_provider.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';

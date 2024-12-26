@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/provider/auth_screen_size.dart';
+import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/player_auth.dart';
 import 'package:tracket/authentication/user_auth.dart';
 
