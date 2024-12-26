@@ -148,12 +148,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 ),
 
                 //! Squad
-                MyCard(
+                const MyCard(
                   child: Squad(
-                    playersList: _playersList,
-                    captainId: _team.captainId,
-                    wicketKeeperId: _team.wicketKeeperId,
-                    teamId: _team.id,
                     isEdit: true,
                   ),
                 ),

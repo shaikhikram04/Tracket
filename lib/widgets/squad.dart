@@ -1,27 +1,24 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/resources/firestore_methods.dart';
+import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/widgets/custom_widgets/player_tile.dart';
 
-class Squad extends StatelessWidget {
+class Squad extends ConsumerWidget {
   const Squad({
     super.key,
-    required this.playersList,
-    required this.captainId,
-    required this.wicketKeeperId,
-    required this.teamId,
     this.isEdit = false,
   });
 
-  final List playersList;
-  final String? captainId;
-  final String? wicketKeeperId;
-  final String teamId;
   final bool isEdit;
 
   Future<void> deletePlayer(
-      BuildContext context, Map<String, dynamic> playerInfo) async {
+    BuildContext context,
+    Map<String, dynamic> playerInfo,
+    String teamId,
+  ) async {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -47,11 +44,13 @@ class Squad extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final team = ref.watch(teamProvider);
+
     void addPlayer() {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => AddPlayerScreen(
-          teamId: teamId,
+          teamId: team.id,
         ),
       ));
     }
@@ -81,7 +80,7 @@ class Squad extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        playersList.isEmpty
+        team.playersList.isEmpty
             ? Center(
                 child: Column(
                   children: [
@@ -121,22 +120,27 @@ class Squad extends StatelessWidget {
               )
             : Column(
                 children: List.generate(
-                playersList.length,
+                team.playersList.length,
                 (index) {
-                  final playerDetail = playersList[index];
+                  final playerDetail = team.playersList[index];
                   final playerId = playerDetail['id'];
-                  final isCaptain =
-                      captainId == null ? false : captainId == playerId;
-                  final isWicketKeeper = wicketKeeperId == null
+                  final isCaptain = team.captainId == null
                       ? false
-                      : wicketKeeperId == playerId;
+                      : team.captainId == playerId;
+                  final isWicketKeeper = team.wicketKeeperId == null
+                      ? false
+                      : team.wicketKeeperId == playerId;
                   return PlayerTile(
                     playerData: playerDetail,
                     isCaptain: isCaptain,
                     isWicketKeeper: isWicketKeeper,
                     isEdit: isEdit,
-                    teamId: teamId,
-                    onDelete: () => deletePlayer(context, playerDetail),
+                    teamId: team.id,
+                    onDelete: () => deletePlayer(
+                      context,
+                      playerDetail,
+                      team.id,
+                    ),
                   );
                 },
               )),
