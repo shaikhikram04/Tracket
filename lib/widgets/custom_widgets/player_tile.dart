@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
@@ -11,6 +10,7 @@ class PlayerTile extends StatelessWidget {
     required this.playerData,
     this.isEdit = false,
     this.teamId,
+    this.onDelete,
   });
 
   final Map<String, dynamic> playerData;
@@ -18,31 +18,7 @@ class PlayerTile extends StatelessWidget {
   final bool isCaptain;
   final bool isWicketKeeper;
   final bool isEdit;
-
-  Future<void> deletePlayer(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Player'),
-        content: const Text('Are you sure you want to delete this player?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () async {
-              await FirestoreMethods.deletePlayerFromTeam(playerData, teamId!);
-              if (context.mounted) {
-                Navigator.of(context).pop();
-              }
-            },
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-  }
+  final void Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +80,7 @@ class PlayerTile extends StatelessWidget {
             const Spacer(),
             if (isEdit)
               IconButton(
-                onPressed: () => deletePlayer(context),
+                onPressed: onDelete,
                 icon: const Icon(Icons.delete),
                 iconSize: 25,
                 color: Colors.red,

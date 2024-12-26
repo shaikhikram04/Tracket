@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/widgets/custom_widgets/player_tile.dart';
 
@@ -18,6 +19,32 @@ class Squad extends StatelessWidget {
   final String? wicketKeeperId;
   final String teamId;
   final bool isEdit;
+
+  Future<void> deletePlayer(
+      BuildContext context, Map<String, dynamic> playerInfo) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Player'),
+        content: const Text('Are you sure you want to delete this player?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await FirestoreMethods.deletePlayerFromTeam(playerInfo, teamId);
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +136,7 @@ class Squad extends StatelessWidget {
                     isWicketKeeper: isWicketKeeper,
                     isEdit: isEdit,
                     teamId: teamId,
+                    onDelete: () => deletePlayer(context, playerDetail),
                   );
                 },
               )),
