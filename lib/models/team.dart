@@ -84,4 +84,48 @@ class Team {
         maxPlayersCapacity: snap['maxPlayersCapacity'],
         description: snap['description'],
       );
+
+  Team copyWith(
+    {
+      String? id,
+      String? name,
+      String? shortName,
+      String? logoUrl,
+      List? playersList,
+      String? captainId,
+      String? wicketKeeperId,
+      int? matchesPlayed,
+      int? wins,
+      int? losses,
+      int? tieCount,
+      List? achievements,
+      List? following,
+      List? followers,
+      int? maxPlayersCapacity,
+      String? description,
+      String? createdBy,
+      int? rank,
+    }
+  ) {
+    return Team(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      shortName: shortName ?? this.shortName,
+      logoUrl: logoUrl ?? this.logoUrl,
+      playersList: playersList ?? this.playersList,
+      createdBy:  createdBy ?? this.createdBy,
+      captainId: captainId ?? this.captainId,
+      wicketKeeperId: wicketKeeperId ?? this.wicketKeeperId,
+      matchesPlayed: matchesPlayed ?? this.matchesPlayed,
+      wins: wins ?? this.wins,
+      losses: losses ?? this.losses,
+      tieCount: tieCount   ?? this.tieCount,
+      achievements: achievements  ?? this.achievements,
+      following: following ?? this.following,
+      followers: followers ?? this.followers,
+      maxPlayersCapacity: maxPlayersCapacity ?? this.maxPlayersCapacity,
+      description: description ?? this.description,
+      rank: rank ?? this.rank,
+    );
+  }
 }
