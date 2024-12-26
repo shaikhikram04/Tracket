@@ -1,18 +1,20 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/models/team.dart';
+import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/teams/create_team_screen.dart';
 import 'package:tracket/screens/teams/join_team_screen.dart';
 import 'package:tracket/screens/teams/team_profile_screen.dart';
 
-class TeamsScreen extends StatelessWidget {
+class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('teams').snapshots(),
@@ -87,9 +89,11 @@ class TeamsScreen extends StatelessWidget {
                 subtitle: Text(shortName),
                 trailing: isAdmin ? const Text('Admin') : null,
                 onTap: () {
+                  final teamObject = Team.formSeed(teamData);
+                  ref.read(teamProvider.notifier).updateTeam(teamObject);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => TeamProfileScreen(
-                      teamData: Team.formSeed(teamData),
+                      teamData: teamObject,
                     ),
                   ));
                 },
