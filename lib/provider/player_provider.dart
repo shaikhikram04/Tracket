@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/models/player.dart';
-import 'package:tracket/models/player_stats.dart';
+import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_stats.dart';
 
 class PlayerNotifier extends StateNotifier<Player> {
   PlayerNotifier()

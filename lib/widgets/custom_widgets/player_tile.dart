@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/resources/firestore_methods.dart';
-import 'package:tracket/screens/players/player_profile_screen.dart';
+import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
 class PlayerTile extends StatelessWidget {

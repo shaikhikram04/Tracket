@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tracket/models/player.dart';
-import 'package:tracket/screens/players/player_profile_screen.dart';
+import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class AddPlayerScreen extends StatefulWidget {

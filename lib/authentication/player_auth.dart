@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/models/player.dart';
+import 'package:tracket/players/models/player.dart';
 import 'package:tracket/provider/auth_screen_size.dart';
 import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';

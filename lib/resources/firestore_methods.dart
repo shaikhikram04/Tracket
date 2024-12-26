@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tracket/models/player.dart';
+import 'package:tracket/players/models/player.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:uuid/uuid.dart';
 
