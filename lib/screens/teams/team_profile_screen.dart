@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/screens/teams/team_edit_screen.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/widgets/my_card.dart';
-import 'package:tracket/widgets/player_tile.dart';
+import 'package:tracket/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/widgets/custom_widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class TeamProfileScreen extends ConsumerWidget {

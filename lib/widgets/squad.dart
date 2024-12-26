@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/screens/teams/add_player_screen.dart';
-import 'package:tracket/widgets/player_tile.dart';
+import 'package:tracket/widgets/custom_widgets/player_tile.dart';
 
 class Squad extends StatelessWidget {
   const Squad({

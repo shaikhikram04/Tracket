@@ -6,8 +6,8 @@ import 'package:tracket/provider/player_provider.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/my_text_button.dart';
-import 'package:tracket/widgets/my_text_field.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class CreateTeamScreen extends ConsumerStatefulWidget {
   const CreateTeamScreen({super.key});

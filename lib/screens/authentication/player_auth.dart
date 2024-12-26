@@ -7,10 +7,10 @@ import 'package:tracket/provider/verification_step.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/authentication/forget_password.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/my_dropdown_menu.dart';
-import 'package:tracket/widgets/my_elevated_button.dart';
-import 'package:tracket/widgets/my_text_button.dart';
-import 'package:tracket/widgets/my_text_field.dart';
+import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
+import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class PlayerAuth extends ConsumerStatefulWidget {
   const PlayerAuth({super.key});

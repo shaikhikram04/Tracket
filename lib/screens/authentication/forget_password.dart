@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/my_text_button.dart';
-import 'package:tracket/widgets/my_text_field.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({

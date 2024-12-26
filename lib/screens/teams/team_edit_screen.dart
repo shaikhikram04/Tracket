@@ -8,10 +8,10 @@ import 'package:tracket/provider/team_provider.dart';
 import 'package:tracket/screens/teams/add_player_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/my_card.dart';
-import 'package:tracket/widgets/my_dropdown_menu.dart';
-import 'package:tracket/widgets/my_elevated_button.dart';
-import 'package:tracket/widgets/my_text_field.dart';
+import 'package:tracket/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
+import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/widgets/squad.dart';
 
 class TeamEditScreen extends ConsumerStatefulWidget {
