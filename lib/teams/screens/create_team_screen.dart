@@ -21,6 +21,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
   String? _teamName;
   String? _teamShortName;
   Uint8List? _image;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -44,6 +45,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
   ) async {
     if (!_formKey.currentState!.validate()) return;
 
+    setState(() => _isLoading = true);
+
     _formKey.currentState!.save();
 
     String? teamLogoUrl;
@@ -59,6 +62,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       adminName: playerName,
       adminCricketRole: playerRole,
     );
+
+    setState(() => _isLoading = false);
 
     if (!mounted) return;
     if (result == 'success') {
@@ -96,8 +101,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                   label: const Text(
                     'Edit team logo',
                     style: TextStyle(color: blackColor),
+                    semanticsLabel: 'Edit team logo button',
                   ),
-                  icon: const Icon(Icons.edit),
+                  icon: const Icon(Icons.edit, semanticLabel: 'Edit icon'),
                 ),
                 const SizedBox(height: 20),
                 Card(
@@ -126,16 +132,15 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                         const SizedBox(height: 20),
                         Align(
                           alignment: Alignment.centerRight,
-                          child: MyTextButton(
-                            text: 'Create',
-                            onPressed: () {
-                              _createTeam(
-                                player.id,
-                                player.name,
-                                player.cricketRole!.name,
-                              );
-                            },
-                          ),
+                          child: _isLoading
+                              ? const CircularProgressIndicator()
+                              : MyTextButton(
+                                  text: 'Create',
+                                  onPressed: () {
+                                    _createTeam(player.id, player.name,
+                                        player.cricketRole!.name);
+                                  },
+                                ),
                         ),
                       ],
                     ),
