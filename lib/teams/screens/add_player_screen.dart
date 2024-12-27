@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
@@ -30,6 +31,12 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
               child: CircularProgressIndicator(),
             );
           }
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something went wrong. Please try again later.'),
+            );
+          }
+
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return const Center(
               child: Text('No Players Found'),
@@ -45,14 +52,16 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
               return ListTile(
                 leading: CircleAvatar(
                   backgroundImage: playerData['profileImageUrl'] != null
-                      ? NetworkImage(playerData['profileImageUrl'])
+                      ? CachedNetworkImageProvider(
+                          playerData['profileImageUrl'])
                       : const AssetImage('assets/images/Default_user_pfp.jpg'),
                   radius: 30,
                 ),
                 title: Text(playerData['playerName']),
                 subtitle: Text(playerData['cricketRole']),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>  PlayerProfileScreen(player:  Player.fromSeed(playerData)),
+                  builder: (context) =>
+                      PlayerProfileScreen(player: Player.fromSeed(playerData)),
                 )),
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(
