@@ -38,6 +38,7 @@ class Player {
   final Position? bowlingArm;
   final BowlingStyle? bowlingStyle;
   final Timestamp createdAt;
+  final bool? allowDirectTeamAdd;
 
   Player({
     required this.role,
@@ -55,6 +56,7 @@ class Player {
     required this.bowlingStyle,
     required this.createdAt,
     required this.playerStats,
+    required this.allowDirectTeamAdd,
   });
 
   Player.user({
@@ -72,27 +74,8 @@ class Player {
         cricketRole = null,
         playerStats = null,
         teamsId = null,
-        achievements = null;
-
-  
-
-  Map<String, dynamic> get toJsonForPlayer => {
-        'playerId': id,
-        'email': email,
-        'playerName': name,
-        'role': role,
-        'teamsId': teamsId,
-        'profileImageUrl': profileImageUrl,
-        'cricketRole': cricketRole!.name,
-        'battingPosition': battingPosition!.name,
-        'bowlingArm': bowlingArm?.name,
-        'bowlingStyle': bowlingStyle!.name,
-        'createdAt': createdAt,
-        'achievements': achievements,
-        'following': following,
-        'followers': followers,
-        ...playerStats!.toJson,
-      };
+        achievements = null,
+        allowDirectTeamAdd = null;
 
   static CricketRole getCricketRole(String role) {
     switch (role) {
@@ -138,6 +121,25 @@ class Player {
         return BowlingStyle.none;
     }
   }
+
+  Map<String, dynamic> get toJsonForPlayer => {
+        'playerId': id,
+        'email': email,
+        'playerName': name,
+        'role': role,
+        'teamsId': teamsId,
+        'profileImageUrl': profileImageUrl,
+        'cricketRole': cricketRole!.name,
+        'battingPosition': battingPosition!.name,
+        'bowlingArm': bowlingArm?.name,
+        'bowlingStyle': bowlingStyle!.name,
+        'createdAt': createdAt,
+        'allowDirectTeamAdd': allowDirectTeamAdd,
+        'achievements': achievements,
+        'following': following,
+        'followers': followers,
+        ...playerStats!.toJson,
+      };
 
   Map<String, dynamic> get toJsonForUser => {
         'userId': id,
@@ -185,7 +187,7 @@ class Player {
       ),
       achievements: snap['achievements'],
       following: snap['following'],
-      followers: snap['followers'],
+      followers: snap['followers'], allowDirectTeamAdd: snap['allowDirectTeamAdd'],
     );
   }
 }

@@ -297,6 +297,7 @@ class FirebaseAuthMethods {
         achievements: [],
         following: [],
         followers: [],
+        allowDirectTeamAdd: true,
       );
       await _firestore
           .collection(FirestoreCollections.players)
