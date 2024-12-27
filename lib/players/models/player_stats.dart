@@ -111,7 +111,7 @@ class PlayerStats {
     return totalRuns / outCount!;
   }
 
-  double get bowingAverage {
+  double get bowlingAverage {
     if (wicket == 0) {
       return 0;
     }

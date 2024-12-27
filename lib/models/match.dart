@@ -11,6 +11,21 @@ enum ReasonOfOut {
   retiredOut,
 }
 
+extension ReasonOfOutDescription on ReasonOfOut {
+  String get description {
+    switch (this) {
+      case ReasonOfOut.bowled: return 'Bowled';
+      case ReasonOfOut.lbw: return 'LBW';
+      case ReasonOfOut.caught: return 'Caught';
+      case ReasonOfOut.runOut: return 'Run Out';
+      case ReasonOfOut.stumped: return 'Stumped';
+      case ReasonOfOut.hitWicket: return 'Hit Wicket';
+      case ReasonOfOut.retiredOut: return 'Retired Out';
+    }
+  }
+}
+
+
 class BattingScore {
   BattingScore({
     required this.uuid,
@@ -29,8 +44,8 @@ class BattingScore {
   final int ballFaced;
   final int sixs;
   final int fours;
-  final bool isOut;
-  final ReasonOfOut? reasonOfOut;
+  bool isOut;
+  ReasonOfOut? reasonOfOut;
 
   double get strikeRate {
     if (ballFaced == 0) {
@@ -40,17 +55,17 @@ class BattingScore {
     return (runs / ballFaced) * 100;
   }
 
-  // void getOut(ReasonOfOut outReason) {
-  //   isOut = true;
-  //   reasonOfOut = outReason;
-  // }
+  void getOut(ReasonOfOut outReason) {
+    isOut = true;
+    reasonOfOut = outReason;
+  }
 }
 
 class BowlingScore {
   BowlingScore({
     required this.uuid,
     required this.playerName,
-    this.ball = 0,
+    this.balls = 0,
     this.maidenOver = 0,
     this.runGiven = 0,
     this.wicket = 0,
@@ -58,65 +73,95 @@ class BowlingScore {
 
   final String uuid;
   final String playerName;
-  final int ball;
+  final int balls;
   final int runGiven;
   final int wicket;
   final int maidenOver;
 
   double get economy {
-    if (ball == 0) {
+    if (balls == 0) {
       return 0;
     }
 
-    return runGiven / (ball / 6.0);
+    return runGiven / (balls / 6.0);
   }
+}
+
+List<T> initializeStats<T>(List players, T Function(dynamic) builder) {
+  return players.map(builder).toList();
 }
 
 class Inning {
   Inning({
     required this.battingTeam,
     required this.bowlingTeam,
-  })  : battingStats = [
-          for (final player in battingTeam.playersList)
-            BattingScore(uuid: player['id'], playerName: player['name']),
-        ],
-        bowlingStats = [
-          for (final player in bowlingTeam.playersList)
-            BowlingScore(uuid: player['id'], playerName: player['name']),
-        ];
+  })  : battingStats = initializeStats(
+          battingTeam.playersList,
+          (player) =>
+              BattingScore(uuid: player['id'], playerName: player['name']),
+        ),
+        bowlingStats = initializeStats(
+          bowlingTeam.playersList,
+          (player) =>
+              BowlingScore(uuid: player['id'], playerName: player['name']),
+        );
 
   final Team battingTeam;
   final Team bowlingTeam;
   final List<BattingScore> battingStats;
   final List<BowlingScore> bowlingStats;
-  final int runs = 0;
-  final double over = 0.0;
-  final int wickets = 0;
-  final int balls = 0;
-  final int wides = 0;
-  final int noBalls = 0;
-  final int legByes = 0;
-  final int byes = 0;
-  final int fours = 0;
-  final int sixs = 0;
-  final bool declared = false;
-  final bool allOut = false;
+  int runs = 0;
+  double over = 0.0;
+  int wickets = 0;
+  int balls = 0;
+  int wides = 0;
+  int noBalls = 0;
+  int legByes = 0;
+  int byes = 0;
+  int fours = 0;
+  int sixs = 0;
+  bool declared = false;
+  bool allOut = false;
+
+  double get computedOvers => balls ~/ 6 + (balls % 6) / 10;
 
   double get runRate {
-    if (over == 0) {
+    if (computedOvers == 0) {
       return 0.0;
     }
-    var longRunRate = (runs / balls * 6).toStringAsFixed(2);
-    return double.parse(longRunRate);
+    return (runs / computedOvers).toDouble();
+  }
+
+  void addRuns(int run, {bool isFour = false, bool isSix = false}) {
+    runs += run;
+    balls++;
+    if (isFour) fours++;
+    if (isSix) sixs++;
   }
 
   int get totalExtras {
     return wides + noBalls + legByes + byes;
   }
 
-  // void declareInning() {
-  //   declared = true;
-  // }
+  void declareInning() {
+    declared = true;
+  }
+
+  void onAllOut() {
+    allOut = true;
+  }
+
+  void addExtras({
+    int wides = 0,
+    int noBalls = 0,
+    int byes = 0,
+    int legByes = 0,
+  }) {
+    this.wides += wides;
+    this.noBalls += noBalls;
+    this.byes += byes;
+    this.legByes += legByes;
+  }
 }
 
 enum TossDecision {
