@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_stats.dart';
+import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
@@ -16,15 +17,23 @@ class FirebaseAuthMethods {
   static final _firestore = FirebaseFirestore.instance;
   static const uuid = Uuid();
 
-  static User get currentUser => _auth.currentUser!;
+  static User get currentUser {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw StateError('No authenticated user found');
+    }
+    return user;
+  }
 
   static String get currentUserId => currentUser.uid;
 
   static Future<DocumentSnapshot<Map<String, dynamic>>> getUserSnap() async {
     final currentUser = _auth.currentUser!;
 
-    var snap =
-        await _firestore.collection('players').doc(currentUser.uid).get();
+    var snap = await _firestore
+        .collection(FirestoreCollections.players)
+        .doc(currentUser.uid)
+        .get();
 
     return snap;
   }
@@ -49,15 +58,11 @@ class FirebaseAuthMethods {
       await user?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        final userSnap = await _firestore
-            .collection('players')
-            .where('email', isEqualTo: email)
-            .limit(1)
-            .get();
+        final role = await getUserRole(email);
 
         String code;
         String message;
-        if (userSnap.docs.first['role'] == 'user') {
+        if (role == 'user') {
           code = 'Email-is-already-in-use-as-user';
           message = 'Try another email or login as user with this email.';
         } else {
@@ -173,7 +178,7 @@ class FirebaseAuthMethods {
       );
 
       await _firestore
-          .collection('players')
+          .collection(FirestoreCollections.players)
           .doc(userId)
           .set(user.toJsonForUser);
       result = 'success';
@@ -184,12 +189,14 @@ class FirebaseAuthMethods {
     return result;
   }
 
-  static Future<void> loginUser({
+  static Future<void> handleLogin({
     required String email,
     required String password,
     required BuildContext context,
     required WidgetRef ref,
+    required String expectedRole,
   }) async {
+    final oponentRole = expectedRole == 'user' ? 'player' : 'user';
     try {
       final userCred = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -203,27 +210,22 @@ class FirebaseAuthMethods {
           username: '',
           ref: ref,
           context: context,
-          role: 'user',
+          role: expectedRole,
         );
-      } else {
-        final userSnap = await _firestore
-            .collection('players')
-            .where('email', isEqualTo: email)
-            .limit(1)
-            .get();
+        return;
+      }
 
-        if (userSnap.docs.first['role'] == 'player') {
-          throw FirebaseAuthException(code: 'email-used-by-player');
-        }
+      final role = await getUserRole(email);
 
-        if (context.mounted) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-            (route) => false,
-          );
-        }
+      if (role != expectedRole) {
+        throw FirebaseAuthException(code: 'email-used-by-$oponentRole');
+      }
+
+      if (context.mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
+        );
       }
     } on FirebaseAuthException catch (error) {
       if (!context.mounted) return;
@@ -236,14 +238,32 @@ class FirebaseAuthMethods {
       } else if (error.code == 'invalid-credential') {
         showSnackBar('Wrong email or password', context);
         rethrow;
-      } else if (error.code == 'email-used-by-player') {
+      } else if (error.code == 'email-used-by-$oponentRole') {
         _auth.currentUser!.delete();
         showSnackBar(
-          'This email is used as a player. Please login as a player!',
+          'This email is used as a $oponentRole. Please login as a $oponentRole!',
           context,
         );
       }
     } catch (error) {
+      rethrow;
+    }
+  }
+
+  static Future<void> loginUser({
+    required String email,
+    required String password,
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    try {
+      await handleLogin(
+          email: email,
+          password: password,
+          context: context,
+          ref: ref,
+          expectedRole: 'user');
+    } catch (e) {
       rethrow;
     }
   }
@@ -279,7 +299,7 @@ class FirebaseAuthMethods {
         followers: [],
       );
       await _firestore
-          .collection('players')
+          .collection(FirestoreCollections.players)
           .doc(playerId)
           .set(player.toJsonForPlayer);
 
@@ -298,57 +318,12 @@ class FirebaseAuthMethods {
     required WidgetRef ref,
   }) async {
     try {
-      final userCred = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      if (!userCred.user!.emailVerified && context.mounted) {
-        showVerificationDialog(context, email);
-        checkEmailVerification(
-          user: userCred.user!,
-          username: '',
-          ref: ref,
+      await handleLogin(
+          email: email,
+          password: password,
           context: context,
-          role: 'player',
-        );
-      } else {
-        final userSnap = await _firestore
-            .collection('players')
-            .where('email', isEqualTo: email)
-            .limit(1)
-            .get();
-
-        if (userSnap.docs.first['role'] == 'user') {
-          throw FirebaseAuthException(code: 'email-used-by-user');
-        }
-
-        if (context.mounted) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-            (route) => false,
-          );
-        }
-      }
-    } on FirebaseAuthException catch (error) {
-      if (!context.mounted) return;
-      if (error.code == 'user-not-found') {
-        showAlertDialog(
-          context,
-          'User not found',
-          'No user found with the provided email. Sign-up first!',
-        );
-      } else if (error.code == 'invalid-credential') {
-        showSnackBar('Wrong email or password', context);
-      } else if (error.code == 'email-used-by-user') {
-        _auth.signOut();
-        showSnackBar(
-          'This email is used as a user. Please login as a player!',
-          context,
-        );
-      }
+          ref: ref,
+          expectedRole: 'player');
     } catch (error) {
       rethrow;
     }
@@ -364,6 +339,16 @@ class FirebaseAuthMethods {
     }
 
     return result;
+  }
+
+  static Future<String> getUserRole(String email) async {
+    final userSnap = await _firestore
+        .collection(FirestoreCollections.players)
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .get();
+
+    return userSnap.docs.first.data()['role'] as String;
   }
 
   static Future<String> logoutUser() async {

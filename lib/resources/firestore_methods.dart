@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:uuid/uuid.dart';
 
@@ -37,7 +38,7 @@ class FirestoreMethods {
         following: [],
         followers: [],
       );
-      await _firestore.collection('teams').doc(team.id).set(team.toJson);
+      await _firestore.collection(FirestoreCollections.teams).doc(team.id).set(team.toJson);
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -50,7 +51,7 @@ class FirestoreMethods {
     Player player;
 
     final fetchedData =
-        await _firestore.collection('players').doc(playerId).get();
+        await _firestore.collection(FirestoreCollections.teams).doc(playerId).get();
     player = Player.fromSeed(fetchedData.data()!);
 
     return player;
@@ -60,7 +61,7 @@ class FirestoreMethods {
     Map<String, dynamic> playerInfo,
     String teamId,
   ) async {
-    await _firestore.collection('teams').doc(teamId).update({
+    await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
       'playersList': FieldValue.arrayRemove([
         {
           'id': playerInfo['id'],
