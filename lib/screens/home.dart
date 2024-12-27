@@ -28,8 +28,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> loadPlayerData() async {
-    final player = await FirebaseAuthMethods.getUserDetail();
-    ref.read(playerProvider.notifier).setPlayer(player);
+    try {
+      final player = await FirebaseAuthMethods.getUserDetail();
+      ref.read(playerProvider.notifier).setPlayer(player);
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading player data: $error')),
+        );
+      }
+    }
   }
 
   void _selectItem(int index) {
@@ -38,19 +46,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+  final List<Widget> _screens = [
+    const MatchesScreen(),
+    const TeamsScreen(),
+    const TournamentList(),
+  ];
+
+  final List<String> _titles = [
+    'Matches',
+    'Team',
+    'Tournament',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    Widget content = const MatchesScreen();
-    String title = 'Matches';
-
-    if (_selectedIndex == 1) {
-      content = const TeamsScreen();
-      title = 'Team';
-    }
-    if (_selectedIndex == 2) {
-      content = const TournamentList();
-      title = 'Tornament';
-    }
+    String title = _titles[_selectedIndex];
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +69,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ),
       drawer: const MainDrawer(),
-      body: content,
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         elevation: 8,
@@ -71,15 +84,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         unselectedItemColor: unSelectColor,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.sports_cricket),
+            icon: Icon(
+              Icons.sports_cricket,
+              semanticLabel: 'Matches Tab',
+            ),
             label: 'Matches',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
+            icon: Icon(
+              Icons.groups,
+              semanticLabel: 'Teams Tab',
+            ),
             label: 'Teams',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
+            icon: Icon(
+              Icons.bar_chart,
+              semanticLabel: 'Tournaments Tab',
+            ),
             label: 'Tournaments',
           ),
         ],

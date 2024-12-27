@@ -38,7 +38,10 @@ class FirestoreMethods {
         following: [],
         followers: [],
       );
-      await _firestore.collection(FirestoreCollections.teams).doc(team.id).set(team.toJson);
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(team.id)
+          .set(team.toJson);
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -50,8 +53,10 @@ class FirestoreMethods {
   static Future<Player> getPlayerFromId(String playerId) async {
     Player player;
 
-    final fetchedData =
-        await _firestore.collection(FirestoreCollections.teams).doc(playerId).get();
+    final fetchedData = await _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(playerId)
+        .get();
     player = Player.fromSeed(fetchedData.data()!);
 
     return player;
@@ -71,7 +76,5 @@ class FirestoreMethods {
         }
       ])
     });
-
-    
   }
 }
