@@ -30,7 +30,7 @@ class Player {
   final List following;
   final List followers;
   final String? profileImageUrl;
-  final List? teamsId;
+  final List? teams;
   final List? achievements;
   final CricketRole? cricketRole;
   final Position? battingPosition;
@@ -46,7 +46,7 @@ class Player {
     required this.name,
     required this.email,
     required this.achievements,
-    required this.teamsId,
+    required this.teams,
     required this.profileImageUrl,
     required this.following,
     required this.followers,
@@ -73,7 +73,7 @@ class Player {
         bowlingStyle = null,
         cricketRole = null,
         playerStats = null,
-        teamsId = null,
+        teams = null,
         achievements = null,
         allowDirectTeamAdd = null;
 
@@ -127,7 +127,7 @@ class Player {
         'email': email,
         'playerName': name,
         'role': role,
-        'teamsId': teamsId,
+        'teamsId': teams,
         'profileImageUrl': profileImageUrl,
         'cricketRole': cricketRole!.name,
         'battingPosition': battingPosition!.name,
@@ -164,7 +164,7 @@ class Player {
       bowlingArm: getPosition(snap['bowlingArm']),
       bowlingStyle: getBowlingStyle(snap['bowlingStyle']),
       createdAt: snap['createdAt'],
-      teamsId: snap['teamsId'],
+      teams: snap['teamsId'],
       playerStats: PlayerStats(
         ballDelivered: snap['ballDelivered'],
         ballsFaced: snap['ballsFaced'],
@@ -187,7 +187,8 @@ class Player {
       ),
       achievements: snap['achievements'],
       following: snap['following'],
-      followers: snap['followers'], allowDirectTeamAdd: snap['allowDirectTeamAdd'],
+      followers: snap['followers'],
+      allowDirectTeamAdd: snap['allowDirectTeamAdd'],
     );
   }
 }

@@ -292,7 +292,7 @@ class FirebaseAuthMethods {
         id: playerId,
         role: 'player',
         profileImageUrl: imageUrl,
-        teamsId: [],
+        teams: [],
         playerStats: PlayerStats(),
         achievements: [],
         following: [],

@@ -33,6 +33,11 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     updateField(playersList: updatedPlayersList);
   }
 
+  void addPlayer(Map<String, dynamic> player) {
+    final updatedPlayersList = [...state.playersList, player];
+    updateField(playersList: updatedPlayersList);
+  }
+
   void incrementCapacity() {
     updateField(maxPlayersCapacity: state.maxPlayersCapacity + 1);
   }

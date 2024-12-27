@@ -21,9 +21,7 @@ class Squad extends ConsumerWidget {
 
     void addPlayer() {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AddPlayerScreen(
-          teamId: teamId,
-        ),
+        builder: (context) => const AddPlayerScreen(),
       ));
     }
 

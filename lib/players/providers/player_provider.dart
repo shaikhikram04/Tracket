@@ -16,7 +16,7 @@ class PlayerNotifier extends StateNotifier<Player> {
           bowlingArm: null,
           bowlingStyle: null,
           createdAt: Timestamp.now(),
-          teamsId: [],
+          teams: [],
           playerStats: null,
           achievements: [],
           following: [],
@@ -40,7 +40,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     BowlingFigure? bestBalling,
     Position? bowlingArm,
     BowlingStyle? bowlingStyle,
-    String? teamId,
+    List? teams,
     PlayerStats? playerStats,
     int? matchesPlayed,
     List<String>? achievements,
@@ -49,8 +49,6 @@ class PlayerNotifier extends StateNotifier<Player> {
     bool? allowDirectTeamAdd,
     int? innings,
   }) {
-    final teamList = state.teamsId;
-    if (teamId != null && teamList != null) teamList.add(teamId);
 
     final player = Player(
       role: role ?? state.role,
@@ -63,7 +61,7 @@ class PlayerNotifier extends StateNotifier<Player> {
       bowlingArm: bowlingArm ?? state.bowlingArm,
       bowlingStyle: bowlingStyle ?? state.bowlingStyle,
       createdAt: state.createdAt,
-      teamsId: teamList,
+      teams: teams ?? state.teams,
       playerStats: playerStats ?? state.playerStats,
       achievements: achievements ?? state.achievements,
       following: following ?? state.following,
@@ -72,6 +70,11 @@ class PlayerNotifier extends StateNotifier<Player> {
     );
 
     state = player;
+  }
+
+  void addTeam(Map<String, dynamic> teamInfo) {
+    final updatedTeams = [...state.teams!, teamInfo];
+    updateField(teams: updatedTeams);
   }
 }
 

@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
@@ -76,5 +81,44 @@ class FirestoreMethods {
         }
       ])
     });
+  }
+
+  static Future<void> addPlayerToTeam({
+    required Map<String, dynamic> playerInfo,
+    required Map<String, dynamic> teamInfo,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    try {
+      //* Update player's team list in database
+      await FirebaseFirestore.instance
+          .collection('players')
+          .doc(playerInfo['id'])
+          .update({
+        'teams': FieldValue.arrayUnion([
+          teamInfo,
+        ]),
+      });
+      //* Update team's player list in state
+      ref.read(teamProvider.notifier).addPlayer(playerInfo);
+
+      //* Update team's player list in database
+      await FirebaseFirestore.instance
+          .collection('teams')
+          .doc(teamInfo['id'])
+          .update({
+        'playersList': FieldValue.arrayUnion([
+          playerInfo,
+        ]),
+      });
+      final currentPlayerId = ref.read(playerProvider).id;
+      if (currentPlayerId == playerInfo['id']) {
+        ref.read(playerProvider.notifier).addTeam(teamInfo);
+      }
+    } catch (error) {
+      if (context.mounted) {
+        showSnackBar('Failed to add player. Please try again later.', context);
+      }
+    }
   }
 }
