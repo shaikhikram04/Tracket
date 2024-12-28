@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
-import 'package:tracket/widgets/custom_widgets/player_tile.dart';
+import 'package:tracket/players/widgets/player_tile.dart';
 
 class Squad extends ConsumerWidget {
   const Squad({

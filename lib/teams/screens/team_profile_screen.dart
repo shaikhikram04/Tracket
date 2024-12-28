@@ -4,7 +4,7 @@ import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/team_edit_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/widgets/custom_widgets/player_tile.dart';
+import 'package:tracket/players/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class TeamProfileScreen extends ConsumerWidget {
