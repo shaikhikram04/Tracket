@@ -139,6 +139,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
                           dimension: 20,
                           child: CircularProgressIndicator(
                             strokeAlign: 0,
+                            strokeWidth: 2.5,
                           ),
                         )
                       : Text(

@@ -6,13 +6,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/player_capacity_selector.dart';
+import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
-import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/widgets/team_logo_editor.dart';
 
 class TeamEditScreen extends ConsumerStatefulWidget {
@@ -23,20 +23,15 @@ class TeamEditScreen extends ConsumerStatefulWidget {
 }
 
 class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
-  late final Team _team;
+  late Team _team;
   Uint8List? _image;
-  late List _playersList;
-  List<String> _playerNames = [];
   late int _maxPlayersCapacity;
 
   @override
   void initState() {
     _team = ref.read(teamProvider);
-    _playersList = _team.playersList;
     _maxPlayersCapacity = _team.maxPlayersCapacity;
 
-    _playerNames =
-        _playersList.map((player) => player['name'].toString()).toList();
     super.initState();
   }
 
@@ -54,8 +49,25 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     }
   }
 
+  Text _getTitleText(String title) {
+    return Text(
+      title,
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium!
+          .copyWith(fontSize: 23, color: darkGreenColor),
+    );
+  }
+
+  List<String> get _playerNames {
+    return _team.playersList
+        .map((player) => player['name'].toString())
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _team = ref.watch(teamProvider);
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
@@ -79,13 +91,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                   child: Column(
                     spacing: 15,
                     children: [
-                      Text(
-                        'Primary Info',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 23),
-                      ),
+                      _getTitleText('Primary Info'),
                       //! Team Logo
                       TeamLogoEditor(
                         logoUrl: _team.logoUrl,
@@ -124,7 +130,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         },
                         label: 'Description',
                         borderRadius: 15,
-                        maxLength: 100,
+                        maxLength: 50,
                       ),
                       //! Team Player Capacity
                       PlayerCapacitySelector(
@@ -152,13 +158,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     spacing: 12,
                     children: [
-                      Text(
-                        'Roles',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontSize: 23),
-                      ),
+                      _getTitleText('Roles'),
                       //! Captain, Wicketkeeper
                       MyDropdownMenu(
                         options: _playerNames,
