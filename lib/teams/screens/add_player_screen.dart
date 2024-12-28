@@ -19,6 +19,7 @@ class AddPlayerScreen extends ConsumerStatefulWidget {
 class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
   late Team _team;
   final Set<String> _addingPlayers = {};
+  final Set<String> _addedPlayers = {};
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
         _addingPlayers.add(playerId);
       } else {
         _addingPlayers.remove(playerId);
+        _addedPlayers.add(playerId);
       }
     });
   }
@@ -76,11 +78,11 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
       appBar: AppBar(
         title: const Text('Add Player'),
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance
             .collection('players')
             .where('role', isEqualTo: 'player')
-            .snapshots(),
+            .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -105,7 +107,8 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
               final player = Player.fromSeed(snap[index].data());
               final List teamsId =
                   player.teams!.map((team) => team['id'].toString()).toList();
-              final isAdded = teamsId.contains(_team.id);
+              final isAdded = teamsId.contains(_team.id) ||
+                  _addedPlayers.contains(player.id);
               final bool allowDirectTeamAdd = player.allowDirectTeamAdd!;
               final buttonText = isAdded
                   ? 'Added'
@@ -134,7 +137,6 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
-                      // fixedSize: const Size(90, 30),
                     ),
                     onPressed: isAdded
                         ? null
