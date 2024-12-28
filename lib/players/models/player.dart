@@ -164,7 +164,7 @@ class Player {
       bowlingArm: getPosition(snap['bowlingArm']),
       bowlingStyle: getBowlingStyle(snap['bowlingStyle']),
       createdAt: snap['createdAt'],
-      teams: snap['teamsId'],
+      teams: snap['teams'],
       playerStats: PlayerStats(
         ballDelivered: snap['ballDelivered'],
         ballsFaced: snap['ballsFaced'],
