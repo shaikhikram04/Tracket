@@ -76,6 +76,11 @@ class PlayerNotifier extends StateNotifier<Player> {
     final updatedTeams = [...state.teams!, teamInfo];
     updateField(teams: updatedTeams);
   }
+
+  void deleteTeam(String teamId) {
+    final updatedTeams = state.teams!.where((team) => team['id'] != teamId).toList();
+    updateField(teams: updatedTeams);
+  }
 }
 
 final playerProvider = StateNotifierProvider<PlayerNotifier, Player>(

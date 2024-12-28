@@ -40,6 +40,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
       'name': playername,
       'cricketRole': cricketRole,
       'imageUrl': profileImageUrl,
+      'role': 'player',
     };
     final teamInfo = {
       'id': _team.id,

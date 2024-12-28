@@ -59,7 +59,7 @@ class FirestoreMethods {
     Player player;
 
     final fetchedData = await _firestore
-        .collection(FirestoreCollections.teams)
+        .collection(FirestoreCollections.players)
         .doc(playerId)
         .get();
     player = Player.fromSeed(fetchedData.data()!);
@@ -69,18 +69,30 @@ class FirestoreMethods {
 
   static Future<void> deletePlayerFromTeam(
     Map<String, dynamic> playerInfo,
-    String teamId,
+    Map<String, dynamic> teamInfo,
+    WidgetRef ref,
   ) async {
-    await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
+    //* Update team's player list in database
+    await _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(teamInfo['id'])
+        .update({
       'playersList': FieldValue.arrayRemove([
-        {
-          'id': playerInfo['id'],
-          'cricketRole': playerInfo['cricketRole'],
-          'imageUrl': playerInfo['imageUrl'],
-          'name': playerInfo['name'],
-        }
+        playerInfo,
       ])
     });
+    ref.read(teamProvider.notifier).deletePlayer(playerInfo['id']);
+
+    //* Update player's team list in database
+    _firestore
+        .collection(FirestoreCollections.players)
+        .doc(playerInfo['id'])
+        .update({
+      'teams': FieldValue.arrayRemove([
+        teamInfo,
+      ])
+    });
+    ref.read(playerProvider.notifier).deleteTeam(teamInfo['id']);
   }
 
   static Future<void> addPlayerToTeam({
@@ -92,7 +104,7 @@ class FirestoreMethods {
     try {
       //* Update player's team list in database
       await FirebaseFirestore.instance
-          .collection('players')
+          .collection(FirestoreCollections.players)
           .doc(playerInfo['id'])
           .update({
         'teams': FieldValue.arrayUnion([
@@ -104,7 +116,7 @@ class FirestoreMethods {
 
       //* Update team's player list in database
       await FirebaseFirestore.instance
-          .collection('teams')
+          .collection(FirestoreCollections.teams)
           .doc(teamInfo['id'])
           .update({
         'playersList': FieldValue.arrayUnion([

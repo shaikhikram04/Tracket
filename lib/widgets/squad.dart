@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/player_tile.dart';
 
 class Squad extends ConsumerWidget {
@@ -40,10 +41,24 @@ class Squad extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () async {
-                await FirestoreMethods.deletePlayerFromTeam(playerInfo, teamId);
-                ref.read(teamProvider.notifier).deletePlayer(playerInfo['id']);
-                if (context.mounted) {
-                  Navigator.of(context).pop();
+                final teamInfo = {
+                  'id': team.id,
+                  'name': team.name,
+                  'shortName': team.shortName,
+                  'logoUrl': team.logoUrl,
+                  'role': playerInfo['role'],
+                };
+                try {
+                  await FirestoreMethods.deletePlayerFromTeam(
+                      playerInfo, teamInfo, ref);
+                } catch (e) {
+                  if (context.mounted) {
+                    showSnackBar(e.toString(), context);
+                  }
+                } finally {
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                 }
               },
               child: const Text('Delete', style: TextStyle(color: Colors.red)),
