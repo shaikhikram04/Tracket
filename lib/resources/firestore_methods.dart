@@ -71,28 +71,36 @@ class FirestoreMethods {
     Map<String, dynamic> playerInfo,
     Map<String, dynamic> teamInfo,
     WidgetRef ref,
+    BuildContext context,
   ) async {
-    //* Update team's player list in database
-    await _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(teamInfo['id'])
-        .update({
-      'playersList': FieldValue.arrayRemove([
-        playerInfo,
-      ])
-    });
-    ref.read(teamProvider.notifier).deletePlayer(playerInfo['id']);
+    try {
+      //* Update team's player list in database
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamInfo['id'])
+          .update({
+        'playersList': FieldValue.arrayRemove([
+          playerInfo,
+        ])
+      });
+      ref.read(teamProvider.notifier).deletePlayer(playerInfo['id']);
 
-    //* Update player's team list in database
-    _firestore
-        .collection(FirestoreCollections.players)
-        .doc(playerInfo['id'])
-        .update({
-      'teams': FieldValue.arrayRemove([
-        teamInfo,
-      ])
-    });
-    ref.read(playerProvider.notifier).deleteTeam(teamInfo['id']);
+      //* Update player's team list in database
+      _firestore
+          .collection(FirestoreCollections.players)
+          .doc(playerInfo['id'])
+          .update({
+        'teams': FieldValue.arrayRemove([
+          teamInfo,
+        ])
+      });
+      ref.read(playerProvider.notifier).deleteTeam(teamInfo['id']);
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(
+            'Failed to delete player. Please try again later.', context);
+      }
+    }
   }
 
   static Future<void> addPlayerToTeam({
