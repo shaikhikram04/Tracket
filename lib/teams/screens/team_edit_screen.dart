@@ -77,10 +77,9 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         _wicketkeeper = player['name'];
       }
     }
-    
+
     return playerNames;
   }
-
 
   Future<void> _saveChanges() async {
     if (!_formKey.currentState!.validate()) return;
@@ -156,7 +155,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           shadowColor: blackColor,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: _saveChanges,
               icon: const Icon(Icons.save),
               iconSize: 30,
               color: darkGreenColor,
