@@ -7,6 +7,59 @@ class TeamSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void showingAlertDialog(
+        {required String title,
+        required String content,
+        required String sureButtonText,
+        required Function() onSureButtonPressed}) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(content),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onSureButtonPressed();
+                },
+                child: Text(
+                  sureButtonText,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    void onDeleteTeam() {
+      showingAlertDialog(
+        title: 'Delete Team',
+        content:
+            'Are you sure you want to delete this team? This action cannot be undone.',
+        sureButtonText: 'Delete',
+        onSureButtonPressed: () {},
+      );
+    }
+
+    void removeAdmin() {
+      showingAlertDialog(
+        title: 'Remove Admin',
+        content: 'Are you sure you want to remove this admin?',
+        sureButtonText: 'Remove',
+        onSureButtonPressed: () {},
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team Settings'),
@@ -49,7 +102,7 @@ class TeamSettingsScreen extends StatelessWidget {
                       title: const Text('Admin Name'),
                       subtitle: const Text('Admin/owner'),
                       trailing: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: removeAdmin,
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                             foregroundColor: whiteColor),
@@ -100,16 +153,15 @@ class TeamSettingsScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onDeleteTeam,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: whiteColor,
+                    backgroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.red, width: 1),
                   ),
                   child: Text(
                     'Delete',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: whiteColor,
-                        ),
+                        color: Colors.red, fontWeight: FontWeight.w600),
                   ),
                 ),
               ],

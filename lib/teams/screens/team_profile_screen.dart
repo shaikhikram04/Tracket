@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/widgets/player_tile.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -124,69 +124,7 @@ class TeamProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 20),
             //! Players Detail
-            MyCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Squad',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontSize: 23),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  teamData.playersList.isEmpty
-                      ? Center(
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.group_off,
-                                size: 80,
-                                color: Colors.grey.shade400,
-                              ),
-                              const SizedBox(height: 30),
-                              Text(
-                                "No Player joined yet!",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey.shade600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        )
-                      : Column(
-                          children: List.generate(
-                          teamData.playersList.length,
-                          (index) {
-                            final playerDetail = teamData.playersList[index];
-                            final playerId = playerDetail['id'];
-                            final isCaptain = teamData.captainId == null
-                                ? false
-                                : teamData.captainId == playerId;
-                            final isWicketKeeper =
-                                teamData.wicketkeeperId == null
-                                    ? false
-                                    : teamData.wicketkeeperId == playerId;
-                            return PlayerTile(
-                              playerData: playerDetail,
-                              isCaptain: isCaptain,
-                              isWicketKeeper: isWicketKeeper,
-                            );
-                          },
-                        )),
-                ],
-              ),
-            ),
+            const MyCard(child: Squad(isEdit: false)),
 
             const SizedBox(height: 40),
           ],

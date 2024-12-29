@@ -56,16 +56,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     }
   }
 
-  Text _getTitleText(String title) {
-    return Text(
-      title,
-      style: Theme.of(context)
-          .textTheme
-          .titleMedium!
-          .copyWith(fontSize: 23, color: darkGreenColor),
-    );
-  }
-
   List<String> get _playerNames {
     List<String> playerNames = [];
     for (var player in _team.playersList) {
@@ -173,7 +163,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                     child: Column(
                       spacing: 15,
                       children: [
-                        _getTitleText('Primary Info'),
+                        getTitleText('Primary Info', context),
                         //! Team Logo
                         TeamLogoEditor(
                           logoUrl: _team.logoUrl,
@@ -225,18 +215,14 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 ),
 
                 //! Squad
-                const MyCard(
-                  child: Squad(
-                    isEdit: true,
-                  ),
-                ),
+                const MyCard(child: Squad(isEdit: true)),
                 //! Roles
                 MyCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     spacing: 12,
                     children: [
-                      _getTitleText('Roles'),
+                      getTitleText('Roles', context),
                       //! Captain, Wicketkeeper
                       MyDropdownMenu(
                         options: _playerNames,

@@ -156,3 +156,13 @@ String getErrorMessage(String errorCode) {
       return 'An unexpected error occurred. Please try again.';
   }
 }
+
+Text getTitleText(String title, BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium!
+          .copyWith(fontSize: 23, color: darkGreenColor),
+    );
+  }
