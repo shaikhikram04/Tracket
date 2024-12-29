@@ -32,7 +32,7 @@ class TeamProfileScreen extends ConsumerWidget {
               );
             },
             icon: const Icon(
-              Icons.edit,
+              Icons.more_vert,
               color: blackColor,
               size: 27,
             ),
