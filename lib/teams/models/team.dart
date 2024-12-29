@@ -9,7 +9,7 @@ class Team {
     required this.following,
     required this.followers,
     this.captainId,
-    this.wicketKeeperId,
+    this.wicketkeeperId,
     required this.createdBy,
     this.losses = 0,
     this.matchesPlayed = 0,
@@ -28,7 +28,7 @@ class Team {
   final int rank;
   final List playersList;
   final String? captainId;
-  final String? wicketKeeperId;
+  final String? wicketkeeperId;
   final int matchesPlayed;
   final int wins;
   final int losses;
@@ -52,7 +52,7 @@ class Team {
         'rank': rank,
         'playersList': playersList,
         'captainId': captainId,
-        'wicketKeeperId': wicketKeeperId,
+        'wicketkeeperId': wicketkeeperId,
         'matches': matchesPlayed,
         'wins': wins,
         'losses': losses,
@@ -76,7 +76,7 @@ class Team {
         matchesPlayed: snap['matches'],
         rank: snap['rank'],
         tieCount: snap['tie'],
-        wicketKeeperId: snap['wicketKeeperId'],
+        wicketkeeperId: snap['wicketkeeperId'],
         wins: snap['wins'],
         achievements: snap['achievements'],
         following: snap['following'],
@@ -92,7 +92,7 @@ class Team {
       String? logoUrl,
       List? playersList,
       String? captainId,
-      String? wicketKeeperId,
+      String? wicketkeeperId,
       int? matchesPlayed,
       int? wins,
       int? losses,
@@ -114,7 +114,7 @@ class Team {
       playersList: playersList ?? this.playersList,
       createdBy:  createdBy ?? this.createdBy,
       captainId: captainId ?? this.captainId,
-      wicketKeeperId: wicketKeeperId ?? this.wicketKeeperId,
+      wicketkeeperId: wicketkeeperId ?? this.wicketkeeperId,
       matchesPlayed: matchesPlayed ?? this.matchesPlayed,
       wins: wins ?? this.wins,
       losses: losses ?? this.losses,

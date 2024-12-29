@@ -39,7 +39,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   void initState() {
     _team = ref.read(teamProvider);
     _maxPlayersCapacity = _team.maxPlayersCapacity;
-
     super.initState();
   }
 
@@ -68,10 +67,20 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   }
 
   List<String> get _playerNames {
-    return _team.playersList
-        .map((player) => player['name'].toString())
-        .toList();
+    List<String> playerNames = [];
+    for (var player in _team.playersList) {
+      playerNames.add(player['name']);
+      if (player['id'] == _team.captainId) {
+        _captain = player['name'];
+      }
+      if (player['id'] == _team.wicketkeeperId) {
+        _wicketkeeper = player['name'];
+      }
+    }
+    
+    return playerNames;
   }
+
 
   Future<void> _saveChanges() async {
     if (!_formKey.currentState!.validate()) return;
@@ -233,6 +242,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       MyDropdownMenu(
                         options: _playerNames,
                         label: 'Change captancy',
+                        initialSelection: _captain,
                         onSelect: (value) {
                           _captain = value;
                         },
@@ -240,6 +250,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       MyDropdownMenu(
                         options: _playerNames,
                         label: 'Change Wicketkeeper',
+                        initialSelection: _wicketkeeper,
                         onSelect: (value) {
                           _wicketkeeper = value;
                         },

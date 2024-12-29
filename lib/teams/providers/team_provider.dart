@@ -26,7 +26,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
       playersList: playersList,
       maxPlayersCapacity: maxPlayersCapacity,
       captainId: captainId,
-      wicketKeeperId: wicketkeeperId,
+      wicketkeeperId: wicketkeeperId,
     );
   }
 

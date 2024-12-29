@@ -135,9 +135,9 @@ class Squad extends ConsumerWidget {
                   final isCaptain = team.captainId == null
                       ? false
                       : team.captainId == playerId;
-                  final isWicketKeeper = team.wicketKeeperId == null
+                  final isWicketKeeper = team.wicketkeeperId == null
                       ? false
-                      : team.wicketKeeperId == playerId;
+                      : team.wicketkeeperId == playerId;
                   return PlayerTile(
                     playerData: playerDetail,
                     isCaptain: isCaptain,

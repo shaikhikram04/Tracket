@@ -170,9 +170,9 @@ class TeamProfileScreen extends ConsumerWidget {
                                 ? false
                                 : teamData.captainId == playerId;
                             final isWicketKeeper =
-                                teamData.wicketKeeperId == null
+                                teamData.wicketkeeperId == null
                                     ? false
-                                    : teamData.wicketKeeperId == playerId;
+                                    : teamData.wicketkeeperId == playerId;
                             return PlayerTile(
                               playerData: playerDetail,
                               isCaptain: isCaptain,
