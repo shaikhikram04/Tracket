@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/widgets/player_tile.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
-import 'package:tracket/teams/screens/team_edit_screen.dart';
+import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/players/widgets/player_tile.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
 class TeamProfileScreen extends ConsumerWidget {
@@ -23,9 +23,13 @@ class TeamProfileScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const TeamEditScreen(),
-              ));
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                builder: (context) => const TeamOptions(),
+              );
             },
             icon: const Icon(
               Icons.edit,

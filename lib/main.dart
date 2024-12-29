@@ -109,8 +109,6 @@ class Tracket extends StatelessWidget {
       home: currUser == null || !currUser.emailVerified
           ? const AuthScreen()
           : const HomeScreen(),
-
-      // home: const TeamEditScreen(),
     );
   }
 }
