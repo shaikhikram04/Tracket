@@ -88,7 +88,7 @@ class TeamSettingsScreen extends StatelessWidget {
             ),
           ),
           MyCard(
-            child: Column(
+            child: Row(
               spacing: 16,
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -98,26 +98,18 @@ class TeamSettingsScreen extends StatelessWidget {
                         color: Colors.red,
                       ),
                 ),
-                Text(
-                  'This action cannot be undone. All team data, including members, games, and statistics will be permanently deleted.',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(fontSize: 17),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: whiteColor,
-                    ),
-                    child: const Text(
-                      'Delete Team',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: whiteColor,
+                  ),
+                  child: Text(
+                    'Delete',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: whiteColor,
+                        ),
                   ),
                 ),
               ],
