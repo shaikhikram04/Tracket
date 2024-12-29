@@ -6,6 +6,7 @@ import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/colors.dart';
 
@@ -18,8 +19,6 @@ class AddPlayerScreen extends ConsumerStatefulWidget {
 
 class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
   late Team _team;
-  final Set<String> _addingPlayers = {};
-  final Set<String> _addedPlayers = {};
 
   @override
   void initState() {
@@ -28,14 +27,11 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
   }
 
   void toggleAdding(String playerId, bool isAdding) {
-    setState(() {
-      if (isAdding) {
-        _addingPlayers.add(playerId);
-      } else {
-        _addingPlayers.remove(playerId);
-        _addedPlayers.add(playerId);
-      }
-    });
+    if (isAdding) {
+      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
+    } else {
+      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+    }
   }
 
   void addPlayer(
@@ -73,7 +69,6 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _team = ref.watch(teamProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Player'),
@@ -105,62 +100,78 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
             itemCount: snap.length,
             itemBuilder: (context, index) {
               final player = Player.fromSeed(snap[index].data());
-              final List teamsId =
-                  player.teams!.map((team) => team['id'].toString()).toList();
-              final isAdded = teamsId.contains(_team.id) ||
-                  _addedPlayers.contains(player.id);
-              final bool allowDirectTeamAdd = player.allowDirectTeamAdd!;
-              final buttonText = isAdded
-                  ? 'Added'
-                  : allowDirectTeamAdd
-                      ? 'Add'
-                      : 'Offer';
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: player.profileImageUrl != null
-                        ? CachedNetworkImageProvider(player.profileImageUrl!)
-                        : const AssetImage(
-                            'assets/images/Default_user_pfp.jpg'),
-                    radius: 30,
-                  ),
-                  title: Text(player.name),
-                  subtitle: Text(player.cricketRole!.name),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PlayerProfileScreen(player: player),
-                  )),
-                  trailing: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isAdded ? Colors.grey : buttonBgColor,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                    ),
-                    onPressed: isAdded
-                        ? null
-                        : () => addPlayer(
-                              player.id,
-                              player.name,
-                              player.cricketRole!.name,
-                              player.profileImageUrl,
-                            ),
-                    child: _addingPlayers.contains(player.id)
-                        ? const SizedBox.square(
-                            dimension: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2.5),
-                          )
-                        : Text(
-                            buttonText,
-                            style: const TextStyle(color: blackColor),
-                          ),
-                  ),
-                ),
-              );
+              return buildPlayerTile(player);
             },
           );
         },
+      ),
+    );
+  }
+
+  Widget buildPlayerTile(Player player) {
+    final List teamsId =
+        player.teams!.map((team) => team['id'].toString()).toList();
+
+    final bool allowDirectTeamAdd = player.allowDirectTeamAdd!;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundImage: player.profileImageUrl != null
+              ? CachedNetworkImageProvider(player.profileImageUrl!)
+              : const AssetImage('assets/images/Default_user_pfp.jpg'),
+          radius: 30,
+        ),
+        title: Text(player.name),
+        subtitle: Text(player.cricketRole!.name),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => PlayerProfileScreen(player: player),
+        )),
+        trailing: Consumer(
+          builder: (context, ref, _) {
+            final requestStatus = ref.watch(requestStatusProvider);
+            final isRequestInProgress =
+                requestStatus.requestInProgress.contains(player.id);
+            final isRequestSuccess =
+                requestStatus.requestSuccess.contains(player.id);
+
+            final isAdded = teamsId.contains(_team.id) || isRequestSuccess;
+            final buttonText = isAdded
+                ? 'Added'
+                : allowDirectTeamAdd
+                    ? 'Add'
+                    : 'Offer';
+            final isButtonDisabled = isAdded || isRequestInProgress;
+
+            return ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isButtonDisabled ? Colors.grey : buttonBgColor,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                fixedSize: const Size(95, 35),
+              ),
+              onPressed: isButtonDisabled
+                  ? null
+                  : () => addPlayer(
+                        player.id,
+                        player.name,
+                        player.cricketRole!.name,
+                        player.profileImageUrl,
+                      ),
+              child: isRequestInProgress
+                  ? const SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2.5),
+                    )
+                  : Text(
+                      buttonText,
+                      style: const TextStyle(color: blackColor),
+                    ),
+            );
+          },
+        ),
       ),
     );
   }

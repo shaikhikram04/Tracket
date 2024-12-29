@@ -7,15 +7,6 @@ class RequestStatus {
   });
   List<String> requestInProgress = [];
   List<String> requestSuccess = [];
-
-  void addRequestInProgress(String requestId) {
-    requestInProgress.add(requestId);
-  }
-
-  void addRequestSuccess(String requestId) {
-    requestInProgress.remove(requestId);
-    requestSuccess.add(requestId);
-  }
 }
 
 class RequestStatusNotifier extends StateNotifier<RequestStatus> {
@@ -24,13 +15,30 @@ class RequestStatusNotifier extends StateNotifier<RequestStatus> {
           RequestStatus(requestInProgress: [], requestSuccess: []),
         );
 
+  void setRequestStatus() {
+    state = RequestStatus(
+      requestInProgress: [],
+      requestSuccess: [],
+    );
+  }
+
   void addRequestInProgress(String requestId) {
-    state.addRequestInProgress(requestId);
-    state = state;
+    state = RequestStatus(
+      requestInProgress: [...state.requestInProgress, requestId],
+      requestSuccess: state.requestSuccess,
+    );
   }
 
   void addRequestSuccess(String requestId) {
-    state.addRequestSuccess(requestId);
-    state = state;
+    state = RequestStatus(
+      requestInProgress:
+          state.requestInProgress.where((id) => id != requestId).toList(),
+      requestSuccess: [...state.requestSuccess, requestId],
+    );
   }
 }
+
+final requestStatusProvider =
+    StateNotifierProvider<RequestStatusNotifier, RequestStatus>(
+  (ref) => RequestStatusNotifier(),
+);

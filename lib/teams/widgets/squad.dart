@@ -1,10 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/widgets/player_tile.dart';
 import 'package:tracket/resources/firestore_methods.dart';
+import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
-import 'package:tracket/players/widgets/player_tile.dart';
 
 class Squad extends ConsumerWidget {
   const Squad({
@@ -20,6 +21,7 @@ class Squad extends ConsumerWidget {
     final teamId = team.id;
 
     void addPlayer() {
+      ref.read(requestStatusProvider.notifier).setRequestStatus();
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const AddPlayerScreen(),
       ));
