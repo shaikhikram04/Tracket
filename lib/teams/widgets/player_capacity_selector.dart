@@ -26,11 +26,11 @@ class PlayerCapacitySelector extends StatelessWidget {
         const Spacer(),
         IconButton(
           onPressed: () {
-            if (maxPlayersCapacity > 0) {
+            if (maxPlayersCapacity > 11) {
               onDecrement();
             } else {
               showSnackBar(
-                  'Max players capacity cannot be less than 0', context);
+                  'Max players capacity cannot be less than 11', context);
             }
           },
           icon: const Icon(Icons.remove_circle),

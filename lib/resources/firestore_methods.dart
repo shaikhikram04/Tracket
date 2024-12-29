@@ -141,4 +141,35 @@ class FirestoreMethods {
       }
     }
   }
+
+  static Future<void> updateTeamField({
+    required String teamId,
+    required String? teamName,
+    required String? shortName,
+    required String? description,
+    required int maxPlayersCapacity,
+    required String? captainId,
+    required String? wicketkeeperId,
+    required String? logoUrl,
+  }) async {
+    final Map<String, dynamic> updatedFields = {};
+    if (teamName != null) updatedFields['name'] = teamName;
+    if (shortName != null) updatedFields['shortName'] = shortName;
+    if (description != null) updatedFields['description'] = description;
+    updatedFields['maxPlayersCapacity'] = maxPlayersCapacity;
+    if (captainId != null) updatedFields['captainId'] = captainId;
+    if (wicketkeeperId != null) {
+      updatedFields['wicketkeeperId'] = wicketkeeperId;
+    }
+    if (logoUrl != null) updatedFields['logoUrl'] = logoUrl;
+
+    try {
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamId)
+          .update(updatedFields);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

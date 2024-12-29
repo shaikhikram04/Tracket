@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/player_capacity_selector.dart';
@@ -25,7 +26,14 @@ class TeamEditScreen extends ConsumerStatefulWidget {
 class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   late Team _team;
   Uint8List? _image;
+  final _formKey = GlobalKey<FormState>();
   late int _maxPlayersCapacity;
+  String? _teamName;
+  String? _teamShortName;
+  String? _teamDescription;
+  String? _captain;
+  String? _wicketkeeper;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -65,6 +73,70 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         .toList();
   }
 
+  Future<void> _saveChanges() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    _formKey.currentState!.save();
+    setState(() {
+      _isSaving = true;
+    });
+    final teamPlayers = _team.playersList;
+
+    String? captainId;
+    if (_captain != null) {
+      int index = teamPlayers.indexWhere(
+        (player) => player['name'] == _captain,
+      );
+      captainId = teamPlayers[index]['id'];
+    }
+
+    String? wicketkeeperId;
+    if (_wicketkeeper != null) {
+      int index = teamPlayers.indexWhere(
+        (player) => player['name'] == _wicketkeeper,
+      );
+      wicketkeeperId = teamPlayers[index]['id'];
+    }
+
+    String? logoUrl;
+
+    if (_image != null) {
+      //! Upload image to Firebase Storage
+    }
+    try {
+      await FirestoreMethods.updateTeamField(
+        teamId: _team.id,
+        teamName: _teamName,
+        shortName: _teamShortName,
+        description: _teamDescription,
+        maxPlayersCapacity: _maxPlayersCapacity,
+        captainId: captainId,
+        wicketkeeperId: wicketkeeperId,
+        logoUrl: logoUrl,
+      );
+
+      ref.read(teamProvider.notifier).updateField(
+            name: _teamName!,
+            shortName: _teamShortName,
+            description: _teamDescription,
+            maxPlayersCapacity: _maxPlayersCapacity,
+            captainId: captainId,
+            wicketkeeperId: wicketkeeperId,
+          );
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBar('Failed to update Team! : $e', context);
+    } finally {
+      setState(() {
+        _isSaving = false;
+      });
+      if (mounted) {
+        showSnackBar('Team updated successfully!', context);
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _team = ref.watch(teamProvider);
@@ -88,61 +160,59 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
               children: [
                 //! Primary Info
                 MyCard(
-                  child: Column(
-                    spacing: 15,
-                    children: [
-                      _getTitleText('Primary Info'),
-                      //! Team Logo
-                      TeamLogoEditor(
-                        logoUrl: _team.logoUrl,
-                        image: _image,
-                        onImageChanged: _editLogo,
-                      ),
-                      //! Team Name, Short Name, Description
-                      MyTextField(
-                        initialText: _team.name,
-                        onSave: (value) {
-                          ref
-                              .read(teamProvider.notifier)
-                              .updateField(name: value);
-                        },
-                        label: 'Team Name',
-                        borderRadius: 15,
-                        validator: (value) => nameValidator(value, 'Team Name'),
-                      ),
-                      MyTextField(
-                        initialText: _team.shortName,
-                        onSave: (value) {
-                          ref
-                              .read(teamProvider.notifier)
-                              .updateField(shortName: value);
-                        },
-                        label: 'Team Short Name',
-                        borderRadius: 15,
-                        validator: teamShortNameValidator,
-                      ),
-                      MyTextField(
-                        initialText: _team.description,
-                        onSave: (value) {
-                          ref
-                              .read(teamProvider.notifier)
-                              .updateField(description: value);
-                        },
-                        label: 'Description',
-                        borderRadius: 15,
-                        maxLength: 50,
-                      ),
-                      //! Team Player Capacity
-                      PlayerCapacitySelector(
-                        maxPlayersCapacity: _maxPlayersCapacity,
-                        onIncrement: () => setState(
-                          () => _maxPlayersCapacity++,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      spacing: 15,
+                      children: [
+                        _getTitleText('Primary Info'),
+                        //! Team Logo
+                        TeamLogoEditor(
+                          logoUrl: _team.logoUrl,
+                          image: _image,
+                          onImageChanged: _editLogo,
                         ),
-                        onDecrement: () => setState(
-                          () => _maxPlayersCapacity--,
+                        //! Team Name, Short Name, Description
+                        MyTextField(
+                          initialText: _team.name,
+                          onSave: (value) {
+                            _teamName = value;
+                          },
+                          label: 'Team Name',
+                          borderRadius: 15,
+                          validator: (value) =>
+                              nameValidator(value, 'Team Name'),
                         ),
-                      )
-                    ],
+                        MyTextField(
+                          initialText: _team.shortName,
+                          onSave: (value) {
+                            _teamShortName = value;
+                          },
+                          label: 'Team Short Name',
+                          borderRadius: 15,
+                          validator: teamShortNameValidator,
+                        ),
+                        MyTextField(
+                          initialText: _team.description,
+                          onSave: (value) {
+                            _teamDescription = value;
+                          },
+                          label: 'Description',
+                          borderRadius: 15,
+                          maxLength: 50,
+                        ),
+                        //! Team Player Capacity
+                        PlayerCapacitySelector(
+                          maxPlayersCapacity: _maxPlayersCapacity,
+                          onIncrement: () => setState(
+                            () => _maxPlayersCapacity++,
+                          ),
+                          onDecrement: () => setState(
+                            () => _maxPlayersCapacity--,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
 
@@ -155,7 +225,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 //! Roles
                 MyCard(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     spacing: 12,
                     children: [
                       _getTitleText('Roles'),
@@ -163,12 +233,16 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       MyDropdownMenu(
                         options: _playerNames,
                         label: 'Change captancy',
-                        onSelect: (value) {},
+                        onSelect: (value) {
+                          _captain = value;
+                        },
                       ),
                       MyDropdownMenu(
                         options: _playerNames,
                         label: 'Change Wicketkeeper',
-                        onSelect: (value) {},
+                        onSelect: (value) {
+                          _wicketkeeper = value;
+                        },
                       )
                     ],
                   ),
@@ -178,8 +252,9 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                   width: width * 0.9,
                   height: 50,
                   child: MyElevatedButton(
-                    onPressed: () {},
+                    onPressed: _saveChanges,
                     text: 'Save Changes',
+                    isLoading: _isSaving,
                   ),
                 ),
                 const SizedBox(height: 20),

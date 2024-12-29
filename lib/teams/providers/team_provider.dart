@@ -15,6 +15,8 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     String? logoUrl,
     List? playersList,
     int? maxPlayersCapacity,
+    String? captainId,
+    String? wicketkeeperId,
   }) {
     state = state.copyWith(
       name: name,
@@ -23,6 +25,8 @@ class TeamProviderNotifier extends StateNotifier<Team> {
       logoUrl: logoUrl,
       playersList: playersList,
       maxPlayersCapacity: maxPlayersCapacity,
+      captainId: captainId,
+      wicketKeeperId: wicketkeeperId,
     );
   }
 
