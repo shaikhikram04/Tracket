@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
@@ -139,7 +140,12 @@ class TeamSettingsScreen extends ConsumerWidget {
                               horizontal: 0,
                               vertical: 2,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              pushScreen(
+                                  context,
+                                  PlayerProfileScreen(
+                                      playerId: admin['playerId']));
+                            },
                             leading: CircleAvatar(
                               radius: 25,
                               backgroundImage: admin['imageUrl'] != null

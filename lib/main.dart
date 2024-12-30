@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/authentication/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
+import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
@@ -106,11 +107,11 @@ class Tracket extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: currUser == null || !currUser.emailVerified
-          ? const AuthScreen()
-          : const HomeScreen(),
+      // home: currUser == null || !currUser.emailVerified
+      //     ? const AuthScreen()
+      //     : const HomeScreen(),
 
-      // home: const TeamSettingsScreen(),
+      home: const AddAdmin(),
     );
   }
 }
