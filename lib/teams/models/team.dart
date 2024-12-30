@@ -19,6 +19,8 @@ class Team {
     this.rank = -1,
     this.maxPlayersCapacity = 15,
     this.description = '',
+    this.sendRequest = 0,
+    this.pendingRequest = 0,
   });
 
   final String id;
@@ -40,6 +42,8 @@ class Team {
   final int maxPlayersCapacity;
   final String description;
   final List admins;
+  final int sendRequest;
+  final int pendingRequest;
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
@@ -65,6 +69,8 @@ class Team {
         'maxPlayersCapacity': maxPlayersCapacity,
         'description': description,
         'admins': admins,
+        'sendRequest': sendRequest,
+        'pendingRequest': pendingRequest,
       };
 
   static Team formSeed(Map<String, dynamic> snap) => Team(
@@ -87,6 +93,8 @@ class Team {
         maxPlayersCapacity: snap['maxPlayersCapacity'],
         description: snap['description'],
         admins: snap['admins'],
+        sendRequest: snap['sendRequest'],
+        pendingRequest: snap['pendingRequest'],
       );
 
   Team copyWith({
@@ -108,6 +116,8 @@ class Team {
     String? createdBy,
     int? rank,
     List? admins,
+    int? sendRequest,
+    int? pendingRequest,
   }) {
     return Team(
       id: id,
@@ -129,6 +139,8 @@ class Team {
       description: description ?? this.description,
       rank: rank ?? this.rank,
       admins: admins ?? this.admins,
+      sendRequest: sendRequest ?? this.sendRequest,
+      pendingRequest: pendingRequest ?? this.pendingRequest,
     );
   }
 }
