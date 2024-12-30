@@ -8,7 +8,6 @@ class Team {
     required this.achievements,
     required this.following,
     required this.followers,
-    required this.admins,
     this.captainId,
     this.wicketkeeperId,
     required this.createdBy,
@@ -42,10 +41,17 @@ class Team {
   final List followers;
   final int maxPlayersCapacity;
   final String description;
-  final List admins;
   final int sendRequest;
   final int pendingRequest;
   final bool isPrivate;
+
+  List get admins => playersList
+      .where((player) => player['role'] == 'admin' || player['role'] == 'owner')
+      .toList();
+
+  List get nonAdmins => playersList
+      .where((player) => player['role'] != 'admin' && player['role'] != 'owner')
+      .toList();
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
@@ -70,7 +76,6 @@ class Team {
         'followers': followers,
         'maxPlayersCapacity': maxPlayersCapacity,
         'description': description,
-        'admins': admins,
         'sendRequest': sendRequest,
         'pendingRequest': pendingRequest,
         'isPrivate': isPrivate,
@@ -95,7 +100,6 @@ class Team {
         followers: snap['followers'],
         maxPlayersCapacity: snap['maxPlayersCapacity'],
         description: snap['description'],
-        admins: snap['admins'],
         sendRequest: snap['sendRequest'],
         pendingRequest: snap['pendingRequest'],
         isPrivate: snap['isPrivate'],
@@ -143,7 +147,6 @@ class Team {
       maxPlayersCapacity: maxPlayersCapacity ?? this.maxPlayersCapacity,
       description: description ?? this.description,
       rank: rank ?? this.rank,
-      admins: admins ?? this.admins,
       sendRequest: sendRequest ?? this.sendRequest,
       pendingRequest: pendingRequest ?? this.pendingRequest,
       isPrivate: isPrivate ?? this.isPrivate,

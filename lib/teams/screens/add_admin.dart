@@ -16,10 +16,7 @@ class AddAdmin extends ConsumerWidget {
     final team = ref.read(teamProvider);
     final requestStatus = ref.watch(requestStatusProvider);
 
-    final nonAdminPlayers = team.playersList
-        .where(
-            (player) => player['role'] != 'admin' || player['role'] != 'owner')
-        .toList();
+    final nonAdminPlayers = team.nonAdmins;
 
     return Scaffold(
       appBar: AppBar(

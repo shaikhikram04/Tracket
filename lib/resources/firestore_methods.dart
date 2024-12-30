@@ -44,9 +44,6 @@ class FirestoreMethods {
         achievements: [],
         following: [],
         followers: [],
-        admins: [
-          {'playerId': createdBy, 'name': adminName, 'imageUrl': adminImageUrl},
-        ],
       );
       await _firestore
           .collection(FirestoreCollections.teams)

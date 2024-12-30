@@ -64,7 +64,6 @@ final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {
       following: [],
       followers: [],
       createdBy: '',
-      admins: [],
     ),
   );
 });
