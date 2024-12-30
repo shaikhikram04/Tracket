@@ -6,6 +6,7 @@ import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
+import 'package:tracket/utils/utils.dart';
 
 class Squad extends ConsumerWidget {
   const Squad({
@@ -22,9 +23,7 @@ class Squad extends ConsumerWidget {
 
     void addPlayer() {
       ref.read(requestStatusProvider.notifier).setRequestStatus();
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const AddPlayerScreen(),
-      ));
+      pushScreen(context, const AddPlayerScreen());
     }
 
     Future<void> deletePlayer(

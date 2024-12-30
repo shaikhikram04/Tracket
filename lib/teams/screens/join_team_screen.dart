@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class JoinTeamScreen extends ConsumerWidget {
   const JoinTeamScreen({super.key});
@@ -70,9 +71,7 @@ class JoinTeamScreen extends ConsumerWidget {
                 subtitle: Text(teamData.shortName),
                 onTap: () {
                   ref.read(teamProvider.notifier).updateTeam(teamData);
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const TeamProfileScreen(),
-                  ));
+                  pushScreen(context, const TeamProfileScreen());
                 },
                 trailing: ElevatedButton(
                   style: ElevatedButton.styleFrom(

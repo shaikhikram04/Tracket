@@ -116,9 +116,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
   }
 
   void _onForgetPassword() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ForgetPassword(),
-    ));
+    pushScreen(context, const ForgetPassword());
   }
 
   void _togglePasswordVisibility() {

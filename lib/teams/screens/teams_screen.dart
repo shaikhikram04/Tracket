@@ -3,12 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/utils.dart';
 
 class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});
@@ -113,22 +114,14 @@ class TeamsScreen extends ConsumerWidget {
             child: const Icon(Icons.group_add),
             label: 'Join Team',
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const JoinTeamScreen(),
-                ),
-              );
+              pushScreen(context, const JoinTeamScreen());
             },
           ),
           SpeedDialChild(
             child: const Icon(Icons.create),
             label: 'Create Team',
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const CreateTeamScreen(),
-                ),
-              );
+              pushScreen(context, const CreateTeamScreen());
             },
           ),
         ],

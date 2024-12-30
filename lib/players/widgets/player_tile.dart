@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
 class PlayerTile extends StatelessWidget {
@@ -24,11 +25,7 @@ class PlayerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PlayerProfileScreen(
-            playerId: playerData['id'],
-          ),
-        ));
+        pushScreen(context, PlayerProfileScreen(playerId: playerData['id']));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),

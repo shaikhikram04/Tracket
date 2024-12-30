@@ -9,6 +9,7 @@ import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class AddPlayerScreen extends ConsumerStatefulWidget {
   const AddPlayerScreen({super.key});
@@ -125,9 +126,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
         ),
         title: Text(player.name),
         subtitle: Text(player.cricketRole!.name),
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PlayerProfileScreen(player: player),
-        )),
+        onTap: () => pushScreen(context, PlayerProfileScreen(player: player)),
         trailing: Consumer(
           builder: (context, ref, _) {
             final requestStatus = ref.watch(requestStatusProvider);
