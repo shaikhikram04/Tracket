@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/teams/screens/team_edit_screen.dart';
+import 'package:tracket/teams/screens/team_settings_screen.dart';
 
 class TeamOptions extends StatelessWidget {
   const TeamOptions({super.key});
-
-  void _navigateToTeamSettings(BuildContext context) {
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => const TeamSettingsScreen(),
-    //   ),
-    // );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +32,11 @@ class TeamOptions extends StatelessWidget {
             title: const Text('Team Settings'),
             onTap: () {
               Navigator.of(context).pop(); // Close the modal
-              _navigateToTeamSettings(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const TeamSettingsScreen(),
+                ),
+              );
             },
           ),
           ListTile(

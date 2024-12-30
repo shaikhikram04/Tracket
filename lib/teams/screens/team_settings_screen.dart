@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
-class TeamSettingsScreen extends StatefulWidget {
+class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
 
   @override
-  State<TeamSettingsScreen> createState() => _TeamSettingsScreenState();
-}
-
-class _TeamSettingsScreenState extends State<TeamSettingsScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final team = ref.watch(teamProvider);
     ElevatedButton buildElevatedButton(
         {required String text, required Function() onPressed}) {
       return ElevatedButton(
@@ -110,29 +108,28 @@ class _TeamSettingsScreenState extends State<TeamSettingsScreen> {
                     ],
                   ),
                   //! Admins List
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 0,
-                            vertical: 2,
-                          ),
-                          onTap: () {},
-                          leading: const CircleAvatar(
-                            radius: 25,
-                            backgroundImage: AssetImage(
-                                'assets/images/Default_user_pfp.jpg'),
-                          ),
-                          title: const Text('Admin Name'),
-                          subtitle: const Text('Admin/owner'),
-                          trailing: buildElevatedButton(
-                            text: 'Remove',
-                            onPressed: removeAdmin,
-                          ));
-                    },
-                  )
+                  Column(
+                    children: [
+                      for (int i = 0; i < 2; i++)
+                        ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 0,
+                              vertical: 2,
+                            ),
+                            onTap: () {},
+                            leading: const CircleAvatar(
+                              radius: 25,
+                              backgroundImage: AssetImage(
+                                  'assets/images/Default_user_pfp.jpg'),
+                            ),
+                            title: const Text('Admin Name'),
+                            subtitle: const Text('Admin/owner'),
+                            trailing: buildElevatedButton(
+                              text: 'Remove',
+                              onPressed: removeAdmin,
+                            )),
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -34,7 +34,7 @@ class TeamProfileScreen extends ConsumerWidget {
             icon: const Icon(
               Icons.more_vert,
               color: blackColor,
-              size: 27,
+              size: 30,
             ),
           ),
         ],

@@ -8,6 +8,7 @@ class Team {
     required this.achievements,
     required this.following,
     required this.followers,
+    required this.admins,
     this.captainId,
     this.wicketkeeperId,
     required this.createdBy,
@@ -38,6 +39,7 @@ class Team {
   final List followers;
   final int maxPlayersCapacity;
   final String description;
+  final List admins;
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
@@ -62,6 +64,7 @@ class Team {
         'followers': followers,
         'maxPlayersCapacity': maxPlayersCapacity,
         'description': description,
+        'admins': admins,
       };
 
   static Team formSeed(Map<String, dynamic> snap) => Team(
@@ -83,48 +86,49 @@ class Team {
         followers: snap['followers'],
         maxPlayersCapacity: snap['maxPlayersCapacity'],
         description: snap['description'],
+        admins: snap['admins'],
       );
 
-  Team copyWith(
-    {
-      String? name,
-      String? shortName,
-      String? logoUrl,
-      List? playersList,
-      String? captainId,
-      String? wicketkeeperId,
-      int? matchesPlayed,
-      int? wins,
-      int? losses,
-      int? tieCount,
-      List? achievements,
-      List? following,
-      List? followers,
-      int? maxPlayersCapacity,
-      String? description,
-      String? createdBy,
-      int? rank,
-    }
-  ) {
+  Team copyWith({
+    String? name,
+    String? shortName,
+    String? logoUrl,
+    List? playersList,
+    String? captainId,
+    String? wicketkeeperId,
+    int? matchesPlayed,
+    int? wins,
+    int? losses,
+    int? tieCount,
+    List? achievements,
+    List? following,
+    List? followers,
+    int? maxPlayersCapacity,
+    String? description,
+    String? createdBy,
+    int? rank,
+    List? admins,
+  }) {
     return Team(
       id: id,
       name: name ?? this.name,
       shortName: shortName ?? this.shortName,
       logoUrl: logoUrl ?? this.logoUrl,
       playersList: playersList ?? this.playersList,
-      createdBy:  createdBy ?? this.createdBy,
+      createdBy: createdBy ?? this.createdBy,
       captainId: captainId ?? this.captainId,
       wicketkeeperId: wicketkeeperId ?? this.wicketkeeperId,
       matchesPlayed: matchesPlayed ?? this.matchesPlayed,
       wins: wins ?? this.wins,
       losses: losses ?? this.losses,
-      tieCount: tieCount   ?? this.tieCount,
-      achievements: achievements  ?? this.achievements,
+      tieCount: tieCount ?? this.tieCount,
+      achievements: achievements ?? this.achievements,
       following: following ?? this.following,
       followers: followers ?? this.followers,
       maxPlayersCapacity: maxPlayersCapacity ?? this.maxPlayersCapacity,
       description: description ?? this.description,
       rank: rank ?? this.rank,
+      admins: admins ?? this.admins,
     );
   }
 }
