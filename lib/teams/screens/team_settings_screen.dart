@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
-class TeamSettingsScreen extends StatelessWidget {
+class TeamSettingsScreen extends StatefulWidget {
   const TeamSettingsScreen({super.key});
 
+  @override
+  State<TeamSettingsScreen> createState() => _TeamSettingsScreenState();
+}
+
+class _TeamSettingsScreenState extends State<TeamSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     ElevatedButton buildElevatedButton(
@@ -83,98 +89,141 @@ class TeamSettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Team Settings'),
       ),
-      body: Column(
-        children: [
-          MyCard(
-            child: Column(
-              children: [
-                //! Title Row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Manage Admins',
-                        style: Theme.of(context).textTheme.titleLarge),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.person_add),
-                      iconSize: 30,
-                      color: darkGreenColor,
-                    )
-                  ],
-                ),
-                //! Admins List
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0,
-                          vertical: 2,
-                        ),
-                        onTap: () {},
-                        leading: const CircleAvatar(
-                          radius: 25,
-                          backgroundImage:
-                              AssetImage('assets/images/Default_user_pfp.jpg'),
-                        ),
-                        title: const Text('Admin Name'),
-                        subtitle: const Text('Admin/owner'),
-                        trailing: buildElevatedButton(
-                          text: 'Remove',
-                          onPressed: removeAdmin,
-                        ));
-                  },
-                )
-              ],
-            ),
-          ),
-          MyCard(
-            child: Column(
-              children: [
-                //! Title Row
-                Text('Player Requests',
-                    style: Theme.of(context).textTheme.titleLarge),
-                const SizedBox(height: 10),
-                ListTile(
-                  onTap: () {},
-                  title: Text(
-                    'Pending Requests (3)',
-                    style: Theme.of(context).textTheme.bodyLarge,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            MyCard(
+              child: Column(
+                children: [
+                  //! Title Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      getTitleText('Manage Admins', context),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.person_add),
+                        iconSize: 30,
+                        color: darkGreenColor,
+                      )
+                    ],
                   ),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                ),
-                ListTile(
-                  onTap: () {},
-                  title: Text(
-                    'Sent Requests (2)',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                ),
-              ],
+                  //! Admins List
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 0,
+                            vertical: 2,
+                          ),
+                          onTap: () {},
+                          leading: const CircleAvatar(
+                            radius: 25,
+                            backgroundImage: AssetImage(
+                                'assets/images/Default_user_pfp.jpg'),
+                          ),
+                          title: const Text('Admin Name'),
+                          subtitle: const Text('Admin/owner'),
+                          trailing: buildElevatedButton(
+                            text: 'Remove',
+                            onPressed: removeAdmin,
+                          ));
+                    },
+                  )
+                ],
+              ),
             ),
-          ),
-          MyCard(
-            child: Row(
-              spacing: 16,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  'Delete Team',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Colors.red,
+            MyCard(
+              child: Column(
+                children: [
+                  //! Title Row
+                  getTitleText('Player Request', context),
+                  const SizedBox(height: 10),
+                  ListTile(
+                    onTap: () {},
+                    title: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Pending Requests ',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          TextSpan(
+                            text: '(3)',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
                       ),
-                ),
-                const Spacer(),
-                buildElevatedButton(
-                  text: 'Delete',
-                  onPressed: onDeleteTeam,
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                  ),
+                  ListTile(
+                    onTap: () {},
+                    title: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Sent Requests ',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          TextSpan(
+                            text: '(2)',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                  ),
+                ],
+              ),
+            ),
+            MyCard(
+                child: Column(
+              children: [
+                getTitleText('Privacy Settings', context),
+                const SizedBox(height: 10),
+                SwitchListTile(
+                  value: true,
+                  title: Text(
+                    'Make team private',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.black, fontSize: 17),
+                  ),
+                  subtitle: const Text(
+                    'When your team is private, only admins can add new members.',
+                  ),
+                  activeColor: greenColor,
+                  onChanged: (value) {},
                 ),
               ],
+            )),
+            MyCard(
+              child: Row(
+                spacing: 16,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    'Delete Team',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.red,
+                        ),
+                  ),
+                  const Spacer(),
+                  buildElevatedButton(
+                    text: 'Delete',
+                    onPressed: onDeleteTeam,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
