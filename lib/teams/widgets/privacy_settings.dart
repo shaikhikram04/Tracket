@@ -50,6 +50,7 @@ class _PrivacySettingsState extends State<PrivacySettings> {
               setState(() {
                 isSwitchedOn = value;
               });
+              widget.onSwitchChanged(value);
             },
           ),
         ],

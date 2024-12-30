@@ -17,6 +17,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     int? maxPlayersCapacity,
     String? captainId,
     String? wicketkeeperId,
+    bool? isTeamPrivate,
   }) {
     state = state.copyWith(
       name: name,
@@ -27,6 +28,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
       maxPlayersCapacity: maxPlayersCapacity,
       captainId: captainId,
       wicketkeeperId: wicketkeeperId,
+      isPrivate: isTeamPrivate,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
@@ -173,8 +174,19 @@ class TeamSettingsScreen extends ConsumerWidget {
             ),
             //! Privacy Settings
             PrivacySettings(
-              isTeamPrivate: false,
-              onSwitchChanged: (newValue) {},
+              isTeamPrivate: team.isPrivate,
+              onSwitchChanged: (newValue) async {
+                if (newValue) {
+                  showSnackBar('Now no one can add directly in team', context);
+                } else {
+                  showSnackBar('Now anyone can add directly in team', context);
+                }
+                await FirestoreMethods.updateTeamPrivacy(
+                    teamId: team.id, isPrivate: newValue);
+                ref
+                    .read(teamProvider.notifier)
+                    .updateField(isTeamPrivate: newValue);
+              },
             ),
             //! Delete Team
             MyCard(

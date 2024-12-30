@@ -178,4 +178,20 @@ class FirestoreMethods {
       }
     }
   }
+
+  static Future<void> updateTeamPrivacy({
+    required String teamId,
+    required bool isPrivate,
+  }) async {
+    try {
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamId)
+          .update({'isPrivate': isPrivate});
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
 }
