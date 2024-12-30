@@ -110,20 +110,24 @@ class TeamSettingsScreen extends ConsumerWidget {
                   //! Admins List
                   Column(
                     children: [
-                      for (int i = 0; i < 2; i++)
+                      for (final admin in team.admins)
                         ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 0,
                               vertical: 2,
                             ),
                             onTap: () {},
-                            leading: const CircleAvatar(
+                            leading: CircleAvatar(
                               radius: 25,
-                              backgroundImage: AssetImage(
-                                  'assets/images/Default_user_pfp.jpg'),
+                              backgroundImage: admin['imageUrl'] != null
+                                  ? NetworkImage(admin['imageUrl'])
+                                  : const AssetImage(
+                                      'assets/images/Default_user_pfp.jpg'),
                             ),
-                            title: const Text('Admin Name'),
-                            subtitle: const Text('Admin/owner'),
+                            title: Text(admin['name']),
+                            subtitle: Text(admin['playerId'] == team.createdBy
+                                ? 'Owner'
+                                : 'Admin'),
                             trailing: buildElevatedButton(
                               text: 'Remove',
                               onPressed: removeAdmin,
