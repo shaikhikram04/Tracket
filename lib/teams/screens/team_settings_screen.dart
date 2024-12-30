@@ -7,6 +7,25 @@ class TeamSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ElevatedButton buildElevatedButton(
+        {required String text, required Function() onPressed}) {
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          side: const BorderSide(color: Colors.red, width: 1),
+        ),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Colors.red,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+        ),
+      );
+    }
+
     void showingAlertDialog(
         {required String title,
         required String content,
@@ -89,26 +108,22 @@ class TeamSettingsScreen extends StatelessWidget {
                   itemCount: 2,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: 2,
-                      ),
-                      onTap: () {},
-                      leading: const CircleAvatar(
-                        radius: 25,
-                        backgroundImage:
-                            AssetImage('assets/images/Default_user_pfp.jpg'),
-                      ),
-                      title: const Text('Admin Name'),
-                      subtitle: const Text('Admin/owner'),
-                      trailing: ElevatedButton(
-                        onPressed: removeAdmin,
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            foregroundColor: whiteColor),
-                        child: const Text('Remove'),
-                      ),
-                    );
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0,
+                          vertical: 2,
+                        ),
+                        onTap: () {},
+                        leading: const CircleAvatar(
+                          radius: 25,
+                          backgroundImage:
+                              AssetImage('assets/images/Default_user_pfp.jpg'),
+                        ),
+                        title: const Text('Admin Name'),
+                        subtitle: const Text('Admin/owner'),
+                        trailing: buildElevatedButton(
+                          text: 'Remove',
+                          onPressed: removeAdmin,
+                        ));
                   },
                 )
               ],
@@ -152,17 +167,9 @@ class TeamSettingsScreen extends StatelessWidget {
                       ),
                 ),
                 const Spacer(),
-                ElevatedButton(
+                buildElevatedButton(
+                  text: 'Delete',
                   onPressed: onDeleteTeam,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.red, width: 1),
-                  ),
-                  child: Text(
-                    'Delete',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.red, fontWeight: FontWeight.w600),
-                  ),
                 ),
               ],
             ),
