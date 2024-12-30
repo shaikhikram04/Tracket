@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -180,28 +181,7 @@ class _TeamSettingsScreenState extends State<TeamSettingsScreen> {
                 ],
               ),
             ),
-            MyCard(
-                child: Column(
-              children: [
-                getTitleText('Privacy Settings', context),
-                const SizedBox(height: 10),
-                SwitchListTile(
-                  value: true,
-                  title: Text(
-                    'Make team private',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.black, fontSize: 17),
-                  ),
-                  subtitle: const Text(
-                    'When your team is private, only admins can add new members.',
-                  ),
-                  activeColor: greenColor,
-                  onChanged: (value) {},
-                ),
-              ],
-            )),
+            const PrivacySettings(),
             MyCard(
               child: Row(
                 spacing: 16,

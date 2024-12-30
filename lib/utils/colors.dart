@@ -11,7 +11,7 @@ const whiteColor = Colors.white;
 const unSelectColor = Color.fromARGB(214, 32, 53, 32);
 const buttonBgColor = Color.fromARGB(255, 117, 198, 120);
 const darkGreenColor = Color.fromARGB(255, 2, 63, 4);
-const lightGreenColor = Color.fromARGB(255, 8, 164, 8);
+const enableSwitchColor = Color.fromARGB(255, 14, 151, 14);
 
 //* Darkmode colors
 const darkBackgroundColor = Color.fromRGBO(33, 33, 33, 1);
