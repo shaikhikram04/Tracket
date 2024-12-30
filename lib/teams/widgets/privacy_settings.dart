@@ -4,14 +4,27 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class PrivacySettings extends StatefulWidget {
-  const PrivacySettings({super.key});
+  const PrivacySettings({
+    super.key,
+    required this.isTeamPrivate,
+    required this.onSwitchChanged,
+  });
+
+  final bool isTeamPrivate;
+  final void Function(bool) onSwitchChanged;
 
   @override
   State<PrivacySettings> createState() => _PrivacySettingsState();
 }
 
 class _PrivacySettingsState extends State<PrivacySettings> {
-  bool isSwitchedOn = true;
+  late bool isSwitchedOn;
+
+  @override
+  void initState() {
+    isSwitchedOn = widget.isTeamPrivate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

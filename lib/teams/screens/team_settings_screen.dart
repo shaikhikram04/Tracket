@@ -31,6 +31,27 @@ class TeamSettingsScreen extends ConsumerWidget {
       );
     }
 
+    ListTile getRequestTile(String request, int count, void Function() onTap) {
+      return ListTile(
+        onTap: onTap,
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: request,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              TextSpan(
+                text: ' ($count)',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios),
+      );
+    }
+
     void showingAlertDialog(
         {required String title,
         required String content,
@@ -137,52 +158,25 @@ class TeamSettingsScreen extends ConsumerWidget {
                 ],
               ),
             ),
+            //! Requests Section
             MyCard(
               child: Column(
                 children: [
                   //! Title Row
                   getTitleText('Player Request', context),
                   const SizedBox(height: 10),
-                  ListTile(
-                    onTap: () {},
-                    title: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Pending Requests ',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          TextSpan(
-                            text: '(3)',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
-                      ),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                  ),
-                  ListTile(
-                    onTap: () {},
-                    title: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Sent Requests ',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          TextSpan(
-                            text: '(2)',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
-                      ),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                  ),
+                  getRequestTile(
+                      'Pending Requests', team.pendingRequest, () {}),
+                  getRequestTile('Sent Requests', team.sendRequest, () {}),
                 ],
               ),
             ),
-            const PrivacySettings(),
+            //! Privacy Settings
+            PrivacySettings(
+              isTeamPrivate: false,
+              onSwitchChanged: (newValue) {},
+            ),
+            //! Delete Team
             MyCard(
               child: Row(
                 spacing: 16,
