@@ -31,9 +31,8 @@ class TeamProviderNotifier extends StateNotifier<Team> {
   }
 
   void deletePlayer(String playerId) {
-    final updatedPlayersList = state.playersList
-        .where((player) => player['id'] != playerId)
-        .toList();
+    final updatedPlayersList =
+        state.playersList.where((player) => player['id'] != playerId).toList();
     updateField(playersList: updatedPlayersList);
   }
 
@@ -63,6 +62,7 @@ final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {
       following: [],
       followers: [],
       createdBy: '',
+      admins: [],
     ),
   );
 });

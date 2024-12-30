@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
@@ -42,6 +43,7 @@ class FirestoreMethods {
         achievements: [],
         following: [],
         followers: [],
+        admins: [createdBy],
       );
       await _firestore
           .collection(FirestoreCollections.teams)
@@ -169,7 +171,9 @@ class FirestoreMethods {
           .doc(teamId)
           .update(updatedFields);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }
