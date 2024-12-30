@@ -66,25 +66,22 @@ class Squad extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              Text(
-                'Squad',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontSize: 23),
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: addPlayer,
-                iconSize: 30,
-                icon: const Icon(Icons.group_add),
-              )
-            ],
-          ),
+        Row(
+          children: [
+            Text(
+              'Squad',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontSize: 23),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: addPlayer,
+              iconSize: 30,
+              icon: const Icon(Icons.group_add),
+            )
+          ],
         ),
         const SizedBox(height: 10),
         team.playersList.isEmpty
