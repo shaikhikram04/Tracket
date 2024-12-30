@@ -113,6 +113,7 @@ class TeamSettingsScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            //! Admins Section
             MyCard(
               child: Column(
                 children: [

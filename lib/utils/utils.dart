@@ -164,3 +164,11 @@ Text getTitleText(String title, BuildContext context) {
         Theme.of(context).textTheme.titleLarge!.copyWith(color: darkGreenColor),
   );
 }
+
+void pushScreen(BuildContext context, Widget screen) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => screen,
+    ),
+  );
+}
