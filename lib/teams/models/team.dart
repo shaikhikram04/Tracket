@@ -21,6 +21,7 @@ class Team {
     this.description = '',
     this.sendRequest = 0,
     this.pendingRequest = 0,
+    this.isPrivate = false,
   });
 
   final String id;
@@ -44,6 +45,7 @@ class Team {
   final List admins;
   final int sendRequest;
   final int pendingRequest;
+  final bool isPrivate;
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
@@ -71,6 +73,7 @@ class Team {
         'admins': admins,
         'sendRequest': sendRequest,
         'pendingRequest': pendingRequest,
+        'isPrivate': isPrivate,
       };
 
   static Team formSeed(Map<String, dynamic> snap) => Team(
@@ -95,6 +98,7 @@ class Team {
         admins: snap['admins'],
         sendRequest: snap['sendRequest'],
         pendingRequest: snap['pendingRequest'],
+        isPrivate: snap['isPrivate'],
       );
 
   Team copyWith({
@@ -118,6 +122,7 @@ class Team {
     List? admins,
     int? sendRequest,
     int? pendingRequest,
+    bool? isPrivate,
   }) {
     return Team(
       id: id,
@@ -141,6 +146,7 @@ class Team {
       admins: admins ?? this.admins,
       sendRequest: sendRequest ?? this.sendRequest,
       pendingRequest: pendingRequest ?? this.pendingRequest,
+      isPrivate: isPrivate ?? this.isPrivate,
     );
   }
 }
