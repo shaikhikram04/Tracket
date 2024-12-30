@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
+import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
@@ -124,7 +126,12 @@ class TeamSettingsScreen extends ConsumerWidget {
                     children: [
                       getTitleText('Manage Admins', context),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ref
+                              .read(requestStatusProvider.notifier)
+                              .setRequestStatus();
+                          pushScreen(context, const AddAdmin());
+                        },
                         icon: const Icon(Icons.person_add),
                         iconSize: 30,
                         color: darkGreenColor,

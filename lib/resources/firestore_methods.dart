@@ -36,6 +36,7 @@ class FirestoreMethods {
             'name': adminName,
             'cricketRole': adminCricketRole,
             'imageUrl': adminImageUrl,
+            'role': 'owner',
           }
         ],
         createdBy: createdBy,
