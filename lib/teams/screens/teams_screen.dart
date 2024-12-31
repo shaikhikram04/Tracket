@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
@@ -24,7 +25,7 @@ class TeamsScreen extends ConsumerWidget {
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('teams')
+            .collection(FirestoreCollections.teams)
             .where('id', whereIn: playerTeamsId)
             .snapshots(),
         builder: (context, snapshot) {

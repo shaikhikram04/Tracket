@@ -40,6 +40,7 @@ class FirestoreMethods {
           .collection(FirestoreCollections.teams)
           .doc(team.id)
           .set(team.toJson);
+
       await _firestore
           .collection(FirestoreCollections.teams)
           .doc(team.id)
@@ -54,6 +55,20 @@ class FirestoreMethods {
           'role': 'owner',
         },
       );
+
+      await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(createdBy)
+          .collection(FirestoreCollections.playerTeams)
+          .doc(team.id)
+          .set({
+        'id': team.id,
+        'name': teamName,
+        'shortName': shortName,
+        'logoUrl': logoUrl,
+        'role': 'owner',
+      });
+
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -197,8 +212,8 @@ class FirestoreMethods {
           .update({'isPrivate': isPrivate});
     } catch (e) {
       if (context.mounted) {
-        showSnackBar('Failed to update team privacy. Please try again later.',
-            context);
+        showSnackBar(
+            'Failed to update team privacy. Please try again later.', context);
       }
     }
   }

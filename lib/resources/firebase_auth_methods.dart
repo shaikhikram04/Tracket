@@ -40,7 +40,7 @@ class FirebaseAuthMethods {
     final snap = await getUserSnap();
 
     QuerySnapshot? playerTeamsSnap;
-    if (snap['role'] == 'player') {
+    if (snap.data()!['role'] == 'player') {
       playerTeamsSnap = await _firestore
           .collection(FirestoreCollections.players)
           .doc(currentUserId)

@@ -28,6 +28,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> loadPlayerData() async {
+    setState(() {
+      _selectedIndex = 3;
+    });
     try {
       final player = await FirebaseAuthMethods.getUserDetail();
       ref.read(playerProvider.notifier).setPlayer(player);
@@ -37,6 +40,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SnackBar(content: Text('Error loading player data: $error')),
         );
       }
+    } finally {
+      setState(() {
+        _selectedIndex = 0;
+      });
     }
   }
 
@@ -50,6 +57,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const TeamsScreen(),
     const MatchesScreen(),
     const TournamentList(),
+    const Scaffold(body: Center(child: CircularProgressIndicator())),
   ];
 
   final List<String> _titles = [
@@ -60,7 +68,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String title = _titles[_selectedIndex];
+    String title = _titles[_selectedIndex % 3];
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +82,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex % 3,
         elevation: 10,
         backgroundColor: greenColor,
         onTap: _selectItem,

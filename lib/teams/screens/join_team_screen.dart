@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
@@ -27,7 +27,17 @@ class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
         ref.read(playerProvider).teams!.map((e) => e['id'].toString()).toList();
   }
 
-  void joinTeam(BuildContext context, Team team, Player player) async {}
+  void toggleAdding(String playerId, bool isAdding) {
+    if (isAdding) {
+      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
+    } else {
+      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+    }
+  }
+
+  void joinTeam(
+    String teamId,
+  ) async {}
 
   @override
   Widget build(BuildContext context) {
