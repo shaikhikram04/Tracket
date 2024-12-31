@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -9,13 +10,27 @@ import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
-class JoinTeamScreen extends ConsumerWidget {
+class JoinTeamScreen extends ConsumerStatefulWidget {
   const JoinTeamScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.watch(playerProvider);
-    final playerTeamsId = player.teams!.map((e) => e['id'].toString()).toList();
+  ConsumerState<JoinTeamScreen> createState() => _JoinTeamScreenState();
+}
+
+class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
+  late final List<String> playerTeamsId;
+
+  @override
+  void initState() {
+    super.initState();
+    playerTeamsId =
+        ref.read(playerProvider).teams!.map((e) => e['id'].toString()).toList();
+  }
+
+  void joinTeam(BuildContext context, Team team, Player player) async {}
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Join Team'),
