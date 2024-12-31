@@ -27,7 +27,7 @@ class Squad extends ConsumerWidget {
     }
 
     Future<void> deletePlayer(
-      Map<String, dynamic> playerInfo,
+      String playerId,
     ) async {
       showDialog(
         context: context,
@@ -41,16 +41,12 @@ class Squad extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () async {
-                final teamInfo = {
-                  'id': team.id,
-                  'name': team.name,
-                  'shortName': team.shortName,
-                  'logoUrl': team.logoUrl,
-                  'role': playerInfo['role'],
-                };
                 await FirestoreMethods.deletePlayerFromTeam(
-                    playerInfo, teamInfo, ref, context);
-
+                  playerId,
+                  teamId,
+                  ref,
+                  context,
+                );
                 if (context.mounted) {
                   Navigator.of(context).pop();
                 }
@@ -140,9 +136,7 @@ class Squad extends ConsumerWidget {
                     isWicketKeeper: isWicketKeeper,
                     isEdit: isEdit,
                     teamId: teamId,
-                    onDelete: () => deletePlayer(
-                      playerDetail,
-                    ),
+                    onDelete: () => deletePlayer(playerId),
                   );
                 },
               )),

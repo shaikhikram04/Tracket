@@ -20,10 +20,12 @@ class AddPlayerScreen extends ConsumerStatefulWidget {
 
 class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
   late Team _team;
+  late List<String> playersId;
 
   @override
   void initState() {
     _team = ref.read(teamProvider);
+    playersId = _team.playersList.map((player) => player['id'].toString()).toList();
     super.initState();
   }
 
@@ -100,7 +102,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
           return ListView.builder(
             itemCount: snap.length,
             itemBuilder: (context, index) {
-              final player = Player.fromSeed(snap[index].data());
+              final player = Player.fromSeed(snap[index].data(), null);
               return buildPlayerTile(player);
             },
           );
@@ -110,11 +112,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
   }
 
   Widget buildPlayerTile(Player player) {
-    final List teamsId =
-        player.teams!.map((team) => team['id'].toString()).toList();
-
     final bool allowDirectTeamAdd = player.allowDirectTeamAdd!;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: ListTile(
@@ -135,7 +133,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
             final isRequestSuccess =
                 requestStatus.requestSuccess.contains(player.id);
 
-            final isAdded = teamsId.contains(_team.id) || isRequestSuccess;
+            final isAdded = playersId.contains(player.id) || isRequestSuccess;
             final buttonText = isAdded
                 ? 'Added'
                 : allowDirectTeamAdd

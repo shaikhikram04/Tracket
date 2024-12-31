@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -13,6 +13,8 @@ class JoinTeamScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final player = ref.watch(playerProvider);
+    final playerTeamsId = player.teams!.map((e) => e['id'].toString()).toList();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Join Team'),
@@ -56,10 +58,8 @@ class JoinTeamScreen extends ConsumerWidget {
           return ListView.builder(
             itemCount: snapshot.data!.size,
             itemBuilder: (context, index) {
-              final teamData = Team.formSeed(snap[index].data());
-              final isJoined = teamData.playersList.any(
-                (player) => player['id'] == FirebaseAuthMethods.currentUserId,
-              );
+              final teamData = Team.formSeed(snap[index].data(), null);
+              final isJoined = playerTeamsId.contains(teamData.id);
               return ListTile(
                 leading: CircleAvatar(
                   backgroundImage: teamData.logoUrl == null

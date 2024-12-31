@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/create_team_screen.dart';
@@ -89,8 +90,11 @@ class TeamsScreen extends ConsumerWidget {
                 title: Text(teamName),
                 subtitle: Text(shortName),
                 trailing: isAdmin ? const Text('Admin') : null,
-                onTap: () {
-                  final teamObject = Team.formSeed(teamData);
+                onTap: () async {
+                  final teamPlayer =
+                      await FirestoreMethods.getTeamPlayersFromId(
+                          teamData['id']);
+                  final teamObject = Team.formSeed(teamData, teamPlayer);
                   ref.read(teamProvider.notifier).updateTeam(teamObject);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const TeamProfileScreen(),

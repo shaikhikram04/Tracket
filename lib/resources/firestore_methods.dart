@@ -201,6 +201,17 @@ class FirestoreMethods {
     }
   }
 
+  static Future<List<QueryDocumentSnapshot<Object?>>> getTeamPlayersFromId(
+      String teamId) async {
+    final teamPlayerSnap = await _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(teamId)
+        .collection(FirestoreCollections.teamPlayers)
+        .get();
+
+    return teamPlayerSnap.docs;
+  }
+
   static void addAdminToTeam({
     required String playerId,
     required String teamId,
