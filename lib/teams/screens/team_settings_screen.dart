@@ -13,85 +13,88 @@ import 'package:tracket/widgets/custom_widgets/my_card.dart';
 class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
 
+  ElevatedButton buildElevatedButton(BuildContext context,
+      {required String text, required Function() onPressed}) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        side: const BorderSide(color: Colors.red, width: 1),
+      ),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Colors.red,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+      ),
+    );
+  }
+
+  ListTile getRequestTile(
+      BuildContext context, String request, int count, void Function() onTap) {
+    return ListTile(
+      onTap: onTap,
+      title: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: request,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            TextSpan(
+              text: ' ($count)',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+    );
+  }
+
+  void showingAlertDialog(BuildContext context,
+      {required String title,
+      required String content,
+      required String sureButtonText,
+      required Function() onSureButtonPressed}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onSureButtonPressed();
+              },
+              child: Text(
+                sureButtonText,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.watch(teamProvider);
-    ElevatedButton buildElevatedButton(
-        {required String text, required Function() onPressed}) {
-      return ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          side: const BorderSide(color: Colors.red, width: 1),
-        ),
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Colors.red,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-        ),
-      );
-    }
-
-    ListTile getRequestTile(String request, int count, void Function() onTap) {
-      return ListTile(
-        onTap: onTap,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: request,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              TextSpan(
-                text: ' ($count)',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ],
-          ),
-        ),
-        trailing: const Icon(Icons.arrow_forward_ios),
-      );
-    }
-
-    void showingAlertDialog(
-        {required String title,
-        required String content,
-        required String sureButtonText,
-        required Function() onSureButtonPressed}) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(content),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  onSureButtonPressed();
-                },
-                child: Text(
-                  sureButtonText,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     void onDeleteTeam() {
       showingAlertDialog(
+        context,
         title: 'Delete Team',
         content:
             'Are you sure you want to delete this team? This action cannot be undone.',
@@ -102,6 +105,7 @@ class TeamSettingsScreen extends ConsumerWidget {
 
     void removeAdmin() {
       showingAlertDialog(
+        context,
         title: 'Remove Admin',
         content: 'Are you sure you want to remove this admin?',
         sureButtonText: 'Remove',
@@ -148,10 +152,8 @@ class TeamSettingsScreen extends ConsumerWidget {
                               vertical: 2,
                             ),
                             onTap: () {
-                              pushScreen(
-                                  context,
-                                  PlayerProfileScreen(
-                                      playerId: admin['playerId']));
+                              pushScreen(context,
+                                  PlayerProfileScreen(playerId: admin['id']));
                             },
                             leading: CircleAvatar(
                               radius: 25,
@@ -161,10 +163,9 @@ class TeamSettingsScreen extends ConsumerWidget {
                                       'assets/images/Default_user_pfp.jpg'),
                             ),
                             title: Text(admin['name']),
-                            subtitle: Text(admin['playerId'] == team.createdBy
-                                ? 'Owner'
-                                : 'Admin'),
+                            subtitle: Text(admin['role'].toString()),
                             trailing: buildElevatedButton(
+                              context,
                               text: 'Remove',
                               onPressed: removeAdmin,
                             )),
@@ -181,8 +182,17 @@ class TeamSettingsScreen extends ConsumerWidget {
                   getTitleText('Player Request', context),
                   const SizedBox(height: 10),
                   getRequestTile(
-                      'Pending Requests', team.pendingRequest, () {}),
-                  getRequestTile('Sent Requests', team.sendRequest, () {}),
+                    context,
+                    'Pending Requests',
+                    team.pendingRequest,
+                    () {},
+                  ),
+                  getRequestTile(
+                    context,
+                    'Sent Requests',
+                    team.sendRequest,
+                    () {},
+                  ),
                 ],
               ),
             ),
@@ -219,6 +229,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                   ),
                   const Spacer(),
                   buildElevatedButton(
+                    context,
                     text: 'Delete',
                     onPressed: onDeleteTeam,
                   ),

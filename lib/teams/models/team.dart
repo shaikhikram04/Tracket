@@ -47,11 +47,11 @@ class Team {
   final int pendingRequest;
   final bool isPrivate;
 
-  List get admins => playersList
+  List<Map<String, dynamic>> get admins => playersList
       .where((player) => player['role'] == 'admin' || player['role'] == 'owner')
       .toList();
 
-  List get nonAdmins => playersList
+  List<Map<String, dynamic>> get nonAdmins => playersList
       .where((player) => player['role'] != 'admin' && player['role'] != 'owner')
       .toList();
 
