@@ -47,14 +47,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   final List<Widget> _screens = [
-    const MatchesScreen(),
     const TeamsScreen(),
+    const MatchesScreen(),
     const TournamentList(),
   ];
 
   final List<String> _titles = [
-    'Matches',
     'Team',
+    'Matches',
     'Tournament',
   ];
 
@@ -75,7 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        elevation: 8,
+        elevation: 10,
         backgroundColor: greenColor,
         onTap: _selectItem,
         selectedItemColor: blackColor,
@@ -85,17 +85,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.sports_cricket,
-              semanticLabel: 'Matches Tab',
-            ),
-            label: 'Matches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
               Icons.groups,
               semanticLabel: 'Teams Tab',
             ),
             label: 'Teams',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.sports_cricket,
+              semanticLabel: 'Matches Tab',
+            ),
+            label: 'Matches',
           ),
           BottomNavigationBarItem(
             icon: Icon(
