@@ -30,15 +30,7 @@ class FirestoreMethods {
         name: teamName,
         shortName: shortName,
         logoUrl: logoUrl,
-        playersList: [
-          {
-            'id': createdBy,
-            'name': adminName,
-            'cricketRole': adminCricketRole,
-            'imageUrl': adminImageUrl,
-            'role': 'owner',
-          }
-        ],
+        playersList: [],
         createdBy: createdBy,
         id: uuid.v4(),
         achievements: [],
@@ -49,6 +41,20 @@ class FirestoreMethods {
           .collection(FirestoreCollections.teams)
           .doc(team.id)
           .set(team.toJson);
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(team.id)
+          .collection(FirestoreCollections.teamPlayers)
+          .doc(createdBy)
+          .set(
+        {
+          'id': createdBy,
+          'name': adminName,
+          'cricketRole': adminCricketRole,
+          'imageUrl': adminImageUrl,
+          'role': 'owner',
+        },
+      );
       result = 'success';
     } catch (e) {
       result = e.toString();
@@ -64,14 +70,21 @@ class FirestoreMethods {
         .collection(FirestoreCollections.players)
         .doc(playerId)
         .get();
-    player = Player.fromSeed(fetchedData.data()!);
+
+    final playerTeams = await _firestore
+        .collection(FirestoreCollections.players)
+        .doc(playerId)
+        .collection(FirestoreCollections.playerTeams)
+        .get();
+
+    player = Player.fromSeed(fetchedData.data()!, playerTeams.docs);
 
     return player;
   }
 
   static Future<void> deletePlayerFromTeam(
-    Map<String, dynamic> playerInfo,
-    Map<String, dynamic> teamInfo,
+    String playerId,
+    String teamId,
     WidgetRef ref,
     BuildContext context,
   ) async {
@@ -79,24 +92,22 @@ class FirestoreMethods {
       //* Update team's player list in database
       await _firestore
           .collection(FirestoreCollections.teams)
-          .doc(teamInfo['id'])
-          .update({
-        'playersList': FieldValue.arrayRemove([
-          playerInfo,
-        ])
-      });
-      ref.read(teamProvider.notifier).deletePlayer(playerInfo['id']);
+          .doc(teamId)
+          .collection(FirestoreCollections.teamPlayers)
+          .doc(playerId)
+          .delete();
+
+      ref.read(teamProvider.notifier).deletePlayer(playerId);
 
       //* Update player's team list in database
       _firestore
           .collection(FirestoreCollections.players)
-          .doc(playerInfo['id'])
-          .update({
-        'teams': FieldValue.arrayRemove([
-          teamInfo,
-        ])
-      });
-      ref.read(playerProvider.notifier).deleteTeam(teamInfo['id']);
+          .doc(playerId)
+          .collection(FirestoreCollections.playerTeams)
+          .doc(teamId)
+          .delete();
+
+      ref.read(playerProvider.notifier).deleteTeam(teamId);
     } catch (e) {
       if (context.mounted) {
         showSnackBar(
@@ -116,11 +127,10 @@ class FirestoreMethods {
       await FirebaseFirestore.instance
           .collection(FirestoreCollections.players)
           .doc(playerInfo['id'])
-          .update({
-        'teams': FieldValue.arrayUnion([
-          teamInfo,
-        ]),
-      });
+          .collection(FirestoreCollections.playerTeams)
+          .doc(teamInfo['id'])
+          .set(teamInfo);
+
       //* Update team's player list in state
       ref.read(teamProvider.notifier).addPlayer(playerInfo);
 
@@ -128,11 +138,9 @@ class FirestoreMethods {
       await FirebaseFirestore.instance
           .collection(FirestoreCollections.teams)
           .doc(teamInfo['id'])
-          .update({
-        'playersList': FieldValue.arrayUnion([
-          playerInfo,
-        ]),
-      });
+          .collection(FirestoreCollections.teamPlayers)
+          .doc(playerInfo['id'])
+          .set(playerInfo);
       final currentPlayerId = ref.read(playerProvider).id;
       if (currentPlayerId == playerInfo['id']) {
         ref.read(playerProvider.notifier).addTeam(teamInfo);
@@ -189,6 +197,19 @@ class FirestoreMethods {
     } catch (e) {
       if (kDebugMode) {
         print(e);
+      }
+    }
+  }
+
+  static void addAdminToTeam({
+    required String playerId,
+    required String teamId,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    try {} catch (e) {
+      if (context.mounted) {
+        showSnackBar('Failed to add admin. Please try again later.', context);
       }
     }
   }

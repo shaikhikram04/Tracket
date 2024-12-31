@@ -40,7 +40,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     BowlingFigure? bestBalling,
     Position? bowlingArm,
     BowlingStyle? bowlingStyle,
-    List? teams,
+    List<Map<String, dynamic>>? teams,
     PlayerStats? playerStats,
     int? matchesPlayed,
     List<String>? achievements,

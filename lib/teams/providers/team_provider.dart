@@ -13,7 +13,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     String? shortName,
     String? description,
     String? logoUrl,
-    List? playersList,
+    List<Map<String, dynamic>>? playersList,
     int? maxPlayersCapacity,
     String? captainId,
     String? wicketkeeperId,

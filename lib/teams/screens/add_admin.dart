@@ -9,14 +9,27 @@ import 'package:tracket/utils/utils.dart';
 class AddAdmin extends ConsumerWidget {
   const AddAdmin({super.key});
 
-  void addAdmin(String playerId) {}
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.read(teamProvider);
+    final nonAdminPlayers = team.nonAdmins;
+
+    void toggleAdding(String playerId, bool isAdding) {
+      if (isAdding) {
+        ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
+      } else {
+        ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+      }
+    }
+
+    void addAdmin(String playerId) {
+      toggleAdding(playerId, true);
+      // Add admin logic
+      
+    }
+
     final requestStatus = ref.watch(requestStatusProvider);
 
-    final nonAdminPlayers = team.nonAdmins;
 
     return Scaffold(
       appBar: AppBar(

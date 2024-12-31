@@ -28,11 +28,9 @@ class FirebaseAuthMethods {
   static String get currentUserId => currentUser.uid;
 
   static Future<DocumentSnapshot<Map<String, dynamic>>> getUserSnap() async {
-    final currentUser = _auth.currentUser!;
-
     var snap = await _firestore
         .collection(FirestoreCollections.players)
-        .doc(currentUser.uid)
+        .doc(currentUserId)
         .get();
 
     return snap;
@@ -41,7 +39,16 @@ class FirebaseAuthMethods {
   static Future<Player> getUserDetail() async {
     final snap = await getUserSnap();
 
-    return Player.fromSeed(snap.data()!);
+    QuerySnapshot? playerTeamsSnap;
+    if (snap['role'] == 'player') {
+      playerTeamsSnap = await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(currentUserId)
+          .collection(FirestoreCollections.playerTeams)
+          .get();
+    }
+
+    return Player.fromSeed(snap.data()!, playerTeamsSnap?.docs);
   }
 
   static Future<User?> sendVerificationEmail(

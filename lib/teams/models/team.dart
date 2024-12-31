@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Team {
   Team({
     required this.id,
@@ -29,7 +31,7 @@ class Team {
   final String createdBy;
   final String? logoUrl;
   final int rank;
-  final List playersList;
+  final List<Map<String, dynamic>> playersList;
   final String? captainId;
   final String? wicketkeeperId;
   final int matchesPlayed;
@@ -57,6 +59,21 @@ class Team {
     return ((wins / matchesPlayed) * 100).toInt();
   }
 
+  static List<Map<String, dynamic>> teamPlayersToList(
+          List<QueryDocumentSnapshot>? players) =>
+      players!.map(
+        (player) {
+          final playerInfo = player.data()! as Map<String, dynamic>;
+          return {
+            'cricketRole': playerInfo['cricketRole'],
+            'id': playerInfo['id'],
+            'name': playerInfo['name'],
+            'imageUrl': playerInfo['imageUrl'],
+            'role': playerInfo['role'],
+          };
+        },
+      ).toList();
+
   Map<String, dynamic> get toJson => {
         'id': id,
         'teamName': name,
@@ -64,7 +81,6 @@ class Team {
         'createdBy': createdBy,
         'logoUrl': logoUrl,
         'rank': rank,
-        'playersList': playersList,
         'captainId': captainId,
         'wicketkeeperId': wicketkeeperId,
         'matches': matchesPlayed,
@@ -81,12 +97,14 @@ class Team {
         'isPrivate': isPrivate,
       };
 
-  static Team formSeed(Map<String, dynamic> snap) => Team(
+  static Team formSeed(Map<String, dynamic> snap,
+          List<QueryDocumentSnapshot>? teamPlayers) =>
+      Team(
         id: snap['id'],
         name: snap['teamName'],
         shortName: snap['shortName'],
         logoUrl: snap['logoUrl'],
-        playersList: snap['playersList'],
+        playersList: teamPlayersToList(teamPlayers),
         createdBy: snap['createdBy'],
         captainId: snap['captainId'],
         losses: snap['losses'],
@@ -109,7 +127,7 @@ class Team {
     String? name,
     String? shortName,
     String? logoUrl,
-    List? playersList,
+    List<Map<String, dynamic>>? playersList,
     String? captainId,
     String? wicketkeeperId,
     int? matchesPlayed,

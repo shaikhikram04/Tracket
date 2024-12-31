@@ -30,7 +30,7 @@ class Player {
   final List following;
   final List followers;
   final String? profileImageUrl;
-  final List? teams;
+  final List<Map<String, dynamic>>? teams;
   final List? achievements;
   final CricketRole? cricketRole;
   final Position? battingPosition;
@@ -127,7 +127,6 @@ class Player {
         'email': email,
         'playerName': name,
         'role': role,
-        'teamsId': teams,
         'profileImageUrl': profileImageUrl,
         'cricketRole': cricketRole!.name,
         'battingPosition': battingPosition!.name,
@@ -141,6 +140,21 @@ class Player {
         ...playerStats!.toJson,
       };
 
+  static List<Map<String, dynamic>>? playerTeamsToList(
+          List<QueryDocumentSnapshot>? teams) =>
+      teams?.map(
+        (team) {
+          final teamInfo = team.data()! as Map<String, dynamic>;
+          return {
+            'id': teamInfo['id'],
+            'logoUrl': teamInfo['logoUrl'],
+            'name': teamInfo['name'],
+            'shortName': teamInfo['shortName'],
+            'role': teamInfo['role'],
+          };
+        },
+      ).toList();
+
   Map<String, dynamic> get toJsonForUser => {
         'userId': id,
         'email': email,
@@ -152,7 +166,8 @@ class Player {
         'followers': followers,
       };
 
-  static Player fromSeed(Map<String, dynamic> snap) {
+  static Player fromSeed(
+      Map<String, dynamic> snap, List<QueryDocumentSnapshot>? playerTeams) {
     return Player(
       role: snap['role'],
       id: snap['playerId'],
@@ -164,7 +179,7 @@ class Player {
       bowlingArm: getPosition(snap['bowlingArm']),
       bowlingStyle: getBowlingStyle(snap['bowlingStyle']),
       createdAt: snap['createdAt'],
-      teams: snap['teams'],
+      teams: playerTeamsToList(playerTeams),
       playerStats: PlayerStats(
         ballDelivered: snap['ballDelivered'],
         ballsFaced: snap['ballsFaced'],
