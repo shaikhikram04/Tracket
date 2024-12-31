@@ -96,11 +96,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         context: context,
         ref: ref,
       );
+    } catch (e) {
+      return;
+    } finally {
       setState(() {
         _isLoading = false;
       });
-    } catch (e) {
-      return;
     }
   }
 
