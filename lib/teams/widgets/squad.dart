@@ -72,11 +72,12 @@ class Squad extends ConsumerWidget {
                   .copyWith(fontSize: 23),
             ),
             const Spacer(),
-            IconButton(
-              onPressed: addPlayer,
-              iconSize: 30,
-              icon: const Icon(Icons.group_add),
-            )
+            if (isEdit)
+              IconButton(
+                onPressed: addPlayer,
+                iconSize: 30,
+                icon: const Icon(Icons.group_add),
+              )
           ],
         ),
         const SizedBox(height: 10),
@@ -120,26 +121,27 @@ class Squad extends ConsumerWidget {
               )
             : Column(
                 children: List.generate(
-                team.playersList.length,
-                (index) {
-                  final playerDetail = team.playersList[index];
-                  final playerId = playerDetail['id'];
-                  final isCaptain = team.captainId == null
-                      ? false
-                      : team.captainId == playerId;
-                  final isWicketKeeper = team.wicketkeeperId == null
-                      ? false
-                      : team.wicketkeeperId == playerId;
-                  return PlayerTile(
-                    playerData: playerDetail,
-                    isCaptain: isCaptain,
-                    isWicketKeeper: isWicketKeeper,
-                    isEdit: isEdit,
-                    teamId: teamId,
-                    onDelete: () => deletePlayer(playerId),
-                  );
-                },
-              )),
+                  team.playersList.length,
+                  (index) {
+                    final playerDetail = team.playersList[index];
+                    final playerId = playerDetail['id'];
+                    final isCaptain = team.captainId == null
+                        ? false
+                        : team.captainId == playerId;
+                    final isWicketKeeper = team.wicketkeeperId == null
+                        ? false
+                        : team.wicketkeeperId == playerId;
+                    return PlayerTile(
+                      playerData: playerDetail,
+                      isCaptain: isCaptain,
+                      isWicketKeeper: isWicketKeeper,
+                      isEdit: isEdit,
+                      teamId: teamId,
+                      onDelete: () => deletePlayer(playerId),
+                    );
+                  },
+                ),
+              ),
       ],
     );
   }
