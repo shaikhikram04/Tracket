@@ -60,19 +60,21 @@ class Team {
   }
 
   static List<Map<String, dynamic>> teamPlayersToList(
-          List<QueryDocumentSnapshot>? players) =>
-      players!.map(
-        (player) {
-          final playerInfo = player.data()! as Map<String, dynamic>;
-          return {
-            'cricketRole': playerInfo['cricketRole'],
-            'id': playerInfo['id'],
-            'name': playerInfo['name'],
-            'imageUrl': playerInfo['imageUrl'],
-            'role': playerInfo['role'],
-          };
-        },
-      ).toList();
+      List<QueryDocumentSnapshot>? players) {
+    if (players == null) return [];
+    return players.map(
+      (player) {
+        final playerInfo = player.data() as Map<String, dynamic>;
+        return {
+          'cricketRole': playerInfo['cricketRole'],
+          'id': playerInfo['id'],
+          'name': playerInfo['name'],
+          'imageUrl': playerInfo['imageUrl'],
+          'role': playerInfo['role'],
+        };
+      },
+    ).toList();
+  }
 
   Map<String, dynamic> get toJson => {
         'id': id,

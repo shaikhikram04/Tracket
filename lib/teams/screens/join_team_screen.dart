@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -20,7 +21,9 @@ class JoinTeamScreen extends ConsumerWidget {
         title: const Text('Join Team'),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('teams').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection(FirestoreCollections.teams)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
