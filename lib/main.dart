@@ -23,6 +23,7 @@ ThemeData lightMode = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: greenColor,
+      disabledBackgroundColor: greenColor,
     ),
   ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(
