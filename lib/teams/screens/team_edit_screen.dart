@@ -103,6 +103,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     }
     try {
       await FirestoreMethods.updateTeamField(
+        context,
         teamId: _team.id,
         teamName: _teamName,
         shortName: _teamShortName,
@@ -121,6 +122,11 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             captainId: captainId,
             wicketkeeperId: wicketkeeperId,
           );
+          
+      if (mounted) {
+        showSnackBar('Team updated successfully!', context);
+        Navigator.of(context).pop();
+      }
     } catch (e) {
       if (!mounted) return;
       showSnackBar('Failed to update Team! : $e', context);
@@ -128,10 +134,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       setState(() {
         _isSaving = false;
       });
-      if (mounted) {
-        showSnackBar('Team updated successfully!', context);
-        Navigator.of(context).pop();
-      }
     }
   }
 

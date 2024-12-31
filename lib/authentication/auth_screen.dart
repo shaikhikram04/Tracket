@@ -56,7 +56,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 17,
-                    vertical: 12,
                   ),
                   child: Card(
                     color: Theme.of(context).cardColor,

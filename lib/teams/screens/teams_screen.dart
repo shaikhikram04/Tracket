@@ -93,12 +93,12 @@ class TeamsScreen extends ConsumerWidget {
                 onTap: () async {
                   final teamPlayer =
                       await FirestoreMethods.getTeamPlayersFromId(
-                          teamData['id']);
+                          teamData['id'], context);
                   final teamObject = Team.formSeed(teamData, teamPlayer);
                   ref.read(teamProvider.notifier).updateTeam(teamObject);
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const TeamProfileScreen(),
-                  ));
+                  if (context.mounted) {
+                    pushScreen(context, const TeamProfileScreen());
+                  }
                 },
               );
             },

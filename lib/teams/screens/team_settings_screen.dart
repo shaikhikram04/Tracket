@@ -196,7 +196,10 @@ class TeamSettingsScreen extends ConsumerWidget {
                   showSnackBar('Now anyone can add directly in team', context);
                 }
                 await FirestoreMethods.updateTeamPrivacy(
-                    teamId: team.id, isPrivate: newValue);
+                  context,
+                  teamId: team.id,
+                  isPrivate: newValue,
+                );
                 ref
                     .read(teamProvider.notifier)
                     .updateField(isTeamPrivate: newValue);

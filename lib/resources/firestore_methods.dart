@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
@@ -152,7 +151,8 @@ class FirestoreMethods {
     }
   }
 
-  static Future<void> updateTeamField({
+  static Future<void> updateTeamField(
+    BuildContext context, {
     required String teamId,
     required String? teamName,
     required String? shortName,
@@ -179,13 +179,14 @@ class FirestoreMethods {
           .doc(teamId)
           .update(updatedFields);
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
+      if (context.mounted) {
+        showSnackBar('Failed to update team. Please try again later.', context);
       }
     }
   }
 
-  static Future<void> updateTeamPrivacy({
+  static Future<void> updateTeamPrivacy(
+    BuildContext context, {
     required String teamId,
     required bool isPrivate,
   }) async {
@@ -195,21 +196,31 @@ class FirestoreMethods {
           .doc(teamId)
           .update({'isPrivate': isPrivate});
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
+      if (context.mounted) {
+        showSnackBar('Failed to update team privacy. Please try again later.',
+            context);
       }
     }
   }
 
   static Future<List<QueryDocumentSnapshot<Object?>>> getTeamPlayersFromId(
-      String teamId) async {
-    final teamPlayerSnap = await _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(teamId)
-        .collection(FirestoreCollections.teamPlayers)
-        .get();
+      String teamId, BuildContext context) async {
+    List<QueryDocumentSnapshot<Object?>> teamPlayers = [];
+    try {
+      final teamPlayerSnap = await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamId)
+          .collection(FirestoreCollections.teamPlayers)
+          .get();
 
-    return teamPlayerSnap.docs;
+      teamPlayers = teamPlayerSnap.docs;
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar('Unable to fetch Team data', context);
+      }
+    }
+
+    return teamPlayers;
   }
 
   static void addAdminToTeam({
