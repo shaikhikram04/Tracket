@@ -244,7 +244,23 @@ class FirestoreMethods {
     required WidgetRef ref,
     required BuildContext context,
   }) async {
-    try {} catch (e) {
+    try {
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamId)
+          .collection(FirestoreCollections.teamPlayers)
+          .doc(playerId)
+          .update({'role': 'admin'});
+
+      ref.read(teamProvider.notifier).updatePlayerRole(playerId, 'admin');
+      await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(playerId)
+          .collection(FirestoreCollections.playerTeams)
+          .doc(teamId)
+          .update({'role': 'admin'});
+      ref.read(playerProvider.notifier).updateTeamRole(teamId, 'admin');
+    } catch (e) {
       if (context.mounted) {
         showSnackBar('Failed to add admin. Please try again later.', context);
       }

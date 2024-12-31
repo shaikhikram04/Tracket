@@ -76,6 +76,19 @@ class PlayerNotifier extends StateNotifier<Player> {
     updateField(teams: updatedTeams);
   }
 
+  void updateTeamRole(String teamId, String role) {
+    final updatedTeams = state.teams!.map((team) {
+      if (team['id'] == teamId) {
+        return {
+          ...team,
+          'role': role,
+        };
+      }
+      return team;
+    }).toList();
+    updateField(teams: updatedTeams);
+  }
+
   void deleteTeam(String teamId) {
     final updatedTeams =
         state.teams!.where((team) => team['id'] != teamId).toList();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/colors.dart';
@@ -24,12 +25,20 @@ class AddAdmin extends ConsumerWidget {
 
     void addAdmin(String playerId) {
       toggleAdding(playerId, true);
-      // Add admin logic
-      
+
+      try {
+        FirestoreMethods.addAdminToTeam(
+          playerId: playerId,
+          teamId: team.id,
+          ref: ref,
+          context: context,
+        );
+      } finally {
+        toggleAdding(playerId, false);
+      }
     }
 
     final requestStatus = ref.watch(requestStatusProvider);
-
 
     return Scaffold(
       appBar: AppBar(
@@ -59,8 +68,9 @@ class AddAdmin extends ConsumerWidget {
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
               ),
-              onPressed:
-                  (isRequestSuccess || isRequestInProgress) ? null : () {},
+              onPressed: (isRequestSuccess || isRequestInProgress)
+                  ? null
+                  : () => addAdmin(player['id']),
               child: isRequestInProgress
                   ? const CircularProgressIndicator()
                   : Text(

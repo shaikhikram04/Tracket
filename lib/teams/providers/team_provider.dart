@@ -43,6 +43,19 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     updateField(playersList: updatedPlayersList);
   }
 
+  void updatePlayerRole(String playerId, String role) {
+    final updatedPlayersList = state.playersList.map((player) {
+      if (player['id'] == playerId) {
+        return {
+          ...player,
+          'role': role,
+        };
+      }
+      return player;
+    }).toList();
+    updateField(playersList: updatedPlayersList);
+  }
+
   void incrementCapacity() {
     updateField(maxPlayersCapacity: state.maxPlayersCapacity + 1);
   }
