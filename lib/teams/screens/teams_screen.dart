@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -17,12 +18,24 @@ class TeamsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final player = ref.watch(playerProvider);
+    final playerTeamsId = player.playerTeamsId;
+    playerTeamsId.add('');
     return Scaffold(
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('teams').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('teams')
+            .where('id', whereIn: playerTeamsId)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
           }
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {

@@ -49,7 +49,6 @@ class PlayerNotifier extends StateNotifier<Player> {
     bool? allowDirectTeamAdd,
     int? innings,
   }) {
-
     final player = Player(
       role: role ?? state.role,
       id: id ?? state.id,
@@ -78,7 +77,8 @@ class PlayerNotifier extends StateNotifier<Player> {
   }
 
   void deleteTeam(String teamId) {
-    final updatedTeams = state.teams!.where((team) => team['id'] != teamId).toList();
+    final updatedTeams =
+        state.teams!.where((team) => team['id'] != teamId).toList();
     updateField(teams: updatedTeams);
   }
 }

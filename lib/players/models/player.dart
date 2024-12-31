@@ -155,6 +155,13 @@ class Player {
         },
       ).toList();
 
+  List<String> get playerTeamsId {
+    List<String> teamsId = [];
+    teamsId = teams!.map((team) => team['id'].toString()).toList();
+
+    return teamsId;
+  }
+
   Map<String, dynamic> get toJsonForUser => {
         'userId': id,
         'email': email,
