@@ -4,9 +4,9 @@ import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
+import 'package:tracket/widgets/custom_widgets/my_small_elevated_button.dart';
 
 class AddAdmin extends StatelessWidget {
   const AddAdmin({super.key, required this.team});
@@ -66,24 +66,11 @@ class AddAdmin extends StatelessWidget {
                         final isRequestSuccess =
                             requestStatus.requestSuccess.contains(player['id']);
 
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                isRequestSuccess ? Colors.grey : buttonBgColor,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                          ),
-                          onPressed: (isRequestSuccess || isRequestInProgress)
-                              ? null
-                              : () => addAdmin(player['id'], context, ref),
-                          child: isRequestInProgress
-                              ? const CircularProgressIndicator()
-                              : Text(
-                                  isRequestSuccess ? 'Added' : 'Add',
-                                  style: const TextStyle(color: blackColor),
-                                ),
+                        return MySmallElevatedButton(
+                          isAdded: isRequestSuccess,
+                          onPressed: () => addAdmin(player['id'], context, ref),
+                          isLoading: isRequestInProgress,
+                          buttonText: isRequestSuccess ? 'Added' : 'Add',
                         );
                       },
                     ));

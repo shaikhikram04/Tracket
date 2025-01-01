@@ -138,10 +138,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                 : allowDirectTeamAdd
                     ? 'Add'
                     : 'Offer';
-            final isButtonDisabled = isAdded || isRequestInProgress;
             return MySmallElevatedButton(
               isAdded: isAdded,
-              isButtonDisabled: isButtonDisabled,
               onPressed: () => addPlayer(player.id, player.name,
                   player.cricketRole!.name, player.profileImageUrl, ref),
               isLoading: isRequestInProgress,

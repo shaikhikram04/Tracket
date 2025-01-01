@@ -9,8 +9,8 @@ import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/custom_widgets/my_small_elevated_button.dart';
 
 class JoinTeamScreen extends ConsumerStatefulWidget {
   const JoinTeamScreen({super.key});
@@ -159,33 +159,13 @@ class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
                 : isTeamPrivate
                     ? 'Request'
                     : 'Join';
-            final isButtonDisabled = isJoined || isRequestInProgress;
 
-            return ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isButtonDisabled ? Colors.grey : buttonBgColor,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                fixedSize: const Size(95, 35),
-              ),
-              onPressed: isButtonDisabled
-                  ? null
-                  : () => joinTeam(
-                        team.id,
-                        team.name,
-                        team.shortName,
-                        team.logoUrl,
-                      ),
-              child: isRequestInProgress
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2.5),
-                    )
-                  : Text(
-                      buttonText,
-                      style: const TextStyle(color: blackColor),
-                    ),
+            return MySmallElevatedButton(
+              isAdded: isJoined,
+              onPressed: () =>
+                  joinTeam(team.id, team.name, team.shortName, team.logoUrl),
+              isLoading: isRequestInProgress,
+              buttonText: buttonText,
             );
           },
         ),
