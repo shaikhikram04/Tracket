@@ -23,7 +23,11 @@ class Squad extends ConsumerWidget {
 
     void addPlayer() {
       ref.read(requestStatusProvider.notifier).setRequestStatus();
-      pushScreen(context,  AddPlayerScreen(team: team, ));
+      pushScreen(
+          context,
+          AddPlayerScreen(
+            team: team,
+          ));
     }
 
     Future<void> deletePlayer(
@@ -43,7 +47,6 @@ class Squad extends ConsumerWidget {
               onPressed: () async {
                 await FirestoreMethods.deletePlayerFromTeam(
                   playerId,
-                  teamId,
                   ref,
                   context,
                 );
@@ -92,12 +95,8 @@ class Squad extends ConsumerWidget {
                   (index) {
                     final playerDetail = team.playersList[index];
                     final playerId = playerDetail['id'];
-                    final isCaptain = team.captainId == null
-                        ? false
-                        : team.captainId == playerId;
-                    final isWicketKeeper = team.wicketkeeperId == null
-                        ? false
-                        : team.wicketkeeperId == playerId;
+                    final isCaptain = team.captainId == playerId;
+                    final isWicketKeeper = team.wicketkeeperId == playerId;
                     return PlayerTile(
                       playerData: playerDetail,
                       isCaptain: isCaptain,

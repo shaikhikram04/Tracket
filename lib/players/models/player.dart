@@ -29,7 +29,7 @@ class Player {
   final String role;
   final List following;
   final List followers;
-  final String? profileImageUrl;
+  final String profileImageUrl;
   final List<Map<String, dynamic>>? teams;
   final List? achievements;
   final CricketRole? cricketRole;

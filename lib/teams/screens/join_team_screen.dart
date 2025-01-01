@@ -136,8 +136,8 @@ class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: team.logoUrl != null
-              ? CachedNetworkImageProvider(team.logoUrl!)
+          backgroundImage: team.logoUrl.isNotEmpty
+              ? CachedNetworkImageProvider(team.logoUrl)
               : const AssetImage('assets/images/team_logo.png'),
           radius: 30,
         ),

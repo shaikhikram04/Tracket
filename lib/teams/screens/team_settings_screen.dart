@@ -157,7 +157,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                             },
                             leading: CircleAvatar(
                               radius: 25,
-                              backgroundImage: admin['imageUrl'] != null
+                              backgroundImage: admin['imageUrl'].toString().isNotEmpty
                                   ? NetworkImage(admin['imageUrl'])
                                   : const AssetImage(
                                       'assets/images/Default_user_pfp.jpg'),

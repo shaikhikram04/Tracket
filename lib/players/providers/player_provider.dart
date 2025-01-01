@@ -10,7 +10,7 @@ class PlayerNotifier extends StateNotifier<Player> {
           id: '',
           name: '',
           email: '',
-          profileImageUrl: null,
+          profileImageUrl: '',
           cricketRole: null,
           battingPosition: null,
           bowlingArm: null,

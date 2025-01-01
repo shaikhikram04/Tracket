@@ -16,11 +16,11 @@ class FirestoreMethods {
   static Future<String> createTeam({
     required String teamName,
     required String shortName,
-    required String? logoUrl,
+    required String logoUrl,
     required String createdBy,
     required String adminName,
     required String adminCricketRole,
-    String? adminImageUrl,
+    String adminImageUrl = '',
   }) async {
     String result;
 
@@ -98,19 +98,32 @@ class FirestoreMethods {
 
   static Future<void> deletePlayerFromTeam(
     String playerId,
-    String teamId,
     WidgetRef ref,
     BuildContext context,
   ) async {
+    final team = ref.read(teamProvider);
     try {
       //* Update team's player list in database
       await _firestore
           .collection(FirestoreCollections.teams)
-          .doc(teamId)
+          .doc(team.id)
           .collection(FirestoreCollections.teamPlayers)
           .doc(playerId)
           .delete();
-
+      if (team.captainId == playerId) {
+        await _firestore
+            .collection(FirestoreCollections.teams)
+            .doc(team.id)
+            .update({'captainId': ''});
+        ref.read(teamProvider.notifier).updateField(captainId: '');
+      }
+      if (team.wicketkeeperId == playerId) {
+        await _firestore
+            .collection(FirestoreCollections.teams)
+            .doc(team.id)
+            .update({'wicketkeeperId': ''});
+        ref.read(teamProvider.notifier).updateField(wicketkeeperId: '');
+      }
       ref.read(teamProvider.notifier).deletePlayer(playerId);
 
       //* Update player's team list in database
@@ -118,10 +131,9 @@ class FirestoreMethods {
           .collection(FirestoreCollections.players)
           .doc(playerId)
           .collection(FirestoreCollections.playerTeams)
-          .doc(teamId)
+          .doc(team.id)
           .delete();
-
-      ref.read(playerProvider.notifier).deleteTeam(teamId);
+      ref.read(playerProvider.notifier).deleteTeam(team.id);
     } catch (e) {
       if (context.mounted) {
         showSnackBar(

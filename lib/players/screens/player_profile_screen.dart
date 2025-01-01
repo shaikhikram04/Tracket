@@ -94,10 +94,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                         const SizedBox(height: 10),
                         CircleAvatar(
                           radius: 50,
-                          backgroundImage: _playerData.profileImageUrl == null
+                          backgroundImage: _playerData.profileImageUrl.isEmpty
                               ? const AssetImage(
                                   'assets/images/Default_user_pfp.jpg')
-                              : NetworkImage(_playerData.profileImageUrl!),
+                              : NetworkImage(_playerData.profileImageUrl),
                           onBackgroundImageError: (_, __) => const AssetImage(
                             'assets/images/Default_user_pfp.jpg',
                           ),

@@ -64,8 +64,8 @@ class TeamProfileScreen extends ConsumerWidget {
                   const SizedBox(height: 10),
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: teamData.logoUrl != null
-                        ? NetworkImage(teamData.logoUrl!)
+                    backgroundImage: teamData.logoUrl.isNotEmpty
+                        ? NetworkImage(teamData.logoUrl)
                         : const AssetImage('assets/images/team_logo.png'),
                   ),
                   const SizedBox(height: 10),

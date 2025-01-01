@@ -90,6 +90,7 @@ class FirebaseAuthMethods {
   static void checkEmailVerification({
     required User user,
     required String username,
+    required String imageUrl,
     required WidgetRef ref,
     required BuildContext context,
     required String role,
@@ -119,6 +120,7 @@ class FirebaseAuthMethods {
             userId: user.uid,
             username: username,
             email: user.email!,
+            imageUrl: imageUrl,
           );
         } else {
           result = await signupPlayer(
@@ -129,6 +131,7 @@ class FirebaseAuthMethods {
             battingPosition: battingPosition!,
             bowlingStyle: bowlingStyle!,
             bowlingArm: bowlingArm,
+            imageUrl: imageUrl,
           );
         }
 
@@ -168,7 +171,7 @@ class FirebaseAuthMethods {
     required String userId,
     required String username,
     required String email,
-    String? imageUrl,
+    required String imageUrl,
   }) async {
     String result;
 
@@ -218,6 +221,7 @@ class FirebaseAuthMethods {
           ref: ref,
           context: context,
           role: expectedRole,
+          imageUrl: '',
         );
         return;
       }
@@ -283,7 +287,7 @@ class FirebaseAuthMethods {
     required Position battingPosition,
     required BowlingStyle bowlingStyle,
     Position? bowlingArm,
-    String? imageUrl,
+    required String imageUrl,
   }) async {
     String result;
 

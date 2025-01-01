@@ -12,14 +12,14 @@ class TeamLogoEditor extends StatelessWidget {
   });
 
   final Uint8List? image;
-  final String? logoUrl;
+  final String logoUrl;
   final void Function(Uint8List?) onImageChanged;
 
   ImageProvider<Object> _getTeamLogo() {
     if (image != null) {
       return MemoryImage(image!);
-    } else if (logoUrl != null) {
-      return NetworkImage(logoUrl!);
+    } else if (logoUrl.isNotEmpty) {
+      return NetworkImage(logoUrl);
     } else {
       return const AssetImage('assets/images/team_logo.png');
     }

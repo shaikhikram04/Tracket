@@ -54,7 +54,7 @@ class TeamsScreen extends ConsumerWidget {
             itemBuilder: (BuildContext context, int index) {
               final teamData = snap[index].data();
 
-              final String? logoUrl = teamData['logoUrl'];
+              final String logoUrl = teamData['logoUrl'];
               final String teamName = teamData['teamName'];
               final String shortName = teamData['shortName'];
               final String teamRole = player.teams!

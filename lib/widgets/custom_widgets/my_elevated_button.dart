@@ -19,6 +19,7 @@ class MyElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: greenColor,
+        disabledBackgroundColor: greenColor,
       ),
       child: isLoading
           ? const Padding(

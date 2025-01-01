@@ -62,6 +62,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         ref: ref,
         context: context,
         role: 'user',
+        imageUrl: '',
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();

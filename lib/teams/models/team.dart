@@ -10,8 +10,8 @@ class Team {
     required this.achievements,
     required this.following,
     required this.followers,
-    this.captainId,
-    this.wicketkeeperId,
+    this.captainId = '',
+    this.wicketkeeperId = '',
     required this.createdBy,
     this.losses = 0,
     this.matchesPlayed = 0,
@@ -29,11 +29,11 @@ class Team {
   final String name;
   final String shortName;
   final String createdBy;
-  final String? logoUrl;
+  final String logoUrl;
   final int rank;
   final List<Map<String, dynamic>> playersList;
-  final String? captainId;
-  final String? wicketkeeperId;
+  final String captainId;
+  final String wicketkeeperId;
   final int matchesPlayed;
   final int wins;
   final int losses;

@@ -49,7 +49,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
 
     _formKey.currentState!.save();
 
-    String? teamLogoUrl;
+    String teamLogoUrl = '';
     if (_image != null) {
       //! logic for uploading image on storage and get its url
     }

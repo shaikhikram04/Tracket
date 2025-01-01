@@ -11,7 +11,7 @@ class MyListTile extends StatelessWidget {
     required this.isPlayer,
   });
 
-  final String? imageUrl;
+  final String imageUrl;
   final String title;
   final String subtitle;
   final Widget? trailing;
@@ -29,7 +29,7 @@ class MyListTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundImage:
-            imageUrl == null ? defaultImage : NetworkImage(imageUrl!),
+            imageUrl.isEmpty ? defaultImage : NetworkImage(imageUrl),
         radius: 30,
       ),
       title: Text(title),

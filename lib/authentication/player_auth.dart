@@ -142,6 +142,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
         bowlingArm: _bowlingArm,
         bowlingStyle: _bowlingStyle,
         cricketRole: _cricketRole,
+        imageUrl: '',
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
