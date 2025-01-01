@@ -57,6 +57,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   }
 
   List<String> get _playerNames {
+    _captain = null;
+    _wicketkeeper = null;
     List<String> playerNames = [];
     for (var player in _team.playersList) {
       playerNames.add(player['name']);
@@ -122,7 +124,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             captainId: captainId,
             wicketkeeperId: wicketkeeperId,
           );
-          
+
       if (mounted) {
         showSnackBar('Team updated successfully!', context);
         Navigator.of(context).pop();
