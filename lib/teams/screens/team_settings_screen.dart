@@ -134,7 +134,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                           ref
                               .read(requestStatusProvider.notifier)
                               .setRequestStatus();
-                          pushScreen(context, const AddAdmin());
+                          pushScreen(context, AddAdmin(team: team));
                         },
                         icon: const Icon(Icons.person_add),
                         iconSize: 30,
@@ -157,10 +157,11 @@ class TeamSettingsScreen extends ConsumerWidget {
                             },
                             leading: CircleAvatar(
                               radius: 25,
-                              backgroundImage: admin['imageUrl'].toString().isNotEmpty
-                                  ? NetworkImage(admin['imageUrl'])
-                                  : const AssetImage(
-                                      'assets/images/Default_user_pfp.jpg'),
+                              backgroundImage:
+                                  admin['imageUrl'].toString().isNotEmpty
+                                      ? NetworkImage(admin['imageUrl'])
+                                      : const AssetImage(
+                                          'assets/images/Default_user_pfp.jpg'),
                             ),
                             title: Text(admin['name']),
                             subtitle: Text(admin['role'].toString()),

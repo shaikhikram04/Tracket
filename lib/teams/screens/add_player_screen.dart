@@ -6,9 +6,9 @@ import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
+import 'package:tracket/widgets/custom_widgets/my_small_elevated_button.dart';
 
 class AddPlayerScreen extends StatefulWidget {
   const AddPlayerScreen({super.key, required this.team});
@@ -139,28 +139,13 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                     ? 'Add'
                     : 'Offer';
             final isButtonDisabled = isAdded || isRequestInProgress;
-
-            return ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isAdded ? Colors.grey : buttonBgColor,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                fixedSize: const Size(95, 35),
-              ),
-              onPressed: isButtonDisabled
-                  ? null
-                  : () => addPlayer(player.id, player.name,
-                      player.cricketRole!.name, player.profileImageUrl, ref),
-              child: isRequestInProgress
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2.5),
-                    )
-                  : Text(
-                      buttonText,
-                      style: const TextStyle(color: blackColor),
-                    ),
+            return MySmallElevatedButton(
+              isAdded: isAdded,
+              isButtonDisabled: isButtonDisabled,
+              onPressed: () => addPlayer(player.id, player.name,
+                  player.cricketRole!.name, player.profileImageUrl, ref),
+              isLoading: isRequestInProgress,
+              buttonText: buttonText,
             );
           },
         ),
