@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -92,8 +91,8 @@ class TeamsScreen extends ConsumerWidget {
               final String? logoUrl = teamData['logoUrl'];
               final String teamName = teamData['teamName'];
               final String shortName = teamData['shortName'];
-              final bool isAdmin =
-                  FirebaseAuthMethods.currentUserId == teamData['createdBy'];
+              final String teamRole = player.teams!
+                  .firstWhere((team) => team['id'] == teamData['id'])['role'];
               return ListTile(
                 leading: CircleAvatar(
                   backgroundImage: logoUrl == null
@@ -103,7 +102,7 @@ class TeamsScreen extends ConsumerWidget {
                 ),
                 title: Text(teamName),
                 subtitle: Text(shortName),
-                trailing: isAdmin ? const Text('Admin') : null,
+                trailing: teamRole != 'player' ? Text(teamRole) : null,
                 onTap: () async {
                   final teamPlayer =
                       await FirestoreMethods.getTeamPlayersFromId(

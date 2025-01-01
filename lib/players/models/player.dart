@@ -145,13 +145,7 @@ class Player {
       teams?.map(
         (team) {
           final teamInfo = team.data()! as Map<String, dynamic>;
-          return {
-            'id': teamInfo['id'],
-            'logoUrl': teamInfo['logoUrl'],
-            'name': teamInfo['name'],
-            'shortName': teamInfo['shortName'],
-            'role': teamInfo['role'],
-          };
+          return teamInfo;
         },
       ).toList();
 
