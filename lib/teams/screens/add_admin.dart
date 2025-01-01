@@ -44,48 +44,53 @@ class AddAdmin extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Add Admin'),
       ),
-      body: ListView.builder(
-        itemCount: nonAdminPlayers.length,
-        itemBuilder: (context, index) {
-          final player = nonAdminPlayers[index];
-          final isRequestInProgress =
-              requestStatus.requestInProgress.contains(player['id']);
-          final isRequestSuccess =
-              requestStatus.requestSuccess.contains(player['id']);
-          return ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              backgroundImage: player['imageUrl'] == null
-                  ? const AssetImage('assets/images/Default_user_pfp.jpg')
-                  : NetworkImage(player['imageUrl']),
-            ),
-            title: Text(player['name']),
-            subtitle: Text(player['cricketRole']),
-            trailing: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isRequestSuccess ? Colors.grey : buttonBgColor,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-              ),
-              onPressed: (isRequestSuccess || isRequestInProgress)
-                  ? null
-                  : () => addAdmin(player['id']),
-              child: isRequestInProgress
-                  ? const CircularProgressIndicator()
-                  : Text(
-                      isRequestSuccess ? 'Added' : 'Add',
-                      style: const TextStyle(color: blackColor),
+      body: nonAdminPlayers.isNotEmpty
+          ? ListView.builder(
+              itemCount: nonAdminPlayers.length,
+              itemBuilder: (context, index) {
+                final player = nonAdminPlayers[index];
+                final isRequestInProgress =
+                    requestStatus.requestInProgress.contains(player['id']);
+                final isRequestSuccess =
+                    requestStatus.requestSuccess.contains(player['id']);
+                return ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: player['imageUrl'] == null
+                        ? const AssetImage('assets/images/Default_user_pfp.jpg')
+                        : NetworkImage(player['imageUrl']),
+                  ),
+                  title: Text(player['name']),
+                  subtitle: Text(player['cricketRole']),
+                  trailing: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isRequestSuccess ? Colors.grey : buttonBgColor,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
                     ),
+                    onPressed: (isRequestSuccess || isRequestInProgress)
+                        ? null
+                        : () => addAdmin(player['id']),
+                    child: isRequestInProgress
+                        ? const CircularProgressIndicator()
+                        : Text(
+                            isRequestSuccess ? 'Added' : 'Add',
+                            style: const TextStyle(color: blackColor),
+                          ),
+                  ),
+                  onTap: () => pushScreen(
+                      context,
+                      PlayerProfileScreen(
+                        playerId: player['id'],
+                      )),
+                );
+              },
+            )
+          : const Center(
+              child: Text('No players to add as admin'),
             ),
-            onTap: () => pushScreen(
-                context,
-                PlayerProfileScreen(
-                  playerId: player['id'],
-                )),
-          );
-        },
-      ),
     );
   }
 }

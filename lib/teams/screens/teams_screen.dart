@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +11,7 @@ import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});
@@ -39,46 +39,11 @@ class TeamsScreen extends ConsumerWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.group_off,
-                        size: 100,
-                        color: Colors.grey.shade400,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        "No teams joined or created yet!",
-                        style: TextStyle(
-                            fontSize: 18, color: Colors.grey.shade600),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        "Tap the button below to join or create a team.",
-                        style: TextStyle(
-                            fontSize: 16, color: Colors.grey.shade500),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 40),
-                      ZoomIn(
-                        child: RotatedBox(
-                          quarterTurns: 1,
-                          child: Icon(
-                            Icons.arrow_outward,
-                            size: 50,
-                            color: Colors.green.shade400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            return const NoDataFound(
+              title: "No teams joined or created yet!",
+              message: "Tap the button below to join or create a team.",
+              isPointingButton: true,
+              rotation: 1,
             );
           }
 
@@ -93,6 +58,7 @@ class TeamsScreen extends ConsumerWidget {
               final String shortName = teamData['shortName'];
               final String teamRole = player.teams!
                   .firstWhere((team) => team['id'] == teamData['id'])['role'];
+
               return ListTile(
                 leading: CircleAvatar(
                   backgroundImage: logoUrl == null

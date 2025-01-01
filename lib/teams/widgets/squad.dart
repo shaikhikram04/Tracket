@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/widgets/player_tile.dart';
@@ -7,6 +6,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class Squad extends ConsumerWidget {
   const Squad({
@@ -82,43 +82,10 @@ class Squad extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         team.playersList.isEmpty
-            ? Center(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.group_off,
-                      size: 80,
-                      color: Colors.grey.shade400,
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      "No Player joined yet!",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey.shade600,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      "Tap the button above to request player to join.",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey.shade500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 30),
-                    ZoomIn(
-                      child: Icon(
-                        Icons.arrow_outward,
-                        size: 50,
-                        color: Colors.green.shade400,
-                      ),
-                    ),
-                  ],
-                ),
-              )
+            ? const NoDataFound(
+                title: 'No Player joined yet!',
+                message: 'Tap the button above to request player to join.',
+                isPointingButton: true)
             : Column(
                 children: List.generate(
                   team.playersList.length,
