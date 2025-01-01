@@ -17,7 +17,9 @@ class MyElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      style: Theme.of(context).elevatedButtonTheme.style,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: greenColor,
+      ),
       child: isLoading
           ? const Padding(
               padding: EdgeInsets.all(5),
