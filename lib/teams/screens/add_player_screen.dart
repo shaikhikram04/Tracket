@@ -6,31 +6,31 @@ import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
 
-class AddPlayerScreen extends ConsumerStatefulWidget {
-  const AddPlayerScreen({super.key});
+class AddPlayerScreen extends StatefulWidget {
+  const AddPlayerScreen({super.key, required this.team});
+
+  final Team team;
 
   @override
-  ConsumerState<AddPlayerScreen> createState() => _AddPlayerScreenState();
+  State<AddPlayerScreen> createState() => _AddPlayerScreenState();
 }
 
-class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
-  late Team _team;
+class _AddPlayerScreenState extends State<AddPlayerScreen> {
   late List<String> playersId;
 
   @override
   void initState() {
-    _team = ref.read(teamProvider);
-    playersId =
-        _team.playersList.map((player) => player['id'].toString()).toList();
+    playersId = widget.team.playersList
+        .map((player) => player['id'].toString())
+        .toList();
     super.initState();
   }
 
-  void toggleAdding(String playerId, bool isAdding) {
+  void toggleAdding(String playerId, bool isAdding, WidgetRef ref) {
     if (isAdding) {
       ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
     } else {
@@ -43,8 +43,9 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
     String playerName,
     String cricketRole,
     String? profileImageUrl,
+    WidgetRef ref,
   ) async {
-    toggleAdding(playerId, true);
+    toggleAdding(playerId, true, ref);
     try {
       final playerInfo = {
         'id': playerId,
@@ -53,11 +54,12 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
         'imageUrl': profileImageUrl,
         'role': 'player',
       };
+      final team = widget.team;
       final teamInfo = {
-        'id': _team.id,
-        'name': _team.name,
-        'shortName': _team.shortName,
-        'logoUrl': _team.logoUrl,
+        'id': team.id,
+        'name': team.name,
+        'shortName': team.shortName,
+        'logoUrl': team.logoUrl,
         'role': 'player',
       };
       await FirestoreMethods.addPlayerToTeam(
@@ -67,7 +69,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
         context: context,
       );
     } finally {
-      toggleAdding(playerId, false);
+      toggleAdding(playerId, false, ref);
     }
   }
 
@@ -140,7 +142,7 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
 
             return ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: isButtonDisabled ? Colors.grey : buttonBgColor,
+                backgroundColor: isAdded ? Colors.grey : buttonBgColor,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
@@ -148,12 +150,8 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
               ),
               onPressed: isButtonDisabled
                   ? null
-                  : () => addPlayer(
-                        player.id,
-                        player.name,
-                        player.cricketRole!.name,
-                        player.profileImageUrl,
-                      ),
+                  : () => addPlayer(player.id, player.name,
+                      player.cricketRole!.name, player.profileImageUrl, ref),
               child: isRequestInProgress
                   ? const SizedBox.square(
                       dimension: 20,

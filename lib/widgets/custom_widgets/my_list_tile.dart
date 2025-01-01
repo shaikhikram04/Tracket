@@ -6,7 +6,7 @@ class MyListTile extends StatelessWidget {
     required this.imageUrl,
     required this.title,
     required this.subtitle,
-    this.trailing,
+    required this.trailing,
     required this.onTap,
     required this.isPlayer,
   });

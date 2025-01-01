@@ -20,12 +20,6 @@ ThemeData lightMode = ThemeData(
   ),
   cardColor: lightCardColor,
   scaffoldBackgroundColor: lightBackgroundColor,
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: greenColor,
-      disabledBackgroundColor: greenColor,
-    ),
-  ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(
     titleLarge:
         GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),

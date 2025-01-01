@@ -23,7 +23,7 @@ class Squad extends ConsumerWidget {
 
     void addPlayer() {
       ref.read(requestStatusProvider.notifier).setRequestStatus();
-      pushScreen(context, const AddPlayerScreen());
+      pushScreen(context,  AddPlayerScreen(team: team, ));
     }
 
     Future<void> deletePlayer(
