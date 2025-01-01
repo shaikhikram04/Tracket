@@ -6,6 +6,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
 
 class AddAdmin extends ConsumerWidget {
   const AddAdmin({super.key});
@@ -53,15 +54,14 @@ class AddAdmin extends ConsumerWidget {
                     requestStatus.requestInProgress.contains(player['id']);
                 final isRequestSuccess =
                     requestStatus.requestSuccess.contains(player['id']);
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: player['imageUrl'] == null
-                        ? const AssetImage('assets/images/Default_user_pfp.jpg')
-                        : NetworkImage(player['imageUrl']),
-                  ),
-                  title: Text(player['name']),
-                  subtitle: Text(player['cricketRole']),
+
+                return MyListTile(
+                  imageUrl: player['imageUrl'],
+                  title: player['name'],
+                  subtitle: player['cricketRole'],
+                  onTap: () => pushScreen(
+                      context, PlayerProfileScreen(playerId: player['id'])),
+                  isPlayer: true,
                   trailing: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
@@ -80,11 +80,6 @@ class AddAdmin extends ConsumerWidget {
                             style: const TextStyle(color: blackColor),
                           ),
                   ),
-                  onTap: () => pushScreen(
-                      context,
-                      PlayerProfileScreen(
-                        playerId: player['id'],
-                      )),
                 );
               },
             )

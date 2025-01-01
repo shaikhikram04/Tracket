@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +9,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
 
 class AddPlayerScreen extends ConsumerStatefulWidget {
   const AddPlayerScreen({super.key});
@@ -25,7 +25,8 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
   @override
   void initState() {
     _team = ref.read(teamProvider);
-    playersId = _team.playersList.map((player) => player['id'].toString()).toList();
+    playersId =
+        _team.playersList.map((player) => player['id'].toString()).toList();
     super.initState();
   }
 
@@ -115,16 +116,12 @@ class _AddPlayerScreenState extends ConsumerState<AddPlayerScreen> {
     final bool allowDirectTeamAdd = player.allowDirectTeamAdd!;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: player.profileImageUrl != null
-              ? CachedNetworkImageProvider(player.profileImageUrl!)
-              : const AssetImage('assets/images/Default_user_pfp.jpg'),
-          radius: 30,
-        ),
-        title: Text(player.name),
-        subtitle: Text(player.cricketRole!.name),
+      child: MyListTile(
+        imageUrl: player.profileImageUrl,
+        title: player.name,
+        subtitle: player.cricketRole!.name,
         onTap: () => pushScreen(context, PlayerProfileScreen(player: player)),
+        isPlayer: true,
         trailing: Consumer(
           builder: (context, ref, _) {
             final requestStatus = ref.watch(requestStatusProvider);

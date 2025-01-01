@@ -11,6 +11,7 @@ import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class TeamsScreen extends ConsumerWidget {
@@ -59,15 +60,11 @@ class TeamsScreen extends ConsumerWidget {
               final String teamRole = player.teams!
                   .firstWhere((team) => team['id'] == teamData['id'])['role'];
 
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: logoUrl == null
-                      ? const AssetImage('assets/images/team_logo.png')
-                      : NetworkImage(logoUrl),
-                  radius: 30,
-                ),
-                title: Text(teamName),
-                subtitle: Text(shortName),
+              return MyListTile(
+                title: teamName,
+                subtitle: shortName,
+                isPlayer: false,
+                imageUrl: logoUrl,
                 trailing: teamRole != 'player' ? Text(teamRole) : null,
                 onTap: () async {
                   final teamPlayer =
