@@ -165,11 +165,13 @@ class TeamSettingsScreen extends ConsumerWidget {
                             ),
                             title: Text(admin['name']),
                             subtitle: Text(admin['role'].toString()),
-                            trailing: buildElevatedButton(
-                              context,
-                              text: 'Remove',
-                              onPressed: removeAdmin,
-                            )),
+                            trailing: admin['role'] == 'owner'
+                                ? null
+                                : buildElevatedButton(
+                                    context,
+                                    text: 'Remove',
+                                    onPressed: removeAdmin,
+                                  )),
                     ],
                   ),
                 ],
