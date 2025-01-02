@@ -10,18 +10,18 @@ class MyConsumer extends StatelessWidget {
     required this.idsList,
     required this.isPrivate,
     required this.buttonType,
-    this.playerInfo,
-    this.teamInfo,
+    required this.playerInfo,
+    required this.teamInfo,
   });
 
   final List<String> idsList;
   final bool isPrivate;
   final String buttonType;
-  final Map<String, dynamic>? playerInfo;
-  final Map<String, dynamic>? teamInfo;
+  final Map<String, dynamic> playerInfo;
+  final Map<String, dynamic> teamInfo;
 
   String get currentId =>
-      buttonType == 'joinTeam' ? teamInfo!['id'] : playerInfo!['id'];
+      buttonType == 'joinTeam' ? teamInfo['id'] : playerInfo['id'];
 
   String buttonText(bool isAdded) {
     if (buttonType == 'addPlayer' || buttonType == 'addAdmin') {
@@ -48,23 +48,29 @@ class MyConsumer extends StatelessWidget {
   }
 
   Future<void> onPressed(WidgetRef ref, BuildContext context) async {
-    toggleButton(
-      currentId,
-      true,
-      ref,
-    );
+    toggleButton(currentId, true, ref);
     try {
       if (buttonType == 'addPlayer' || buttonType == 'joinTeam') {
-        await FirestoreMethods.addPlayerToTeam(
-          playerInfo: playerInfo!,
-          teamInfo: teamInfo!,
-          ref: ref,
-          context: context,
-        );
+        if (isPrivate) {
+          if (buttonType == 'addPlayer') {
+            await FirestoreMethods.requestPlayerToJoinTeam(
+                playerId: currentId, teamInfo: teamInfo, context: context);
+          } else {
+            FirestoreMethods.requestTeamToAddPlayer(
+                teamId: currentId, playerInfo: playerInfo, context: context);
+          }
+        } else {
+          await FirestoreMethods.addPlayerToTeam(
+            playerInfo: playerInfo,
+            teamInfo: teamInfo,
+            ref: ref,
+            context: context,
+          );
+        }
       } else if (buttonType == 'addAdmin') {
         await FirestoreMethods.addAdminToTeam(
-          playerId: playerInfo!['id'],
-          teamId: teamInfo!['id'],
+          playerId: playerInfo['id'],
+          teamId: teamInfo['id'],
           ref: ref,
           context: context,
         );
@@ -92,7 +98,7 @@ class MyConsumer extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
-            fixedSize: const Size(95, 35),
+            minimumSize: const Size(95, 35),
           ),
           onPressed: (isAdded || isRequestInProgress)
               ? null

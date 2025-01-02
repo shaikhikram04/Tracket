@@ -282,11 +282,11 @@ class FirestoreMethods {
     }
   }
 
-  static Future<void> requestPlayerToJoinTeam(
-    String playerId,
-    Map<String, dynamic> teamInfo,
-    BuildContext context,
-  ) async {
+  static Future<void> requestPlayerToJoinTeam({
+    required String playerId,
+    required Map<String, dynamic> teamInfo,
+    required BuildContext context,
+  }) async {
     final request = Request(
       id: uuid.v4(),
       from: teamInfo['id'],
@@ -308,11 +308,11 @@ class FirestoreMethods {
     }
   }
 
-  static void requestTeamToAddPlayer(
-    String teamId,
-    Map<String, dynamic> playerInfo,
-    BuildContext context,
-  ) async {
+  static void requestTeamToAddPlayer({
+    required String teamId,
+    required Map<String, dynamic> playerInfo,
+    required BuildContext context,
+  }) async {
     final request = Request(
       id: uuid.v4(),
       from: playerInfo['id'],
