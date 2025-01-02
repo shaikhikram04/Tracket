@@ -64,7 +64,7 @@ class RequestsListScreen extends ConsumerWidget {
                     onTap: () {
                       final profileScreen = isPlayer
                           ? PlayerProfileScreen(playerId: request.from)
-                          : const TeamProfileScreen();
+                          : TeamProfileScreen.fromId(teamId: teamId);
                       pushScreen(context, profileScreen);
                     },
                     child: Row(

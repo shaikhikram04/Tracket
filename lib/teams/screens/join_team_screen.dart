@@ -63,8 +63,7 @@ class JoinTeamScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data!.size,
             itemBuilder: (context, index) {
-              final teamData = Team.formSeed(snap[index].data(), null);
-              return buildTeamTile(teamData, context);
+              return buildTeamTile(snap[index].data(), context);
             },
           );
         },
@@ -72,7 +71,8 @@ class JoinTeamScreen extends StatelessWidget {
     );
   }
 
-  Widget buildTeamTile(Team team, BuildContext context) {
+  Widget buildTeamTile(Map<String, dynamic> teamData, BuildContext context) {
+    final team = Team.formSeed(teamData, null);
     Map<String, dynamic> teamInfo = {
       'id': team.id,
       'name': team.name,
@@ -98,7 +98,7 @@ class JoinTeamScreen extends StatelessWidget {
         ),
         title: Text(team.name),
         subtitle: Text(team.shortName),
-        onTap: () => pushScreen(context, const TeamProfileScreen()),
+        onTap: () => pushScreen(context, TeamProfileScreen(teamData: teamData)),
         trailing: MyConsumer(
           idsList: playerTeamsId,
           isPrivate: team.isPrivate,

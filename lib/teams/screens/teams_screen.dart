@@ -4,9 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firestore_collections.dart';
-import 'package:tracket/resources/firestore_methods.dart';
-import 'package:tracket/teams/models/team.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -67,13 +64,8 @@ class TeamsScreen extends ConsumerWidget {
                 imageUrl: logoUrl,
                 trailing: teamRole != 'player' ? Text(teamRole) : null,
                 onTap: () async {
-                  final teamPlayer =
-                      await FirestoreMethods.getTeamPlayersFromId(
-                          teamData['id'], context);
-                  final teamObject = Team.formSeed(teamData, teamPlayer);
-                  ref.read(teamProvider.notifier).updateTeam(teamObject);
                   if (context.mounted) {
-                    pushScreen(context, const TeamProfileScreen());
+                    pushScreen(context, TeamProfileScreen(teamData: teamData));
                   }
                 },
               );
