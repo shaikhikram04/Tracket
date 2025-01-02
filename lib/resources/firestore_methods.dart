@@ -133,7 +133,9 @@ class FirestoreMethods {
           .collection(FirestoreCollections.playerTeams)
           .doc(team.id)
           .delete();
-      ref.read(playerProvider.notifier).deleteTeam(team.id);
+      if (playerId == ref.read(playerProvider).id) {
+        ref.read(playerProvider.notifier).deleteTeam(team.id);
+      }
     } catch (e) {
       if (context.mounted) {
         showSnackBar(
