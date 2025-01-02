@@ -29,4 +29,28 @@ class MyElevatedButton {
             ),
     );
   }
+
+  static ElevatedButton secondaryElevatedButton(
+    BuildContext context, {
+    required String text,
+    required Function() onPressed,
+    Color primaryColor = Colors.red,
+    Color secondaryColor = Colors.white,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: secondaryColor,
+        side: BorderSide(color: primaryColor, width: 1),
+      ),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: primaryColor,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+      ),
+    );
+  }
 }

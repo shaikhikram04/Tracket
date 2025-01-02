@@ -9,28 +9,10 @@ import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
-
-  ElevatedButton buildElevatedButton(BuildContext context,
-      {required String text, required Function() onPressed}) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        side: const BorderSide(color: Colors.red, width: 1),
-      ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: Colors.red,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
-      ),
-    );
-  }
 
   ListTile getRequestTile(
       BuildContext context, String request, int count, void Function() onTap) {
@@ -167,7 +149,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                             subtitle: Text(admin['role'].toString()),
                             trailing: admin['role'] == 'owner'
                                 ? null
-                                : buildElevatedButton(
+                                : MyElevatedButton.secondaryElevatedButton(
                                     context,
                                     text: 'Remove',
                                     onPressed: removeAdmin,
@@ -231,7 +213,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                         ),
                   ),
                   const Spacer(),
-                  buildElevatedButton(
+                  MyElevatedButton.secondaryElevatedButton(
                     context,
                     text: 'Delete',
                     onPressed: onDeleteTeam,
