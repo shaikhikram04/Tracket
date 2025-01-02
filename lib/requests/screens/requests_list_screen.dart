@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/resources/firestore_collections.dart';
+import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -58,7 +61,12 @@ class RequestsListScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      final profileScreen = isPlayer
+                          ? PlayerProfileScreen(playerId: request.from)
+                          : const TeamProfileScreen();
+                      pushScreen(context, profileScreen);
+                    },
                     child: Row(
                       children: [
                         CircleAvatar(
