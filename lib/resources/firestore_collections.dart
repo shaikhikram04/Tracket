@@ -3,4 +3,5 @@ class FirestoreCollections {
   static const teams = 'teams';
   static const playerTeams = 'teamsList';
   static const teamPlayers = 'playersList';
+  static const requests = 'requests';
 }

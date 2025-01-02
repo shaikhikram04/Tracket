@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
@@ -277,6 +278,58 @@ class FirestoreMethods {
     } catch (e) {
       if (context.mounted) {
         showSnackBar('Failed to add admin. Please try again later.', context);
+      }
+    }
+  }
+
+  static Future<void> requestPlayerToJoinTeam(
+    String playerId,
+    Map<String, dynamic> teamInfo,
+    BuildContext context,
+  ) async {
+    final request = Request(
+      id: uuid.v4(),
+      from: teamInfo['id'],
+      to: playerId,
+      type: RequestType.joinTeam,
+      payload: teamInfo,
+      requestedAt: Timestamp.now(),
+    );
+    try {
+      await _firestore
+          .collection(FirestoreCollections.requests)
+          .doc(request.id)
+          .set(request.toJson);
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(
+            'Failed to send request. Please try again later.', context);
+      }
+    }
+  }
+
+  static void requestTeamToAddPlayer(
+    String teamId,
+    Map<String, dynamic> playerInfo,
+    BuildContext context,
+  ) async {
+    final request = Request(
+      id: uuid.v4(),
+      from: playerInfo['id'],
+      to: teamId,
+      type: RequestType.addPlayer,
+      payload: playerInfo,
+      requestedAt: Timestamp.now(),
+    );
+    try {
+      await _firestore
+          .collection(FirestoreCollections.requests)
+          .doc(request.id)
+          .set(request.toJson);
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(
+            'Failed to send request. Please try again later.', context);
       }
     }
   }
