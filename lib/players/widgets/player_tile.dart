@@ -74,7 +74,7 @@ class PlayerTile extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            if (isEdit)
+            if (isEdit && playerData['role'] != 'owner')
               IconButton(
                 onPressed: onDelete,
                 icon: const Icon(Icons.delete),
