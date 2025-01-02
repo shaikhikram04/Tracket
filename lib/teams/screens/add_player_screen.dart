@@ -6,6 +6,7 @@ import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class AddPlayerScreen extends StatelessWidget {
   const AddPlayerScreen({super.key, required this.team});
@@ -39,9 +40,8 @@ class AddPlayerScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text('No Players Found'),
-            );
+            return const NoDataFound(
+                title: 'No player found', message: 'Wait for players to join');
           }
           final snap = snapshot.data!.docs;
           return ListView.builder(

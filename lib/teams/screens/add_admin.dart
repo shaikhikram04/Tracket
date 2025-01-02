@@ -4,6 +4,7 @@ import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class AddAdmin extends StatelessWidget {
   const AddAdmin({super.key, required this.team});
@@ -41,9 +42,9 @@ class AddAdmin extends StatelessWidget {
                 );
               },
             )
-          : const Center(
-              child: Text('No players to add as admin'),
-            ),
+          : const NoDataFound(
+              title: 'No player found to add ad admin',
+              message: 'All players are already admin'),
     );
   }
 }
