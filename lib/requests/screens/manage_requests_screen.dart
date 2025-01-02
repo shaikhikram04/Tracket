@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/requests/screens/requests_list_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class ManageRequestsScreen extends StatefulWidget {
@@ -51,8 +52,9 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
             child: TabBarView(
               controller: _tabController,
               children: const [
-                Center(
-                  child: Text('Received Requests'),
+                RequestsListScreen(
+                  field: 'to',
+                  id: '',
                 ),
                 Center(
                   child: Text('Sent Requests'),

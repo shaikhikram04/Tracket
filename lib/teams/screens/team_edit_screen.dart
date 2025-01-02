@@ -251,9 +251,11 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 SizedBox(
                   width: width * 0.9,
                   height: 50,
-                  child: MyElevatedButton(
+                  child: MyElevatedButton.primaryElevatedButton(
+                    context,
                     onPressed: _saveChanges,
                     text: 'Save Changes',
+                    isSubmit: true,
                     isLoading: _isSaving,
                   ),
                 ),

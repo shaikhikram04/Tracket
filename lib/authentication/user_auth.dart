@@ -175,11 +175,13 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             SizedBox(
               width: width * 0.8,
               height: 50,
-              child: MyElevatedButton(
+              child: MyElevatedButton.primaryElevatedButton(
+                context,
                 onPressed:
                     _isLoading ? null : (_isLogin ? _userLogin : _userSignup),
                 text: _isLogin ? 'Login' : 'Sign Up',
                 isLoading: _isLoading,
+                isSubmit: true,
               ),
             ),
             const SizedBox(height: 15),

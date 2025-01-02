@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
 
-class MyElevatedButton extends StatelessWidget {
-  const MyElevatedButton({
-    super.key,
-    required this.onPressed,
-    this.isLoading = false,
-    required this.text,
-  });
-
-  final void Function()? onPressed;
-  final bool isLoading;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
+class MyElevatedButton {
+  static ElevatedButton primaryElevatedButton(
+    BuildContext context, {
+    void Function()? onPressed,
+    required String text,
+    bool isSubmit = false,
+    bool isLoading = false,
+  }) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -29,8 +23,8 @@ class MyElevatedButton extends StatelessWidget {
           : Text(
               text,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontWeight: isSubmit ? FontWeight.bold : FontWeight.normal,
+                    fontSize: isSubmit ? 18 : null,
                   ),
             ),
     );
