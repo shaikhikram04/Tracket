@@ -23,8 +23,8 @@ class MyElevatedButton {
           : Text(
               text,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: isSubmit ? FontWeight.bold : FontWeight.normal,
-                    fontSize: isSubmit ? 18 : null,
+                    fontWeight: isSubmit ? FontWeight.bold : FontWeight.w600,
+                    fontSize: isSubmit ? 18 : 14,
                   ),
             ),
     );
@@ -41,7 +41,7 @@ class MyElevatedButton {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: secondaryColor,
-        side: BorderSide(color: primaryColor, width: 1),
+        side: BorderSide(color: primaryColor, width: 1.5),
       ),
       child: Text(
         text,

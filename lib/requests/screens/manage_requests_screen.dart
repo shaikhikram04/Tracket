@@ -54,7 +54,8 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
               children: const [
                 RequestsListScreen(
                   field: 'to',
-                  id: '',
+                  playerId: '',
+                  teamId: '',
                 ),
                 Center(
                   child: Text('Sent Requests'),
