@@ -94,7 +94,7 @@ class TeamsScreen extends ConsumerWidget {
             child: const Icon(Icons.group_add),
             label: 'Join Team',
             onTap: () {
-              pushScreen(context, const JoinTeamScreen());
+              pushScreen(context, JoinTeamScreen(player));
             },
           ),
           SpeedDialChild(

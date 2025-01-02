@@ -1,78 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
-import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/resources/firestore_collections.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_small_elevated_button.dart';
+import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
 
-class JoinTeamScreen extends ConsumerStatefulWidget {
-  const JoinTeamScreen({super.key});
+class JoinTeamScreen extends StatelessWidget {
+  const JoinTeamScreen(this.player, {super.key});
 
-  @override
-  ConsumerState<JoinTeamScreen> createState() => _JoinTeamScreenState();
-}
+  final Player player;
 
-class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
-  late final List<String> playerTeamsId;
-  late Player _player;
-
-  @override
-  void initState() {
-    super.initState();
-    _player = ref.read(playerProvider);
-    playerTeamsId = _player.teams!.map((e) => e['id'].toString()).toList();
-  }
-
-  void toggleJoining(String playerId, bool isAdding) {
-    if (isAdding) {
-      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
-    } else {
-      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
-    }
-  }
-
-  void joinTeam(
-    String teamId,
-    String teamName,
-    String teamShortName,
-    String? teamLogoUrl,
-  ) async {
-    Map<String, dynamic> teamInfo = {
-      'id': teamId,
-      'name': teamName,
-      'shortName': teamShortName,
-      'logoUrl': teamLogoUrl,
-      'role': 'player',
-    };
-    Map<String, dynamic> playerInfo = {
-      'id': _player.id,
-      'name': _player.name,
-      'cricketRole': _player.cricketRole!.name,
-      'imageUrl': _player.profileImageUrl,
-      'role': 'player',
-    };
-    toggleJoining(teamId, true);
-    try {
-      FirestoreMethods.addPlayerToTeam(
-          playerInfo: playerInfo,
-          teamInfo: teamInfo,
-          ref: ref,
-          context: context);
-    } catch (e) {
-      if (context.mounted) {
-        showSnackBar('Failed to join team. Please try again later.', context);
-      }
-    } finally {
-      toggleJoining(teamId, false);
-    }
-  }
+  List<String> get playerTeamsId =>
+      player.teams!.map((e) => e['id'].toString()).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +64,7 @@ class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
             itemCount: snapshot.data!.size,
             itemBuilder: (context, index) {
               final teamData = Team.formSeed(snap[index].data(), null);
-              return buildTeamTile(teamData);
+              return buildTeamTile(teamData, context);
             },
           );
         },
@@ -130,8 +72,21 @@ class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
     );
   }
 
-  Widget buildTeamTile(Team team) {
-    final bool isTeamPrivate = team.isPrivate;
+  Widget buildTeamTile(Team team, BuildContext context) {
+    Map<String, dynamic> teamInfo = {
+      'id': team.id,
+      'name': team.name,
+      'shortName': team.shortName,
+      'logoUrl': team.logoUrl,
+      'role': 'player',
+    };
+    Map<String, dynamic> playerInfo = {
+      'id': player.id,
+      'name': player.name,
+      'cricketRole': player.cricketRole!.name,
+      'imageUrl': player.profileImageUrl,
+      'role': 'player',
+    };
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: ListTile(
@@ -144,30 +99,12 @@ class _JoinTeamScreenState extends ConsumerState<JoinTeamScreen> {
         title: Text(team.name),
         subtitle: Text(team.shortName),
         onTap: () => pushScreen(context, const TeamProfileScreen()),
-        trailing: Consumer(
-          builder: (context, ref, _) {
-            final requestStatus = ref.watch(requestStatusProvider);
-            final isRequestInProgress =
-                requestStatus.requestInProgress.contains(team.id);
-            final isRequestSuccess =
-                requestStatus.requestSuccess.contains(team.id);
-
-            final isJoined =
-                playerTeamsId.contains(team.id) || isRequestSuccess;
-            final buttonText = isJoined
-                ? 'Joined'
-                : isTeamPrivate
-                    ? 'Request'
-                    : 'Join';
-
-            return MySmallElevatedButton(
-              isAdded: isJoined,
-              onPressed: () =>
-                  joinTeam(team.id, team.name, team.shortName, team.logoUrl),
-              isLoading: isRequestInProgress,
-              buttonText: buttonText,
-            );
-          },
+        trailing: MyConsumer(
+          idsList: playerTeamsId,
+          isPrivate: team.isPrivate,
+          buttonType: 'joinTeam',
+          teamInfo: teamInfo,
+          playerInfo: playerInfo,
         ),
       ),
     );

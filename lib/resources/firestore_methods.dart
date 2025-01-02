@@ -250,7 +250,7 @@ class FirestoreMethods {
     return teamPlayers;
   }
 
-  static void addAdminToTeam({
+  static Future<void> addAdminToTeam({
     required String playerId,
     required String teamId,
     required WidgetRef ref,
