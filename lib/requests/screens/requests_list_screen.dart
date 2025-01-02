@@ -1,27 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
-class RequestsListScreen extends StatelessWidget {
+class RequestsListScreen extends ConsumerWidget {
   const RequestsListScreen({
     super.key,
     required this.field,
-    required this.playerId,
-    required this.teamId,
+    this.teamId,
   });
 
   final String field;
-  final String playerId;
-  final String teamId;
+  final String? teamId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ids = [];
+    if (teamId != null) {
+      ids.add(teamId);
+    } else {
+      final player = ref.watch(playerProvider);
+      final playerTeamsId = player.playerTeamsId;
+      ids.addAll([...playerTeamsId, player.id]);
+    }
+
     return FutureBuilder(
       future: FirebaseFirestore.instance
           .collection(FirestoreCollections.requests)
-          .where(field, whereIn: [playerId, teamId]) 
+          .where(field, whereIn: ids)
           .get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -29,43 +40,55 @@ class RequestsListScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        //   return const NoDataFound(
-        //     title: 'No request found',
-        //     message: '',
-        //     isRequest: true,
-        //   );
-        // }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const NoDataFound(
+            title: 'No request found',
+            message: '',
+            isRequest: true,
+          );
+        }
 
         return ListView.builder(
-          itemCount: 3,
+          itemCount: snapshot.data!.docs.length,
           itemBuilder: (context, index) {
+            final requestData = snapshot.data!.docs[index];
+            final request = Request.fromJson(requestData.data());
+            final isPlayer = request.type == RequestType.addPlayer;
             return MyCard(
               child: Column(
                 children: [
                   InkWell(
                     onTap: () {},
-                    child: const Row(
+                    child: Row(
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          backgroundImage:
-                              AssetImage('assets/images/Default_user_pfp.jpg'),
+                          backgroundImage: request
+                                  .payload[isPlayer ? 'imageUrl' : 'logoUrl']
+                                  .toString()
+                                  .isNotEmpty
+                              ? NetworkImage(request
+                                  .payload[isPlayer ? 'imageUrl' : 'logoUrl'])
+                              : AssetImage(isPlayer
+                                  ? 'assets/images/Default_user_pfp.jpg'
+                                  : 'assets/images/team_logo.png'),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Player/Team Name',
-                              style: TextStyle(
+                              request.payload['name'],
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              'Request Message',
-                              style: TextStyle(
+                              isPlayer
+                                  ? request.payload['cricketRole']
+                                  : request.payload['teamName'],
+                              style: const TextStyle(
                                 fontSize: 15,
                               ),
                             ),

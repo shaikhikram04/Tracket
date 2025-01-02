@@ -3,7 +3,9 @@ import 'package:tracket/requests/screens/requests_list_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class ManageRequestsScreen extends StatefulWidget {
-  const ManageRequestsScreen({super.key});
+  const ManageRequestsScreen({super.key, this.teamId});
+
+  final String? teamId;
 
   @override
   State<ManageRequestsScreen> createState() => _RequestsScreenState();
@@ -54,11 +56,9 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
               children: const [
                 RequestsListScreen(
                   field: 'to',
-                  playerId: '',
-                  teamId: '',
                 ),
-                Center(
-                  child: Text('Sent Requests'),
+                RequestsListScreen(
+                  field: 'from',
                 ),
               ],
             ),

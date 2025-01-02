@@ -30,4 +30,17 @@ class Request {
         'payload': payload,
         'requestedAt': requestedAt,
       };
+
+  static Request fromJson(Map<String, dynamic> json) {
+    return Request(
+      id: json['id'] as String,
+      from: json['from'] as String, 
+      to: json['to'] as String,
+      type: RequestType.values.firstWhere(
+        (element) => element.name == json['type'],
+      ),
+      payload: json['payload'] as Map<String, dynamic>,
+      requestedAt: json['requestedAt'] as Timestamp,
+    );
+  }
 }

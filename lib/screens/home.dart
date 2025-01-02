@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/requests/screens/manage_requests_screen.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/screens/matches_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/teams/screens/teams_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/main_drawer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -69,14 +71,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     String title = _titles[_selectedIndex % 3];
+    bool isTeamsScreen = _selectedIndex == 0;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           title,
         ),
+        actions: isTeamsScreen
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.notifications),
+                  iconSize: 30,
+                  onPressed: () {
+                    pushScreen(context, const ManageRequestsScreen());
+                  },
+                ),
+                const SizedBox(width: 10),
+              ]
+            : null,
       ),
-      drawer: const MainDrawer(),
+      drawer: isTeamsScreen ? const MainDrawer() : null,
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,
