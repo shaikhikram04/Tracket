@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/resources/firestore_methods.dart';
@@ -44,7 +45,7 @@ class _PendingRequestsState extends State<PendingRequests> {
     if (requestList.isEmpty) {
       return const NoDataFound(
         title: 'No request found',
-        message: '' ,
+        message: '',
         isRequest: true,
       );
     }
@@ -185,11 +186,14 @@ class _PendingRequestsState extends State<PendingRequests> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        MyElevatedButton.primaryElevatedButton(
-          context,
-          text: 'Accept',
-          onPressed: () {
-            // Handle accept logic
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return MyElevatedButton.primaryElevatedButton(
+              context,
+              text: 'Accept',
+              primaryColor: const Color.fromARGB(255, 47, 134, 50),
+              onPressed: () => _acceptRequest(request, index, ref),
+            );
           },
         ),
         const SizedBox(width: 10),
@@ -230,5 +234,26 @@ class _PendingRequestsState extends State<PendingRequests> {
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
+  }
+
+  void _acceptRequest(Request request, int index, WidgetRef ref) {
+    // Handle accept logic
+
+    Map<String, dynamic> playerInfo;
+    Map<String, dynamic> teamInfo;
+
+    if (request.type == RequestType.addPlayer) {
+      playerInfo = request.senderPayload;
+      teamInfo = request.receiverPayload;
+    } else if (request.type == RequestType.joinTeam) {
+      playerInfo = request.receiverPayload;
+      teamInfo = request.senderPayload;
+    } else {
+      showSnackBar('Request is not send properly', context);
+      return;
+    }
+
+    FirestoreMethods.addPlayerToTeam(
+        playerInfo: playerInfo, teamInfo: teamInfo, ref: ref, context: context);
   }
 }

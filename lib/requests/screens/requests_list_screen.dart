@@ -16,15 +16,6 @@ class RequestsListScreen extends ConsumerWidget {
   final String field;
   final String? teamId;
 
-  Map<String, dynamic> teamInfo(WidgetRef ref) {
-    final teamData = ref.read(playerProvider).teams!.firstWhere(
-          (team) => team['id'] == teamId,
-          orElse: () => {},
-        );
-
-    return teamData;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ids = [];

@@ -8,12 +8,15 @@ class MyElevatedButton {
     required String text,
     bool isSubmit = false,
     bool isLoading = false,
+    Color primaryColor = greenColor,
+    Color secondaryColor = whiteColor,
+    Color disabledColor = greenColor,
   }) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: greenColor,
-        disabledBackgroundColor: greenColor,
+        backgroundColor: primaryColor,
+        disabledBackgroundColor: disabledColor,
       ),
       child: isLoading
           ? const Padding(
@@ -25,7 +28,7 @@ class MyElevatedButton {
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontWeight: isSubmit ? FontWeight.bold : FontWeight.w500,
                     fontSize: isSubmit ? 18 : 14,
-                    color: isSubmit ? blackColor : whiteColor,
+                    color: isSubmit ? blackColor : secondaryColor,
                   ),
             ),
     );
