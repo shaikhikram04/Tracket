@@ -26,7 +26,7 @@ class _PendingRequestsState extends State<PendingRequests> {
   @override
   void initState() {
     requestList = widget.requests;
-     // Cancel all active timers to avoid memory leaks
+    // Cancel all active timers to avoid memory leaks
     for (var timer in activeTimers.values) {
       timer?.cancel();
     }
@@ -144,22 +144,30 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   void _rejectRequest(BuildContext context, int index,
       QueryDocumentSnapshot<Map<String, dynamic>> requestData) async {
-    bool isUndo = false;
+    // Cancel any existing timer for this index
+    activeTimers[index]?.cancel();
 
+    // Remove the request from the list and show the undo snack bar
     setState(() {
       requestList.removeAt(index);
     });
+
+    bool isUndo = false;
 
     showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
         requestList.insert(index, requestData);
       });
+      activeTimers[index]?.cancel(); // Cancel the timer when undo is clicked
     });
 
-    await Future.delayed(const Duration(seconds: 5), () {
+    // Start a new timer for the current reject operation
+    activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
-        // FirestoreMethods.deleteRequest(request.id, context);
+        // Perform the actual deletion
+        // FirestoreMethods.deleteRequest(requestData.id, context);
+        activeTimers.remove(index); // Clean up the timer reference
       }
     });
   }
