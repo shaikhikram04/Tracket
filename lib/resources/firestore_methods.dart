@@ -333,4 +333,25 @@ class FirestoreMethods {
       }
     }
   }
+
+  static Future<String> deleteRequest(
+      String requestId, BuildContext context) async {
+    String result;
+    try {
+      await _firestore
+          .collection(FirestoreCollections.requests)
+          .doc(requestId)
+          .delete();
+
+      result = 'success';
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(
+            'Failed to delete request. Please try again later.', context);
+      }
+      result = e.toString();
+    }
+
+    return result;
+  }
 }

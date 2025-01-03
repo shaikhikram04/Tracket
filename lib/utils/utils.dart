@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tracket/authentication/verification_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
-void showSnackBar(String content, BuildContext context) {
+void showSnackBar(String content, BuildContext context, {bool isUndo = false, void Function()? onUndo}) {
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -14,6 +14,12 @@ void showSnackBar(String content, BuildContext context) {
         content,
         style: Theme.of(context).textTheme.titleMedium,
       ),
+      action: isUndo
+          ? SnackBarAction(
+              label: 'Undo',
+              onPressed: onUndo!,
+            )
+          : null,
     ),
   );
 }
