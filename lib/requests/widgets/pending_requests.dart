@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
+import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -166,7 +167,7 @@ class _PendingRequestsState extends State<PendingRequests> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        // FirestoreMethods.deleteRequest(requestData.id, context);
+        FirestoreMethods.deleteRequest(requestData.id, context);
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
