@@ -21,6 +21,15 @@ class RequestsListScreen extends ConsumerWidget {
   final String field;
   final String? teamId;
 
+  Map<String, dynamic> teamInfo(WidgetRef ref) {
+    final teamData = ref.read(playerProvider).teams!.firstWhere(
+          (team) => team['id'] == teamId,
+          orElse: () => {},
+        );
+
+    return teamData;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ids = [];
@@ -109,8 +118,11 @@ class RequestsListScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      MyElevatedButton.primaryElevatedButton(context,
-                          text: 'Accept', onPressed: () {}),
+                      MyElevatedButton.primaryElevatedButton(
+                        context,
+                        text: 'Accept',
+                        onPressed: () {},
+                      ),
                       const SizedBox(width: 10),
                       MyElevatedButton.secondaryElevatedButton(
                         context,

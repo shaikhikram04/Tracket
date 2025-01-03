@@ -30,13 +30,14 @@ class MyConsumer extends StatelessWidget {
       } else {
         return isAdded ? 'Added' : 'Add';
       }
-    } else {
+    } else if (buttonType == 'joinTeam') {
       if (isPrivate) {
         return isAdded ? 'send' : 'Request';
       } else {
         return isAdded ? 'Joined' : 'Join';
       }
     }
+    return '';
   }
 
   void toggleButton(String playerId, bool isAdding, WidgetRef ref) {

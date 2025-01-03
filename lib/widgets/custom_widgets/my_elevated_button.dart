@@ -23,8 +23,9 @@ class MyElevatedButton {
           : Text(
               text,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: isSubmit ? FontWeight.bold : FontWeight.w600,
+                    fontWeight: isSubmit ? FontWeight.bold : FontWeight.w500,
                     fontSize: isSubmit ? 18 : 14,
+                    color: isSubmit ? blackColor : whiteColor,
                   ),
             ),
     );
