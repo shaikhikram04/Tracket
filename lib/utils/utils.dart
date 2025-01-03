@@ -37,7 +37,7 @@ void showVerificationDialog(BuildContext context, String email) {
   );
 }
 
-void showAlertDialog(BuildContext context, String title, String errorMessage) {
+void showAlertDialog(BuildContext context, String title, String errorMessage ) {
   showDialog(
     context: context,
     builder: (context) {
@@ -45,6 +45,14 @@ void showAlertDialog(BuildContext context, String title, String errorMessage) {
         title: Text(title),
         backgroundColor: Colors.white,
         content: Text(errorMessage),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
       );
     },
   );

@@ -337,7 +337,9 @@ class FirestoreMethods {
   }
 
   static Future<String> deleteRequest(
-      String requestId, BuildContext context) async {
+    String requestId,
+    BuildContext context,
+  ) async {
     String result;
     try {
       await _firestore

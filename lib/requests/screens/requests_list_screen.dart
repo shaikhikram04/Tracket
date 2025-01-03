@@ -56,7 +56,7 @@ class RequestsListScreen extends ConsumerWidget {
         }
 
         final requests = snapshot.data!.docs;
-        return PendingRequests(requests: requests);
+        return PendingRequests(requests: requests, isSent: field == 'from');
       },
     );
   }

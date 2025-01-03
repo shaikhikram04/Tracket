@@ -12,9 +12,11 @@ import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class PendingRequests extends StatefulWidget {
-  const PendingRequests({super.key, required this.requests});
+  const PendingRequests(
+      {super.key, required this.requests, required this.isSent});
 
   final List<QueryDocumentSnapshot<Map<String, dynamic>>> requests;
+  final bool isSent;
 
   @override
   State<PendingRequests> createState() => _PendingRequestsState();
@@ -34,6 +36,9 @@ class _PendingRequestsState extends State<PendingRequests> {
     super.initState();
   }
 
+  Map<String, dynamic> getPayload(Request request) =>
+      widget.isSent ? request.receiverPayload : request.senderPayload;
+
   @override
   Widget build(BuildContext context) {
     if (requestList.isEmpty) {
@@ -48,7 +53,8 @@ class _PendingRequestsState extends State<PendingRequests> {
       itemBuilder: (context, index) {
         final requestData = requestList[index];
         final request = Request.fromJson(requestData.data());
-        final isPlayer = request.type == RequestType.addPlayer;
+        final payload = getPayload(request);
+        final isPlayer = payload.containsKey('cricketRole');
 
         return MyCard(
           child: Column(
@@ -57,14 +63,18 @@ class _PendingRequestsState extends State<PendingRequests> {
                 onTap: () => _navigateToProfile(context, isPlayer, request),
                 child: Row(
                   children: [
-                    _buildProfileImage(isPlayer, request),
+                    _buildProfileImage(isPlayer, payload),
                     const SizedBox(width: 10),
-                    _buildRequestDetails(isPlayer, request),
+                    _buildRequestDetails(isPlayer, payload),
+                    const Spacer(),
+                    if (widget.isSent)
+                      _buildCancelButton(context, request, index),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              _buildActionButtons(context, index, requestData, request),
+              if (!widget.isSent) const SizedBox(height: 10),
+              if (!widget.isSent)
+                _buildActionButtons(context, index, requestData, request),
             ],
           ),
         );
@@ -83,8 +93,8 @@ class _PendingRequestsState extends State<PendingRequests> {
     pushScreen(context, profileScreen);
   }
 
-  Widget _buildProfileImage(bool isPlayer, Request request) {
-    final imageUrl = request.senderPayload[isPlayer ? 'imageUrl' : 'logoUrl'];
+  Widget _buildProfileImage(bool isPlayer, Map<String, dynamic> payload) {
+    final imageUrl = payload[isPlayer ? 'imageUrl' : 'logoUrl'];
     final defaultImage = isPlayer
         ? 'assets/images/Default_user_pfp.jpg'
         : 'assets/images/team_logo.png';
@@ -97,12 +107,12 @@ class _PendingRequestsState extends State<PendingRequests> {
     );
   }
 
-  Widget _buildRequestDetails(bool isPlayer, Request request) {
+  Widget _buildRequestDetails(bool isPlayer, Map<String, dynamic> payload) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          request.senderPayload['name'] ?? 'Unknown',
+          payload['name'] ?? 'Unknown',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -110,11 +120,60 @@ class _PendingRequestsState extends State<PendingRequests> {
         ),
         Text(
           isPlayer
-              ? request.senderPayload['cricketRole'] ?? 'Unknown Role'
-              : request.senderPayload['teamName'] ?? 'Unknown Team',
+              ? payload['cricketRole'] ?? 'Unknown Role'
+              : payload['shortName'] ?? 'Unknown Team',
           style: const TextStyle(fontSize: 15),
         ),
       ],
+    );
+  }
+
+  Widget _buildCancelButton(BuildContext context, Request request, int index) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: MyElevatedButton.secondaryElevatedButton(
+        context,
+        text: 'Cancel',
+        onPressed: () {
+          // Handle cancel logic
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Cancel Request'),
+                backgroundColor: Colors.white,
+                content:
+                    const Text('Are you sure you want to cancel this request?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('No'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      final result = await FirestoreMethods.deleteRequest(
+                          request.id, context);
+
+                      if (result == 'success') {
+                        setState(() {
+                          requestList.removeAt(index);
+                        });
+                      }
+                    },
+                    child: const Text(
+                      'Yes',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
