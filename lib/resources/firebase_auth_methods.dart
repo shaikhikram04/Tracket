@@ -250,7 +250,7 @@ class FirebaseAuthMethods {
         showSnackBar('Wrong email or password', context);
         rethrow;
       } else if (error.code == 'email-used-by-$oponentRole') {
-        _auth.currentUser!.delete();
+        _auth.signOut();
         showSnackBar(
           'This email is used as a $oponentRole. Please login as a $oponentRole!',
           context,
