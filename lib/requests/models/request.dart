@@ -11,15 +11,17 @@ class Request {
     required this.from,
     required this.to,
     required this.type,
-    required this.payload,
     required this.requestedAt,
+    required this.senderPayload,
+    required this.receiverPayload,
   });
 
   final String id;
   final String from;
   final String to;
   final RequestType type;
-  final Map<String, dynamic> payload;
+  final Map<String, dynamic> senderPayload;
+  final Map<String, dynamic> receiverPayload;
   final Timestamp requestedAt;
 
   Map<String, dynamic> get toJson => {
@@ -27,19 +29,21 @@ class Request {
         'from': from,
         'to': to,
         'type': type.name,
-        'payload': payload,
+        'senderPayload': senderPayload,
+        'receiverPayload': receiverPayload,
         'requestedAt': requestedAt,
       };
 
   static Request fromJson(Map<String, dynamic> json) {
     return Request(
       id: json['id'] as String,
-      from: json['from'] as String, 
+      from: json['from'] as String,
       to: json['to'] as String,
       type: RequestType.values.firstWhere(
         (element) => element.name == json['type'],
       ),
-      payload: json['payload'] as Map<String, dynamic>,
+      senderPayload: json['senderPayload'] as Map<String, dynamic>,
+      receiverPayload: json['receiverPayload'] as Map<String, dynamic>,
       requestedAt: json['requestedAt'] as Timestamp,
     );
   }
