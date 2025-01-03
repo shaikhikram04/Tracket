@@ -84,7 +84,7 @@ class _PendingRequestsState extends State<PendingRequests> {
   }
 
   Widget _buildProfileImage(bool isPlayer, Request request) {
-    final imageUrl = request.payload[isPlayer ? 'imageUrl' : 'logoUrl'];
+    final imageUrl = request.senderPayload[isPlayer ? 'imageUrl' : 'logoUrl'];
     final defaultImage = isPlayer
         ? 'assets/images/Default_user_pfp.jpg'
         : 'assets/images/team_logo.png';
@@ -102,7 +102,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          request.payload['name'] ?? 'Unknown',
+          request.senderPayload['name'] ?? 'Unknown',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -110,8 +110,8 @@ class _PendingRequestsState extends State<PendingRequests> {
         ),
         Text(
           isPlayer
-              ? request.payload['cricketRole'] ?? 'Unknown Role'
-              : request.payload['teamName'] ?? 'Unknown Team',
+              ? request.senderPayload['cricketRole'] ?? 'Unknown Role'
+              : request.senderPayload['teamName'] ?? 'Unknown Team',
           style: const TextStyle(fontSize: 15),
         ),
       ],

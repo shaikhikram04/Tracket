@@ -283,16 +283,17 @@ class FirestoreMethods {
   }
 
   static Future<void> requestPlayerToJoinTeam({
-    required String playerId,
     required Map<String, dynamic> teamInfo,
+    required Map<String, dynamic> playerInfo,
     required BuildContext context,
   }) async {
     final request = Request(
       id: uuid.v4(),
       from: teamInfo['id'],
-      to: playerId,
+      to: playerInfo['id'],
       type: RequestType.joinTeam,
-      payload: teamInfo,
+      senderPayload: teamInfo,
+      receiverPayload: playerInfo,
       requestedAt: Timestamp.now(),
     );
     try {
@@ -309,16 +310,17 @@ class FirestoreMethods {
   }
 
   static void requestTeamToAddPlayer({
-    required String teamId,
     required Map<String, dynamic> playerInfo,
+    required Map<String, dynamic> teamInfo,
     required BuildContext context,
   }) async {
     final request = Request(
       id: uuid.v4(),
       from: playerInfo['id'],
-      to: teamId,
+      to: teamInfo['id'],
       type: RequestType.addPlayer,
-      payload: playerInfo,
+      senderPayload: playerInfo,
+      receiverPayload: teamInfo,
       requestedAt: Timestamp.now(),
     );
     try {

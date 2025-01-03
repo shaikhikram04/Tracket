@@ -55,10 +55,10 @@ class MyConsumer extends StatelessWidget {
         if (isPrivate) {
           if (buttonType == 'addPlayer') {
             await FirestoreMethods.requestPlayerToJoinTeam(
-                playerId: currentId, teamInfo: teamInfo, context: context);
+                teamInfo: teamInfo, context: context, playerInfo: playerInfo);
           } else {
             FirestoreMethods.requestTeamToAddPlayer(
-                teamId: currentId, playerInfo: playerInfo, context: context);
+                playerInfo: playerInfo, context: context, teamInfo: teamInfo);
           }
         } else {
           await FirestoreMethods.addPlayerToTeam(
