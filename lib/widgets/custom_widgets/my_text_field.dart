@@ -13,6 +13,8 @@ class MyTextField extends StatelessWidget {
     this.initialText,
     this.maxLength,
     this.validator,
+    this.maxLines = 1,
+    this.minLines = null,
   });
 
   final void Function(String? value) onSave;
@@ -24,6 +26,8 @@ class MyTextField extends StatelessWidget {
   final String? initialText;
   final int? maxLength;
   final String? Function(String? value)? validator;
+  final int maxLines;
+  final int? minLines;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,8 @@ class MyTextField extends StatelessWidget {
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       autocorrect: false,
       style: Theme.of(context).textTheme.bodyLarge,
+      maxLines: maxLines,
+      minLines: minLines,
       decoration: InputDecoration(
         suffixIcon: isPassword
             ? IconButton(

@@ -128,6 +128,18 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                           label: 'Team Short Name',
                           borderRadius: 10,
                           validator: teamShortNameValidator,
+                          maxLength: 4,
+                        ),
+                        const SizedBox(height: 20),
+                        MyTextField(
+                          isLogin: false,
+                          onSave: (value) => _teamShortName = value,
+                          label: 'Team Description',
+                          borderRadius: 10,
+                          validator: teamShortNameValidator,
+                          maxLength: 100,
+                          maxLines: 3,
+                          minLines: 2,
                         ),
                         const SizedBox(height: 20),
                         Align(

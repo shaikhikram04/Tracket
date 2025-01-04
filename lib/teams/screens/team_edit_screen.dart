@@ -253,7 +253,9 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                             },
                             label: 'Description',
                             borderRadius: 15,
-                            maxLength: 50,
+                            maxLength: 100,
+                            maxLines: 3,
+                            minLines: 2,
                           ),
                           //! Team Player Capacity
                           PlayerCapacitySelector(
