@@ -359,4 +359,17 @@ class FirestoreMethods {
 
     return result;
   }
+
+  static void deleteTeam(BuildContext context, String teamId) async {
+    try {
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamId)
+          .delete();
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar('Failed to delete team, please try again!', context);
+      }
+    }
+  }
 }

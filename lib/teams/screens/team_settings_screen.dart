@@ -26,10 +26,10 @@ class TeamSettingsScreen extends ConsumerWidget {
               text: request,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            TextSpan(
-              text: ' ($count)',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+            // TextSpan(
+            //   text: ' ($count)',
+            //   style: Theme.of(context).textTheme.bodyLarge,
+            // ),
           ],
         ),
       ),
@@ -48,7 +48,9 @@ class TeamSettingsScreen extends ConsumerWidget {
         content:
             'Are you sure you want to delete this team? This action cannot be undone.',
         sureButtonText: 'Delete',
-        onSureButtonPressed: () {},
+        onSureButtonPressed: () {
+          FirestoreMethods.deleteTeam(context, team.id);
+        },
       );
     }
 
