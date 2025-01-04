@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/widgets/match_card.dart';
+import 'package:tracket/matches/widgets/match_card.dart';
 
 class MatchesScreen extends StatelessWidget {
   const MatchesScreen({super.key});
