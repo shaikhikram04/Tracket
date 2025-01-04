@@ -122,6 +122,46 @@ class Player {
     }
   }
 
+  String formatBowlingStyle() {
+    // Convert enum value to string and remove the enum type prefix
+    String enumString = bowlingStyle.toString().split('.').last;
+
+    // Convert camelCase to a readable format
+    String formattedString = enumString.replaceAllMapped(
+      RegExp(r'([a-z])([A-Z])'),
+      (Match match) => '${match.group(1)} ${match.group(2)}',
+    );
+
+    // Capitalize the first letter
+    return formattedString[0].toUpperCase() +
+        formattedString.substring(1).toLowerCase();
+  }
+
+  String get detailedCricketRole {
+    String result = '';
+    if (cricketRole == CricketRole.batsman ||
+        cricketRole == CricketRole.wicketKeeper ||
+        cricketRole == CricketRole.allRounder) {
+      if (battingPosition == Position.righty) {
+        result += 'Right-handed ';
+      } else if (battingPosition == Position.lefty) {
+        result += 'Left-handed ';
+      }
+      result += 'Batsman';
+    } else if (cricketRole == CricketRole.allRounder ||
+        cricketRole == CricketRole.wicketKeeper) {
+      result += ' | ';
+      if (bowlingArm == Position.righty) {
+        result += 'Right-arm ';
+      } else if (bowlingArm == Position.lefty) {
+        result += 'Left-arm ';
+      }
+      result += formatBowlingStyle();
+      result += ' Bowlerowler';
+    }
+    return result;
+  }
+
   Map<String, dynamic> get toJsonForPlayer => {
         'playerId': id,
         'email': email,
