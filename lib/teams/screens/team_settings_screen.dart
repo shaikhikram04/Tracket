@@ -59,7 +59,9 @@ class TeamSettingsScreen extends ConsumerWidget {
         title: 'Remove Admin',
         content: 'Are you sure you want to remove this admin?',
         sureButtonText: 'Remove',
-        onSureButtonPressed: () {},
+        onSureButtonPressed: () {
+          
+        },
       );
     }
 

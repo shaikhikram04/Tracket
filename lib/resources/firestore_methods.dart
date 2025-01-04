@@ -253,9 +253,10 @@ class FirestoreMethods {
     return teamPlayers;
   }
 
-  static Future<void> addAdminToTeam({
+  static Future<void> changePlayerTeamRole({
     required String playerId,
     required String teamId,
+    required String newRole,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
@@ -265,16 +266,16 @@ class FirestoreMethods {
           .doc(teamId)
           .collection(FirestoreCollections.teamPlayers)
           .doc(playerId)
-          .update({'role': 'admin'});
+          .update({'role': newRole});
+      ref.read(teamProvider.notifier).updatePlayerRole(playerId, newRole);
 
-      ref.read(teamProvider.notifier).updatePlayerRole(playerId, 'admin');
       await _firestore
           .collection(FirestoreCollections.players)
           .doc(playerId)
           .collection(FirestoreCollections.playerTeams)
           .doc(teamId)
-          .update({'role': 'admin'});
-      ref.read(playerProvider.notifier).updateTeamRole(teamId, 'admin');
+          .update({'role': newRole});
+      ref.read(playerProvider.notifier).updateTeamRole(teamId, newRole);
     } catch (e) {
       if (context.mounted) {
         showSnackBar('Failed to add admin. Please try again later.', context);

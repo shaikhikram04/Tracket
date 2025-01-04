@@ -69,9 +69,10 @@ class MyConsumer extends StatelessWidget {
           );
         }
       } else if (buttonType == 'addAdmin') {
-        await FirestoreMethods.addAdminToTeam(
+        await FirestoreMethods.changePlayerTeamRole(
           playerId: playerInfo['id'],
           teamId: teamInfo['id'],
+          newRole: 'admin',
           ref: ref,
           context: context,
         );
