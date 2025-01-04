@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/authentication/auth_screen.dart';
+import 'package:tracket/authentication/screens/auth_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
