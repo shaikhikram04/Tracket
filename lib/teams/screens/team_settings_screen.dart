@@ -36,46 +36,14 @@ class TeamSettingsScreen extends ConsumerWidget {
     );
   }
 
-  void showingAlertDialog(BuildContext context,
-      {required String title,
-      required String content,
-      required String sureButtonText,
-      required Function() onSureButtonPressed}) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onSureButtonPressed();
-              },
-              child: Text(
-                sureButtonText,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.watch(teamProvider);
 
     void onDeleteTeam() {
-      showingAlertDialog(
+      showAlertDoubleBtnDialog(
         context,
         title: 'Delete Team',
         content:
@@ -86,7 +54,7 @@ class TeamSettingsScreen extends ConsumerWidget {
     }
 
     void removeAdmin() {
-      showingAlertDialog(
+      showAlertDoubleBtnDialog(
         context,
         title: 'Remove Admin',
         content: 'Are you sure you want to remove this admin?',

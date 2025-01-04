@@ -146,40 +146,21 @@ class _PendingRequestsState extends State<PendingRequests> {
         text: 'Cancel',
         onPressed: () {
           // Handle cancel logic
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Cancel Request'),
-                backgroundColor: Colors.white,
-                content:
-                    const Text('Are you sure you want to cancel this request?'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('No'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      final result = await FirestoreMethods.deleteRequest(
-                          request.id, context);
+          showAlertDoubleBtnDialog(
+            context,
+            title: 'Cancel Request',
+            content: 'Are you sure you want to cancel this request?',
+            sureButtonText: 'Yes',
+            onSureButtonPressed: () async {
+              Navigator.of(context).pop();
+              final result =
+                  await FirestoreMethods.deleteRequest(request.id, context);
 
-                      if (result == 'success') {
-                        setState(() {
-                          requestList.removeAt(index);
-                        });
-                      }
-                    },
-                    child: const Text(
-                      'Yes',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ],
-              );
+              if (result == 'success') {
+                setState(() {
+                  requestList.removeAt(index);
+                });
+              }
             },
           );
         },

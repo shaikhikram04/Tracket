@@ -58,6 +58,42 @@ void showAlertDialog(BuildContext context, String title, String errorMessage ) {
   );
 }
 
+void showAlertDoubleBtnDialog(
+    BuildContext context, {
+    required String title,
+    required String content,
+    required String sureButtonText,
+    required Function() onSureButtonPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onSureButtonPressed();
+              },
+              child: Text(
+                sureButtonText,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 Future<Uint8List?> pickImage(ImageSource source) async {
   final ImagePicker imagePicker = ImagePicker();
 
