@@ -61,7 +61,7 @@ class AddPlayerScreen extends StatelessWidget {
     final playerInfo = {
       'id': player.id,
       'name': player.name,
-      'cricketRole': player.cricketRole!.name,
+      'cricketRole': player.detailedCricketRole,
       'imageUrl': player.profileImageUrl,
       'role': 'player',
     };

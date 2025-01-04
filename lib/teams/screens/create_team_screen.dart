@@ -137,8 +137,11 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                               : MyTextButton(
                                   text: 'Create',
                                   onPressed: () {
-                                    _createTeam(player.id, player.name,
-                                        player.cricketRole!.name);
+                                    _createTeam(
+                                      player.id,
+                                      player.name,
+                                      player.detailedCricketRole,
+                                    );
                                   },
                                 ),
                         ),

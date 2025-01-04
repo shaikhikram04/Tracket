@@ -67,13 +67,7 @@ class Team {
     return players.map(
       (player) {
         final playerInfo = player.data() as Map<String, dynamic>;
-        return {
-          'cricketRole': playerInfo['cricketRole'],
-          'id': playerInfo['id'],
-          'name': playerInfo['name'],
-          'imageUrl': playerInfo['imageUrl'],
-          'role': playerInfo['role'],
-        };
+        return playerInfo;
       },
     ).toList();
   }

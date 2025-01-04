@@ -148,8 +148,8 @@ class Player {
         result += 'Left-handed ';
       }
       result += 'Batsman';
-    } else if (cricketRole == CricketRole.allRounder ||
-        cricketRole == CricketRole.wicketKeeper) {
+    }
+    if (bowlingStyle != BowlingStyle.none) {
       result += ' | ';
       if (bowlingArm == Position.righty) {
         result += 'Right-arm ';
@@ -157,7 +157,7 @@ class Player {
         result += 'Left-arm ';
       }
       result += formatBowlingStyle();
-      result += ' Bowlerowler';
+      result += ' Bowler';
     }
     return result;
   }

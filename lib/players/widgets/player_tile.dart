@@ -29,19 +29,19 @@ class PlayerTile extends StatelessWidget {
         onTap: () {
           pushScreen(context, PlayerProfileScreen(playerId: playerData['id']));
         },
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: playerData['imageUrl'].toString().isNotEmpty
-                  ? NetworkImage(playerData['imageUrl']!)
-                  : const AssetImage('assets/images/Default_user_pfp.jpg'),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+        child: Expanded(
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: playerData['imageUrl'].toString().isNotEmpty
+                    ? NetworkImage(playerData['imageUrl']!)
+                    : const AssetImage('assets/images/Default_user_pfp.jpg'),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       playerData['name'],
@@ -50,38 +50,43 @@ class PlayerTile extends StatelessWidget {
                           .bodyLarge!
                           .copyWith(fontSize: 18),
                     ),
+                    Wrap(children: [
+                      Text(
+                        '${playerData['cricketRole']}',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ]),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        if (isCaptain)
+                          HighlightedLabel(
+                            text: 'Captain',
+                            bgColor: Colors.blue.shade100,
+                            textColor: Colors.blue.shade900,
+                          ),
+                        if (isCaptain && isWicketKeeper)
+                          const SizedBox(width: 7),
+                        if (isWicketKeeper)
+                          HighlightedLabel(
+                            text: 'Wicketkeeper',
+                            bgColor: Colors.orange.shade100,
+                            textColor: Colors.orange.shade900,
+                          ),
+                      ],
+                    )
                   ],
                 ),
-                Text(playerData['cricketRole']),
-                const SizedBox(height: 2),
-                Row(
-                  children: [
-                    if (isCaptain)
-                      HighlightedLabel(
-                        text: 'Captain',
-                        bgColor: Colors.blue.shade100,
-                        textColor: Colors.blue.shade900,
-                      ),
-                    if (isCaptain && isWicketKeeper) const SizedBox(width: 7),
-                    if (isWicketKeeper)
-                      HighlightedLabel(
-                        text: 'Wicketkeeper',
-                        bgColor: Colors.orange.shade100,
-                        textColor: Colors.orange.shade900,
-                      ),
-                  ],
+              ),
+              if (isEdit && playerData['role'] != 'owner')
+                IconButton(
+                  onPressed: onDelete,
+                  icon: const Icon(Icons.delete),
+                  iconSize: 25,
+                  color: Colors.red,
                 )
-              ],
-            ),
-            const Spacer(),
-            if (isEdit && playerData['role'] != 'owner')
-              IconButton(
-                onPressed: onDelete,
-                icon: const Icon(Icons.delete),
-                iconSize: 25,
-                color: Colors.red,
-              )
-          ],
+            ],
+          ),
         ),
       ),
     );
