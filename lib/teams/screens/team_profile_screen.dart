@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -90,7 +91,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20)),
                       ),
-                      builder: (context) => const TeamOptions(),
+                      builder: (context) => TeamOptions(
+                        isOwner: teamData.createdBy ==
+                            FirebaseAuthMethods.currentUserId,
+                      ),
                     );
                   },
                   icon: const Icon(

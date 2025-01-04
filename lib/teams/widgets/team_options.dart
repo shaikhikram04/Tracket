@@ -4,7 +4,9 @@ import 'package:tracket/teams/screens/team_settings_screen.dart';
 import 'package:tracket/utils/utils.dart';
 
 class TeamOptions extends StatelessWidget {
-  const TeamOptions({super.key});
+  const TeamOptions({super.key, required this.isOwner});
+
+  final bool isOwner;
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +28,15 @@ class TeamOptions extends StatelessWidget {
               pushScreen(context, const TeamEditScreen());
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.settings, color: Colors.green),
-            title: const Text('Team Settings'),
-            onTap: () {
-              Navigator.of(context).pop(); // Close the modal
-              pushScreen(context, const TeamSettingsScreen());
-            },
-          ),
+          if (isOwner)
+            ListTile(
+              leading: const Icon(Icons.settings, color: Colors.green),
+              title: const Text('Team Settings'),
+              onTap: () {
+                Navigator.of(context).pop(); // Close the modal
+                pushScreen(context, const TeamSettingsScreen());
+              },
+            ),
           ListTile(
             leading: const Icon(Icons.cancel, color: Colors.red),
             title: const Text('Cancel'),
