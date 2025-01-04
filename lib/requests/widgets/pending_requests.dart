@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
+import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -14,8 +15,11 @@ import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class PendingRequests extends StatefulWidget {
-  const PendingRequests(
-      {super.key, required this.requests, required this.isSent});
+  const PendingRequests({
+    super.key,
+    required this.requests,
+    required this.isSent,
+  });
 
   final List<QueryDocumentSnapshot<Map<String, dynamic>>> requests;
   final bool isSent;
@@ -84,7 +88,8 @@ class _PendingRequestsState extends State<PendingRequests> {
               ),
               if (!widget.isSent) const SizedBox(height: 10),
               if (!widget.isSent)
-                _buildActionButtons(context, index, requestData, request),
+                _buildActionButtons(
+                    context, index, requestData, isPlayer, request),
             ],
           ),
         );
@@ -172,6 +177,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       BuildContext context,
       int index,
       QueryDocumentSnapshot<Map<String, dynamic>> requestData,
+      bool isPlayer,
       Request request) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -198,7 +204,7 @@ class _PendingRequestsState extends State<PendingRequests> {
               text: 'Accept',
               isLoading: isRequestInProgress,
               primaryColor: const Color.fromARGB(255, 47, 134, 50),
-              onPressed: () => _acceptRequest(request, index, ref),
+              onPressed: () => _acceptRequest(request, index, isPlayer, ref),
             ),
             const SizedBox(width: 10),
             MyElevatedButton.secondaryElevatedButton(
@@ -268,26 +274,45 @@ class _PendingRequestsState extends State<PendingRequests> {
     });
   }
 
-  void _acceptRequest(Request request, int index, WidgetRef ref) {
+  Future<void> _acceptRequest(
+      Request request, int index, bool isPlayer, WidgetRef ref) async {
     // Handle accept logic
-
-    Map<String, dynamic> playerInfo;
-    Map<String, dynamic> teamInfo;
-
-    if (request.type == RequestType.addPlayer) {
-      playerInfo = request.senderPayload;
-      teamInfo = request.receiverPayload;
-    } else if (request.type == RequestType.joinTeam) {
-      playerInfo = request.receiverPayload;
-      teamInfo = request.senderPayload;
-    } else {
-      showSnackBar('Request is not send properly', context);
-      return;
-    }
-
     toggleButton(request.id, true, ref);
-
     try {
+      if (!isPlayer) {
+        final teamDocRef = FirebaseFirestore.instance
+            .collection(FirestoreCollections.teams)
+            .doc(request.to);
+
+        final teamPlayers =
+            await teamDocRef.collection(FirestoreCollections.teamPlayers).get();
+
+        final teamData = await teamDocRef.get();
+
+        final teamLimit = teamData.data()!['maxPlayersCapacity'];
+        final currentPlayers = teamPlayers.docs.length;
+
+        if (currentPlayers >= teamLimit && mounted) {
+          showSnackBar('Team is full', context);
+          toggleButton(request.id, false, ref);
+          return;
+        }
+      }
+
+      Map<String, dynamic> playerInfo;
+      Map<String, dynamic> teamInfo;
+
+      if (request.type == RequestType.addPlayer) {
+        playerInfo = request.senderPayload;
+        teamInfo = request.receiverPayload;
+      } else if (request.type == RequestType.joinTeam) {
+        playerInfo = request.receiverPayload;
+        teamInfo = request.senderPayload;
+      } else {
+        showSnackBar('Request is not send properly', context);
+        return;
+      }
+
       FirestoreMethods.addPlayerToTeam(
           playerInfo: playerInfo,
           teamInfo: teamInfo,

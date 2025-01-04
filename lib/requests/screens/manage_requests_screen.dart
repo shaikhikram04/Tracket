@@ -55,12 +55,14 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
+              children: [
                 RequestsListScreen(
                   field: 'to',
+                  teamId: widget.teamId,
                 ),
                 RequestsListScreen(
                   field: 'from',
+                  teamId: widget.teamId,
                 ),
               ],
             ),
