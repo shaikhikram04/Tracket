@@ -97,6 +97,7 @@ class MatchCard extends StatelessWidget {
             //     ),
             //   ],
             // ),
+            SizedBox(height: 8),
             Row(
               children: [
                 Column(
@@ -107,8 +108,8 @@ class MatchCard extends StatelessWidget {
                 Spacer(),
                 Column(
                   children: [
-                    Text('10 (6)      Batsman1Name'),
-                    Text('25 (15)     Batsman2Name'),
+                    Text('10 (6)    Batsman1Name'),
+                    Text('25 (15)   Batsman2Name'),
                   ],
                 )
               ],
