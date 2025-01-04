@@ -105,6 +105,7 @@ class JoinTeamScreen extends StatelessWidget {
           buttonType: 'joinTeam',
           teamInfo: teamInfo,
           playerInfo: playerInfo,
+          isTeamFull: team.playerIds.length >= team.maxPlayersCapacity,
         ),
       ),
     );

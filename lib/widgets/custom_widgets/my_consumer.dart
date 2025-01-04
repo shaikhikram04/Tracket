@@ -12,6 +12,7 @@ class MyConsumer extends StatelessWidget {
     required this.buttonType,
     required this.playerInfo,
     required this.teamInfo,
+    this.isTeamFull = false,
   });
 
   final List<String> idsList;
@@ -19,6 +20,7 @@ class MyConsumer extends StatelessWidget {
   final String buttonType;
   final Map<String, dynamic> playerInfo;
   final Map<String, dynamic> teamInfo;
+  final bool isTeamFull;
 
   String get currentId =>
       buttonType == 'joinTeam' ? teamInfo['id'] : playerInfo['id'];

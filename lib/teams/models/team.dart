@@ -10,6 +10,7 @@ class Team {
     required this.achievements,
     required this.following,
     required this.followers,
+    required this.playerIds,
     this.captainId = '',
     this.wicketkeeperId = '',
     required this.createdBy,
@@ -46,6 +47,7 @@ class Team {
   final int sendRequest;
   final int pendingRequest;
   final bool isPrivate;
+  final List playerIds;
 
   List<Map<String, dynamic>> get admins => playersList
       .where((player) => player['role'] == 'admin' || player['role'] == 'owner')
@@ -97,6 +99,7 @@ class Team {
         'sendRequest': sendRequest,
         'pendingRequest': pendingRequest,
         'isPrivate': isPrivate,
+        'playersIds': playerIds,
       };
 
   static Team formSeed(Map<String, dynamic> snap,
@@ -123,6 +126,7 @@ class Team {
         sendRequest: snap['sendRequest'],
         pendingRequest: snap['pendingRequest'],
         isPrivate: snap['isPrivate'],
+        playerIds: snap['playersIds'],
       );
 
   Team copyWith({
@@ -147,6 +151,7 @@ class Team {
     int? sendRequest,
     int? pendingRequest,
     bool? isPrivate,
+    List? playerIds,
   }) {
     return Team(
       id: id,
@@ -170,6 +175,7 @@ class Team {
       sendRequest: sendRequest ?? this.sendRequest,
       pendingRequest: pendingRequest ?? this.pendingRequest,
       isPrivate: isPrivate ?? this.isPrivate,
+      playerIds: playerIds ?? this.playerIds,
     );
   }
 }

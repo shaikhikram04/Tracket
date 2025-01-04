@@ -18,6 +18,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     String? captainId,
     String? wicketkeeperId,
     bool? isTeamPrivate,
+    List? playerIds,
   }) {
     state = state.copyWith(
       name: name,
@@ -29,18 +30,22 @@ class TeamProviderNotifier extends StateNotifier<Team> {
       captainId: captainId,
       wicketkeeperId: wicketkeeperId,
       isPrivate: isTeamPrivate,
+      playerIds: playerIds,
     );
   }
 
   void deletePlayer(String playerId) {
     final updatedPlayersList =
         state.playersList.where((player) => player['id'] != playerId).toList();
-    updateField(playersList: updatedPlayersList);
+
+    final updatedPlayerIds = state.playerIds.where((id) => id != playerId).toList();
+    updateField(playersList: updatedPlayersList, playerIds: updatedPlayerIds);
   }
 
   void addPlayer(Map<String, dynamic> player) {
     final updatedPlayersList = [...state.playersList, player];
-    updateField(playersList: updatedPlayersList);
+    final updatedPlayerIds = [...state.playerIds, player['id']];
+    updateField(playersList: updatedPlayersList, playerIds: updatedPlayerIds);
   }
 
   void updatePlayerRole(String playerId, String role) {
@@ -77,6 +82,7 @@ final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {
       following: [],
       followers: [],
       createdBy: '',
+      playerIds: [],
     ),
   );
 });

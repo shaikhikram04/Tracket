@@ -36,6 +36,7 @@ class FirestoreMethods {
         achievements: [],
         following: [],
         followers: [],
+        playerIds: [createdBy],
       );
       await _firestore
           .collection(FirestoreCollections.teams)
@@ -111,6 +112,10 @@ class FirestoreMethods {
           .collection(FirestoreCollections.teamPlayers)
           .doc(playerId)
           .delete();
+      ref.read(teamProvider.notifier).deletePlayer(playerId);
+      _firestore.collection(FirestoreCollections.teams).doc(team.id).update({
+        'playersIds': FieldValue.arrayRemove([playerId]),
+      });
       if (team.captainId == playerId) {
         await _firestore
             .collection(FirestoreCollections.teams)
@@ -125,7 +130,6 @@ class FirestoreMethods {
             .update({'wicketkeeperId': ''});
         ref.read(teamProvider.notifier).updateField(wicketkeeperId: '');
       }
-      ref.read(teamProvider.notifier).deletePlayer(playerId);
 
       //* Update player's team list in database
       _firestore
@@ -162,6 +166,12 @@ class FirestoreMethods {
 
       //* Update team's player list in state
       ref.read(teamProvider.notifier).addPlayer(playerInfo);
+      _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamInfo['id'])
+          .update({
+        'playersIds': FieldValue.arrayUnion([playerInfo['id']]),
+      });
 
       //* Update team's player list in database
       await FirebaseFirestore.instance
