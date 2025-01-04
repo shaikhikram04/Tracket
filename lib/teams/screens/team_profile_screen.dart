@@ -73,7 +73,6 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final teamData = ref.watch(teamProvider);
 
@@ -123,7 +122,6 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                         end: Alignment.bottomCenter,
                       ),
                     ),
-                    height: height * 0.23,
                     width: width,
                     child: Column(
                       children: [
@@ -143,6 +141,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           teamData.shortName,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),

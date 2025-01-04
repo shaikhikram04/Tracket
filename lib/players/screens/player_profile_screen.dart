@@ -53,7 +53,6 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -87,8 +86,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                         end: Alignment.bottomCenter,
                       ),
                     ),
-                    height: height * 0.23,
                     width: width,
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
@@ -108,9 +107,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(
-                          _playerData.cricketRole!.name,
+                          _playerData.detailedCricketRole,
                           style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.center,
                         ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
