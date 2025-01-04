@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/resources/firestore_methods.dart';
+import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -39,6 +40,14 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   Map<String, dynamic> getPayload(Request request) =>
       widget.isSent ? request.receiverPayload : request.senderPayload;
+
+  void toggleButton(String playerId, bool isAdding, WidgetRef ref) {
+    if (isAdding) {
+      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
+    } else {
+      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,23 +193,40 @@ class _PendingRequestsState extends State<PendingRequests> {
       QueryDocumentSnapshot<Map<String, dynamic>> requestData,
       Request request) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        
+        const Spacer(),
         Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            return MyElevatedButton.primaryElevatedButton(
-              context,
-              text: 'Accept',
-              primaryColor: const Color.fromARGB(255, 47, 134, 50),
-              onPressed: () => _acceptRequest(request, index, ref),
+            final requestStatus = ref.watch(requestStatusProvider);
+            final isRequestInProgress =
+                requestStatus.requestInProgress.contains(request.id);
+            final isRequestSuccess =
+                requestStatus.requestSuccess.contains(request.id);
+
+            if (isRequestSuccess) {
+              return Text('This request has been accept',
+                  style: Theme.of(context).textTheme.bodyLarge);
+            }
+
+            return Row(
+              children: [
+                MyElevatedButton.primaryElevatedButton(
+                  context,
+                  text: 'Accept',
+                  isLoading: isRequestInProgress,
+                  primaryColor: const Color.fromARGB(255, 47, 134, 50),
+                  onPressed: () => _acceptRequest(request, index, ref),
+                ),
+                const SizedBox(width: 10),
+                MyElevatedButton.secondaryElevatedButton(
+                  context,
+                  text: 'Reject',
+                  onPressed: () => _rejectRequest(context, index, requestData),
+                ),
+              ],
             );
           },
-        ),
-        const SizedBox(width: 10),
-        MyElevatedButton.secondaryElevatedButton(
-          context,
-          text: 'Reject',
-          onPressed: () => _rejectRequest(context, index, requestData),
         ),
       ],
     );
@@ -253,7 +279,17 @@ class _PendingRequestsState extends State<PendingRequests> {
       return;
     }
 
-    FirestoreMethods.addPlayerToTeam(
-        playerInfo: playerInfo, teamInfo: teamInfo, ref: ref, context: context);
+    toggleButton(request.id, true, ref);
+
+    try {
+      FirestoreMethods.addPlayerToTeam(
+          playerInfo: playerInfo,
+          teamInfo: teamInfo,
+          ref: ref,
+          context: context);
+      FirestoreMethods.deleteRequest(request.id, context);
+    } finally {
+      toggleButton(request.id, false, ref);
+    }
   }
 }

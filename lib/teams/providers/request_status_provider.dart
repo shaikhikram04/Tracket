@@ -7,6 +7,7 @@ class RequestStatus {
   });
   List<String> requestInProgress = [];
   List<String> requestSuccess = [];
+
 }
 
 class RequestStatusNotifier extends StateNotifier<RequestStatus> {
