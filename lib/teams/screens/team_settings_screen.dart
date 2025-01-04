@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
+import 'package:tracket/requests/screens/manage_requests_screen.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
@@ -141,15 +142,23 @@ class TeamSettingsScreen extends ConsumerWidget {
                   const SizedBox(height: 10),
                   getRequestTile(
                     context,
-                    'Pending Requests',
+                    'Recieved Requests',
                     team.pendingRequest,
-                    () {},
+                    () {
+                      pushScreen(
+                          context, ManageRequestsScreen(teamId: team.id));
+                    },
                   ),
                   getRequestTile(
                     context,
                     'Sent Requests',
                     team.sendRequest,
-                    () {},
+                    () {
+                      pushScreen(
+                          context,
+                          ManageRequestsScreen(
+                              teamId: team.id, initialIndex: 1));
+                    },
                   ),
                 ],
               ),

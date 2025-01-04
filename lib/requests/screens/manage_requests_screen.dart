@@ -3,9 +3,10 @@ import 'package:tracket/requests/screens/requests_list_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 class ManageRequestsScreen extends StatefulWidget {
-  const ManageRequestsScreen({super.key, this.teamId});
+  const ManageRequestsScreen({super.key, this.teamId, this.initialIndex = 0});
 
   final String? teamId;
+  final int initialIndex;
 
   @override
   State<ManageRequestsScreen> createState() => _RequestsScreenState();
@@ -18,7 +19,8 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+        length: 2, initialIndex: widget.initialIndex, vsync: this);
   }
 
   @override
@@ -53,9 +55,9 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [ 
+              children: const [
                 RequestsListScreen(
-                  field: 'to',  
+                  field: 'to',
                 ),
                 RequestsListScreen(
                   field: 'from',
