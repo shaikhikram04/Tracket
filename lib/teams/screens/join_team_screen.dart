@@ -98,7 +98,7 @@ class JoinTeamScreen extends StatelessWidget {
         ),
         title: Text(team.name),
         subtitle: Text(team.shortName),
-        onTap: () => pushScreen(context, TeamProfileScreen(teamData: teamData)),
+        onTap: () => pushScreen(context, TeamProfileScreen(teamData: teamData, isAdmin: false)),
         trailing: MyConsumer(
           idsList: playerTeamsId,
           isPrivate: team.isPrivate,

@@ -57,15 +57,22 @@ class TeamsScreen extends ConsumerWidget {
               final String teamRole = player.teams!
                   .firstWhere((team) => team['id'] == teamData['id'])['role'];
 
+              final isAdmin = teamRole != 'player';
+
               return MyListTile(
                 title: teamName,
                 subtitle: shortName,
                 isPlayer: false,
                 imageUrl: logoUrl,
-                trailing: teamRole != 'player' ? Text(teamRole) : null,
+                trailing: isAdmin ? Text(teamRole) : null,
                 onTap: () async {
                   if (context.mounted) {
-                    pushScreen(context, TeamProfileScreen(teamData: teamData));
+                    pushScreen(
+                        context,
+                        TeamProfileScreen(
+                          teamData: teamData,
+                          isAdmin: isAdmin,
+                        ));
                   }
                 },
               );
