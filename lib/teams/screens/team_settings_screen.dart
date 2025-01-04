@@ -36,8 +36,6 @@ class TeamSettingsScreen extends ConsumerWidget {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.watch(teamProvider);
@@ -53,14 +51,19 @@ class TeamSettingsScreen extends ConsumerWidget {
       );
     }
 
-    void removeAdmin() {
+    void removeAdmin(String playerId) {
       showAlertDoubleBtnDialog(
         context,
         title: 'Remove Admin',
         content: 'Are you sure you want to remove this admin?',
         sureButtonText: 'Remove',
         onSureButtonPressed: () {
-          
+          FirestoreMethods.changePlayerTeamRole(
+              playerId: playerId,
+              teamId: team.id,
+              newRole: 'player',
+              ref: ref,
+              context: context);
         },
       );
     }
@@ -122,7 +125,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                                 : MyElevatedButton.secondaryElevatedButton(
                                     context,
                                     text: 'Remove',
-                                    onPressed: removeAdmin,
+                                    onPressed: () => removeAdmin(admin['id']),
                                   )),
                     ],
                   ),
