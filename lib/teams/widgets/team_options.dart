@@ -28,7 +28,7 @@ class TeamOptions extends StatelessWidget {
               pushScreen(context, const TeamEditScreen());
             },
           ),
-          if (isOwner) 
+          if (isOwner)
             ListTile(
               leading: const Icon(Icons.settings, color: Colors.green),
               title: const Text('Team Settings'),

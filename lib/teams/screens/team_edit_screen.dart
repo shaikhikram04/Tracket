@@ -143,126 +143,179 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   Widget build(BuildContext context) {
     _team = ref.watch(teamProvider);
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Edit Team'),
-          shadowColor: blackColor,
-          actions: [
-            IconButton(
-              onPressed: _saveChanges,
-              icon: const Icon(Icons.save),
-              iconSize: 30,
-              color: darkGreenColor,
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                //! Primary Info
-                MyCard(
-                  child: Form(
-                    key: _formKey,
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        _formKey.currentState!.save();
+
+        final teamPlayers = _team.playersList;
+
+        String? captainId;
+        if (_captain != null) {
+          int index = teamPlayers.indexWhere(
+            (player) => player['name'] == _captain,
+          );
+          captainId = teamPlayers[index]['id'];
+        }
+
+        String? wicketkeeperId;
+        if (_wicketkeeper != null) {
+          int index = teamPlayers.indexWhere(
+            (player) => player['name'] == _wicketkeeper,
+          );
+          wicketkeeperId = teamPlayers[index]['id'];
+        }
+
+        if (_teamName != _team.name ||
+            _teamShortName != _team.shortName ||
+            _teamDescription != _team.description ||
+            _maxPlayersCapacity != _team.maxPlayersCapacity ||
+            captainId != _team.captainId ||
+            wicketkeeperId != _team.wicketkeeperId ||
+            _image != null) {
+          showAlertDoubleBtnDialog(
+            context,
+            title: 'Discard Changes?',
+            content: 'Are you sure you want to discard the changes?',
+            sureButtonText: 'Discard',
+            onSureButtonPressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Edit Team'),
+            shadowColor: blackColor,
+            actions: [
+              _isSaving
+                  ? const SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(),
+                    )
+                  : IconButton(
+                      onPressed: _saveChanges,
+                      icon: const Icon(Icons.save),
+                      iconSize: 30,
+                      color: darkGreenColor,
+                    ),
+              SizedBox(width: _isSaving ? 20 : 10),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  //! Primary Info
+                  MyCard(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        spacing: 15,
+                        children: [
+                          getTitleText('Primary Info', context),
+                          //! Team Logo
+                          TeamLogoEditor(
+                            logoUrl: _team.logoUrl,
+                            image: _image,
+                            onImageChanged: _editLogo,
+                          ),
+                          //! Team Name, Short Name, Description
+                          MyTextField(
+                            initialText: _team.name,
+                            onSave: (value) {
+                              _teamName = value;
+                            },
+                            label: 'Team Name',
+                            borderRadius: 15,
+                            validator: (value) =>
+                                nameValidator(value, 'Team Name'),
+                          ),
+                          MyTextField(
+                            initialText: _team.shortName,
+                            onSave: (value) {
+                              _teamShortName = value;
+                            },
+                            label: 'Team Short Name',
+                            borderRadius: 15,
+                            validator: teamShortNameValidator,
+                          ),
+                          MyTextField(
+                            initialText: _team.description,
+                            onSave: (value) {
+                              _teamDescription = value;
+                            },
+                            label: 'Description',
+                            borderRadius: 15,
+                            maxLength: 50,
+                          ),
+                          //! Team Player Capacity
+                          PlayerCapacitySelector(
+                            maxPlayersCapacity: _maxPlayersCapacity,
+                            onIncrement: () => setState(
+                              () => _maxPlayersCapacity++,
+                            ),
+                            onDecrement: () => setState(
+                              () => _maxPlayersCapacity--,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  //! Squad
+                  const MyCard(child: Squad(isEdit: true)),
+                  //! Roles
+                  MyCard(
                     child: Column(
-                      spacing: 15,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 12,
                       children: [
-                        getTitleText('Primary Info', context),
-                        //! Team Logo
-                        TeamLogoEditor(
-                          logoUrl: _team.logoUrl,
-                          image: _image,
-                          onImageChanged: _editLogo,
-                        ),
-                        //! Team Name, Short Name, Description
-                        MyTextField(
-                          initialText: _team.name,
-                          onSave: (value) {
-                            _teamName = value;
+                        getTitleText('Roles', context),
+                        //! Captain, Wicketkeeper
+                        MyDropdownMenu(
+                          options: _playerNames,
+                          label: 'Change captancy',
+                          initialSelection: _captain,
+                          onSelect: (value) {
+                            _captain = value;
                           },
-                          label: 'Team Name',
-                          borderRadius: 15,
-                          validator: (value) =>
-                              nameValidator(value, 'Team Name'),
                         ),
-                        MyTextField(
-                          initialText: _team.shortName,
-                          onSave: (value) {
-                            _teamShortName = value;
+                        MyDropdownMenu(
+                          options: _playerNames,
+                          label: 'Change Wicketkeeper',
+                          initialSelection: _wicketkeeper,
+                          onSelect: (value) {
+                            _wicketkeeper = value;
                           },
-                          label: 'Team Short Name',
-                          borderRadius: 15,
-                          validator: teamShortNameValidator,
-                        ),
-                        MyTextField(
-                          initialText: _team.description,
-                          onSave: (value) {
-                            _teamDescription = value;
-                          },
-                          label: 'Description',
-                          borderRadius: 15,
-                          maxLength: 50,
-                        ),
-                        //! Team Player Capacity
-                        PlayerCapacitySelector(
-                          maxPlayersCapacity: _maxPlayersCapacity,
-                          onIncrement: () => setState(
-                            () => _maxPlayersCapacity++,
-                          ),
-                          onDecrement: () => setState(
-                            () => _maxPlayersCapacity--,
-                          ),
                         )
                       ],
                     ),
                   ),
-                ),
-
-                //! Squad
-                const MyCard(child: Squad(isEdit: true)),
-                //! Roles
-                MyCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 12,
-                    children: [
-                      getTitleText('Roles', context),
-                      //! Captain, Wicketkeeper
-                      MyDropdownMenu(
-                        options: _playerNames,
-                        label: 'Change captancy',
-                        initialSelection: _captain,
-                        onSelect: (value) {
-                          _captain = value;
-                        },
-                      ),
-                      MyDropdownMenu(
-                        options: _playerNames,
-                        label: 'Change Wicketkeeper',
-                        initialSelection: _wicketkeeper,
-                        onSelect: (value) {
-                          _wicketkeeper = value;
-                        },
-                      )
-                    ],
+                  //! Save Changes
+                  SizedBox(
+                    width: width * 0.9,
+                    height: 50,
+                    child: MyElevatedButton.primaryElevatedButton(
+                      context,
+                      onPressed: _saveChanges,
+                      text: 'Save Changes',
+                      isSubmit: true,
+                      isLoading: _isSaving,
+                    ),
                   ),
-                ),
-                //! Save Changes
-                SizedBox(
-                  width: width * 0.9,
-                  height: 50,
-                  child: MyElevatedButton.primaryElevatedButton(
-                    context,
-                    onPressed: _saveChanges,
-                    text: 'Save Changes',
-                    isSubmit: true,
-                    isLoading: _isSaving,
-                  ),
-                ),
-                const SizedBox(height: 20),
-              ],
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }
