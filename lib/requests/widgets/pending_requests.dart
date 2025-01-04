@@ -192,44 +192,69 @@ class _PendingRequestsState extends State<PendingRequests> {
       int index,
       QueryDocumentSnapshot<Map<String, dynamic>> requestData,
       Request request) {
-    return Row(
-      children: [
-        
-        const Spacer(),
-        Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            final requestStatus = ref.watch(requestStatusProvider);
-            final isRequestInProgress =
-                requestStatus.requestInProgress.contains(request.id);
-            final isRequestSuccess =
-                requestStatus.requestSuccess.contains(request.id);
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        final requestStatus = ref.watch(requestStatusProvider);
+        final isRequestInProgress =
+            requestStatus.requestInProgress.contains(request.id);
+        final isRequestSuccess =
+            requestStatus.requestSuccess.contains(request.id);
 
-            if (isRequestSuccess) {
-              return Text('This request has been accept',
-                  style: Theme.of(context).textTheme.bodyLarge);
-            }
+        if (isRequestSuccess) {
+          return Text('This request has been accept',
+              style: Theme.of(context).textTheme.bodyLarge);
+        }
 
-            return Row(
-              children: [
-                MyElevatedButton.primaryElevatedButton(
-                  context,
-                  text: 'Accept',
-                  isLoading: isRequestInProgress,
-                  primaryColor: const Color.fromARGB(255, 47, 134, 50),
-                  onPressed: () => _acceptRequest(request, index, ref),
-                ),
-                const SizedBox(width: 10),
-                MyElevatedButton.secondaryElevatedButton(
-                  context,
-                  text: 'Reject',
-                  onPressed: () => _rejectRequest(context, index, requestData),
-                ),
-              ],
-            );
-          },
-        ),
-      ],
+        return Row(
+          children: [
+            Text(
+              timeAgo(request.requestedAt.toDate()),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const Spacer(),
+            MyElevatedButton.primaryElevatedButton(
+              context,
+              text: 'Accept',
+              isLoading: isRequestInProgress,
+              primaryColor: const Color.fromARGB(255, 47, 134, 50),
+              onPressed: () => _acceptRequest(request, index, ref),
+            ),
+            const SizedBox(width: 10),
+            MyElevatedButton.secondaryElevatedButton(
+              context,
+              text: 'Reject',
+              onPressed: () => _rejectRequest(context, index, requestData),
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  String timeAgo(DateTime dateTime) {
+    final Duration difference = DateTime.now().difference(dateTime);
+
+    if (difference.inDays >= 356) {
+      final int year = (difference.inDays / 365).floor();
+      return '${year}y ago';
+    } else if (difference.inDays >= 30) {
+      final int month = (difference.inDays / 30).floor();
+      return '${month}month ago';
+    } else if (difference.inDays >= 7) {
+      final int week = (difference.inDays / 7).floor();
+      return '${week}w ago';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays}d ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} min ago';
+    }
+    // else if (difference.inSeconds > 0) {
+    //   return '${difference.inSeconds}s ago';
+    // }
+
+    return 'just now';
   }
 
   void _rejectRequest(BuildContext context, int index,
