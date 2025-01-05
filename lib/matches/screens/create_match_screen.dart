@@ -5,6 +5,13 @@ class CreateMatchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Create Match'),
+      ),
+      body: const Center(
+        child: Text('Create Match Screen'),
+      ),
+    );
   }
 }
