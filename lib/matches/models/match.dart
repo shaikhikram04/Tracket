@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:uuid/uuid.dart';
@@ -5,6 +6,26 @@ import 'package:uuid/uuid.dart';
 enum TossDecision {
   batting,
   fielding,
+}
+
+enum MatchType {
+  friendly,
+  practice,
+  challanged,
+}
+
+enum MatchFormat {
+  over5,
+  over10,
+  over20,
+  over50,
+  test,
+}
+
+enum MatchStatus {
+  scheduled,
+  live,
+  completed,
 }
 
 const uuid = Uuid();
@@ -17,6 +38,13 @@ class Match {
     required this.over,
     required this.isTeam1WonToss,
     required this.tossDecision,
+    required this.createdAt,
+    required this.createdBy,
+    required this.matchFormat,
+    required this.matchType,
+    required this.spectatorsAllowed,
+    required this.updatedAt,
+    required this.venue,
   })  : id = uuid.v4(),
         inning1 = isTeam1WonToss
             ? (tossDecision == TossDecision.batting
@@ -36,10 +64,17 @@ class Match {
   final String id;
   final Team team1;
   final Team team2;
+  final MatchType matchType;
   final int over;
+  final MatchFormat matchFormat;
   final int noOfPlayer;
   final bool isTeam1WonToss;
+  final String venue;
   final TossDecision tossDecision;
+  final Timestamp createdAt;
+  final bool spectatorsAllowed;
+  final String createdBy;
+  final Timestamp updatedAt;
 
   Inning inning1;
   Inning inning2;
