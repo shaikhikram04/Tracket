@@ -8,35 +8,25 @@ class MyTextStyle {
 
   TextTheme get textTheme => Theme.of(context).textTheme;
 
-  TextStyle get titleLarge => textTheme.titleLarge!;
-
-  TextStyle get bodyLarge => textTheme.bodyLarge!;
-
-  TextStyle get titleMedium => textTheme.titleMedium!;
-
   TextStyle get headlineSmall => textTheme.headlineSmall!.copyWith(
         fontWeight: FontWeight.w500,
         color: blackColor,
       );
 
-  TextStyle get subTitleBodyMedium => bodyMedium.copyWith(
-        fontFamily: 'Inter',
-        color: Colors.black87,
+  TextStyle get titleLarge => textTheme.titleLarge!;
+
+  TextStyle coloredTitleLarge(Color textColor) => titleLarge.copyWith(
+        color: textColor,
       );
 
-  TextStyle get whiteBodyMedium => bodyMedium.copyWith(
-        color: whiteColor,
-        fontWeight: FontWeight.w400,
-      );
+  TextStyle get cardTitleLarge => titleLarge.copyWith(color: darkGreenColor);
 
-  TextStyle get bodyMedium => textTheme.bodyMedium!;
+  TextStyle get titleMedium => textTheme.titleMedium!;
+
+  TextStyle get bodyLarge => textTheme.bodyLarge!;
 
   TextStyle get boldBodyLarge => bodyLarge.copyWith(
         fontWeight: FontWeight.bold,
-      );
-
-  TextStyle  coloredTitleLarge(Color textColor) => titleLarge.copyWith(
-        color: textColor,
       );
 
   TextStyle get submitBtnTextStyle => bodyLarge.copyWith(
@@ -51,16 +41,26 @@ class MyTextStyle {
         color: textColor,
       );
 
-  TextStyle get cardTitleLarge => titleLarge.copyWith(color: darkGreenColor);
-
   TextStyle textButtonBodyLarge(bool isUnderlined) => bodyLarge.copyWith(
         decoration: isUnderlined ? TextDecoration.underline : null,
         color: Colors.black,
       );
 
-  TextStyle coloredLabelLarge(Color textColor) =>
-      textTheme.labelLarge!.copyWith(color: textColor);
-
   TextStyle coloredBodyLarge(Color textColor) =>
       bodyLarge.copyWith(color: textColor);
+
+  TextStyle get subTitleBodyMedium => bodyMedium.copyWith(
+        fontFamily: 'Inter',
+        color: Colors.black87,
+      );
+
+  TextStyle get whiteBodyMedium => bodyMedium.copyWith(
+        color: whiteColor,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get bodyMedium => textTheme.bodyMedium!;
+
+  TextStyle coloredLabelLarge(Color textColor) =>
+      textTheme.labelLarge!.copyWith(color: textColor);
 }
