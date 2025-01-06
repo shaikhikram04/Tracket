@@ -8,9 +8,10 @@ import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
@@ -24,7 +25,7 @@ class TeamSettingsScreen extends ConsumerWidget {
           children: [
             TextSpan(
               text: request,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: MyTextStyle(context).bodyLarge,
             ),
             // TextSpan(
             //   text: ' ($count)',
@@ -192,9 +193,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                 children: [
                   Text(
                     'Delete Team',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.red,
-                        ),
+                    style: MyTextStyle(context).coloredTitleLarge(Colors.red),
                   ),
                   const Spacer(),
                   MyElevatedButton.secondaryElevatedButton(

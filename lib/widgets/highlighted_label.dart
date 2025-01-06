@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class HighlightedLabel extends StatelessWidget {
   const HighlightedLabel({
@@ -29,8 +30,8 @@ class HighlightedLabel extends StatelessWidget {
       child: Text(
         text,
         style: isLabel
-            ? Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor)
-            : Theme.of(context).textTheme.bodyLarge!.copyWith(color: textColor),
+            ? MyTextStyle(context).coloredLabelLarge(textColor)
+            : MyTextStyle(context).coloredBodyLarge(textColor),
       ),
     );
   }

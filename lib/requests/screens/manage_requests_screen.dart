@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/requests/screens/requests_list_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class ManageRequestsScreen extends StatefulWidget {
   const ManageRequestsScreen({super.key, this.teamId, this.initialIndex = 0});
@@ -37,10 +38,8 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
             controller: _tabController,
             unselectedLabelColor: unSelectColor,
             labelColor: darkGreenColor,
-            labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-            unselectedLabelStyle: Theme.of(context).textTheme.bodyLarge,
+            labelStyle: MyTextStyle(context).boldBodyLarge,
+            unselectedLabelStyle: MyTextStyle(context).bodyLarge,
             tabs: const [
               Tab(
                 text: 'Received',

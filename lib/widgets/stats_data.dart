@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class StatsData extends StatelessWidget {
   const StatsData({
@@ -18,13 +19,11 @@ class StatsData extends StatelessWidget {
       children: [
         Text(
           number.toString(),
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: numColor,
-              ),
+          style: MyTextStyle(context).coloredTitleLarge(numColor),
         ),
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: MyTextStyle(context).bodyLarge,
         ),
       ],
     );

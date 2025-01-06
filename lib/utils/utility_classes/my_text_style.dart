@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/colors.dart';
 
 class MyTextStyle {
   MyTextStyle(this.context);
@@ -7,11 +8,59 @@ class MyTextStyle {
 
   TextTheme get textTheme => Theme.of(context).textTheme;
 
-  TextStyle get getTitleLarge {
-    return textTheme.titleLarge!;
-  }
+  TextStyle get titleLarge => textTheme.titleLarge!;
 
-  TextStyle get getBodyLarge {
-    return textTheme.bodyLarge!;
-  }
+  TextStyle get bodyLarge => textTheme.bodyLarge!;
+
+  TextStyle get titleMedium => textTheme.titleMedium!;
+
+  TextStyle get headlineSmall => textTheme.headlineSmall!.copyWith(
+        fontWeight: FontWeight.w500,
+        color: blackColor,
+      );
+
+  TextStyle get subTitleBodyMedium => bodyMedium.copyWith(
+        fontFamily: 'Inter',
+        color: Colors.black87,
+      );
+
+  TextStyle get whiteBodyMedium => bodyMedium.copyWith(
+        color: whiteColor,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get bodyMedium => textTheme.bodyMedium!;
+
+  TextStyle get boldBodyLarge => bodyLarge.copyWith(
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle  coloredTitleLarge(Color textColor) => titleLarge.copyWith(
+        color: textColor,
+      );
+
+  TextStyle get submitBtnTextStyle => bodyLarge.copyWith(
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        color: blackColor,
+      );
+
+  TextStyle buttonBodyLarge(Color textColor) => bodyLarge.copyWith(
+        fontWeight: FontWeight.w500,
+        fontSize: 14,
+        color: textColor,
+      );
+
+  TextStyle get cardTitleLarge => titleLarge.copyWith(color: darkGreenColor);
+
+  TextStyle textButtonBodyLarge(bool isUnderlined) => bodyLarge.copyWith(
+        decoration: isUnderlined ? TextDecoration.underline : null,
+        color: Colors.black,
+      );
+
+  TextStyle coloredLabelLarge(Color textColor) =>
+      textTheme.labelLarge!.copyWith(color: textColor);
+
+  TextStyle coloredBodyLarge(Color textColor) =>
+      bodyLarge.copyWith(color: textColor);
 }

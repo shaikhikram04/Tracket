@@ -9,6 +9,7 @@ import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -189,14 +190,14 @@ class _PendingRequestsState extends State<PendingRequests> {
 
         if (isRequestSuccess) {
           return Text('This request has been accept',
-              style: Theme.of(context).textTheme.bodyLarge);
+              style: MyTextStyle(context).bodyLarge);
         }
 
         return Row(
           children: [
             Text(
               timeAgo(request.requestedAt.toDate()),
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: MyTextStyle(context).bodyMedium,
             ),
             const Spacer(),
             MyElevatedButton.primaryElevatedButton(

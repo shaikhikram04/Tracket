@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class PlayerCapacitySelector extends StatelessWidget {
@@ -21,7 +22,7 @@ class PlayerCapacitySelector extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           'Max Players Capacity:',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: MyTextStyle(context).bodyLarge,
         ),
         const Spacer(),
         IconButton(
@@ -39,7 +40,7 @@ class PlayerCapacitySelector extends StatelessWidget {
         ),
         Text(
           '$maxPlayersCapacity',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: MyTextStyle(context).bodyLarge,
         ),
         IconButton(
           onPressed: () {

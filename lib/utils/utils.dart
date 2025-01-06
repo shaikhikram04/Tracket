@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracket/authentication/screens/verification_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 void showSnackBar(String content, BuildContext context,
     {bool isUndo = false, void Function()? onUndo}) {
@@ -13,7 +14,7 @@ void showSnackBar(String content, BuildContext context,
       backgroundColor: greenColor,
       content: Text(
         content,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: MyTextStyle(context).titleMedium,
       ),
       action: isUndo
           ? SnackBarAction(
@@ -37,7 +38,7 @@ void showVerificationDialog(BuildContext context, String email) {
   );
 }
 
-void showAlertDialog(BuildContext context, String title, String errorMessage ) {
+void showAlertDialog(BuildContext context, String title, String errorMessage) {
   showDialog(
     context: context,
     builder: (context) {
@@ -59,40 +60,40 @@ void showAlertDialog(BuildContext context, String title, String errorMessage ) {
 }
 
 void showAlertDoubleBtnDialog(
-    BuildContext context, {
-    required String title,
-    required String content,
-    required String sureButtonText,
-    required Function() onSureButtonPressed,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
+  BuildContext context, {
+  required String title,
+  required String content,
+  required String sureButtonText,
+  required Function() onSureButtonPressed,
+}) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              onSureButtonPressed();
+            },
+            child: Text(
+              sureButtonText,
+              style: const TextStyle(color: Colors.red),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onSureButtonPressed();
-              },
-              child: Text(
-                sureButtonText,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+          ),
+        ],
+      );
+    },
+  );
+}
 
 Future<Uint8List?> pickImage(ImageSource source) async {
   final ImagePicker imagePicker = ImagePicker();
@@ -213,8 +214,7 @@ String getErrorMessage(String errorCode) {
 Text getTitleText(String title, BuildContext context) {
   return Text(
     title,
-    style:
-        Theme.of(context).textTheme.titleLarge!.copyWith(color: darkGreenColor),
+    style: MyTextStyle(context).cardTitleLarge,
   );
 }
 

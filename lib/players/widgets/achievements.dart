@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
 class Achievements extends StatelessWidget {
@@ -12,17 +13,12 @@ class Achievements extends StatelessWidget {
     Widget content = Column(children: [
       Text(
         'No Achievements Yet',
-        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            fontWeight: FontWeight.w500,
-            color: const Color.fromARGB(255, 35, 2, 0)),
+        style: MyTextStyle(context).headlineSmall,
       ),
       Text(
         'Complete tasks and challenges to earn your first achievement badge!',
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontFamily: 'Inter',
-              color: Colors.black87,
-            ),
+        style: MyTextStyle(context).subTitleBodyMedium,
       ),
       const SizedBox(height: 25),
       ElevatedButton(
@@ -34,10 +30,7 @@ class Achievements extends StatelessWidget {
             )),
         child: Text(
           'View Available Achievements',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: whiteColor,
-                fontWeight: FontWeight.w400,
-              ),
+          style: MyTextStyle(context).whiteBodyMedium,
         ),
       ),
     ]);

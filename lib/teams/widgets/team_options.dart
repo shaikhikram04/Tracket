@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/teams/screens/team_edit_screen.dart';
 import 'package:tracket/teams/screens/team_settings_screen.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class TeamOptions extends StatelessWidget {
@@ -17,7 +18,7 @@ class TeamOptions extends StatelessWidget {
         children: [
           Text(
             'Team Options',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: MyTextStyle(context).headlineSmall,
           ),
           const SizedBox(height: 20),
           ListTile(

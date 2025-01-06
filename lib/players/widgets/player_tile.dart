@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
@@ -53,7 +54,7 @@ class PlayerTile extends StatelessWidget {
                     Wrap(children: [
                       Text(
                         '${playerData['cricketRole']}',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: MyTextStyle(context).bodyMedium,
                       ),
                     ]),
                     const SizedBox(height: 2),

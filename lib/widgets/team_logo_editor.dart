@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class TeamLogoEditor extends StatelessWidget {
   const TeamLogoEditor({
@@ -39,7 +40,7 @@ class TeamLogoEditor extends StatelessWidget {
           onPressed: () => onImageChanged(image),
           label: Text(
             'Edit team logo',
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: MyTextStyle(context).bodyLarge,
           ),
           style: TextButton.styleFrom(
             foregroundColor: blackColor,

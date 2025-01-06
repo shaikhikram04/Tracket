@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyElevatedButton {
   static ElevatedButton primaryElevatedButton(
@@ -25,11 +26,9 @@ class MyElevatedButton {
             )
           : Text(
               text,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: isSubmit ? FontWeight.bold : FontWeight.w500,
-                    fontSize: isSubmit ? 18 : 14,
-                    color: isSubmit ? blackColor : secondaryColor,
-                  ),
+              style: isSubmit
+                  ? MyTextStyle(context).submitBtnTextStyle
+                  : MyTextStyle(context).buttonBodyLarge(secondaryColor),
             ),
     );
   }
@@ -49,11 +48,7 @@ class MyElevatedButton {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: primaryColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
+        style: MyTextStyle(context).buttonBodyLarge(primaryColor),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -40,7 +41,7 @@ class MyTextField extends StatelessWidget {
       obscuringCharacter: '*',
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       autocorrect: false,
-      style: Theme.of(context).textTheme.bodyLarge,
+      style: MyTextStyle(context).bodyLarge,
       maxLines: maxLines,
       minLines: minLines,
       decoration: InputDecoration(

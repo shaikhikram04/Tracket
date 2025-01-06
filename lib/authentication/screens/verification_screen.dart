@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class VerificationScreen extends ConsumerWidget {
@@ -50,7 +51,7 @@ class VerificationScreen extends ConsumerWidget {
                 const SizedBox(height: 5),
                 Text(
                   'Email verification',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: MyTextStyle(context).titleLarge,
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -78,7 +79,7 @@ class VerificationScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
                 Text(
                   getMessage(currentStep),
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: MyTextStyle(context).bodyLarge,
                 )
               ],
             ),

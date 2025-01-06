@@ -5,6 +5,7 @@ import 'package:tracket/players/widgets/batting_stats.dart';
 import 'package:tracket/players/widgets/bowling_stats.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
@@ -104,11 +105,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                         const SizedBox(height: 10),
                         Text(
                           _playerData.name,
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: MyTextStyle(context).titleLarge,
                         ),
                         Text(
                           _playerData.detailedCricketRole,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: MyTextStyle(context).titleMedium,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 10),
@@ -174,7 +175,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                         children: [
                           TabBar(
                             labelColor: greenColor,
-                            labelStyle: Theme.of(context).textTheme.titleMedium,
+                            labelStyle: MyTextStyle(context).titleMedium,
                             unselectedLabelColor: Colors.grey,
                             indicatorColor: Colors.green,
                             indicatorSize: TabBarIndicatorSize.tab,

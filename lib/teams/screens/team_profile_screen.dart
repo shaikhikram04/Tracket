@@ -9,6 +9,7 @@ import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
@@ -139,11 +140,11 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                         const SizedBox(height: 10),
                         Text(
                           teamData.name,
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: MyTextStyle(context).titleLarge,
                         ),
                         Text(
                           teamData.shortName,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: MyTextStyle(context).titleMedium,
                         ),
                         const SizedBox(height: 10),
                       ],

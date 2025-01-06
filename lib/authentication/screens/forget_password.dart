@@ -88,7 +88,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 const SizedBox(height: 30),
                 Text(
                   'Forget Password?',
-                  style: MyTextStyle(context).getTitleLarge,
+                  style: MyTextStyle(context).titleLarge,
                 ),
                 Card(
                   margin:
