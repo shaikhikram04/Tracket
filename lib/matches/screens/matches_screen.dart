@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tracket/matches/screens/create_match_screen.dart';
+import 'package:tracket/matches/screens/challenge_match.dart';
 import 'package:tracket/matches/widgets/match_card.dart';
 import 'package:tracket/utils/utils.dart';
 

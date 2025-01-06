@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/screens/create_match_screen.dart';
+import 'package:tracket/matches/screens/challenge_match.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
