@@ -4,7 +4,7 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
-import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class CreateMatchScreen extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
@@ -87,7 +88,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 const SizedBox(height: 30),
                 Text(
                   'Forget Password?',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: MyTextStyle(context).getTitleLarge,
                 ),
                 Card(
                   margin:

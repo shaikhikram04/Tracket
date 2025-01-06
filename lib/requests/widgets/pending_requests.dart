@@ -11,7 +11,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class PendingRequests extends StatefulWidget {

@@ -10,7 +10,7 @@ import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/widgets/custom_widgets/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
