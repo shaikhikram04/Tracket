@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  var _selectedIndex = 1;
+  var _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -44,7 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     } finally {
       setState(() {
-        _selectedIndex = 1;
+        _selectedIndex = 0;
       });
     }
   }

@@ -9,10 +9,10 @@ import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class PendingRequests extends StatefulWidget {
@@ -76,15 +76,17 @@ class _PendingRequestsState extends State<PendingRequests> {
             children: [
               InkWell(
                 onTap: () => _navigateToProfile(context, isPlayer, request),
-                child: Row(
-                  children: [
-                    _buildProfileImage(isPlayer, payload),
-                    const SizedBox(width: 10),
-                    _buildRequestDetails(isPlayer, payload),
-                    const Spacer(),
-                    if (widget.isSent)
-                      _buildCancelButton(context, request, index),
-                  ],
+                child: Expanded(
+                  child: Row(
+                    children: [
+                      _buildProfileImage(isPlayer, payload),
+                      const SizedBox(width: 10),
+                      _buildRequestDetails(isPlayer, payload),
+                      const Spacer(),
+                      if (widget.isSent)
+                        _buildCancelButton(context, request, index),
+                    ],
+                  ),
                 ),
               ),
               if (!widget.isSent) const SizedBox(height: 10),
@@ -124,23 +126,28 @@ class _PendingRequestsState extends State<PendingRequests> {
   }
 
   Widget _buildRequestDetails(bool isPlayer, Map<String, dynamic> payload) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          payload['name'] ?? 'Unknown',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            payload['name'] ?? 'Unknown',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        Text(
-          isPlayer
-              ? payload['cricketRole'] ?? 'Unknown Role'
-              : payload['shortName'] ?? 'Unknown Team',
-          style: const TextStyle(fontSize: 15),
-        ),
-      ],
+          Wrap(children: [
+            Text(
+              isPlayer
+                  ? payload['cricketRole'] ?? 'Unknown Role'
+                  : payload['shortName'] ?? 'Unknown Team',
+              style: const TextStyle(fontSize: 15),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ]),
+        ],
+      ),
     );
   }
 

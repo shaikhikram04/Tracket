@@ -8,11 +8,13 @@ class MyTextStyle {
 
   TextTheme get textTheme => Theme.of(context).textTheme;
 
+  //! Headings
   TextStyle get headlineSmall => textTheme.headlineSmall!.copyWith(
         fontWeight: FontWeight.w500,
         color: blackColor,
       );
 
+  //! Title
   TextStyle get titleLarge => textTheme.titleLarge!;
 
   TextStyle coloredTitleLarge(Color textColor) => titleLarge.copyWith(
@@ -23,6 +25,7 @@ class MyTextStyle {
 
   TextStyle get titleMedium => textTheme.titleMedium!;
 
+  //! Body
   TextStyle get bodyLarge => textTheme.bodyLarge!;
 
   TextStyle get boldBodyLarge => bodyLarge.copyWith(
@@ -61,6 +64,7 @@ class MyTextStyle {
 
   TextStyle get bodyMedium => textTheme.bodyMedium!;
 
+  //! Label
   TextStyle coloredLabelLarge(Color textColor) =>
       textTheme.labelLarge!.copyWith(color: textColor);
 }

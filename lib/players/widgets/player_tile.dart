@@ -55,6 +55,7 @@ class PlayerTile extends StatelessWidget {
                       Text(
                         '${playerData['cricketRole']}',
                         style: MyTextStyle(context).bodyMedium,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ]),
                     const SizedBox(height: 2),
