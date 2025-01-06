@@ -4,7 +4,7 @@ import 'package:tracket/utils/colors.dart';
 class MyElevatedButton {
   static ElevatedButton primaryElevatedButton(
     BuildContext context, {
-    void Function()? onPressed,
+    required void Function()? onPressed,
     required String text,
     bool isSubmit = false,
     bool isLoading = false,
