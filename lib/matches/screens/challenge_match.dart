@@ -32,7 +32,7 @@ class _CreateMatchScreenState extends State<CreateMatchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Match'),
+        title: const Text('Challenge Match'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -48,12 +48,27 @@ class _CreateMatchScreenState extends State<CreateMatchScreen> {
                       spacing: 5,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'No of players : $noOfPlayers',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontWeight: FontWeight.w600),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'No of players : ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              TextSpan(
+                                text: '$noOfPlayers',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: greenColor),
+                              )
+                            ],
+                          ),
                         ),
                         Row(
                           children: [
@@ -93,7 +108,7 @@ class _CreateMatchScreenState extends State<CreateMatchScreen> {
                       onSelect: (value) {},
                     ),
                     SwitchListTile(
-                      value: true,
+                      value: allowSpectators,
                       title: Text(
                         'Allow Spectators',
                         style: Theme.of(context)
@@ -106,7 +121,9 @@ class _CreateMatchScreenState extends State<CreateMatchScreen> {
                       ),
                       activeColor: enableSwitchColor,
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          allowSpectators = value;
+                        });
                       },
                     ),
                   ],
