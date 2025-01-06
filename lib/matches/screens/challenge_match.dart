@@ -65,7 +65,7 @@ class _CreateMatchScreenState extends State<CreateMatchScreen> {
                                     .bodyLarge!
                                     .copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: greenColor),
+                                        color: darkGreenColor),
                               )
                             ],
                           ),
@@ -183,8 +183,12 @@ class _CreateMatchScreenState extends State<CreateMatchScreen> {
                 child: SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: MyElevatedButton.primaryElevatedButton(context,
-                      isSubmit: true, text: 'Create Match', onPressed: () {}),
+                  child: MyElevatedButton.primaryElevatedButton(
+                    context,
+                    isSubmit: true,
+                    text: 'Create Match',
+                    onPressed: () {},
+                  ),
                 ),
               ),
               const SizedBox(height: 30),

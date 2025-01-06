@@ -11,7 +11,7 @@ enum TossDecision {
 enum MatchType {
   friendly,
   practice,
-  challanged,
+  challenged,
 }
 
 enum MatchFormat {

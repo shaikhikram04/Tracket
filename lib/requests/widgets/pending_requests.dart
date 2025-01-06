@@ -309,16 +309,24 @@ class _PendingRequestsState extends State<PendingRequests> {
         playerInfo = request.receiverPayload;
         teamInfo = request.senderPayload;
       } else {
-        showSnackBar('Request is not send properly', context);
+        if (mounted) {
+          showSnackBar('Request is not send properly', context);
+        }
         return;
       }
 
-      FirestoreMethods.addPlayerToTeam(
+      if (mounted) {
+        await FirestoreMethods.addPlayerToTeam(
           playerInfo: playerInfo,
           teamInfo: teamInfo,
           ref: ref,
-          context: context);
-      FirestoreMethods.deleteRequest(request.id, context);
+          context: context,
+        );
+      }
+
+      if (mounted) {
+        await FirestoreMethods.deleteRequest(request.id, context);
+      }
     } finally {
       toggleButton(request.id, false, ref);
     }

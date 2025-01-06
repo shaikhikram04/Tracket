@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/matches/screens/matches_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/requests/screens/manage_requests_screen.dart';
 import 'package:tracket/resources/firebase_auth_methods.dart';
-import 'package:tracket/matches/screens/matches_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/teams/screens/teams_screen.dart';
 import 'package:tracket/utils/colors.dart';
@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  var _selectedIndex = 0;
+  var _selectedIndex = 1;
   @override
   void initState() {
     super.initState();
@@ -44,7 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     } finally {
       setState(() {
-        _selectedIndex = 0;
+        _selectedIndex = 1;
       });
     }
   }
@@ -75,9 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          title,
-        ),
+        title: Text(title),
         actions: isTeamsScreen
             ? [
                 IconButton(

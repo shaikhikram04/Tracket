@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/authentication/screens/auth_screen.dart';
+import 'package:tracket/resources/firebase_auth_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -34,12 +34,9 @@ class MainDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  lightDrawerBgColor,
-                  lightDrawerBgColor.withOpacity(0.7),
-                ],
+                colors: [lightDrawerBgColor, greenColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

@@ -14,7 +14,7 @@ class MyTextField extends StatelessWidget {
     this.maxLength,
     this.validator,
     this.maxLines = 1,
-    this.minLines = null,
+    this.minLines,
   });
 
   final void Function(String? value) onSave;
