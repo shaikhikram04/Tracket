@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
 
 class MyTextStyle {
-  MyTextStyle(this.context);
+  const MyTextStyle(this.context);
 
-  BuildContext context;
+  final BuildContext context;
 
   TextTheme get textTheme => Theme.of(context).textTheme;
 
@@ -23,7 +23,11 @@ class MyTextStyle {
 
   TextStyle get cardTitleLarge => titleLarge.copyWith(color: darkGreenColor);
 
+  TextStyle get profileTitleLarge => titleLarge.copyWith(fontSize: 20);
+
   TextStyle get titleMedium => textTheme.titleMedium!;
+
+  TextStyle get profileTitleMedium => titleMedium.copyWith(fontSize: 16);
 
   //! Body
   TextStyle get bodyLarge => textTheme.bodyLarge!;

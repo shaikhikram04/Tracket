@@ -9,6 +9,7 @@ import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/stats_data.dart';
@@ -129,6 +130,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                     ),
                     width: width,
                     child: Column(
+                      spacing: 10,
                       children: [
                         const SizedBox(height: 10),
                         CircleAvatar(
@@ -138,13 +140,38 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               : const AssetImage('assets/images/team_logo.png'),
                         ),
                         const SizedBox(height: 10),
-                        Text(
-                          teamData.name,
-                          style: MyTextStyle(context).titleLarge,
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: teamData.name,
+                            style: MyTextStyle(context).titleLarge,
+                          ),
+                          TextSpan(
+                            text: '  (${teamData.shortName})',
+                            style: MyTextStyle(context).titleMedium,
+                          )
+                        ])),
+                        Row(
+                          spacing: 20,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Followers -> 48',
+                              style: MyTextStyle(context).titleMedium,
+                            ),
+                            MyElevatedButton.primaryElevatedButton(
+                              context,
+                              onPressed: () {},
+                              text: 'Follow',
+                              primaryColor:
+                                  const Color.fromARGB(255, 34, 41, 34),
+                            )
+                          ],
                         ),
-                        Text(
-                          teamData.shortName,
-                          style: MyTextStyle(context).titleMedium,
+                        MyElevatedButton.primaryElevatedButton(
+                          context,
+                          onPressed: () {},
+                          text: 'Challenge for a match',
+                          primaryColor: const Color.fromARGB(255, 4, 81, 7),
                         ),
                         const SizedBox(height: 10),
                       ],
