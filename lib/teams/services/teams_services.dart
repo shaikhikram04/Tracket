@@ -271,7 +271,20 @@ class TeamsServices {
 
       ref.read(teamProvider.notifier).updateField(followers: followers);
 
-      await _firestore.collection(FirestoreCollections.players).doc(playerId).update({});
+      await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(playerId)
+          .update({
+        'followingTeams': isFollow
+            ? FieldValue.arrayUnion([teamId])
+            : FieldValue.arrayRemove([teamId])
+      });
+      final followingTeam = ref.read(playerProvider).followingTeams;
+      isFollow ? followingTeam.add(teamId) : followingTeam.remove(teamId);
+
+      ref
+          .read(playerProvider.notifier)
+          .updateField(followingTeams: followingTeam);
     } catch (e) {
       if (context.mounted) {
         showSnackBar(e.toString(), context);

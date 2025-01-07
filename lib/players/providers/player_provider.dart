@@ -45,9 +45,9 @@ class PlayerNotifier extends StateNotifier<Player> {
     PlayerStats? playerStats,
     int? matchesPlayed,
     List<String>? achievements,
-    List<String>? following,
-    List<String>? followingTeams,
-    List<String>? followers,
+    List? following,
+    List? followingTeams,
+    List? followers,
     bool? allowDirectTeamAdd,
     int? innings,
   }) {
