@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_stats.dart';
-import 'package:tracket/resources/firestore_collections.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';

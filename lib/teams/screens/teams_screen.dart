@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/resources/firestore_collections.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';

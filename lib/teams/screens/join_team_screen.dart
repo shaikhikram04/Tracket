@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
-import 'package:tracket/resources/firestore_collections.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utils.dart';
