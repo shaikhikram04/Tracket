@@ -7,11 +7,11 @@ import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
-class CreateMatchScreen extends StatefulWidget {
-  const CreateMatchScreen({super.key});
+class ChallengeMatchScreen extends StatefulWidget {
+  const ChallengeMatchScreen({super.key});
 
   @override
-  State<CreateMatchScreen> createState() => _CreateMatchScreenState();
+  State<ChallengeMatchScreen> createState() => _CreateMatchScreenState();
 }
 
 extension TimeOfDayToString on TimeOfDay {
@@ -22,7 +22,7 @@ extension TimeOfDayToString on TimeOfDay {
   }
 }
 
-class _CreateMatchScreenState extends State<CreateMatchScreen> {
+class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   double noOfPlayers = 7;
   bool allowSpectators = true;
   DateTime matchDate = DateTime.now();

@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
-import 'package:tracket/teams/services/teams_services.dart';
-import 'package:tracket/utils/utility_classes/firestore_collections.dart';
+import 'package:tracket/matches/screens/challenge_match.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/stats_data.dart';
 
@@ -209,29 +211,37 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           Row(
                             spacing: 10,
                             children: [
+                              if (!widget.isAdmin)
+                                const Expanded(child: SizedBox()),
                               Expanded(
+                                flex: 2,
                                 child: MyElevatedButton.primaryElevatedButton(
                                   context,
                                   isLoading: isFollowing,
-                                  onPressed: () {
-                                    return _followTeam(
-                                        teamData.id, currUserId, !isFollowed);
-                                  },
+                                  onPressed: () => _followTeam(
+                                      teamData.id, currUserId, !isFollowed),
                                   text: isFollowed ? 'Unfollow' : 'Follow',
                                   primaryColor: isFollowed
                                       ? Colors.grey.shade700
                                       : const Color.fromARGB(255, 40, 50, 40),
                                 ),
                               ),
-                              Expanded(
-                                child: MyElevatedButton.primaryElevatedButton(
-                                  context,
-                                  onPressed: () {},
-                                  text: 'Challenge',
-                                  primaryColor:
-                                      const Color.fromARGB(255, 40, 50, 40),
+                              if (widget.isAdmin)
+                                Expanded(
+                                  flex: 2,
+                                  child: MyElevatedButton.primaryElevatedButton(
+                                    context,
+                                    onPressed: () {
+                                      pushScreen(context,
+                                          const ChallengeMatchScreen());
+                                    },
+                                    text: 'Challenge',
+                                    primaryColor:
+                                        const Color.fromARGB(255, 40, 50, 40),
+                                  ),
                                 ),
-                              ),
+                              if (!widget.isAdmin)
+                                const Expanded(child: SizedBox()),
                             ],
                           )
                         ],
