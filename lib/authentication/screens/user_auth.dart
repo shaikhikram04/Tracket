@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/screens/forget_password.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';

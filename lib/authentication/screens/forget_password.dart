@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';

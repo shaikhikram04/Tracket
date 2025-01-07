@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/resources/firebase_auth_methods.dart';
+import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/resources/firestore_collections.dart';
 import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
