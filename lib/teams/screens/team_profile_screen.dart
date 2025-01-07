@@ -37,6 +37,7 @@ class TeamProfileScreen extends ConsumerStatefulWidget {
 
 class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   bool _isLoading = false;
+  bool isFollowing = false;
 
   @override
   void initState() {
@@ -74,14 +75,28 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     });
   }
 
-  void _followTeam() {
-    
+  void _followTeam(String teamId, String userId, bool isFollow) {
+    setState(() {
+      isFollowing = true;
+    });
+
+    final userId = FirebaseAuthMethods.currentUserId;
+
+    try {
+      FirestoreMethods.followTeam(teamId, userId, isFollow, ref, context);
+    } finally {
+      setState(() {
+        isFollowing = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final teamData = ref.watch(teamProvider);
+    final currUserId = FirebaseAuthMethods.currentUserId;
+    final isFollowed = teamData.followers.contains(currUserId);
 
     return Scaffold(
       appBar: AppBar(
@@ -197,10 +212,15 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               Expanded(
                                 child: MyElevatedButton.primaryElevatedButton(
                                   context,
-                                  onPressed: () {},
-                                  text: 'Follow',
-                                  primaryColor:
-                                      const Color.fromARGB(255, 40, 50, 40),
+                                  isLoading: isFollowing,
+                                  onPressed: () {
+                                    return _followTeam(
+                                        teamData.id, currUserId, !isFollowed);
+                                  },
+                                  text: isFollowed ? 'Unfollow' : 'Follow',
+                                  primaryColor: isFollowed
+                                      ? Colors.grey.shade700
+                                      : const Color.fromARGB(255, 40, 50, 40),
                                 ),
                               ),
                               Expanded(
