@@ -34,7 +34,6 @@ class FirestoreMethods {
         createdBy: createdBy,
         id: uuid.v4(),
         achievements: [],
-        following: [],
         followers: [],
         playerIds: [createdBy],
       );

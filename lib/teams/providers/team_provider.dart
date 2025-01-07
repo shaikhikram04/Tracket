@@ -79,7 +79,6 @@ final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {
       logoUrl: '',
       playersList: [],
       achievements: [],
-      following: [],
       followers: [],
       createdBy: '',
       playerIds: [],
