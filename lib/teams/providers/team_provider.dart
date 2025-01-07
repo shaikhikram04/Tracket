@@ -19,6 +19,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     String? wicketkeeperId,
     bool? isTeamPrivate,
     List? playerIds,
+    List? followers,
   }) {
     state = state.copyWith(
       name: name,
@@ -31,6 +32,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
       wicketkeeperId: wicketkeeperId,
       isPrivate: isTeamPrivate,
       playerIds: playerIds,
+      followers: followers,
     );
   }
 

@@ -381,4 +381,27 @@ class FirestoreMethods {
       }
     }
   }
+
+  static Future<void> followTeam(String teamId, String userId, bool isFollow,
+      WidgetRef ref, BuildContext context) async {
+    try {
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamId)
+          .update({
+        'followers': isFollow
+            ? FieldValue.arrayUnion([userId])
+            : FieldValue.arrayRemove([userId])
+      });
+
+      final followers = ref.read(teamProvider).followers;
+      isFollow ? followers.add(userId) : followers.remove(userId);
+
+      ref.read(teamProvider.notifier).updateField(followers: followers);
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(e.toString(), context);
+      }
+    }
+  }
 }

@@ -74,6 +74,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     });
   }
 
+  void _followTeam() {
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -183,11 +187,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               ),
                               StatsData(
                                 number: teamData.matchesPlayed,
-                                label: 'Matches',
-                              ),
-                              StatsData(
-                                number: teamData.wins,
-                                label: 'Won',
+                                label: 'Achievements',
                               ),
                             ],
                           ),
@@ -200,16 +200,16 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   onPressed: () {},
                                   text: 'Follow',
                                   primaryColor:
-                                      const Color.fromARGB(255, 34, 41, 34),
+                                      const Color.fromARGB(255, 40, 50, 40),
                                 ),
                               ),
                               Expanded(
                                 child: MyElevatedButton.primaryElevatedButton(
                                   context,
                                   onPressed: () {},
-                                  text: 'Challenge for a match',
+                                  text: 'Challenge',
                                   primaryColor:
-                                      const Color.fromARGB(255, 4, 81, 7),
+                                      const Color.fromARGB(255, 40, 50, 40),
                                 ),
                               ),
                             ],
