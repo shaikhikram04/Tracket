@@ -29,6 +29,7 @@ class MyElevatedButton {
               style: isSubmit
                   ? MyTextStyle(context).submitBtnTextStyle
                   : MyTextStyle(context).buttonBodyLarge(secondaryColor),
+              textAlign: TextAlign.center,
             ),
     );
   }

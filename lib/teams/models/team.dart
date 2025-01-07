@@ -8,7 +8,6 @@ class Team {
     required this.logoUrl,
     required this.playersList,
     required this.achievements,
-    required this.following,
     required this.followers,
     required this.playerIds,
     this.captainId = '',
@@ -40,7 +39,6 @@ class Team {
   final int losses;
   final int tieCount;
   final List achievements;
-  final List following;
   final List followers;
   final int maxPlayersCapacity;
   final String description;
@@ -86,7 +84,6 @@ class Team {
         'losses': losses,
         'tie': tieCount,
         'achievements': achievements,
-        'following': following,
         'followers': followers,
         'maxPlayersCapacity': maxPlayersCapacity,
         'description': description,
@@ -113,7 +110,6 @@ class Team {
         wicketkeeperId: snap['wicketkeeperId'],
         wins: snap['wins'],
         achievements: snap['achievements'],
-        following: snap['following'],
         followers: snap['followers'],
         maxPlayersCapacity: snap['maxPlayersCapacity'],
         description: snap['description'],
@@ -135,7 +131,6 @@ class Team {
     int? losses,
     int? tieCount,
     List? achievements,
-    List? following,
     List? followers,
     int? maxPlayersCapacity,
     String? description,
@@ -161,7 +156,6 @@ class Team {
       losses: losses ?? this.losses,
       tieCount: tieCount ?? this.tieCount,
       achievements: achievements ?? this.achievements,
-      following: following ?? this.following,
       followers: followers ?? this.followers,
       maxPlayersCapacity: maxPlayersCapacity ?? this.maxPlayersCapacity,
       description: description ?? this.description,

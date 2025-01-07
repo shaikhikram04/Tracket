@@ -171,28 +171,49 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             ],
                           ),
                           Row(
-                            spacing: 15,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               StatsData(
                                 number: teamData.followers.length,
                                 label: 'Followers',
                               ),
-                              MyElevatedButton.primaryElevatedButton(
-                                context,
-                                onPressed: () {},
-                                text: 'Follow',
-                                primaryColor:
-                                    const Color.fromARGB(255, 34, 41, 34),
+                              StatsData(
+                                number: teamData.rank,
+                                label: 'Ranking',
                               ),
-                              MyElevatedButton.primaryElevatedButton(
-                                context,
-                                onPressed: () {},
-                                text: 'Challenge for a match',
-                                primaryColor:
-                                    const Color.fromARGB(255, 4, 81, 7),
+                              StatsData(
+                                number: teamData.matchesPlayed,
+                                label: 'Matches',
+                              ),
+                              StatsData(
+                                number: teamData.wins,
+                                label: 'Won',
                               ),
                             ],
                           ),
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Expanded(
+                                child: MyElevatedButton.primaryElevatedButton(
+                                  context,
+                                  onPressed: () {},
+                                  text: 'Follow',
+                                  primaryColor:
+                                      const Color.fromARGB(255, 34, 41, 34),
+                                ),
+                              ),
+                              Expanded(
+                                child: MyElevatedButton.primaryElevatedButton(
+                                  context,
+                                  onPressed: () {},
+                                  text: 'Challenge for a match',
+                                  primaryColor:
+                                      const Color.fromARGB(255, 4, 81, 7),
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
