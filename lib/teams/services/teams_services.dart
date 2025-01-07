@@ -254,7 +254,7 @@ class TeamsServices {
     }
   }
 
-  static Future<void> followTeam(String teamId, String userId, bool isFollow,
+  static Future<void> followTeam(String teamId, String playerId, bool isFollow,
       WidgetRef ref, BuildContext context) async {
     try {
       await _firestore
@@ -262,14 +262,16 @@ class TeamsServices {
           .doc(teamId)
           .update({
         'followers': isFollow
-            ? FieldValue.arrayUnion([userId])
-            : FieldValue.arrayRemove([userId])
+            ? FieldValue.arrayUnion([playerId])
+            : FieldValue.arrayRemove([playerId])
       });
 
       final followers = ref.read(teamProvider).followers;
-      isFollow ? followers.add(userId) : followers.remove(userId);
+      isFollow ? followers.add(playerId) : followers.remove(playerId);
 
       ref.read(teamProvider.notifier).updateField(followers: followers);
+
+      await _firestore.collection(FirestoreCollections.players).doc(playerId).update({});
     } catch (e) {
       if (context.mounted) {
         showSnackBar(e.toString(), context);

@@ -61,7 +61,7 @@ class MyConsumer extends StatelessWidget {
             await RequestsServices.requestPlayerToJoinTeam(
                 teamInfo: teamInfo, context: context, playerInfo: playerInfo);
           } else {
-            RequestsServices.requestTeamToAddPlayer(
+            await RequestsServices.requestTeamToAddPlayer(
                 playerInfo: playerInfo, context: context, teamInfo: teamInfo);
           }
         } else {

@@ -35,7 +35,7 @@ class RequestsServices {
     }
   }
 
-  static void requestTeamToAddPlayer({
+  static Future<void> requestTeamToAddPlayer({
     required Map<String, dynamic> playerInfo,
     required Map<String, dynamic> teamInfo,
     required BuildContext context,

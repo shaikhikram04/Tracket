@@ -29,6 +29,7 @@ class Player {
   final String role;
   final List following;
   final List followers;
+  final List followingTeams;
   final String profileImageUrl;
   final List<Map<String, dynamic>>? teams;
   final List? achievements;
@@ -38,7 +39,7 @@ class Player {
   final Position? bowlingArm;
   final BowlingStyle? bowlingStyle;
   final Timestamp createdAt;
-  final bool? allowDirectTeamAdd;
+  final bool? isPrivate;
 
   Player({
     required this.role,
@@ -49,6 +50,7 @@ class Player {
     required this.teams,
     required this.profileImageUrl,
     required this.following,
+    required this.followingTeams,
     required this.followers,
     required this.cricketRole,
     required this.battingPosition,
@@ -56,7 +58,7 @@ class Player {
     required this.bowlingStyle,
     required this.createdAt,
     required this.playerStats,
-    required this.allowDirectTeamAdd,
+    required this.isPrivate,
   });
 
   Player.user({
@@ -68,6 +70,7 @@ class Player {
     required this.createdAt,
     required this.following,
     required this.followers,
+    required this.followingTeams,
   })  : battingPosition = null,
         bowlingArm = null,
         bowlingStyle = null,
@@ -75,7 +78,7 @@ class Player {
         playerStats = null,
         teams = null,
         achievements = null,
-        allowDirectTeamAdd = null;
+        isPrivate = null;
 
   static CricketRole getCricketRole(String role) {
     switch (role) {
@@ -173,9 +176,10 @@ class Player {
         'bowlingArm': bowlingArm?.name,
         'bowlingStyle': bowlingStyle!.name,
         'createdAt': createdAt,
-        'allowDirectTeamAdd': allowDirectTeamAdd,
+        'isPrivate': isPrivate,
         'achievements': achievements,
         'following': following,
+        'followingTeams': followingTeams,
         'followers': followers,
         ...playerStats!.toJson,
       };
@@ -205,6 +209,7 @@ class Player {
         'createdAt': createdAt,
         'following': following,
         'followers': followers,
+        'followingTeams': followingTeams,
       };
 
   static Player fromSeed(
@@ -243,8 +248,9 @@ class Player {
       ),
       achievements: snap['achievements'],
       following: snap['following'],
+      followingTeams: snap['followingTeams'],
       followers: snap['followers'],
-      allowDirectTeamAdd: snap['allowDirectTeamAdd'],
+      isPrivate: snap['isPrivate'],
     );
   }
 }

@@ -57,7 +57,7 @@ class AddPlayerScreen extends StatelessWidget {
   }
 
   Widget buildPlayerTile(Player player, BuildContext context) {
-    final bool allowDirectTeamAdd = player.allowDirectTeamAdd!;
+    final bool isPrivate = player.isPrivate!;
     final playerInfo = {
       'id': player.id,
       'name': player.name,
@@ -84,7 +84,7 @@ class AddPlayerScreen extends StatelessWidget {
         isPlayer: true,
         trailing: MyConsumer(
           idsList: playersId,
-          isPrivate: !allowDirectTeamAdd,
+          isPrivate: isPrivate,
           buttonType: 'addPlayer',
           playerInfo: playerInfo,
           teamInfo: teamInfo,
