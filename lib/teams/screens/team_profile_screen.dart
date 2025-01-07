@@ -129,52 +129,72 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                     ),
                     width: width,
-                    child: Column(
-                      spacing: 10,
-                      children: [
-                        const SizedBox(height: 10),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: teamData.logoUrl.isNotEmpty
-                              ? NetworkImage(teamData.logoUrl)
-                              : const AssetImage('assets/images/team_logo.png'),
-                        ),
-                        const SizedBox(height: 10),
-                        Text.rich(TextSpan(children: [
-                          TextSpan(
-                            text: teamData.name,
-                            style: MyTextStyle(context).titleLarge,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                      child: Column(
+                        spacing: 10,
+                        children: [
+                          Row(
+                            spacing: 15,
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                backgroundImage: teamData.logoUrl.isNotEmpty
+                                    ? NetworkImage(teamData.logoUrl)
+                                    : const AssetImage(
+                                        'assets/images/team_logo.png'),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text.rich(TextSpan(children: [
+                                      TextSpan(
+                                        text: teamData.name,
+                                        style: MyTextStyle(context).titleLarge,
+                                      ),
+                                      TextSpan(
+                                        text: '  (${teamData.shortName})',
+                                        style: MyTextStyle(context).titleMedium,
+                                      )
+                                    ])),
+                                    Text(
+                                      teamData.description,
+                                      style: MyTextStyle(context).bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: '  (${teamData.shortName})',
-                            style: MyTextStyle(context).titleMedium,
-                          )
-                        ])),
-                        Row(
-                          spacing: 20,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Followers -> 48',
-                              style: MyTextStyle(context).titleMedium,
-                            ),
-                            MyElevatedButton.primaryElevatedButton(
-                              context,
-                              onPressed: () {},
-                              text: 'Follow',
-                              primaryColor:
-                                  const Color.fromARGB(255, 34, 41, 34),
-                            )
-                          ],
-                        ),
-                        MyElevatedButton.primaryElevatedButton(
-                          context,
-                          onPressed: () {},
-                          text: 'Challenge for a match',
-                          primaryColor: const Color.fromARGB(255, 4, 81, 7),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
+                          Row(
+                            spacing: 15,
+                            children: [
+                              StatsData(
+                                number: teamData.followers.length,
+                                label: 'Followers',
+                              ),
+                              MyElevatedButton.primaryElevatedButton(
+                                context,
+                                onPressed: () {},
+                                text: 'Follow',
+                                primaryColor:
+                                    const Color.fromARGB(255, 34, 41, 34),
+                              ),
+                              MyElevatedButton.primaryElevatedButton(
+                                context,
+                                onPressed: () {},
+                                text: 'Challenge for a match',
+                                primaryColor:
+                                    const Color.fromARGB(255, 4, 81, 7),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
