@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/resources/firestore_methods.dart';
+import 'package:tracket/players/services/players_services.dart';
+import 'package:tracket/requests/services/requests_services.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
 
 class MyConsumer extends StatelessWidget {
@@ -56,14 +58,14 @@ class MyConsumer extends StatelessWidget {
       if (buttonType == 'addPlayer' || buttonType == 'joinTeam') {
         if (isPrivate) {
           if (buttonType == 'addPlayer') {
-            await FirestoreMethods.requestPlayerToJoinTeam(
+            await RequestsServices.requestPlayerToJoinTeam(
                 teamInfo: teamInfo, context: context, playerInfo: playerInfo);
           } else {
-            FirestoreMethods.requestTeamToAddPlayer(
+            RequestsServices.requestTeamToAddPlayer(
                 playerInfo: playerInfo, context: context, teamInfo: teamInfo);
           }
         } else {
-          await FirestoreMethods.addPlayerToTeam(
+          await TeamsServices.addPlayerToTeam(
             playerInfo: playerInfo,
             teamInfo: teamInfo,
             ref: ref,
@@ -71,7 +73,7 @@ class MyConsumer extends StatelessWidget {
           );
         }
       } else if (buttonType == 'addAdmin') {
-        await FirestoreMethods.changePlayerTeamRole(
+        await PlayersServices.changePlayerTeamRole(
           playerId: playerInfo['id'],
           teamId: teamInfo['id'],
           newRole: 'admin',

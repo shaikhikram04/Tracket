@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/widgets/player_tile.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -45,7 +45,7 @@ class Squad extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () async {
-                await FirestoreMethods.deletePlayerFromTeam(
+                await TeamsServices.deletePlayerFromTeam(
                   playerId,
                   ref,
                   context,

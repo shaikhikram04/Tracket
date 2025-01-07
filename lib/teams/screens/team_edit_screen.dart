@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/player_capacity_selector.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/utils/colors.dart';
@@ -104,7 +104,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       //! Upload image to Firebase Storage
     }
     try {
-      await FirestoreMethods.updateTeamField(
+      await TeamsServices.updateTeamField(
         context,
         teamId: _team.id,
         teamName: _teamName,

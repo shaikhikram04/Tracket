@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/widgets/squad.dart';
@@ -50,7 +50,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       _isLoading = true;
     });
     if (widget.teamData != null) {
-      final teamPlayer = await FirestoreMethods.getTeamPlayersFromId(
+      final teamPlayer = await TeamsServices.getTeamPlayersFromId(
         widget.teamData!['id'],
         context,
       );
@@ -65,7 +65,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       if (!mounted) return;
 
       final teamPlayer =
-          await FirestoreMethods.getTeamPlayersFromId(widget.teamId!, context);
+          await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
       final teamObject = Team.formSeed(team.data()!, teamPlayer);
       ref.read(teamProvider.notifier).updateTeam(teamObject);
     }
@@ -83,7 +83,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final userId = FirebaseAuthMethods.currentUserId;
 
     try {
-      FirestoreMethods.followTeam(teamId, userId, isFollow, ref, context);
+      TeamsServices.followTeam(teamId, userId, isFollow, ref, context);
     } finally {
       setState(() {
         isFollowing = false;

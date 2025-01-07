@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/resources/firestore_methods.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
@@ -54,7 +54,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       //! logic for uploading image on storage and get its url
     }
 
-    final result = await FirestoreMethods.createTeam(
+    final result = await TeamsServices.createTeam(
       teamName: _teamName!,
       shortName: _teamShortName!,
       createdBy: playerId,

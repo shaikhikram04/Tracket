@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/requests/models/request.dart';
-import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
-class FirestoreMethods {
+class TeamsServices {
   static final _firestore = FirebaseFirestore.instance;
-  static const uuid = Uuid();
+  static const _uuid = Uuid();
 
   static Future<String> createTeam({
     required String teamName,
@@ -32,7 +30,7 @@ class FirestoreMethods {
         logoUrl: logoUrl,
         playersList: [],
         createdBy: createdBy,
-        id: uuid.v4(),
+        id: _uuid.v4(),
         achievements: [],
         followers: [],
         playerIds: [createdBy],
@@ -76,25 +74,6 @@ class FirestoreMethods {
     }
 
     return result;
-  }
-
-  static Future<Player> getPlayerFromId(String playerId) async {
-    Player player;
-
-    final fetchedData = await _firestore
-        .collection(FirestoreCollections.players)
-        .doc(playerId)
-        .get();
-
-    final playerTeams = await _firestore
-        .collection(FirestoreCollections.players)
-        .doc(playerId)
-        .collection(FirestoreCollections.playerTeams)
-        .get();
-
-    player = Player.fromSeed(fetchedData.data()!, playerTeams.docs);
-
-    return player;
   }
 
   static Future<void> deletePlayerFromTeam(
@@ -260,113 +239,6 @@ class FirestoreMethods {
     }
 
     return teamPlayers;
-  }
-
-  static Future<void> changePlayerTeamRole({
-    required String playerId,
-    required String teamId,
-    required String newRole,
-    required WidgetRef ref,
-    required BuildContext context,
-  }) async {
-    try {
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamId)
-          .collection(FirestoreCollections.teamPlayers)
-          .doc(playerId)
-          .update({'role': newRole});
-      ref.read(teamProvider.notifier).updatePlayerRole(playerId, newRole);
-
-      await _firestore
-          .collection(FirestoreCollections.players)
-          .doc(playerId)
-          .collection(FirestoreCollections.playerTeams)
-          .doc(teamId)
-          .update({'role': newRole});
-      ref.read(playerProvider.notifier).updateTeamRole(teamId, newRole);
-    } catch (e) {
-      if (context.mounted) {
-        showSnackBar('Failed to add admin. Please try again later.', context);
-      }
-    }
-  }
-
-  static Future<void> requestPlayerToJoinTeam({
-    required Map<String, dynamic> teamInfo,
-    required Map<String, dynamic> playerInfo,
-    required BuildContext context,
-  }) async {
-    final request = Request(
-      id: uuid.v4(),
-      from: teamInfo['id'],
-      to: playerInfo['id'],
-      type: RequestType.joinTeam,
-      senderPayload: teamInfo,
-      receiverPayload: playerInfo,
-      requestedAt: Timestamp.now(),
-    );
-    try {
-      await _firestore
-          .collection(FirestoreCollections.requests)
-          .doc(request.id)
-          .set(request.toJson);
-    } catch (e) {
-      if (context.mounted) {
-        showSnackBar(
-            'Failed to send request. Please try again later.', context);
-      }
-    }
-  }
-
-  static void requestTeamToAddPlayer({
-    required Map<String, dynamic> playerInfo,
-    required Map<String, dynamic> teamInfo,
-    required BuildContext context,
-  }) async {
-    final request = Request(
-      id: uuid.v4(),
-      from: playerInfo['id'],
-      to: teamInfo['id'],
-      type: RequestType.addPlayer,
-      senderPayload: playerInfo,
-      receiverPayload: teamInfo,
-      requestedAt: Timestamp.now(),
-    );
-    try {
-      await _firestore
-          .collection(FirestoreCollections.requests)
-          .doc(request.id)
-          .set(request.toJson);
-    } catch (e) {
-      if (context.mounted) {
-        showSnackBar(
-            'Failed to send request. Please try again later.', context);
-      }
-    }
-  }
-
-  static Future<String> deleteRequest(
-    String requestId,
-    BuildContext context,
-  ) async {
-    String result;
-    try {
-      await _firestore
-          .collection(FirestoreCollections.requests)
-          .doc(requestId)
-          .delete();
-
-      result = 'success';
-    } catch (e) {
-      if (context.mounted) {
-        showSnackBar(
-            'Failed to delete request. Please try again later.', context);
-      }
-      result = e.toString();
-    }
-
-    return result;
   }
 
   static void deleteTeam(BuildContext context, String teamId) async {

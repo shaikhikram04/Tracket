@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/players/widgets/achievements.dart';
 import 'package:tracket/players/widgets/batting_stats.dart';
 import 'package:tracket/players/widgets/bowling_stats.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -41,7 +41,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   Future<void> _loadPlayerData() async {
     setState(() => _isLoading = true);
     try {
-      final player = await FirestoreMethods.getPlayerFromId(widget.playerId!);
+      final player = await PlayersServices.getPlayerFromId(widget.playerId!);
       setState(() => _playerData = player);
     } catch (error) {
       if (mounted) {

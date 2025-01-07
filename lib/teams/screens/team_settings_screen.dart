@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
+import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/requests/screens/manage_requests_screen.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_admin.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -50,7 +51,7 @@ class TeamSettingsScreen extends ConsumerWidget {
             'Are you sure you want to delete this team? This action cannot be undone.',
         sureButtonText: 'Delete',
         onSureButtonPressed: () {
-          FirestoreMethods.deleteTeam(context, team.id);
+          TeamsServices.deleteTeam(context, team.id);
         },
       );
     }
@@ -62,7 +63,7 @@ class TeamSettingsScreen extends ConsumerWidget {
         content: 'Are you sure you want to remove this admin?',
         sureButtonText: 'Remove',
         onSureButtonPressed: () {
-          FirestoreMethods.changePlayerTeamRole(
+          PlayersServices.changePlayerTeamRole(
               playerId: playerId,
               teamId: team.id,
               newRole: 'player',
@@ -175,7 +176,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                 } else {
                   showSnackBar('Now anyone can add directly in team', context);
                 }
-                await FirestoreMethods.updateTeamPrivacy(
+                await TeamsServices.updateTeamPrivacy(
                   context,
                   teamId: team.id,
                   isPrivate: newValue,

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
+import 'package:tracket/requests/services/requests_services.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/resources/firestore_methods.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -167,7 +168,7 @@ class _PendingRequestsState extends State<PendingRequests> {
             onSureButtonPressed: () async {
               Navigator.of(context).pop();
               final result =
-                  await FirestoreMethods.deleteRequest(request.id, context);
+                  await RequestsServices.deleteRequest(request.id, context);
 
               if (result == 'success') {
                 setState(() {
@@ -276,7 +277,7 @@ class _PendingRequestsState extends State<PendingRequests> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        FirestoreMethods.deleteRequest(requestData.id, context);
+        RequestsServices.deleteRequest(requestData.id, context);
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
@@ -324,7 +325,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       }
 
       if (mounted) {
-        await FirestoreMethods.addPlayerToTeam(
+        await TeamsServices.addPlayerToTeam(
           playerInfo: playerInfo,
           teamInfo: teamInfo,
           ref: ref,
@@ -333,7 +334,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       }
 
       if (mounted) {
-        await FirestoreMethods.deleteRequest(request.id, context);
+        await RequestsServices.deleteRequest(request.id, context);
       }
     } finally {
       toggleButton(request.id, false, ref);
