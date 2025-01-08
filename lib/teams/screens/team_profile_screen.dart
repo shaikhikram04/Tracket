@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/screens/challenge_match.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -97,8 +98,16 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final teamData = ref.watch(teamProvider);
-    final currUserId = FirebaseAuthMethods.currentUserId;
-    final isFollowed = teamData.followers.contains(currUserId);
+
+    final player = ref.watch(playerProvider);
+    final isFollowed = teamData.followers.contains(player.id);
+
+    final isTeamPlayer = teamData.playerIds.contains(player.id);
+
+    final isAdminOrPlayer =
+        player.teams!.any((team) => team['role'] != 'player');
+
+    final canChallenge = !isTeamPlayer && isAdminOrPlayer;
 
     return Scaffold(
       appBar: AppBar(
@@ -211,7 +220,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           Row(
                             spacing: 10,
                             children: [
-                              if (!widget.isAdmin)
+                              if (!canChallenge)
                                 const Expanded(child: SizedBox()),
                               Expanded(
                                 flex: 2,
@@ -219,14 +228,14 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   context,
                                   isLoading: isFollowing,
                                   onPressed: () => _followTeam(
-                                      teamData.id, currUserId, !isFollowed),
+                                      teamData.id, player.id, !isFollowed),
                                   text: isFollowed ? 'Unfollow' : 'Follow',
                                   primaryColor: isFollowed
                                       ? Colors.grey.shade700
                                       : const Color.fromARGB(255, 40, 50, 40),
                                 ),
                               ),
-                              if (widget.isAdmin)
+                              if (canChallenge)
                                 Expanded(
                                   flex: 2,
                                   child: MyElevatedButton.primaryElevatedButton(
@@ -240,7 +249,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         const Color.fromARGB(255, 40, 50, 40),
                                   ),
                                 ),
-                              if (!widget.isAdmin)
+                              if (!canChallenge)
                                 const Expanded(child: SizedBox()),
                             ],
                           )
