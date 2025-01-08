@@ -2,11 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
-import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class JoinTeamScreen extends StatelessWidget {
   const JoinTeamScreen(this.player, {super.key});
@@ -25,6 +26,7 @@ class JoinTeamScreen extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(FirestoreCollections.teams)
+            .where('id', whereNotIn: player.playerTeamsId)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -35,28 +37,9 @@ class JoinTeamScreen extends StatelessWidget {
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
             return const Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'No teams available',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Please check back later or create a new team.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            );
+                child: NoDataFound(
+                    title: 'No Teams available to join',
+                    message: 'Please check back later or create a new team.'));
           }
 
           final snap = snapshot.data!.docs;
