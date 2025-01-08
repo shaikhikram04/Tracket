@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
@@ -134,7 +135,7 @@ class TeamsServices {
   }
 
   static Future<void> addPlayerToTeam({
-    required Map<String, dynamic> playerInfo,
+    required PlayerDetails playerInfo,
     required TeamDetails teamInfo,
     required WidgetRef ref,
     required BuildContext context,
@@ -143,7 +144,7 @@ class TeamsServices {
       //* Update player's team list in database
       await FirebaseFirestore.instance
           .collection(FirestoreCollections.players)
-          .doc(playerInfo['id'])
+          .doc(playerInfo.id)
           .collection(FirestoreCollections.playerTeams)
           .doc(teamInfo.id)
           .set(teamInfo.toMap);
@@ -154,7 +155,7 @@ class TeamsServices {
           .collection(FirestoreCollections.teams)
           .doc(teamInfo.id)
           .update({
-        'playersIds': FieldValue.arrayUnion([playerInfo['id']]),
+        'playersIds': FieldValue.arrayUnion([playerInfo.id]),
       });
 
       //* Update team's player list in database
@@ -162,10 +163,10 @@ class TeamsServices {
           .collection(FirestoreCollections.teams)
           .doc(teamInfo.id)
           .collection(FirestoreCollections.teamPlayers)
-          .doc(playerInfo['id'])
-          .set(playerInfo);
+          .doc(playerInfo.id)
+          .set(playerInfo.toMap);
       final currentPlayerId = ref.read(playerProvider).id;
-      if (currentPlayerId == playerInfo['id']) {
+      if (currentPlayerId == playerInfo.id) {
         ref.read(playerProvider.notifier).addTeam(teamInfo);
       }
     } catch (error) {

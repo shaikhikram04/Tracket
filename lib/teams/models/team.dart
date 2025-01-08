@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracket/players/models/player_details.dart';
+import 'package:tracket/teams/models/team_details.dart';
 
 class Team {
   Team({
@@ -31,7 +33,7 @@ class Team {
   final String createdBy;
   final String logoUrl;
   final int rank;
-  final List<Map<String, dynamic>> playersList;
+  final List<PlayerDetails> playersList;
   final String captainId;
   final String wicketkeeperId;
   final int matchesPlayed;
@@ -47,25 +49,23 @@ class Team {
   final bool isPrivate;
   final List playerIds;
 
-  List<Map<String, dynamic>> get admins => playersList
-      .where((player) => player['role'] == 'admin' || player['role'] == 'owner')
-      .toList();
+  List<PlayerDetails> get admins =>
+      playersList.where((player) => player.role != TeamRole.player).toList();
 
-  List<Map<String, dynamic>> get nonAdmins => playersList
-      .where((player) => player['role'] != 'admin' && player['role'] != 'owner')
-      .toList();
+  List<PlayerDetails> get nonAdmins =>
+      playersList.where((player) => player.role == TeamRole.player).toList();
 
   int get winningPercent {
     return ((wins / matchesPlayed) * 100).toInt();
   }
 
-  static List<Map<String, dynamic>> teamPlayersToList(
+  static List<PlayerDetails> teamPlayersToList(
       List<QueryDocumentSnapshot>? players) {
     if (players == null) return [];
     return players.map(
       (player) {
         final playerInfo = player.data() as Map<String, dynamic>;
-        return playerInfo;
+        return PlayerDetails.fromMap(playerInfo) ;
       },
     ).toList();
   }
@@ -123,7 +123,7 @@ class Team {
     String? name,
     String? shortName,
     String? logoUrl,
-    List<Map<String, dynamic>>? playersList,
+    List<PlayerDetails>? playersList,
     String? captainId,
     String? wicketkeeperId,
     int? matchesPlayed,

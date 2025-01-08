@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -64,13 +65,13 @@ class JoinTeamScreen extends StatelessWidget {
       shortName: team.shortName,
       role: TeamRole.player,
     );
-    Map<String, dynamic> playerInfo = {
-      'id': player.id,
-      'name': player.name,
-      'cricketRole': player.detailedCricketRole,
-      'imageUrl': player.profileImageUrl,
-      'role': 'player',
-    };
+    final playerInfo = PlayerDetails(
+      cricketRole: player.detailedCricketRole,
+      id: player.id,
+      imageUrl: player.profileImageUrl,
+      name: player.name,
+      role: TeamRole.player,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: ListTile(

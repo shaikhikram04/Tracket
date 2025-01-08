@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
@@ -14,7 +15,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     String? shortName,
     String? description,
     String? logoUrl,
-    List<Map<String, dynamic>>? playersList,
+    List<PlayerDetails>? playersList,
     int? maxPlayersCapacity,
     String? captainId,
     String? wicketkeeperId,
@@ -39,26 +40,29 @@ class TeamProviderNotifier extends StateNotifier<Team> {
 
   void deletePlayer(String playerId) {
     final updatedPlayersList =
-        state.playersList.where((player) => player['id'] != playerId).toList();
+        state.playersList.where((player) => player.id != playerId).toList();
 
     final updatedPlayerIds =
         state.playerIds.where((id) => id != playerId).toList();
     updateField(playersList: updatedPlayersList, playerIds: updatedPlayerIds);
   }
 
-  void addPlayer(Map<String, dynamic> player) {
+  void addPlayer(PlayerDetails player) {
     final updatedPlayersList = [...state.playersList, player];
-    final updatedPlayerIds = [...state.playerIds, player['id']];
+    final updatedPlayerIds = [...state.playerIds, player.id];
     updateField(playersList: updatedPlayersList, playerIds: updatedPlayerIds);
   }
 
   void updatePlayerRole(String playerId, TeamRole role) {
     final updatedPlayersList = state.playersList.map((player) {
-      if (player['id'] == playerId) {
-        return {
-          ...player,
-          'role': role,
-        };
+      if (player.id == playerId) {
+        return PlayerDetails(
+          cricketRole: player.cricketRole,
+          id: player.id,
+          imageUrl: player.imageUrl,
+          name: player.name,
+          role: role,
+        );
       }
       return player;
     }).toList();

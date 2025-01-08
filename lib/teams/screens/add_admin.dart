@@ -24,8 +24,7 @@ class AddAdmin extends StatelessWidget {
           ? ListView.builder(
               itemCount: nonAdminPlayers.length,
               itemBuilder: (context, index) {
-                final player = nonAdminPlayers[index];
-                final playerInfo = {'id': player['id']};
+                final playerInfo = nonAdminPlayers[index];
                 final teamInfo = TeamDetails(
                   id: team.id,
                   logoUrl: team.logoUrl,
@@ -34,11 +33,11 @@ class AddAdmin extends StatelessWidget {
                   role: TeamRole.player,
                 );
                 return MyListTile(
-                  imageUrl: player['imageUrl'],
-                  title: player['name'],
-                  subtitle: player['cricketRole'],
+                  imageUrl: playerInfo.imageUrl,
+                  title: playerInfo.name,
+                  subtitle: playerInfo.cricketRole,
                   onTap: () => pushScreen(
-                      context, PlayerProfileScreen(playerId: player['id'])),
+                      context, PlayerProfileScreen(playerId: playerInfo.id)),
                   isPlayer: true,
                   trailing: MyConsumer(
                       idsList: const [],

@@ -61,12 +61,12 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     _wicketkeeper = null;
     List<String> playerNames = [];
     for (var player in _team.playersList) {
-      playerNames.add(player['name']);
-      if (player['id'] == _team.captainId) {
-        _captain = player['name'];
+      playerNames.add(player.name);
+      if (player.id == _team.captainId) {
+        _captain = player.name;
       }
-      if (player['id'] == _team.wicketkeeperId) {
-        _wicketkeeper = player['name'];
+      if (player.id == _team.wicketkeeperId) {
+        _wicketkeeper = player.name;
       }
     }
 
@@ -85,17 +85,17 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     String? captainId;
     if (_captain != null) {
       int index = teamPlayers.indexWhere(
-        (player) => player['name'] == _captain,
+        (player) => player.name == _captain,
       );
-      captainId = teamPlayers[index]['id'];
+      captainId = teamPlayers[index].id;
     }
 
     String? wicketkeeperId;
     if (_wicketkeeper != null) {
       int index = teamPlayers.indexWhere(
-        (player) => player['name'] == _wicketkeeper,
+        (player) => player.name == _wicketkeeper,
       );
-      wicketkeeperId = teamPlayers[index]['id'];
+      wicketkeeperId = teamPlayers[index].id;
     }
 
     String? logoUrl;
@@ -156,17 +156,17 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         String captainId = '';
         if (_captain != null) {
           int index = teamPlayers.indexWhere(
-            (player) => player['name'] == _captain,
+            (player) => player.name == _captain,
           );
-          captainId = teamPlayers[index]['id'];
+          captainId = teamPlayers[index].id;
         }
 
         String wicketkeeperId = '';
         if (_wicketkeeper != null) {
           int index = teamPlayers.indexWhere(
-            (player) => player['name'] == _wicketkeeper,
+            (player) => player.name == _wicketkeeper,
           );
-          wicketkeeperId = teamPlayers[index]['id'];
+          wicketkeeperId = teamPlayers[index].id;
         }
 
         if (_teamName != _team.name ||

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
@@ -15,7 +17,7 @@ class PlayerTile extends StatelessWidget {
     this.onDelete,
   });
 
-  final Map<String, dynamic> playerData;
+  final PlayerDetails playerData;
   final String? teamId;
   final bool isCaptain;
   final bool isWicketKeeper;
@@ -28,15 +30,15 @@ class PlayerTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
         onTap: () {
-          pushScreen(context, PlayerProfileScreen(playerId: playerData['id']));
+          pushScreen(context, PlayerProfileScreen(playerId: playerData.id));
         },
         child: Expanded(
           child: Row(
             children: [
               CircleAvatar(
                 radius: 30,
-                backgroundImage: playerData['imageUrl'].toString().isNotEmpty
-                    ? NetworkImage(playerData['imageUrl']!)
+                backgroundImage: playerData.imageUrl.isNotEmpty
+                    ? NetworkImage(playerData.imageUrl)
                     : const AssetImage('assets/images/Default_user_pfp.jpg'),
               ),
               const SizedBox(width: 10),
@@ -45,7 +47,7 @@ class PlayerTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      playerData['name'],
+                      playerData.name,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -53,7 +55,7 @@ class PlayerTile extends StatelessWidget {
                     ),
                     Wrap(children: [
                       Text(
-                        '${playerData['cricketRole']}',
+                        '${playerData.cricketRole}',
                         style: MyTextStyle(context).bodyMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -80,7 +82,7 @@ class PlayerTile extends StatelessWidget {
                   ],
                 ),
               ),
-              if (isEdit && playerData['role'] != 'owner')
+              if (isEdit && playerData.role != TeamRole.owner)
                 IconButton(
                   onPressed: onDelete,
                   icon: const Icon(Icons.delete),

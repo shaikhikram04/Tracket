@@ -114,24 +114,24 @@ class TeamSettingsScreen extends ConsumerWidget {
                             ),
                             onTap: () {
                               pushScreen(context,
-                                  PlayerProfileScreen(playerId: admin['id']));
+                                  PlayerProfileScreen(playerId: admin.id));
                             },
                             leading: CircleAvatar(
                               radius: 25,
                               backgroundImage:
-                                  admin['imageUrl'].toString().isNotEmpty
-                                      ? NetworkImage(admin['imageUrl'])
+                                  admin.imageUrl.isNotEmpty
+                                      ? NetworkImage(admin.imageUrl)
                                       : const AssetImage(
                                           'assets/images/Default_user_pfp.jpg'),
                             ),
-                            title: Text(admin['name']),
-                            subtitle: Text(admin['role'].toString()),
-                            trailing: admin['role'] == 'owner'
+                            title: Text(admin.name),
+                            subtitle: Text(admin.role.toString()),
+                            trailing: admin.role == TeamRole.owner
                                 ? null
                                 : MyElevatedButton.secondaryElevatedButton(
                                     context,
                                     text: 'Remove',
-                                    onPressed: () => removeAdmin(admin['id']),
+                                    onPressed: () => removeAdmin(admin.id),
                                   )),
                     ],
                   ),

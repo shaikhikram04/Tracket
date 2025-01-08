@@ -101,7 +101,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
 
     final player = ref.watch(playerProvider);
     final isFollowed = teamData.followers.contains(player.id);
-    final isAdmin = teamData.admins.any((admin) => admin['id'] == player.id);
+    final isAdmin = teamData.admins.any((admin) => admin.id == player.id);
 
     final isTeamPlayer = teamData.playerIds.contains(player.id);
 

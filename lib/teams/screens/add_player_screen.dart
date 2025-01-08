@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
@@ -15,7 +16,7 @@ class AddPlayerScreen extends StatelessWidget {
   final Team team;
 
   List<String> get playersId =>
-      team.playersList.map((player) => player['id'].toString()).toList();
+      team.playersList.map((player) => player.id).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +60,14 @@ class AddPlayerScreen extends StatelessWidget {
 
   Widget buildPlayerTile(Player player, BuildContext context) {
     final bool isPrivate = player.isPrivate!;
-    final playerInfo = {
-      'id': player.id,
-      'name': player.name,
-      'cricketRole': player.detailedCricketRole,
-      'imageUrl': player.profileImageUrl,
-      'role': 'player',
-    };
+    final playerInfo = PlayerDetails(
+      cricketRole: player.detailedCricketRole,
+      id: player.id,
+      imageUrl: player.profileImageUrl,
+      name: player.name,
+      role: TeamRole.player,
+    );
+
     final teamInfo = TeamDetails(
       id: team.id,
       logoUrl: team.logoUrl,

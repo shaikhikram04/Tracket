@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/requests/services/requests_services.dart';
@@ -309,14 +310,14 @@ class _PendingRequestsState extends State<PendingRequests> {
         }
       }
 
-      Map<String, dynamic> playerInfo;
+      PlayerDetails playerInfo;
       TeamDetails teamInfo;
 
       if (request.type == RequestType.addPlayer) {
-        playerInfo = request.senderPayload;
+        playerInfo = PlayerDetails.fromMap(request.senderPayload);
         teamInfo = TeamDetails.formMap(request.receiverPayload);
       } else if (request.type == RequestType.joinTeam) {
-        playerInfo = request.receiverPayload;
+        playerInfo = PlayerDetails.fromMap(request.receiverPayload);
         teamInfo = TeamDetails.formMap(request.senderPayload);
       } else {
         if (mounted) {

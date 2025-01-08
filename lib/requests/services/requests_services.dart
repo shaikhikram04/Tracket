@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -11,16 +12,16 @@ class RequestsServices {
 
   static Future<void> requestPlayerToJoinTeam({
     required TeamDetails teamInfo,
-    required Map<String, dynamic> playerInfo,
+    required PlayerDetails playerInfo,
     required BuildContext context,
   }) async {
     final request = Request(
       id: uuid.v4(),
       from: teamInfo.id,
-      to: playerInfo['id'],
+      to: playerInfo.id,
       type: RequestType.joinTeam,
       senderPayload: teamInfo.toMap,
-      receiverPayload: playerInfo,
+      receiverPayload: playerInfo.toMap,
       requestedAt: Timestamp.now(),
     );
     try {
@@ -37,16 +38,16 @@ class RequestsServices {
   }
 
   static Future<void> requestTeamToAddPlayer({
-    required Map<String, dynamic> playerInfo,
+    required PlayerDetails playerInfo,
     required TeamDetails teamInfo,
     required BuildContext context,
   }) async {
     final request = Request(
       id: uuid.v4(),
-      from: playerInfo['id'],
+      from: playerInfo.id,
       to: teamInfo.id,
       type: RequestType.addPlayer,
-      senderPayload: playerInfo,
+      senderPayload: playerInfo.toMap,
       receiverPayload: teamInfo.toMap,
       requestedAt: Timestamp.now(),
     );
