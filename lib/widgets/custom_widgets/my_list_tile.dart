@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyListTile extends StatelessWidget {
   const MyListTile({
@@ -32,8 +33,14 @@ class MyListTile extends StatelessWidget {
             imageUrl.isEmpty ? defaultImage : NetworkImage(imageUrl),
         radius: 30,
       ),
-      title: Text(title),
-      subtitle: Text(subtitle),
+      title: Text(
+        title,
+        style: MyTextStyle(context).bodyLarge,
+      ),
+      subtitle: Text(
+        subtitle,
+        style: MyTextStyle(context).bodyMedium,
+      ),
       trailing: trailing,
       onTap: onTap,
     );

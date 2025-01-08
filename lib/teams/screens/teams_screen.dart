@@ -7,6 +7,7 @@ import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -64,7 +65,12 @@ class TeamsScreen extends ConsumerWidget {
                 subtitle: shortName,
                 isPlayer: false,
                 imageUrl: logoUrl,
-                trailing: isAdmin ? Text(teamRole) : null,
+                trailing: isAdmin
+                    ? Text(
+                        teamRole,
+                        style: MyTextStyle(context).bodyMedium,
+                      )
+                    : null,
                 onTap: () async {
                   if (context.mounted) {
                     pushScreen(
