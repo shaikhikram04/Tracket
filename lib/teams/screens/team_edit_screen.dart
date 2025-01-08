@@ -9,10 +9,10 @@ import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/player_capacity_selector.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/widgets/team_logo_editor.dart';
 
@@ -153,7 +153,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
         final teamPlayers = _team.playersList;
 
-        String? captainId;
+        String captainId = '';
         if (_captain != null) {
           int index = teamPlayers.indexWhere(
             (player) => player['name'] == _captain,
@@ -161,7 +161,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           captainId = teamPlayers[index]['id'];
         }
 
-        String? wicketkeeperId;
+        String wicketkeeperId = '';
         if (_wicketkeeper != null) {
           int index = teamPlayers.indexWhere(
             (player) => player['name'] == _wicketkeeper,
