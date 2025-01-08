@@ -6,10 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/requests/models/request.dart';
 import 'package:tracket/requests/services/requests_services.dart';
-import 'package:tracket/teams/services/teams_services.dart';
-import 'package:tracket/utils/utility_classes/firestore_collections.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/teams/services/teams_services.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -309,14 +310,14 @@ class _PendingRequestsState extends State<PendingRequests> {
       }
 
       Map<String, dynamic> playerInfo;
-      Map<String, dynamic> teamInfo;
+      TeamDetails teamInfo;
 
       if (request.type == RequestType.addPlayer) {
         playerInfo = request.senderPayload;
-        teamInfo = request.receiverPayload;
+        teamInfo = TeamDetails.formMap(request.receiverPayload);
       } else if (request.type == RequestType.joinTeam) {
         playerInfo = request.receiverPayload;
-        teamInfo = request.senderPayload;
+        teamInfo = TeamDetails.formMap(request.senderPayload);
       } else {
         if (mounted) {
           showSnackBar('Request is not send properly', context);

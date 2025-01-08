@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/models/team_details.dart';
 
 class TeamProviderNotifier extends StateNotifier<Team> {
   TeamProviderNotifier(super.state);
@@ -51,7 +52,7 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     updateField(playersList: updatedPlayersList, playerIds: updatedPlayerIds);
   }
 
-  void updatePlayerRole(String playerId, String role) {
+  void updatePlayerRole(String playerId, TeamRole role) {
     final updatedPlayersList = state.playersList.map((player) {
       if (player['id'] == playerId) {
         return {

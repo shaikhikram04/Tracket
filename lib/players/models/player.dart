@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/players/models/player_stats.dart';
+import 'package:tracket/teams/models/team_details.dart';
 
 enum CricketRole {
   batsman,
@@ -31,7 +32,7 @@ class Player {
   final List followers;
   final List followingTeams;
   final String profileImageUrl;
-  final List<Map<String, dynamic>>? teams;
+  final List<TeamDetails>? teams;
   final List? achievements;
   final CricketRole? cricketRole;
   final Position? battingPosition;
@@ -184,18 +185,18 @@ class Player {
         ...playerStats!.toJson,
       };
 
-  static List<Map<String, dynamic>>? playerTeamsToList(
+  static List<TeamDetails>? playerTeamsToList(
           List<QueryDocumentSnapshot>? teams) =>
       teams?.map(
         (team) {
           final teamInfo = team.data()! as Map<String, dynamic>;
-          return teamInfo;
+          return TeamDetails.formMap(teamInfo);
         },
       ).toList();
 
   List<String> get playerTeamsId {
     List<String> teamsId = [];
-    teamsId = teams!.map((team) => team['id'].toString()).toList();
+    teamsId = teams!.map((team) => team.id).toList();
 
     return teamsId;
   }

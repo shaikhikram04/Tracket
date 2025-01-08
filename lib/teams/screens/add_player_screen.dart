@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
@@ -65,13 +66,13 @@ class AddPlayerScreen extends StatelessWidget {
       'imageUrl': player.profileImageUrl,
       'role': 'player',
     };
-    final teamInfo = {
-      'id': team.id,
-      'name': team.name,
-      'shortName': team.shortName,
-      'logoUrl': team.logoUrl,
-      'role': 'player',
-    };
+    final teamInfo = TeamDetails(
+      id: team.id,
+      logoUrl: team.logoUrl,
+      name: team.name,
+      shortName: team.shortName,
+      role: TeamRole.player,
+    );
 
     final bool isTeamFull = team.playersList.length >= team.maxPlayersCapacity;
     return Padding(

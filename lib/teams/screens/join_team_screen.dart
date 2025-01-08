@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
@@ -15,7 +16,7 @@ class JoinTeamScreen extends StatelessWidget {
   final Player player;
 
   List<String> get playerTeamsId =>
-      player.teams!.map((e) => e['id'].toString()).toList();
+      player.teams!.map((team) => team.id).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +57,13 @@ class JoinTeamScreen extends StatelessWidget {
 
   Widget buildTeamTile(Map<String, dynamic> teamData, BuildContext context) {
     final team = Team.formSeed(teamData, null);
-    Map<String, dynamic> teamInfo = {
-      'id': team.id,
-      'name': team.name,
-      'shortName': team.shortName,
-      'logoUrl': team.logoUrl,
-      'role': 'player',
-    };
+    final teamInfo = TeamDetails(
+      id: team.id,
+      logoUrl: team.logoUrl,
+      name: team.name,
+      shortName: team.shortName,
+      role: TeamRole.player,
+    );
     Map<String, dynamic> playerInfo = {
       'id': player.id,
       'name': player.name,

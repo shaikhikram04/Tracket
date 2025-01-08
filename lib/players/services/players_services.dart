@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
@@ -32,7 +33,7 @@ class PlayersServices {
   static Future<void> changePlayerTeamRole({
     required String playerId,
     required String teamId,
-    required String newRole,
+    required TeamRole newRole,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
@@ -42,7 +43,7 @@ class PlayersServices {
           .doc(teamId)
           .collection(FirestoreCollections.teamPlayers)
           .doc(playerId)
-          .update({'role': newRole});
+          .update({'role': newRole.name});
       ref.read(teamProvider.notifier).updatePlayerRole(playerId, newRole);
 
       await _firestore
@@ -50,7 +51,7 @@ class PlayersServices {
           .doc(playerId)
           .collection(FirestoreCollections.playerTeams)
           .doc(teamId)
-          .update({'role': newRole});
+          .update({'role': newRole.name});
       ref.read(playerProvider.notifier).updateTeamRole(teamId, newRole);
     } catch (e) {
       if (context.mounted) {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_stats.dart';
+import 'package:tracket/teams/models/team_details.dart';
 
 class PlayerNotifier extends StateNotifier<Player> {
   PlayerNotifier()
@@ -41,7 +42,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     BowlingFigure? bestBalling,
     Position? bowlingArm,
     BowlingStyle? bowlingStyle,
-    List<Map<String, dynamic>>? teams,
+    List<TeamDetails>? teams,
     PlayerStats? playerStats,
     int? matchesPlayed,
     List<String>? achievements,
@@ -74,18 +75,15 @@ class PlayerNotifier extends StateNotifier<Player> {
     state = player;
   }
 
-  void addTeam(Map<String, dynamic> teamInfo) {
+  void addTeam(TeamDetails teamInfo) {
     final updatedTeams = [...state.teams!, teamInfo];
     updateField(teams: updatedTeams);
   }
 
-  void updateTeamRole(String teamId, String role) {
+  void updateTeamRole(String teamId, TeamRole role) {
     final updatedTeams = state.teams!.map((team) {
-      if (team['id'] == teamId) {
-        return {
-          ...team,
-          'role': role,
-        };
+      if (team.id == teamId) {
+        return team.copyWith(role: role);
       }
       return team;
     }).toList();
@@ -94,7 +92,7 @@ class PlayerNotifier extends StateNotifier<Player> {
 
   void deleteTeam(String teamId) {
     final updatedTeams =
-        state.teams!.where((team) => team['id'] != teamId).toList();
+        state.teams!.where((team) => team.id != teamId).toList();
     updateField(teams: updatedTeams);
   }
 }

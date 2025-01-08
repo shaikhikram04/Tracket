@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
@@ -57,19 +58,20 @@ class TeamsServices {
           .doc(createdBy)
           .set(playerInfo);
 
-      final teamInfo = {
-        'id': team.id,
-        'name': teamName,
-        'shortName': shortName,
-        'logoUrl': logoUrl,
-        'role': 'owner',
-      };
+      final teamInfo = TeamDetails(
+        id: team.id,
+        logoUrl: logoUrl,
+        name: teamName,
+        shortName: shortName,
+        role: TeamRole.owner,
+      );
+
       await _firestore
           .collection(FirestoreCollections.players)
           .doc(createdBy)
           .collection(FirestoreCollections.playerTeams)
           .doc(team.id)
-          .set(teamInfo);
+          .set(teamInfo.toMap);
 
       ref.read(playerProvider.notifier).addTeam(teamInfo);
       result = 'success';
@@ -133,7 +135,7 @@ class TeamsServices {
 
   static Future<void> addPlayerToTeam({
     required Map<String, dynamic> playerInfo,
-    required Map<String, dynamic> teamInfo,
+    required TeamDetails teamInfo,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
@@ -143,14 +145,14 @@ class TeamsServices {
           .collection(FirestoreCollections.players)
           .doc(playerInfo['id'])
           .collection(FirestoreCollections.playerTeams)
-          .doc(teamInfo['id'])
-          .set(teamInfo);
+          .doc(teamInfo.id)
+          .set(teamInfo.toMap);
 
       //* Update team's player list in state
       ref.read(teamProvider.notifier).addPlayer(playerInfo);
       _firestore
           .collection(FirestoreCollections.teams)
-          .doc(teamInfo['id'])
+          .doc(teamInfo.id)
           .update({
         'playersIds': FieldValue.arrayUnion([playerInfo['id']]),
       });
@@ -158,7 +160,7 @@ class TeamsServices {
       //* Update team's player list in database
       await FirebaseFirestore.instance
           .collection(FirestoreCollections.teams)
-          .doc(teamInfo['id'])
+          .doc(teamInfo.id)
           .collection(FirestoreCollections.teamPlayers)
           .doc(playerInfo['id'])
           .set(playerInfo);

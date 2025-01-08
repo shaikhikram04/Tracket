@@ -5,6 +5,7 @@ import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/screens/challenge_match.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';
@@ -105,7 +106,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final isTeamPlayer = teamData.playerIds.contains(player.id);
 
     final isAdminOrPlayer =
-        player.teams!.any((team) => team['role'] != 'player');
+        player.teams!.any((team) => team.role != TeamRole.player);
 
     final canChallenge = !isTeamPlayer && isAdminOrPlayer;
 

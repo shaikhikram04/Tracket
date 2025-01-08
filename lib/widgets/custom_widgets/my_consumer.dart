@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/requests/services/requests_services.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
@@ -21,11 +22,11 @@ class MyConsumer extends StatelessWidget {
   final bool isPrivate;
   final String buttonType;
   final Map<String, dynamic> playerInfo;
-  final Map<String, dynamic> teamInfo;
+  final TeamDetails teamInfo;
   final bool isTeamFull;
 
   String get currentId =>
-      buttonType == 'joinTeam' ? teamInfo['id'] : playerInfo['id'];
+      buttonType == 'joinTeam' ? teamInfo.id : playerInfo['id'];
 
   String buttonText(bool isAdded) {
     if (buttonType == 'addPlayer' || buttonType == 'addAdmin') {
@@ -75,8 +76,8 @@ class MyConsumer extends StatelessWidget {
       } else if (buttonType == 'addAdmin') {
         await PlayersServices.changePlayerTeamRole(
           playerId: playerInfo['id'],
-          teamId: teamInfo['id'],
-          newRole: 'admin',
+          teamId: teamInfo.id,
+          newRole: TeamRole.admin,
           ref: ref,
           context: context,
         );

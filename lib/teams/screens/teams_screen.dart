@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/explore_teams.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
@@ -56,10 +57,11 @@ class TeamsScreen extends ConsumerWidget {
               final String logoUrl = teamData['logoUrl'];
               final String teamName = teamData['teamName'];
               final String shortName = teamData['shortName'];
-              final String teamRole = player.teams!
-                  .firstWhere((team) => team['id'] == teamData['id'])['role'];
+              final TeamRole teamRole = player.teams!
+                  .firstWhere((team) => team.id == teamData['id'])
+                  .role;
 
-              final isAdmin = teamRole != 'player';
+              final isAdmin = teamRole != TeamRole.player;
 
               return MyListTile(
                 title: teamName,
@@ -68,7 +70,7 @@ class TeamsScreen extends ConsumerWidget {
                 imageUrl: logoUrl,
                 trailing: isAdmin
                     ? Text(
-                        teamRole,
+                        teamRole.name,
                         style: MyTextStyle(context).bodyMedium,
                       )
                     : null,
