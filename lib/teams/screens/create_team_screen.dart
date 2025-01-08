@@ -20,6 +20,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
   late GlobalKey<FormState> _formKey;
   String? _teamName;
   String? _teamShortName;
+  String? _teamDescription;
   Uint8List? _image;
   bool _isLoading = false;
 
@@ -61,6 +62,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       logoUrl: teamLogoUrl,
       adminName: playerName,
       adminCricketRole: playerRole,
+      description: _teamDescription!,
+      ref: ref,
     );
 
     setState(() => _isLoading = false);
@@ -133,10 +136,10 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                         const SizedBox(height: 20),
                         MyTextField(
                           isLogin: false,
-                          onSave: (value) => _teamShortName = value,
+                          onSave: (value) => _teamDescription = value,
                           label: 'Team Description',
                           borderRadius: 10,
-                          validator: teamShortNameValidator,
+                          validator: (value) => null,
                           maxLength: 100,
                           maxLines: 3,
                           minLines: 2,

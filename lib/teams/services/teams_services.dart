@@ -19,7 +19,9 @@ class TeamsServices {
     required String createdBy,
     required String adminName,
     required String adminCricketRole,
+    required String description,
     String adminImageUrl = '',
+    required WidgetRef ref,
   }) async {
     String result;
 
@@ -34,40 +36,42 @@ class TeamsServices {
         achievements: [],
         followers: [],
         playerIds: [createdBy],
+        description: description,
       );
       await _firestore
           .collection(FirestoreCollections.teams)
           .doc(team.id)
           .set(team.toJson);
 
+      final playerInfo = {
+        'id': createdBy,
+        'name': adminName,
+        'cricketRole': adminCricketRole,
+        'imageUrl': adminImageUrl,
+        'role': 'owner',
+      };
       await _firestore
           .collection(FirestoreCollections.teams)
           .doc(team.id)
           .collection(FirestoreCollections.teamPlayers)
           .doc(createdBy)
-          .set(
-        {
-          'id': createdBy,
-          'name': adminName,
-          'cricketRole': adminCricketRole,
-          'imageUrl': adminImageUrl,
-          'role': 'owner',
-        },
-      );
+          .set(playerInfo);
 
-      await _firestore
-          .collection(FirestoreCollections.players)
-          .doc(createdBy)
-          .collection(FirestoreCollections.playerTeams)
-          .doc(team.id)
-          .set({
+      final teamInfo = {
         'id': team.id,
         'name': teamName,
         'shortName': shortName,
         'logoUrl': logoUrl,
         'role': 'owner',
-      });
+      };
+      await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(createdBy)
+          .collection(FirestoreCollections.playerTeams)
+          .doc(team.id)
+          .set(teamInfo);
 
+      ref.read(playerProvider.notifier).addTeam(teamInfo);
       result = 'success';
     } catch (e) {
       result = e.toString();

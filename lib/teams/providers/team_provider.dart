@@ -40,7 +40,8 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     final updatedPlayersList =
         state.playersList.where((player) => player['id'] != playerId).toList();
 
-    final updatedPlayerIds = state.playerIds.where((id) => id != playerId).toList();
+    final updatedPlayerIds =
+        state.playerIds.where((id) => id != playerId).toList();
     updateField(playersList: updatedPlayersList, playerIds: updatedPlayerIds);
   }
 
@@ -84,6 +85,7 @@ final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {
       followers: [],
       createdBy: '',
       playerIds: [],
+      description: '',
     ),
   );
 });
