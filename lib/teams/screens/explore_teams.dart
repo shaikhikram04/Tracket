@@ -46,13 +46,14 @@ class ExploreTeams extends StatelessWidget {
               final teamSnap = snap[index].data();
 
               return MyListTile(
-                  imageUrl: teamSnap['logoUrl'],
-                  title: teamSnap['name'],
-                  subtitle: teamSnap['shortName'],
-                  trailing: null,
-                  onTap: () => pushScreen(context,
-                      TeamProfileScreen(teamData: teamSnap)),
-                  isPlayer: false);
+                imageUrl: teamSnap['logoUrl'],
+                title: teamSnap['teamName'],
+                subtitle: teamSnap['shortName'],
+                trailing: null,
+                onTap: () =>
+                    pushScreen(context, TeamProfileScreen(teamData: teamSnap)),
+                isPlayer: false,
+              );
             },
           );
         },
