@@ -108,7 +108,7 @@ class _PendingRequestsState extends State<PendingRequests> {
   ) {
     final profileScreen = isPlayer
         ? PlayerProfileScreen(playerId: request.from)
-        : TeamProfileScreen.fromId(teamId: request.to, isAdmin: false);
+        : TeamProfileScreen.fromId(teamId: request.to);
     pushScreen(context, profileScreen);
   }
 

@@ -21,18 +21,17 @@ class TeamProfileScreen extends ConsumerStatefulWidget {
   const TeamProfileScreen({
     super.key,
     required this.teamData,
-    required this.isAdmin,
+    // required this.isAdmin,
   }) : teamId = null;
 
   const TeamProfileScreen.fromId({
     super.key,
     required this.teamId,
-    required this.isAdmin,
+    // required this.isAdmin,
   }) : teamData = null;
 
   final String? teamId;
   final Map<String, dynamic>? teamData;
-  final bool isAdmin;
 
   @override
   ConsumerState<TeamProfileScreen> createState() => _TeamProfileScreenState();
@@ -101,6 +100,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
 
     final player = ref.watch(playerProvider);
     final isFollowed = teamData.followers.contains(player.id);
+    final isAdmin = teamData.admins.any((admin) => admin['id'] == player.id);
 
     final isTeamPlayer = teamData.playerIds.contains(player.id);
 
@@ -113,7 +113,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       appBar: AppBar(
         title: const Text('Team Details'),
         backgroundColor: greenColor,
-        actions: widget.isAdmin
+        actions: isAdmin
             ? [
                 IconButton(
                   onPressed: () {
