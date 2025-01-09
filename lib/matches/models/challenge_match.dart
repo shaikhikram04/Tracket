@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/teams/models/team_details.dart';
 
 enum ChallengeStatus {
   pending,
@@ -36,8 +37,8 @@ class ChallengeMatch {
 
   final String matchId;
   final ChallengeStatus challengeStatus;
-  final Map<String, dynamic> challengerTeam;
-  final Map<String, dynamic> challengedTeam;
+  final TeamDetails challengerTeam;
+  final TeamDetails challengedTeam;
   final String challengerId;
   final String challengerName;
   final MatchDetail matchDetails;

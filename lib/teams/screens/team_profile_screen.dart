@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
-import 'package:tracket/matches/screens/challenge_match.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
@@ -94,6 +93,31 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     }
   }
 
+  Future<void> challengeForAMatch({
+    required List<TeamDetails> playerTeamList,
+    required String playerId,
+    required String playerName,
+  }) async {
+    TeamDetails challengerTeam;
+    if (playerTeamList.length > 0) {
+      //* selecting challenger team
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Column(
+              children: [
+                getTitleText('Select a team', context),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      challengerTeam = playerTeamList.first;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -103,12 +127,15 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final isFollowed = teamData.followers.contains(player.id);
     final isAdmin = teamData.admins.any((admin) => admin.id == player.id);
 
+    final playerTeamListAsAdmin =
+        player.teams!.where((team) => team.role != TeamRole.player).toList();
+
     final isTeamPlayer = teamData.playerIds.contains(player.id);
 
-    final isAdminOrPlayer =
+    final isAdminOrOwner =
         player.teams!.any((team) => team.role != TeamRole.player);
 
-    final canChallenge = !isTeamPlayer && isAdminOrPlayer;
+    final canChallenge = !isTeamPlayer && isAdminOrOwner;
 
     return Scaffold(
       appBar: AppBar(
@@ -241,10 +268,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   flex: 2,
                                   child: MyElevatedButton.primaryElevatedButton(
                                     context,
-                                    onPressed: () {
-                                      pushScreen(context,
-                                          const ChallengeMatchScreen());
-                                    },
+                                    onPressed: () => challengeForAMatch(
+                                        playerId: player.id,
+                                        playerName: player.name,
+                                        playerTeamList: playerTeamListAsAdmin),
                                     text: 'Challenge',
                                     primaryColor:
                                         const Color.fromARGB(255, 40, 50, 40),
