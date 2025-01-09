@@ -9,6 +9,7 @@ import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
+import 'package:tracket/teams/widgets/team_selection_dialog.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -109,14 +110,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       //* selecting challenger team
       await showDialog(
         context: context,
+        useSafeArea: true,
+        barrierDismissible: false,
         builder: (context) {
-          return Dialog(
-            child: Column(
-              children: [
-                getTitleText('Select a team', context),
-              ],
-            ),
-          );
+          return TeamSelectionDialog(teamList: playerTeamList);
         },
       );
     } else {
