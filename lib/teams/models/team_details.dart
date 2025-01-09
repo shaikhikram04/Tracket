@@ -2,6 +2,7 @@ enum TeamRole {
   owner,
   admin,
   player,
+  none,
 }
 
 class TeamDetails {

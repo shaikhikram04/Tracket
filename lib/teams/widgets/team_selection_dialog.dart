@@ -13,7 +13,7 @@ class TeamSelectionDialog extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Dialog(
       child: SizedBox(
-        height: height * 0.5,
+        height: height * 0.4,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

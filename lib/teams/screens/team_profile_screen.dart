@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/matches/screens/challenge_match_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
@@ -104,11 +105,12 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     required List<TeamDetails> playerTeamList,
     required String playerId,
     required String playerName,
+    required TeamDetails challengedTeam,
   }) async {
-    TeamDetails challengerTeam;
-    if (playerTeamList.length > 0) {
+    TeamDetails? challengerTeam;
+    if (playerTeamList.length > 1) {
       //* selecting challenger team
-      await showDialog(
+      challengerTeam = await showDialog(
         context: context,
         useSafeArea: true,
         barrierDismissible: false,
@@ -118,6 +120,17 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       );
     } else {
       challengerTeam = playerTeamList.first;
+    }
+
+    if (challengerTeam != null && mounted) {
+      pushScreen(
+          context,
+          ChallengeMatchScreen(
+            challengerId: playerId,
+            challengerName: playerName,
+            challengerTeam: challengerTeam,
+            challengedTeam: challengedTeam,
+          ));
     }
   }
 
@@ -274,7 +287,13 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                     onPressed: () => challengeForAMatch(
                                         playerId: player.id,
                                         playerName: player.name,
-                                        playerTeamList: playerTeamListAsAdmin),
+                                        playerTeamList: playerTeamListAsAdmin,
+                                        challengedTeam: TeamDetails(
+                                            id: teamData.id,
+                                            logoUrl: teamData.logoUrl,
+                                            name: teamData.name,
+                                            shortName: teamData.shortName,
+                                            role: TeamRole.none)),
                                     text: 'Challenge',
                                     primaryColor:
                                         const Color.fromARGB(255, 40, 50, 40),
