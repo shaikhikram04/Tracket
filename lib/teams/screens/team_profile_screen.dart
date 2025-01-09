@@ -214,13 +214,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           Row(
                             spacing: 15,
                             children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundImage: teamData.logoUrl.isNotEmpty
-                                    ? NetworkImage(teamData.logoUrl)
-                                    : const AssetImage(
-                                        'assets/images/team_logo.png'),
-                              ),
+                              getCircleAvatar(
+                                  url: teamData.logoUrl,
+                                  isTeam: true,
+                                  radius: 50),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

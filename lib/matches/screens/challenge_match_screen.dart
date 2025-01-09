@@ -50,6 +50,17 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         child: Center(
           child: Column(
             children: [
+              //! Team Detail
+              MyCard(child: Column(
+                children: [
+                  getTitleText('Teams', context),
+                  Row(
+                    children: [
+                      
+                    ],
+                  ),
+                ],
+              )),
               //! Match detail
               MyCard(
                 child: Column(
@@ -68,7 +79,9 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
-                                    .copyWith(fontWeight: FontWeight.w600),
+                                    .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                               TextSpan(
                                 text: '$noOfPlayers',
@@ -76,8 +89,9 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: darkGreenColor),
+                                      fontWeight: FontWeight.w600,
+                                      color: darkGreenColor,
+                                    ),
                               )
                             ],
                           ),

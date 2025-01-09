@@ -35,12 +35,8 @@ class PlayerTile extends StatelessWidget {
         child: Expanded(
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: playerData.imageUrl.isNotEmpty
-                    ? NetworkImage(playerData.imageUrl)
-                    : const AssetImage('assets/images/Default_user_pfp.jpg'),
-              ),
+              getCircleAvatar(
+                  url: playerData.imageUrl, isTeam: false, radius: 30),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(

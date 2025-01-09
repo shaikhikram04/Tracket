@@ -43,12 +43,7 @@ class MainDrawer extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const CircleAvatar(
-                  backgroundImage: AssetImage(
-                    'assets/images/Default_user_pfp.jpg',
-                  ),
-                  radius: 40,
-                ),
+                getCircleAvatar(url: '', isTeam: false, radius: 40),
                 const SizedBox(width: 18),
                 Column(
                   mainAxisSize: MainAxisSize.min,

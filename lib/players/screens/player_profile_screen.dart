@@ -92,16 +92,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: _playerData.profileImageUrl.isEmpty
-                              ? const AssetImage(
-                                  'assets/images/Default_user_pfp.jpg')
-                              : NetworkImage(_playerData.profileImageUrl),
-                          onBackgroundImageError: (_, __) => const AssetImage(
-                            'assets/images/Default_user_pfp.jpg',
-                          ),
-                        ),
+                        getCircleAvatar(
+                            url: _playerData.profileImageUrl,
+                            isTeam: false,
+                            radius: 50),
                         const SizedBox(height: 10),
                         Text(
                           _playerData.name,

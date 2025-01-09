@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 
 class TeamLogoEditor extends StatelessWidget {
   const TeamLogoEditor({
@@ -16,25 +17,11 @@ class TeamLogoEditor extends StatelessWidget {
   final String logoUrl;
   final void Function(Uint8List?) onImageChanged;
 
-  ImageProvider<Object> _getTeamLogo() {
-    if (image != null) {
-      return MemoryImage(image!);
-    } else if (logoUrl.isNotEmpty) {
-      return NetworkImage(logoUrl);
-    } else {
-      return const AssetImage('assets/images/team_logo.png');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 50,
-          backgroundColor: Colors.grey,
-          backgroundImage: _getTeamLogo(),
-        ),
+        getCircleAvatar(url: logoUrl, isTeam: true, radius: 50, image: image),
         const SizedBox(width: 15),
         TextButton.icon(
           onPressed: () => onImageChanged(image),

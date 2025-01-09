@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class MatchCard extends StatelessWidget {
   const MatchCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       elevation: 2,
       color: whiteColor,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
                 Text('Match 1'),
                 Spacer(),
@@ -24,41 +25,33 @@ class MatchCard extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/team_logo.png'),
-                      radius: 30,
-                    ),
-                    Text('Team A'),
+                    getCircleAvatar(url: '', isTeam: true, radius: 30),
+                    const Text('Team A'),
                   ],
                 ),
-                SizedBox(width: 8),
-                Column(
+                const SizedBox(width: 8),
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('121/5'),
                     Text('10'),
                   ],
                 ),
-                Spacer(),
-                Text('v/s'),
-                Spacer(),
-                Column(
+                const Spacer(),
+                const Text('v/s'),
+                const Spacer(),
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('50/2'),
                     Text('6.5'),
                   ],
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Column(
                   children: [
-                    CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/team_logo.png'),
-                      radius: 30,
-                    ),
-                    Text('Team B'),
+                    getCircleAvatar(url: '', isTeam: true, radius: 30),
+                    const Text('Team B'),
                   ],
                 ),
               ],
@@ -97,8 +90,8 @@ class MatchCard extends StatelessWidget {
             //     ),
             //   ],
             // ),
-            SizedBox(height: 8),
-            Row(
+            const SizedBox(height: 8),
+            const Row(
               children: [
                 Column(
                   children: [

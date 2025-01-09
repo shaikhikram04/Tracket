@@ -94,11 +94,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             child: Column(
               children: [
                 const Flexible(child: SizedBox(height: 30)),
-                CircleAvatar(
-                    radius: height * 0.08,
-                    backgroundImage: _image != null
-                        ? MemoryImage(_image!)
-                        : const AssetImage('assets/images/team_logo.png')),
+                getCircleAvatar(url: '', isTeam: true, radius: height * 0.08, image: _image),
+                
                 TextButton.icon(
                   onPressed: _editLogo,
                   label: const Text(

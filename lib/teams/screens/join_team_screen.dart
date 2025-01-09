@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player.dart';
@@ -75,12 +74,7 @@ class JoinTeamScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: team.logoUrl.isNotEmpty
-              ? CachedNetworkImageProvider(team.logoUrl)
-              : const AssetImage('assets/images/team_logo.png'),
-          radius: 30,
-        ),
+        leading: getCircleAvatar(url: team.logoUrl, isTeam: true, radius: 30),
         title: Text(team.name),
         subtitle: Text(team.shortName),
         onTap: () => pushScreen(context, TeamProfileScreen(teamData: teamData)),

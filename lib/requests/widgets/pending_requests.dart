@@ -116,16 +116,8 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   Widget _buildProfileImage(bool isPlayer, Map<String, dynamic> payload) {
     final imageUrl = payload[isPlayer ? 'imageUrl' : 'logoUrl'];
-    final defaultImage = isPlayer
-        ? 'assets/images/Default_user_pfp.jpg'
-        : 'assets/images/team_logo.png';
 
-    return CircleAvatar(
-      radius: 30,
-      backgroundImage: imageUrl?.isNotEmpty == true
-          ? NetworkImage(imageUrl)
-          : AssetImage(defaultImage) as ImageProvider,
-    );
+    return getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 
   Widget _buildRequestDetails(bool isPlayer, Map<String, dynamic> payload) {

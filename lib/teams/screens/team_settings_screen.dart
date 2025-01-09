@@ -116,14 +116,8 @@ class TeamSettingsScreen extends ConsumerWidget {
                               pushScreen(context,
                                   PlayerProfileScreen(playerId: admin.id));
                             },
-                            leading: CircleAvatar(
-                              radius: 25,
-                              backgroundImage:
-                                  admin.imageUrl.isNotEmpty
-                                      ? NetworkImage(admin.imageUrl)
-                                      : const AssetImage(
-                                          'assets/images/Default_user_pfp.jpg'),
-                            ),
+                            leading: getCircleAvatar(
+                                url: admin.imageUrl, isTeam: false, radius: 25),
                             title: Text(admin.name),
                             subtitle: Text(admin.role.toString()),
                             trailing: admin.role == TeamRole.owner

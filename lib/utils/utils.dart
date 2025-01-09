@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracket/authentication/screens/verification_screen.dart';
@@ -224,4 +225,23 @@ void pushScreen(BuildContext context, Widget screen) {
       builder: (context) => screen,
     ),
   );
+}
+
+CircleAvatar getCircleAvatar({
+  required String url,
+  Uint8List? image,
+  required bool isTeam,
+  required double radius,
+}) {
+  AssetImage defaultImage = AssetImage(isTeam
+      ? 'assets/images/team_logo.png'
+      : 'assets/images/Default_user_pfp.jpg');
+  return CircleAvatar(
+      radius: radius,
+      backgroundImage: image != null
+          ? MemoryImage(image)
+          : url.isEmpty
+              ? defaultImage
+              : CachedNetworkImageProvider(url),
+      onBackgroundImageError: (_, __) => defaultImage);
 }

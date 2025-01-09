@@ -34,13 +34,8 @@ class TeamSelectionDialog extends StatelessWidget {
                       onTap: () => Navigator.of(context).pop(team),
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: 35,
-                            backgroundImage: team.logoUrl.isNotEmpty
-                                ? NetworkImage(team.logoUrl)
-                                : const AssetImage(
-                                    'assets/images/team_logo.png'),
-                          ),
+                          getCircleAvatar(
+                              url: team.logoUrl, isTeam: true, radius: 35),
                           Text(team.name),
                           Text(team.shortName),
                         ],

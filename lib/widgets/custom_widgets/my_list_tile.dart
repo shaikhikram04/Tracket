@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 
 class MyListTile extends StatelessWidget {
   const MyListTile({
@@ -19,20 +20,10 @@ class MyListTile extends StatelessWidget {
   final bool isPlayer;
   final void Function()? onTap;
 
-  AssetImage get defaultImage => AssetImage(
-        isPlayer
-            ? 'assets/images/Default_user_pfp.jpg'
-            : 'assets/images/team_logo.png',
-      );
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundImage:
-            imageUrl.isEmpty ? defaultImage : NetworkImage(imageUrl),
-        radius: 30,
-      ),
+      leading: getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30),
       title: Text(
         title,
         style: MyTextStyle(context).bodyLarge,
