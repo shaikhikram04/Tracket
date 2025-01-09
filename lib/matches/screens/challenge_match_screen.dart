@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -51,12 +52,22 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           child: Column(
             children: [
               //! Team Detail
-              MyCard(child: Column(
+              MyCard(
+                  child: Column(
                 children: [
                   getTitleText('Teams', context),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      
+                      TeamColumn(
+                        teamName: widget.challengerTeam.name,
+                        teamLogo: widget.challengerTeam.logoUrl,
+                      ),
+                      const Text('v/s'),
+                      TeamColumn(
+                        teamName: widget.challengedTeam.name,
+                        teamLogo: widget.challengedTeam.logoUrl,
+                      ),
                     ],
                   ),
                 ],
