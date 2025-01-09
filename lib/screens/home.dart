@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/screens/matches_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/requests/screens/manage_requests_screen.dart';
-import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/teams/screens/teams_screen.dart';
 import 'package:tracket/utils/colors.dart';

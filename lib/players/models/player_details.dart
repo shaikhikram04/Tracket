@@ -21,7 +21,7 @@ class PlayerDetails {
         id: playerDetail['id'],
         imageUrl: playerDetail['imageUrl'],
         name: playerDetail['name'],
-        role: playerDetail['role'],
+        role: TeamDetails.getTeamRole(playerDetail['role']),
       );
 
   Map<String, dynamic> get toMap => {

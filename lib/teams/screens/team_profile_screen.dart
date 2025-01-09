@@ -51,25 +51,31 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (widget.teamData != null) {
-      final teamPlayer = await TeamsServices.getTeamPlayersFromId(
-        widget.teamData!['id'],
-        context,
-      );
-      final teamObject = Team.formSeed(widget.teamData!, teamPlayer);
-      ref.read(teamProvider.notifier).updateTeam(teamObject);
-    } else {
-      final team = await FirebaseFirestore.instance
-          .collection(FirestoreCollections.teams)
-          .doc(widget.teamId)
-          .get();
+    try {
+      if (widget.teamData != null) {
+        final teamPlayer = await TeamsServices.getTeamPlayersFromId(
+          widget.teamData!['id'],
+          context,
+        );
+        final teamObject = Team.formSeed(widget.teamData!, teamPlayer);
+        ref.read(teamProvider.notifier).updateTeam(teamObject);
+      } else {
+        final team = await FirebaseFirestore.instance
+            .collection(FirestoreCollections.teams)
+            .doc(widget.teamId)
+            .get();
 
-      if (!mounted) return;
+        if (!mounted) return;
 
-      final teamPlayer =
-          await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
-      final teamObject = Team.formSeed(team.data()!, teamPlayer);
-      ref.read(teamProvider.notifier).updateTeam(teamObject);
+        final teamPlayer =
+            await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
+        final teamObject = Team.formSeed(team.data()!, teamPlayer);
+        ref.read(teamProvider.notifier).updateTeam(teamObject);
+      }
+    } catch (e) {
+      if (mounted) {
+        showSnackBar(e.toString(), context);
+      }
     }
 
     setState(() {

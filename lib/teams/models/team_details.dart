@@ -25,7 +25,7 @@ class TeamDetails {
       logoUrl: teamDetails['logoUrl'],
       name: teamDetails['name'],
       shortName: teamDetails['shortName'],
-      role: getTeamRole(teamDetails['teamRole']),
+      role: getTeamRole(teamDetails['role']),
     );
   }
 
