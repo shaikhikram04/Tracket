@@ -20,7 +20,6 @@ class Squad extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.watch(teamProvider);
-    final teamId = team.id;
 
     void addPlayer() {
       ref.read(requestStatusProvider.notifier).setRequestStatus();
