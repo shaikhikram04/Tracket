@@ -20,6 +20,9 @@ ThemeData lightMode = ThemeData(
   ),
   cardColor: lightCardColor,
   scaffoldBackgroundColor: lightBackgroundColor,
+  appBarTheme: const AppBarTheme(
+    shadowColor: blackColor,
+  ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(
     titleLarge:
         GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),

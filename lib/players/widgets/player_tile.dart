@@ -13,12 +13,10 @@ class PlayerTile extends StatelessWidget {
     this.isWicketKeeper = false,
     required this.playerData,
     this.isEdit = false,
-    this.teamId,
     this.onDelete,
   });
 
   final PlayerDetails playerData;
-  final String? teamId;
   final bool isCaptain;
   final bool isWicketKeeper;
   final bool isEdit;

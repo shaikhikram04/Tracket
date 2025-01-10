@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -45,7 +46,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   TimeOfDay matchTime = TimeOfDay.now();
   bool _isLoading = false;
 
-  final List<PlayerDetails> selectedPlayer = [];
+  final List<PlayerDetails> _selectedPlayer = [];
   late Team challengerTeam;
 
   @override
@@ -212,10 +213,11 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                     ),
                     //! Select Squad
                     MyCard(
-                      child: Column(
-                        children: [
-                          getTitleText('Select Squad', context),
-                        ],
+                      child: MatchSquad(
+                        selectedPlayer: _selectedPlayer,
+                        captainId: challengerTeam.captainId,
+                        wicketkeeperId: challengerTeam.wicketkeeperId,
+                        onAdd: () {},
                       ),
                     ),
                     //! Match Venue

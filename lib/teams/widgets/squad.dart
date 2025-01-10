@@ -5,6 +5,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/teams/services/teams_services.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -69,10 +70,7 @@ class Squad extends ConsumerWidget {
           children: [
             Text(
               'Squad',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: 23),
+              style: MyTextStyle(context).titleMedium.copyWith(fontSize: 23),
             ),
             const Spacer(),
             if (isEdit)
@@ -102,7 +100,6 @@ class Squad extends ConsumerWidget {
                       isCaptain: isCaptain,
                       isWicketKeeper: isWicketKeeper,
                       isEdit: isEdit,
-                      teamId: teamId,
                       onDelete: () => deletePlayer(playerId),
                     );
                   },
