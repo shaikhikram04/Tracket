@@ -128,7 +128,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           ChallengeMatchScreen(
             challengerId: playerId,
             challengerName: playerName,
-            challengerTeam: challengerTeam,
+            challengerTeamId: challengerTeam.id,
             challengedTeam: challengedTeam,
           ));
     }

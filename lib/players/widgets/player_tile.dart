@@ -51,7 +51,7 @@ class PlayerTile extends StatelessWidget {
                     ),
                     Wrap(children: [
                       Text(
-                        '${playerData.cricketRole}',
+                        playerData.cricketRole,
                         style: MyTextStyle(context).bodyMedium,
                         overflow: TextOverflow.ellipsis,
                       ),

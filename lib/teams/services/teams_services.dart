@@ -14,6 +14,15 @@ class TeamsServices {
   static final _firestore = FirebaseFirestore.instance;
   static const _uuid = Uuid();
 
+  static Future<Map<String, dynamic>> getTeamData(String teamId) async {
+    final teamSnap = await _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(teamId)
+        .get();
+
+    return teamSnap.data()!;
+  }
+
   static Future<String> createTeam({
     required String teamName,
     required String shortName,
