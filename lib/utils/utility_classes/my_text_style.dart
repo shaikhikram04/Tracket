@@ -21,7 +21,7 @@ class MyTextStyle {
         color: textColor,
       );
 
-  TextStyle get cardTitleLarge => titleLarge.copyWith(color: darkGreenColor);
+  // TextStyle get cardTitleLarge => titleLarge.copyWith(color: darkGreenColor);
 
   TextStyle get profileTitleLarge => titleLarge.copyWith(fontSize: 20);
 

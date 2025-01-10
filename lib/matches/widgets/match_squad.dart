@@ -32,7 +32,7 @@ class MatchSquad extends StatelessWidget {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () {},
+              onPressed: onAdd,
               iconSize: 30,
               icon: const Icon(Icons.group_add),
             )

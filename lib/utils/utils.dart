@@ -215,7 +215,7 @@ String getErrorMessage(String errorCode) {
 Text getTitleText(String title, BuildContext context) {
   return Text(
     title,
-    style: MyTextStyle(context).cardTitleLarge,
+    style: MyTextStyle(context).titleLarge,
   );
 }
 

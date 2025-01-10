@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
+import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -76,6 +77,16 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         _isLoading = false;
       });
     }
+  }
+
+  void onAddPlayer() {
+    showDialog(
+      context: context,
+      builder: (context) => PlayersSelectionDialog(
+        playerList: challengerTeam.playersList,
+        selectedPlayers: _selectedPlayer,
+      ),
+    );
   }
 
   @override
@@ -217,7 +228,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                         selectedPlayer: _selectedPlayer,
                         captainId: challengerTeam.captainId,
                         wicketkeeperId: challengerTeam.wicketkeeperId,
-                        onAdd: () {},
+                        onAdd: onAddPlayer,
                       ),
                     ),
                     //! Match Venue
@@ -277,7 +288,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                         child: MyElevatedButton.primaryElevatedButton(
                           context,
                           isSubmit: true,
-                          text: 'Create Match',
+                          text: 'Challenge Match',
                           onPressed: () {},
                         ),
                       ),
