@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
@@ -41,14 +42,16 @@ extension TimeOfDayToString on TimeOfDay {
 }
 
 class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
-  double noOfPlayers = 7;
-  bool allowSpectators = true;
-  DateTime matchDate = DateTime.now();
-  TimeOfDay matchTime = TimeOfDay.now();
+  double _noOfPlayers = 7;
+  bool _allowSpectators = true;
+  DateTime _matchDate = DateTime.now();
+  TimeOfDay _matchTime = TimeOfDay.now();
+  String? _venue;
   bool _isLoading = false;
-
   List<PlayerDetails> _selectedPlayer = [];
-  late Team challengerTeam;
+  MatchType? _matchType;
+  late Team _challengerTeam;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -68,7 +71,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       final teamPlayers = await TeamsServices.getTeamPlayersFromId(
           widget.challengerTeamId, context);
 
-      challengerTeam = Team.formSeed(teamData, teamPlayers);
+      _challengerTeam = Team.formSeed(teamData, teamPlayers);
     } catch (e) {
       if (!mounted) return;
       showSnackBar(e.toString(), context);
@@ -83,9 +86,9 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     final result = await showDialog<List<PlayerDetails>>(
       context: context,
       builder: (context) => PlayersSelectionDialog(
-        playerList: challengerTeam.playersList,
+        playerList: _challengerTeam.playersList,
         selectedPlayers: _selectedPlayer,
-        noOfPlayerCanBeSelected: noOfPlayers.toInt(),
+        noOfPlayerCanBeSelected: _noOfPlayers.toInt(),
       ),
     );
 
@@ -93,6 +96,12 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       setState(() {
         _selectedPlayer = result.map((player) => player.copyWith()).toList();
       });
+    }
+  }
+
+  void _challengeMatch() {
+    if (!_formKey.currentState!.validate()) {
+      return;
     }
   }
 
@@ -119,8 +128,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TeamColumn(
-                              teamName: challengerTeam.name,
-                              teamLogo: challengerTeam.logoUrl,
+                              teamName: _challengerTeam.name,
+                              teamLogo: _challengerTeam.logoUrl,
                             ),
                             const Text('v/s'),
                             TeamColumn(
@@ -154,7 +163,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                                           ),
                                     ),
                                     TextSpan(
-                                      text: '$noOfPlayers',
+                                      text: '$_noOfPlayers',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge!
@@ -173,12 +182,12 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                                     child: Slider(
                                       min: 5,
                                       max: 11,
-                                      value: noOfPlayers,
+                                      value: _noOfPlayers,
                                       divisions: 6,
-                                      label: '$noOfPlayers',
+                                      label: '$_noOfPlayers',
                                       onChanged: (value) {
                                         setState(() {
-                                          noOfPlayers = value;
+                                          _noOfPlayers = value;
                                         });
                                       },
                                     ),
@@ -208,7 +217,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                             onSelect: (value) {},
                           ),
                           SwitchListTile(
-                            value: allowSpectators,
+                            value: _allowSpectators,
                             title: Text(
                               'Allow Spectators',
                               style: Theme.of(context)
@@ -222,7 +231,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                             activeColor: enableSwitchColor,
                             onChanged: (value) {
                               setState(() {
-                                allowSpectators = value;
+                                _allowSpectators = value;
                               });
                             },
                           ),
@@ -233,8 +242,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                     MyCard(
                       child: MatchSquad(
                         selectedPlayer: _selectedPlayer,
-                        captainId: challengerTeam.captainId,
-                        wicketkeeperId: challengerTeam.wicketkeeperId,
+                        captainId: _challengerTeam.captainId,
+                        wicketkeeperId: _challengerTeam.wicketkeeperId,
                         onAdd: onAddPlayer,
                       ),
                     ),
@@ -247,11 +256,11 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                           Row(
                             children: [
                               _getScheduleContainer(
-                                  DateFormat.yMMMd().format(matchDate)),
+                                  DateFormat.yMMMd().format(_matchDate)),
                               const SizedBox(width: 10),
                               _getScheduleContainer(
                                 MaterialLocalizations.of(context)
-                                    .formatTimeOfDay(matchTime),
+                                    .formatTimeOfDay(_matchTime),
                               ),
                               IconButton(
                                 onPressed: () async {
@@ -269,8 +278,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                                   );
 
                                   setState(() {
-                                    matchDate = selectedDate ?? matchDate;
-                                    matchTime = selectedTime ?? matchTime;
+                                    _matchDate = selectedDate ?? _matchDate;
+                                    _matchTime = selectedTime ?? _matchTime;
                                   });
                                 },
                                 icon: const Icon(Icons.date_range_outlined),
@@ -278,10 +287,17 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                               )
                             ],
                           ),
-                          MyTextField(
-                            onSave: (value) {},
-                            label: 'Venue',
-                            borderRadius: 15,
+                          Form(
+                            key: _formKey,
+                            child: MyTextField(
+                              onSave: (value) {
+                                _venue = value;
+                              },
+                              label: 'Venue',
+                              borderRadius: 15,
+                              validator: (value) =>
+                                  nameValidator(value, 'Venue'),
+                            ),
                           ),
                         ],
                       ),
@@ -296,7 +312,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                           context,
                           isSubmit: true,
                           text: 'Challenge Match',
-                          onPressed: () {},
+                          onPressed: _challengeMatch,
                         ),
                       ),
                     ),
