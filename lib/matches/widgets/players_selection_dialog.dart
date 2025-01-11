@@ -9,10 +9,12 @@ class PlayersSelectionDialog extends StatefulWidget {
     super.key,
     required this.playerList,
     required this.selectedPlayers,
+    required this.noOfPlayerCanBeSelected,
   });
 
   final List<PlayerDetails> playerList;
   final List<PlayerDetails> selectedPlayers;
+  final int noOfPlayerCanBeSelected;
 
   @override
   State<PlayersSelectionDialog> createState() => _PlayersSelectionDialogState();
@@ -33,6 +35,10 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
         _selectedPlayer.remove(player);
       });
     } else {
+      if (_selectedPlayer.length >= widget.noOfPlayerCanBeSelected) {
+        showSnackBar('Players has reached its max capacity', context);
+        return;
+      }
       setState(() {
         _selectedPlayer.add(player);
       });
@@ -49,7 +55,14 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              getTitleText('Select players', context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  getTitleText('Select players', context),
+                  Text(
+                      '${_selectedPlayer.length}/${widget.noOfPlayerCanBeSelected}')
+                ],
+              ),
               const SizedBox(height: 10),
               Expanded(
                 child: GridView.builder(
