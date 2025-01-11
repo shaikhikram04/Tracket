@@ -227,7 +227,7 @@ void pushScreen(BuildContext context, Widget screen) {
   );
 }
 
-CircleAvatar getCircleAvatar({
+Widget getCircleAvatar({
   required String url,
   Uint8List? image,
   required bool isTeam,
@@ -236,12 +236,21 @@ CircleAvatar getCircleAvatar({
   AssetImage defaultImage = AssetImage(isTeam
       ? 'assets/images/team_logo.png'
       : 'assets/images/Default_user_pfp.jpg');
-  return CircleAvatar(
-      radius: radius,
-      backgroundImage: image != null
-          ? MemoryImage(image)
-          : url.isEmpty
-              ? defaultImage
-              : CachedNetworkImageProvider(url),
-      onBackgroundImageError: (_, __) => defaultImage);
+  return Container(
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: blackColor, // Border color
+        width: 2.0, // Border width
+      ),
+    ),
+    child: CircleAvatar(
+        radius: radius,
+        backgroundImage: image != null
+            ? MemoryImage(image)
+            : url.isEmpty
+                ? defaultImage
+                : CachedNetworkImageProvider(url),
+        onBackgroundImageError: (_, __) => defaultImage),
+  );
 }

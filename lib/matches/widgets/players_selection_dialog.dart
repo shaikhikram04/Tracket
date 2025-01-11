@@ -104,7 +104,10 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
                       onTap: () => _onSelect(player, isAdded),
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        color: isAdded ? lightCardColor : null,
+                        decoration: BoxDecoration(
+                          color: isAdded ? lightCardColor : null,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         child: Column(
                           children: [
                             getCircleAvatar(
