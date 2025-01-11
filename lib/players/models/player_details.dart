@@ -31,4 +31,14 @@ class PlayerDetails {
         'imageUrl': imageUrl,
         'role': role,
       };
+
+  PlayerDetails copyWith() {
+    return PlayerDetails(
+      id: id,
+      name: name,
+      imageUrl: imageUrl,
+      cricketRole: cricketRole,
+      role: role,
+    );
+  }
 }

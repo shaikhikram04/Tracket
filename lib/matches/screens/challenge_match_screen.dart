@@ -47,7 +47,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   TimeOfDay matchTime = TimeOfDay.now();
   bool _isLoading = false;
 
-  final List<PlayerDetails> _selectedPlayer = [];
+  List<PlayerDetails> _selectedPlayer = [];
   late Team challengerTeam;
 
   @override
@@ -79,15 +79,21 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     }
   }
 
-  void onAddPlayer() {
-    showDialog(
+  Future<void> onAddPlayer() async {
+    final result = await showDialog<List<PlayerDetails>>(
       context: context,
       builder: (context) => PlayersSelectionDialog(
         playerList: challengerTeam.playersList,
         selectedPlayers: _selectedPlayer,
-        noOfPlayerCanBeSelected : noOfPlayers.toInt(),
+        noOfPlayerCanBeSelected: noOfPlayers.toInt(),
       ),
     );
+
+    if (result != null) {
+      setState(() {
+        _selectedPlayer = result.map((player) => player.copyWith()).toList();
+      });
+    }
   }
 
   @override

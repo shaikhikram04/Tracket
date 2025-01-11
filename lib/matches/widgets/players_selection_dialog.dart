@@ -21,49 +21,51 @@ class PlayersSelectionDialog extends StatefulWidget {
 }
 
 class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
-  late List<PlayerDetails> _selectedPlayer;
+  List<PlayerDetails> _sPlayers = [];
 
   @override
   void initState() {
-    _selectedPlayer = widget.selectedPlayers;
+    _sPlayers =
+        widget.selectedPlayers.map((player) => player.copyWith()).toList();
+
     super.initState();
   }
 
   void _onSelect(PlayerDetails player, bool isAdded) {
     if (isAdded) {
       setState(() {
-        _selectedPlayer.remove(player);
+        _sPlayers.removeWhere((p) => p.id == player.id);
       });
     } else {
-      if (_selectedPlayer.length >= widget.noOfPlayerCanBeSelected) {
+      if (_sPlayers.length >= widget.noOfPlayerCanBeSelected) {
         showSnackBar('Players has reached its max capacity', context);
         return;
       }
       setState(() {
-        _selectedPlayer.add(player);
+        _sPlayers.add(player.copyWith());
       });
     }
   }
 
   void _onSubmit() {
     final requiredPlayerLen = widget.noOfPlayerCanBeSelected;
-    final selectedPlayerLen = _selectedPlayer.length;
+    final selectedPlayerLen = _sPlayers.length;
     final moreToSelect = requiredPlayerLen - selectedPlayerLen;
-    if (selectedPlayerLen != requiredPlayerLen) {
-      showAlertDialog(
-        context,
-        'Incomplete selection',
-        'This match need $requiredPlayerLen players but you selected $selectedPlayerLen. Please select $moreToSelect more player!',
-      );
+    // if (selectedPlayerLen != requiredPlayerLen) {
+    //   showAlertDialog(
+    //     context,
+    //     'Incomplete selection',
+    //     'This match need $requiredPlayerLen players but you selected $selectedPlayerLen. Please select $moreToSelect more player!',
+    //   );
 
-      return;
-    }
-    Navigator.of(context).pop(_selectedPlayer);
+    //   return;
+    // }
+    Navigator.of(context).pop(_sPlayers);
   }
 
   @override
   void dispose() {
-    _selectedPlayer.clear();
+    _sPlayers.clear();
     super.dispose();
   }
 
@@ -74,15 +76,14 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
       child: SizedBox(
         height: height * 0.5,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   getTitleText('Select players', context),
-                  Text(
-                      '${_selectedPlayer.length}/${widget.noOfPlayerCanBeSelected}')
+                  Text('${_sPlayers.length}/${widget.noOfPlayerCanBeSelected}')
                 ],
               ),
               const SizedBox(height: 10),
@@ -97,7 +98,8 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
                   ),
                   itemBuilder: (context, index) {
                     final PlayerDetails player = widget.playerList[index];
-                    final isAdded = _selectedPlayer.contains(player);
+                    final isAdded = _sPlayers
+                        .any((playerData) => playerData.id == player.id);
                     return InkWell(
                       onTap: () => _onSelect(player, isAdded),
                       child: Container(
