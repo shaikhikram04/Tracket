@@ -85,7 +85,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       builder: (context) => PlayersSelectionDialog(
         playerList: challengerTeam.playersList,
         selectedPlayers: _selectedPlayer,
-        noOfPlayerCanBeSelected : 7,
+        noOfPlayerCanBeSelected : noOfPlayers.toInt(),
       ),
     );
   }

@@ -45,6 +45,28 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
     }
   }
 
+  void _onSubmit() {
+    final requiredPlayerLen = widget.noOfPlayerCanBeSelected;
+    final selectedPlayerLen = _selectedPlayer.length;
+    final moreToSelect = requiredPlayerLen - selectedPlayerLen;
+    if (selectedPlayerLen != requiredPlayerLen) {
+      showAlertDialog(
+        context,
+        'Incomplete selection',
+        'This match need $requiredPlayerLen players but you selected $selectedPlayerLen. Please select $moreToSelect more player!',
+      );
+
+      return;
+    }
+    Navigator.of(context).pop(_selectedPlayer);
+  }
+
+  @override
+  void dispose() {
+    _selectedPlayer.clear();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -108,7 +130,7 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
                   ),
                   MyTextButton(
                     text: 'Submit',
-                    onPressed: () => Navigator.of(context).pop(_selectedPlayer),
+                    onPressed: _onSubmit,
                   ),
                 ],
               )
