@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
@@ -49,9 +50,14 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   String? _venue;
   bool _isLoading = false;
   List<PlayerDetails> _selectedPlayer = [];
-  MatchType? _matchType;
+  String? _matchType;
+  String? _matchFormat;
   late Team _challengerTeam;
   final _formKey = GlobalKey<FormState>();
+  bool _isChallenging = false;
+
+  final matchFormatOptions = matchFormatToString();
+  final matchTypeOptions = enumToString(MatchType.values);
 
   @override
   void initState() {
@@ -99,9 +105,60 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     }
   }
 
-  void _challengeMatch() {
+  Future<void> _challengeMatch() async {
+    if (_matchFormat == null || _matchType == null) {
+      showSnackBar('Please fill all details', context);
+      return;
+    }
+    if (_selectedPlayer.isEmpty) {
+      showSnackBar('Please select player for match', context);
+      return;
+    }
     if (!_formKey.currentState!.validate()) {
       return;
+    }
+
+    setState(() {
+      _isChallenging = true;
+    });
+
+    _formKey.currentState!.save();
+
+    final matchFormatIndex = matchFormatOptions.indexOf(_matchFormat!);
+
+    final challengerTeamDetail = TeamDetails(
+      id: _challengerTeam.id,
+      logoUrl: _challengerTeam.logoUrl,
+      name: _challengerTeam.name,
+      shortName: _challengerTeam.shortName,
+      role: TeamRole.none,
+    );
+
+    try {
+      await MatchesServices.challegeForAMatch(
+        matchFormatIndex: matchFormatIndex,
+        challengerTeam: challengerTeamDetail,
+        challengedTeam: widget.challengedTeam,
+        matchDate: _matchDate,
+        matchTime: _matchTime,
+        matchVenue: _venue!,
+        challengerId: widget.challengerId,
+        challengerName: widget.challengerName,
+        allowSpectators: _allowSpectators,
+      );
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        showSnackBar(
+            'failed to challenge, please try again. ${e.toString()}', context);
+      }
+    } finally {
+      setState(() {
+        _isChallenging = false;
+      });
     }
   }
 
@@ -198,23 +255,18 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                             ],
                           ),
                           MyDropdownMenu(
-                            options: const [
-                              '5 Overs',
-                              '10 Overs',
-                              '20 Overs',
-                              '50 Overs'
-                            ],
-                            label: 'Numbers of overs',
-                            onSelect: (value) {},
+                            options: matchFormatOptions,
+                            label: 'Match Format',
+                            onSelect: (value) {
+                              _matchFormat = value;
+                            },
                           ),
                           MyDropdownMenu(
-                            options: const [
-                              'friendly',
-                              'practice',
-                              'challanged'
-                            ],
+                            options: enumToString(MatchType.values),
                             label: 'Match Type',
-                            onSelect: (value) {},
+                            onSelect: (value) {
+                              _matchType = value;
+                            },
                           ),
                           SwitchListTile(
                             value: _allowSpectators,

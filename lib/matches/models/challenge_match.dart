@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 enum ChallengeStatus {
@@ -10,15 +10,19 @@ enum ChallengeStatus {
 
 class MatchDetail {
   const MatchDetail({
-    required this.date,
+    required this.schedule,
     required this.venue,
-    required this.time,
     required this.overs,
   });
-  final int overs;
+  final MatchFormat overs;
   final String venue;
-  final DateTime date;
-  final TimeOfDay time;
+  final DateTime schedule;
+
+  Map<String, dynamic> get toMap => {
+        'schedule': Timestamp.fromDate(schedule),
+        'venue': venue,
+        'overs': overs.name,
+      };
 }
 
 class ChallengeMatch {
@@ -45,4 +49,17 @@ class ChallengeMatch {
   final bool willLive;
   final Timestamp createdAt;
   final Timestamp updatedAt;
+
+  Map<String, dynamic> get toMap => {
+        'matchId': matchId,
+        'challengeStatus': challengeStatus.name,
+        'challengerTeam': challengedTeam.toMap,
+        'challengedTeam': challengedTeam.toMap,
+        'challengerId': challengerId,
+        'challengerName': challengerName,
+        'matchDetails': matchDetails.toMap,
+        'willLive' : willLive,
+        'createdAt' : createdAt,
+        'updatedAt' : updatedAt,
+      };
 }

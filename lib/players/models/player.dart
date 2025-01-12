@@ -108,22 +108,10 @@ class Player {
   }
 
   static BowlingStyle getBowlingStyle(String style) {
-    switch (style) {
-      case 'fast':
-        return BowlingStyle.fast;
-      case 'mediumFast':
-        return BowlingStyle.mediumFast;
-      case 'legSpin':
-        return BowlingStyle.legSpin;
-      case 'offSpin':
-        return BowlingStyle.offSpin;
-      case 'chinaMan':
-        return BowlingStyle.chinaMan;
-      case 'none':
-        return BowlingStyle.none;
-      default:
-        return BowlingStyle.none;
+    for (final bStyle in BowlingStyle.values) {
+      if (bStyle.name == style) return bStyle;
     }
+    return BowlingStyle.none;
   }
 
   String formatBowlingStyle() {

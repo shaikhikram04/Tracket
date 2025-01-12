@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracket/authentication/screens/verification_screen.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -113,6 +114,16 @@ List<String> enumToString(List<Enum> enums) {
         (e) => e.name,
       )
       .toList();
+}
+
+List<String> matchFormatToString() {
+  return const [
+    '5 Overs',
+    '10 Overs',
+    '20 Overs',
+    '50 Overs',
+    'test',
+  ];
 }
 
 double getSafeAreaHeight(BuildContext context) {
