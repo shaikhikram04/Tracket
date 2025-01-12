@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/screens/notification_list.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -57,7 +58,9 @@ class _ChallengeNotificationsScreenState
             child: TabBarView(
               controller: _tabController,
               children: [
-                Container(),
+                const NotificationListScreen(
+                  field: 'challengedTeamId',
+                ),
                 Container(),
               ],
             ),
