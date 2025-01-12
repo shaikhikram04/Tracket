@@ -52,6 +52,8 @@ class MatchesServices {
       challengedPlayers: [],
       challengerPlayers: challengerPlayers,
       noOfPlayers: noOfPlayers,
+      challengedTeamId: challengedTeam.id,
+      challengerTeamId: challengerTeam.id,
     );
 
     await _firestore

@@ -12,6 +12,8 @@ enum ChallengeStatus {
 class ChallengeMatch {
   ChallengeMatch({
     required this.challengeStatus,
+    required this.challengedTeamId,
+    required this.challengerTeamId,
     required this.challengedTeam,
     required this.challengerId,
     required this.challengerName,
@@ -28,6 +30,8 @@ class ChallengeMatch {
 
   final String matchId;
   final ChallengeStatus challengeStatus;
+  final String challengerTeamId;
+  final String challengedTeamId;
   final TeamDetails challengerTeam;
   final TeamDetails challengedTeam;
   final String challengerId;
@@ -43,6 +47,8 @@ class ChallengeMatch {
   Map<String, dynamic> get toMap => {
         'matchId': matchId,
         'challengeStatus': challengeStatus.name,
+        'challengerTeamId': challengerTeamId,
+        'challengedTeamId': challengedTeamId,
         'challengerTeam': challengedTeam.toMap,
         'challengedTeam': challengedTeam.toMap,
         'challengerId': challengerId,
