@@ -365,6 +365,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                           isSubmit: true,
                           text: 'Challenge Match',
                           onPressed: _challengeMatch,
+                          isLoading: _isChallenging,
                         ),
                       ),
                     ),
