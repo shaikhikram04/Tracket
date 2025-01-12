@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/challenge_match.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/models/match_detail.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';

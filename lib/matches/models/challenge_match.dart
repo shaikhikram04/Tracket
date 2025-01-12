@@ -1,28 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/models/match_detail.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 enum ChallengeStatus {
   pending,
   accept,
   decline,
-}
-
-class MatchDetail {
-  const MatchDetail({
-    required this.schedule,
-    required this.venue,
-    required this.overs,
-  });
-  final MatchFormat overs;
-  final String venue;
-  final DateTime schedule;
-
-  Map<String, dynamic> get toMap => {
-        'schedule': Timestamp.fromDate(schedule),
-        'venue': venue,
-        'overs': overs.name,
-      };
 }
 
 class ChallengeMatch {
@@ -58,8 +41,8 @@ class ChallengeMatch {
         'challengerId': challengerId,
         'challengerName': challengerName,
         'matchDetails': matchDetails.toMap,
-        'willLive' : willLive,
-        'createdAt' : createdAt,
-        'updatedAt' : updatedAt,
+        'willLive': willLive,
+        'createdAt': createdAt,
+        'updatedAt': updatedAt,
       };
 }
