@@ -29,7 +29,7 @@ class PlayerDetails {
         'name': name,
         'cricketRole': cricketRole,
         'imageUrl': imageUrl,
-        'role': role,
+        'role': role.name,
       };
 
   PlayerDetails copyWith() {

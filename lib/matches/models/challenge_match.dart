@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/match_detail.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 enum ChallengeStatus {
@@ -20,6 +21,9 @@ class ChallengeMatch {
     required this.matchId,
     required this.updatedAt,
     required this.willLive,
+    required this.challengedPlayers,
+    required this.challengerPlayers,
+    required this.noOfPlayers,
   });
 
   final String matchId;
@@ -32,6 +36,9 @@ class ChallengeMatch {
   final bool willLive;
   final Timestamp createdAt;
   final Timestamp updatedAt;
+  final int noOfPlayers;
+  final List<PlayerDetails> challengerPlayers;
+  final List<PlayerDetails> challengedPlayers;
 
   Map<String, dynamic> get toMap => {
         'matchId': matchId,
@@ -44,5 +51,6 @@ class ChallengeMatch {
         'willLive': willLive,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
+        'noOfPlayers': noOfPlayers,
       };
 }

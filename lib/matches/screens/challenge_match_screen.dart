@@ -145,6 +145,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         challengerId: widget.challengerId,
         challengerName: widget.challengerName,
         allowSpectators: _allowSpectators,
+        noOfPlayers: _noOfPlayers.toInt(),
+        challengerPlayers: _selectedPlayer,
       );
 
       if (mounted) {

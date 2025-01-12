@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/challenge_match.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_detail.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
@@ -21,6 +22,8 @@ class MatchesServices {
     required String challengerId,
     required String challengerName,
     required bool allowSpectators,
+    required int noOfPlayers,
+    required List<PlayerDetails> challengerPlayers,
   }) async {
     final schedule = DateTime(
       matchDate.year,
@@ -46,11 +49,23 @@ class MatchesServices {
       matchId: _uuid.v4(),
       updatedAt: Timestamp.now(),
       willLive: allowSpectators,
+      challengedPlayers: [],
+      challengerPlayers: challengerPlayers,
+      noOfPlayers: noOfPlayers,
     );
 
     await _firestore
         .collection(FirestoreCollections.challengeMatch)
         .doc(challengeMatch.matchId)
         .set(challengeMatch.toMap);
+
+    for (final player in challengerPlayers) {
+      await _firestore
+          .collection(FirestoreCollections.challengeMatch)
+          .doc(challengeMatch.matchId)
+          .collection(FirestoreCollections.challengerPlayers)
+          .doc(player.id)
+          .set(player.toMap);
+    }
   }
 }
