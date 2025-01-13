@@ -90,17 +90,15 @@ class _PendingRequestsState extends State<PendingRequests> {
             children: [
               InkWell(
                 onTap: () => _navigateToProfile(context, isPlayer, request),
-                child: Expanded(
-                  child: Row(
-                    children: [
-                      _buildProfileImage(isPlayer, payload),
-                      const SizedBox(width: 10),
-                      _buildRequestDetails(isPlayer, payload),
-                      const Spacer(),
-                      if (widget.isSent)
-                        _buildCancelButton(context, request, index),
-                    ],
-                  ),
+                child: Row(
+                  children: [
+                    _buildProfileImage(isPlayer, payload),
+                    const SizedBox(width: 10),
+                    _buildRequestDetails(isPlayer, payload),
+                    // const Spacer(),
+                    if (widget.isSent)
+                      _buildCancelButton(context, request, index),
+                  ],
                 ),
               ),
               if (!widget.isSent) const SizedBox(height: 10),
@@ -132,13 +130,13 @@ class _PendingRequestsState extends State<PendingRequests> {
   }
 
   Widget _buildRequestDetails(bool isPlayer, Map<String, dynamic> payload) {
-    return Expanded(
+    return Flexible(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            payload['name'] ?? 'Unknown',
-            style: const TextStyle(
+          const Text(
+            'Team join request',
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
