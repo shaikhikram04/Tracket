@@ -4,7 +4,6 @@ import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team_details.dart';
-import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
 class MatchesServices {
@@ -46,8 +45,5 @@ class MatchesServices {
       venue: matchVenue,
       overs: MatchFormat.values[matchFormatIndex],
     );
-
-    
-    
   }
 }

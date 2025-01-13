@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/services/players_services.dart';
-import 'package:tracket/requests/services/requests_services.dart';
+import 'package:tracket/notifications/services/requests_services.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';

@@ -8,4 +8,10 @@ class FollowerData {
   final String followerId;
   final String profilePic;
   final String userName;
+
+  Map<String, dynamic> get toMap => {
+        'followerId': followerId,
+        'profilePic': profilePic,
+        'userName': userName,
+      };
 }

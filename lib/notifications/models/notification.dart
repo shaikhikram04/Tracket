@@ -17,16 +17,14 @@ enum NotificationStatus {
   decline,
 }
 
-
-
 class Notification {
-  Notification({
+  const Notification({
     required this.notificationId,
     required this.from,
     required this.to,
     required this.type,
     required this.createdAt,
-    required this.challengeStatus,
+    required this.status,
     required this.read,
     required this.title,
     required this.body,
@@ -36,13 +34,43 @@ class Notification {
     required this.challengeMatch,
   });
 
+  Notification.request({
+    required this.notificationId,
+    required this.from,
+    required this.to,
+    required this.type,
+    required this.createdAt,
+    required this.status,
+    required this.read,
+    required this.title,
+    required this.body,
+    required this.teamDetails,
+    required this.playerDetails,
+  })  : challengeMatch = null,
+        followerData = null;
+
+  Notification.challenge({
+    required this.notificationId,
+    required this.from,
+    required this.to,
+    required this.type,
+    required this.createdAt,
+    required this.status,
+    required this.read,
+    required this.title,
+    required this.body,
+    required this.challengeMatch,
+  })  : playerDetails = null,
+        teamDetails = null,
+        followerData = null;
+
   //* common field
   final String notificationId;
   final String from;
   final String to;
   final NotificationType type;
   final Timestamp createdAt;
-  final NotificationStatus challengeStatus;
+  final NotificationStatus status;
   final bool read;
 
   //* metaData
@@ -51,14 +79,30 @@ class Notification {
 
   //! Type specific field
   //* for follow
-  final FollowerData followerData;
+  final FollowerData? followerData;
 
   //* for teamJoinRequest
-  final TeamDetails teamDetails;
+  final TeamDetails? teamDetails;
 
   //* for addPlayerRequest
-  final PlayerDetails playerDetails;
+  final PlayerDetails? playerDetails;
 
   //* for challengeMatch
-  final ChallengeMatch challengeMatch;
+  final ChallengeMatch? challengeMatch;
+
+  Map<String, dynamic> get toMap => {
+        'notificationId': notificationId,
+        'from': from,
+        'to': to,
+        'type': type,
+        'createdAt': createdAt,
+        'status': status,
+        'read': read,
+        'title': title,
+        'body': body,
+        'followerData': followerData,
+        'teamDetail': teamDetails?.toMap,
+        'playerDetail': playerDetails?.toMap,
+        'challengeMatch': challengeMatch?.toMap,
+      };
 }

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/services/requests_services.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
-import 'package:tracket/requests/models/request.dart';
-import 'package:tracket/requests/services/requests_services.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -46,8 +46,8 @@ class _PendingRequestsState extends State<PendingRequests> {
     super.initState();
   }
 
-  Map<String, dynamic> getPayload(Request request) =>
-      widget.isSent ? request.receiverPayload : request.senderPayload;
+  Map<String, dynamic> getPayload(model.Notification request, bool isPlayer) =>
+      widget.isSent ? request. : request.senderPayload;
 
   void toggleButton(String playerId, bool isAdding, WidgetRef ref) {
     if (isAdding) {
@@ -70,7 +70,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       itemCount: requestList.length,
       itemBuilder: (context, index) {
         final requestData = requestList[index];
-        final request = Request.fromJson(requestData.data());
+        final request = model.Notification.fromJson(requestData.data());
         final payload = getPayload(request);
         final isPlayer = payload.containsKey('cricketRole');
 

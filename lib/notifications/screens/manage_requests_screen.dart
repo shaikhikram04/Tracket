@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/requests/screens/requests_list_screen.dart';
+import 'package:tracket/notifications/screens/requests_list_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
