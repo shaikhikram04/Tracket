@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tracket/matches/models/challenge_match.dart';
+import 'package:tracket/notifications/models/challenge_match.dart';
+import 'package:tracket/notifications/models/follow_data.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
@@ -16,17 +17,7 @@ enum NotificationStatus {
   decline,
 }
 
-class FollowerData {
-  FollowerData({
-    required this.followerId,
-    required this.profilePic,
-    required this.userName,
-  });
 
-  final String followerId;
-  final String profilePic;
-  final String userName;
-}
 
 class Notification {
   Notification({

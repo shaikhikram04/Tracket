@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/challenge_match.dart';
+import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_detail.dart';
 import 'package:tracket/players/models/player_details.dart';
