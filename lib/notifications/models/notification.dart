@@ -7,7 +7,7 @@ import 'package:tracket/teams/models/team_details.dart';
 enum NotificationType {
   follow,
   teamJoinRequest,
-  addPlayerRequest,
+  offerPlayerRequest,
   matchChallenge,
 }
 
@@ -111,7 +111,7 @@ class Notification {
       if (strType == nType.name) return nType;
     }
 
-    return NotificationType.addPlayerRequest;
+    return NotificationType.offerPlayerRequest;
   }
 
   static NotificationStatus getStatus(String strStatus) {
@@ -133,8 +133,8 @@ class Notification {
       read: snap['read'],
       title: snap['title'],
       body: snap['body'],
-      teamDetails: TeamDetails.formMap(snap['teamDetails']),
-      playerDetails: PlayerDetails.fromMap(snap['playerDetails']),
+      teamDetails: TeamDetails.formMap(snap['teamDetail']),
+      playerDetails: PlayerDetails.fromMap(snap['playerDetail']),
     );
   }
 }

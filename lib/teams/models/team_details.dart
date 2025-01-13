@@ -39,7 +39,7 @@ class TeamDetails {
       case 'player':
         return TeamRole.player;
       default:
-        return TeamRole.player;
+        return TeamRole.none;
     }
   }
 

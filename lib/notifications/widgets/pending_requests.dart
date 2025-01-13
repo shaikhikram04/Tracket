@@ -46,16 +46,16 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   Map<String, dynamic> getPayload(model.Notification request) {
     if (widget.isSent) {
-      if (request.type == model.NotificationType.addPlayerRequest) {
-        return request.teamDetails!.toMap;
-      } else {
+      if (request.type == model.NotificationType.offerPlayerRequest) {
         return request.playerDetails!.toMap;
+      } else {
+        return request.teamDetails!.toMap;
       }
     } else {
-      if (request.type == model.NotificationType.addPlayerRequest) {
-        return request.playerDetails!.toMap;
-      } else {
+      if (request.type == model.NotificationType.offerPlayerRequest) {
         return request.teamDetails!.toMap;
+      } else {
+        return request.playerDetails!.toMap;
       }
     }
   }

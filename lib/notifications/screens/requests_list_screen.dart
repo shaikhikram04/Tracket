@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/notifications/widgets/pending_requests.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -31,7 +31,8 @@ class RequestsListScreen extends ConsumerWidget {
       future: FirebaseFirestore.instance
           .collection(FirestoreCollections.notification)
           .where(field, whereIn: ids)
-          .get(),
+          .where('type',
+              whereIn: ['teamJoinRequest', 'addPlayerRequest']).get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(

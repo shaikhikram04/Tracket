@@ -26,48 +26,44 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Requests'),
-      ),
-      body: Column(
-        children: [
-          TabBar(
-            dividerColor: Theme.of(context).colorScheme.secondary,
-            indicatorSize: TabBarIndicatorSize.tab,
+    return Column(
+      children: [
+        TabBar(
+          dividerColor: Theme.of(context).colorScheme.secondary,
+          indicatorSize: TabBarIndicatorSize.tab,
+          controller: _tabController,
+          unselectedLabelColor: unSelectColor,
+          labelColor: darkGreenColor,
+          labelStyle: MyTextStyle(context).boldBodyLarge,
+          unselectedLabelStyle: MyTextStyle(context).bodyLarge,
+          tabs: const [
+            Tab(
+              text: 'Received',
+              icon: Icon(Icons.arrow_downward),
+            ),
+            Tab(
+              text: 'Sent',
+              icon: Icon(Icons.arrow_upward),
+            ),
+          ],
+        ),
+        Expanded(
+          child: TabBarView(
             controller: _tabController,
-            unselectedLabelColor: unSelectColor,
-            labelColor: darkGreenColor,
-            labelStyle: MyTextStyle(context).boldBodyLarge,
-            unselectedLabelStyle: MyTextStyle(context).bodyLarge,
-            tabs: const [
-              Tab(
-                text: 'Received',
-                icon: Icon(Icons.arrow_downward),
+            children: [
+              RequestsListScreen(
+                field: 'to',
+                teamId: widget.teamId,
               ),
-              Tab(
-                text: 'Sent',
-                icon: Icon(Icons.arrow_upward),
+              RequestsListScreen(
+                field: 'from',
+                teamId: widget.teamId,
               ),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                RequestsListScreen(
-                  field: 'to',
-                  teamId: widget.teamId,
-                ),
-                RequestsListScreen(
-                  field: 'from',
-                  teamId: widget.teamId,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
+    ;
   }
 }
