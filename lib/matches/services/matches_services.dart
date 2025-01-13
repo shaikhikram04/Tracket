@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
+import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
 class MatchesServices {
@@ -45,5 +47,32 @@ class MatchesServices {
       venue: matchVenue,
       overs: MatchFormat.values[matchFormatIndex],
     );
+
+    final notification = model.Notification.challenge(
+      notificationId: _uuid.v4(),
+      from: challengerTeam.id,
+      to: challengedTeam.id,
+      type: model.NotificationType.matchChallenge,
+      createdAt: Timestamp.now(),
+      status: model.NotificationStatus.pending,
+      read: false,
+      title: '',
+      body: '',
+      challengeMatch: challengeMatch,
+    );
+
+    await _firestore
+        .collection(FirestoreCollections.notification)
+        .doc(notification.notificationId)
+        .set(notification.toMap);
+
+    final challengerPlayerCollectionRef = _firestore
+        .collection(FirestoreCollections.notification)
+        .doc(notification.notificationId)
+        .collection(FirestoreCollections.challengerPlayers);
+
+    for (final player in challengerPlayers) {
+      await challengerPlayerCollectionRef.doc(player.id).set(player.toMap);
+    }
   }
 }

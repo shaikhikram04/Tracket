@@ -49,14 +49,14 @@ class RequestsServices {
   }) async {
     var notification = model.Notification.request(
       notificationId: uuid.v4(),
-      from: teamInfo.id,
-      to: playerInfo.id,
+      from: playerInfo.id,
+      to: teamInfo.id,
       type: model.NotificationType.teamJoinRequest,
       createdAt: Timestamp.now(),
       status: model.NotificationStatus.pending,
       read: false,
-      title: 'title',
-      body: 'body',
+      title: '',
+      body: '',
       teamDetails: teamInfo,
       playerDetails: playerInfo,
     );
