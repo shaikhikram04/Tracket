@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/requests_services.dart';
-import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
-import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -46,8 +44,21 @@ class _PendingRequestsState extends State<PendingRequests> {
     super.initState();
   }
 
-  Map<String, dynamic> getPayload(model.Notification request, bool isPlayer) =>
-      widget.isSent ? request. : request.senderPayload;
+  Map<String, dynamic> getPayload(model.Notification request) {
+    if (widget.isSent) {
+      if (request.type == model.NotificationType.addPlayerRequest) {
+        return request.teamDetails!.toMap;
+      } else {
+        return request.playerDetails!.toMap;
+      }
+    } else {
+      if (request.type == model.NotificationType.addPlayerRequest) {
+        return request.playerDetails!.toMap;
+      } else {
+        return request.teamDetails!.toMap;
+      }
+    }
+  }
 
   void toggleButton(String playerId, bool isAdding, WidgetRef ref) {
     if (isAdding) {
@@ -70,7 +81,7 @@ class _PendingRequestsState extends State<PendingRequests> {
       itemCount: requestList.length,
       itemBuilder: (context, index) {
         final requestData = requestList[index];
-        final request = model.Notification.fromJson(requestData.data());
+        final request = model.Notification.fromMap(requestData.data());
         final payload = getPayload(request);
         final isPlayer = payload.containsKey('cricketRole');
 
@@ -106,7 +117,7 @@ class _PendingRequestsState extends State<PendingRequests> {
   void _navigateToProfile(
     BuildContext context,
     bool isPlayer,
-    Request request,
+    model.Notification request,
   ) {
     final profileScreen = isPlayer
         ? PlayerProfileScreen(playerId: request.from)
@@ -146,7 +157,8 @@ class _PendingRequestsState extends State<PendingRequests> {
     );
   }
 
-  Widget _buildCancelButton(BuildContext context, Request request, int index) {
+  Widget _buildCancelButton(
+      BuildContext context, model.Notification request, int index) {
     return Align(
       alignment: Alignment.centerRight,
       child: MyElevatedButton.secondaryElevatedButton(
@@ -161,8 +173,8 @@ class _PendingRequestsState extends State<PendingRequests> {
             sureButtonText: 'Yes',
             onSureButtonPressed: () async {
               Navigator.of(context).pop();
-              final result =
-                  await RequestsServices.deleteRequest(request.id, context);
+              final result = await RequestsServices.deleteRequest(
+                  request.notificationId, context);
 
               if (result == 'success') {
                 setState(() {
@@ -181,14 +193,14 @@ class _PendingRequestsState extends State<PendingRequests> {
       int index,
       QueryDocumentSnapshot<Map<String, dynamic>> requestData,
       bool isPlayer,
-      Request request) {
+      model.Notification request) {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final requestStatus = ref.watch(requestStatusProvider);
         final isRequestInProgress =
-            requestStatus.requestInProgress.contains(request.id);
+            requestStatus.requestInProgress.contains(request.notificationId);
         final isRequestSuccess =
-            requestStatus.requestSuccess.contains(request.id);
+            requestStatus.requestSuccess.contains(request.notificationId);
 
         if (isRequestSuccess) {
           return Text('This request has been accept',
@@ -198,7 +210,7 @@ class _PendingRequestsState extends State<PendingRequests> {
         return Row(
           children: [
             Text(
-              timeAgo(request.requestedAt.toDate()),
+              timeAgo(request.createdAt.toDate()),
               style: MyTextStyle(context).bodyMedium,
             ),
             const Spacer(),
@@ -277,10 +289,10 @@ class _PendingRequestsState extends State<PendingRequests> {
     });
   }
 
-  Future<void> _acceptRequest(
-      Request request, int index, bool isPlayer, WidgetRef ref) async {
+  Future<void> _acceptRequest(model.Notification request, int index,
+      bool isPlayer, WidgetRef ref) async {
     // Handle accept logic
-    toggleButton(request.id, true, ref);
+    toggleButton(request.notificationId, true, ref);
     try {
       if (!isPlayer) {
         final teamDocRef = FirebaseFirestore.instance
@@ -297,41 +309,25 @@ class _PendingRequestsState extends State<PendingRequests> {
 
         if (currentPlayers >= teamLimit && mounted) {
           showSnackBar('Team is full', context);
-          toggleButton(request.id, false, ref);
+          toggleButton(request.notificationId, false, ref);
           return;
         }
       }
 
-      PlayerDetails playerInfo;
-      TeamDetails teamInfo;
-
-      if (request.type == RequestType.addPlayer) {
-        playerInfo = PlayerDetails.fromMap(request.senderPayload);
-        teamInfo = TeamDetails.formMap(request.receiverPayload);
-      } else if (request.type == RequestType.joinTeam) {
-        playerInfo = PlayerDetails.fromMap(request.receiverPayload);
-        teamInfo = TeamDetails.formMap(request.senderPayload);
-      } else {
-        if (mounted) {
-          showSnackBar('Request is not send properly', context);
-        }
-        return;
-      }
-
       if (mounted) {
         await TeamsServices.addPlayerToTeam(
-          playerInfo: playerInfo,
-          teamInfo: teamInfo,
+          playerInfo: request.playerDetails!,
+          teamInfo: request.teamDetails!,
           ref: ref,
           context: context,
         );
       }
 
       if (mounted) {
-        await RequestsServices.deleteRequest(request.id, context);
+        await RequestsServices.deleteRequest(request.notificationId, context);
       }
     } finally {
-      toggleButton(request.id, false, ref);
+      toggleButton(request.notificationId, false, ref);
     }
   }
 }

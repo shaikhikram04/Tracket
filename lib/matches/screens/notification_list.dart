@@ -28,7 +28,7 @@ class NotificationListScreen extends ConsumerWidget {
 
     return FutureBuilder(
       future: FirebaseFirestore.instance
-          .collection(FirestoreCollections.challengeMatch)
+          .collection(FirestoreCollections.notification)
           .where(field, whereIn: ids)
           .get(),
       builder: (context, snapshot) {

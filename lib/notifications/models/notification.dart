@@ -105,4 +105,36 @@ class Notification {
         'playerDetail': playerDetails?.toMap,
         'challengeMatch': challengeMatch?.toMap,
       };
+
+  static NotificationType getType(String strType) {
+    for (final nType in NotificationType.values) {
+      if (strType == nType.name) return nType;
+    }
+
+    return NotificationType.addPlayerRequest;
+  }
+
+  static NotificationStatus getStatus(String strStatus) {
+    for (final nStatus in NotificationStatus.values) {
+      if (strStatus == nStatus.name) return nStatus;
+    }
+
+    return NotificationStatus.pending;
+  }
+
+  static Notification fromMap(Map<String, dynamic> snap) {
+    return Notification.request(
+      notificationId: snap['notificationId'],
+      from: snap['from'],
+      to: snap['to'],
+      type: getType(snap['type']),
+      createdAt: snap['createdAt'],
+      status: getStatus(snap['status']),
+      read: snap['read'],
+      title: snap['title'],
+      body: snap['body'],
+      teamDetails: TeamDetails.formMap(snap['teamDetails']),
+      playerDetails: PlayerDetails.fromMap(snap['playerDetails']),
+    );
+  }
 }
