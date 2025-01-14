@@ -14,7 +14,6 @@ import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/widgets/no_data_found.dart';
 
 class PendingRequests extends StatefulWidget {
   const PendingRequests({
@@ -33,7 +32,6 @@ class PendingRequests extends StatefulWidget {
 class _PendingRequestsState extends State<PendingRequests> {
   late final List<QueryDocumentSnapshot<Map<String, dynamic>>> requestList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
-  String notificationBody = '';
 
   @override
   void initState() {
@@ -45,18 +43,42 @@ class _PendingRequestsState extends State<PendingRequests> {
     super.initState();
   }
 
-  Map<String, dynamic> getPayload(model.Notification request) {
+  void _loadData(
+    model.Notification request,
+    Map<String, dynamic> data,
+  ) {
     if (widget.isSent) {
       if (request.type == model.NotificationType.offerPlayerRequest) {
-        return request.playerDetails!.toMap;
+        data['initialMessage'] = 'Your team ';
+        data['middleMessage'] = ' has offered ';
+        data['lastMessage'] = ' to join.';
+        data['isPlayer'] = true;
+        data['firstNameInMessage'] = request.teamDetails!.name;
+        data['secondNameInMessage'] = request.playerDetails!.name;
+        data['imageUrl'] = request.playerDetails!.imageUrl;
       } else {
-        return request.teamDetails!.toMap;
+        data['middleMessage'] = 'You have requested to join the team ';
+        data['lastMessage'] = '.';
+        data['isPlayer'] = false;
+        data['firstNameInMessage'] = '';
+        data['secondNameInMessage'] = request.teamDetails!.name;
+        data['imageUrl'] = request.teamDetails!.logoUrl;
       }
     } else {
       if (request.type == model.NotificationType.offerPlayerRequest) {
-        return request.teamDetails!.toMap;
+        data['middleMessage'] = ' has offered you to join their team.';
+        data['lastMessage'] = '';
+        data['isPlayer'] = false;
+        data['firstNameInMessage'] = request.teamDetails!.name;
+        data['secondNameInMessage'] = '';
+        data['imageUrl'] = request.teamDetails!.logoUrl;
       } else {
-        return request.playerDetails!.toMap;
+        data['middleMessage'] = ' want to join your team ';
+        data['lastMessage'] = '.';
+        data['isPlayer'] = true;
+        data['firstNameInMessage'] = request.playerDetails!.name;
+        data['secondNameInMessage'] = request.teamDetails!.name;
+        data['imageUrl'] = request.playerDetails!.imageUrl;
       }
     }
   }
@@ -71,36 +93,42 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   @override
   Widget build(BuildContext context) {
-    if (requestList.isEmpty) {
-      return const NoDataFound(
-        title: 'No request found',
-        message: '',
-        isRequest: true,
-      );
-    }
     return ListView.builder(
       itemCount: requestList.length,
       itemBuilder: (context, index) {
         final requestData = requestList[index];
         final request = model.Notification.fromMap(requestData.data());
-        final payload = getPayload(request);
-        final isPlayer = payload.containsKey('cricketRole');
+
+        final Map<String, dynamic> notificationData = {
+          'initialMessage': '',
+          'middleMessage': '',
+          'lastMessage': '',
+          'isPlayer': false,
+          'firstNameInMessage': '',
+          'secondNameInMessage': '',
+          'imageUrl': '',
+        };
+
+        _loadData(request, notificationData);
+// Now data contains the updated values
 
         return MyCard(
           child: Column(
             children: [
               InkWell(
-                onTap: () => _navigateToProfile(context, isPlayer, request),
+                onTap: () => _navigateToProfile(
+                    context, notificationData['isPlayer'], request),
                 child: Row(
                   children: [
-                    _buildProfileImage(isPlayer, payload),
+                    _buildProfileImage(notificationData['isPlayer'],
+                        notificationData['imageUrl']),
                     const SizedBox(width: 10),
                     _buildRequestDetails(
-                      request.type,
-                      payload['name'],
-                      isPlayer
-                          ? request.teamDetails!.name
-                          : request.playerDetails!.name,
+                      firstBoldName: notificationData['firstNameInMessage'],
+                      secontBoldName: notificationData['secondNameInMessage'],
+                      initialMessage: notificationData['initialMessage'],
+                      middleMessage: notificationData['middleMessage'],
+                      lastMessage: notificationData['lastMessage'],
                     ),
                     // const Spacer(),
                     if (widget.isSent)
@@ -108,10 +136,9 @@ class _PendingRequestsState extends State<PendingRequests> {
                   ],
                 ),
               ),
-              if (!widget.isSent) const SizedBox(height: 10),
               if (!widget.isSent)
-                _buildActionButtons(
-                    context, index, requestData, isPlayer, request),
+                _buildActionButtons(context, index, requestData,
+                    notificationData['isPlayer'], request),
             ],
           ),
         );
@@ -130,76 +157,30 @@ class _PendingRequestsState extends State<PendingRequests> {
     pushScreen(context, profileScreen);
   }
 
-  Widget _buildProfileImage(bool isPlayer, Map<String, dynamic> payload) {
-    final imageUrl = payload[isPlayer ? 'imageUrl' : 'logoUrl'];
-
+  Widget _buildProfileImage(bool isPlayer, String imageUrl) {
     return getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 
-  Widget _buildRequestDetails(
-    model.NotificationType notificationType,
-    String senderName,
-    String receiverName,
-  ) {
+  Widget _buildRequestDetails({
+    required String firstBoldName,
+    required String secontBoldName,
+    required String initialMessage,
+    required String middleMessage,
+    required String lastMessage,
+  }) {
     return Flexible(
       child: RichText(
         text: TextSpan(
-          children: _buildMessage(senderName, receiverName, notificationType),
+          children: [
+            _buildTextSpan(initialMessage),
+            _buildBoldTextSpan(firstBoldName),
+            _buildTextSpan(middleMessage),
+            _buildBoldTextSpan(secontBoldName),
+            _buildTextSpan(lastMessage),
+          ],
         ),
       ),
     );
-  }
-
-  List<TextSpan> _buildMessage(
-    String senderName,
-    String receiverName,
-    model.NotificationType notificationType,
-  ) {
-    return [
-      if (widget.isSent &&
-          notificationType != model.NotificationType.offerPlayerRequest)
-        _buildTextSpan('Your team '),
-      if (!widget.isSent ||
-          notificationType != model.NotificationType.teamJoinRequest)
-        _buildBoldTextSpan(senderName),
-      _buildTextSpan(_getMiddleMessage(notificationType)),
-      if (widget.isSent ||
-          notificationType == model.NotificationType.teamJoinRequest)
-        _buildBoldTextSpan(receiverName),
-      _buildTextSpan(_getLastMessage(notificationType)),
-    ];
-  }
-
-  String _getMiddleMessage(model.NotificationType notificationType) {
-    if (widget.isSent) {
-      if (notificationType == model.NotificationType.teamJoinRequest) {
-        return 'You have requested to join the team ';
-      } else {
-        return ' has offered ';
-      }
-    } else {
-      if (notificationType == model.NotificationType.teamJoinRequest) {
-        return ' want to join your team ';
-      } else {
-        return ' has offered you to join their team.';
-      }
-    }
-  }
-
-  String _getLastMessage(model.NotificationType notificationType) {
-    if (widget.isSent) {
-      if (notificationType == model.NotificationType.teamJoinRequest) {
-        return '.';
-      } else {
-        return ' to join.';
-      }
-    } else {
-      if (notificationType == model.NotificationType.teamJoinRequest) {
-        return '.';
-      } else {
-        return '';
-      }
-    }
   }
 
   TextSpan _buildBoldTextSpan(String text) {
@@ -218,8 +199,8 @@ class _PendingRequestsState extends State<PendingRequests> {
 
   Widget _buildCancelButton(
       BuildContext context, model.Notification request, int index) {
-    return Align(
-      alignment: Alignment.centerRight,
+    return Padding(
+      padding: const EdgeInsets.only(left: 7),
       child: MyElevatedButton.secondaryElevatedButton(
         context,
         text: 'Cancel',
@@ -253,42 +234,45 @@ class _PendingRequestsState extends State<PendingRequests> {
       QueryDocumentSnapshot<Map<String, dynamic>> requestData,
       bool isPlayer,
       model.Notification request) {
-    return Consumer(
-      builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final requestStatus = ref.watch(requestStatusProvider);
-        final isRequestInProgress =
-            requestStatus.requestInProgress.contains(request.notificationId);
-        final isRequestSuccess =
-            requestStatus.requestSuccess.contains(request.notificationId);
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          final requestStatus = ref.watch(requestStatusProvider);
+          final isRequestInProgress =
+              requestStatus.requestInProgress.contains(request.notificationId);
+          final isRequestSuccess =
+              requestStatus.requestSuccess.contains(request.notificationId);
 
-        if (isRequestSuccess) {
-          return Text('This request has been accept',
-              style: MyTextStyle(context).bodyLarge);
-        }
+          if (isRequestSuccess) {
+            return Text('This request has been accept',
+                style: MyTextStyle(context).bodyLarge);
+          }
 
-        return Row(
-          children: [
-            Text(
-              timeAgo(request.createdAt.toDate()),
-              style: MyTextStyle(context).bodyMedium,
-            ),
-            const Spacer(),
-            MyElevatedButton.primaryElevatedButton(
-              context,
-              text: 'Accept',
-              isLoading: isRequestInProgress,
-              primaryColor: const Color.fromARGB(255, 47, 134, 50),
-              onPressed: () => _acceptRequest(request, index, isPlayer, ref),
-            ),
-            const SizedBox(width: 10),
-            MyElevatedButton.secondaryElevatedButton(
-              context,
-              text: 'Reject',
-              onPressed: () => _rejectRequest(context, index, requestData),
-            ),
-          ],
-        );
-      },
+          return Row(
+            children: [
+              Text(
+                timeAgo(request.createdAt.toDate()),
+                style: MyTextStyle(context).bodyMedium,
+              ),
+              const Spacer(),
+              MyElevatedButton.primaryElevatedButton(
+                context,
+                text: 'Accept',
+                isLoading: isRequestInProgress,
+                primaryColor: const Color.fromARGB(255, 47, 134, 50),
+                onPressed: () => _acceptRequest(request, index, isPlayer, ref),
+              ),
+              const SizedBox(width: 10),
+              MyElevatedButton.secondaryElevatedButton(
+                context,
+                text: 'Reject',
+                onPressed: () => _rejectRequest(context, index, requestData),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
