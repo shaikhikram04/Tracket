@@ -33,6 +33,7 @@ class PendingRequests extends StatefulWidget {
 class _PendingRequestsState extends State<PendingRequests> {
   late final List<QueryDocumentSnapshot<Map<String, dynamic>>> requestList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
+  String notificationBody = '';
 
   @override
   void initState() {
@@ -94,7 +95,13 @@ class _PendingRequestsState extends State<PendingRequests> {
                   children: [
                     _buildProfileImage(isPlayer, payload),
                     const SizedBox(width: 10),
-                    _buildRequestDetails(isPlayer, payload),
+                    _buildRequestDetails(
+                      request.type,
+                      payload['name'],
+                      isPlayer
+                          ? request.teamDetails!.name
+                          : request.playerDetails!.name,
+                    ),
                     // const Spacer(),
                     if (widget.isSent)
                       _buildCancelButton(context, request, index),
@@ -129,29 +136,83 @@ class _PendingRequestsState extends State<PendingRequests> {
     return getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 
-  Widget _buildRequestDetails(bool isPlayer, Map<String, dynamic> payload) {
+  Widget _buildRequestDetails(
+    model.NotificationType notificationType,
+    String senderName,
+    String receiverName,
+  ) {
     return Flexible(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Team join request',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Wrap(children: [
-            Text(
-              isPlayer
-                  ? payload['cricketRole'] ?? 'Unknown Role'
-                  : payload['shortName'] ?? 'Unknown Team',
-              style: const TextStyle(fontSize: 15),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ]),
-        ],
+      child: RichText(
+        text: TextSpan(
+          children: _buildMessage(senderName, receiverName, notificationType),
+        ),
       ),
+    );
+  }
+
+  List<TextSpan> _buildMessage(
+    String senderName,
+    String receiverName,
+    model.NotificationType notificationType,
+  ) {
+    return [
+      if (widget.isSent &&
+          notificationType != model.NotificationType.offerPlayerRequest)
+        _buildTextSpan('Your team '),
+      if (!widget.isSent ||
+          notificationType != model.NotificationType.teamJoinRequest)
+        _buildBoldTextSpan(senderName),
+      _buildTextSpan(_getMiddleMessage(notificationType)),
+      if (widget.isSent ||
+          notificationType == model.NotificationType.teamJoinRequest)
+        _buildBoldTextSpan(receiverName),
+      _buildTextSpan(_getLastMessage(notificationType)),
+    ];
+  }
+
+  String _getMiddleMessage(model.NotificationType notificationType) {
+    if (widget.isSent) {
+      if (notificationType == model.NotificationType.teamJoinRequest) {
+        return 'You have requested to join the team ';
+      } else {
+        return ' has offered ';
+      }
+    } else {
+      if (notificationType == model.NotificationType.teamJoinRequest) {
+        return ' want to join your team ';
+      } else {
+        return ' has offered you to join their team.';
+      }
+    }
+  }
+
+  String _getLastMessage(model.NotificationType notificationType) {
+    if (widget.isSent) {
+      if (notificationType == model.NotificationType.teamJoinRequest) {
+        return '.';
+      } else {
+        return ' to join.';
+      }
+    } else {
+      if (notificationType == model.NotificationType.teamJoinRequest) {
+        return '.';
+      } else {
+        return '';
+      }
+    }
+  }
+
+  TextSpan _buildBoldTextSpan(String text) {
+    return TextSpan(
+      text: text,
+      style: MyTextStyle(context).boldBodyLarge,
+    );
+  }
+
+  TextSpan _buildTextSpan(String text) {
+    return TextSpan(
+      text: text,
+      style: MyTextStyle(context).bodyLarge,
     );
   }
 

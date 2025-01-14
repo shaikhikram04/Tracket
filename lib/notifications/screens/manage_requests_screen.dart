@@ -64,6 +64,5 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
         ),
       ],
     );
-    ;
   }
 }
