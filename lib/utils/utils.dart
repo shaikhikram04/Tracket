@@ -66,6 +66,7 @@ void showAlertDoubleBtnDialog(
   required String content,
   required String sureButtonText,
   required Function() onSureButtonPressed,
+  String secondaryButtonText = 'Cancel',
 }) {
   showDialog(
     context: context,
@@ -78,7 +79,7 @@ void showAlertDoubleBtnDialog(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: Text(secondaryButtonText),
           ),
           TextButton(
             onPressed: () {
