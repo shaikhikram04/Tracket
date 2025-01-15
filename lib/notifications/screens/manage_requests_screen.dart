@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/notifications/widgets/requests_fercher.dart';
+import 'package:tracket/notifications/widgets/requests_fetcher.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -51,11 +51,11 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
           child: TabBarView(
             controller: _tabController,
             children: [
-              RequestsFercher(
+              RequestsFetcher(
                 field: 'to',
                 teamId: widget.teamId,
               ),
-              RequestsFercher(
+              RequestsFetcher(
                 field: 'from',
                 teamId: widget.teamId,
               ),
