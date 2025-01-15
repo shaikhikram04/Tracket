@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -41,6 +42,7 @@ class ChallengesFetcher extends ConsumerWidget {
         }
 
         final challenges = snapshot.data!.docs;
+        ref.read(requestStatusProvider.notifier).setRequestStatus();
         return Container();
       },
     );
