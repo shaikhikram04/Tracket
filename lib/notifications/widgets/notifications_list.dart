@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
-import 'package:tracket/notifications/services/requests_services.dart';
+import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -102,7 +102,7 @@ class _NotificationsListState extends State<NotificationsList> {
   Future<void> _onCancelRequest(int index, String notificationId) async {
     Navigator.of(context).pop();
     final result =
-        await RequestsServices.deleteRequest(notificationId, context);
+        await NotificationServices.deleteNotification(notificationId, context);
 
     if (result == 'success') {
       setState(() {
@@ -158,7 +158,8 @@ class _NotificationsListState extends State<NotificationsList> {
       }
 
       if (mounted) {
-        await RequestsServices.deleteRequest(request.notificationId, context);
+        await NotificationServices.deleteNotification(
+            request.notificationId, context);
       }
     } finally {
       _toggleButton(request.notificationId, false, ref);
@@ -192,7 +193,7 @@ class _NotificationsListState extends State<NotificationsList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        RequestsServices.deleteRequest(requestData.id, context);
+        NotificationServices.deleteNotification(requestData.id, context);
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
