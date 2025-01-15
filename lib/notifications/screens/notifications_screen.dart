@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/notifications/screens/manage_requests_screen.dart';
+import 'package:tracket/notifications/widgets/notifications_fetcher.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -46,7 +47,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                Container(),
+                const NotificationsFetcher(),
                 const ManageRequestsScreen(),
                 Container(),
               ],

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/widgets/notifications_list.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -38,14 +38,7 @@ class NotificationsFetcher extends ConsumerWidget {
 
         final notifications = snapshot.data!.docs;
 
-        return ListView.builder(
-          itemCount: notifications.length,
-          itemBuilder: (BuildContext context, int index) {
-            final notificationData = notifications[index].data();
-            final notification = model.Notification.fromMap(notificationData);
-            return null;
-          },
-        );
+        return NotificationsList(notifications: notifications);
       },
     );
   }

@@ -133,8 +133,12 @@ class Notification {
       read: snap['read'],
       title: snap['title'],
       body: snap['body'],
-      teamDetails: TeamDetails.formMap(snap['teamDetail']),
-      playerDetails: PlayerDetails.fromMap(snap['playerDetail']),
+      teamDetails: snap['teamDetail'] == null
+          ? null
+          : TeamDetails.formMap(snap['teamDetail']),
+      playerDetails: snap['playerDetail'] == null
+          ? null
+          : PlayerDetails.fromMap(snap['playerDetail']),
     );
   }
 }
