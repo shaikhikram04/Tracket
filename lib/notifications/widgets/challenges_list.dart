@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/notification_services.dart';
+import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -74,7 +75,16 @@ class _ChallengesListState extends State<ChallengesList> {
         _loadData(challenge, notificationData);
         // Now data contains the updated values
 
-        return Container();
+        return ChallengeCard(
+          notificationData: notificationData,
+          challenge: challenge,
+          isSent: widget.isSent,
+          onAcceptChallenge: (ref) => _acceptChallenge(challenge, index, ref),
+          onCanceChallenge: () =>
+              _onCancelChallenge(index, challenge.notificationId),
+          onRejectChallenge: () =>
+              _rejectChallenge(context, index, challengeData),
+        );
       },
     );
   }
@@ -100,24 +110,23 @@ class _ChallengesListState extends State<ChallengesList> {
   }
 
   Future<void> _acceptChallenge(
-    model.Notification request,
+    model.Notification challenge,
     int index,
-    bool isPlayer,
     WidgetRef ref,
   ) async {
     // Handle accept logic
-    _toggleButton(request.notificationId, true, ref);
+    _toggleButton(challenge.notificationId, true, ref);
     try {
       //! Acception challenge
     } finally {
-      _toggleButton(request.notificationId, false, ref);
+      _toggleButton(challenge.notificationId, false, ref);
     }
   }
 
   void _rejectChallenge(
     BuildContext context,
     int index,
-    QueryDocumentSnapshot<Map<String, dynamic>> requestData,
+    QueryDocumentSnapshot<Map<String, dynamic>> challengeData,
   ) async {
     // Cancel any existing timer for this index
     activeTimers[index]?.cancel();
@@ -132,7 +141,7 @@ class _ChallengesListState extends State<ChallengesList> {
     showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
-        requestList.insert(index, requestData);
+        requestList.insert(index, challengeData);
       });
       activeTimers[index]?.cancel(); // Cancel the timer when undo is clicked
     });
@@ -141,7 +150,7 @@ class _ChallengesListState extends State<ChallengesList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        NotificationServices.deleteNotification(requestData.id, context);
+        NotificationServices.deleteNotification(challengeData.id, context);
         activeTimers.remove(index); // Clean up the timer reference
       }
     });

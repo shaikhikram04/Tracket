@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/widgets/notifications_list.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -13,6 +12,7 @@ class NotificationsFetcher extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ids = [];
+    // ref.read(requestStatusProvider.notifier).setRequestStatus();
 
     final player = ref.watch(playerProvider);
     final playerTeamsId = player.playerTeamsId;
@@ -38,7 +38,6 @@ class NotificationsFetcher extends ConsumerWidget {
         }
 
         final notifications = snapshot.data!.docs;
-        ref.read(requestStatusProvider.notifier).setRequestStatus();
 
         return NotificationsList(notifications: notifications);
       },

@@ -4,9 +4,8 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class ManageChallengesScreen extends StatefulWidget {
-  const ManageChallengesScreen({super.key, this.teamId, this.initialIndex = 0});
+  const ManageChallengesScreen({super.key, this.initialIndex = 0});
 
-  final String? teamId;
   final int initialIndex;
 
   @override

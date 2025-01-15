@@ -123,22 +123,63 @@ class Notification {
   }
 
   static Notification fromMap(Map<String, dynamic> snap) {
-    return Notification.request(
-      notificationId: snap['notificationId'],
-      from: snap['from'],
-      to: snap['to'],
-      type: getType(snap['type']),
-      createdAt: snap['createdAt'],
-      status: getStatus(snap['status']),
-      read: snap['read'],
-      title: snap['title'],
-      body: snap['body'],
-      teamDetails: snap['teamDetail'] == null
-          ? null
-          : TeamDetails.formMap(snap['teamDetail']),
-      playerDetails: snap['playerDetail'] == null
-          ? null
-          : PlayerDetails.fromMap(snap['playerDetail']),
-    );
+    NotificationType type = getType(snap['type']);
+
+    if (type == NotificationType.offerPlayerRequest ||
+        type == NotificationType.teamJoinRequest) {
+      return Notification.request(
+        notificationId: snap['notificationId'],
+        from: snap['from'],
+        to: snap['to'],
+        type: type,
+        createdAt: snap['createdAt'],
+        status: getStatus(snap['status']),
+        read: snap['read'],
+        title: snap['title'],
+        body: snap['body'],
+        teamDetails: snap['teamDetail'] == null
+            ? null
+            : TeamDetails.formMap(snap['teamDetail']),
+        playerDetails: snap['playerDetail'] == null
+            ? null
+            : PlayerDetails.fromMap(snap['playerDetail']),
+      );
+    } else if (type == NotificationType.matchChallenge) {
+      return Notification.challenge(
+        notificationId: snap['notificationId'],
+        from: snap['from'],
+        to: snap['to'],
+        type: type,
+        createdAt: snap['createdAt'],
+        status: getStatus(snap['status']),
+        read: snap['read'],
+        title: snap['title'],
+        body: snap['body'],
+        challengeMatch: ChallengeMatch.formMap(snap['challengeMatch'], [], []),
+      );
+    } else {
+      return Notification(
+        notificationId: snap['notificationId'],
+        from: snap['from'],
+        to: snap['to'],
+        type: type,
+        createdAt: snap['createdAt'],
+        status: getStatus(snap['status']),
+        read: snap['read'],
+        title: snap['title'],
+        body: snap['body'],
+        followerData: FollowerData(
+            followerId: snap['followerId'],
+            profilePic: snap['profilePic'],
+            userName: snap['userName']),
+        teamDetails: snap['teamDetail'] == null
+            ? null
+            : TeamDetails.formMap(snap['teamDetail']),
+        playerDetails: snap['playerDetail'] == null
+            ? null
+            : PlayerDetails.fromMap(snap['playerDetail']),
+        challengeMatch: ChallengeMatch.formMap(snap, [], []),
+      );
+    }
   }
 }

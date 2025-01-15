@@ -50,4 +50,23 @@ class ChallengeMatch {
         'updatedAt': updatedAt,
         'noOfPlayers': noOfPlayers,
       };
+
+  static ChallengeMatch formMap(
+          Map<String, dynamic> snap,
+          List<QueryDocumentSnapshot> challengerPlayer,
+          List<QueryDocumentSnapshot> challengedPlayer) =>
+      ChallengeMatch(
+        challengedTeam: TeamDetails.formMap(snap['challengedTeam']),
+        challengerId: snap['challengerId'],
+        challengerName: snap['challengerName'],
+        challengerTeam: TeamDetails.formMap(snap['challengerTeam']),
+        updatedAt: snap['updatedAt'],
+        willLive: snap['willLive'],
+        challengedPlayers: [], // TODO : wrote function for fetch store players
+        challengerPlayers: [], // TODO : wrote function for fetch store players
+        noOfPlayers: snap['noOfPlayers'],
+        overs: Match.getMatchFormat(snap['overs']),
+        venue: snap['venue'],
+        schedule: snap['schedule'].toDate(),
+      );
 }

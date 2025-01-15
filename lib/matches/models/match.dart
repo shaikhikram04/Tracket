@@ -78,4 +78,12 @@ class Match {
 
   Inning inning1;
   Inning inning2;
+
+  static MatchFormat getMatchFormat(String matchFormat) {
+    for (final format in MatchFormat.values) {
+      if (matchFormat == format.name) return format;
+    }
+
+    return MatchFormat.over20;
+  }
 }
