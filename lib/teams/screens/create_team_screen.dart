@@ -152,7 +152,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                                     _createTeam(
                                       player.id,
                                       player.name,
-                                      player.detailedCricketRole,
+                                      player.cricketRole!.name,
                                     );
                                   },
                                 ),
