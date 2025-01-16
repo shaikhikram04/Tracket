@@ -39,44 +39,15 @@ class _RequestListState extends State<RequestList> {
     super.initState();
   }
 
-  void _loadData(
-    model.Notification request,
-    Map<String, dynamic> data,
-  ) {
-    if (widget.isSent) {
-      if (request.type == model.NotificationType.offerPlayerRequest) {
-        data['initialMessage'] = 'Your team ';
-        data['middleMessage'] = ' has offered ';
-        data['lastMessage'] = ' to join.';
-        data['isPlayer'] = true;
-        data['firstNameInMessage'] = request.teamDetails!.name;
-        data['secondNameInMessage'] = request.playerDetails!.name;
-        data['imageUrl'] = request.playerDetails!.imageUrl;
-      } else {
-        data['middleMessage'] = 'You have requested to join the team ';
-        data['lastMessage'] = '.';
-        data['isPlayer'] = false;
-        data['firstNameInMessage'] = '';
-        data['secondNameInMessage'] = request.teamDetails!.name;
-        data['imageUrl'] = request.teamDetails!.logoUrl;
-      }
-    } else {
-      if (request.type == model.NotificationType.offerPlayerRequest) {
-        data['middleMessage'] = ' has offered you to join their team.';
-        data['lastMessage'] = '';
-        data['isPlayer'] = false;
-        data['firstNameInMessage'] = request.teamDetails!.name;
-        data['secondNameInMessage'] = '';
-        data['imageUrl'] = request.teamDetails!.logoUrl;
-      } else {
-        data['middleMessage'] = ' want to join your team ';
-        data['lastMessage'] = '.';
-        data['isPlayer'] = true;
-        data['firstNameInMessage'] = request.playerDetails!.name;
-        data['secondNameInMessage'] = request.teamDetails!.name;
-        data['imageUrl'] = request.playerDetails!.imageUrl;
-      }
+  bool _isPlayer(model.NotificationType type) {
+    if (widget.isSent && type == model.NotificationType.offerPlayerRequest) {
+      return true;
     }
+    if (!widget.isSent && type == model.NotificationType.teamJoinRequest) {
+      return true;
+    }
+
+    return false;
   }
 
   @override
@@ -87,27 +58,15 @@ class _RequestListState extends State<RequestList> {
         final requestData = requestList[index];
         final request = model.Notification.fromMap(requestData.data());
 
-        final Map<String, dynamic> notificationData = {
-          'initialMessage': '',
-          'middleMessage': '',
-          'lastMessage': '',
-          'isPlayer': false,
-          'firstNameInMessage': '',
-          'secondNameInMessage': '',
-          'imageUrl': '',
-        };
-
-        _loadData(request, notificationData);
-        // Now data contains the updated values
+        final isPlayer = _isPlayer(request.type);
 
         return RequestCard(
-          notificationData: notificationData,
           request: request,
           isSent: widget.isSent,
           onCancelRequest: () =>
               _onCancelRequest(index, request.notificationId),
           onAcceptRequest: (WidgetRef ref) =>
-              _acceptRequest(request, index, notificationData['isPlayer'], ref),
+              _acceptRequest(request, index, isPlayer, ref),
           onRejectRequest: () => _rejectRequest(context, index, requestData),
         );
       },
@@ -115,8 +74,10 @@ class _RequestListState extends State<RequestList> {
   }
 
   Future<void> _onCancelRequest(int index, String notificationId) async {
-    final result =
-        await NotificationServices.deleteNotification(notificationId, context);
+    final result = await NotificationServices.deleteNotification(
+      notificationId,
+      context,
+    );
 
     if (result == 'success') {
       setState(() {

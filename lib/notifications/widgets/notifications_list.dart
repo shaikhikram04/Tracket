@@ -37,25 +37,12 @@ class _NotificationsListState extends State<NotificationsList> {
     super.initState();
   }
 
-  void _loadData(
-    model.Notification request,
-    Map<String, dynamic> data,
-  ) {
-    if (request.type == model.NotificationType.offerPlayerRequest) {
-      data['middleMessage'] = ' has offered you to join their team.';
-      data['lastMessage'] = '';
-      data['isPlayer'] = false;
-      data['firstNameInMessage'] = request.teamDetails!.name;
-      data['secondNameInMessage'] = '';
-      data['imageUrl'] = request.teamDetails!.logoUrl;
-    } else {
-      data['middleMessage'] = ' want to join your team ';
-      data['lastMessage'] = '.';
-      data['isPlayer'] = true;
-      data['firstNameInMessage'] = request.playerDetails!.name;
-      data['secondNameInMessage'] = request.teamDetails!.name;
-      data['imageUrl'] = request.playerDetails!.imageUrl;
+  bool _isPlayer(model.NotificationType type) {
+    if (type == model.NotificationType.teamJoinRequest) {
+      return true;
     }
+
+    return false;
   }
 
   @override
@@ -69,26 +56,17 @@ class _NotificationsListState extends State<NotificationsList> {
             request.type == model.NotificationType.teamJoinRequest ||
                 request.type == model.NotificationType.offerPlayerRequest;
 
-        final Map<String, dynamic> requestMap = {
-          'initialMessage': '',
-          'middleMessage': '',
-          'lastMessage': '',
-          'isPlayer': false,
-          'firstNameInMessage': '',
-          'secondNameInMessage': '',
-          'imageUrl': '',
-        };
-        if (isRequest) _loadData(request, requestMap);
+        final isPlayer = _isPlayer(request.type);
+
         // Now data contains the updated values
         if (isRequest) {
           return RequestCard(
-            notificationData: requestMap,
             request: request,
             isSent: false,
             onCancelRequest: () =>
                 _onCancelRequest(index, request.notificationId),
-            onAcceptRequest: (WidgetRef ref) => _acceptRequest(
-                request, index, notificationData['isPlayer'], ref),
+            onAcceptRequest: (WidgetRef ref) =>
+                _acceptRequest(request, index, isPlayer, ref),
             onRejectRequest: () =>
                 _rejectRequest(context, index, notificationData),
           );

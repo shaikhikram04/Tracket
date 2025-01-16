@@ -12,7 +12,6 @@ import 'package:tracket/widgets/custom_widgets/my_card.dart';
 class RequestCard extends StatelessWidget {
   const RequestCard({
     super.key,
-    required this.notificationData,
     required this.request,
     required this.isSent,
     required this.onCancelRequest,
@@ -20,7 +19,6 @@ class RequestCard extends StatelessWidget {
     required this.onRejectRequest,
   });
 
-  final Map<String, dynamic> notificationData;
   final model.Notification request;
   final bool isSent;
   final void Function() onCancelRequest;
@@ -38,26 +36,75 @@ class RequestCard extends StatelessWidget {
     pushScreen(context, profileScreen);
   }
 
+  void _loadData(
+    Map<String, dynamic> data,
+  ) {
+    if (isSent) {
+      if (request.type == model.NotificationType.offerPlayerRequest) {
+        data['initialMessage'] = 'Your team ';
+        data['middleMessage'] = ' has offered ';
+        data['lastMessage'] = ' to join.';
+        data['isPlayer'] = true;
+        data['firstNameInMessage'] = request.teamDetails!.name;
+        data['secondNameInMessage'] = request.playerDetails!.name;
+        data['imageUrl'] = request.playerDetails!.imageUrl;
+      } else {
+        data['middleMessage'] = 'You have requested to join the team ';
+        data['lastMessage'] = '.';
+        data['isPlayer'] = false;
+        data['firstNameInMessage'] = '';
+        data['secondNameInMessage'] = request.teamDetails!.name;
+        data['imageUrl'] = request.teamDetails!.logoUrl;
+      }
+    } else {
+      if (request.type == model.NotificationType.offerPlayerRequest) {
+        data['middleMessage'] = ' has offered you to join their team.';
+        data['lastMessage'] = '';
+        data['isPlayer'] = false;
+        data['firstNameInMessage'] = request.teamDetails!.name;
+        data['secondNameInMessage'] = '';
+        data['imageUrl'] = request.teamDetails!.logoUrl;
+      } else {
+        data['middleMessage'] = ' want to join your team ';
+        data['lastMessage'] = '.';
+        data['isPlayer'] = true;
+        data['firstNameInMessage'] = request.playerDetails!.name;
+        data['secondNameInMessage'] = request.teamDetails!.name;
+        data['imageUrl'] = request.playerDetails!.imageUrl;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> requestMap = {
+      'initialMessage': '',
+      'middleMessage': '',
+      'lastMessage': '',
+      'isPlayer': false,
+      'firstNameInMessage': '',
+      'secondNameInMessage': '',
+      'imageUrl': '',
+    };
+    _loadData(requestMap);
     return MyCard(
       child: Column(
         children: [
           InkWell(
-            onTap: () => _navigateToProfile(
-                context, notificationData['isPlayer'], request),
+            onTap: () =>
+                _navigateToProfile(context, requestMap['isPlayer'], request),
             child: Row(
               children: [
                 _buildProfileImage(
-                    notificationData['isPlayer'], notificationData['imageUrl']),
+                    requestMap['isPlayer'], requestMap['imageUrl']),
                 const SizedBox(width: 10),
                 _buildRequestDetails(
                   context,
-                  firstBoldName: notificationData['firstNameInMessage'],
-                  secontBoldName: notificationData['secondNameInMessage'],
-                  initialMessage: notificationData['initialMessage'],
-                  middleMessage: notificationData['middleMessage'],
-                  lastMessage: notificationData['lastMessage'],
+                  firstBoldName: requestMap['firstNameInMessage'],
+                  secontBoldName: requestMap['secondNameInMessage'],
+                  initialMessage: requestMap['initialMessage'],
+                  middleMessage: requestMap['middleMessage'],
+                  lastMessage: requestMap['lastMessage'],
                 ),
                 // const Spacer(),
                 if (isSent) _buildCancelButton(context, request),
@@ -67,7 +114,7 @@ class RequestCard extends StatelessWidget {
           if (!isSent)
             _buildActionButtons(
               context,
-              notificationData['isPlayer'],
+              requestMap['isPlayer'],
               request,
             ),
         ],
