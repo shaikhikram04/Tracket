@@ -131,9 +131,11 @@ class Player {
 
   String get detailedCricketRole {
     String result = '';
+    bool canBat = false;
     if (cricketRole == CricketRole.batsman ||
         cricketRole == CricketRole.wicketKeeper ||
         cricketRole == CricketRole.allRounder) {
+      canBat = true;
       if (battingPosition == Position.righty) {
         result += 'Right-handed ';
       } else if (battingPosition == Position.lefty) {
@@ -142,7 +144,7 @@ class Player {
       result += 'Batsman';
     }
     if (bowlingStyle != BowlingStyle.none) {
-      result += ' | ';
+      if (canBat) result += ' | ';
       if (bowlingArm == Position.righty) {
         result += 'Right-arm ';
       } else if (bowlingArm == Position.lefty) {

@@ -93,9 +93,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                       children: [
                         const SizedBox(height: 10),
                         getCircleAvatar(
-                            url: _playerData.profileImageUrl,
-                            isTeam: false,
-                            radius: 50),
+                          url: _playerData.profileImageUrl,
+                          isTeam: false,
+                          radius: 50,
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           _playerData.name,
