@@ -37,25 +37,6 @@ class _ChallengesListState extends State<ChallengesList> {
     super.initState();
   }
 
-  void _loadData(
-    model.Notification request,
-    Map<String, dynamic> data,
-  ) {
-    if (widget.isSent) {
-      data['initialMessage'] = 'Your team ';
-      data['firstTeamName'] = request.challengeMatch!.challengerTeam.name;
-      data['middleMessage'] = ' has challenged team ';
-      data['secondTeamName'] = request.challengeMatch!.challengedTeam.name;
-      data['logoUrl'] = request.challengeMatch!.challengedTeam.logoUrl;
-    } else {
-      data['initialMessage'] = 'Team ';
-      data['firstTeamName'] = request.challengeMatch!.challengerTeam.name;
-      data['middleMessage'] = ' has challenged your team ';
-      data['secondTeamName'] = request.challengeMatch!.challengedTeam.name;
-      data['logoUrl'] = request.challengeMatch!.challengerTeam.logoUrl;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -64,19 +45,9 @@ class _ChallengesListState extends State<ChallengesList> {
         final challengeData = requestList[index];
         final challenge = model.Notification.fromMap(challengeData.data());
 
-        final Map<String, dynamic> notificationData = {
-          'initialMessage': '',
-          'middleMessage': '',
-          'firstTeamName': '',
-          'secondTeamName': '',
-          'logoUrl': '',
-        };
-
-        _loadData(challenge, notificationData);
         // Now data contains the updated values
 
         return ChallengeCard(
-          notificationData: notificationData,
           challenge: challenge,
           isSent: widget.isSent,
           onAcceptChallenge: (ref) => _acceptChallenge(challenge, index, ref),

@@ -11,7 +11,6 @@ import 'package:tracket/widgets/custom_widgets/my_card.dart';
 class ChallengeCard extends StatelessWidget {
   const ChallengeCard({
     super.key,
-    required this.notificationData,
     required this.challenge,
     required this.isSent,
     required this.onAcceptChallenge,
@@ -19,7 +18,6 @@ class ChallengeCard extends StatelessWidget {
     required this.onRejectChallenge,
   });
 
-  final Map<String, dynamic> notificationData;
   final model.Notification challenge;
   final bool isSent;
   final void Function() onCanceChallenge;
@@ -34,8 +32,35 @@ class ChallengeCard extends StatelessWidget {
         TeamProfileScreen.fromId(teamId: isSent ? request.to : request.from));
   }
 
+  void _loadData(
+    model.Notification request,
+    Map<String, dynamic> data,
+  ) {
+    if (isSent) {
+      data['initialMessage'] = 'Your team ';
+      data['firstTeamName'] = request.challengeMatch!.challengerTeam.name;
+      data['middleMessage'] = ' has challenged team ';
+      data['secondTeamName'] = request.challengeMatch!.challengedTeam.name;
+      data['logoUrl'] = request.challengeMatch!.challengedTeam.logoUrl;
+    } else {
+      data['initialMessage'] = 'Team ';
+      data['firstTeamName'] = request.challengeMatch!.challengerTeam.name;
+      data['middleMessage'] = ' has challenged your team ';
+      data['secondTeamName'] = request.challengeMatch!.challengedTeam.name;
+      data['logoUrl'] = request.challengeMatch!.challengerTeam.logoUrl;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> notificationData = {
+      'initialMessage': '',
+      'middleMessage': '',
+      'firstTeamName': '',
+      'secondTeamName': '',
+      'logoUrl': '',
+    };
+    _loadData(challenge, notificationData);
     return MyCard(
       child: Column(
         children: [
