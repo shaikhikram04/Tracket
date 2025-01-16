@@ -1,36 +1,4 @@
-class BowlingFigure {
-  final int runGiven;
-  final int ballDelivered;
-  final int wicket;
-  const BowlingFigure({
-    required this.runGiven,
-    required this.ballDelivered,
-    required this.wicket,
-  });
-
-  Map<String, dynamic> get toJson => {
-        'runGiven': runGiven,
-        'ballDelivered': ballDelivered,
-        'wicket': wicket,
-      };
-
-  String get over {
-    final over = ballDelivered ~/ 6;
-    final ball = ballDelivered % 6;
-
-    if (ball == 0) {
-      return '$over';
-    }
-    return '$over.$ball';
-  }
-
-  String get inString {
-    if (over == '0') {
-      return '-';
-    }
-    return '$runGiven / $wicket ($over)';
-  }
-}
+import 'package:tracket/players/models/bowling_figure.dart';
 
 class PlayerStats {
   PlayerStats({
@@ -144,4 +112,24 @@ class PlayerStats {
         'bestBallingFigure': bestBallingFigure?.toJson,
         'outCount': outCount,
       };
+
+  static PlayerStats fromMap(Map<String, dynamic> snap) {
+    return PlayerStats(
+      ballDelivered: snap['ballDelivered'],
+      ballsFaced: snap['ballsFaced'],
+      bestBallingFigure: BowlingFigure.fromMap(snap['bestBallingFigure']),
+      fifties: snap['fifties'],
+      four: snap['four'],
+      highestScore: snap['highestScore'],
+      hundreds: snap['hundreds'],
+      innings: snap['innings'],
+      maiden: snap['maiden'],
+      matches: snap['matches'],
+      outCount: snap['outCount'],
+      runGiven: snap['runGiven'],
+      six: snap['six'],
+      totalRuns: snap['totalRuns'],
+      wicket: snap['wicket'],
+    );
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/players/models/bowling_figure.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_stats.dart';
 import 'package:tracket/teams/models/team_details.dart';

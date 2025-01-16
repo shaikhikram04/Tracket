@@ -170,7 +170,7 @@ class Player {
         'following': following,
         'followingTeams': followingTeams,
         'followers': followers,
-        ...playerStats!.toJson,
+        'playerStats': playerStats!.toJson,
       };
 
   static List<TeamDetails>? playerTeamsToList(
@@ -215,26 +215,7 @@ class Player {
       bowlingStyle: getBowlingStyle(snap['bowlingStyle']),
       createdAt: snap['createdAt'],
       teams: playerTeamsToList(playerTeams),
-      playerStats: PlayerStats(
-        ballDelivered: snap['ballDelivered'],
-        ballsFaced: snap['ballsFaced'],
-        fifties: snap['fifties'],
-        four: snap['four'],
-        highestScore: snap['highestScore'],
-        hundreds: snap['hundreds'],
-        maiden: snap['maiden'],
-        runGiven: snap['runGiven'],
-        six: snap['six'],
-        totalRuns: snap['totalRuns'],
-        wicket: snap['wicket'],
-        matches: snap['matches'],
-        innings: snap['innings'],
-        bestBallingFigure: BowlingFigure(
-          wicket: snap['bestBallingFigure']['wicket'],
-          runGiven: snap['bestBallingFigure']['runGiven'],
-          ballDelivered: snap['bestBallingFigure']['ballDelivered'],
-        ),
-      ),
+      playerStats: PlayerStats.fromMap(snap['playerStats']),
       achievements: snap['achievements'],
       following: snap['following'],
       followingTeams: snap['followingTeams'],
