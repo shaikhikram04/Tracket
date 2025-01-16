@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/notification_services.dart';
+import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -41,7 +42,6 @@ class _NotificationsListState extends State<NotificationsList> {
     if (type == model.NotificationType.teamJoinRequest) {
       return true;
     }
-
     return false;
   }
 
@@ -51,24 +51,39 @@ class _NotificationsListState extends State<NotificationsList> {
       itemCount: requestList.length,
       itemBuilder: (context, index) {
         final notificationData = requestList[index];
-        final request = model.Notification.fromMap(notificationData.data());
+        final notification =
+            model.Notification.fromMap(notificationData.data());
         final isRequest =
-            request.type == model.NotificationType.teamJoinRequest ||
-                request.type == model.NotificationType.offerPlayerRequest;
+            notification.type == model.NotificationType.teamJoinRequest ||
+                notification.type == model.NotificationType.offerPlayerRequest;
+        final isChallenge =
+            notification.type == model.NotificationType.matchChallenge;
 
-        final isPlayer = _isPlayer(request.type);
+        final isPlayer = _isPlayer(notification.type);
 
         // Now data contains the updated values
         if (isRequest) {
           return RequestCard(
-            request: request,
+            request: notification,
             isSent: false,
             onCancelRequest: () =>
-                _onCancelRequest(index, request.notificationId),
+                _cancelNotification(index, notification.notificationId),
             onAcceptRequest: (WidgetRef ref) =>
-                _acceptRequest(request, index, isPlayer, ref),
+                _acceptRequest(notification, index, isPlayer, ref),
             onRejectRequest: () =>
-                _rejectRequest(context, index, notificationData),
+                _rejectNotification(context, index, notificationData),
+          );
+        }
+        if (isChallenge) {
+          return ChallengeCard(
+            challenge: notification,
+            isSent: false,
+            onAcceptChallenge: (ref) =>
+                _acceptChallenge(notification, index, ref),
+            onCanceChallenge: () =>
+                _cancelNotification(index, notification.notificationId),
+            onRejectChallenge: () =>
+                _rejectNotification(context, index, notificationData),
           );
         }
 
@@ -77,8 +92,7 @@ class _NotificationsListState extends State<NotificationsList> {
     );
   }
 
-  Future<void> _onCancelRequest(int index, String notificationId) async {
-    Navigator.of(context).pop();
+  Future<void> _cancelNotification(int index, String notificationId) async {
     final result =
         await NotificationServices.deleteNotification(notificationId, context);
 
@@ -94,6 +108,20 @@ class _NotificationsListState extends State<NotificationsList> {
       ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
     } else {
       ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+    }
+  }
+
+  Future<void> _acceptChallenge(
+    model.Notification challenge,
+    int index,
+    WidgetRef ref,
+  ) async {
+    // Handle accept logic
+    _toggleButton(challenge.notificationId, true, ref);
+    try {
+      //! Acception challenge
+    } finally {
+      _toggleButton(challenge.notificationId, false, ref);
     }
   }
 
@@ -144,10 +172,10 @@ class _NotificationsListState extends State<NotificationsList> {
     }
   }
 
-  void _rejectRequest(
+  void _rejectNotification(
     BuildContext context,
     int index,
-    QueryDocumentSnapshot<Map<String, dynamic>> requestData,
+    QueryDocumentSnapshot<Map<String, dynamic>> notificationData,
   ) async {
     // Cancel any existing timer for this index
     activeTimers[index]?.cancel();
@@ -162,7 +190,7 @@ class _NotificationsListState extends State<NotificationsList> {
     showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
-        requestList.insert(index, requestData);
+        requestList.insert(index, notificationData);
       });
       activeTimers[index]?.cancel(); // Cancel the timer when undo is clicked
     });
@@ -171,7 +199,7 @@ class _NotificationsListState extends State<NotificationsList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        NotificationServices.deleteNotification(requestData.id, context);
+        NotificationServices.deleteNotification(notificationData.id, context);
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
