@@ -90,7 +90,6 @@ class _ChallengesListState extends State<ChallengesList> {
   }
 
   Future<void> _onCancelChallenge(int index, String notificationId) async {
-    Navigator.of(context).pop();
     final result =
         await NotificationServices.deleteNotification(notificationId, context);
 

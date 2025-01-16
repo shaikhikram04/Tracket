@@ -39,7 +39,7 @@ class ChallengeMatch {
   final List<PlayerDetails> challengedPlayers;
 
   Map<String, dynamic> get toMap => {
-        'challengerTeam': challengedTeam.toMap,
+        'challengerTeam': challengerTeam.toMap,
         'challengedTeam': challengedTeam.toMap,
         'challengerId': challengerId,
         'challengerName': challengerName,

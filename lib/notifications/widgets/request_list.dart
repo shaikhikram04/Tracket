@@ -115,7 +115,6 @@ class _RequestListState extends State<RequestList> {
   }
 
   Future<void> _onCancelRequest(int index, String notificationId) async {
-    Navigator.of(context).pop();
     final result =
         await NotificationServices.deleteNotification(notificationId, context);
 
