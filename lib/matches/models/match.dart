@@ -35,7 +35,6 @@ class Match {
     required this.team1,
     required this.team2,
     required this.noOfPlayer,
-    required this.over,
     required this.isTeam1WonToss,
     required this.tossDecision,
     required this.createdAt,
@@ -65,7 +64,6 @@ class Match {
   final Team team1;
   final Team team2;
   final MatchType matchType;
-  final int over;
   final MatchFormat matchFormat;
   final int noOfPlayer;
   final bool isTeam1WonToss;
@@ -78,6 +76,21 @@ class Match {
 
   Inning inning1;
   Inning inning2;
+
+  int get over {
+    switch (matchFormat) {
+      case MatchFormat.over5:
+        return 5;
+      case MatchFormat.over10:
+        return 10;
+      case MatchFormat.over20:
+        return 20;
+      case MatchFormat.over50:
+        return 50;
+      case MatchFormat.test:
+        return 90;
+    }
+  }
 
   static MatchFormat getMatchFormat(String matchFormat) {
     for (final format in MatchFormat.values) {
