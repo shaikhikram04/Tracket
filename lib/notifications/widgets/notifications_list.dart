@@ -66,8 +66,7 @@ class _NotificationsListState extends State<NotificationsList> {
           return RequestCard(
             request: notification,
             isSent: false,
-            onCancelRequest: () =>
-                _cancelNotification(index, notification.notificationId),
+            onCancelRequest: () {},
             onAcceptRequest: (WidgetRef ref) =>
                 _acceptRequest(notification, index, isPlayer, ref),
             onRejectRequest: () =>
@@ -80,8 +79,7 @@ class _NotificationsListState extends State<NotificationsList> {
             isSent: false,
             onAcceptChallenge: (ref) =>
                 _acceptChallenge(notification, index, ref),
-            onCanceChallenge: () =>
-                _cancelNotification(index, notification.notificationId),
+            onCanceChallenge: () {},
             onRejectChallenge: () =>
                 _rejectNotification(context, index, notificationData),
           );
@@ -90,17 +88,6 @@ class _NotificationsListState extends State<NotificationsList> {
         return Container();
       },
     );
-  }
-
-  Future<void> _cancelNotification(int index, String notificationId) async {
-    final result =
-        await NotificationServices.deleteNotification(notificationId, context);
-
-    if (result == 'success') {
-      setState(() {
-        requestList.removeAt(index);
-      });
-    }
   }
 
   void _toggleButton(String playerId, bool isAdding, WidgetRef ref) {
