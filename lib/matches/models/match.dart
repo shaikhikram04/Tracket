@@ -136,4 +136,22 @@ class Match {
 
     return MatchType.practice;
   }
+
+  Map<String, dynamic> get toMap => {
+        'id': id,
+        'team1': team1.toMap,
+        'team2': team2.toMap,
+        'team1Players': team1Players,
+        'team2Players': team2Players,
+        'matchType': matchType.name,
+        'matchFormat': matchFormat.name,
+        'noOfPlayer': noOfPlayer,
+        'isTeam1WonToss': isTeam1WonToss,
+        'venue': venue,
+        'tossDecision': tossDecision?.name,
+        'createdAt': createdAt,
+        'spectatorsAllowed': spectatorsAllowed,
+        'updatedAt': updatedAt,
+        'schedule': Timestamp.fromDate(schedule),
+      };
 }

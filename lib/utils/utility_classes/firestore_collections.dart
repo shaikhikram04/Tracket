@@ -6,4 +6,5 @@ class FirestoreCollections {
   static const notification = 'notification';
   static const challengerPlayers = 'challengerPlayers';
   static const challengedPlayers = 'challengedPlayers';
+  static const matches = 'matches';
 }

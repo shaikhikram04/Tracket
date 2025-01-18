@@ -95,5 +95,7 @@ class MatchesServices {
       team2Players: [],
       schedule: challegeMatch.schedule,
     );
+
+    _firestore.collection(FirestoreCollections.matches).doc(match.id).set(match.toMap);
   }
 }
