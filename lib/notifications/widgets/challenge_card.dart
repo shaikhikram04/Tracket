@@ -162,7 +162,7 @@ class ChallengeCard extends StatelessWidget {
               requestStatus.requestSuccess.contains(request.notificationId);
 
           if (isRequestSuccess) {
-            return Text('This request has been accept',
+            return Text('This challenge has been accept',
                 style: MyTextStyle(context).bodyLarge);
           }
 

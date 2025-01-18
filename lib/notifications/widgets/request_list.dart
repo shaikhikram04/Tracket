@@ -10,6 +10,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class RequestList extends StatefulWidget {
   const RequestList({
@@ -52,6 +53,13 @@ class _RequestListState extends State<RequestList> {
 
   @override
   Widget build(BuildContext context) {
+    if (requestList.isEmpty) {
+      return const NoDataFound(
+        title: 'No Request Found',
+        message: '',
+        isRequest: true,
+      );
+    }
     return ListView.builder(
       itemCount: requestList.length,
       itemBuilder: (context, index) {

@@ -8,6 +8,7 @@ import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class ChallengesList extends StatefulWidget {
   const ChallengesList({
@@ -24,12 +25,12 @@ class ChallengesList extends StatefulWidget {
 }
 
 class _ChallengesListState extends State<ChallengesList> {
-  late final List<QueryDocumentSnapshot<Map<String, dynamic>>> requestList;
+  late final List<QueryDocumentSnapshot<Map<String, dynamic>>> challengeList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
 
   @override
   void initState() {
-    requestList = widget.challenge;
+    challengeList = widget.challenge;
     // Cancel all active timers to avoid memory leaks
     for (var timer in activeTimers.values) {
       timer?.cancel();
@@ -39,10 +40,17 @@ class _ChallengesListState extends State<ChallengesList> {
 
   @override
   Widget build(BuildContext context) {
+    if (challengeList.isEmpty) {
+      return const NoDataFound(
+        title: 'No Challenge Found',
+        message: '',
+        isRequest: true,
+      );
+    }
     return ListView.builder(
-      itemCount: requestList.length,
+      itemCount: challengeList.length,
       itemBuilder: (context, index) {
-        final challengeData = requestList[index];
+        final challengeData = challengeList[index];
         final challenge = model.Notification.fromMap(challengeData.data());
 
         // Now data contains the updated values
@@ -66,7 +74,7 @@ class _ChallengesListState extends State<ChallengesList> {
 
     if (result == 'success') {
       setState(() {
-        requestList.removeAt(index);
+        challengeList.removeAt(index);
       });
     }
   }
@@ -103,7 +111,7 @@ class _ChallengesListState extends State<ChallengesList> {
 
     // Remove the request from the list and show the undo snack bar
     setState(() {
-      requestList.removeAt(index);
+      challengeList.removeAt(index);
     });
 
     bool isUndo = false;
@@ -111,7 +119,7 @@ class _ChallengesListState extends State<ChallengesList> {
     showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
-        requestList.insert(index, challengeData);
+        challengeList.insert(index, challengeData);
       });
       activeTimers[index]?.cancel(); // Cancel the timer when undo is clicked
     });
