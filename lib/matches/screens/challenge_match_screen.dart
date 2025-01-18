@@ -147,6 +147,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         allowSpectators: _allowSpectators,
         noOfPlayers: _noOfPlayers.toInt(),
         challengerPlayers: _selectedPlayer,
+        matchType: _matchType!,
       );
 
       if (mounted) {

@@ -24,6 +24,7 @@ class MatchesServices {
     required bool allowSpectators,
     required int noOfPlayers,
     required List<PlayerDetails> challengerPlayers,
+    required String matchType,
   }) async {
     final schedule = DateTime(
       matchDate.year,
@@ -46,6 +47,7 @@ class MatchesServices {
       schedule: schedule,
       venue: matchVenue,
       overs: MatchFormat.values[matchFormatIndex],
+      matchType: Match.getMatchType(matchType),
     );
 
     final notification = model.Notification.challenge(
@@ -74,5 +76,24 @@ class MatchesServices {
     for (final player in challengerPlayers) {
       await challengerPlayerCollectionRef.doc(player.id).set(player.toMap);
     }
+  }
+
+  static createMatch(ChallengeMatch challegeMatch) {
+    final match = Match(
+      team1: challegeMatch.challengerTeam,
+      team2: challegeMatch.challengedTeam,
+      noOfPlayer: challegeMatch.noOfPlayers,
+      isTeam1WonToss: null,
+      tossDecision: null,
+      createdAt: Timestamp.now(),
+      matchFormat: challegeMatch.overs,
+      matchType: challegeMatch.matchType,
+      spectatorsAllowed: challegeMatch.willLive,
+      updatedAt: Timestamp.now(),
+      venue: challegeMatch.venue,
+      team1Players: [],
+      team2Players: [],
+      schedule: challegeMatch.schedule,
+    );
   }
 }

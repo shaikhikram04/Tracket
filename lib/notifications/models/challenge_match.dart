@@ -23,6 +23,7 @@ class ChallengeMatch {
     required this.overs,
     required this.venue,
     required this.schedule,
+    required this.matchType,
   });
 
   final TeamDetails challengerTeam;
@@ -35,6 +36,7 @@ class ChallengeMatch {
   final bool willLive;
   final Timestamp updatedAt;
   final int noOfPlayers;
+  final MatchType matchType;
   final List<PlayerDetails> challengerPlayers;
   final List<PlayerDetails> challengedPlayers;
 
@@ -49,6 +51,7 @@ class ChallengeMatch {
         'willLive': willLive,
         'updatedAt': updatedAt,
         'noOfPlayers': noOfPlayers,
+        'matchType': matchType
       };
 
   static ChallengeMatch formMap(
@@ -68,5 +71,6 @@ class ChallengeMatch {
         overs: Match.getMatchFormat(snap['overs']),
         venue: snap['venue'],
         schedule: snap['schedule'].toDate(),
+        matchType: Match.getMatchType(snap['matchType']),
       );
 }

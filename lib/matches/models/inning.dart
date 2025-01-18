@@ -1,6 +1,6 @@
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
-import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/models/team_details.dart';
 
 List<T> initializeStats<T>(List players, T Function(dynamic) builder) {
   return players.map(builder).toList();
@@ -10,19 +10,12 @@ class Inning {
   Inning({
     required this.battingTeam,
     required this.bowlingTeam,
-  })  : battingStats = initializeStats(
-          battingTeam.playersList,
-          (player) =>
-              BattingScore(uuid: player['id'], playerName: player['name']),
-        ),
-        bowlingStats = initializeStats(
-          bowlingTeam.playersList,
-          (player) =>
-              BowlingScore(uuid: player['id'], playerName: player['name']),
-        );
+    required this.battingStats,
+    required this.bowlingStats,
+  });
 
-  final Team battingTeam;
-  final Team bowlingTeam;
+  final TeamDetails battingTeam;
+  final TeamDetails bowlingTeam;
   final List<BattingScore> battingStats;
   final List<BowlingScore> bowlingStats;
   int runs = 0;
