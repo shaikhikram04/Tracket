@@ -10,7 +10,7 @@ class MatchSquad extends StatelessWidget {
     required this.selectedPlayer,
     required this.captainId,
     required this.wicketkeeperId,
-    required this.onAdd,
+    this.onAdd,
     this.isPlayerCanAdd = true,
     this.title = 'Squad',
   });
@@ -18,7 +18,7 @@ class MatchSquad extends StatelessWidget {
   final List<PlayerDetails> selectedPlayer;
   final String captainId;
   final String wicketkeeperId;
-  final void Function() onAdd;
+  final void Function()? onAdd;
   final bool isPlayerCanAdd;
   final String title;
 

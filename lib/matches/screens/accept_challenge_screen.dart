@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
-import 'package:tracket/players/models/player.dart';
-import 'package:tracket/players/models/player_details.dart';
-import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -33,17 +31,17 @@ class AcceptChallengeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     spacing: 8,
                     children: [
-                      const TeamColumn(
-                        teamName: 'Challenged Team Name',
-                        teamLogo: '',
+                      TeamColumn(
+                        teamName: challenge.challengedTeam.name,
+                        teamLogo: challenge.challengedTeam.logoUrl,
                       ),
                       Text(
                         'v/s',
                         style: MyTextStyle(context).boldBodyLarge,
                       ),
-                      const TeamColumn(
-                        teamName: 'Challenger Team Name',
-                        teamLogo: '',
+                      TeamColumn(
+                        teamName: challenge.challengerTeam.name,
+                        teamLogo: challenge.challengerTeam.logoUrl,
                       ),
                     ],
                   ),
@@ -60,13 +58,37 @@ class AcceptChallengeScreen extends StatelessWidget {
                     spacing: 5,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      matchDetailRow('No of players', '11', context),
-                      matchDetailRow('Match Format', 'T20', context),
-                      matchDetailRow('Match type', 'challenge', context),
-                      matchDetailRow('Spectator', 'Allow', context),
-                      matchDetailRow('Date', '22 Jan 2025', context),
-                      matchDetailRow('Time', '5:00 pm', context),
-                      matchDetailRow('Venue', 'Wafa complex', context),
+                      matchDetailRow(
+                        'No of players',
+                        challenge.noOfPlayers.toString(),
+                        context,
+                      ),
+                      matchDetailRow(
+                        'Match Format',
+                        challenge.overs.name,
+                        context,
+                      ),
+                      matchDetailRow(
+                        'Match type',
+                        challenge.matchType.name,
+                        context,
+                      ),
+                      matchDetailRow(
+                        'Spectator',
+                        challenge.allowSpectator ? 'Allow' : 'Not allow',
+                        context,
+                      ),
+                      matchDetailRow(
+                        'Date',
+                        DateFormat.yMMMd().format(challenge.schedule),
+                        context,
+                      ),
+                      matchDetailRow(
+                        'Time',
+                        DateFormat.Hms().format(challenge.schedule),
+                        context,
+                      ),
+                      matchDetailRow('Venue', challenge.venue, context),
                     ],
                   ),
                 ],
@@ -74,19 +96,9 @@ class AcceptChallengeScreen extends StatelessWidget {
             ),
             MyCard(
               child: MatchSquad(
-                selectedPlayer: List.generate(
-                  7,
-                  (index) => PlayerDetails(
-                    cricketRole: CricketRole.allRounder.name,
-                    id: 'id',
-                    imageUrl: '',
-                    name: 'name',
-                    role: TeamRole.admin,
-                  ),
-                ),
+                selectedPlayer: challenge.challengerPlayers,
                 captainId: '',
                 wicketkeeperId: '',
-                onAdd: () {},
                 isPlayerCanAdd: false,
                 title: 'Challenger Squad',
               ),
