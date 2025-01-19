@@ -9,12 +9,17 @@ class TeamColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 8,
-      children: [
-        getCircleAvatar(url: teamLogo, isTeam: true, radius: 30),
-        Text(teamName),
-      ],
+    return Expanded(
+      child: Column(
+        spacing: 8,
+        children: [
+          getCircleAvatar(url: teamLogo, isTeam: true, radius: 30),
+          Text(
+            teamName,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
