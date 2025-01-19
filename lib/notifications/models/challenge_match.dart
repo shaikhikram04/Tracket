@@ -51,7 +51,7 @@ class ChallengeMatch {
         'willLive': willLive,
         'updatedAt': updatedAt,
         'noOfPlayers': noOfPlayers,
-        'matchType': matchType
+        'matchType': matchType.name
       };
 
   static ChallengeMatch formMap(
