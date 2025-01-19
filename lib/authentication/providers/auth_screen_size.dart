@@ -8,35 +8,36 @@ enum AuthScreenType {
   playerSignup,
 }
 
+//* Manages the size state of authentication screens
 class AuthScreenSizeNotifier extends StateNotifier<double> {
+  //* Creates an instance with initial size set to user login form height
   AuthScreenSizeNotifier() : super(userLoginFormHeight);
 
   void changeScreen(AuthScreenType screen) {
-    if (screen == AuthScreenType.userLogin) {
-      state = userLoginFormHeight;
-    } else if (screen == AuthScreenType.userSignup) {
-      state = userSignupFormHeight;
-    } else if (screen == AuthScreenType.playerLogin) {
-      state = playerLoginFormHeight;
-    } else if (screen == AuthScreenType.playerSignup) {
-      state = playerSignupFormHeight;
-    }
+    final heightMap = {
+      AuthScreenType.userLogin: userLoginFormHeight,
+      AuthScreenType.userSignup: userSignupFormHeight,
+      AuthScreenType.playerLogin: playerLoginFormHeight,
+      AuthScreenType.playerSignup: playerSignupFormHeight,
+    };
+    state = heightMap[screen]!;
   }
 
   void hasError() {
-    if (state == userLoginFormHeight) {
-      state = userLoginErrorHeight;
-    } else if (state == userSignupFormHeight) {
-      state = userSignupErrorHeight;
-    } else if (state == playerLoginFormHeight) {
-      state = playerLoginErrorHeight;
-    } else if (state == playerSignupFormHeight) {
-      state = playerSignupErrorHeight;
-    }
+    final errorHeightMap = {
+      userLoginFormHeight: userLoginErrorHeight,
+      userSignupFormHeight: userSignupErrorHeight,
+      playerSignupFormHeight: playerSignupErrorHeight,
+    };
+    state = errorHeightMap[state] ?? state;
   }
 
   void incrementSize(double size) {
     state += size;
+  }
+
+  void resetSize() {
+    state = userLoginFormHeight;
   }
 }
 
