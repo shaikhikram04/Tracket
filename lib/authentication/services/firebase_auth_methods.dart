@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_stats.dart';
@@ -111,7 +112,7 @@ class FirebaseAuthMethods {
         verificationTimer?.cancel();
 
         // Update verification steps with delays
-        ref.read(verificationStepProvider.notifier).updateStep(2);
+        ref.read(verificationStepProvider.notifier).nextStep();
         await Future.delayed(const Duration(seconds: 1));
 
         final String result;
@@ -139,11 +140,9 @@ class FirebaseAuthMethods {
         if (result != 'success' && context.mounted) {
           Navigator.of(context).pop();
           showSnackBar(result, context);
-          ref.read(verificationStepProvider.notifier).updateStep(0);
           user.delete();
-          return;
         } else {
-          ref.read(verificationStepProvider.notifier).updateStep(3);
+          ref.read(verificationStepProvider.notifier).nextStep();
           await Future.delayed(const Duration(seconds: 1));
 
           // Navigate to home screen
@@ -153,8 +152,9 @@ class FirebaseAuthMethods {
             MaterialPageRoute(builder: (context) => const HomeScreen()),
             (route) => false,
           );
-          ref.read(verificationStepProvider.notifier).updateStep(0);
         }
+        ref.read(authScreenSizeProvider.notifier).resetSize();
+        ref.read(verificationStepProvider.notifier).resetStep();
       }
     });
 

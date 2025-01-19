@@ -128,7 +128,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       final user =
           await FirebaseAuthMethods.sendVerificationEmail(email, password);
 
-      ref.read(verificationStepProvider.notifier).updateStep(1);
+      ref.read(verificationStepProvider.notifier).nextStep();
 
       // Start listening for email verification
       if (!mounted) return;
@@ -146,7 +146,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
-      ref.read(verificationStepProvider.notifier).updateStep(0);
+      ref.read(verificationStepProvider.notifier).resetStep();
 
       showAlertDialog(
         context,

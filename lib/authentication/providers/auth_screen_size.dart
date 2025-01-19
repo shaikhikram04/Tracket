@@ -11,7 +11,7 @@ enum AuthScreenType {
 //* Manages the size state of authentication screens
 class AuthScreenSizeNotifier extends StateNotifier<double> {
   //* Creates an instance with initial size set to user login form height
-  AuthScreenSizeNotifier() : super(userLoginFormHeight);
+  AuthScreenSizeNotifier() : super(playerLoginFormHeight);
 
   void changeScreen(AuthScreenType screen) {
     final heightMap = {
@@ -32,12 +32,20 @@ class AuthScreenSizeNotifier extends StateNotifier<double> {
     state = errorHeightMap[state] ?? state;
   }
 
+  void changeSizeByIndex(int index) {
+    if (index == 0) {
+      state = playerLoginFormHeight;
+    } else {
+      state = userLoginFormHeight;
+    }
+  }
+
   void incrementSize(double size) {
     state += size;
   }
 
   void resetSize() {
-    state = userLoginFormHeight;
+    state = playerLoginFormHeight;
   }
 }
 

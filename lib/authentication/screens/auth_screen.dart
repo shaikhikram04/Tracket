@@ -96,11 +96,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                                     const Duration(milliseconds: 180));
                                 ref
                                     .read(authScreenSizeProvider.notifier)
-                                    .changeScreen(
-                                      value == 0
-                                          ? AuthScreenType.playerLogin
-                                          : AuthScreenType.userLogin,
-                                    );
+                                    .changeSizeByIndex(value);
                               }
                             } catch (e) {
                               if (context.mounted) {
