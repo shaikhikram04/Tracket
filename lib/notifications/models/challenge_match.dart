@@ -16,7 +16,7 @@ class ChallengeMatch {
     required this.challengerName,
     required this.challengerTeam,
     required this.updatedAt,
-    required this.willLive,
+    required this.allowSpectator,
     required this.challengedPlayers,
     required this.challengerPlayers,
     required this.noOfPlayers,
@@ -33,7 +33,7 @@ class ChallengeMatch {
   final MatchFormat overs;
   final String venue;
   final DateTime schedule;
-  final bool willLive;
+  final bool allowSpectator;
   final Timestamp updatedAt;
   final int noOfPlayers;
   final MatchType matchType;
@@ -48,7 +48,7 @@ class ChallengeMatch {
         'schedule': Timestamp.fromDate(schedule),
         'venue': venue,
         'overs': overs.name,
-        'willLive': willLive,
+        'allowSpectator': allowSpectator,
         'updatedAt': updatedAt,
         'noOfPlayers': noOfPlayers,
         'matchType': matchType.name
@@ -64,7 +64,7 @@ class ChallengeMatch {
         challengerName: snap['challengerName'],
         challengerTeam: TeamDetails.formMap(snap['challengerTeam']),
         updatedAt: snap['updatedAt'],
-        willLive: snap['willLive'],
+        allowSpectator: snap['allowSpectator'],
         challengedPlayers: [], // TODO : wrote function for fetch store players
         challengerPlayers: [], // TODO : wrote function for fetch store players
         noOfPlayers: snap['noOfPlayers'],
