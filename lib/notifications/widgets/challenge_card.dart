@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/matches/screens/accept_challenge_screen.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/teams/providers/request_status_provider.dart';
-import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -24,30 +24,25 @@ class ChallengeCard extends StatelessWidget {
   final void Function(WidgetRef ref) onAcceptChallenge;
   final void Function() onRejectChallenge;
 
-  void _navigateToProfile(
-    BuildContext context,
-    model.Notification request,
-  ) {
-    pushScreen(context,
-        TeamProfileScreen.fromId(teamId: isSent ? request.to : request.from));
+  void _navigateToAcceptChallenge(BuildContext context) {
+    pushScreen(context, const AcceptChallengeScreen());
   }
 
   void _loadData(
-    model.Notification request,
     Map<String, dynamic> data,
   ) {
     if (isSent) {
       data['initialMessage'] = 'Your team ';
-      data['firstTeamName'] = request.challengeMatch!.challengerTeam.name;
+      data['firstTeamName'] = challenge.challengeMatch!.challengerTeam.name;
       data['middleMessage'] = ' has challenged team ';
-      data['secondTeamName'] = request.challengeMatch!.challengedTeam.name;
-      data['logoUrl'] = request.challengeMatch!.challengedTeam.logoUrl;
+      data['secondTeamName'] = challenge.challengeMatch!.challengedTeam.name;
+      data['logoUrl'] = challenge.challengeMatch!.challengedTeam.logoUrl;
     } else {
       data['initialMessage'] = 'Team ';
-      data['firstTeamName'] = request.challengeMatch!.challengerTeam.name;
+      data['firstTeamName'] = challenge.challengeMatch!.challengerTeam.name;
       data['middleMessage'] = ' has challenged your team ';
-      data['secondTeamName'] = request.challengeMatch!.challengedTeam.name;
-      data['logoUrl'] = request.challengeMatch!.challengerTeam.logoUrl;
+      data['secondTeamName'] = challenge.challengeMatch!.challengedTeam.name;
+      data['logoUrl'] = challenge.challengeMatch!.challengerTeam.logoUrl;
     }
   }
 
@@ -60,12 +55,12 @@ class ChallengeCard extends StatelessWidget {
       'secondTeamName': '',
       'logoUrl': '',
     };
-    _loadData(challenge, notificationData);
+    _loadData(notificationData);
     return MyCard(
       child: Column(
         children: [
           InkWell(
-            onTap: () => _navigateToProfile(context, challenge),
+            onTap: () => _navigateToAcceptChallenge(context),
             child: Row(
               children: [
                 _buildProfileImage(notificationData['logoUrl']),
