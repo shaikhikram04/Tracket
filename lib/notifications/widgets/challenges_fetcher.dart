@@ -35,7 +35,7 @@ class ChallengesFetcher extends ConsumerWidget {
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const NoDataFound(
-            title: 'No request found',
+            title: 'No Challenge found',
             message: '',
             isRequest: true,
           );
