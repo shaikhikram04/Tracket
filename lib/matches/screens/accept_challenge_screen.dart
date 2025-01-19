@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
+import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team_details.dart';
@@ -10,7 +11,9 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class AcceptChallengeScreen extends StatelessWidget {
-  const AcceptChallengeScreen({super.key});
+  const AcceptChallengeScreen({super.key, required this.challenge});
+
+  final ChallengeMatch challenge;
 
   @override
   Widget build(BuildContext context) {
@@ -133,15 +136,20 @@ class AcceptChallengeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '$title : ',
-            style: MyTextStyle(context).boldBodyLarge,
+          Expanded(
+            child: Text(
+              title,
+              style: MyTextStyle(context).boldBodyLarge,
+            ),
           ),
-          Text(
-            value,
-            style: MyTextStyle(context)
-                .boldBodyLarge
-                .copyWith(color: const Color.fromARGB(255, 50, 124, 53)),
+          const Text('   :   '),
+          Expanded(
+            child: Text(
+              value,
+              style: MyTextStyle(context)
+                  .boldBodyLarge
+                  .copyWith(color: const Color.fromARGB(255, 50, 124, 53)),
+            ),
           )
         ],
       ),

@@ -25,7 +25,8 @@ class ChallengeCard extends StatelessWidget {
   final void Function() onRejectChallenge;
 
   void _navigateToAcceptChallenge(BuildContext context) {
-    pushScreen(context, const AcceptChallengeScreen());
+    pushScreen(
+        context, AcceptChallengeScreen(challenge: challenge.challengeMatch!));
   }
 
   void _loadData(
@@ -173,7 +174,7 @@ class ChallengeCard extends StatelessWidget {
                 text: 'Accept',
                 isLoading: isRequestInProgress,
                 primaryColor: const Color.fromARGB(255, 47, 134, 50),
-                onPressed: () => onAcceptChallenge(ref),
+                onPressed: () => _navigateToAcceptChallenge(context),
               ),
               const SizedBox(width: 10),
               MyElevatedButton.secondaryElevatedButton(
