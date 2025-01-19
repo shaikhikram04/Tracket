@@ -11,12 +11,16 @@ class MatchSquad extends StatelessWidget {
     required this.captainId,
     required this.wicketkeeperId,
     required this.onAdd,
+    this.isPlayerCanAdd = true,
+    this.title = 'Squad',
   });
 
   final List<PlayerDetails> selectedPlayer;
   final String captainId;
   final String wicketkeeperId;
   final void Function() onAdd;
+  final bool isPlayerCanAdd;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +31,16 @@ class MatchSquad extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Squad',
+              title,
               style: MyTextStyle(context).titleMedium.copyWith(fontSize: 23),
             ),
             const Spacer(),
-            IconButton(
-              onPressed: onAdd,
-              iconSize: 30,
-              icon: const Icon(Icons.group_add),
-            )
+            if (isPlayerCanAdd)
+              IconButton(
+                onPressed: onAdd,
+                iconSize: 30,
+                icon: const Icon(Icons.group_add),
+              )
           ],
         ),
         const SizedBox(height: 10),
