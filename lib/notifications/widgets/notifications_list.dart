@@ -11,6 +11,7 @@ import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class NotificationsList extends StatefulWidget {
   const NotificationsList({
@@ -25,12 +26,12 @@ class NotificationsList extends StatefulWidget {
 }
 
 class _NotificationsListState extends State<NotificationsList> {
-  late final List<QueryDocumentSnapshot<Map<String, dynamic>>> requestList;
+  late final List<QueryDocumentSnapshot<Map<String, dynamic>>> notificationList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
 
   @override
   void initState() {
-    requestList = widget.notifications;
+    notificationList = widget.notifications;
     // Cancel all active timers to avoid memory leaks
     for (var timer in activeTimers.values) {
       timer?.cancel();
@@ -47,10 +48,17 @@ class _NotificationsListState extends State<NotificationsList> {
 
   @override
   Widget build(BuildContext context) {
+    if (notificationList.isEmpty) {
+      return const NoDataFound(
+        title: 'No notification found',
+        message: '',
+        isRequest: true,
+      );
+    }
     return ListView.builder(
-      itemCount: requestList.length,
+      itemCount: notificationList.length,
       itemBuilder: (context, index) {
-        final notificationData = requestList[index];
+        final notificationData = notificationList[index];
         final notification =
             model.Notification.fromMap(notificationData.data());
         final isRequest =
@@ -169,7 +177,7 @@ class _NotificationsListState extends State<NotificationsList> {
 
     // Remove the request from the list and show the undo snack bar
     setState(() {
-      requestList.removeAt(index);
+      notificationList.removeAt(index);
     });
 
     bool isUndo = false;
@@ -177,7 +185,7 @@ class _NotificationsListState extends State<NotificationsList> {
     showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
-        requestList.insert(index, notificationData);
+        notificationList.insert(index, notificationData);
       });
       activeTimers[index]?.cancel(); // Cancel the timer when undo is clicked
     });
