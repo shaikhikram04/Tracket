@@ -97,25 +97,7 @@ class VerificationScreen extends ConsumerWidget {
     bool isActive = currentStep >= step;
     return Column(
       children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isActive ? Colors.green : Colors.grey.shade300,
-            border: Border.all(
-              color: isActive ? Colors.green : Colors.grey.shade300,
-              width: 2,
-            ),
-          ),
-          child: Icon(
-            _getIconForStep(step),
-            color: isActive ? Colors.white : Colors.grey.shade600,
-            size: 18,
-            semanticLabel:
-                isActive ? 'Step $step completed' : 'Step $step pending',
-          ),
-        ),
+        
         const SizedBox(height: 8),
         Text(
           label,
