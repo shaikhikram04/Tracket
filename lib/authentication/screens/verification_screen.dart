@@ -99,13 +99,7 @@ class VerificationScreen extends ConsumerWidget {
       children: [
         
         const SizedBox(height: 8),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? greenColor : Colors.grey.shade600,
-            fontSize: 12,
-          ),
-        )
+        
       ],
     );
   }
