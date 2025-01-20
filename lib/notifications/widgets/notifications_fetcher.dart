@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/widgets/notifications_list.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class NotificationsFetcher extends ConsumerWidget {
@@ -25,9 +26,7 @@ class NotificationsFetcher extends ConsumerWidget {
           .get(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return getCircleLoadingIndicator();
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const NoDataFound(

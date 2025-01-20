@@ -145,7 +145,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: _isLoading
-                              ? const CircularProgressIndicator()
+                              ? getCircleLoadingIndicator()
                               : MyTextButton(
                                   text: 'Create',
                                   onPressed: () {

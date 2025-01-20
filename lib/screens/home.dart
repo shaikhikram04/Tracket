@@ -59,7 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const TeamsScreen(),
     const MatchesScreen(),
     const TournamentList(),
-    const Scaffold(body: Center(child: CircularProgressIndicator())),
+    Scaffold(body: getCircleLoadingIndicator()),
   ];
 
   final List<String> _titles = [

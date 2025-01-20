@@ -31,9 +31,7 @@ class AddPlayerScreen extends StatelessWidget {
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return getCircleLoadingIndicator();
           }
           if (snapshot.hasError) {
             return const Center(

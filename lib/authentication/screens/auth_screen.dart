@@ -101,7 +101,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     return SizedBox(
       height: height,
       child: _isChangingTab
-          ? const Center(child: CircularProgressIndicator())
+          ? getCircleLoadingIndicator()
           : TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _tabController,

@@ -185,7 +185,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
         shape: Border.all(color: greenColor, width: 0),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

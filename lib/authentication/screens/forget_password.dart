@@ -125,12 +125,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               ),
                             const Spacer(),
                             if (_isSendingEmail)
-                              const Padding(
-                                padding: EdgeInsets.only(right: 8.0),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
                                 child: SizedBox.square(
                                   dimension: 20,
                                   child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                      getCircleLoadingIndicator(strokeWidth: 2),
                                 ),
                               ),
                             MyTextButton(

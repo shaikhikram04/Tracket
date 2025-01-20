@@ -7,6 +7,7 @@ import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class MyConsumer extends StatelessWidget {
   const MyConsumer({
@@ -112,10 +113,7 @@ class MyConsumer extends StatelessWidget {
               ? null
               : () => onPressed(ref, context),
           child: isRequestInProgress
-              ? const SizedBox.square(
-                  dimension: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2.5),
-                )
+              ? getCircleLoadingIndicator(dimension: 20, strokeWidth: 2.5)
               : Text(
                   buttonText(isAdded),
                   style: const TextStyle(color: blackColor),

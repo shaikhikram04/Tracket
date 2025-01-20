@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 
 class MyElevatedButton {
   static ElevatedButton primaryElevatedButton(
@@ -20,10 +21,7 @@ class MyElevatedButton {
         disabledBackgroundColor: disabledColor,
       ),
       child: isLoading
-          ? const Padding(
-              padding: EdgeInsets.all(5),
-              child: CircularProgressIndicator(color: blackColor),
-            )
+          ? getCircleLoadingIndicator(color: blackColor)
           : Text(
               text,
               style: isSubmit

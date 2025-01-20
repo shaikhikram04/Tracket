@@ -265,3 +265,22 @@ Widget getCircleAvatar({
         onBackgroundImageError: (_, __) => defaultImage),
   );
 }
+
+Widget getCircleLoadingIndicator({
+  double strokeWidth = 4,
+  Color? color,
+  double? dimension,
+}) {
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(5),
+      child:  SizedBox.square(
+        dimension: dimension,
+        child: CircularProgressIndicator(
+          strokeWidth: strokeWidth,
+          color: color,
+        ),
+      ),
+    ),
+  );
+}

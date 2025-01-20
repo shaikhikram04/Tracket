@@ -172,9 +172,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         title: const Text('Challenge Match'),
       ),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Center(
                 child: Column(

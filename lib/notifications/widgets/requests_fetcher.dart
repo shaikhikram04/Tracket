@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/widgets/request_list.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class RequestsFetcher extends ConsumerWidget {
@@ -35,9 +36,7 @@ class RequestsFetcher extends ConsumerWidget {
               whereIn: ['teamJoinRequest', 'addPlayerRequest']).get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return getCircleLoadingIndicator();
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const NoDataFound(

@@ -195,10 +195,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             shadowColor: blackColor,
             actions: [
               _isSaving
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(),
-                    )
+                  ? getCircleLoadingIndicator(dimension: 20)
                   : IconButton(
                       onPressed: _saveChanges,
                       icon: const Icon(Icons.save),
