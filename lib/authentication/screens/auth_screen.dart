@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
+import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
 import 'package:tracket/utils/utils.dart';
@@ -17,10 +18,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  static const double _maxLogoHeight = 200.0;
   static const double _tabFontSize = 21.0;
   static const int _tabSwitchDelay = 180;
-  static const double _verticalSpacing = 15.0;
   static const double _bottomPadding = 40.0;
   static const EdgeInsets _horizontalPadding =
       EdgeInsets.symmetric(horizontal: 17);
@@ -57,7 +56,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final tabBarViewHeight = ref.watch(authScreenSizeProvider);
     final safeAreaHeight = getSafeAreaHeight(context);
 
@@ -68,9 +66,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
             constraints: BoxConstraints(minHeight: safeAreaHeight),
             child: Column(
               children: [
-                const SizedBox(height: _verticalSpacing),
                 //* App logo
-                _buildAppLogo(height),
+                const AppLogo(),
                 //* Auth content
                 Padding(
                   padding: _horizontalPadding,
@@ -110,16 +107,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 UserAuth(),
               ],
             ),
-    );
-  }
-
-  Widget _buildAppLogo(double height) {
-    return Image.asset(
-      'assets/images/Tracket_logo.png',
-      height: height * 0.25 > _maxLogoHeight ? _maxLogoHeight : height * 0.25,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) =>
-          const Icon(Icons.error, size: 100),
     );
   }
 
