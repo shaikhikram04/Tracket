@@ -5,6 +5,7 @@ import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
 import 'package:tracket/utils/utils.dart';
 
+//* Authentication screen that provides tabs for Player and User authentication
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
@@ -24,6 +25,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   static const EdgeInsets _horizontalPadding =
       EdgeInsets.symmetric(horizontal: 17);
 
+  bool _isChangingTab = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,10 +36,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   void _handleTabChange(int index) async {
     try {
       if (_tabController.indexIsChanging) {
+        setState(() => _isChangingTab = true);
         await Future.delayed(const Duration(milliseconds: _tabSwitchDelay));
         ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
+        setState(() => _isChangingTab = false);
       }
     } catch (e) {
+      setState(() => _isChangingTab = false);
       if (mounted) {
         showSnackBar('Error switching tabs: $e', context);
       }
@@ -77,17 +83,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                         //* TabBar for show option of user & player authentication
                         _buildAuthTabs(),
                         //* Content of TabBar for signup/login user or player
-                        SizedBox(
-                          height: tabBarViewHeight,
-                          child: TabBarView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            controller: _tabController,
-                            children: const [
-                              PlayerAuth(),
-                              UserAuth(),
-                            ],
-                          ),
-                        ),
+                        _buildTabBarView(tabBarViewHeight)
                       ],
                     ),
                   ),
@@ -98,6 +94,22 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTabBarView(double height) {
+    return SizedBox(
+      height: height,
+      child: _isChangingTab
+          ? const Center(child: CircularProgressIndicator())
+          : TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: const [
+                PlayerAuth(),
+                UserAuth(),
+              ],
+            ),
     );
   }
 
