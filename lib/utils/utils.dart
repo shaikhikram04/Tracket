@@ -70,20 +70,20 @@ void showAlertDoubleBtnDialog(
 }) {
   showDialog(
     context: context,
-    builder: (context) {
+    builder: (ctx) {
       return AlertDialog(
         title: Text(title),
         content: Text(content),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(ctx).pop();
             },
             child: Text(secondaryButtonText),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(ctx).pop();
               onSureButtonPressed();
             },
             child: Text(

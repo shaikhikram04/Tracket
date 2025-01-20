@@ -11,11 +11,14 @@ class StepCircle extends StatelessWidget {
   final bool isActive;
   final int step;
 
+  static const double _stepCircleSize = 40.0;
+  static const double _iconSize = 18.0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 40,
-      height: 40,
+      width: _stepCircleSize,
+      height: _stepCircleSize,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isActive ? Colors.green : Colors.grey.shade300,
@@ -27,7 +30,7 @@ class StepCircle extends StatelessWidget {
       child: Icon(
         VerificationStepData.getIconForStep(step),
         color: isActive ? Colors.white : Colors.grey.shade600,
-        size: 18,
+        size: _iconSize,
         semanticLabel: isActive ? 'Step $step completed' : 'Step $step pending',
       ),
     );

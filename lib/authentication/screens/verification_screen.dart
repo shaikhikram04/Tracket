@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/authentication/models/verification_steps_data.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
+import 'package:tracket/authentication/widgets/progress_step_indicator.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
+//* Screen that shows the email verification progress
+//* Displays a step indicator with three stages: email sent, verified, and logged in
 class VerificationScreen extends ConsumerWidget {
+  //* Creates a verification screen for the given email address
   const VerificationScreen(this.email, {super.key});
+  //* Email address to which verification email is sent
   final String email;
 
-  String getMessage(int step) {
-    switch (step) {
-      case 0:
-        return 'Wait for email verification';
-      case 1:
-        return 'Verification email sent to $email! Please check your inbox.';
-      case 2:
-        return 'Verification email successfully!';
-      case 3:
-        return 'Login successful!';
-      default:
-        return 'Verification failed. Please try again';
-    }
-  }
+  static const double _horizontalPadding = 30.0;
+  static const double _verticalPadding = 20.0;
+  static const double _lineHeight = 2.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,12 +25,18 @@ class VerificationScreen extends ConsumerWidget {
     final double width = MediaQuery.of(context).size.width;
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
 
-        showSnackBar(
-          'Please wait until verification done, otherwise verification failed!',
+        //* Consider adding a confirmation dialog
+        showAlertDoubleBtnDialog(
           context,
+          title: 'Confirm Exit',
+          content:
+              'Leaving now will cancel the verification process. Are you sure?',
+          sureButtonText: 'Leave',
+          onSureButtonPressed: () => Navigator.of(context).pop(),
+          secondaryButtonText: 'Stay',
         );
       },
       child: Dialog(
@@ -43,7 +44,10 @@ class VerificationScreen extends ConsumerWidget {
         child: SizedBox(
           width: width * 0.95,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            padding: const EdgeInsets.symmetric(
+              horizontal: _horizontalPadding,
+              vertical: _verticalPadding,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -57,19 +61,19 @@ class VerificationScreen extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _buildProgressStep(
+                    ProgressStepIndicator(
                       step: 1,
                       currentStep: currentStep,
                       label: 'Send Email',
                     ),
                     _buildProgressLine(isActive: currentStep > 1),
-                    _buildProgressStep(
+                    ProgressStepIndicator(
                       step: 2,
                       currentStep: currentStep,
                       label: 'Verified',
                     ),
                     _buildProgressLine(isActive: currentStep > 2),
-                    _buildProgressStep(
+                    ProgressStepIndicator(
                       step: 3,
                       currentStep: currentStep,
                       label: 'Login',
@@ -78,7 +82,7 @@ class VerificationScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  getMessage(currentStep),
+                  VerificationStepData.getMessage(currentStep, email),
                   style: MyTextStyle(context).bodyLarge,
                 )
               ],
@@ -89,40 +93,14 @@ class VerificationScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProgressStep({
-    required int step,
-    required int currentStep,
-    required String label,
+  Widget _buildProgressLine({
+    required bool isActive,
   }) {
-    bool isActive = currentStep >= step;
-    return Column(
-      children: [
-        
-        const SizedBox(height: 8),
-        
-      ],
-    );
-  }
-
-  Widget _buildProgressLine({required bool isActive}) {
     return Expanded(
       child: Container(
-        height: 2,
+        height: _lineHeight,
         color: isActive ? greenColor : Colors.grey[350],
       ),
     );
-  }
-
-  IconData _getIconForStep(int step) {
-    switch (step) {
-      case 0:
-        return Icons.email_outlined;
-      case 1:
-        return Icons.check_circle_outline;
-      case 2:
-        return Icons.login_outlined;
-      default:
-        return Icons.circle_outlined;
-    }
   }
 }

@@ -11,13 +11,15 @@ class StepLabel extends StatelessWidget {
   final bool isActive;
   final String label;
 
+  static const double _labelFontSize = 12.0;
+
   @override
   Widget build(BuildContext context) {
     return Text(
       label,
       style: TextStyle(
         color: isActive ? greenColor : Colors.grey.shade600,
-        fontSize: 12,
+        fontSize: _labelFontSize,
       ),
     );
   }

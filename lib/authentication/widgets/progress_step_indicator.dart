@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/authentication/widgets/step_circle.dart';
+import 'package:tracket/authentication/widgets/step_label.dart';
 
 class ProgressStepIndicator extends StatelessWidget {
   final int step;
@@ -13,6 +14,8 @@ class ProgressStepIndicator extends StatelessWidget {
     super.key,
   });
 
+  static const double _spacing = 8.0;
+
   @override
   Widget build(BuildContext context) {
     final isActive = currentStep >= step;
@@ -22,7 +25,7 @@ class ProgressStepIndicator extends StatelessWidget {
           step: step,
           isActive: isActive,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: _spacing),
         StepLabel(
           label: label,
           isActive: isActive,
