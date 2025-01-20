@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/authentication/widgets/step_circle.dart';
 
 class ProgressStepIndicator extends StatelessWidget {
   final int step;
@@ -9,8 +10,8 @@ class ProgressStepIndicator extends StatelessWidget {
     required this.step,
     required this.currentStep,
     required this.label,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

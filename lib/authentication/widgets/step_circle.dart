@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/authentication/models/verification_steps_data.dart';
 
-class StepCricle extends StatelessWidget {
-  const StepCricle({
+class StepCircle extends StatelessWidget {
+  const StepCircle({
     super.key,
     required this.isActive,
     required this.step,
