@@ -17,6 +17,10 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
   PlayerAuthNotifier(this.ref)
       : super(PlayerAuthState(formKey: GlobalKey<FormState>()));
 
+  void reset() {
+    state = PlayerAuthState(formKey: GlobalKey<FormState>());
+  }
+
   void updateRole(String? role) {
     if (role == null) return;
 
@@ -81,11 +85,9 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
               : AuthScreenType.playerLogin,
         );
 
-    state = state.copyWith(
-      isLogin: !state.isLogin,
-      isPasswordHidden: true,
-    );
-    state.formKey.currentState!.reset();
+    final isLogin = state.isLogin;
+    reset();
+    state = state.copyWith(isLogin: !isLogin);
   }
 
   Future<void> login(BuildContext context) async {
@@ -105,7 +107,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     }
   }
 
-  Future<void> signup(BuildContext context) async {
+  Future<void> signup(BuildContext context, bool isPlayer) async {
     if (!_validateForm(context) || !_validateDropdowns(context)) return;
 
     state = state.copyWith(isLoading: true);
@@ -126,7 +128,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
         username: state.playerName!.trim(),
         ref: ref,
         context: context,
-        role: 'player',
+        role: isPlayer ? 'player' : 'user',
         imageUrl: '',
         cricketRole: state.cricketRole,
         battingPosition: state.battingPosition,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
+import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
@@ -37,6 +38,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       if (_tabController.indexIsChanging) {
         setState(() => _isChangingTab = true);
         await Future.delayed(const Duration(milliseconds: _tabSwitchDelay));
+        ref.read(playerAuthProvider.notifier).reset();
         ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
         setState(() => _isChangingTab = false);
       }

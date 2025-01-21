@@ -18,18 +18,9 @@ class PlayerAuth extends ConsumerStatefulWidget {
 }
 
 class _PlayerAuthState extends ConsumerState<PlayerAuth> {
-  late PlayerAuthState _playerAuthState;
-
   @override
   void initState() {
     super.initState();
-    _playerAuthState = PlayerAuthState(
-      formKey: GlobalKey<FormState>(),
-      isLoading: false,
-      isLogin: true,
-      isBowler: false,
-      isPasswordHidden: true,
-    );
   }
 
   void _onSelectRole(String? role) {
@@ -52,14 +43,19 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     ref.read(playerAuthProvider.notifier).togglePlayerAuth();
   }
 
-  void _onSubmit() {
-    (_playerAuthState.isLogin
-        ? ref.read(playerAuthProvider.notifier).login(context)
-        : ref.read(playerAuthProvider.notifier).signup(context));
+  void Function()? _onSubmit(bool isLoading, bool isLogin) {
+    if (isLoading) return null;
+    if (isLogin) {
+      return () => ref.read(playerAuthProvider.notifier).login(context);
+    }
+
+    return () => ref.read(playerAuthProvider.notifier).signup(context, true);
   }
 
   @override
   Widget build(BuildContext context) {
+    PlayerAuthState playerAuthState = ref.watch(playerAuthProvider);
+
     List<Widget> signUpField = [
       MyDropdownMenu(
         options: enumToString(CricketRole.values),
@@ -74,32 +70,32 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
-        options: _playerAuthState.isBowler
+        options: playerAuthState.isBowler
             ? enumToString(BowlingStyle.values.sublist(1))
             : enumToString(BowlingStyle.values),
         label: 'Select Bowling Style',
         onSelect: _onSelectBowlingStyle,
       ),
       const SizedBox(height: 30),
-      if (_playerAuthState.isBowler)
+      if (playerAuthState.isBowler)
         MyDropdownMenu(
           options: enumToString(Position.values),
           label: 'Select Bowling Arm',
           onSelect: _onSelectBowlingArm,
         ),
-      if (_playerAuthState.isBowler) const SizedBox(height: 30),
+      if (playerAuthState.isBowler) const SizedBox(height: 30),
     ];
 
     final width = MediaQuery.of(context).size.width;
     return Form(
-      key: _playerAuthState.formKey,
+      key: playerAuthState.formKey,
       child: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
           children: [
             Text(
-              _playerAuthState.isLogin ? 'Login as Player' : 'Signup as Player',
-              semanticsLabel: _playerAuthState.isLogin
+              playerAuthState.isLogin ? 'Login as Player' : 'Signup as Player',
+              semanticsLabel: playerAuthState.isLogin
                   ? 'Login form for players'
                   : 'Signup form for players',
               style: Theme.of(context)
@@ -108,18 +104,18 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 30),
-            if (!_playerAuthState.isLogin)
+            if (!playerAuthState.isLogin)
               MyTextField(
-                  isLogin: _playerAuthState.isLogin,
+                  isLogin: playerAuthState.isLogin,
                   onSave: (value) => ref
                       .read(playerAuthProvider.notifier)
                       .updateField(playerName: value),
                   label: 'Player Name',
                   validator: (value) =>
                       ValidationServices.nameValidator(value, 'Player name')),
-            if (!_playerAuthState.isLogin) const SizedBox(height: 30),
+            if (!playerAuthState.isLogin) const SizedBox(height: 30),
             MyTextField(
-              isLogin: _playerAuthState.isLogin,
+              isLogin: playerAuthState.isLogin,
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
                   .updateField(email: value),
@@ -132,30 +128,33 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .read(playerAuthProvider.notifier)
                   .updateField(password: value),
               validator: (value) => ValidationServices.passwordValidator(
-                  value, _playerAuthState.isLogin),
+                  value, playerAuthState.isLogin),
               label: 'Password',
-              isPasswordHidden: _playerAuthState.isPasswordHidden,
+              isPasswordHidden: playerAuthState.isPasswordHidden,
               changeVisibility: ref
                   .read(playerAuthProvider.notifier)
                   .togglePasswordVisibility,
-              isLogin: _playerAuthState.isLogin,
+              isLogin: playerAuthState.isLogin,
             ),
             const SizedBox(height: 30),
-            if (!_playerAuthState.isLogin) ...signUpField,
+            if (!playerAuthState.isLogin) ...signUpField,
             SizedBox(
               width: width * 0.8,
               height: 50,
               child: MyElevatedButton.primaryElevatedButton(
                 context,
-                onPressed: _playerAuthState.isLoading ? null : _onSubmit,
-                text: _playerAuthState.isLogin ? 'Login' : 'Sign Up',
-                isLoading: _playerAuthState.isLoading,
+                onPressed: _onSubmit(
+                  playerAuthState.isLoading,
+                  playerAuthState.isLogin,
+                ),
+                text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
+                isLoading: playerAuthState.isLoading,
                 isSubmit: true,
               ),
             ),
             const SizedBox(height: 15),
             AuthenticationToggle(
-              isLogin: _playerAuthState.isLogin,
+              isLogin: playerAuthState.isLogin,
               toggleAuth: _togglePlayerAuth,
             )
           ],

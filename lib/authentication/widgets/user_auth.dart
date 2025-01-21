@@ -1,18 +1,9 @@
-import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/authentication/models/verification_data.dart';
-import 'package:tracket/authentication/providers/auth_screen_size.dart';
-import 'package:tracket/authentication/providers/verification_step.dart';
-import 'package:tracket/authentication/screens/forget_password.dart';
-import 'package:tracket/authentication/services/email_verification_services.dart';
-import 'package:tracket/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/authentication/providers/auth_state_provider.dart';
+import 'package:tracket/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class UserAuth extends ConsumerStatefulWidget {
@@ -23,122 +14,35 @@ class UserAuth extends ConsumerStatefulWidget {
 }
 
 class _UserAuthState extends ConsumerState<UserAuth> {
-  var _isLogin = true;
-  var _isPasswordHidden = true;
-
-  late GlobalKey<FormState> _formKey;
-  String? _username;
-  String? _email;
-  String? _password;
-  bool _isLoading = false;
-
   @override
   void initState() {
-    _formKey = GlobalKey<FormState>();
     super.initState();
   }
 
-  Future<void> _userSignup() async {
-    if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).hasError();
-      return;
+  void Function()? _onSubmit(bool isLoading, bool isLogin) {
+    if (isLoading) return null;
+    if (isLogin) {
+      return () => ref.read(playerAuthProvider.notifier).login(context);
     }
 
-    _formKey.currentState!.save();
-
-    String email = _email!.trim();
-    String password = _password!.trim();
-    String username = _username!.trim();
-
-    showVerificationDialog(context, email);
-    try {
-      final user =
-          await FirebaseAuthMethods().sendVerificationEmail(email, password);
-
-      ref.read(verificationStepProvider.notifier).nextStep();
-
-      // Start listening for email verification
-      if (!mounted) return;
-      final verificationData = VerificationData(
-        user: user!,
-        username: username,
-        ref: ref,
-        context: context,
-        role: 'user',
-        imageUrl: '',
-      );
-      EmailVerificationService.checkEmailVerification(
-        data: verificationData,
-      );
-    } on FirebaseAuthException catch (error) {
-      Navigator.of(context).pop();
-      ref.read(verificationStepProvider.notifier).resetStep();
-
-      showAlertDialog(
-        context,
-        'Error',
-        getErrorMessage(error.code),
-      );
-    }
-  }
-
-  Future<void> _userLogin() async {
-    if (!_formKey.currentState!.validate()) {
-      ref.read(authScreenSizeProvider.notifier).hasError();
-      return;
-    }
-
-    _formKey.currentState!.save();
-
-    final email = _email!.trim();
-    final password = _password!.trim();
-
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-      await FirebaseAuthMethods().login(
-        email: email,
-        password: password,
-        context: context,
-        ref: ref,
-        expectedRole: 'user',
-      );
-    } catch (e) {
-      return;
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    return () => ref.read(playerAuthProvider.notifier).signup(context, true);
   }
 
   void _toggleUser() {
-    ref.read(authScreenSizeProvider.notifier).changeScreen(
-          _isLogin ? AuthScreenType.userSignup : AuthScreenType.userLogin,
-        );
-    setState(() {
-      _isLogin = !_isLogin;
-      _isPasswordHidden = true;
-      if (_formKey.currentState != null) _formKey.currentState!.reset();
-    });
-  }
-
-  void _onForgetPassword() {
-    pushScreen(context, const ForgetPassword());
+    ref.read(playerAuthProvider.notifier).togglePlayerAuth();
   }
 
   void _togglePasswordVisibility() {
-    setState(() {
-      _isPasswordHidden = !_isPasswordHidden;
-    });
+    ref.read(playerAuthProvider.notifier).togglePlayerAuth();
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final userAuthState = ref.watch(playerAuthProvider);
+
     return Form(
-      key: _formKey,
+      key: userAuthState.formKey,
       child: Padding(
         padding: const EdgeInsets.all(25),
         child: Column(
@@ -146,38 +50,45 @@ class _UserAuthState extends ConsumerState<UserAuth> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _isLogin ? 'Login as User' : 'Signup as user',
-              semanticsLabel:
-                  _isLogin ? 'Login form for users' : 'Signup form for users',
+              userAuthState.isLogin ? 'Login as User' : 'Signup as user',
+              semanticsLabel: userAuthState.isLogin
+                  ? 'Login form for users'
+                  : 'Signup form for users',
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
                   .copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 30),
-            if (!_isLogin)
+            if (!userAuthState.isLogin)
               MyTextField(
-                isLogin: _isLogin,
-                onSave: (value) => _username = value,
+                isLogin: userAuthState.isLogin,
+                onSave: (value) => ref
+                    .read(playerAuthProvider.notifier)
+                    .updateField(playerName: value),
                 label: 'Username',
                 validator: ValidationServices.usernameValidator,
               ),
-            if (!_isLogin) const SizedBox(height: 30),
+            if (!userAuthState.isLogin) const SizedBox(height: 30),
             MyTextField(
-              isLogin: _isLogin,
-              onSave: (value) => _email = value,
+              isLogin: userAuthState.isLogin,
+              onSave: (value) => ref
+                  .read(playerAuthProvider.notifier)
+                  .updateField(email: value),
               label: 'Email',
               validator: ValidationServices.emailValidator,
             ),
             const SizedBox(height: 30),
             MyTextField(
-              isLogin: _isLogin,
-              onSave: (value) => _password = value,
+              isLogin: userAuthState.isLogin,
+              onSave: (value) => ref
+                  .read(playerAuthProvider.notifier)
+                  .updateField(password: value),
               label: 'Password',
-              isPasswordHidden: _isPasswordHidden,
+              isPasswordHidden: userAuthState.isPasswordHidden,
               changeVisibility: _togglePasswordVisibility,
-              validator: (value) =>
-                  ValidationServices.passwordValidator(value, _isLogin),
+              validator: (value) => ValidationServices.passwordValidator(
+                  value, userAuthState.isLogin),
             ),
             const SizedBox(height: 30),
             SizedBox(
@@ -185,29 +96,18 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               height: 50,
               child: MyElevatedButton.primaryElevatedButton(
                 context,
-                onPressed:
-                    _isLoading ? null : (_isLogin ? _userLogin : _userSignup),
-                text: _isLogin ? 'Login' : 'Sign Up',
-                isLoading: _isLoading,
+                onPressed: () =>
+                    _onSubmit(userAuthState.isLoading, userAuthState.isLogin),
+                text: userAuthState.isLogin ? 'Login' : 'Sign Up',
+                isLoading: userAuthState.isLoading,
                 isSubmit: true,
               ),
             ),
             const SizedBox(height: 15),
-            Row(
-              children: [
-                if (_isLogin)
-                  MyTextButton(
-                    text: 'Forget password?',
-                    onPressed: _onForgetPassword,
-                    isUnderlined: true,
-                  ),
-                const Spacer(),
-                MyTextButton(
-                  text: _isLogin ? 'Sign Up?' : 'Login?',
-                  onPressed: _toggleUser,
-                ),
-              ],
-            ),
+            AuthenticationToggle(
+              isLogin: userAuthState.isLogin,
+              toggleAuth: _toggleUser,
+            )
           ],
         ),
       ),
