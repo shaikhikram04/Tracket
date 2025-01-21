@@ -71,11 +71,23 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
           ? Player.getPosition(position)
           : state.battingPosition,
       playerName: playerName ?? state.playerName,
+      email: email ?? state.email,
+      password: password ?? state.password,
     );
   }
 
   void togglePasswordVisibility() {
     state = state.copyWith(isPasswordHidden: !state.isPasswordHidden);
+  }
+
+  void toggleUserAuth() {
+    ref.read(authScreenSizeProvider.notifier).changeScreen(
+          state.isLogin ? AuthScreenType.userSignup : AuthScreenType.userLogin,
+        );
+
+    final isLogin = state.isLogin;
+    reset();
+    state = state.copyWith(isLogin: !isLogin);
   }
 
   void togglePlayerAuth() {
@@ -90,7 +102,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     state = state.copyWith(isLogin: !isLogin);
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> login(BuildContext context, bool isPlayer) async {
     if (!_validateForm(context)) return;
 
     state = state.copyWith(isLoading: true);
@@ -98,7 +110,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
       await FirebaseAuthMethods().login(
         email: state.email!.trim(),
         password: state.password!.trim(),
-        expectedRole: 'player',
+        expectedRole: isPlayer ? 'player' : 'user',
         context: context,
         ref: ref,
       );
@@ -108,7 +120,8 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
   }
 
   Future<void> signup(BuildContext context, bool isPlayer) async {
-    if (!_validateForm(context) || !_validateDropdowns(context)) return;
+    if (!_validateForm(context)) return;
+    if (isPlayer && !_validateDropdowns(context)) return;
 
     state = state.copyWith(isLoading: true);
     try {
@@ -119,7 +132,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
         state.password!.trim(),
       );
 
-      ref.read(verificationStepProvider.notifier).nextStep();
+      ref.read(verificationStepProvider.notifier).updateStep(1);
 
       if (!context.mounted) return;
 

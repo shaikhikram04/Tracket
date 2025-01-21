@@ -6,12 +6,6 @@ class VerificationStepNotifier extends StateNotifier<int> {
 
   VerificationStepNotifier() : super(minStep);
 
-  void nextStep() {
-    if (state < maxStep) {
-      state++;
-    }
-  }
-
   void resetStep() {
     state = minStep;
   }

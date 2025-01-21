@@ -86,9 +86,10 @@ class FirebaseAuthMethods extends AuthService {
           .doc(currentUserId)
           .collection(FirestoreCollections.playerTeams)
           .get();
+      return Player.fromSeed(snap.data()!, playerTeamsSnap.docs);
+    } else {
+      return Player.fromSeedForUser(snap.data()!);
     }
-
-    return Player.fromSeed(snap.data()!, playerTeamsSnap?.docs);
   }
 
   @override

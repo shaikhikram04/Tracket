@@ -19,21 +19,14 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     super.initState();
   }
 
-  void Function()? _onSubmit(bool isLoading, bool isLogin) {
-    if (isLoading) return null;
-    if (isLogin) {
-      return () => ref.read(playerAuthProvider.notifier).login(context);
-    }
-
-    return () => ref.read(playerAuthProvider.notifier).signup(context, true);
+  void _onSubmit(bool isLogin) {
+    isLogin
+        ? ref.read(playerAuthProvider.notifier).login(context, false)
+        : ref.read(playerAuthProvider.notifier).signup(context, false);
   }
 
   void _toggleUser() {
-    ref.read(playerAuthProvider.notifier).togglePlayerAuth();
-  }
-
-  void _togglePasswordVisibility() {
-    ref.read(playerAuthProvider.notifier).togglePlayerAuth();
+    ref.read(playerAuthProvider.notifier).toggleUserAuth();
   }
 
   @override
@@ -86,7 +79,9 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                   .updateField(password: value),
               label: 'Password',
               isPasswordHidden: userAuthState.isPasswordHidden,
-              changeVisibility: _togglePasswordVisibility,
+              changeVisibility: ref
+                  .read(playerAuthProvider.notifier)
+                  .togglePasswordVisibility,
               validator: (value) => ValidationServices.passwordValidator(
                   value, userAuthState.isLogin),
             ),
@@ -96,8 +91,9 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               height: 50,
               child: MyElevatedButton.primaryElevatedButton(
                 context,
-                onPressed: () =>
-                    _onSubmit(userAuthState.isLoading, userAuthState.isLogin),
+                onPressed: userAuthState.isLoading
+                    ? null
+                    : () => _onSubmit(userAuthState.isLogin),
                 text: userAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: userAuthState.isLoading,
                 isSubmit: true,

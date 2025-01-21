@@ -225,4 +225,18 @@ class Player {
       isPrivate: snap['isPrivate'],
     );
   }
+
+  static Player fromSeedForUser(Map<String, dynamic> snap) {
+    return Player.user(
+      role: snap['role'],
+      id: snap['userId'],
+      name: snap['playerName'],
+      email: snap['email'],
+      profileImageUrl: snap['profileImageUrl'],
+      createdAt: snap['createdAt'],
+      following: snap['following'],
+      followingTeams: snap['followingTeams'],
+      followers: snap['followers'],
+    );
+  }
 }

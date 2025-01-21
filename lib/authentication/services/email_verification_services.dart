@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/models/player_signup_data.dart';
 import 'package:tracket/authentication/models/verification_data.dart';
-import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/authentication/services/player_auth_services.dart';
 import 'package:tracket/authentication/services/user_auth_services.dart';
@@ -18,7 +17,7 @@ class EmailVerificationService {
   static const _checkInterval = Duration(seconds: 3);
 
   static Future<void> _onSuccess(Ref ref, BuildContext context) async {
-    ref.read(verificationStepProvider.notifier).nextStep();
+    ref.read(verificationStepProvider.notifier).updateStep(3);
     await Future.delayed(const Duration(seconds: 1));
 
     // Navigate to home screen
@@ -33,7 +32,7 @@ class EmailVerificationService {
   static Future<void> _handleVerifiedUser(
       VerificationData verificationData) async {
     // Update verification steps with delays
-    verificationData.ref.read(verificationStepProvider.notifier).nextStep();
+    verificationData.ref.read(verificationStepProvider.notifier).updateStep(1);
     await Future.delayed(const Duration(seconds: 1));
 
     try {
@@ -82,18 +81,21 @@ class EmailVerificationService {
         final updatedUser = FirebaseAuth.instance.currentUser;
 
         if (updatedUser?.emailVerified ?? false) {
+          verificationTimer?.cancel();
           await _handleVerifiedUser(data);
           if (!data.context.mounted) return;
+
           await _onSuccess(data.ref, data.context);
+
+          data.ref.read(verificationStepProvider.notifier).resetStep();
+
+          isCompleted = true;
         }
       } catch (e) {
         if (!data.context.mounted) return;
         _onError(e.toString(), data.context, data.user);
-      } finally {
-        data.ref.read(authScreenSizeProvider.notifier).resetSize();
         data.ref.read(verificationStepProvider.notifier).resetStep();
         verificationTimer?.cancel();
-        isCompleted = true;
       }
     });
 

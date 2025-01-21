@@ -43,13 +43,10 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     ref.read(playerAuthProvider.notifier).togglePlayerAuth();
   }
 
-  void Function()? _onSubmit(bool isLoading, bool isLogin) {
-    if (isLoading) return null;
-    if (isLogin) {
-      return () => ref.read(playerAuthProvider.notifier).login(context);
-    }
-
-    return () => ref.read(playerAuthProvider.notifier).signup(context, true);
+  void _onSubmit(bool isLogin) {
+    isLogin
+        ? ref.read(playerAuthProvider.notifier).login(context, true)
+        : ref.read(playerAuthProvider.notifier).signup(context, true);
   }
 
   @override
@@ -143,10 +140,9 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               height: 50,
               child: MyElevatedButton.primaryElevatedButton(
                 context,
-                onPressed: _onSubmit(
-                  playerAuthState.isLoading,
-                  playerAuthState.isLogin,
-                ),
+                onPressed: playerAuthState.isLoading
+                    ? null
+                    : () => _onSubmit(playerAuthState.isLogin),
                 text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: playerAuthState.isLoading,
                 isSubmit: true,
