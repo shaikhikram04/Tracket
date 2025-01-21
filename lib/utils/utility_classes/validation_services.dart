@@ -4,9 +4,12 @@ class ValidationServices {
       return 'Email cannot be empty';
     }
 
-    //! Regular expression for validating an email
-    const emailRegex = r'^[^@\s]+@[^@\s]+\.[^@\s]+$';
-    if (!RegExp(emailRegex).hasMatch(value)) {
+    //! Use a more comprehensive email regex
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+
+    if (!emailRegex.hasMatch(value)) {
       return 'Enter a valid email address';
     }
     return null; //? Valid email
@@ -14,26 +17,55 @@ class ValidationServices {
 
   static String? passwordValidator(String? value, bool isLogin) {
     if (value == null || value.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Password is required';
     }
 
-    if (isLogin) return null;
+    if (!isLogin) {
+      if (value.length < 8) {
+        return 'Password must be at least 8 characters long';
+      }
 
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters long';
+      final hasUpperCase = value.contains(RegExp(r'[A-Z]'));
+      final hasLowerCase = value.contains(RegExp(r'[a-z]'));
+      final hasNumbers = value.contains(RegExp(r'[0-9]'));
+      final hasSpecialCharacters =
+          value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+
+      if (!hasUpperCase || !hasLowerCase) {
+        return 'Password must contain both uppercase and lowercase letters';
+      }
+
+      if (!hasNumbers) {
+        return 'Password must contain at least one number';
+      }
+
+      if (!hasSpecialCharacters) {
+        return 'Password must contain at least one special character';
+      }
     }
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return 'Password must contain at least one uppercase letter';
+
+    return null;
+  }
+
+  static String? validatePlayerName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Player name is required';
     }
-    if (!RegExp(r'[a-z]').hasMatch(value)) {
-      return 'Password must contain at least one lowercase letter';
+
+    if (value.trim().length < 2) {
+      return 'Player name must be at least 2 characters long';
     }
-    if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return 'Password must contain at least one number';
+
+    if (value.length > 50) {
+      return 'Player name cannot exceed 50 characters';
     }
-    if (!RegExp(r'[!@#\$%\^&\*(),.?":{}|<>]').hasMatch(value)) {
-      return 'Password must contain at least one special character';
+
+    // Allow letters, spaces, and common special characters
+    final nameRegex = RegExp(r"^[a-zA-Z0-9\s\-'\.]+$");
+    if (!nameRegex.hasMatch(value)) {
+      return 'Player name contains invalid characters';
     }
+
     return null;
   }
 
