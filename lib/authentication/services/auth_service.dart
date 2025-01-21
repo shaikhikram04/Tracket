@@ -14,7 +14,7 @@ abstract class AuthService {
     required String email,
     required String password,
     required BuildContext context,
-    required WidgetRef ref,
+    required Ref ref,
     required String expectedRole,
   });
   Future<void> logout();

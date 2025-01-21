@@ -17,7 +17,7 @@ class EmailVerificationService {
   static const _verificationTimeout = Duration(minutes: 3);
   static const _checkInterval = Duration(seconds: 3);
 
-  static Future<void> _onSuccess(WidgetRef ref, BuildContext context) async {
+  static Future<void> _onSuccess(Ref ref, BuildContext context) async {
     ref.read(verificationStepProvider.notifier).nextStep();
     await Future.delayed(const Duration(seconds: 1));
 

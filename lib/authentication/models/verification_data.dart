@@ -20,7 +20,7 @@ class VerificationData {
   final User user;
   final String username;
   final String imageUrl;
-  final WidgetRef ref;
+  final Ref ref;
   final BuildContext context;
   final String role;
   final CricketRole? cricketRole;

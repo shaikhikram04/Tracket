@@ -96,7 +96,7 @@ class FirebaseAuthMethods extends AuthService {
     required String email,
     required String password,
     required BuildContext context,
-    required WidgetRef ref,
+    required Ref ref,
     required String expectedRole,
   }) async {
     final oponentRole = expectedRole == 'user' ? 'player' : 'user';
@@ -151,7 +151,8 @@ class FirebaseAuthMethods extends AuthService {
         );
       }
     } catch (error) {
-      rethrow;
+      if (!context.mounted) return;
+      showSnackBar(error.toString(), context);
     }
   }
 
