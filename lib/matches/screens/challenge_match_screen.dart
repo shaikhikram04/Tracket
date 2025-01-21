@@ -11,6 +11,7 @@ import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
@@ -349,7 +350,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                               label: 'Venue',
                               borderRadius: 15,
                               validator: (value) =>
-                                  nameValidator(value, 'Venue'),
+                                  ValidationServices.nameValidator(
+                                      value, 'Venue'),
                             ),
                           ),
                         ],

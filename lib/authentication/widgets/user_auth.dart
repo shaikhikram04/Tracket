@@ -10,6 +10,7 @@ import 'package:tracket/authentication/screens/forget_password.dart';
 import 'package:tracket/authentication/services/email_verification_services.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
@@ -159,14 +160,14 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 isLogin: _isLogin,
                 onSave: (value) => _username = value,
                 label: 'Username',
-                validator: usernameValidator,
+                validator: ValidationServices.usernameValidator,
               ),
             if (!_isLogin) const SizedBox(height: 30),
             MyTextField(
               isLogin: _isLogin,
               onSave: (value) => _email = value,
               label: 'Email',
-              validator: emailValidator,
+              validator: ValidationServices.emailValidator,
             ),
             const SizedBox(height: 30),
             MyTextField(
@@ -175,7 +176,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               label: 'Password',
               isPasswordHidden: _isPasswordHidden,
               changeVisibility: _togglePasswordVisibility,
-              validator: (value) => passwordValidator(value, _isLogin),
+              validator: (value) =>
+                  ValidationServices.passwordValidator(value, _isLogin),
             ),
             const SizedBox(height: 30),
             SizedBox(

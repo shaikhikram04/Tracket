@@ -5,6 +5,7 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
@@ -114,7 +115,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                       .read(playerAuthProvider.notifier)
                       .updateField(playerName: value),
                   label: 'Player Name',
-                  validator: (value) => nameValidator(value, 'Player name')),
+                  validator: (value) =>
+                      ValidationServices.nameValidator(value, 'Player name')),
             if (!_playerAuthState.isLogin) const SizedBox(height: 30),
             MyTextField(
               isLogin: _playerAuthState.isLogin,
@@ -122,15 +124,15 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .read(playerAuthProvider.notifier)
                   .updateField(email: value),
               label: 'Email',
-              validator: emailValidator,
+              validator: ValidationServices.emailValidator,
             ),
             const SizedBox(height: 30),
             MyTextField(
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
                   .updateField(password: value),
-              validator: (value) =>
-                  passwordValidator(value, _playerAuthState.isLogin),
+              validator: (value) => ValidationServices.passwordValidator(
+                  value, _playerAuthState.isLogin),
               label: 'Password',
               isPasswordHidden: _playerAuthState.isPasswordHidden,
               changeVisibility: ref

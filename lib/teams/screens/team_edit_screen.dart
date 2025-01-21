@@ -10,6 +10,7 @@ import 'package:tracket/teams/widgets/player_capacity_selector.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
@@ -232,7 +233,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                             label: 'Team Name',
                             borderRadius: 15,
                             validator: (value) =>
-                                nameValidator(value, 'Team Name'),
+                                ValidationServices.nameValidator(
+                                    value, 'Team Name'),
                           ),
                           MyTextField(
                             initialText: _team.shortName,
@@ -241,7 +243,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                             },
                             label: 'Team Short Name',
                             borderRadius: 15,
-                            validator: teamShortNameValidator,
+                            validator:
+                                ValidationServices.teamShortNameValidator,
                           ),
                           MyTextField(
                             initialText: _team.description,

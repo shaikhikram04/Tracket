@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
@@ -94,8 +95,11 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             child: Column(
               children: [
                 const Flexible(child: SizedBox(height: 30)),
-                getCircleAvatar(url: '', isTeam: true, radius: height * 0.08, image: _image),
-                
+                getCircleAvatar(
+                    url: '',
+                    isTeam: true,
+                    radius: height * 0.08,
+                    image: _image),
                 TextButton.icon(
                   onPressed: _editLogo,
                   label: const Text(
@@ -119,7 +123,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                           label: 'Team Name',
                           borderRadius: 10,
                           validator: (value) =>
-                              nameValidator(value, 'Team Name'),
+                              ValidationServices.nameValidator(
+                                  value, 'Team Name'),
                         ),
                         const SizedBox(height: 20),
                         MyTextField(
@@ -127,7 +132,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                           onSave: (value) => _teamShortName = value,
                           label: 'Team Short Name',
                           borderRadius: 10,
-                          validator: teamShortNameValidator,
+                          validator: ValidationServices.teamShortNameValidator,
                           maxLength: 4,
                         ),
                         const SizedBox(height: 20),

@@ -3,6 +3,7 @@ import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
@@ -161,7 +162,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       onSave: (value) => _email = value,
       label: 'Email',
       borderRadius: _borderRadius,
-      validator: emailValidator,
+      validator: ValidationServices.emailValidator,
     );
   }
 
