@@ -12,11 +12,10 @@ class MainDrawer extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     Future<void> logoutUser() async {
-      final result = await FirebaseAuthMethods.logoutUser();
-      if (!context.mounted) return;
-      if (result != 'success') {
-        showSnackBar(result, context);
-      } else {
+      try {
+        await FirebaseAuthMethods().logout();
+
+        if (!context.mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -24,6 +23,10 @@ class MainDrawer extends StatelessWidget {
           ),
           (route) => false,
         );
+      } catch (e) {
+        if (!context.mounted) return;
+
+        showSnackBar(e.toString(), context);
       }
     }
 

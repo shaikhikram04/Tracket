@@ -4,21 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/authentication/providers/auth_screen_size.dart';
-import 'package:tracket/authentication/providers/verification_step.dart';
+import 'package:tracket/authentication/models/verification_data.dart';
+import 'package:tracket/authentication/services/auth_service.dart';
+import 'package:tracket/authentication/services/email_verification_services.dart';
 import 'package:tracket/players/models/player.dart';
-import 'package:tracket/players/models/player_stats.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
-class FirebaseAuthMethods {
+class FirebaseAuthMethods extends AuthService {
   static final _auth = FirebaseAuth.instance;
   static final _firestore = FirebaseFirestore.instance;
   static const uuid = Uuid();
 
-  static User get currentUser {
+  @override
+  User get currentUser {
     final user = _auth.currentUser;
     if (user == null) {
       throw StateError('No authenticated user found');
@@ -26,33 +27,11 @@ class FirebaseAuthMethods {
     return user;
   }
 
-  static String get currentUserId => currentUser.uid;
+  @override
+  String get currentUserId => currentUser.uid;
 
-  static Future<DocumentSnapshot<Map<String, dynamic>>> getUserSnap() async {
-    var snap = await _firestore
-        .collection(FirestoreCollections.players)
-        .doc(currentUserId)
-        .get();
-
-    return snap;
-  }
-
-  static Future<Player> getUserDetail() async {
-    final snap = await getUserSnap();
-
-    QuerySnapshot? playerTeamsSnap;
-    if (snap.data()!['role'] == 'player') {
-      playerTeamsSnap = await _firestore
-          .collection(FirestoreCollections.players)
-          .doc(currentUserId)
-          .collection(FirestoreCollections.playerTeams)
-          .get();
-    }
-
-    return Player.fromSeed(snap.data()!, playerTeamsSnap?.docs);
-  }
-
-  static Future<User?> sendVerificationEmail(
+  @override
+  Future<User?> sendVerificationEmail(
     String email,
     String password,
   ) async {
@@ -66,7 +45,7 @@ class FirebaseAuthMethods {
       await user?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        final role = await getUserRole(email);
+        final role = await FirebaseAuthMethods.getUserRole(email);
 
         String code;
         String message;
@@ -88,119 +67,32 @@ class FirebaseAuthMethods {
     return user;
   }
 
-  static void checkEmailVerification({
-    required User user,
-    required String username,
-    required String imageUrl,
-    required WidgetRef ref,
-    required BuildContext context,
-    required String role,
-    CricketRole? cricketRole,
-    Position? battingPosition,
-    BowlingStyle? bowlingStyle,
-    Position? bowlingArm,
-  }) {
-    // Create a timer that can be cancelled
-    Timer? verificationTimer;
+  Future<DocumentSnapshot<Map<String, dynamic>>> get getUserSnap async {
+    var snap = await _firestore
+        .collection(FirestoreCollections.players)
+        .doc(currentUserId)
+        .get();
 
-    verificationTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
-      await user.reload();
-      user = currentUser;
-
-      if (user.emailVerified) {
-        // Cancel the timer first to stop further checks
-        verificationTimer?.cancel();
-
-        // Update verification steps with delays
-        ref.read(verificationStepProvider.notifier).nextStep();
-        await Future.delayed(const Duration(seconds: 1));
-
-        final String result;
-        if (role == 'user') {
-          result = await signupUser(
-            userId: user.uid,
-            username: username,
-            email: user.email!,
-            imageUrl: imageUrl,
-          );
-        } else {
-          result = await signupPlayer(
-            playerId: user.uid,
-            playerName: username,
-            email: user.email!,
-            cricketRole: cricketRole!,
-            battingPosition: battingPosition!,
-            bowlingStyle: bowlingStyle!,
-            bowlingArm: bowlingArm,
-            imageUrl: imageUrl,
-          );
-        }
-
-        //! If fail in storing user data in firestore
-        if (result != 'success' && context.mounted) {
-          Navigator.of(context).pop();
-          showSnackBar(result, context);
-          user.delete();
-        } else {
-          ref.read(verificationStepProvider.notifier).nextStep();
-          await Future.delayed(const Duration(seconds: 1));
-
-          // Navigate to home screen
-          if (!context.mounted) return;
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-            (route) => false,
-          );
-        }
-        ref.read(authScreenSizeProvider.notifier).resetSize();
-        ref.read(verificationStepProvider.notifier).resetStep();
-      }
-    });
-
-    // Optional: Set a maximum timeout for verification
-    Future.delayed(const Duration(minutes: 3), () {
-      verificationTimer?.cancel();
-      if (!user.emailVerified) {
-        user.delete();
-      }
-    });
+    return snap;
   }
 
-  static Future<String> signupUser({
-    required String userId,
-    required String username,
-    required String email,
-    required String imageUrl,
-  }) async {
-    String result;
+  Future<Player> get getUserDetail async {
+    final snap = await getUserSnap;
 
-    try {
-      final Player user = Player.user(
-        email: email,
-        name: username,
-        role: 'user',
-        createdAt: Timestamp.now(),
-        id: userId,
-        profileImageUrl: imageUrl,
-        following: [],
-        followers: [],
-        followingTeams: [],
-      );
-
-      await _firestore
+    QuerySnapshot? playerTeamsSnap;
+    if (snap.data()!['role'] == 'player') {
+      playerTeamsSnap = await _firestore
           .collection(FirestoreCollections.players)
-          .doc(userId)
-          .set(user.toJsonForUser);
-      result = 'success';
-    } catch (e) {
-      result = e.toString();
+          .doc(currentUserId)
+          .collection(FirestoreCollections.playerTeams)
+          .get();
     }
 
-    return result;
+    return Player.fromSeed(snap.data()!, playerTeamsSnap?.docs);
   }
 
-  static Future<void> handleLogin({
+  @override
+  Future<void> login({
     required String email,
     required String password,
     required BuildContext context,
@@ -216,7 +108,7 @@ class FirebaseAuthMethods {
 
       if (!userCred.user!.emailVerified && context.mounted) {
         showVerificationDialog(context, email);
-        checkEmailVerification(
+        final verificationData = VerificationData(
           user: userCred.user!,
           username: '',
           ref: ref,
@@ -224,6 +116,7 @@ class FirebaseAuthMethods {
           role: expectedRole,
           imageUrl: '',
         );
+        EmailVerificationService.checkEmailVerification(data: verificationData);
         return;
       }
 
@@ -262,88 +155,8 @@ class FirebaseAuthMethods {
     }
   }
 
-  static Future<void> loginUser({
-    required String email,
-    required String password,
-    required BuildContext context,
-    required WidgetRef ref,
-  }) async {
-    try {
-      await handleLogin(
-          email: email,
-          password: password,
-          context: context,
-          ref: ref,
-          expectedRole: 'user');
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  static Future<String> signupPlayer({
-    required String playerId,
-    required String playerName,
-    required String email,
-    required CricketRole cricketRole,
-    required Position battingPosition,
-    required BowlingStyle bowlingStyle,
-    Position? bowlingArm,
-    required String imageUrl,
-  }) async {
-    String result;
-
-    try {
-      final player = Player(
-        name: playerName,
-        email: email,
-        cricketRole: cricketRole,
-        battingPosition: battingPosition,
-        bowlingArm: bowlingArm,
-        bowlingStyle: bowlingStyle,
-        createdAt: Timestamp.now(),
-        id: playerId,
-        role: 'player',
-        profileImageUrl: imageUrl,
-        teams: [],
-        playerStats: PlayerStats(),
-        achievements: [],
-        following: [],
-        followingTeams: [],
-        followers: [],
-        isPrivate: false,
-      );
-      await _firestore
-          .collection(FirestoreCollections.players)
-          .doc(playerId)
-          .set(player.toJsonForPlayer);
-
-      result = 'success';
-    } catch (e) {
-      result = e.toString();
-    }
-
-    return result;
-  }
-
-  static Future<void> loginPlayer({
-    required String email,
-    required String password,
-    required BuildContext context,
-    required WidgetRef ref,
-  }) async {
-    try {
-      await handleLogin(
-          email: email,
-          password: password,
-          context: context,
-          ref: ref,
-          expectedRole: 'player');
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  static Future<String> resetPassword(String email) async {
+  @override
+  Future<String> resetPassword(String email) async {
     String result;
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -365,14 +178,12 @@ class FirebaseAuthMethods {
     return userSnap.docs.first.data()['role'] as String;
   }
 
-  static Future<String> logoutUser() async {
-    String result;
+  @override
+  Future<void> logout() async {
     try {
       await _auth.signOut();
-      result = 'success';
     } catch (e) {
-      result = e.toString();
+      rethrow;
     }
-    return result;
   }
 }

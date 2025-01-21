@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/authentication/screens/forget_password.dart';
+import 'package:tracket/authentication/models/verification_data.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
+import 'package:tracket/authentication/screens/forget_password.dart';
+import 'package:tracket/authentication/services/email_verification_services.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
@@ -50,19 +52,22 @@ class _UserAuthState extends ConsumerState<UserAuth> {
     showVerificationDialog(context, email);
     try {
       final user =
-          await FirebaseAuthMethods.sendVerificationEmail(email, password);
+          await FirebaseAuthMethods().sendVerificationEmail(email, password);
 
       ref.read(verificationStepProvider.notifier).nextStep();
 
       // Start listening for email verification
       if (!mounted) return;
-      FirebaseAuthMethods.checkEmailVerification(
+      final verificationData = VerificationData(
         user: user!,
         username: username,
         ref: ref,
         context: context,
         role: 'user',
         imageUrl: '',
+      );
+      EmailVerificationService.checkEmailVerification(
+        data: verificationData,
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
@@ -91,11 +96,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
       setState(() {
         _isLoading = true;
       });
-      await FirebaseAuthMethods.loginUser(
+      await FirebaseAuthMethods().login(
         email: email,
         password: password,
         context: context,
         ref: ref,
+        expectedRole: 'user',
       );
     } catch (e) {
       return;

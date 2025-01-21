@@ -1,14 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/authentication/screens/forget_password.dart';
+import 'package:tracket/authentication/models/verification_data.dart';
 import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/authentication/screens/forget_password.dart';
+import 'package:tracket/authentication/services/email_verification_services.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/players/models/player.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
@@ -126,23 +128,26 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     showVerificationDialog(context, email);
     try {
       final user =
-          await FirebaseAuthMethods.sendVerificationEmail(email, password);
+          await FirebaseAuthMethods().sendVerificationEmail(email, password);
 
       ref.read(verificationStepProvider.notifier).nextStep();
 
       // Start listening for email verification
       if (!mounted) return;
-      FirebaseAuthMethods.checkEmailVerification(
+      final verificationData = VerificationData(
         user: user!,
         username: playerName,
         ref: ref,
         context: context,
         role: 'player',
-        battingPosition: _battingPosition,
-        bowlingArm: _bowlingArm,
-        bowlingStyle: _bowlingStyle,
-        cricketRole: _cricketRole,
         imageUrl: '',
+        cricketRole: _cricketRole,
+        battingPosition: _battingPosition,
+        bowlingStyle: _bowlingStyle,
+        bowlingArm: _bowlingArm,
+      );
+      EmailVerificationService.checkEmailVerification(
+        data: verificationData,
       );
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
@@ -171,11 +176,12 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       setState(() {
         _isLoading = true;
       });
-      await FirebaseAuthMethods.loginPlayer(
+      await FirebaseAuthMethods().login(
         email: email,
         password: password,
         context: context,
         ref: ref,
+        expectedRole: 'player',
       );
     } catch (e) {
       return;
@@ -271,7 +277,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             SizedBox(
               width: width * 0.8,
               height: 50,
-              child: MyElevatedButton.primaryElevatedButton(context,
+              child: MyElevatedButton.primaryElevatedButton(
+                context,
                 onPressed: _isLoading
                     ? null
                     : (_isLogin ? _playerLogin : _playerSignup),

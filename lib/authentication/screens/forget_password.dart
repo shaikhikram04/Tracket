@@ -51,7 +51,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       setState(() => _isSendingEmail = true);
       _formKey.currentState!.save();
 
-      final result = await FirebaseAuthMethods.resetPassword(_email!);
+      final result = await FirebaseAuthMethods().resetPassword(_email!);
 
       if (!mounted) return;
 

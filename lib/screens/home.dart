@@ -34,7 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       _selectedIndex = 3;
     });
     try {
-      final player = await FirebaseAuthMethods.getUserDetail();
+      final player = await FirebaseAuthMethods().getUserDetail;
       ref.read(playerProvider.notifier).setPlayer(player);
     } catch (error) {
       if (mounted) {

@@ -90,7 +90,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       isFollowing = true;
     });
 
-    final userId = FirebaseAuthMethods.currentUserId;
+    final userId = FirebaseAuthMethods().currentUserId;
 
     try {
       TeamsServices.followTeam(teamId, userId, isFollow, ref, context);
@@ -169,7 +169,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                       builder: (context) => TeamOptions(
                         isOwner: teamData.createdBy ==
-                            FirebaseAuthMethods.currentUserId,
+                            FirebaseAuthMethods().currentUserId,
                       ),
                     );
                   },
