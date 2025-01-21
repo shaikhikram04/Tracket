@@ -56,6 +56,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   late Team _challengerTeam;
   final _formKey = GlobalKey<FormState>();
   bool _isChallenging = false;
+  String _captain = '';
+  String _wicketkeeper = '';
 
   final matchFormatOptions = matchFormatToString();
   final matchTypeOptions = enumToString(MatchType.values);
@@ -64,6 +66,15 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   void initState() {
     _loadTeamData();
     super.initState();
+  }
+
+  List<String> get _playerNames {
+    List<String> playerNames = [];
+    for (var player in _selectedPlayer) {
+      playerNames.add(player.name);
+    }
+
+    return playerNames;
   }
 
   Future<void> _loadTeamData() async {
@@ -101,7 +112,15 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
     if (result != null) {
       setState(() {
-        _selectedPlayer = result.map((player) => player.copyWith()).toList();
+        _selectedPlayer = result.map((player) {
+          if (_captain.isEmpty && player.id == _challengerTeam.captainId) {
+            _captain = player.id;
+          } else if (_wicketkeeper.isEmpty &&
+              player.id == _challengerTeam.wicketkeeperId) {
+            _wicketkeeper = player.id;
+          }
+          return player.copyWith();
+        }).toList();
       });
     }
   }
@@ -296,9 +315,36 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                     MyCard(
                       child: MatchSquad(
                         selectedPlayer: _selectedPlayer,
-                        captainId: _challengerTeam.captainId,
+                        captainId: _captain,
                         wicketkeeperId: _challengerTeam.wicketkeeperId,
                         onAdd: onAddPlayer,
+                      ),
+                    ),
+                    //! Roles
+                    MyCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: 12,
+                        children: [
+                          getTitleText('Roles', context),
+                          //! Captain, Wicketkeeper
+                          MyDropdownMenu(
+                            options: _playerNames,
+                            label: 'Change captancy',
+                            initialSelection: _captain,
+                            onSelect: (value) {
+                              _captain = value!;
+                            },
+                          ),
+                          MyDropdownMenu(
+                            options: _playerNames,
+                            label: 'Change Wicketkeeper',
+                            initialSelection: _wicketkeeper,
+                            onSelect: (value) {
+                              _wicketkeeper = value!;
+                            },
+                          )
+                        ],
                       ),
                     ),
                     //! Match Venue
