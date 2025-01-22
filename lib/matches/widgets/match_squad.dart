@@ -45,10 +45,12 @@ class MatchSquad extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         selectedPlayer.isEmpty
-            ? const NoDataFound(
+            ? NoDataFound(
                 title: 'No Player selected yet!',
-                message: 'Tap the button above to select player.',
-                isPointingButton: true,
+                message: isPlayerCanAdd
+                    ? 'Tap the button above to select player.'
+                    : '',
+                isPointingButton: isPlayerCanAdd,
               )
             : Column(
                 children: List.generate(

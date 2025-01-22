@@ -37,16 +37,16 @@ class AcceptChallengeScreen extends StatelessWidget {
                     spacing: 8,
                     children: [
                       TeamColumn(
-                        teamName: challenge.challengedTeam.name,
-                        teamLogo: challenge.challengedTeam.logoUrl,
+                        teamName: challenge.challengerTeam.name,
+                        teamLogo: challenge.challengerTeam.logoUrl,
                       ),
                       Text(
                         'v/s',
                         style: MyTextStyle(context).boldBodyLarge,
                       ),
                       TeamColumn(
-                        teamName: challenge.challengerTeam.name,
-                        teamLogo: challenge.challengerTeam.logoUrl,
+                        teamName: challenge.challengedTeam.name,
+                        teamLogo: challenge.challengedTeam.logoUrl,
                       ),
                     ],
                   ),
@@ -105,7 +105,7 @@ class AcceptChallengeScreen extends StatelessWidget {
                 captainId: '',
                 wicketkeeperId: '',
                 isPlayerCanAdd: false,
-                title: 'Challenger Squad',
+                title: isSender ? 'Your Squad' : 'Challenger Squad',
               ),
             ),
             MyCard(
@@ -113,33 +113,35 @@ class AcceptChallengeScreen extends StatelessWidget {
                 selectedPlayer: const [],
                 captainId: '',
                 wicketkeeperId: '',
+                isPlayerCanAdd: !isSender,
                 onAdd: () {},
-                title: 'Your Squad',
+                title: isSender ? 'Opponent Squad' : 'Your Squad',
               ),
             ),
             const SizedBox(height: 5),
-            Row(
-              spacing: 20,
-              children: [
-                const SizedBox(),
-                Expanded(
-                  child: MyElevatedButton.secondaryElevatedButton(
-                    context,
-                    text: 'Reject',
-                    onPressed: () {},
+            if (!isSender)
+              Row(
+                spacing: 20,
+                children: [
+                  const SizedBox(),
+                  Expanded(
+                    child: MyElevatedButton.secondaryElevatedButton(
+                      context,
+                      text: 'Reject',
+                      onPressed: () {},
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: MyElevatedButton.primaryElevatedButton(
-                    context,
-                    onPressed: () {},
-                    text: 'Accept',
-                    primaryColor: const Color.fromARGB(255, 43, 114, 45),
+                  Expanded(
+                    child: MyElevatedButton.primaryElevatedButton(
+                      context,
+                      onPressed: () {},
+                      text: 'Accept',
+                      primaryColor: const Color.fromARGB(255, 43, 114, 45),
+                    ),
                   ),
-                ),
-                const SizedBox(),
-              ],
-            ),
+                  const SizedBox(),
+                ],
+              ),
             const SizedBox(height: 20),
           ],
         ),
