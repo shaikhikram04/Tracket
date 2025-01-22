@@ -7,18 +7,21 @@ class MyDropdownMenu extends StatelessWidget {
     required this.label,
     required this.onSelect,
     this.initialSelection,
+    this.controller,
   });
 
   final List<String> options;
   final String label;
   final void Function(String? value) onSelect;
   final String? initialSelection;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return DropdownMenu(
       initialSelection: initialSelection,
+      controller: controller,
       onSelected: onSelect,
       width: width * 0.8,
       label: Text(label),

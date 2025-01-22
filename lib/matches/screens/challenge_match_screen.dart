@@ -56,8 +56,10 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   late Team _challengerTeam;
   final _formKey = GlobalKey<FormState>();
   bool _isChallenging = false;
-  String _captain = '';
-  String _wicketkeeper = '';
+  String _captainId = '';
+  String _wicketkeeperId = '';
+  late TextEditingController _captainController;
+  late TextEditingController _wicketkeeperController;
 
   final matchFormatOptions = matchFormatToString();
   final matchTypeOptions = enumToString(MatchType.values);
@@ -65,6 +67,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   @override
   void initState() {
     _loadTeamData();
+    _captainController = TextEditingController();
+    _wicketkeeperController = TextEditingController();
     super.initState();
   }
 
@@ -111,13 +115,19 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     );
 
     if (result != null) {
+      final captain = _captainController.text;
+      final wicketkeeper = _wicketkeeperController.text;
+
       setState(() {
         _selectedPlayer = result.map((player) {
-          if (_captain.isEmpty && player.id == _challengerTeam.captainId) {
-            _captain = player.id;
-          } else if (_wicketkeeper.isEmpty &&
+          if (captain.isEmpty && player.id == _challengerTeam.captainId) {
+            _captainController.text = player.name.toUpperCase();
+            _captainId = player.id;
+          }
+          if (wicketkeeper.isEmpty &&
               player.id == _challengerTeam.wicketkeeperId) {
-            _wicketkeeper = player.id;
+            _wicketkeeperController.text = player.name.toUpperCase();
+            _wicketkeeperId = player.id;
           }
           return player.copyWith();
         }).toList();
@@ -315,8 +325,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                     MyCard(
                       child: MatchSquad(
                         selectedPlayer: _selectedPlayer,
-                        captainId: _captain,
-                        wicketkeeperId: _challengerTeam.wicketkeeperId,
+                        captainId: _captainId,
+                        wicketkeeperId: _wicketkeeperId,
                         onAdd: onAddPlayer,
                       ),
                     ),
@@ -330,18 +340,18 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                           //! Captain, Wicketkeeper
                           MyDropdownMenu(
                             options: _playerNames,
-                            label: 'Change captancy',
-                            initialSelection: _captain,
+                            label: 'Change Captaincy',
+                            controller: _captainController,
                             onSelect: (value) {
-                              _captain = value!;
+                              _captainController.text = value!;
                             },
                           ),
                           MyDropdownMenu(
                             options: _playerNames,
                             label: 'Change Wicketkeeper',
-                            initialSelection: _wicketkeeper,
+                            controller: _wicketkeeperController,
                             onSelect: (value) {
-                              _wicketkeeper = value!;
+                              _wicketkeeperController.text = value!;
                             },
                           )
                         ],
