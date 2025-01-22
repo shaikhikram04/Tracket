@@ -46,6 +46,8 @@ class TeamsServices {
         id: _uuid.v4(),
         achievements: [],
         followers: [],
+        requestedPlayers: [],
+        challengedTeams: [],
         playerIds: [createdBy],
         description: description,
       );

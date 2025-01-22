@@ -13,6 +13,8 @@ class Team {
     required this.followers,
     required this.playerIds,
     required this.description,
+    required this.requestedPlayers,
+    required this.challengedTeams,
     this.captainId = '',
     this.wicketkeeperId = '',
     required this.createdBy,
@@ -48,6 +50,8 @@ class Team {
   final int pendingRequest;
   final bool isPrivate;
   final List playerIds;
+  final List requestedPlayers;
+  final List challengedTeams;
 
   List<PlayerDetails> get admins =>
       playersList.where((player) => player.role != TeamRole.player).toList();
@@ -65,7 +69,7 @@ class Team {
     return players.map(
       (player) {
         final playerInfo = player.data() as Map<String, dynamic>;
-        return PlayerDetails.fromMap(playerInfo) ;
+        return PlayerDetails.fromMap(playerInfo);
       },
     ).toList();
   }
@@ -91,6 +95,8 @@ class Team {
         'pendingRequest': pendingRequest,
         'isPrivate': isPrivate,
         'playersIds': playerIds,
+        'requestedPlayers': requestedPlayers,
+        'challengedTeams': challengedTeams,
       };
 
   static Team formSeed(Map<String, dynamic> snap,
@@ -117,6 +123,8 @@ class Team {
         pendingRequest: snap['pendingRequest'],
         isPrivate: snap['isPrivate'],
         playerIds: snap['playersIds'],
+        requestedPlayers: snap['requestedPlayers'],
+        challengedTeams: snap['challengedTeams'],
       );
 
   Team copyWith({
@@ -141,6 +149,8 @@ class Team {
     int? pendingRequest,
     bool? isPrivate,
     List? playerIds,
+    List? requestedPlayers,
+    List? challengedTeams,
   }) {
     return Team(
       id: id,
@@ -164,6 +174,8 @@ class Team {
       pendingRequest: pendingRequest ?? this.pendingRequest,
       isPrivate: isPrivate ?? this.isPrivate,
       playerIds: playerIds ?? this.playerIds,
+      requestedPlayers: requestedPlayers ?? this.requestedPlayers,
+      challengedTeams: challengedTeams ?? this.challengedTeams,
     );
   }
 }

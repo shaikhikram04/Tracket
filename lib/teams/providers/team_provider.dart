@@ -91,6 +91,8 @@ final teamProvider = StateNotifierProvider<TeamProviderNotifier, Team>((ref) {
       createdBy: '',
       playerIds: [],
       description: '',
+      requestedPlayers: [],
+      challengedTeams: [],
     ),
   );
 });

@@ -25,6 +25,7 @@ class PlayerNotifier extends StateNotifier<Player> {
           followingTeams: [],
           followers: [],
           isPrivate: null,
+          requestedTeam: [],
         ));
 
   void setPlayer(Player player) {
@@ -52,6 +53,7 @@ class PlayerNotifier extends StateNotifier<Player> {
     List? followers,
     bool? allowDirectTeamAdd,
     int? innings,
+    List? requestedTeam,
   }) {
     final player = Player(
       role: role ?? state.role,
@@ -71,6 +73,7 @@ class PlayerNotifier extends StateNotifier<Player> {
       followingTeams: followingTeams ?? state.followingTeams,
       followers: followers ?? state.followers,
       isPrivate: allowDirectTeamAdd ?? state.isPrivate,
+      requestedTeam: requestedTeam ?? state.requestedTeam,
     );
 
     state = player;

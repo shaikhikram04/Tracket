@@ -30,6 +30,7 @@ class PlayerAuthService {
         followingTeams: [],
         followers: [],
         isPrivate: false,
+        requestedTeam: [],
       );
 
       await _firestore

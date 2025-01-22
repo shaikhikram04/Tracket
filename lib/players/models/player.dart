@@ -41,6 +41,7 @@ class Player {
   final BowlingStyle? bowlingStyle;
   final Timestamp createdAt;
   final bool? isPrivate;
+  final List? requestedTeam;
 
   Player({
     required this.role,
@@ -60,6 +61,7 @@ class Player {
     required this.createdAt,
     required this.playerStats,
     required this.isPrivate,
+    required this.requestedTeam,
   });
 
   Player.user({
@@ -79,7 +81,8 @@ class Player {
         playerStats = null,
         teams = null,
         achievements = null,
-        isPrivate = null;
+        isPrivate = null,
+        requestedTeam = null;
 
   static CricketRole getCricketRole(String role) {
     switch (role) {
@@ -173,6 +176,7 @@ class Player {
         'followingTeams': followingTeams,
         'followers': followers,
         'playerStats': playerStats!.toJson,
+        'requestedTeam': requestedTeam,
       };
 
   static List<TeamDetails>? playerTeamsToList(
@@ -223,6 +227,7 @@ class Player {
       followingTeams: snap['followingTeams'],
       followers: snap['followers'],
       isPrivate: snap['isPrivate'],
+      requestedTeam: snap['requestedTeam'],
     );
   }
 
