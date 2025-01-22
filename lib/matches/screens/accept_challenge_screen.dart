@@ -9,9 +9,14 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class AcceptChallengeScreen extends StatelessWidget {
-  const AcceptChallengeScreen({super.key, required this.challenge});
+  const AcceptChallengeScreen({
+    super.key,
+    required this.challenge,
+    required this.isSender,
+  });
 
   final ChallengeMatch challenge;
+  final bool isSender;
 
   @override
   Widget build(BuildContext context) {

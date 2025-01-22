@@ -26,7 +26,11 @@ class ChallengeCard extends StatelessWidget {
 
   void _navigateToAcceptChallenge(BuildContext context) {
     pushScreen(
-        context, AcceptChallengeScreen(challenge: challenge.challengeMatch!));
+        context,
+        AcceptChallengeScreen(
+          challenge: challenge.challengeMatch!,
+          isSender: isSent,
+        ));
   }
 
   void _loadData(
