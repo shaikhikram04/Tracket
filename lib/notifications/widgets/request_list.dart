@@ -6,13 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
-class RequestList extends StatefulWidget {
+class RequestList extends ConsumerStatefulWidget {
   const RequestList({
     super.key,
     required this.requests,
@@ -23,10 +24,10 @@ class RequestList extends StatefulWidget {
   final bool isSent;
 
   @override
-  State<RequestList> createState() => _RequestListState();
+  ConsumerState<RequestList> createState() => _RequestListState();
 }
 
-class _RequestListState extends State<RequestList> {
+class _RequestListState extends ConsumerState<RequestList> {
   late final List<QueryDocumentSnapshot<Map<String, dynamic>>> requestList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
 
@@ -40,6 +41,7 @@ class _RequestListState extends State<RequestList> {
     super.initState();
   }
 
+  //* Check if the request is for a player or a team
   bool _isPlayer(model.NotificationType type) {
     if (widget.isSent && type == model.NotificationType.offerPlayerRequest) {
       return true;
@@ -71,8 +73,13 @@ class _RequestListState extends State<RequestList> {
         return RequestCard(
           request: request,
           isSent: widget.isSent,
-          onCancelRequest: () =>
-              _onCancelRequest(index, request.notificationId),
+          onCancelRequest: () => _onCancelRequest(
+            index: index,
+            notificationId: request.notificationId,
+            type: request.type,
+            playerId: request.playerDetails!.id,
+            teamId: request.teamDetails!.id,
+          ),
           onAcceptRequest: (WidgetRef ref) =>
               _acceptRequest(request, index, isPlayer, ref),
           onRejectRequest: () => _rejectRequest(context, index, requestData),
@@ -81,13 +88,24 @@ class _RequestListState extends State<RequestList> {
     );
   }
 
-  Future<void> _onCancelRequest(int index, String notificationId) async {
+  Future<void> _onCancelRequest(
+      {required int index,
+      required String notificationId,
+      required model.NotificationType type,
+      required String playerId,
+      required String teamId}) async {
     final result = await NotificationServices.deleteNotification(
-      notificationId,
-      context,
+      notificationId: notificationId,
+      type: type,
+      context: context,
+      playerId: playerId,
+      teamId: teamId,
     );
 
     if (result == 'success') {
+      if (type == model.NotificationType.teamJoinRequest) {
+        ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
+      }
       setState(() {
         requestList.removeAt(index);
       });
@@ -141,8 +159,22 @@ class _RequestListState extends State<RequestList> {
       }
 
       if (mounted) {
+        String playerId;
+        String teamId;
+        if (request.type == model.NotificationType.offerPlayerRequest) {
+          playerId = request.to;
+          teamId = request.from;
+        } else {
+          playerId = request.from;
+          teamId = request.to;
+        }
         await NotificationServices.deleteNotification(
-            request.notificationId, context);
+          notificationId: request.notificationId,
+          context: context,
+          type: request.type,
+          playerId: playerId,
+          teamId: teamId,
+        );
       }
     } finally {
       _toggleButton(request.notificationId, false, ref);
@@ -176,7 +208,25 @@ class _RequestListState extends State<RequestList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        NotificationServices.deleteNotification(requestData.id, context);
+        model.NotificationType type =
+            model.Notification.getType(requestData['type']);
+        String playerId;
+        String teamId;
+        if (type == model.NotificationType.offerPlayerRequest) {
+          playerId = requestData['to'];
+          teamId = requestData['from'];
+        } else {
+          playerId = requestData['from'];
+          teamId = requestData['to'];
+          ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
+        }
+        NotificationServices.deleteNotification(
+          notificationId: requestData.id,
+          context: context,
+          type: type,
+          playerId: playerId,
+          teamId: teamId,
+        );
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
