@@ -59,8 +59,12 @@ class _ChallengesListState extends State<ChallengesList> {
           challenge: challenge,
           isSent: widget.isSent,
           onAcceptChallenge: (ref) => _acceptChallenge(challenge, index, ref),
-          onCanceChallenge: () =>
-              _onCancelChallenge(index, challenge.notificationId),
+          onCanceChallenge: () => _onCancelChallenge(
+            index: index,
+            notificationId: challenge.notificationId,
+            challengerTeamId: challengeData['from'],
+            challengedTeamId: challengeData['to'],
+          ),
           onRejectChallenge: () =>
               _rejectChallenge(context, index, challengeData),
         );
@@ -68,9 +72,19 @@ class _ChallengesListState extends State<ChallengesList> {
     );
   }
 
-  Future<void> _onCancelChallenge(int index, String notificationId) async {
+  Future<void> _onCancelChallenge({
+    required int index,
+    required String notificationId,
+    required String challengerTeamId,
+    required String challengedTeamId,
+  }) async {
     final result = await NotificationServices.deleteNotification(
-        notificationId, model.NotificationType.matchChallenge, context);
+      notificationId: notificationId,
+      type: model.NotificationType.matchChallenge,
+      context: context,
+      teamId: challengerTeamId,
+      challengedTeamId: challengedTeamId,
+    );
 
     if (result == 'success') {
       setState(() {
@@ -129,7 +143,12 @@ class _ChallengesListState extends State<ChallengesList> {
       if (!isUndo) {
         // Perform the actual deletion
         NotificationServices.deleteNotification(
-            challengeData.id, model.NotificationType.matchChallenge, context);
+          notificationId: challengeData.id,
+          type: model.NotificationType.matchChallenge,
+          context: context,
+          teamId: challengeData.data()['from'],
+          challengedTeamId: challengeData.data()['to'],
+        );
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
