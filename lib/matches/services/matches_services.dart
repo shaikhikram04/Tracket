@@ -76,6 +76,13 @@ class MatchesServices {
     for (final player in challengerPlayers) {
       await challengerPlayerCollectionRef.doc(player.id).set(player.toMap);
     }
+
+    _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(challengerTeam.id)
+        .update({
+      'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
+    });
   }
 
   static createMatch(ChallengeMatch challegeMatch) {
@@ -96,6 +103,9 @@ class MatchesServices {
       schedule: challegeMatch.schedule,
     );
 
-    _firestore.collection(FirestoreCollections.matches).doc(match.id).set(match.toMap);
+    _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(match.id)
+        .set(match.toMap);
   }
 }
