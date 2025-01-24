@@ -38,6 +38,7 @@ class MyElevatedButton {
     required Function() onPressed,
     Color primaryColor = Colors.red,
     Color secondaryColor = Colors.white,
+    bool isLoading = false,
   }) {
     return ElevatedButton(
       onPressed: onPressed,
@@ -45,10 +46,13 @@ class MyElevatedButton {
         backgroundColor: secondaryColor,
         side: BorderSide(color: primaryColor, width: 1.5),
       ),
-      child: Text(
-        text,
-        style: MyTextStyle(context).buttonBodyLarge(primaryColor),
-      ),
+      child: isLoading
+          ? getCircleLoadingIndicator(color: primaryColor)
+          : Text(
+              text,
+              style: MyTextStyle(context).buttonBodyLarge(primaryColor),
+              textAlign: TextAlign.center,
+            ),
     );
   }
 }

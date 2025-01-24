@@ -43,7 +43,7 @@ class MyTextStyle {
       );
 
   TextStyle buttonBodyLarge(Color textColor) => bodyLarge.copyWith(
-        fontWeight: FontWeight.w500,
+        fontWeight: textColor == whiteColor ? FontWeight.w500 : FontWeight.w600,
         fontSize: 14,
         color: textColor,
       );

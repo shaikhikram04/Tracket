@@ -152,6 +152,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
         player.teams!.any((team) => team.role != TeamRole.player);
 
     final canChallenge = !isTeamPlayer && isAdminOrOwner;
+    final isChallenged = teamData.challengedTeams.contains(player.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -265,16 +266,25 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                 const Expanded(child: SizedBox()),
                               Expanded(
                                 flex: 2,
-                                child: MyElevatedButton.primaryElevatedButton(
-                                  context,
-                                  isLoading: isFollowing,
-                                  onPressed: () => _followTeam(
-                                      teamData.id, player.id, !isFollowed),
-                                  text: isFollowed ? 'Unfollow' : 'Follow',
-                                  primaryColor: isFollowed
-                                      ? Colors.grey.shade700
-                                      : const Color.fromARGB(255, 40, 50, 40),
-                                ),
+                                child: isFollowed
+                                    ? MyElevatedButton.secondaryElevatedButton(
+                                        context,
+                                        isLoading: isFollowing,
+                                        onPressed: () => _followTeam(
+                                            teamData.id, player.id, false),
+                                        text: 'Unfollow',
+                                        primaryColor: blackColor,
+                                        secondaryColor: lightDrawerBgColor,
+                                      )
+                                    : MyElevatedButton.primaryElevatedButton(
+                                        context,
+                                        isLoading: isFollowing,
+                                        onPressed: () => _followTeam(
+                                            teamData.id, player.id, true),
+                                        text: 'Follow',
+                                        primaryColor: const Color.fromARGB(
+                                            255, 40, 50, 40),
+                                      ),
                               ),
                               if (canChallenge)
                                 Expanded(
