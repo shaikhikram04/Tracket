@@ -69,8 +69,8 @@ class _ChallengesListState extends State<ChallengesList> {
   }
 
   Future<void> _onCancelChallenge(int index, String notificationId) async {
-    final result =
-        await NotificationServices.deleteNotification(notificationId, context);
+    final result = await NotificationServices.deleteNotification(
+        notificationId, model.NotificationType.matchChallenge, context);
 
     if (result == 'success') {
       setState(() {
@@ -128,7 +128,8 @@ class _ChallengesListState extends State<ChallengesList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        NotificationServices.deleteNotification(challengeData.id, context);
+        NotificationServices.deleteNotification(
+            challengeData.id, model.NotificationType.matchChallenge, context);
         activeTimers.remove(index); // Clean up the timer reference
       }
     });

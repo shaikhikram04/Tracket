@@ -34,6 +34,10 @@ class RequestsServices {
           .collection(FirestoreCollections.notification)
           .doc(notification.notificationId)
           .set(notification.toMap);
+
+      await _firestore.collection(FirestoreCollections.teams).doc(teamInfo.id).update({
+        'requestedPlayers': FieldValue.arrayUnion([playerInfo.id])
+      });
     } catch (e) {
       if (context.mounted) {
         showSnackBar(

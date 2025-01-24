@@ -59,4 +59,19 @@ class PlayersServices {
       }
     }
   }
+
+  static Future<void> updateRequestTeams({
+    required String playerId,
+    required String teamId,
+    required bool isAdding,
+  }) async {
+    await _firestore
+        .collection(FirestoreCollections.players)
+        .doc(playerId)
+        .update({
+      'requestedTeam': isAdding
+          ? FieldValue.arrayUnion([teamId])
+          : FieldValue.arrayRemove([teamId])
+    });
+  }
 }

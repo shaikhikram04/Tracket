@@ -79,6 +79,16 @@ class PlayerNotifier extends StateNotifier<Player> {
     state = player;
   }
 
+  void updateRequestedTeam(String teamId, bool isAdding) {
+    final updatedRequestedTeams = [...state.requestedTeam!];
+    if (isAdding) {
+      updatedRequestedTeams.add(teamId);
+    } else {
+      updatedRequestedTeams.remove(teamId);
+    }
+    updateField(requestedTeam: updatedRequestedTeams);
+  }
+
   void addTeam(TeamDetails teamInfo) {
     final updatedTeams = [...state.teams!, teamInfo];
     updateField(teams: updatedTeams);

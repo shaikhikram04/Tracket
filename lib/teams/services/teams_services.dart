@@ -56,19 +56,20 @@ class TeamsServices {
           .doc(team.id)
           .set(team.toJson);
 
-      final playerInfo = {
-        'id': createdBy,
-        'name': adminName,
-        'cricketRole': adminCricketRole,
-        'imageUrl': adminImageUrl,
-        'role': 'owner',
-      };
+      final playerInfo = PlayerDetails(
+        cricketRole: adminCricketRole,
+        id: createdBy,
+        imageUrl: adminImageUrl,
+        name: adminName,
+        role: TeamRole.owner,
+      );
+
       await _firestore
           .collection(FirestoreCollections.teams)
           .doc(team.id)
           .collection(FirestoreCollections.teamPlayers)
           .doc(createdBy)
-          .set(playerInfo);
+          .set(playerInfo.toMap);
 
       final teamInfo = TeamDetails(
         id: team.id,
@@ -308,5 +309,29 @@ class TeamsServices {
         showSnackBar(e.toString(), context);
       }
     }
+  }
+
+  static Future<void> updateRequestedPlayers({
+    required String playerId,
+    required String teamId,
+    required bool isAdding,
+  }) async {
+    await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
+      'requestedTeam': isAdding
+          ? FieldValue.arrayUnion([playerId])
+          : FieldValue.arrayRemove([playerId])
+    });
+  }
+
+  static void updateChallengedTeams({
+    required String teamId,
+    required String challengedTeamId,
+    required bool isAdding,
+  }) async {
+    await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
+      'challengedTeams': isAdding
+          ? FieldValue.arrayUnion([challengedTeamId])
+          : FieldValue.arrayRemove([challengedTeamId])
+    });
   }
 }

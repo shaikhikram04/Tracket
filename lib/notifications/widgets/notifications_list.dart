@@ -7,13 +7,14 @@ import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
-class NotificationsList extends StatefulWidget {
+class NotificationsList extends ConsumerStatefulWidget {
   const NotificationsList({
     super.key,
     required this.notifications,
@@ -22,10 +23,10 @@ class NotificationsList extends StatefulWidget {
   final List<QueryDocumentSnapshot<Map<String, dynamic>>> notifications;
 
   @override
-  State<NotificationsList> createState() => _NotificationsListState();
+  ConsumerState<NotificationsList> createState() => _NotificationsListState();
 }
 
-class _NotificationsListState extends State<NotificationsList> {
+class _NotificationsListState extends ConsumerState<NotificationsList> {
   late final List<QueryDocumentSnapshot<Map<String, dynamic>>> notificationList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
 
@@ -39,7 +40,8 @@ class _NotificationsListState extends State<NotificationsList> {
     super.initState();
   }
 
-  bool _isPlayer(model.NotificationType type) {
+  //* Check if the notification is a request from a player
+  bool _isRequestFromPlayer(model.NotificationType type) {
     if (type == model.NotificationType.teamJoinRequest) {
       return true;
     }
@@ -67,7 +69,7 @@ class _NotificationsListState extends State<NotificationsList> {
         final isChallenge =
             notification.type == model.NotificationType.matchChallenge;
 
-        final isPlayer = _isPlayer(notification.type);
+        final isPlayerRequest = _isRequestFromPlayer(notification.type);
 
         // Now data contains the updated values
         if (isRequest) {
@@ -76,7 +78,7 @@ class _NotificationsListState extends State<NotificationsList> {
             isSent: false,
             onCancelRequest: () {},
             onAcceptRequest: (WidgetRef ref) =>
-                _acceptRequest(notification, index, isPlayer, ref),
+                _acceptRequest(notification, index, isPlayerRequest, ref),
             onRejectRequest: () =>
                 _rejectNotification(context, index, notificationData),
           );
@@ -98,7 +100,7 @@ class _NotificationsListState extends State<NotificationsList> {
     );
   }
 
-  void _toggleButton(String playerId, bool isAdding, WidgetRef ref) {
+  void _toggleButton(String playerId, bool isAdding) {
     if (isAdding) {
       ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
     } else {
@@ -112,11 +114,11 @@ class _NotificationsListState extends State<NotificationsList> {
     WidgetRef ref,
   ) async {
     // Handle accept logic
-    _toggleButton(challenge.notificationId, true, ref);
+    _toggleButton(challenge.notificationId, true);
     try {
       //! Acception challenge
     } finally {
-      _toggleButton(challenge.notificationId, false, ref);
+      _toggleButton(challenge.notificationId, false);
     }
   }
 
@@ -127,8 +129,9 @@ class _NotificationsListState extends State<NotificationsList> {
     WidgetRef ref,
   ) async {
     // Handle accept logic
-    _toggleButton(request.notificationId, true, ref);
+    _toggleButton(request.notificationId, true);
     try {
+      //* Check if the team is full before adding a player
       if (!isPlayer) {
         final teamDocRef = FirebaseFirestore.instance
             .collection(FirestoreCollections.teams)
@@ -144,7 +147,7 @@ class _NotificationsListState extends State<NotificationsList> {
 
         if (currentPlayers >= teamLimit && mounted) {
           showSnackBar('Team is full', context);
-          _toggleButton(request.notificationId, false, ref);
+          _toggleButton(request.notificationId, false);
           return;
         }
       }
@@ -159,11 +162,26 @@ class _NotificationsListState extends State<NotificationsList> {
       }
 
       if (mounted) {
+        String playerId;
+        String teamId;
+        if (isPlayer) {
+          playerId = request.to;
+          teamId = request.from;
+          ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
+        } else {
+          playerId = request.from;
+          teamId = request.to;
+        }
         await NotificationServices.deleteNotification(
-            request.notificationId, context);
+          notificationId: request.notificationId,
+          type: request.type,
+          context: context,
+          playerId: playerId,
+          teamId: teamId,
+        );
       }
     } finally {
-      _toggleButton(request.notificationId, false, ref);
+      _toggleButton(request.notificationId, false);
     }
   }
 
@@ -194,7 +212,11 @@ class _NotificationsListState extends State<NotificationsList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
-        NotificationServices.deleteNotification(notificationData.id, context);
+        NotificationServices.deleteNotification(
+          notificationId:  notificationData.id,
+          type:  model.Notification.getType(notificationData['type']),
+          context: context,
+        );
         activeTimers.remove(index); // Clean up the timer reference
       }
     });
