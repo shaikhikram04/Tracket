@@ -317,7 +317,7 @@ class TeamsServices {
     required bool isAdding,
   }) async {
     await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
-      'requestedTeam': isAdding
+      'requestedPlayers': isAdding
           ? FieldValue.arrayUnion([playerId])
           : FieldValue.arrayRemove([playerId])
     });

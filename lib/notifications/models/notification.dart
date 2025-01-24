@@ -6,8 +6,8 @@ import 'package:tracket/teams/models/team_details.dart';
 
 enum NotificationType {
   follow,
-  teamJoinRequest,
-  offerPlayerRequest,
+  teamJoinRequest,    //* player request to join team
+  offerPlayerRequest, //* team offer player to join team
   matchChallenge,
 }
 

@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/players/models/player_details.dart';
+import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 
 class RequestsServices {
   static final _firestore = FirebaseFirestore.instance;
 
-  static Future<void> requestPlayerToJoinTeam({
+  static Future<void> offerPlayerToJoinTeam({
     required TeamDetails teamInfo,
     required PlayerDetails playerInfo,
     required BuildContext context,
@@ -19,7 +21,7 @@ class RequestsServices {
       notificationId: uuid.v4(),
       from: teamInfo.id,
       to: playerInfo.id,
-      type: model.NotificationType.teamJoinRequest,
+      type: model.NotificationType.offerPlayerRequest,
       createdAt: Timestamp.now(),
       status: model.NotificationStatus.pending,
       read: false,
@@ -35,9 +37,8 @@ class RequestsServices {
           .doc(notification.notificationId)
           .set(notification.toMap);
 
-      await _firestore.collection(FirestoreCollections.teams).doc(teamInfo.id).update({
-        'requestedPlayers': FieldValue.arrayUnion([playerInfo.id])
-      });
+      TeamsServices.updateRequestedPlayers(
+          playerId: playerInfo.id, teamId: teamInfo.id, isAdding: true);
     } catch (e) {
       if (context.mounted) {
         showSnackBar(
@@ -46,7 +47,7 @@ class RequestsServices {
     }
   }
 
-  static Future<void> requestTeamToAddPlayer({
+  static Future<void> joinRequestToTeam({
     required PlayerDetails playerInfo,
     required TeamDetails teamInfo,
     required BuildContext context,
@@ -69,6 +70,12 @@ class RequestsServices {
           .collection(FirestoreCollections.notification)
           .doc(notification.notificationId)
           .set(notification.toMap);
+
+      PlayersServices.updateRequestTeams(
+        playerId: playerInfo.id,
+        teamId: teamInfo.id,
+        isAdding: true,
+      );
     } catch (e) {
       if (context.mounted) {
         showSnackBar(
@@ -76,6 +83,4 @@ class RequestsServices {
       }
     }
   }
-
-  
 }

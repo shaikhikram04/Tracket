@@ -33,13 +33,13 @@ class MyConsumer extends StatelessWidget {
   String buttonText(bool isAdded) {
     if (buttonType == 'addPlayer' || buttonType == 'addAdmin') {
       if (isPrivate) {
-        return isAdded ? 'send' : 'Offer';
+        return isAdded ? 'Offered' : 'Offer';
       } else {
         return isAdded ? 'Added' : 'Add';
       }
     } else if (buttonType == 'joinTeam') {
       if (isPrivate) {
-        return isAdded ? 'send' : 'Request';
+        return isAdded ? 'Requested' : 'Request';
       } else {
         return isAdded ? 'Joined' : 'Join';
       }
@@ -61,10 +61,10 @@ class MyConsumer extends StatelessWidget {
       if (buttonType == 'addPlayer' || buttonType == 'joinTeam') {
         if (isPrivate) {
           if (buttonType == 'addPlayer') {
-            await RequestsServices.requestPlayerToJoinTeam(
+            await RequestsServices.offerPlayerToJoinTeam(
                 teamInfo: teamInfo, context: context, playerInfo: playerInfo);
           } else {
-            await RequestsServices.requestTeamToAddPlayer(
+            await RequestsServices.joinRequestToTeam(
                 playerInfo: playerInfo, context: context, teamInfo: teamInfo);
           }
         } else {
