@@ -7,7 +7,6 @@ import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
-import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -165,12 +164,11 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
         String playerId;
         String teamId;
         if (isPlayer) {
-          playerId = request.to;
-          teamId = request.from;
-          ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
-        } else {
           playerId = request.from;
           teamId = request.to;
+        } else {
+          playerId = request.to;
+          teamId = request.from;
         }
         await NotificationServices.deleteNotification(
           notificationId: request.notificationId,
@@ -212,10 +210,28 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
         // Perform the actual deletion
+        model.NotificationType type =
+            model.Notification.getType(notificationData['type']);
+        String? playerId;
+        String teamId;
+        String? challengedTeamId;
+        if (type == model.NotificationType.offerPlayerRequest) {
+          playerId = notificationData['to'];
+          teamId = notificationData['from'];
+        } else if (type == model.NotificationType.teamJoinRequest) {
+          playerId = notificationData['from'];
+          teamId = notificationData['to'];
+        } else {
+          teamId = notificationData['from'];
+          challengedTeamId = notificationData['to'];
+        }
         NotificationServices.deleteNotification(
-          notificationId:  notificationData.id,
-          type:  model.Notification.getType(notificationData['type']),
+          notificationId: notificationData.id,
+          type: type,
           context: context,
+          playerId: playerId,
+          teamId: teamId,
+          challengedTeamId: challengedTeamId,
         );
         activeTimers.remove(index); // Clean up the timer reference
       }
