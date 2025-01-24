@@ -13,7 +13,7 @@ import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
-class NotificationsList extends ConsumerStatefulWidget {
+class NotificationsList extends StatefulWidget {
   const NotificationsList({
     super.key,
     required this.notifications,
@@ -22,10 +22,10 @@ class NotificationsList extends ConsumerStatefulWidget {
   final List<QueryDocumentSnapshot<Map<String, dynamic>>> notifications;
 
   @override
-  ConsumerState<NotificationsList> createState() => _NotificationsListState();
+  State<NotificationsList> createState() => _NotificationsListState();
 }
 
-class _NotificationsListState extends ConsumerState<NotificationsList> {
+class _NotificationsListState extends State<NotificationsList> {
   late final List<QueryDocumentSnapshot<Map<String, dynamic>>> notificationList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
 
@@ -99,7 +99,7 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
     );
   }
 
-  void _toggleButton(String playerId, bool isAdding) {
+  void _toggleButton(String playerId, bool isAdding, WidgetRef ref) {
     if (isAdding) {
       ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
     } else {
@@ -113,11 +113,11 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
     WidgetRef ref,
   ) async {
     // Handle accept logic
-    _toggleButton(challenge.notificationId, true);
+    _toggleButton(challenge.notificationId, true, ref);
     try {
       //! Acception challenge
     } finally {
-      _toggleButton(challenge.notificationId, false);
+      _toggleButton(challenge.notificationId, false, ref);
     }
   }
 
@@ -128,7 +128,7 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
     WidgetRef ref,
   ) async {
     // Handle accept logic
-    _toggleButton(request.notificationId, true);
+    _toggleButton(request.notificationId, true, ref);
     try {
       //* Check if the team is full before adding a player
       if (!isPlayer) {
@@ -146,7 +146,7 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
 
         if (currentPlayers >= teamLimit && mounted) {
           showSnackBar('Team is full', context);
-          _toggleButton(request.notificationId, false);
+          _toggleButton(request.notificationId, false, ref);
           return;
         }
       }
@@ -179,7 +179,7 @@ class _NotificationsListState extends ConsumerState<NotificationsList> {
         );
       }
     } finally {
-      _toggleButton(request.notificationId, false);
+      _toggleButton(request.notificationId, false, ref);
     }
   }
 
