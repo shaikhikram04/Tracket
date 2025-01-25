@@ -334,4 +334,13 @@ class TeamsServices {
           : FieldValue.arrayRemove([challengedTeamId])
     });
   }
+
+  static Future<List> getTeamChallengedList(String teamId) async {
+    final teamChallengedSnap = await _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(teamId)
+        .get();
+
+    return teamChallengedSnap.data()!['challengedTeams'];
+  }
 }

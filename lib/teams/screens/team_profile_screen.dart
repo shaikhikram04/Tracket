@@ -42,6 +42,7 @@ class TeamProfileScreen extends ConsumerStatefulWidget {
 class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   bool _isLoading = false;
   bool isFollowing = false;
+  final List<Map<String, dynamic>> _playerTeamsAsAdmin = [];
 
   @override
   void initState() {
@@ -74,6 +75,26 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
         final teamObject = Team.formSeed(team.data()!, teamPlayer);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       }
+
+      final teamData = ref.read(teamProvider);
+      final player = ref.read(playerProvider);
+
+      //* check if player is not the member of a team
+      if (!teamData.playerIds.contains(player.id)) {
+        //* get players teams as admin
+        final playerTeamListAsAdmin = player.teams!
+            .where((team) => team.role != TeamRole.player)
+            .toList();
+
+        for (final team in playerTeamListAsAdmin) {
+          List teamChallengedList =
+              await TeamsServices.getTeamChallengedList(team.id);
+
+          bool canChallenge = !teamChallengedList.contains(teamData.id);
+
+          _playerTeamsAsAdmin.add({'canChallenge': canChallenge, 'team': team});
+        }
+      }
     } catch (e) {
       if (mounted) {
         showSnackBar(e.toString(), context);
@@ -102,24 +123,23 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   }
 
   Future<void> challengeForAMatch({
-    required List<TeamDetails> playerTeamList,
     required String playerId,
     required String playerName,
     required TeamDetails challengedTeam,
   }) async {
     TeamDetails? challengerTeam;
-    if (playerTeamList.length > 1) {
+    if (_playerTeamsAsAdmin.length > 1) {
       //* selecting challenger team
       challengerTeam = await showDialog(
         context: context,
         useSafeArea: true,
         barrierDismissible: false,
         builder: (context) {
-          return TeamSelectionDialog(teamList: playerTeamList);
+          return TeamSelectionDialog(teamList: _playerTeamsAsAdmin);
         },
       );
     } else {
-      challengerTeam = playerTeamList.first;
+      challengerTeam = _playerTeamsAsAdmin.first['team'];
     }
 
     if (challengerTeam != null && mounted) {
@@ -143,16 +163,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final isFollowed = teamData.followers.contains(player.id);
     final isAdmin = teamData.admins.any((admin) => admin.id == player.id);
 
-    final playerTeamListAsAdmin =
-        player.teams!.where((team) => team.role != TeamRole.player).toList();
-
-    final isTeamPlayer = teamData.playerIds.contains(player.id);
-
-    final isAdminOrOwner =
-        player.teams!.any((team) => team.role != TeamRole.player);
-
-    final canChallenge = !isTeamPlayer && isAdminOrOwner;
-    final isChallenged = teamData.challengedTeams.contains(player.id);
+    final isChallengeVisible = _playerTeamsAsAdmin.isNotEmpty;
+    final canChallenge =
+        _playerTeamsAsAdmin.any((team) => team['canChallenge']);
 
     return Scaffold(
       appBar: AppBar(
@@ -262,7 +275,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           Row(
                             spacing: 10,
                             children: [
-                              if (!canChallenge)
+                              if (!isChallengeVisible)
                                 const Expanded(child: SizedBox()),
                               Expanded(
                                 flex: 2,
@@ -286,27 +299,35 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             255, 40, 50, 40),
                                       ),
                               ),
-                              if (canChallenge)
+                              if (isChallengeVisible)
                                 Expanded(
                                   flex: 2,
-                                  child: MyElevatedButton.primaryElevatedButton(
-                                    context,
-                                    onPressed: () => challengeForAMatch(
-                                        playerId: player.id,
-                                        playerName: player.name,
-                                        playerTeamList: playerTeamListAsAdmin,
-                                        challengedTeam: TeamDetails(
-                                            id: teamData.id,
-                                            logoUrl: teamData.logoUrl,
-                                            name: teamData.name,
-                                            shortName: teamData.shortName,
-                                            role: TeamRole.none)),
-                                    text: 'Challenge',
-                                    primaryColor:
-                                        const Color.fromARGB(255, 40, 50, 40),
-                                  ),
+                                  child: canChallenge
+                                      ? MyElevatedButton.primaryElevatedButton(
+                                          context,
+                                          onPressed: () => challengeForAMatch(
+                                              playerId: player.id,
+                                              playerName: player.name,
+                                              challengedTeam: TeamDetails(
+                                                  id: teamData.id,
+                                                  logoUrl: teamData.logoUrl,
+                                                  name: teamData.name,
+                                                  shortName: teamData.shortName,
+                                                  role: TeamRole.none)),
+                                          text: 'Challenge',
+                                          primaryColor: const Color.fromARGB(
+                                              255, 40, 50, 40),
+                                        )
+                                      : MyElevatedButton
+                                          .secondaryElevatedButton(
+                                          context,
+                                          text: 'Challenged',
+                                          onPressed: null,
+                                          primaryColor: blackColor,
+                                          secondaryColor: lightDrawerBgColor,
+                                        ),
                                 ),
-                              if (!canChallenge)
+                              if (!isChallengeVisible)
                                 const Expanded(child: SizedBox()),
                             ],
                           )

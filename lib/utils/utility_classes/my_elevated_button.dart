@@ -35,7 +35,7 @@ class MyElevatedButton {
   static ElevatedButton secondaryElevatedButton(
     BuildContext context, {
     required String text,
-    required Function() onPressed,
+    required Function()? onPressed,
     Color primaryColor = Colors.red,
     Color secondaryColor = Colors.white,
     bool isLoading = false,
@@ -45,6 +45,7 @@ class MyElevatedButton {
       style: ElevatedButton.styleFrom(
         backgroundColor: secondaryColor,
         side: BorderSide(color: primaryColor, width: 1.5),
+        disabledBackgroundColor: secondaryColor,
       ),
       child: isLoading
           ? getCircleLoadingIndicator(color: primaryColor)

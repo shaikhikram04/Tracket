@@ -6,7 +6,7 @@ import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
 class TeamSelectionDialog extends StatelessWidget {
   const TeamSelectionDialog({super.key, required this.teamList});
 
-  final List<TeamDetails> teamList;
+  final List<Map<String, dynamic>> teamList;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +29,31 @@ class TeamSelectionDialog extends StatelessWidget {
                     crossAxisSpacing: 2,
                   ),
                   itemBuilder: (context, index) {
-                    final TeamDetails team = teamList[index];
+                    final playerTeam = teamList[index];
+                    final canChallenge = playerTeam['canChallenge'] as bool;
+                    final team = playerTeam['team'] as TeamDetails;
                     return InkWell(
-                      onTap: () => Navigator.of(context).pop(team),
-                      child: Column(
-                        children: [
-                          getCircleAvatar(
-                              url: team.logoUrl, isTeam: true, radius: 35),
-                          Text(team.name),
-                          Text(team.shortName),
-                        ],
+                      onTap: canChallenge
+                          ? () => Navigator.of(context).pop(team)
+                          : () {
+                              showSnackBar(
+                                'This team has already challenged the current team.',
+                                context,
+                              );
+                            },
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Opacity(
+                              opacity: canChallenge ? 1 : 0.4,
+                              child: getCircleAvatar(
+                                  url: team.logoUrl, isTeam: true, radius: 35),
+                            ),
+                            Text(team.name),
+                            Text(team.shortName),
+                          ],
+                        ),
                       ),
                     );
                   },
