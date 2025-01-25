@@ -27,6 +27,7 @@ class ChallengesList extends StatefulWidget {
 class _ChallengesListState extends State<ChallengesList> {
   late final List<QueryDocumentSnapshot<Map<String, dynamic>>> challengeList;
   Map<int, Timer?> activeTimers = {}; // To track timers for each request
+  
 
   @override
   void initState() {
