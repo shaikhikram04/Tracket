@@ -109,25 +109,34 @@ class MatchesServices {
         .set(match.toMap);
   }
 
-  static Future<List<QueryDocumentSnapshot>> getChallengeMatchTeamPlayers({
+  static Future<List<PlayerDetails>> getChallengeMatchTeamPlayers({
     required String challengeId,
     required bool isChallenger,
   }) async {
-    final QuerySnapshot<Map<String, dynamic>> teamPlayers;
+    final List<PlayerDetails> teamPlayers = [];
 
     final challengeDocRef = _firestore
         .collection(FirestoreCollections.notification)
         .doc(challengeId);
     if (isChallenger) {
-      teamPlayers = await challengeDocRef
+      await challengeDocRef
           .collection(FirestoreCollections.challengerPlayers)
-          .get();
+          .get()
+          .then((value) {
+        for (final player in value.docs) {
+          teamPlayers.add(PlayerDetails.fromMap(player.data()));
+        }
+      });
     } else {
-      teamPlayers = await challengeDocRef
+      challengeDocRef
           .collection(FirestoreCollections.challengedPlayers)
-          .get();
+          .get()
+          .then((value) {
+        for (final player in value.docs) {
+          teamPlayers.add(PlayerDetails.fromMap(player.data()));
+        }
+      });
     }
-
-    return teamPlayers.docs;
+    return teamPlayers;
   }
 }

@@ -122,11 +122,7 @@ class Notification {
     return NotificationStatus.pending;
   }
 
-  static Notification fromMap(
-    Map<String, dynamic> snap,
-    List<QueryDocumentSnapshot>? challengerPlayer,
-    List<QueryDocumentSnapshot>? challengedPlayer,
-  ) {
+  static Notification fromMap(Map<String, dynamic> snap) {
     NotificationType type = getType(snap['type']);
 
     if (type == NotificationType.offerPlayerRequest ||
@@ -161,8 +157,8 @@ class Notification {
         body: snap['body'],
         challengeMatch: ChallengeMatch.formMap(
           snap['challengeMatch'],
-          challengerPlayer,
-          challengedPlayer,
+          [],
+          [],
         ),
       );
     } else {
