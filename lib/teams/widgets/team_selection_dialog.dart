@@ -36,9 +36,10 @@ class TeamSelectionDialog extends StatelessWidget {
                       onTap: canChallenge
                           ? () => Navigator.of(context).pop(team)
                           : () {
-                              showSnackBar(
-                                'This team has already challenged the current team.',
+                              showAlertDialog(
                                 context,
+                                'Already Challenged',
+                                'This team has already challenged the current team.',
                               );
                             },
                       child: Center(
