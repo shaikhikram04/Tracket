@@ -6,7 +6,7 @@ import 'package:tracket/teams/models/team_details.dart';
 
 enum NotificationType {
   follow,
-  teamJoinRequest,    //* player request to join team
+  teamJoinRequest, //* player request to join team
   offerPlayerRequest, //* team offer player to join team
   matchChallenge,
 }
@@ -122,7 +122,11 @@ class Notification {
     return NotificationStatus.pending;
   }
 
-  static Notification fromMap(Map<String, dynamic> snap) {
+  static Notification fromMap(
+    Map<String, dynamic> snap,
+    List<QueryDocumentSnapshot>? challengerPlayer,
+    List<QueryDocumentSnapshot>? challengedPlayer,
+  ) {
     NotificationType type = getType(snap['type']);
 
     if (type == NotificationType.offerPlayerRequest ||
@@ -155,7 +159,11 @@ class Notification {
         read: snap['read'],
         title: snap['title'],
         body: snap['body'],
-        challengeMatch: ChallengeMatch.formMap(snap['challengeMatch'], [], []),
+        challengeMatch: ChallengeMatch.formMap(
+          snap['challengeMatch'],
+          challengerPlayer,
+          challengedPlayer,
+        ),
       );
     } else {
       return Notification(

@@ -8,7 +8,7 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
-class AcceptChallengeScreen extends StatelessWidget {
+class AcceptChallengeScreen extends StatefulWidget {
   const AcceptChallengeScreen({
     super.key,
     required this.challenge,
@@ -17,6 +17,22 @@ class AcceptChallengeScreen extends StatelessWidget {
 
   final ChallengeMatch challenge;
   final bool isSender;
+
+  @override
+  State<AcceptChallengeScreen> createState() => _AcceptChallengeScreenState();
+}
+
+class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _loadChallengerSquad() {
+    // Load challenger squad
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +53,16 @@ class AcceptChallengeScreen extends StatelessWidget {
                     spacing: 8,
                     children: [
                       TeamColumn(
-                        teamName: challenge.challengerTeam.name,
-                        teamLogo: challenge.challengerTeam.logoUrl,
+                        teamName: widget.challenge.challengerTeam.name,
+                        teamLogo: widget.challenge.challengerTeam.logoUrl,
                       ),
                       Text(
                         'v/s',
                         style: MyTextStyle(context).boldBodyLarge,
                       ),
                       TeamColumn(
-                        teamName: challenge.challengedTeam.name,
-                        teamLogo: challenge.challengedTeam.logoUrl,
+                        teamName: widget.challenge.challengedTeam.name,
+                        teamLogo: widget.challenge.challengedTeam.logoUrl,
                       ),
                     ],
                   ),
@@ -65,35 +81,35 @@ class AcceptChallengeScreen extends StatelessWidget {
                     children: [
                       matchDetailRow(
                         'No of players',
-                        challenge.noOfPlayers.toString(),
+                        widget.challenge.noOfPlayers.toString(),
                         context,
                       ),
                       matchDetailRow(
                         'Match Format',
-                        challenge.overs.name,
+                        widget.challenge.overs.name,
                         context,
                       ),
                       matchDetailRow(
                         'Match type',
-                        challenge.matchType.name,
+                        widget.challenge.matchType.name,
                         context,
                       ),
                       matchDetailRow(
                         'Spectator',
-                        challenge.allowSpectator ? 'Allow' : 'Not allow',
+                        widget.challenge.allowSpectator ? 'Allow' : 'Not allow',
                         context,
                       ),
                       matchDetailRow(
                         'Date',
-                        DateFormat.yMMMd().format(challenge.schedule),
+                        DateFormat.yMMMd().format(widget.challenge.schedule),
                         context,
                       ),
                       matchDetailRow(
                         'Time',
-                        DateFormat.Hms().format(challenge.schedule),
+                        DateFormat.Hms().format(widget.challenge.schedule),
                         context,
                       ),
-                      matchDetailRow('Venue', challenge.venue, context),
+                      matchDetailRow('Venue', widget.challenge.venue, context),
                     ],
                   ),
                 ],
@@ -101,11 +117,11 @@ class AcceptChallengeScreen extends StatelessWidget {
             ),
             MyCard(
               child: MatchSquad(
-                selectedPlayer: challenge.challengerPlayers,
+                selectedPlayer: widget.challenge.challengerPlayers,
                 captainId: '',
                 wicketkeeperId: '',
                 isPlayerCanAdd: false,
-                title: isSender ? 'Your Squad' : 'Challenger Squad',
+                title: widget.isSender ? 'Your Squad' : 'Challenger Squad',
               ),
             ),
             MyCard(
@@ -113,13 +129,13 @@ class AcceptChallengeScreen extends StatelessWidget {
                 selectedPlayer: const [],
                 captainId: '',
                 wicketkeeperId: '',
-                isPlayerCanAdd: !isSender,
+                isPlayerCanAdd: !widget.isSender,
                 onAdd: () {},
-                title: isSender ? 'Opponent Squad' : 'Your Squad',
+                title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
               ),
             ),
             const SizedBox(height: 5),
-            if (!isSender)
+            if (!widget.isSender)
               Row(
                 spacing: 20,
                 children: [

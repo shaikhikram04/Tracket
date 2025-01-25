@@ -56,8 +56,8 @@ class ChallengeMatch {
 
   static ChallengeMatch formMap(
           Map<String, dynamic> snap,
-          List<QueryDocumentSnapshot> challengerPlayer,
-          List<QueryDocumentSnapshot> challengedPlayer) =>
+          List<QueryDocumentSnapshot>? challengerPlayer,
+          List<QueryDocumentSnapshot>? challengedPlayer) =>
       ChallengeMatch(
         challengedTeam: TeamDetails.formMap(snap['challengedTeam']),
         challengerId: snap['challengerId'],
