@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
-import 'package:tracket/players/models/player_details.dart';
-import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:uuid/uuid.dart';
 
 enum TossDecision {
@@ -34,23 +34,23 @@ enum MatchStatus {
 const uuid = Uuid();
 
 List<BattingScore> playerDetailToBattingScore(
-    List<PlayerDetails> playerDetails) {
+    List<MatchPlayerInfo> playerDetails) {
   return playerDetails
-      .map((playerDetail) =>
-          BattingScore(uuid: playerDetail.id, playerName: playerDetail.name))
+      .map((playerDetail) => BattingScore(
+          uuid: playerDetail.playerId, playerName: playerDetail.playerName))
       .toList();
 }
 
 List<BowlingScore> playerDetailToBowlingScore(
-    List<PlayerDetails> playerDetails) {
+    List<MatchPlayerInfo> playerDetails) {
   return playerDetails
       .map((playerDetail) =>
-          BowlingScore(uuid: playerDetail.id, playerName: playerDetail.name))
+          BowlingScore(uuid: playerDetail.playerId, playerName: playerDetail.playerName))
       .toList();
 }
 
-Inning team1BatFirst(TeamDetails team1, TeamDetails team2,
-    List<PlayerDetails> team1Players, List<PlayerDetails> team2Players) {
+Inning team1BatFirst(MatchTeamInfo team1, MatchTeamInfo team2,
+    List<MatchPlayerInfo> team1Players, List<MatchPlayerInfo> team2Players) {
   return Inning(
       battingTeam: team1,
       bowlingTeam: team2,
@@ -58,8 +58,8 @@ Inning team1BatFirst(TeamDetails team1, TeamDetails team2,
       bowlingStats: playerDetailToBowlingScore(team2Players));
 }
 
-Inning team2BatFirst(TeamDetails team1, TeamDetails team2,
-    List<PlayerDetails> team1Players, List<PlayerDetails> team2Players) {
+Inning team2BatFirst(MatchTeamInfo team1, MatchTeamInfo team2,
+    List<MatchPlayerInfo> team1Players, List<MatchPlayerInfo> team2Players) {
   return Inning(
       battingTeam: team2,
       bowlingTeam: team1,
@@ -88,10 +88,10 @@ class Match {
         inning2 = null;
 
   final String id;
-  final TeamDetails team1;
-  final TeamDetails team2;
-  final List<PlayerDetails> team1Players;
-  final List<PlayerDetails> team2Players;
+  final MatchTeamInfo team1;
+  final MatchTeamInfo team2;
+  final List<MatchPlayerInfo> team1Players;
+  final List<MatchPlayerInfo> team2Players;
   final MatchType matchType;
   final MatchFormat matchFormat;
   final int noOfPlayer;

@@ -1,6 +1,6 @@
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
-import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 
 List<T> initializeStats<T>(List players, T Function(dynamic) builder) {
   return players.map(builder).toList();
@@ -14,8 +14,8 @@ class Inning {
     required this.bowlingStats,
   });
 
-  final TeamDetails battingTeam;
-  final TeamDetails bowlingTeam;
+  final MatchTeamInfo battingTeam;
+  final MatchTeamInfo bowlingTeam;
   final List<BattingScore> battingStats;
   final List<BowlingScore> bowlingStats;
   int runs = 0;
