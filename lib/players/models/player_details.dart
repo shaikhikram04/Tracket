@@ -18,7 +18,7 @@ class PlayerDetails {
 
   static PlayerDetails fromMap(Map<String, dynamic> playerDetail) =>
       PlayerDetails(
-        cricketRole: playerDetail['cricketRole'],
+        cricketRole: Player.getCricketRole(playerDetail['cricketRole']),
         id: playerDetail['id'],
         imageUrl: playerDetail['imageUrl'],
         name: playerDetail['name'],
