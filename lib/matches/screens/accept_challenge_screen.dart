@@ -5,6 +5,8 @@ import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/players/models/player_details.dart';
+import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -28,7 +30,9 @@ class AcceptChallengeScreen extends StatefulWidget {
 
 class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   bool _isLoading = false;
-  List<PlayerDetails> _challengerPlayers = [];
+  List<PlayerDetails> _challengerTeamPlayers = [];
+  List<PlayerDetails> _challengedTeamPlayers = [];
+  List<PlayerDetails> _selectedPlayers = [];
 
   @override
   void initState() {
@@ -42,8 +46,26 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       _isLoading = true;
     });
 
-    _challengerPlayers = await MatchesServices.getChallengeMatchTeamPlayers(
-        challengeId: widget.challengeId, isChallenger: true);
+    try {
+      _challengerTeamPlayers =
+          await MatchesServices.getChallengeMatchTeamPlayers(
+              challengeId: widget.challengeId, isChallenger: true);
+
+      if (widget.isSender) {
+        _challengedTeamPlayers =
+            await MatchesServices.getChallengeMatchTeamPlayers(
+                challengeId: widget.challengeId, isChallenger: false);
+      } else {
+        if (!mounted) return;
+        final teamPlayers = await TeamsServices.getTeamPlayersFromId(
+            widget.challenge.challengedTeam.id, context);
+
+        _challengedTeamPlayers = Team.teamPlayersToList(teamPlayers);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBar(e.toString(), context);
+    }
 
     setState(() {
       _isLoading = false;
@@ -140,7 +162,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                   ),
                   MyCard(
                     child: MatchSquad(
-                      selectedPlayer: _challengerPlayers,
+                      selectedPlayer: _challengerTeamPlayers,
                       captainId: '',
                       wicketkeeperId: '',
                       isPlayerCanAdd: false,
@@ -150,7 +172,9 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                   ),
                   MyCard(
                     child: MatchSquad(
-                      selectedPlayer: const [],
+                      selectedPlayer: widget.isSender
+                          ? _challengedTeamPlayers
+                          : _selectedPlayers,
                       captainId: '',
                       wicketkeeperId: '',
                       isPlayerCanAdd: !widget.isSender,
