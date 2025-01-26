@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
+import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/players/models/player_details.dart';
@@ -33,10 +34,17 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   List<PlayerDetails> _challengerTeamPlayers = [];
   List<PlayerDetails> _challengedTeamPlayers = [];
   List<PlayerDetails> _selectedPlayers = [];
+  late TextEditingController _captainController;
+  late TextEditingController _wicketkeeperController;
+  Team? _challengedTeam;
+  String _captainId = '';
+  String _wicketkeeperId = '';
 
   @override
   void initState() {
     _loadSquad();
+    _captainController = TextEditingController();
+    _wicketkeeperController = TextEditingController();
     super.initState();
   }
 
@@ -57,10 +65,12 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 challengeId: widget.challengeId, isChallenger: false);
       } else {
         if (!mounted) return;
-        final teamPlayers = await TeamsServices.getTeamPlayersFromId(
-            widget.challenge.challengedTeam.id, context);
+        final teamId = widget.challenge.challengedTeam.id;
+        final teamSnap = await TeamsServices.getTeamData(teamId);
+        final teamPlayers =
+            await TeamsServices.getTeamPlayersFromId(teamId, context);
 
-        _challengedTeamPlayers = Team.teamPlayersToList(teamPlayers);
+        _challengedTeam = Team.formSeed(teamSnap, teamPlayers);
       }
     } catch (e) {
       if (!mounted) return;
@@ -70,6 +80,46 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  List<String> get _playersName {
+    List<String> playerNames = [];
+    for (var player in _selectedPlayers) {
+      playerNames.add(player.name);
+    }
+
+    return playerNames;
+  }
+
+  Future<void> onAddPlayer() async {
+    final result = await showDialog<List<PlayerDetails>>(
+      context: context,
+      builder: (context) => PlayersSelectionDialog(
+        playerList: _challengedTeamPlayers,
+        selectedPlayers: _selectedPlayers,
+        noOfPlayerCanBeSelected: widget.challenge.noOfPlayers,
+      ),
+    );
+
+    if (result != null) {
+      final captain = _captainController.text;
+      final wicketkeeper = _wicketkeeperController.text;
+
+      setState(() {
+        _selectedPlayers = result.map((player) {
+          if (captain.isEmpty && player.id == _challengedTeam!.captainId) {
+            _captainController.text = player.name.toUpperCase();
+            _captainId = player.id;
+          }
+          if (wicketkeeper.isEmpty &&
+              player.id == _challengedTeam!.wicketkeeperId) {
+            _wicketkeeperController.text = player.name.toUpperCase();
+            _wicketkeeperId = player.id;
+          } 
+          return player.copyWith();
+        }).toList();
+      });
+    }
   }
 
   @override
@@ -178,7 +228,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                       captainId: '',
                       wicketkeeperId: '',
                       isPlayerCanAdd: !widget.isSender,
-                      onAdd: () {},
+                      onAdd: onAddPlayer,
                       title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
                     ),
                   ),
