@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/players/models/player_details.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
@@ -12,8 +12,8 @@ class PlayersSelectionDialog extends StatefulWidget {
     required this.noOfPlayerCanBeSelected,
   });
 
-  final List<PlayerDetails> playerList;
-  final List<PlayerDetails> selectedPlayers;
+  final List<MatchPlayerInfo> playerList;
+  final List<MatchPlayerInfo> selectedPlayers;
   final int noOfPlayerCanBeSelected;
 
   @override
@@ -21,7 +21,7 @@ class PlayersSelectionDialog extends StatefulWidget {
 }
 
 class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
-  List<PlayerDetails> _sPlayers = [];
+  List<MatchPlayerInfo> _sPlayers = [];
 
   @override
   void initState() {
@@ -31,10 +31,10 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
     super.initState();
   }
 
-  void _onSelect(PlayerDetails player, bool isAdded) {
+  void _onSelect(MatchPlayerInfo player, bool isAdded) {
     if (isAdded) {
       setState(() {
-        _sPlayers.removeWhere((p) => p.id == player.id);
+        _sPlayers.removeWhere((p) => p.playerId == player.playerId);
       });
     } else {
       if (_sPlayers.length >= widget.noOfPlayerCanBeSelected) {
@@ -98,9 +98,9 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
                     mainAxisSpacing: 2,
                   ),
                   itemBuilder: (context, index) {
-                    final PlayerDetails player = widget.playerList[index];
-                    final isAdded = _sPlayers
-                        .any((playerData) => playerData.id == player.id);
+                    final MatchPlayerInfo player = widget.playerList[index];
+                    final isAdded = _sPlayers.any(
+                        (playerData) => playerData.playerId == player.playerId);
                     return InkWell(
                       onTap: () => _onSelect(player, isAdded),
                       child: Container(
@@ -112,13 +112,13 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
                         child: Column(
                           children: [
                             getCircleAvatar(
-                              url: player.imageUrl,
+                              url: player.profileImageUrl,
                               isTeam: false,
                               radius: 35,
                             ),
                             const SizedBox(height: 2),
-                            Text(player.name),
-                            Text(player.cricketRole),
+                            Text(player.playerName),
+                            Text(player.cricketRole.name),
                           ],
                         ),
                       ),

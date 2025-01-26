@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/screens/challenge_match_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -125,7 +126,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   Future<void> challengeForAMatch({
     required String playerId,
     required String playerName,
-    required TeamDetails challengedTeam,
+    required MatchTeamInfo challengedTeam,
   }) async {
     TeamDetails? challengerTeam;
     if (_playerTeamsAsAdmin.length > 1) {
@@ -308,12 +309,15 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                           onPressed: () => challengeForAMatch(
                                               playerId: player.id,
                                               playerName: player.name,
-                                              challengedTeam: TeamDetails(
-                                                  id: teamData.id,
-                                                  logoUrl: teamData.logoUrl,
-                                                  name: teamData.name,
-                                                  shortName: teamData.shortName,
-                                                  role: TeamRole.none)),
+                                              challengedTeam: MatchTeamInfo(
+                                                teamId: teamData.id,
+                                                logoUrl: teamData.logoUrl,
+                                                teamName: teamData.name,
+                                                shortName: teamData.shortName,
+                                                captainId: teamData.captainId,
+                                                wicketkeeperId:
+                                                    teamData.wicketkeeperId,
+                                              )),
                                           text: 'Challenge',
                                           primaryColor: const Color.fromARGB(
                                               255, 40, 50, 40),

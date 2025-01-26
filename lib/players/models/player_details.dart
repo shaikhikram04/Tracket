@@ -1,3 +1,4 @@
+import 'package:tracket/players/models/player.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 class PlayerDetails {
@@ -11,7 +12,7 @@ class PlayerDetails {
 
   final String id;
   final String name;
-  final String cricketRole;
+  final CricketRole cricketRole;
   final String imageUrl;
   final TeamRole role;
 
@@ -27,7 +28,7 @@ class PlayerDetails {
   Map<String, dynamic> get toMap => {
         'id': id,
         'name': name,
-        'cricketRole': cricketRole,
+        'cricketRole': cricketRole.name,
         'imageUrl': imageUrl,
         'role': role.name,
       };

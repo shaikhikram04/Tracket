@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/players/models/player_details.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/players/widgets/player_tile.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -15,7 +15,7 @@ class MatchSquad extends StatelessWidget {
     this.title = 'Squad',
   });
 
-  final List<PlayerDetails> selectedPlayer;
+  final List<MatchPlayerInfo> selectedPlayer;
   final String captainId;
   final String wicketkeeperId;
   final void Function()? onAdd;
@@ -57,11 +57,14 @@ class MatchSquad extends StatelessWidget {
                   selectedPlayer.length,
                   (index) {
                     final playerDetail = selectedPlayer[index];
-                    final playerId = playerDetail.id;
+                    final playerId = playerDetail.playerId;
                     final isCaptain = captainId == playerId;
                     final isWicketKeeper = wicketkeeperId == playerId;
                     return PlayerTile(
-                      playerData: playerDetail,
+                      cricketRole: playerDetail.cricketRole,
+                      playerId: playerId,
+                      playerName: playerDetail.playerName,
+                      profileImageUrl: playerDetail.profileImageUrl,
                       isCaptain: isCaptain,
                       isWicketKeeper: isWicketKeeper,
                       isEdit: false,

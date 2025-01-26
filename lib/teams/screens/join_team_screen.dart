@@ -63,7 +63,7 @@ class JoinTeamScreen extends StatelessWidget {
       role: TeamRole.player,
     );
     final playerInfo = PlayerDetails(
-      cricketRole: player.name,
+      cricketRole: player.cricketRole!,
       id: player.id,
       imageUrl: player.profileImageUrl,
       name: player.name,

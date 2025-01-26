@@ -59,7 +59,7 @@ class AddPlayerScreen extends StatelessWidget {
   Widget buildPlayerTile(Player player, BuildContext context) {
     final bool isPrivate = player.isPrivate!;
     final playerInfo = PlayerDetails(
-      cricketRole: player.name,
+      cricketRole: player.cricketRole!,
       id: player.id,
       imageUrl: player.profileImageUrl,
       name: player.name,

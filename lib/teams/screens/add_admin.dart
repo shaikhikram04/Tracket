@@ -35,7 +35,7 @@ class AddAdmin extends StatelessWidget {
                 return MyListTile(
                   imageUrl: playerInfo.imageUrl,
                   title: playerInfo.name,
-                  subtitle: playerInfo.cricketRole,
+                  subtitle: playerInfo.cricketRole.name,
                   onTap: () => pushScreen(
                       context, PlayerProfileScreen(playerId: playerInfo.id)),
                   isPlayer: true,

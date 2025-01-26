@@ -39,15 +39,17 @@ class ChallengeCard extends StatelessWidget {
   ) {
     if (isSent) {
       data['initialMessage'] = 'Your team ';
-      data['firstTeamName'] = challenge.challengeMatch!.challengerTeam.name;
+      data['firstTeamName'] = challenge.challengeMatch!.challengerTeam.teamName;
       data['middleMessage'] = ' has challenged team ';
-      data['secondTeamName'] = challenge.challengeMatch!.challengedTeam.name;
+      data['secondTeamName'] =
+          challenge.challengeMatch!.challengedTeam.teamName;
       data['logoUrl'] = challenge.challengeMatch!.challengedTeam.logoUrl;
     } else {
       data['initialMessage'] = 'Team ';
-      data['firstTeamName'] = challenge.challengeMatch!.challengerTeam.name;
+      data['firstTeamName'] = challenge.challengeMatch!.challengerTeam.teamName;
       data['middleMessage'] = ' has challenged your team ';
-      data['secondTeamName'] = challenge.challengeMatch!.challengedTeam.name;
+      data['secondTeamName'] =
+          challenge.challengeMatch!.challengedTeam.teamName;
       data['logoUrl'] = challenge.challengeMatch!.challengerTeam.logoUrl;
     }
   }

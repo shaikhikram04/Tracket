@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/match.dart';
-import 'package:tracket/players/models/player_details.dart';
-import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 
 enum ChallengeStatus {
   pending,
@@ -26,8 +26,8 @@ class ChallengeMatch {
     required this.matchType,
   });
 
-  final TeamDetails challengerTeam;
-  final TeamDetails challengedTeam;
+  final MatchTeamInfo challengerTeam;
+  final MatchTeamInfo challengedTeam;
   final String challengerId;
   final String challengerName;
   final MatchFormat overs;
@@ -37,8 +37,8 @@ class ChallengeMatch {
   final Timestamp updatedAt;
   final int noOfPlayers;
   final MatchType matchType;
-  final List<PlayerDetails> challengerPlayers;
-  final List<PlayerDetails> challengedPlayers;
+  final List<MatchPlayerInfo> challengerPlayers;
+  final List<MatchPlayerInfo> challengedPlayers;
 
   Map<String, dynamic> get toMap => {
         'challengerTeam': challengerTeam.toMap,
@@ -55,14 +55,15 @@ class ChallengeMatch {
       };
 
   static ChallengeMatch formMap(
-          Map<String, dynamic> snap,
-          List<QueryDocumentSnapshot>? challengerPlayer,
-          List<QueryDocumentSnapshot>? challengedPlayer) =>
+    Map<String, dynamic> snap,
+    List<QueryDocumentSnapshot>? challengerPlayer,
+    List<QueryDocumentSnapshot>? challengedPlayer,
+  ) =>
       ChallengeMatch(
-        challengedTeam: TeamDetails.formMap(snap['challengedTeam']),
+        challengedTeam: MatchTeamInfo.fromMap(snap['challengedTeam']),
         challengerId: snap['challengerId'],
         challengerName: snap['challengerName'],
-        challengerTeam: TeamDetails.formMap(snap['challengerTeam']),
+        challengerTeam: MatchTeamInfo.fromMap(snap['challengerTeam']),
         updatedAt: snap['updatedAt'],
         allowSpectator: snap['allowSpectator'],
         challengedPlayers: [], // TODO : wrote function for fetch store players

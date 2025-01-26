@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
-import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -31,9 +31,9 @@ class AcceptChallengeScreen extends StatefulWidget {
 
 class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   bool _isLoading = false;
-  List<PlayerDetails> _challengerTeamPlayers = [];
-  List<PlayerDetails> _challengedTeamPlayers = [];
-  List<PlayerDetails> _selectedPlayers = [];
+  List<MatchPlayerInfo> _challengerTeamPlayers = [];
+  List<MatchPlayerInfo> _challengedTeamPlayers = [];
+  List<MatchPlayerInfo> _selectedPlayers = [];
   late TextEditingController _captainController;
   late TextEditingController _wicketkeeperController;
   Team? _challengedTeam;
@@ -65,7 +65,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 challengeId: widget.challengeId, isChallenger: false);
       } else {
         if (!mounted) return;
-        final teamId = widget.challenge.challengedTeam.id;
+        final teamId = widget.challenge.challengedTeam.teamId;
         final teamSnap = await TeamsServices.getTeamData(teamId);
         final teamPlayers =
             await TeamsServices.getTeamPlayersFromId(teamId, context);
@@ -85,14 +85,14 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   List<String> get _playersName {
     List<String> playerNames = [];
     for (var player in _selectedPlayers) {
-      playerNames.add(player.name);
+      playerNames.add(player.playerName);
     }
 
     return playerNames;
   }
 
   Future<void> onAddPlayer() async {
-    final result = await showDialog<List<PlayerDetails>>(
+    final result = await showDialog<List<MatchPlayerInfo>>(
       context: context,
       builder: (context) => PlayersSelectionDialog(
         playerList: _challengedTeamPlayers,
@@ -107,14 +107,14 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
 
       setState(() {
         _selectedPlayers = result.map((player) {
-          if (captain.isEmpty && player.id == _challengedTeam!.captainId) {
-            _captainController.text = player.name.toUpperCase();
-            _captainId = player.id;
+          if (captain.isEmpty && player.playerId == _challengedTeam!.captainId) {
+            _captainController.text = player.playerName.toUpperCase();
+            _captainId = player.playerId;
           }
           if (wicketkeeper.isEmpty &&
-              player.id == _challengedTeam!.wicketkeeperId) {
-            _wicketkeeperController.text = player.name.toUpperCase();
-            _wicketkeeperId = player.id;
+              player.playerId == _challengedTeam!.wicketkeeperId) {
+            _wicketkeeperController.text = player.playerName.toUpperCase();
+            _wicketkeeperId = player.playerId;
           } 
           return player.copyWith();
         }).toList();
@@ -143,7 +143,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                           spacing: 8,
                           children: [
                             TeamColumn(
-                              teamName: widget.challenge.challengerTeam.name,
+                              teamName: widget.challenge.challengerTeam.teamName,
                               teamLogo: widget.challenge.challengerTeam.logoUrl,
                             ),
                             Text(
@@ -151,7 +151,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                               style: MyTextStyle(context).boldBodyLarge,
                             ),
                             TeamColumn(
-                              teamName: widget.challenge.challengedTeam.name,
+                              teamName: widget.challenge.challengedTeam.teamName,
                               teamLogo: widget.challenge.challengedTeam.logoUrl,
                             ),
                           ],

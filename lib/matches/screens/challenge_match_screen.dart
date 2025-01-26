@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
-import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
-import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -29,7 +29,7 @@ class ChallengeMatchScreen extends StatefulWidget {
   final String challengerId;
   final String challengerName;
   final String challengerTeamId;
-  final TeamDetails challengedTeam;
+  final MatchTeamInfo challengedTeam;
 
   @override
   State<ChallengeMatchScreen> createState() => _CreateMatchScreenState();
@@ -50,7 +50,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   TimeOfDay _matchTime = TimeOfDay.now();
   String? _venue;
   bool _isLoading = false;
-  List<PlayerDetails> _selectedPlayer = [];
+  List<MatchPlayerInfo> _selectedPlayer = [];
   String? _matchType;
   String? _matchFormat;
   late Team _challengerTeam;
@@ -75,7 +75,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   List<String> get _playerNames {
     List<String> playerNames = [];
     for (var player in _selectedPlayer) {
-      playerNames.add(player.name);
+      playerNames.add(player.playerName);
     }
 
     return playerNames;
@@ -105,10 +105,19 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   }
 
   Future<void> onAddPlayer() async {
-    final result = await showDialog<List<PlayerDetails>>(
+    final result = await showDialog<List<MatchPlayerInfo>>(
       context: context,
       builder: (context) => PlayersSelectionDialog(
-        playerList: _challengerTeam.playersList,
+        playerList: _challengerTeam.playersList
+            .map(
+              (player) => MatchPlayerInfo(
+                playerId: player.id,
+                cricketRole: player.cricketRole,
+                playerName: player.name,
+                profileImageUrl: player.imageUrl,
+              ),
+            )
+            .toList(),
         selectedPlayers: _selectedPlayer,
         noOfPlayerCanBeSelected: _noOfPlayers.toInt(),
       ),
@@ -120,14 +129,14 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
       setState(() {
         _selectedPlayer = result.map((player) {
-          if (captain.isEmpty && player.id == _challengerTeam.captainId) {
-            _captainController.text = player.name.toUpperCase();
-            _captainId = player.id;
+          if (captain.isEmpty && player.playerId == _challengerTeam.captainId) {
+            _captainController.text = player.playerName.toUpperCase();
+            _captainId = player.playerId;
           }
           if (wicketkeeper.isEmpty &&
-              player.id == _challengerTeam.wicketkeeperId) {
-            _wicketkeeperController.text = player.name.toUpperCase();
-            _wicketkeeperId = player.id;
+              player.playerId == _challengerTeam.wicketkeeperId) {
+            _wicketkeeperController.text = player.playerName.toUpperCase();
+            _wicketkeeperId = player.playerId;
           }
           return player.copyWith();
         }).toList();
@@ -156,12 +165,13 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
     final matchFormatIndex = matchFormatOptions.indexOf(_matchFormat!);
 
-    final challengerTeamDetail = TeamDetails(
-      id: _challengerTeam.id,
+    final challengerTeamDetail = MatchTeamInfo(
+      teamId: _challengerTeam.id,
       logoUrl: _challengerTeam.logoUrl,
-      name: _challengerTeam.name,
+      teamName: _challengerTeam.name,
       shortName: _challengerTeam.shortName,
-      role: TeamRole.none,
+      captainId: _captainId,
+      wicketkeeperId: _wicketkeeperId,
     );
 
     try {
@@ -221,7 +231,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                             ),
                             const Text('v/s'),
                             TeamColumn(
-                              teamName: widget.challengedTeam.name,
+                              teamName: widget.challengedTeam.teamName,
                               teamLogo: widget.challengedTeam.logoUrl,
                             ),
                           ],

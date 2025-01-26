@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
-import 'package:tracket/players/models/player_details.dart';
-import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
@@ -14,8 +14,8 @@ class MatchesServices {
 
   static Future<void> challegeForAMatch({
     required int matchFormatIndex,
-    required TeamDetails challengerTeam,
-    required TeamDetails challengedTeam,
+    required MatchTeamInfo challengerTeam,
+    required MatchTeamInfo challengedTeam,
     required DateTime matchDate,
     required TimeOfDay matchTime,
     required String matchVenue,
@@ -23,7 +23,7 @@ class MatchesServices {
     required String challengerName,
     required bool allowSpectators,
     required int noOfPlayers,
-    required List<PlayerDetails> challengerPlayers,
+    required List<MatchPlayerInfo> challengerPlayers,
     required String matchType,
   }) async {
     final schedule = DateTime(
@@ -52,8 +52,8 @@ class MatchesServices {
 
     final notification = model.Notification.challenge(
       notificationId: _uuid.v4(),
-      from: challengerTeam.id,
-      to: challengedTeam.id,
+      from: challengerTeam.teamId,
+      to: challengedTeam.teamId,
       type: model.NotificationType.matchChallenge,
       createdAt: Timestamp.now(),
       status: model.NotificationStatus.pending,
@@ -74,12 +74,14 @@ class MatchesServices {
         .collection(FirestoreCollections.challengerPlayers);
 
     for (final player in challengerPlayers) {
-      await challengerPlayerCollectionRef.doc(player.id).set(player.toMap);
+      await challengerPlayerCollectionRef
+          .doc(player.playerId)
+          .set(player.toMap);
     }
 
     _firestore
         .collection(FirestoreCollections.teams)
-        .doc(challengerTeam.id)
+        .doc(challengerTeam.teamId)
         .update({
       'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
     });
@@ -109,11 +111,11 @@ class MatchesServices {
         .set(match.toMap);
   }
 
-  static Future<List<PlayerDetails>> getChallengeMatchTeamPlayers({
+  static Future<List<MatchPlayerInfo>> getChallengeMatchTeamPlayers({
     required String challengeId,
     required bool isChallenger,
   }) async {
-    final List<PlayerDetails> teamPlayers = [];
+    final List<MatchPlayerInfo> teamPlayers = [];
 
     final challengeDocRef = _firestore
         .collection(FirestoreCollections.notification)
@@ -124,7 +126,7 @@ class MatchesServices {
           .get()
           .then((value) {
         for (final player in value.docs) {
-          teamPlayers.add(PlayerDetails.fromMap(player.data()));
+          teamPlayers.add(MatchPlayerInfo.fromMap(player.data()));
         }
       });
     } else {
@@ -133,7 +135,7 @@ class MatchesServices {
           .get()
           .then((value) {
         for (final player in value.docs) {
-          teamPlayers.add(PlayerDetails.fromMap(player.data()));
+          teamPlayers.add(MatchPlayerInfo.fromMap(player.data()));
         }
       });
     }

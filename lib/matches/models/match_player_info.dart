@@ -22,8 +22,22 @@ class MatchPlayerInfo {
 
   static MatchPlayerInfo fromMap(Map<String, dynamic> snap) => MatchPlayerInfo(
         playerId: snap['playerId'],
-        cricketRole: snap['cricketRole'],
+        cricketRole: Player.getCricketRole(snap['cricketRole']),
         playerName: snap['playerName'],
         profileImageUrl: snap['profileImageUrl'],
       );
+
+  MatchPlayerInfo copyWith({
+    String? playerId,
+    String? playerName,
+    CricketRole? cricketRole,
+    String? profileImageUrl,
+  }) {
+    return MatchPlayerInfo(
+      playerId: playerId ?? this.playerId,
+      cricketRole: cricketRole ?? this.cricketRole,
+      playerName: playerName ?? this.playerName,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+    );
+  }
 }
