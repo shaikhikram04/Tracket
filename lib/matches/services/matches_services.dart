@@ -173,10 +173,10 @@ class MatchesServices {
 
     if (!context.mounted) return;
 
-    //* deleting challenge notification
-    await NotificationServices.deleteNotification(
-        notificationId: challengeId,
-        type: model.NotificationType.matchChallenge,
-        context: context);
+    // //* deleting challenge notification
+    // await NotificationServices.deleteNotification(
+    //     notificationId: challengeId,
+    //     type: model.NotificationType.matchChallenge,
+    //     context: context);
   }
 }

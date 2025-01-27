@@ -23,6 +23,7 @@ class NotificationsFetcher extends ConsumerWidget {
       future: FirebaseFirestore.instance
           .collection(FirestoreCollections.notification)
           .where('to', whereIn: ids)
+          .where('status', isEqualTo: 'pending')
           .get(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

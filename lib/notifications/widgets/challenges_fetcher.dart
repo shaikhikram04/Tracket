@@ -27,7 +27,9 @@ class ChallengesFetcher extends ConsumerWidget {
       future: FirebaseFirestore.instance
           .collection(FirestoreCollections.notification)
           .where(field, whereIn: ids)
-          .where('type', whereIn: ['matchChallenge']).get(),
+          .where('type', whereIn: ['matchChallenge'])
+          .where('status', isEqualTo: 'pending')
+          .get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return getCircleLoadingIndicator();
