@@ -75,7 +75,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   List<String> get _playerNames {
     List<String> playerNames = [];
     for (var player in _selectedPlayer) {
-      playerNames.add(player.playerName);
+      playerNames.add(player.playerName.toUpperCase());
     }
 
     return playerNames;
@@ -361,7 +361,12 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                             label: 'Change Captaincy',
                             controller: _captainController,
                             onSelect: (value) {
-                              _captainController.text = value!;
+                              setState(() {
+                                int index = _playerNames
+                                    .indexWhere((name) => name == value);
+
+                                _captainId = _selectedPlayer[index].playerId;
+                              });
                             },
                           ),
                           MyDropdownMenu(
@@ -369,7 +374,13 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                             label: 'Change Wicketkeeper',
                             controller: _wicketkeeperController,
                             onSelect: (value) {
-                              _wicketkeeperController.text = value!;
+                              setState(() {
+                                int index = _playerNames
+                                    .indexWhere((name) => name == value);
+
+                                _wicketkeeperId =
+                                    _selectedPlayer[index].playerId;
+                              });
                             },
                           )
                         ],
