@@ -153,6 +153,14 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       showSnackBar('Please select player for match', context);
       return;
     }
+    if (_captainId.isEmpty) {
+      showSnackBar('Please select team captain', context);
+      return;
+    }
+    if (_wicketkeeperId.isEmpty) {
+      showSnackBar('Please select team wicketkeeper', context);
+      return;
+    }
     if (!_formKey.currentState!.validate()) {
       return;
     }
