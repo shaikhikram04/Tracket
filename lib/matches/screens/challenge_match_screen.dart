@@ -199,6 +199,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       );
 
       if (mounted) {
+        showSnackBar('Challenged successfully!', context);
         Navigator.of(context).pop();
       }
     } catch (e) {
