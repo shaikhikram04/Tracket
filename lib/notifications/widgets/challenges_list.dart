@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -58,7 +56,6 @@ class _ChallengesListState extends State<ChallengesList> {
         return ChallengeCard(
           challenge: challenge,
           isSent: widget.isSent,
-          onAcceptChallenge: (ref) => _acceptChallenge(challenge, index, ref),
           onCanceChallenge: () => _onCancelChallenge(
             index: index,
             notificationId: challenge.notificationId,
@@ -90,28 +87,6 @@ class _ChallengesListState extends State<ChallengesList> {
       setState(() {
         challengeList.removeAt(index);
       });
-    }
-  }
-
-  void _toggleButton(String playerId, bool isAdding, WidgetRef ref) {
-    if (isAdding) {
-      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
-    } else {
-      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
-    }
-  }
-
-  Future<void> _acceptChallenge(
-    model.Notification challenge,
-    int index,
-    WidgetRef ref,
-  ) async {
-    // Handle accept logic
-    _toggleButton(challenge.notificationId, true, ref);
-    try {
-      //! Acception challenge
-    } finally {
-      _toggleButton(challenge.notificationId, false, ref);
     }
   }
 

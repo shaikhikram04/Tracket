@@ -13,7 +13,6 @@ class ChallengeCard extends StatelessWidget {
     super.key,
     required this.challenge,
     required this.isSent,
-    required this.onAcceptChallenge,
     required this.onCanceChallenge,
     required this.onRejectChallenge,
   });
@@ -21,7 +20,6 @@ class ChallengeCard extends StatelessWidget {
   final model.Notification challenge;
   final bool isSent;
   final void Function() onCanceChallenge;
-  final void Function(WidgetRef ref) onAcceptChallenge;
   final void Function() onRejectChallenge;
 
   void _navigateToAcceptChallenge(BuildContext context) {
@@ -31,7 +29,6 @@ class ChallengeCard extends StatelessWidget {
           challenge: challenge.challengeMatch!,
           isSender: isSent,
           challengeId: challenge.notificationId,
-          
         ));
   }
 
@@ -177,18 +174,18 @@ class ChallengeCard extends StatelessWidget {
                 style: MyTextStyle(context).bodyMedium,
               ),
               const Spacer(),
+              MyElevatedButton.secondaryElevatedButton(
+                context,
+                text: 'Reject',
+                onPressed: onRejectChallenge,
+              ),
+              const SizedBox(width: 10),
               MyElevatedButton.primaryElevatedButton(
                 context,
                 text: 'Accept',
                 isLoading: isRequestInProgress,
                 primaryColor: const Color.fromARGB(255, 47, 134, 50),
                 onPressed: () => _navigateToAcceptChallenge(context),
-              ),
-              const SizedBox(width: 10),
-              MyElevatedButton.secondaryElevatedButton(
-                context,
-                text: 'Reject',
-                onPressed: onRejectChallenge,
               ),
             ],
           );

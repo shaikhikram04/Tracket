@@ -86,8 +86,6 @@ class _NotificationsListState extends State<NotificationsList> {
           return ChallengeCard(
             challenge: notification,
             isSent: false,
-            onAcceptChallenge: (ref) =>
-                _acceptChallenge(notification, index, ref),
             onCanceChallenge: () {},
             onRejectChallenge: () =>
                 _rejectNotification(context, index, notificationData),
@@ -104,20 +102,6 @@ class _NotificationsListState extends State<NotificationsList> {
       ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
     } else {
       ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
-    }
-  }
-
-  Future<void> _acceptChallenge(
-    model.Notification challenge,
-    int index,
-    WidgetRef ref,
-  ) async {
-    // Handle accept logic
-    _toggleButton(challenge.notificationId, true, ref);
-    try {
-      //! Acception challenge
-    } finally {
-      _toggleButton(challenge.notificationId, false, ref);
     }
   }
 
