@@ -12,6 +12,7 @@ import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class AcceptChallengeScreen extends StatefulWidget {
   const AcceptChallengeScreen({
@@ -89,7 +90,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   List<String> get _playersName {
     List<String> playerNames = [];
     for (var player in _selectedPlayers) {
-      playerNames.add(player.playerName);
+      playerNames.add(player.playerName.toUpperCase());
     }
 
     return playerNames;
@@ -124,8 +125,6 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           return player.copyWith();
         }).toList();
       });
-
-      debugPrint(_selectedPlayers.first.playerId);
     }
   }
 
@@ -226,46 +225,95 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                       ],
                     ),
                   ),
+                  //! Challenger Team Squad
                   MyCard(
                     child: MatchSquad(
                       selectedPlayer: _challengerTeamPlayers,
-                      captainId: '',
-                      wicketkeeperId: '',
+                      captainId: _captainId,
+                      wicketkeeperId: _wicketkeeperId,
                       isPlayerCanAdd: false,
                       title:
                           widget.isSender ? 'Your Squad' : 'Challenger Squad',
                     ),
                   ),
+                  //! Challenged Team Squad
                   MyCard(
                     child: MatchSquad(
                       selectedPlayer: _selectedPlayers,
-                      captainId: '',
-                      wicketkeeperId: '',
+                      captainId: _captainId,
+                      wicketkeeperId: _wicketkeeperId,
                       isPlayerCanAdd: !widget.isSender,
                       onAdd: onAddPlayer,
                       title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
                     ),
                   ),
+                  //! Role Selection
+                  MyCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 12,
+                      children: [
+                        getTitleText('Roles', context),
+                        //! Captain, Wicketkeeper
+                        MyDropdownMenu(
+                          options: _playersName,
+                          label: 'Change Captaincy',
+                          controller: _captainController,
+                          onSelect: (value) {
+                            setState(() {
+                              int index = _playersName
+                                  .indexWhere((name) => name == value);
+
+                              _captainId = _selectedPlayers[index].playerId;
+                            });
+                          },
+                        ),
+                        MyDropdownMenu(
+                          options: _playersName,
+                          label: 'Change Wicketkeeper',
+                          controller: _wicketkeeperController,
+                          onSelect: (value) {
+                            setState(() {
+                              int index = _playersName
+                                  .indexWhere((name) => name == value);
+
+                              _wicketkeeperId =
+                                  _selectedPlayers[index].playerId;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 5),
+                  //! Action Buttons
                   if (!widget.isSender)
                     Row(
                       spacing: 20,
                       children: [
                         const SizedBox(),
                         Expanded(
-                          child: MyElevatedButton.secondaryElevatedButton(
-                            context,
-                            text: 'Reject',
-                            onPressed: () {},
+                          child: SizedBox(
+                            height: 50,
+                            child: MyElevatedButton.secondaryElevatedButton(
+                              context,
+                              text: 'Reject',
+                              fontSize: 16,
+                              onPressed: () {},
+                            ),
                           ),
                         ),
                         Expanded(
-                          child: MyElevatedButton.primaryElevatedButton(
-                            context,
-                            onPressed: () {},
-                            text: 'Accept',
-                            primaryColor:
-                                const Color.fromARGB(255, 43, 114, 45),
+                          child: SizedBox(
+                            height: 50,
+                            child: MyElevatedButton.primaryElevatedButton(
+                              context,
+                              onPressed: () {},
+                              fontSize: 16,
+                              text: 'Accept',
+                              primaryColor:
+                                  const Color.fromARGB(255, 43, 114, 45),
+                            ),
                           ),
                         ),
                         const SizedBox(),

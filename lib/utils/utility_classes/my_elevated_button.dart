@@ -13,6 +13,7 @@ class MyElevatedButton {
     Color primaryColor = greenColor,
     Color secondaryColor = whiteColor,
     Color disabledColor = greenColor,
+    double fontSize = 14,
   }) {
     return ElevatedButton(
       onPressed: onPressed,
@@ -26,7 +27,9 @@ class MyElevatedButton {
               text,
               style: isSubmit
                   ? MyTextStyle(context).submitBtnTextStyle
-                  : MyTextStyle(context).buttonBodyLarge(secondaryColor),
+                  : MyTextStyle(context)
+                      .buttonBodyLarge(secondaryColor)
+                      .copyWith(fontSize: fontSize),
               textAlign: TextAlign.center,
             ),
     );
@@ -39,6 +42,7 @@ class MyElevatedButton {
     Color primaryColor = Colors.red,
     Color secondaryColor = Colors.white,
     bool isLoading = false,
+    double fontSize = 14,
   }) {
     return ElevatedButton(
       onPressed: onPressed,
@@ -51,7 +55,9 @@ class MyElevatedButton {
           ? getCircleLoadingIndicator(color: primaryColor)
           : Text(
               text,
-              style: MyTextStyle(context).buttonBodyLarge(primaryColor),
+              style: MyTextStyle(context)
+                  .buttonBodyLarge(primaryColor)
+                  .copyWith(fontSize: fontSize),
               textAlign: TextAlign.center,
             ),
     );
