@@ -1,4 +1,5 @@
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_details.dart';
 
 class MatchPlayerInfo {
   const MatchPlayerInfo({
@@ -26,6 +27,20 @@ class MatchPlayerInfo {
         playerName: snap['playerName'],
         profileImageUrl: snap['profileImageUrl'],
       );
+
+  static List<MatchPlayerInfo> fromPlayerDetailList(
+      List<PlayerDetails> players) {
+    return players.map(
+      (player) {
+        return MatchPlayerInfo(
+          playerId: player.id,
+          cricketRole: player.cricketRole,
+          playerName: player.name,
+          profileImageUrl: player.imageUrl,
+        );
+      },
+    ).toList();
+  }
 
   MatchPlayerInfo copyWith({
     String? playerId,

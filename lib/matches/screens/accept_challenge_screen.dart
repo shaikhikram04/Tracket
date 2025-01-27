@@ -66,11 +66,12 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       } else {
         if (!mounted) return;
         final teamId = widget.challenge.challengedTeam.teamId;
-        final teamSnap = await TeamsServices.getTeamData(teamId);
         final teamPlayers =
             await TeamsServices.getTeamPlayersFromId(teamId, context);
 
-        _challengedTeam = Team.formSeed(teamSnap, teamPlayers);
+        final playerDetails = Team.teamPlayersToList(teamPlayers);
+        _challengedTeamPlayers =
+            MatchPlayerInfo.fromPlayerDetailList(playerDetails);
       }
     } catch (e) {
       if (!mounted) return;
@@ -107,7 +108,8 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
 
       setState(() {
         _selectedPlayers = result.map((player) {
-          if (captain.isEmpty && player.playerId == _challengedTeam!.captainId) {
+          if (captain.isEmpty &&
+              player.playerId == _challengedTeam!.captainId) {
             _captainController.text = player.playerName.toUpperCase();
             _captainId = player.playerId;
           }
@@ -115,7 +117,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               player.playerId == _challengedTeam!.wicketkeeperId) {
             _wicketkeeperController.text = player.playerName.toUpperCase();
             _wicketkeeperId = player.playerId;
-          } 
+          }
           return player.copyWith();
         }).toList();
       });
@@ -143,7 +145,8 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                           spacing: 8,
                           children: [
                             TeamColumn(
-                              teamName: widget.challenge.challengerTeam.teamName,
+                              teamName:
+                                  widget.challenge.challengerTeam.teamName,
                               teamLogo: widget.challenge.challengerTeam.logoUrl,
                             ),
                             Text(
@@ -151,7 +154,8 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                               style: MyTextStyle(context).boldBodyLarge,
                             ),
                             TeamColumn(
-                              teamName: widget.challenge.challengedTeam.teamName,
+                              teamName:
+                                  widget.challenge.challengedTeam.teamName,
                               teamLogo: widget.challenge.challengedTeam.logoUrl,
                             ),
                           ],

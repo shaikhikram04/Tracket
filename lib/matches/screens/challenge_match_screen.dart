@@ -108,16 +108,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     final result = await showDialog<List<MatchPlayerInfo>>(
       context: context,
       builder: (context) => PlayersSelectionDialog(
-        playerList: _challengerTeam.playersList
-            .map(
-              (player) => MatchPlayerInfo(
-                playerId: player.id,
-                cricketRole: player.cricketRole,
-                playerName: player.name,
-                profileImageUrl: player.imageUrl,
-              ),
-            )
-            .toList(),
+        playerList:
+            MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
         selectedPlayers: _selectedPlayer,
         noOfPlayerCanBeSelected: _noOfPlayers.toInt(),
       ),
