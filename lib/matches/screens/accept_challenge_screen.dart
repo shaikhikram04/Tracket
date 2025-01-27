@@ -66,12 +66,15 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       } else {
         if (!mounted) return;
         final teamId = widget.challenge.challengedTeam.teamId;
+        final teamSnap = await TeamsServices.getTeamData(teamId);
+        if (!mounted) return;
         final teamPlayers =
             await TeamsServices.getTeamPlayersFromId(teamId, context);
 
-        final playerDetails = Team.teamPlayersToList(teamPlayers);
+        _challengedTeam = Team.formSeed(teamSnap, teamPlayers);
+
         _challengedTeamPlayers =
-            MatchPlayerInfo.fromPlayerDetailList(playerDetails);
+            MatchPlayerInfo.fromPlayerDetailList(_challengedTeam!.playersList);
       }
     } catch (e) {
       if (!mounted) return;
@@ -121,7 +124,16 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           return player.copyWith();
         }).toList();
       });
+
+      debugPrint(_selectedPlayers.first.playerId);
     }
+  }
+
+  @override
+  void dispose() {
+    _captainController.dispose();
+    _wicketkeeperController.dispose();
+    super.dispose();
   }
 
   @override
@@ -226,9 +238,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                   ),
                   MyCard(
                     child: MatchSquad(
-                      selectedPlayer: widget.isSender
-                          ? _challengedTeamPlayers
-                          : _selectedPlayers,
+                      selectedPlayer: _selectedPlayers,
                       captainId: '',
                       wicketkeeperId: '',
                       isPlayerCanAdd: !widget.isSender,

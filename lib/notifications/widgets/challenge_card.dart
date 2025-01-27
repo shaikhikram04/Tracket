@@ -31,6 +31,7 @@ class ChallengeCard extends StatelessWidget {
           challenge: challenge.challengeMatch!,
           isSender: isSent,
           challengeId: challenge.notificationId,
+          
         ));
   }
 
