@@ -1,5 +1,5 @@
 class MatchTeamInfo {
-  const MatchTeamInfo({
+  MatchTeamInfo({
     required this.teamId,
     required this.captainId,
     required this.logoUrl,
@@ -31,5 +31,22 @@ class MatchTeamInfo {
         shortName: snap['shortName'],
         teamName: snap['teamName'],
         wicketkeeperId: snap['wicketkeeperId'],
+      );
+
+  MatchTeamInfo copyWith({
+    String? teamId,
+    String? teamName,
+    String? shortName,
+    String? logoUrl,
+    String? captainId,
+    String? wicketkeeperId,
+  }) =>
+      MatchTeamInfo(
+        teamId: teamId ?? this.teamId,
+        captainId: captainId ?? this.captainId,
+        logoUrl: logoUrl ?? this.logoUrl,
+        shortName: shortName ?? this.shortName,
+        teamName: teamName ?? this.teamName,
+        wicketkeeperId: wicketkeeperId ?? this.wicketkeeperId,
       );
 }

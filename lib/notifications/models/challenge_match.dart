@@ -27,7 +27,7 @@ class ChallengeMatch {
   });
 
   final MatchTeamInfo challengerTeam;
-  final MatchTeamInfo challengedTeam;
+  MatchTeamInfo challengedTeam;
   final String challengerId;
   final String challengerName;
   final MatchFormat overs;
@@ -66,8 +66,8 @@ class ChallengeMatch {
         challengerTeam: MatchTeamInfo.fromMap(snap['challengerTeam']),
         updatedAt: snap['updatedAt'],
         allowSpectator: snap['allowSpectator'],
-        challengedPlayers: [], // TODO : wrote function for fetch store players
-        challengerPlayers: [], // TODO : wrote function for fetch store players
+        challengedPlayers: [],
+        challengerPlayers: [],
         noOfPlayers: snap['noOfPlayers'],
         overs: Match.getMatchFormat(snap['overs']),
         venue: snap['venue'],
@@ -81,5 +81,10 @@ class ChallengeMatch {
 
   void setChallengedPlayers(List<MatchPlayerInfo> players) {
     challengedPlayers = players;
+  }
+
+  void setCaptainAndWicketkeeper(String captainId, String wicketkeeperId) {
+    challengedTeam = challengedTeam.copyWith(
+        captainId: captainId, wicketkeeperId: wicketkeeperId);
   }
 }

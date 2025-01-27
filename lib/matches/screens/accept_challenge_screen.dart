@@ -131,6 +131,34 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     }
   }
 
+  Future<void> _acceptChallenge() async {
+    if (_selectedPlayers.isEmpty) {
+      showSnackBar('Please select squad', context);
+      return;
+    }
+    if (_captainId.isEmpty) {
+      showSnackBar('Please select team captain', context);
+      return;
+    }
+    if (_wicketkeeperId.isEmpty) {
+      showSnackBar('Please select team wicketkeeper', context);
+      return;
+    }
+    _challenge.setChallengedPlayers(_selectedPlayers);
+    _challenge.setCaptainAndWicketkeeper(_captainId, _wicketkeeperId);
+
+    try {
+      await MatchesServices.acceptChallenge(
+        challenge: _challenge,
+        challengeId: widget.challengeId,
+        context: context,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      showSnackBar(e.toString(), context);
+    }
+  }
+
   @override
   void dispose() {
     _captainController.dispose();

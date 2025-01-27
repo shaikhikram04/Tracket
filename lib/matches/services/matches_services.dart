@@ -5,6 +5,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
@@ -142,7 +143,40 @@ class MatchesServices {
     return teamPlayers;
   }
 
-  void acceptChallenge({
+  static Future<void> acceptChallenge({
     required ChallengeMatch challenge,
-  }) {}
+    required String challengeId,
+    required BuildContext context,
+  }) async {
+    final match = Match(
+      team1: challenge.challengerTeam,
+      team2: challenge.challengedTeam,
+      team1Players: challenge.challengerPlayers,
+      team2Players: challenge.challengedPlayers,
+      noOfPlayer: challenge.noOfPlayers,
+      isTeam1WonToss: null,
+      tossDecision: null,
+      createdAt: Timestamp.now(),
+      matchFormat: challenge.overs,
+      matchType: challenge.matchType,
+      spectatorsAllowed: challenge.allowSpectator,
+      updatedAt: Timestamp.now(),
+      venue: challenge.venue,
+      schedule: challenge.schedule,
+    );
+
+    //* Storing match data
+    await _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(match.id)
+        .set(match.toMap);
+
+    if (!context.mounted) return;
+
+    //* deleting challenge notification
+    await NotificationServices.deleteNotification(
+        notificationId: challengeId,
+        type: model.NotificationType.matchChallenge,
+        context: context);
+  }
 }
