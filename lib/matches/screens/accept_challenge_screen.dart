@@ -153,6 +153,10 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         challengeId: widget.challengeId,
         context: context,
       );
+
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      showSnackBar('Challenge Accepted', context);
     } catch (e) {
       if (!mounted) return;
       showSnackBar(e.toString(), context);
@@ -339,7 +343,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                             height: 50,
                             child: MyElevatedButton.primaryElevatedButton(
                               context,
-                              onPressed: () {},
+                              onPressed: _acceptChallenge,
                               fontSize: 16,
                               text: 'Accept',
                               primaryColor:
