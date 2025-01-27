@@ -5,7 +5,6 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
-import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
