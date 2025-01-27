@@ -32,12 +32,12 @@ class AcceptChallengeScreen extends StatefulWidget {
 
 class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   bool _isLoading = false;
-  List<MatchPlayerInfo> _challengerTeamPlayers = [];
   List<MatchPlayerInfo> _challengedTeamPlayers = [];
   List<MatchPlayerInfo> _selectedPlayers = [];
   late TextEditingController _captainController;
   late TextEditingController _wicketkeeperController;
   Team? _challengedTeam;
+  late ChallengeMatch _challenge;
   String _captainId = '';
   String _wicketkeeperId = '';
 
@@ -46,6 +46,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     _loadSquad();
     _captainController = TextEditingController();
     _wicketkeeperController = TextEditingController();
+    _challenge = widget.challenge;
     super.initState();
   }
 
@@ -56,9 +57,11 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     });
 
     try {
-      _challengerTeamPlayers =
+      final challengerTeamPlayers =
           await MatchesServices.getChallengeMatchTeamPlayers(
               challengeId: widget.challengeId, isChallenger: true);
+
+      _challenge.setChallengerPlayers(challengerTeamPlayers);
 
       if (widget.isSender) {
         _challengedTeamPlayers =
@@ -228,7 +231,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                   //! Challenger Team Squad
                   MyCard(
                     child: MatchSquad(
-                      selectedPlayer: _challengerTeamPlayers,
+                      selectedPlayer: _challenge.challengerPlayers,
                       captainId: _captainId,
                       wicketkeeperId: _wicketkeeperId,
                       isPlayerCanAdd: false,

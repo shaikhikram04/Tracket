@@ -141,4 +141,8 @@ class MatchesServices {
     }
     return teamPlayers;
   }
+
+  void acceptChallenge({
+    required ChallengeMatch challenge,
+  }) {}
 }

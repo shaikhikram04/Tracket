@@ -37,8 +37,8 @@ class ChallengeMatch {
   final Timestamp updatedAt;
   final int noOfPlayers;
   final MatchType matchType;
-  final List<MatchPlayerInfo> challengerPlayers;
-  final List<MatchPlayerInfo> challengedPlayers;
+  List<MatchPlayerInfo> challengerPlayers;
+  List<MatchPlayerInfo> challengedPlayers;
 
   Map<String, dynamic> get toMap => {
         'challengerTeam': challengerTeam.toMap,
@@ -74,4 +74,12 @@ class ChallengeMatch {
         schedule: snap['schedule'].toDate(),
         matchType: Match.getMatchType(snap['matchType']),
       );
+
+  void setChallengerPlayers(List<MatchPlayerInfo> players) {
+    challengerPlayers = players;
+  }
+
+  void setChallengedPlayers(List<MatchPlayerInfo> players) {
+    challengedPlayers = players;
+  }
 }
