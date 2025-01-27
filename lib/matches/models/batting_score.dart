@@ -1,32 +1,14 @@
 enum ReasonOfOut {
-  bowled,
-  lbw,
-  caught,
-  runOut,
-  stumped,
-  hitWicket,
-  retiredOut,
-}
+  bowled('Bowled'),
+  lbw('LBW'),
+  caught('Caught'),
+  runOut('Run Out'),
+  stumped('Stumped'),
+  hitWicket('Hit Wicket'),
+  retiredOut('Retired Out');
 
-extension ReasonOfOutDescription on ReasonOfOut {
-  String get description {
-    switch (this) {
-      case ReasonOfOut.bowled:
-        return 'Bowled';
-      case ReasonOfOut.lbw:
-        return 'LBW';
-      case ReasonOfOut.caught:
-        return 'Caught';
-      case ReasonOfOut.runOut:
-        return 'Run Out';
-      case ReasonOfOut.stumped:
-        return 'Stumped';
-      case ReasonOfOut.hitWicket:
-        return 'Hit Wicket';
-      case ReasonOfOut.retiredOut:
-        return 'Retired Out';
-    }
-  }
+  const ReasonOfOut(this.description);
+  final String description;
 }
 
 class BattingScore {
@@ -34,32 +16,68 @@ class BattingScore {
     required this.uuid,
     required this.playerName,
     this.reasonOfOut,
-    this.ballFaced = 0,
+    this.ballsFaced = 0,
     this.fours = 0,
     this.isOut = false,
     this.runs = 0,
-    this.sixs = 0,
+    this.sixes = 0,
   });
 
   final String uuid;
   final String playerName;
   final int runs;
-  final int ballFaced;
-  final int sixs;
+  final int ballsFaced;
+  final int sixes;
   final int fours;
   bool isOut;
   ReasonOfOut? reasonOfOut;
 
   double get strikeRate {
-    if (ballFaced == 0) {
-      return 0;
-    }
+    if (ballsFaced == 0) return 0.0;
 
-    return (runs / ballFaced) * 100;
+    return (runs / ballsFaced) * 100;
+  }
+
+  // Additional useful methods
+  int get totalBoundaries => fours + sixes;
+
+  int get runsFromBoundaries => (fours * 4) + (sixes * 6);
+
+  double get boundaryPercentage {
+    if (runs == 0) return 0.0;
+    return (runsFromBoundaries / runs) * 100;
+  }
+
+  // Immutable state updates
+  BattingScore markAsOut(ReasonOfOut outReason) {
+    return copyWith(
+      isOut: true,
+      reasonOfOut: outReason,
+    );
   }
 
   void getOut(ReasonOfOut outReason) {
     isOut = true;
     reasonOfOut = outReason;
   }
+
+  BattingScore copyWith({
+    bool? isOut,
+    ReasonOfOut? reasonOfOut,
+    String? playerName,
+    int? ballsFaced,
+    int? fours,
+    int? runs,
+    int? sixes,
+  }) =>
+      BattingScore(
+        uuid: uuid,
+        playerName: playerName ?? this.playerName,
+        ballsFaced: ballsFaced ?? this.ballsFaced,
+        fours: fours ?? this.fours,
+        isOut: isOut ?? this.isOut,
+        reasonOfOut: reasonOfOut ?? reasonOfOut,
+        runs: runs ?? this.runs,
+        sixes: sixes ?? this.sixes,
+      );
 }
