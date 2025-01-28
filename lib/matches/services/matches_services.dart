@@ -23,6 +23,7 @@ class MatchesServices {
     required String challengerName,
     required bool allowSpectators,
     required int noOfPlayers,
+    required List<MatchPlayerInfo> challengerPlayers,
     required String matchType,
   }) async {
     final schedule = DateTime(
@@ -40,6 +41,8 @@ class MatchesServices {
       challengerTeam: challengerTeam,
       updatedAt: Timestamp.now(),
       allowSpectator: allowSpectators,
+      challengedPlayers: [],
+      challengerPlayers: challengerPlayers,
       noOfPlayers: noOfPlayers,
       schedule: schedule,
       venue: matchVenue,
@@ -70,7 +73,7 @@ class MatchesServices {
         .doc(notification.notificationId)
         .collection(FirestoreCollections.challengerPlayers);
 
-    for (final player in challengerTeam.teamPlayers) {
+    for (final player in challengerPlayers) {
       await challengerPlayerCollectionRef
           .doc(player.playerId)
           .set(player.toMap);
@@ -84,27 +87,29 @@ class MatchesServices {
     });
   }
 
-  // static createMatch(ChallengeMatch challegeMatch) {
-  //   final match = Match(
-  //     team1: challegeMatch.challengerTeam,
-  //     team2: challegeMatch.challengedTeam,
-  //     noOfPlayer: challegeMatch.noOfPlayers,
-  //     isTeam1WonToss: null,
-  //     tossDecision: null,
-  //     createdAt: Timestamp.now(),
-  //     matchFormat: challegeMatch.overs,
-  //     matchType: challegeMatch.matchType,
-  //     spectatorsAllowed: challegeMatch.allowSpectator,
-  //     updatedAt: Timestamp.now(),
-  //     venue: challegeMatch.venue,
-  //     schedule: challegeMatch.schedule,
-  //   );
+  static createMatch(ChallengeMatch challegeMatch) {
+    final match = Match(
+      team1: challegeMatch.challengerTeam,
+      team2: challegeMatch.challengedTeam,
+      noOfPlayer: challegeMatch.noOfPlayers,
+      isTeam1WonToss: null,
+      tossDecision: null,
+      createdAt: Timestamp.now(),
+      matchFormat: challegeMatch.overs,
+      matchType: challegeMatch.matchType,
+      spectatorsAllowed: challegeMatch.allowSpectator,
+      updatedAt: Timestamp.now(),
+      venue: challegeMatch.venue,
+      team1Players: [],
+      team2Players: [],
+      schedule: challegeMatch.schedule,
+    );
 
-  //   _firestore
-  //       .collection(FirestoreCollections.matches)
-  //       .doc(match.id)
-  //       .set(match.toMap);
-  // }
+    _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(match.id)
+        .set(match.toMap);
+  }
 
   static Future<List<MatchPlayerInfo>> getChallengeMatchTeamPlayers({
     required String challengeId,
@@ -145,6 +150,8 @@ class MatchesServices {
     final match = Match(
       team1: challenge.challengerTeam,
       team2: challenge.challengedTeam,
+      team1Players: challenge.challengerPlayers,
+      team2Players: challenge.challengedPlayers,
       noOfPlayer: challenge.noOfPlayers,
       isTeam1WonToss: null,
       tossDecision: null,

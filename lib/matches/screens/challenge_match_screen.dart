@@ -172,7 +172,6 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       shortName: _challengerTeam.shortName,
       captainId: _captainId,
       wicketkeeperId: _wicketkeeperId,
-      teamPlayers: _selectedPlayer,
     );
 
     try {
@@ -187,6 +186,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         challengerName: widget.challengerName,
         allowSpectators: _allowSpectators,
         noOfPlayers: _noOfPlayers.toInt(),
+        challengerPlayers: _selectedPlayer,
         matchType: _matchType!,
       );
 

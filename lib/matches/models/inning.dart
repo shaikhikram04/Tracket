@@ -1,19 +1,15 @@
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/extras.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
-List<T> initializeStats<T>(List players, T Function(dynamic) builder) {
+List<T> initializeStats<T>(List<MatchPlayerInfo> players, T Function(MatchPlayerInfo) builder) {
   return players.map(builder).toList();
 }
 
 // Enum for innings status
-enum InningsStatus {
-  inProgress,
-  declared,
-  allOut,
-  completed,
-}
+enum InningsStatus { notStarted, inProgress, declared, allOut, completed }
 
 class Inning {
   const Inning({
@@ -57,8 +53,8 @@ class Inning {
   static Inning initialize({
     required MatchTeamInfo battingTeam,
     required MatchTeamInfo bowlingTeam,
-    required List<dynamic> battingPlayers,
-    required List<dynamic> bowlingPlayers,
+    required List<MatchPlayerInfo> battingPlayers,
+    required List<MatchPlayerInfo> bowlingPlayers,
   }) {
     return Inning(
       battingTeam: battingTeam,
@@ -66,15 +62,15 @@ class Inning {
       battingStats: initializeStats<BattingScore>(
         battingPlayers,
         (player) => BattingScore(
-          uuid: player.uuid,
-          playerName: player.name,
+          uuid: player.playerId,
+          playerName: player.playerName,
         ),
       ),
       bowlingStats: initializeStats<BowlingScore>(
         bowlingPlayers,
         (player) => BowlingScore(
-          uuid: player.uuid,
-          playerName: player.name,
+          uuid: player.playerId,
+          playerName: player.playerName,
         ),
       ),
     );
