@@ -4,7 +4,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
-import 'package:tracket/matches/widgets/team_column.dart';
+import 'package:tracket/matches/widgets/team_section.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -201,7 +201,12 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildTeamsSection(),
+                  TeamSection(
+                    team1Name: widget.challenge.challengerTeam.teamName,
+                    team1Logo: widget.challenge.challengerTeam.logoUrl,
+                    team2Name: widget.challenge.challengedTeam.teamName,
+                    team2Logo: widget.challenge.challengedTeam.logoUrl,
+                  ),
                   _buildMatchDetailsSection(),
                   _buildSquadSections(),
                   _buildRolesSection(),
@@ -210,33 +215,6 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 ],
               ),
             ),
-    );
-  }
-
-  Widget _buildTeamsSection() {
-    return MyCard(
-      child: Column(
-        children: [
-          getTitleText('Teams', context),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TeamColumn(
-                teamName: widget.challenge.challengerTeam.teamName,
-                teamLogo: widget.challenge.challengerTeam.logoUrl,
-              ),
-              Text(
-                'v/s',
-                style: MyTextStyle(context).boldBodyLarge,
-              ),
-              TeamColumn(
-                teamName: widget.challenge.challengedTeam.teamName,
-                teamLogo: widget.challenge.challengedTeam.logoUrl,
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 

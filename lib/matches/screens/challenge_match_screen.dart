@@ -6,7 +6,7 @@ import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
-import 'package:tracket/matches/widgets/team_column.dart';
+import 'package:tracket/matches/widgets/team_section.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
@@ -219,26 +219,13 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                 child: Column(
                   children: [
                     //! Team Detail
-                    MyCard(
-                        child: Column(
-                      children: [
-                        getTitleText('Teams', context),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TeamColumn(
-                              teamName: _challengerTeam.name,
-                              teamLogo: _challengerTeam.logoUrl,
-                            ),
-                            const Text('v/s'),
-                            TeamColumn(
-                              teamName: widget.challengedTeam.teamName,
-                              teamLogo: widget.challengedTeam.logoUrl,
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
+                    TeamSection(
+                      team1Name: _challengerTeam.name,
+                      team1Logo: _challengerTeam.logoUrl,
+                      team2Name: widget.challengedTeam.teamName,
+                      team2Logo: widget.challengedTeam.logoUrl,
+                    ),
+
                     //! Match detail
                     MyCard(
                       child: Column(
