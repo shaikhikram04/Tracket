@@ -61,7 +61,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           await MatchesServices.getChallengeMatchTeamPlayers(
               challengeId: widget.challengeId, isChallenger: true);
 
-      _challenge.setChallengerPlayers(challengerTeamPlayers);
+      _challenge.challengerTeam.setPlayers(challengerTeamPlayers);
 
       if (widget.isSender) {
         _challengedTeamPlayers =
@@ -144,7 +144,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       showSnackBar('Please select team wicketkeeper', context);
       return;
     }
-    _challenge.setChallengedPlayers(_selectedPlayers);
+    _challenge.challengedTeam.setPlayers(_selectedPlayers);
     _challenge.setCaptainAndWicketkeeper(_captainId, _wicketkeeperId);
 
     try {
@@ -263,7 +263,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                   //! Challenger Team Squad
                   MyCard(
                     child: MatchSquad(
-                      selectedPlayer: _challenge.challengerPlayers,
+                      selectedPlayer: _challenge.challengerTeam.teamPlayers,
                       captainId: _captainId,
                       wicketkeeperId: _wicketkeeperId,
                       isPlayerCanAdd: false,

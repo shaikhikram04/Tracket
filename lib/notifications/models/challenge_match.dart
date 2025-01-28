@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/match.dart';
-import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
 enum ChallengeStatus {
@@ -17,8 +16,6 @@ class ChallengeMatch {
     required this.challengerTeam,
     required this.updatedAt,
     required this.allowSpectator,
-    required this.challengedPlayers,
-    required this.challengerPlayers,
     required this.noOfPlayers,
     required this.overs,
     required this.venue,
@@ -26,7 +23,7 @@ class ChallengeMatch {
     required this.matchType,
   });
 
-  final MatchTeamInfo challengerTeam;
+  MatchTeamInfo challengerTeam;
   MatchTeamInfo challengedTeam;
   final String challengerId;
   final String challengerName;
@@ -37,8 +34,6 @@ class ChallengeMatch {
   final Timestamp updatedAt;
   final int noOfPlayers;
   final MatchType matchType;
-  List<MatchPlayerInfo> challengerPlayers;
-  List<MatchPlayerInfo> challengedPlayers;
 
   Map<String, dynamic> get toMap => {
         'challengerTeam': challengerTeam.toMap,
@@ -66,8 +61,6 @@ class ChallengeMatch {
         challengerTeam: MatchTeamInfo.fromMap(snap['challengerTeam']),
         updatedAt: snap['updatedAt'],
         allowSpectator: snap['allowSpectator'],
-        challengedPlayers: [],
-        challengerPlayers: [],
         noOfPlayers: snap['noOfPlayers'],
         overs: Match.getMatchFormat(snap['overs']),
         venue: snap['venue'],
@@ -75,13 +68,7 @@ class ChallengeMatch {
         matchType: Match.getMatchType(snap['matchType']),
       );
 
-  void setChallengerPlayers(List<MatchPlayerInfo> players) {
-    challengerPlayers = players;
-  }
-
-  void setChallengedPlayers(List<MatchPlayerInfo> players) {
-    challengedPlayers = players;
-  }
+  
 
   void setCaptainAndWicketkeeper(String captainId, String wicketkeeperId) {
     challengedTeam = challengedTeam.copyWith(

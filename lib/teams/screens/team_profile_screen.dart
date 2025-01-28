@@ -317,6 +317,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                                 captainId: teamData.captainId,
                                                 wicketkeeperId:
                                                     teamData.wicketkeeperId,
+                                                teamPlayers: [],
                                               )),
                                           text: 'Challenge',
                                           primaryColor: const Color.fromARGB(

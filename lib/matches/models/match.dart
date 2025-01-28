@@ -71,8 +71,6 @@ class Match {
   Match(
       {required this.team1,
       required this.team2,
-      required this.team1Players,
-      required this.team2Players,
       required this.noOfPlayer,
       required this.isTeam1WonToss,
       required this.tossDecision,
@@ -90,8 +88,6 @@ class Match {
   final String id;
   final MatchTeamInfo team1;
   final MatchTeamInfo team2;
-  final List<MatchPlayerInfo> team1Players;
-  final List<MatchPlayerInfo> team2Players;
   final MatchType matchType;
   final MatchFormat matchFormat;
   final int noOfPlayer;
@@ -141,8 +137,6 @@ class Match {
         'id': id,
         'team1': team1.toMap,
         'team2': team2.toMap,
-        'team1Players': team1Players,
-        'team2Players': team2Players,
         'matchType': matchType.name,
         'matchFormat': matchFormat.name,
         'noOfPlayer': noOfPlayer,
