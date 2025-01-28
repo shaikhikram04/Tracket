@@ -31,123 +31,140 @@ class AcceptChallengeScreen extends StatefulWidget {
 }
 
 class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
+  final _captainController = TextEditingController();
+  final _wicketkeeperController = TextEditingController();
+
   bool _isLoading = false;
-  List<MatchPlayerInfo> _challengedTeamPlayers = [];
-  List<MatchPlayerInfo> _selectedPlayers = [];
-  late TextEditingController _captainController;
-  late TextEditingController _wicketkeeperController;
   Team? _challengedTeam;
   late ChallengeMatch _challenge;
-  String _captainId = '';
-  String _wicketkeeperId = '';
+
+  final ValueNotifier<List<MatchPlayerInfo>> _challengedTeamPlayers =
+      ValueNotifier([]);
+  final ValueNotifier<List<MatchPlayerInfo>> _selectedPlayers =
+      ValueNotifier([]);
+  final ValueNotifier<String> _captainId = ValueNotifier('');
+  final ValueNotifier<String> _wicketkeeperId = ValueNotifier('');
 
   @override
   void initState() {
     _loadSquad();
-    _captainController = TextEditingController();
-    _wicketkeeperController = TextEditingController();
     _challenge = widget.challenge;
     super.initState();
   }
 
+  // Improved error handling with dedicated error handler
+  Future<void> _handleError(dynamic error) async {
+    if (!mounted) return;
+    showSnackBar(error.toString(), context);
+  }
+
   Future<void> _loadSquad() async {
     // Load challenger squad
-    setState(() {
-      _isLoading = true;
-    });
+
+    setState(() => _isLoading = true);
 
     try {
       final challengerTeamPlayers =
           await MatchesServices.getChallengeMatchTeamPlayers(
-              challengeId: widget.challengeId, isChallenger: true);
+        challengeId: widget.challengeId,
+        isChallenger: true,
+      );
 
       _challenge.setChallengerPlayers(challengerTeamPlayers);
 
       if (widget.isSender) {
-        _challengedTeamPlayers =
+        _challengedTeamPlayers.value =
             await MatchesServices.getChallengeMatchTeamPlayers(
-                challengeId: widget.challengeId, isChallenger: false);
+          challengeId: widget.challengeId,
+          isChallenger: false,
+        );
       } else {
         if (!mounted) return;
         final teamId = widget.challenge.challengedTeam.teamId;
         final teamSnap = await TeamsServices.getTeamData(teamId);
+
         if (!mounted) return;
         final teamPlayers =
             await TeamsServices.getTeamPlayersFromId(teamId, context);
 
         _challengedTeam = Team.formSeed(teamSnap, teamPlayers);
 
-        _challengedTeamPlayers =
+        _challengedTeamPlayers.value =
             MatchPlayerInfo.fromPlayerDetailList(_challengedTeam!.playersList);
       }
     } catch (e) {
-      if (!mounted) return;
-      showSnackBar(e.toString(), context);
+      _handleError(e);
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
-  List<String> get _playersName {
-    List<String> playerNames = [];
-    for (var player in _selectedPlayers) {
-      playerNames.add(player.playerName.toUpperCase());
-    }
-
-    return playerNames;
-  }
+  List<String> get _playersName => _selectedPlayers.value
+      .map((player) => player.playerName.toUpperCase())
+      .toList();
 
   Future<void> onAddPlayer() async {
     final result = await showDialog<List<MatchPlayerInfo>>(
       context: context,
       builder: (context) => PlayersSelectionDialog(
-        playerList: _challengedTeamPlayers,
-        selectedPlayers: _selectedPlayers,
+        playerList: _challengedTeamPlayers.value,
+        selectedPlayers: _selectedPlayers.value,
         noOfPlayerCanBeSelected: widget.challenge.noOfPlayers,
       ),
     );
 
     if (result != null) {
-      final captain = _captainController.text;
-      final wicketkeeper = _wicketkeeperController.text;
-
-      setState(() {
-        _selectedPlayers = result.map((player) {
-          if (captain.isEmpty &&
-              player.playerId == _challengedTeam!.captainId) {
-            _captainController.text = player.playerName.toUpperCase();
-            _captainId = player.playerId;
-          }
-          if (wicketkeeper.isEmpty &&
-              player.playerId == _challengedTeam!.wicketkeeperId) {
-            _wicketkeeperController.text = player.playerName.toUpperCase();
-            _wicketkeeperId = player.playerId;
-          }
-          return player.copyWith();
-        }).toList();
-      });
+      _updatePlayerRoles(result);
     }
   }
 
+  void _updatePlayerRoles(List<MatchPlayerInfo> players) {
+    final captain = _captainController.text;
+    final wicketkeeper = _wicketkeeperController.text;
+
+    _selectedPlayers.value = players.map((player) {
+      if (captain.isEmpty && player.playerId == _challengedTeam?.captainId) {
+        _captainController.text = player.playerName.toUpperCase();
+        _captainId.value = player.playerId;
+      }
+      if (wicketkeeper.isEmpty &&
+          player.playerId == _challengedTeam?.wicketkeeperId) {
+        _wicketkeeperController.text = player.playerName.toUpperCase();
+        _wicketkeeperId.value = player.playerId;
+      }
+      return player.copyWith();
+    }).toList();
+  }
+
+  String? _validateChallenge() {
+    if (_selectedPlayers.value.isEmpty) {
+      return 'Please select squad';
+    }
+    if (_captainId.value.isEmpty) {
+      return 'Please select team captain';
+    }
+    if (_wicketkeeperId.value.isEmpty) {
+      return 'Please select team wicketkeeper';
+    }
+    return null;
+  }
+
   Future<void> _acceptChallenge() async {
-    if (_selectedPlayers.isEmpty) {
-      showSnackBar('Please select squad', context);
+    final validationError = _validateChallenge();
+    if (validationError != null) {
+      showSnackBar(validationError, context);
       return;
     }
-    if (_captainId.isEmpty) {
-      showSnackBar('Please select team captain', context);
-      return;
-    }
-    if (_wicketkeeperId.isEmpty) {
-      showSnackBar('Please select team wicketkeeper', context);
-      return;
-    }
-    _challenge.setChallengedPlayers(_selectedPlayers);
-    _challenge.setCaptainAndWicketkeeper(_captainId, _wicketkeeperId);
 
     try {
+      _challenge.setChallengedPlayers(_selectedPlayers.value);
+      _challenge.setCaptainAndWicketkeeper(
+        _captainId.value,
+        _wicketkeeperId.value,
+      );
+
       await MatchesServices.acceptChallenge(
         challenge: _challenge,
         challengeId: widget.challengeId,
@@ -158,8 +175,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       Navigator.of(context).pop();
       showSnackBar('Challenge Accepted', context);
     } catch (e) {
-      if (!mounted) return;
-      showSnackBar(e.toString(), context);
+      _handleError(e);
     }
   }
 
@@ -167,6 +183,10 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   void dispose() {
     _captainController.dispose();
     _wicketkeeperController.dispose();
+    _challengedTeamPlayers.dispose();
+    _selectedPlayers.dispose();
+    _captainId.dispose();
+    _wicketkeeperId.dispose();
     super.dispose();
   }
 
@@ -181,179 +201,11 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  //! Team Detail
-                  MyCard(
-                    child: Column(
-                      children: [
-                        getTitleText('Teams', context),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: 8,
-                          children: [
-                            TeamColumn(
-                              teamName:
-                                  widget.challenge.challengerTeam.teamName,
-                              teamLogo: widget.challenge.challengerTeam.logoUrl,
-                            ),
-                            Text(
-                              'v/s',
-                              style: MyTextStyle(context).boldBodyLarge,
-                            ),
-                            TeamColumn(
-                              teamName:
-                                  widget.challenge.challengedTeam.teamName,
-                              teamLogo: widget.challenge.challengedTeam.logoUrl,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  //! Match detail
-                  MyCard(
-                    child: Column(
-                      spacing: 20,
-                      children: [
-                        getTitleText('Match Details', context),
-                        Column(
-                          spacing: 5,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            matchDetailRow(
-                              'No of players',
-                              widget.challenge.noOfPlayers.toString(),
-                              context,
-                            ),
-                            matchDetailRow(
-                              'Match Format',
-                              widget.challenge.overs.name,
-                              context,
-                            ),
-                            matchDetailRow(
-                              'Match type',
-                              widget.challenge.matchType.name,
-                              context,
-                            ),
-                            matchDetailRow(
-                              'Spectator',
-                              widget.challenge.allowSpectator
-                                  ? 'Allow'
-                                  : 'Not allow',
-                              context,
-                            ),
-                            matchDetailRow(
-                              'Date',
-                              DateFormat.yMMMd()
-                                  .format(widget.challenge.schedule),
-                              context,
-                            ),
-                            matchDetailRow(
-                              'Time',
-                              DateFormat.Hms()
-                                  .format(widget.challenge.schedule),
-                              context,
-                            ),
-                            matchDetailRow(
-                                'Venue', widget.challenge.venue, context),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  //! Challenger Team Squad
-                  MyCard(
-                    child: MatchSquad(
-                      selectedPlayer: _challenge.challengerPlayers,
-                      captainId: _captainId,
-                      wicketkeeperId: _wicketkeeperId,
-                      isPlayerCanAdd: false,
-                      title:
-                          widget.isSender ? 'Your Squad' : 'Challenger Squad',
-                    ),
-                  ),
-                  //! Challenged Team Squad
-                  MyCard(
-                    child: MatchSquad(
-                      selectedPlayer: _selectedPlayers,
-                      captainId: _captainId,
-                      wicketkeeperId: _wicketkeeperId,
-                      isPlayerCanAdd: !widget.isSender,
-                      onAdd: onAddPlayer,
-                      title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
-                    ),
-                  ),
-                  //! Role Selection
-                  MyCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 12,
-                      children: [
-                        getTitleText('Roles', context),
-                        //! Captain, Wicketkeeper
-                        MyDropdownMenu(
-                          options: _playersName,
-                          label: 'Change Captaincy',
-                          controller: _captainController,
-                          onSelect: (value) {
-                            setState(() {
-                              int index = _playersName
-                                  .indexWhere((name) => name == value);
-
-                              _captainId = _selectedPlayers[index].playerId;
-                            });
-                          },
-                        ),
-                        MyDropdownMenu(
-                          options: _playersName,
-                          label: 'Change Wicketkeeper',
-                          controller: _wicketkeeperController,
-                          onSelect: (value) {
-                            setState(() {
-                              int index = _playersName
-                                  .indexWhere((name) => name == value);
-
-                              _wicketkeeperId =
-                                  _selectedPlayers[index].playerId;
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  //! Action Buttons
-                  if (!widget.isSender)
-                    Row(
-                      spacing: 20,
-                      children: [
-                        const SizedBox(),
-                        Expanded(
-                          child: SizedBox(
-                            height: 50,
-                            child: MyElevatedButton.secondaryElevatedButton(
-                              context,
-                              text: 'Reject',
-                              fontSize: 16,
-                              onPressed: () {},
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 50,
-                            child: MyElevatedButton.primaryElevatedButton(
-                              context,
-                              onPressed: _acceptChallenge,
-                              fontSize: 16,
-                              text: 'Accept',
-                              primaryColor:
-                                  const Color.fromARGB(255, 43, 114, 45),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(),
-                      ],
-                    ),
+                  _buildTeamsSection(),
+                  _buildMatchDetailsSection(),
+                  _buildSquadSections(),
+                  _buildRolesSection(),
+                  if (!widget.isSender) _buildActionButtons(),
                   const SizedBox(height: 20),
                 ],
               ),
@@ -361,7 +213,155 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     );
   }
 
-  Widget matchDetailRow(String title, String value, BuildContext context) {
+  Widget _buildTeamsSection() {
+    return MyCard(
+      child: Column(
+        children: [
+          getTitleText('Teams', context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TeamColumn(
+                teamName: widget.challenge.challengerTeam.teamName,
+                teamLogo: widget.challenge.challengerTeam.logoUrl,
+              ),
+              Text(
+                'v/s',
+                style: MyTextStyle(context).boldBodyLarge,
+              ),
+              TeamColumn(
+                teamName: widget.challenge.challengedTeam.teamName,
+                teamLogo: widget.challenge.challengedTeam.logoUrl,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMatchDetailsSection() {
+    final details = [
+      ['No of players', widget.challenge.noOfPlayers.toString()],
+      ['Match Format', widget.challenge.overs.name],
+      ['Match type', widget.challenge.matchType.name],
+      ['Spectator', widget.challenge.allowSpectator ? 'Allow' : 'Not allow'],
+      ['Date', DateFormat.yMMMd().format(widget.challenge.schedule)],
+      ['Time', DateFormat.Hms().format(widget.challenge.schedule)],
+      ['Venue', widget.challenge.venue],
+    ];
+
+    return MyCard(
+      child: Column(
+        children: [
+          getTitleText('Match Details', context),
+          ...details
+              .map((detail) => _matchDetailRow(detail[0], detail[1], context)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSquadSections() {
+    return Column(
+      children: [
+        MyCard(
+          child: ValueListenableBuilder<List<MatchPlayerInfo>>(
+            valueListenable: _selectedPlayers,
+            builder: (context, players, _) => MatchSquad(
+              selectedPlayer: _challenge.challengerPlayers,
+              captainId: _captainId.value,
+              wicketkeeperId: _wicketkeeperId.value,
+              isPlayerCanAdd: false,
+              title: widget.isSender ? 'Your Squad' : 'Challenger Squad',
+            ),
+          ),
+        ),
+        MyCard(
+          child: ValueListenableBuilder<List<MatchPlayerInfo>>(
+            valueListenable: _selectedPlayers,
+            builder: (context, players, _) => MatchSquad(
+              selectedPlayer: players,
+              captainId: _captainId.value,
+              wicketkeeperId: _wicketkeeperId.value,
+              isPlayerCanAdd: !widget.isSender,
+              onAdd: onAddPlayer,
+              title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRolesSection() {
+    return MyCard(
+      child: Column(
+        children: [
+          getTitleText('Roles', context),
+          MyDropdownMenu(
+            options: _playersName,
+            label: 'Change Captaincy',
+            controller: _captainController,
+            onSelect: (value) {
+              if (value != null) {
+                final index = _playersName.indexOf(value);
+                _captainId.value = _selectedPlayers.value[index].playerId;
+              }
+            },
+          ),
+          const SizedBox(height: 12),
+          MyDropdownMenu(
+            options: _playersName,
+            label: 'Change Wicketkeeper',
+            controller: _wicketkeeperController,
+            onSelect: (value) {
+              if (value != null) {
+                final index = _playersName.indexOf(value);
+                _wicketkeeperId.value = _selectedPlayers.value[index].playerId;
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 50,
+              child: MyElevatedButton.secondaryElevatedButton(
+                context,
+                text: 'Reject',
+                fontSize: 16,
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: SizedBox(
+              height: 50,
+              child: MyElevatedButton.primaryElevatedButton(
+                context,
+                onPressed: _acceptChallenge,
+                fontSize: 16,
+                text: 'Accept',
+                primaryColor: const Color.fromARGB(255, 43, 114, 45),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _matchDetailRow(String title, String value, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
