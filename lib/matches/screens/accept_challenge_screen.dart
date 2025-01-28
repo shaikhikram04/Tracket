@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
+import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_section.dart';
@@ -12,7 +13,6 @@ import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class AcceptChallengeScreen extends StatefulWidget {
   const AcceptChallengeScreen({
@@ -201,12 +201,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  TeamSection(
-                    team1Name: widget.challenge.challengerTeam.teamName,
-                    team1Logo: widget.challenge.challengerTeam.logoUrl,
-                    team2Name: widget.challenge.challengedTeam.teamName,
-                    team2Logo: widget.challenge.challengedTeam.logoUrl,
-                  ),
+                  _buildTeamsSection(),
                   _buildMatchDetailsSection(),
                   _buildSquadSections(),
                   _buildRolesSection(),
@@ -272,37 +267,23 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     );
   }
 
-  Widget _buildRolesSection() {
-    return MyCard(
-      child: Column(
-        children: [
-          getTitleText('Roles', context),
-          MyDropdownMenu(
-            options: _playersName,
-            label: 'Change Captaincy',
-            controller: _captainController,
-            onSelect: (value) {
-              if (value != null) {
-                final index = _playersName.indexOf(value);
-                _captainId.value = _selectedPlayers.value[index].playerId;
-              }
-            },
-          ),
-          const SizedBox(height: 12),
-          MyDropdownMenu(
-            options: _playersName,
-            label: 'Change Wicketkeeper',
-            controller: _wicketkeeperController,
-            onSelect: (value) {
-              if (value != null) {
-                final index = _playersName.indexOf(value);
-                _wicketkeeperId.value = _selectedPlayers.value[index].playerId;
-              }
-            },
-          ),
-        ],
-      ),
+  Widget _buildTeamsSection() {
+    return TeamSection(
+      team1Name: widget.challenge.challengerTeam.teamName,
+      team1Logo: widget.challenge.challengerTeam.logoUrl,
+      team2Name: widget.challenge.challengedTeam.teamName,
+      team2Logo: widget.challenge.challengedTeam.logoUrl,
     );
+  }
+
+  Widget _buildRolesSection() {
+    return CaptainAndWicketkeeperDropdown(
+        playersName: _playersName,
+        captainController: _captainController,
+        captainId: _captainId,
+        selectedPlayers: _selectedPlayers,
+        wicketkeeperController: _wicketkeeperController,
+        wicketkeeperId: _wicketkeeperId);
   }
 
   Widget _buildActionButtons() {

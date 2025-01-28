@@ -4,6 +4,7 @@ import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
+import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
 import 'package:tracket/matches/widgets/team_section.dart';
@@ -50,14 +51,14 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   TimeOfDay _matchTime = TimeOfDay.now();
   String? _venue;
   bool _isLoading = false;
-  List<MatchPlayerInfo> _selectedPlayer = [];
+  ValueNotifier<List<MatchPlayerInfo>> _selectedPlayer = ValueNotifier([]);
   String? _matchType;
   String? _matchFormat;
   late Team _challengerTeam;
   final _formKey = GlobalKey<FormState>();
   bool _isChallenging = false;
-  String _captainId = '';
-  String _wicketkeeperId = '';
+  ValueNotifier<String> _captainId = ValueNotifier('');
+  ValueNotifier<String> _wicketkeeperId = ValueNotifier('');
   late TextEditingController _captainController;
   late TextEditingController _wicketkeeperController;
 
@@ -74,7 +75,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
   List<String> get _playerNames {
     List<String> playerNames = [];
-    for (var player in _selectedPlayer) {
+    for (var player in _selectedPlayer.value) {
       playerNames.add(player.playerName.toUpperCase());
     }
 
@@ -110,7 +111,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       builder: (context) => PlayersSelectionDialog(
         playerList:
             MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
-        selectedPlayers: _selectedPlayer,
+        selectedPlayers: _selectedPlayer.value,
         noOfPlayerCanBeSelected: _noOfPlayers.toInt(),
       ),
     );
@@ -120,15 +121,15 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       final wicketkeeper = _wicketkeeperController.text;
 
       setState(() {
-        _selectedPlayer = result.map((player) {
+        _selectedPlayer.value = result.map((player) {
           if (captain.isEmpty && player.playerId == _challengerTeam.captainId) {
             _captainController.text = player.playerName.toUpperCase();
-            _captainId = player.playerId;
+            _captainId.value = player.playerId;
           }
           if (wicketkeeper.isEmpty &&
               player.playerId == _challengerTeam.wicketkeeperId) {
             _wicketkeeperController.text = player.playerName.toUpperCase();
-            _wicketkeeperId = player.playerId;
+            _wicketkeeperId.value = player.playerId;
           }
           return player.copyWith();
         }).toList();
@@ -141,15 +142,15 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       showSnackBar('Please fill all details', context);
       return;
     }
-    if (_selectedPlayer.isEmpty) {
+    if (_selectedPlayer.value.isEmpty) {
       showSnackBar('Please select player for match', context);
       return;
     }
-    if (_captainId.isEmpty) {
+    if (_captainId.value.isEmpty) {
       showSnackBar('Please select team captain', context);
       return;
     }
-    if (_wicketkeeperId.isEmpty) {
+    if (_wicketkeeperId.value.isEmpty) {
       showSnackBar('Please select team wicketkeeper', context);
       return;
     }
@@ -170,8 +171,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       logoUrl: _challengerTeam.logoUrl,
       teamName: _challengerTeam.name,
       shortName: _challengerTeam.shortName,
-      captainId: _captainId,
-      wicketkeeperId: _wicketkeeperId,
+      captainId: _captainId.value,
+      wicketkeeperId: _wicketkeeperId.value,
     );
 
     try {
@@ -186,7 +187,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         challengerName: widget.challengerName,
         allowSpectators: _allowSpectators,
         noOfPlayers: _noOfPlayers.toInt(),
-        challengerPlayers: _selectedPlayer,
+        challengerPlayers: _selectedPlayer.value,
         matchType: _matchType!,
       );
 
@@ -322,49 +323,20 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                     //! Select Squad
                     MyCard(
                       child: MatchSquad(
-                        selectedPlayer: _selectedPlayer,
-                        captainId: _captainId,
-                        wicketkeeperId: _wicketkeeperId,
+                        selectedPlayer: _selectedPlayer.value,
+                        captainId: _captainId.value,
+                        wicketkeeperId: _wicketkeeperId.value,
                         onAdd: onAddPlayer,
                       ),
                     ),
                     //! Roles
-                    MyCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        spacing: 12,
-                        children: [
-                          getTitleText('Roles', context),
-                          //! Captain, Wicketkeeper
-                          MyDropdownMenu(
-                            options: _playerNames,
-                            label: 'Change Captaincy',
-                            controller: _captainController,
-                            onSelect: (value) {
-                              setState(() {
-                                int index = _playerNames
-                                    .indexWhere((name) => name == value);
-
-                                _captainId = _selectedPlayer[index].playerId;
-                              });
-                            },
-                          ),
-                          MyDropdownMenu(
-                            options: _playerNames,
-                            label: 'Change Wicketkeeper',
-                            controller: _wicketkeeperController,
-                            onSelect: (value) {
-                              setState(() {
-                                int index = _playerNames
-                                    .indexWhere((name) => name == value);
-
-                                _wicketkeeperId =
-                                    _selectedPlayer[index].playerId;
-                              });
-                            },
-                          )
-                        ],
-                      ),
+                    CaptainAndWicketkeeperDropdown(
+                      playersName: _playerNames,
+                      captainController: _captainController,
+                      captainId: _captainId,
+                      selectedPlayers: _selectedPlayer,
+                      wicketkeeperController: _wicketkeeperController,
+                      wicketkeeperId: _wicketkeeperId,
                     ),
                     //! Match Venue
                     MyCard(
