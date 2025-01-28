@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
+import 'package:tracket/matches/utils/utils.dart';
 import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
@@ -101,9 +102,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     }
   }
 
-  List<String> get _playersName => _selectedPlayers.value
-      .map((player) => player.playerName.toUpperCase())
-      .toList();
+  
 
   Future<void> onAddPlayer() async {
     final result = await showDialog<List<MatchPlayerInfo>>(
@@ -278,7 +277,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
 
   Widget _buildRolesSection() {
     return CaptainAndWicketkeeperDropdown(
-        playersName: _playersName,
+        playersName: getPlayerNames(_selectedPlayers),
         captainController: _captainController,
         captainId: _captainId,
         selectedPlayers: _selectedPlayers,
