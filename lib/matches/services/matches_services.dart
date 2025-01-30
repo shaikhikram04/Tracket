@@ -48,13 +48,13 @@ class MatchesServices {
       venue: matchVenue,
       overs: MatchFormat.values[matchFormatIndex],
       matchType: Match.getMatchType(matchType),
+      status: ChallengeStatus.pending,
     );
 
     final notification = model.Notification.challenge(
       notificationId: _uuid.v4(),
       from: challengerTeam.teamId,
       to: challengedTeam.teamId,
-      type: model.NotificationType.matchChallenge,
       createdAt: Timestamp.now(),
       status: model.NotificationStatus.pending,
       read: false,

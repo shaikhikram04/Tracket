@@ -6,7 +6,11 @@ import 'package:tracket/matches/models/match_team_info.dart';
 enum ChallengeStatus {
   pending,
   accept,
-  decline,
+  decline;
+
+  bool get isPending => this == ChallengeStatus.pending;
+  bool get isAccepted => this == ChallengeStatus.accept;
+  bool get isDeclined => this == ChallengeStatus.decline;
 }
 
 class ChallengeMatch {
@@ -24,6 +28,7 @@ class ChallengeMatch {
     required this.venue,
     required this.schedule,
     required this.matchType,
+    required this.status,
   });
 
   final MatchTeamInfo challengerTeam;
@@ -37,6 +42,7 @@ class ChallengeMatch {
   final Timestamp updatedAt;
   final int noOfPlayers;
   final MatchType matchType;
+  final ChallengeStatus status;
   List<MatchPlayerInfo> challengerPlayers;
   List<MatchPlayerInfo> challengedPlayers;
 
@@ -51,28 +57,71 @@ class ChallengeMatch {
         'allowSpectator': allowSpectator,
         'updatedAt': updatedAt,
         'noOfPlayers': noOfPlayers,
-        'matchType': matchType.name
+        'matchType': matchType.name,
+        'status': status.name
       };
 
-  static ChallengeMatch formMap(
-    Map<String, dynamic> snap,
+  factory ChallengeMatch.fromMap(
+    Map<String, dynamic> map, {
     List<QueryDocumentSnapshot>? challengerPlayer,
     List<QueryDocumentSnapshot>? challengedPlayer,
-  ) =>
+  }) =>
       ChallengeMatch(
-        challengedTeam: MatchTeamInfo.fromMap(snap['challengedTeam']),
-        challengerId: snap['challengerId'],
-        challengerName: snap['challengerName'],
-        challengerTeam: MatchTeamInfo.fromMap(snap['challengerTeam']),
-        updatedAt: snap['updatedAt'],
-        allowSpectator: snap['allowSpectator'],
-        challengedPlayers: [],
-        challengerPlayers: [],
-        noOfPlayers: snap['noOfPlayers'],
-        overs: Match.getMatchFormat(snap['overs']),
-        venue: snap['venue'],
-        schedule: snap['schedule'].toDate(),
-        matchType: Match.getMatchType(snap['matchType']),
+        challengedTeam: MatchTeamInfo.fromMap(map['challengedTeam']),
+        challengerId: map['challengerId'] as String,
+        challengerName: map['challengerName'] as String,
+        challengerTeam: MatchTeamInfo.fromMap(map['challengerTeam']),
+        updatedAt: map['updatedAt'] as Timestamp,
+        allowSpectator: map['allowSpectator'] as bool,
+        challengedPlayers: challengedPlayer
+                ?.map((doc) =>
+                    MatchPlayerInfo.fromMap(doc.data() as Map<String, dynamic>))
+                .toList() ??
+            [],
+        challengerPlayers: challengerPlayer
+                ?.map((doc) =>
+                    MatchPlayerInfo.fromMap(doc.data() as Map<String, dynamic>))
+                .toList() ??
+            [],
+        noOfPlayers: map['noOfPlayers'] as int,
+        overs: Match.getMatchFormat(map['overs'] as String),
+        venue: map['venue'] as String,
+        schedule: (map['schedule'] as Timestamp).toDate(),
+        matchType: Match.getMatchType(map['matchType'] as String),
+        status: map['status'],
+      );
+
+  ChallengeMatch copyWith({
+    MatchTeamInfo? challengerTeam,
+    MatchTeamInfo? challengedTeam,
+    String? challengerId,
+    String? challengerName,
+    MatchFormat? overs,
+    String? venue,
+    DateTime? schedule,
+    bool? allowSpectator,
+    Timestamp? updatedAt,
+    int? noOfPlayers,
+    MatchType? matchType,
+    List<MatchPlayerInfo>? challengerPlayers,
+    List<MatchPlayerInfo>? challengedPlayers,
+    ChallengeStatus? status,
+  }) =>
+      ChallengeMatch(
+        challengerTeam: challengerTeam ?? this.challengerTeam,
+        challengedTeam: challengedTeam ?? this.challengedTeam,
+        challengerId: challengerId ?? this.challengerId,
+        challengerName: challengerName ?? this.challengerName,
+        overs: overs ?? this.overs,
+        venue: venue ?? this.venue,
+        schedule: schedule ?? this.schedule,
+        allowSpectator: allowSpectator ?? this.allowSpectator,
+        updatedAt: updatedAt ?? this.updatedAt,
+        noOfPlayers: noOfPlayers ?? this.noOfPlayers,
+        matchType: matchType ?? this.matchType,
+        challengerPlayers: challengerPlayers ?? this.challengerPlayers,
+        challengedPlayers: challengedPlayers ?? this.challengedPlayers,
+        status: status ?? this.status,
       );
 
   void setChallengerPlayers(List<MatchPlayerInfo> players) {
@@ -83,8 +132,13 @@ class ChallengeMatch {
     challengedPlayers = players;
   }
 
-  void setCaptainAndWicketkeeper(String captainId, String wicketkeeperId) {
+  void updateTeamDetails({
+    required String captainId,
+    required String wicketkeeperId,
+  }) {
     challengedTeam = challengedTeam.copyWith(
-        captainId: captainId, wicketkeeperId: wicketkeeperId);
+      captainId: captainId,
+      wicketkeeperId: wicketkeeperId,
+    );
   }
 }

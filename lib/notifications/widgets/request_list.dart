@@ -82,7 +82,12 @@ class _RequestListState extends ConsumerState<RequestList> {
           ),
           onAcceptRequest: (WidgetRef ref) =>
               _acceptRequest(request, index, isPlayer, ref),
-          onRejectRequest: () => _rejectRequest(context, index, requestData),
+          onRejectRequest: () => _rejectRequest(
+            context,
+            index: index,
+            requestData: requestData,
+            type: request.type,
+          ),
         );
       },
     );
@@ -182,10 +187,11 @@ class _RequestListState extends ConsumerState<RequestList> {
   }
 
   void _rejectRequest(
-    BuildContext context,
-    int index,
-    QueryDocumentSnapshot<Map<String, dynamic>> requestData,
-  ) async {
+    BuildContext context, {
+    required int index,
+    required QueryDocumentSnapshot<Map<String, dynamic>> requestData,
+    required model.NotificationType type,
+  }) async {
     // Cancel any existing timer for this index
     activeTimers[index]?.cancel();
 
@@ -207,9 +213,6 @@ class _RequestListState extends ConsumerState<RequestList> {
     // Start a new timer for the current reject operation
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
-        // Perform the actual deletion
-        model.NotificationType type =
-            model.Notification.getType(requestData['type']);
         String playerId;
         String teamId;
         if (type == model.NotificationType.offerPlayerRequest) {

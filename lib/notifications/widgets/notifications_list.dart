@@ -78,8 +78,12 @@ class _NotificationsListState extends State<NotificationsList> {
             onCancelRequest: () {},
             onAcceptRequest: (WidgetRef ref) =>
                 _acceptRequest(notification, index, isPlayerRequest, ref),
-            onRejectRequest: () =>
-                _rejectNotification(context, index, notificationData),
+            onRejectRequest: () => _rejectNotification(
+              context,
+              index: index,
+              notificationData: notificationData,
+              notificationType: notification.type,
+            ),
           );
         }
         if (isChallenge) {
@@ -87,8 +91,12 @@ class _NotificationsListState extends State<NotificationsList> {
             challenge: notification,
             isSent: false,
             onCanceChallenge: () {},
-            onRejectChallenge: () =>
-                _rejectNotification(context, index, notificationData),
+            onRejectChallenge: () => _rejectNotification(
+              context,
+              index: index,
+              notificationData: notificationData,
+              notificationType: notification.type,
+            ),
           );
         }
 
@@ -168,10 +176,11 @@ class _NotificationsListState extends State<NotificationsList> {
   }
 
   void _rejectNotification(
-    BuildContext context,
-    int index,
-    QueryDocumentSnapshot<Map<String, dynamic>> notificationData,
-  ) async {
+    BuildContext context, {
+    required int index,
+    required QueryDocumentSnapshot<Map<String, dynamic>> notificationData,
+    required model.NotificationType notificationType,
+  }) async {
     // Cancel any existing timer for this index
     activeTimers[index]?.cancel();
 
@@ -193,16 +202,13 @@ class _NotificationsListState extends State<NotificationsList> {
     // Start a new timer for the current reject operation
     activeTimers[index] = Timer(const Duration(seconds: 5), () {
       if (!isUndo) {
-        // Perform the actual deletion
-        model.NotificationType type =
-            model.Notification.getType(notificationData['type']);
         String? playerId;
         String teamId;
         String? challengedTeamId;
-        if (type == model.NotificationType.offerPlayerRequest) {
+        if (notificationType == model.NotificationType.offerPlayerRequest) {
           playerId = notificationData['to'];
           teamId = notificationData['from'];
-        } else if (type == model.NotificationType.teamJoinRequest) {
+        } else if (notificationType == model.NotificationType.teamJoinRequest) {
           playerId = notificationData['from'];
           teamId = notificationData['to'];
         } else {
@@ -211,7 +217,7 @@ class _NotificationsListState extends State<NotificationsList> {
         }
         NotificationServices.deleteNotification(
           notificationId: notificationData.id,
-          type: type,
+          type: notificationType,
           context: context,
           playerId: playerId,
           teamId: teamId,

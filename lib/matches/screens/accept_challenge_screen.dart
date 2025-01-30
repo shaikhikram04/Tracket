@@ -102,8 +102,6 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     }
   }
 
-  
-
   Future<void> onAddPlayer() async {
     final result = await showDialog<List<MatchPlayerInfo>>(
       context: context,
@@ -159,9 +157,9 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
 
     try {
       _challenge.setChallengedPlayers(_selectedPlayers.value);
-      _challenge.setCaptainAndWicketkeeper(
-        _captainId.value,
-        _wicketkeeperId.value,
+      _challenge.updateTeamDetails(
+        captainId: _captainId.value,
+        wicketkeeperId: _wicketkeeperId.value,
       );
 
       await MatchesServices.acceptChallenge(
