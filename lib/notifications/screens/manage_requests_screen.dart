@@ -1,66 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
+import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
+import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
 import 'package:tracket/notifications/widgets/requests_fetcher.dart';
-import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
-class ManageRequestsScreen extends StatefulWidget {
-  const ManageRequestsScreen({super.key, this.teamId, this.initialIndex = 0});
+class ManageRequestsScreen extends BaseTabScreen {
+  const ManageRequestsScreen({super.key, super.initialIndex, this.teamId});
 
   final String? teamId;
-  final int initialIndex;
 
   @override
   State<ManageRequestsScreen> createState() => _RequestsScreenState();
 }
 
 class _RequestsScreenState extends State<ManageRequestsScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+    with SingleTickerProviderStateMixin, TabControllerMixin {
+  static const _tabs = [
+    NotificationTabConfig(
+      text: 'Received',
+      icon: Icons.arrow_downward,
+    ),
+    NotificationTabConfig(
+      text: 'Sent',
+      icon: Icons.arrow_upward,
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-        length: 2, initialIndex: widget.initialIndex, vsync: this);
+    initTabController(
+      _tabs.length,
+      initialIndex: widget.initialIndex,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          dividerColor: Theme.of(context).colorScheme.secondary,
-          indicatorSize: TabBarIndicatorSize.tab,
-          controller: _tabController,
-          unselectedLabelColor: unSelectColor,
-          labelColor: darkGreenColor,
-          labelStyle: MyTextStyle(context).boldBodyLarge,
-          unselectedLabelStyle: MyTextStyle(context).bodyLarge,
-          tabs: const [
-            Tab(
-              text: 'Received',
-              icon: Icon(Icons.arrow_downward),
+        buildTabBar(tabs: _tabs),
+        buildTabBarView(
+          children: [
+            RequestsFetcher(
+              field: 'to',
+              teamId: widget.teamId,
             ),
-            Tab(
-              text: 'Sent',
-              icon: Icon(Icons.arrow_upward),
+            RequestsFetcher(
+              field: 'from',
+              teamId: widget.teamId,
             ),
           ],
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              RequestsFetcher(
-                field: 'to',
-                teamId: widget.teamId,
-              ),
-              RequestsFetcher(
-                field: 'from',
-                teamId: widget.teamId,
-              ),
-            ],
-          ),
         ),
       ],
     );
