@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/widgets/player_column.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
@@ -109,17 +110,10 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
                           color: isAdded ? lightCardColor : null,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Column(
-                          children: [
-                            getCircleAvatar(
-                              url: player.profileImageUrl,
-                              isTeam: false,
-                              radius: 35,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(player.playerName),
-                            Text(player.cricketRole.name),
-                          ],
+                        child: PlayerColumn(
+                          profileImageUrl: player.profileImageUrl,
+                          playerName: player.playerName,
+                          cricketRole: player.cricketRole,
                         ),
                       ),
                     );
