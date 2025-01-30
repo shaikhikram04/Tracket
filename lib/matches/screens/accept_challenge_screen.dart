@@ -241,7 +241,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           child: ValueListenableBuilder<List<MatchPlayerInfo>>(
             valueListenable: _selectedPlayers,
             builder: (context, players, _) => MatchSquad(
-              selectedPlayer: _challenge.challengerPlayers,
+              selectedPlayers: _challenge.challengerPlayers,
               captainId: _captainId.value,
               wicketkeeperId: _wicketkeeperId.value,
               isPlayerCanAdd: false,
@@ -253,11 +253,11 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           child: ValueListenableBuilder<List<MatchPlayerInfo>>(
             valueListenable: _selectedPlayers,
             builder: (context, players, _) => MatchSquad(
-              selectedPlayer: players,
+              selectedPlayers: players,
               captainId: _captainId.value,
               wicketkeeperId: _wicketkeeperId.value,
               isPlayerCanAdd: !widget.isSender,
-              onAdd: onAddPlayer,
+              onAddPressed: onAddPlayer,
               title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
             ),
           ),

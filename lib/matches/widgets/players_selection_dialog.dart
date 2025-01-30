@@ -22,35 +22,35 @@ class PlayersSelectionDialog extends StatefulWidget {
 }
 
 class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
-  List<MatchPlayerInfo> _sPlayers = [];
+  static const double _padding = 20.0;
+  static const double _spacing = 10.0;
+  static const double _dialogHeightFactor = 0.5;
+
+  late final List<MatchPlayerInfo> _selectedPlayers;
 
   @override
   void initState() {
-    _sPlayers =
+    _selectedPlayers =
         widget.selectedPlayers.map((player) => player.copyWith()).toList();
 
     super.initState();
   }
 
-  void _onSelect(MatchPlayerInfo player, bool isAdded) {
-    if (isAdded) {
-      setState(() {
-        _sPlayers.removeWhere((p) => p.playerId == player.playerId);
-      });
-    } else {
-      if (_sPlayers.length >= widget.noOfPlayerCanBeSelected) {
+  void _handlePlayerSelection(MatchPlayerInfo player, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedPlayers.removeWhere((p) => p.playerId == player.playerId);
+      } else if (_selectedPlayers.length < widget.noOfPlayerCanBeSelected) {
+        _selectedPlayers.add(player.copyWith());
+      } else {
         showSnackBar('Players has reached its max capacity', context);
-        return;
       }
-      setState(() {
-        _sPlayers.add(player.copyWith());
-      });
-    }
+    });
   }
 
-  void _onSubmit() {
+  void _handleSubmit() {
     final requiredPlayerLen = widget.noOfPlayerCanBeSelected;
-    final selectedPlayerLen = _sPlayers.length;
+    final selectedPlayerLen = _selectedPlayers.length;
     final moreToSelect = requiredPlayerLen - selectedPlayerLen;
     //! make sure that all required players are selected
     // if (selectedPlayerLen != requiredPlayerLen) {
@@ -62,82 +62,98 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
 
     //   return;
     // }
-    Navigator.of(context).pop(_sPlayers);
-  }
-
-  @override
-  void dispose() {
-    _sPlayers.clear();
-    super.dispose();
+    Navigator.of(context).pop(_selectedPlayers);
   }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
     return Dialog(
       child: SizedBox(
-        height: height * 0.5,
+        height: height * _dialogHeightFactor,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(_padding),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  getTitleText('Select players', context),
-                  Text('${_sPlayers.length}/${widget.noOfPlayerCanBeSelected}')
-                ],
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: widget.playerList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    final MatchPlayerInfo player = widget.playerList[index];
-                    final isAdded = _sPlayers.any(
-                        (playerData) => playerData.playerId == player.playerId);
-                    return InkWell(
-                      onTap: () => _onSelect(player, isAdded),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          color: isAdded ? lightCardColor : null,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: PlayerColumn(
-                          profileImageUrl: player.profileImageUrl,
-                          playerName: player.playerName,
-                          cricketRole: player.cricketRole,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                spacing: 10,
-                children: [
-                  MyTextButton(
-                    text: 'Cancel',
-                    onPressed: () => Navigator.of(context).pop(null),
-                  ),
-                  MyTextButton(
-                    text: 'Submit',
-                    onPressed: _onSubmit,
-                  ),
-                ],
-              )
+              _buildHeader(),
+              const SizedBox(height: _spacing),
+              _buildPlayerGrid(),
+              _buildActionButtons(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        getTitleText('Select players', context),
+        Text('${_selectedPlayers.length}/${widget.noOfPlayerCanBeSelected}')
+      ],
+    );
+  }
+
+  Widget _buildPlayerGrid() {
+    return Expanded(
+      child: GridView.builder(
+        itemCount: widget.playerList.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 0.8,
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+        ),
+        itemBuilder: _buildPlayerItem,
+      ),
+    );
+  }
+
+  Widget _buildPlayerItem(BuildContext context, int index) {
+    final player = widget.playerList[index];
+    final isSelected = _selectedPlayers
+        .any((selectedPlayer) => selectedPlayer.playerId == player.playerId);
+
+    return InkWell(
+      onTap: () => _handlePlayerSelection(player, isSelected),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          color: isSelected ? lightCardColor : null,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: PlayerColumn(
+          profileImageUrl: player.profileImageUrl,
+          playerName: player.playerName,
+          cricketRole: player.cricketRole,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      spacing: 10,
+      children: [
+        MyTextButton(
+          text: 'Cancel',
+          onPressed: () => Navigator.of(context).pop(null),
+        ),
+        MyTextButton(
+          text: 'Submit',
+          onPressed: _handleSubmit,
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _selectedPlayers.clear();
+    super.dispose();
   }
 }

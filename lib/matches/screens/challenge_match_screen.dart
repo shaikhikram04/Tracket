@@ -388,10 +388,10 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   Widget _buildSquadSelection() {
     return MyCard(
       child: MatchSquad(
-        selectedPlayer: _selectedPlayers.value,
+        selectedPlayers: _selectedPlayers.value,
         captainId: _captainId.value,
         wicketkeeperId: _wicketkeeperId.value,
-        onAdd: onAddPlayer,
+        onAddPressed: onAddPlayer,
       ),
     );
   }
