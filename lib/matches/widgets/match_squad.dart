@@ -7,18 +7,22 @@ import 'package:tracket/widgets/no_data_found.dart';
 class MatchSquad extends StatelessWidget {
   const MatchSquad({
     super.key,
-    required this.selectedPlayer,
+    required this.selectedPlayers,
     required this.captainId,
     required this.wicketkeeperId,
-    this.onAdd,
+    this.onAddPressed,
     this.isPlayerCanAdd = true,
     this.title = 'Squad',
   });
 
-  final List<MatchPlayerInfo> selectedPlayer;
+  static const double _titleFontSize = 23.0;
+  static const double _iconSize = 30.0;
+  static const double _verticalSpacing = 10.0;
+
+  final List<MatchPlayerInfo> selectedPlayers;
   final String captainId;
   final String wicketkeeperId;
-  final void Function()? onAdd;
+  final VoidCallback? onAddPressed;
   final bool isPlayerCanAdd;
   final String title;
 
@@ -28,51 +32,57 @@ class MatchSquad extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: MyTextStyle(context).titleMedium.copyWith(fontSize: 23),
-            ),
-            const Spacer(),
-            if (isPlayerCanAdd)
-              IconButton(
-                onPressed: onAdd,
-                iconSize: 30,
-                icon: const Icon(Icons.group_add),
-              )
-          ],
-        ),
-        const SizedBox(height: 10),
-        selectedPlayer.isEmpty
-            ? NoDataFound(
-                title: 'No Player selected yet!',
-                message: isPlayerCanAdd
-                    ? 'Tap the button above to select player.'
-                    : '',
-                isPointingButton: isPlayerCanAdd,
-              )
-            : Column(
-                children: List.generate(
-                  selectedPlayer.length,
-                  (index) {
-                    final playerDetail = selectedPlayer[index];
-                    final playerId = playerDetail.playerId;
-                    final isCaptain = captainId == playerId;
-                    final isWicketKeeper = wicketkeeperId == playerId;
-                    return PlayerTile(
-                      cricketRole: playerDetail.cricketRole,
-                      playerId: playerId,
-                      playerName: playerDetail.playerName,
-                      profileImageUrl: playerDetail.profileImageUrl,
-                      isCaptain: isCaptain,
-                      isWicketKeeper: isWicketKeeper,
-                      isEdit: false,
-                    );
-                  },
-                ),
-              ),
+        _buildHeader(context),
+        const SizedBox(height: _verticalSpacing),
+        _buildPlayersList(),
       ],
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: MyTextStyle(context).titleMedium.copyWith(
+                fontSize: _titleFontSize,
+              ),
+        ),
+        const Spacer(),
+        if (isPlayerCanAdd)
+          IconButton(
+            onPressed: onAddPressed,
+            iconSize: _iconSize,
+            icon: const Icon(Icons.group_add),
+          )
+      ],
+    );
+  }
+
+  Widget _buildPlayersList() {
+    if (selectedPlayers.isEmpty) {
+      return NoDataFound(
+        title: 'No Player selected yet!',
+        message: isPlayerCanAdd ? 'Tap the button above to select player.' : '',
+        isPointingButton: isPlayerCanAdd,
+      );
+    }
+
+    return Column(
+      children:
+          selectedPlayers.map((player) => _buildPlayerTile(player)).toList(),
+    );
+  }
+
+  Widget _buildPlayerTile(MatchPlayerInfo player) {
+    return PlayerTile(
+      cricketRole: player.cricketRole,
+      playerId: player.playerId,
+      playerName: player.playerName,
+      profileImageUrl: player.profileImageUrl,
+      isCaptain: captainId == player.playerId,
+      isWicketKeeper: wicketkeeperId == player.playerId,
+      isEdit: false,
     );
   }
 }
