@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/notifications/screens/manage_challenges_screen.dart';
 import 'package:tracket/notifications/screens/manage_requests_screen.dart';
+import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
+import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
+import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
 import 'package:tracket/notifications/widgets/notifications_fetcher.dart';
-import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
-class NotificationsScreen extends StatefulWidget {
+class NotificationsScreen extends BaseTabScreen {
   const NotificationsScreen({super.key});
 
   @override
@@ -13,13 +14,17 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+    with SingleTickerProviderStateMixin, TabControllerMixin {
+  static const _tabs = [
+    NotificationTabConfig(text: 'All'),
+    NotificationTabConfig(text: 'Requests'),
+    NotificationTabConfig(text: 'Challenge'),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    initTabController(_tabs.length);
   }
 
   @override
@@ -30,30 +35,14 @@ class _NotificationsScreenState extends State<NotificationsScreen>
       ),
       body: Column(
         children: [
-          TabBar(
-            dividerColor: Theme.of(context).colorScheme.secondary,
-            indicatorSize: TabBarIndicatorSize.tab,
-            controller: _tabController,
-            unselectedLabelColor: unSelectColor,
-            labelColor: darkGreenColor,
-            labelStyle: MyTextStyle(context).boldBodyLarge,
-            unselectedLabelStyle: MyTextStyle(context).bodyLarge,
-            tabs: const [
-              Tab(text: 'All'),
-              Tab(text: 'requests'),
-              Tab(text: 'challenge'),
+          buildTabBar(tabs: _tabs),
+          buildTabBarView(
+            children: const [
+              NotificationsFetcher(),
+              ManageRequestsScreen(),
+              ManageChallengesScreen(),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: const [
-                NotificationsFetcher(),
-                ManageRequestsScreen(),
-                ManageChallengesScreen(),
-              ],
-            ),
-          )
         ],
       ),
     );
