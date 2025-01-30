@@ -11,24 +11,27 @@ class TeamSection extends StatelessWidget {
     required this.team1Logo,
     required this.team2Name,
     required this.team2Logo,
+    this.vsText = 'v/s',
   });
 
   final String team1Name;
   final String team1Logo;
   final String team2Name;
   final String team2Logo;
+  final String vsText;
 
   @override
   Widget build(BuildContext context) {
     return MyCard(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           getTitleText('Teams', context),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TeamColumn(teamName: team1Name, teamLogo: team1Logo),
-              Text('v/s', style: MyTextStyle(context).boldBodyLarge),
+              Text(vsText, style: MyTextStyle(context).boldBodyLarge),
               TeamColumn(teamName: team2Name, teamLogo: team2Logo),
             ],
           ),
