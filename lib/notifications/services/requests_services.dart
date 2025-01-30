@@ -1,34 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/models/notification_result.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
 
 class RequestsServices {
   static final _firestore = FirebaseFirestore.instance;
 
-  static Future<void> offerPlayerToJoinTeam({
+  
+
+  Future<NotificationResult> offerPlayerToJoinTeam({
     required TeamDetails teamInfo,
     required PlayerDetails playerInfo,
-    required BuildContext context,
   }) async {
-    var notification = model.Notification.request(
-      notificationId: uuid.v4(),
+    final notification = _createNotification(
       from: teamInfo.id,
       to: playerInfo.id,
       type: model.NotificationType.offerPlayerRequest,
-      createdAt: Timestamp.now(),
-      status: model.NotificationStatus.pending,
-      read: false,
-      title: 'title',
-      body: 'body',
-      teamDetails: teamInfo,
-      playerDetails: playerInfo,
+      teamInfo: teamInfo,
+      playerInfo: playerInfo,
     );
 
     try {
@@ -37,50 +31,65 @@ class RequestsServices {
           .doc(notification.notificationId)
           .set(notification.toMap);
 
-      TeamsServices.updateRequestedPlayers(
-          playerId: playerInfo.id, teamId: teamInfo.id, isAdding: true);
-    } catch (e) {
-      if (context.mounted) {
-        showSnackBar(
-            'Failed to send request. Please try again later.', context);
-      }
-    }
-  }
-
-  static Future<void> joinRequestToTeam({
-    required PlayerDetails playerInfo,
-    required TeamDetails teamInfo,
-    required BuildContext context,
-  }) async {
-    var notification = model.Notification.request(
-      notificationId: uuid.v4(),
-      from: playerInfo.id,
-      to: teamInfo.id,
-      type: model.NotificationType.teamJoinRequest,
-      createdAt: Timestamp.now(),
-      status: model.NotificationStatus.pending,
-      read: false,
-      title: '',
-      body: '',
-      teamDetails: teamInfo,
-      playerDetails: playerInfo,
-    );
-    try {
-      await _firestore
-          .collection(FirestoreCollections.notification)
-          .doc(notification.notificationId)
-          .set(notification.toMap);
-
-      PlayersServices.updateRequestTeams(
+      await TeamsServices.updateRequestedPlayers(
         playerId: playerInfo.id,
         teamId: teamInfo.id,
         isAdding: true,
       );
+
+      return NotificationResult.successful();
     } catch (e) {
-      if (context.mounted) {
-        showSnackBar(
-            'Failed to send request. Please try again later.', context);
-      }
+      return NotificationResult.failure(e.toString());
     }
+  }
+
+  Future<NotificationResult> joinRequestToTeam({
+    required PlayerDetails playerInfo,
+    required TeamDetails teamInfo,
+  }) async {
+    final notification = _createNotification(
+      from: playerInfo.id,
+      to: teamInfo.id,
+      type: model.NotificationType.teamJoinRequest,
+      teamInfo: teamInfo,
+      playerInfo: playerInfo,
+    );
+
+    try {
+      await _firestore
+          .collection(FirestoreCollections.notification)
+          .doc(notification.notificationId)
+          .set(notification.toMap);
+
+      await PlayersServices.updateRequestTeams(
+        playerId: playerInfo.id,
+        teamId: teamInfo.id,
+        isAdding: true,
+      );
+
+      return NotificationResult.successful();
+    } catch (e) {
+      return NotificationResult.failure(e.toString());
+    }
+  }
+
+  model.Notification _createNotification({
+    required String from,
+    required String to,
+    required model.NotificationType type,
+    required TeamDetails teamInfo,
+    required PlayerDetails playerInfo,
+  }) {
+    return model.Notification.request(
+      notificationId: uuid.v4(),
+      from: from,
+      to: to,
+      type: type,
+      createdAt: Timestamp.now(),
+      status: model.NotificationStatus.pending,
+      read: false,
+      teamDetails: teamInfo,
+      playerDetails: playerInfo,
+    );
   }
 }

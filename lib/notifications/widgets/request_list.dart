@@ -99,21 +99,23 @@ class _RequestListState extends ConsumerState<RequestList> {
       required model.NotificationType type,
       required String playerId,
       required String teamId}) async {
-    final result = await NotificationServices.deleteNotification(
+    final result = await NotificationServices().deleteNotification(
       notificationId: notificationId,
       type: type,
-      context: context,
       playerId: playerId,
       teamId: teamId,
+      challengedTeamId: null,
     );
 
-    if (result == 'success') {
+    if (result.success) {
       if (type == model.NotificationType.teamJoinRequest) {
         ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
       }
       setState(() {
         requestList.removeAt(index);
       });
+    } else {
+      showSnackBar(result.error!, context);
     }
   }
 
@@ -173,13 +175,16 @@ class _RequestListState extends ConsumerState<RequestList> {
           playerId = request.from;
           teamId = request.to;
         }
-        await NotificationServices.deleteNotification(
+        final result = await NotificationServices().deleteNotification(
           notificationId: request.notificationId,
-          context: context,
           type: request.type,
           playerId: playerId,
           teamId: teamId,
+          challengedTeamId: null,
         );
+        if (!result.success) {
+          showSnackBar(result.error!, context);
+        }
       }
     } finally {
       _toggleButton(request.notificationId, false, ref);
@@ -211,7 +216,7 @@ class _RequestListState extends ConsumerState<RequestList> {
     });
 
     // Start a new timer for the current reject operation
-    activeTimers[index] = Timer(const Duration(seconds: 5), () {
+    activeTimers[index] = Timer(const Duration(seconds: 5), () async {
       if (!isUndo) {
         String playerId;
         String teamId;
@@ -223,13 +228,16 @@ class _RequestListState extends ConsumerState<RequestList> {
           teamId = requestData['to'];
           ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
         }
-        NotificationServices.deleteNotification(
+        final result = await NotificationServices().deleteNotification(
           notificationId: requestData.id,
-          context: context,
           type: type,
           playerId: playerId,
           teamId: teamId,
+          challengedTeamId: null,
         );
+        if (!result.success) {
+          showSnackBar(result.error!, context);
+        }
         activeTimers.remove(index); // Clean up the timer reference
       }
     });

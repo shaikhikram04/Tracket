@@ -162,13 +162,16 @@ class _NotificationsListState extends State<NotificationsList> {
           playerId = request.to;
           teamId = request.from;
         }
-        await NotificationServices.deleteNotification(
+        final result = await NotificationServices().deleteNotification(
           notificationId: request.notificationId,
           type: request.type,
-          context: context,
           playerId: playerId,
           teamId: teamId,
+          challengedTeamId: null,
         );
+        if (!result.success) {
+          showSnackBar(result.error!, context);
+        }
       }
     } finally {
       _toggleButton(request.notificationId, false, ref);
@@ -200,7 +203,7 @@ class _NotificationsListState extends State<NotificationsList> {
     });
 
     // Start a new timer for the current reject operation
-    activeTimers[index] = Timer(const Duration(seconds: 5), () {
+    activeTimers[index] = Timer(const Duration(seconds: 5), () async {
       if (!isUndo) {
         String? playerId;
         String teamId;
@@ -215,14 +218,16 @@ class _NotificationsListState extends State<NotificationsList> {
           teamId = notificationData['from'];
           challengedTeamId = notificationData['to'];
         }
-        NotificationServices.deleteNotification(
+        final result = await NotificationServices().deleteNotification(
           notificationId: notificationData.id,
           type: notificationType,
-          context: context,
           playerId: playerId,
           teamId: teamId,
           challengedTeamId: challengedTeamId,
         );
+        if (!result.success) {
+          showSnackBar(result.error!, context);
+        }
         activeTimers.remove(index); // Clean up the timer reference
       }
     });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/notifications/models/notification_result.dart';
 import 'package:tracket/notifications/services/requests_services.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/services/players_services.dart';
@@ -60,12 +61,20 @@ class MyConsumer extends StatelessWidget {
     try {
       if (buttonType == 'addPlayer' || buttonType == 'joinTeam') {
         if (isPrivate) {
+          NotificationResult result;
           if (buttonType == 'addPlayer') {
-            await RequestsServices.offerPlayerToJoinTeam(
-                teamInfo: teamInfo, context: context, playerInfo: playerInfo);
+            result = await RequestsServices().offerPlayerToJoinTeam(
+              teamInfo: teamInfo,
+              playerInfo: playerInfo,
+            );
           } else {
-            await RequestsServices.joinRequestToTeam(
-                playerInfo: playerInfo, context: context, teamInfo: teamInfo);
+            result = await RequestsServices().joinRequestToTeam(
+              playerInfo: playerInfo,
+              teamInfo: teamInfo,
+            );
+          }
+          if (!result.success) {
+            showSnackBar(result.error!, context);
           }
         } else {
           await TeamsServices.addPlayerToTeam(

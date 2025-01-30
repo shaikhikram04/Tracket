@@ -58,8 +58,6 @@ class MatchesServices {
       createdAt: Timestamp.now(),
       status: model.NotificationStatus.pending,
       read: false,
-      title: '',
-      body: '',
       challengeMatch: challengeMatch,
     );
 

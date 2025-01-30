@@ -324,7 +324,7 @@ class TeamsServices {
     });
   }
 
-  static void updateChallengedTeams({
+  static Future<void> updateChallengedTeams({
     required String teamId,
     required String challengedTeamId,
     required bool isAdding,

@@ -75,18 +75,20 @@ class _ChallengesListState extends State<ChallengesList> {
     required String challengerTeamId,
     required String challengedTeamId,
   }) async {
-    final result = await NotificationServices.deleteNotification(
+    final result = await NotificationServices().deleteNotification(
       notificationId: notificationId,
       type: model.NotificationType.matchChallenge,
-      context: context,
       teamId: challengerTeamId,
       challengedTeamId: challengedTeamId,
+      playerId: null,
     );
 
-    if (result == 'success') {
+    if (result.success) {
       setState(() {
         challengeList.removeAt(index);
       });
+    } else {
+      showSnackBar('Failed to cancel challenge! : ${result.error}', context);
     }
   }
 
@@ -114,17 +116,23 @@ class _ChallengesListState extends State<ChallengesList> {
     });
 
     // Start a new timer for the current reject operation
-    activeTimers[index] = Timer(const Duration(seconds: 5), () {
+    activeTimers[index] = Timer(const Duration(seconds: 5), () async {
       if (!isUndo) {
         // Perform the actual deletion
-        NotificationServices.deleteNotification(
+        final result = await NotificationServices().deleteNotification(
           notificationId: challengeData.id,
           type: model.NotificationType.matchChallenge,
-          context: context,
           teamId: challengeData.data()['from'],
           challengedTeamId: challengeData.data()['to'],
+          playerId: null,
         );
-        activeTimers.remove(index); // Clean up the timer reference
+
+        if (result.success) {
+          activeTimers.remove(index); // Clean up the timer reference
+        } else {
+          showSnackBar(
+              'Failed to delete notification : ${result.error}', context);
+        }
       }
     });
   }

@@ -26,8 +26,6 @@ class Notification {
     required this.createdAt,
     required this.status,
     required this.read,
-    required this.title,
-    required this.body,
     required this.followerData,
     required this.teamDetails,
     required this.playerDetails,
@@ -42,8 +40,6 @@ class Notification {
     required Timestamp createdAt,
     required NotificationStatus status,
     required bool read,
-    required String title,
-    required String body,
     required TeamDetails? teamDetails,
     required PlayerDetails? playerDetails,
   }) =>
@@ -55,8 +51,6 @@ class Notification {
         createdAt: createdAt,
         status: status,
         read: read,
-        title: title,
-        body: body,
         teamDetails: teamDetails,
         playerDetails: playerDetails,
         challengeMatch: null,
@@ -70,8 +64,6 @@ class Notification {
     required Timestamp createdAt,
     required NotificationStatus status,
     required bool read,
-    required String title,
-    required String body,
     required ChallengeMatch challengeMatch,
   }) =>
       Notification(
@@ -82,8 +74,6 @@ class Notification {
         createdAt: createdAt,
         status: status,
         read: read,
-        title: title,
-        body: body,
         challengeMatch: challengeMatch,
         followerData: null,
         playerDetails: null,
@@ -97,8 +87,6 @@ class Notification {
     required Timestamp createdAt,
     required NotificationStatus status,
     required bool read,
-    required String title,
-    required String body,
     required FollowerData followerData,
   }) =>
       Notification(
@@ -109,8 +97,6 @@ class Notification {
         createdAt: createdAt,
         status: status,
         read: read,
-        title: title,
-        body: body,
         followerData: followerData,
         challengeMatch: null,
         playerDetails: null,
@@ -125,10 +111,6 @@ class Notification {
   final Timestamp createdAt;
   final NotificationStatus status;
   final bool read;
-
-  //* metaData
-  final String title;
-  final String body;
 
   //! Type specific field
   //* for follow
@@ -151,29 +133,11 @@ class Notification {
         'createdAt': createdAt,
         'status': status.name,
         'read': read,
-        'title': title,
-        'body': body,
         'followerData': followerData,
         'teamDetail': teamDetails?.toMap,
         'playerDetail': playerDetails?.toMap,
         'challengeMatch': challengeMatch?.toMap,
       };
-
-  // static NotificationType getType(String strType) {
-  //   for (final nType in NotificationType.values) {
-  //     if (strType == nType.name) return nType;
-  //   }
-
-  //   return NotificationType.offerPlayerRequest;
-  // }
-
-  // static NotificationStatus getStatus(String strStatus) {
-  //   for (final nStatus in NotificationStatus.values) {
-  //     if (strStatus == nStatus.name) return nStatus;
-  //   }
-
-  //   return NotificationStatus.pending;
-  // }
 
   factory Notification.fromMap(Map<String, dynamic> map) {
     final type = NotificationType.values.firstWhere(
@@ -196,8 +160,6 @@ class Notification {
         createdAt: map['createdAt'],
         status: status,
         read: map['read'],
-        title: map['title'],
-        body: map['body'],
         teamDetails: TeamDetails.formMap(map['teamDetail']),
         playerDetails: PlayerDetails.fromMap(map['playerDetail']),
       );
@@ -209,8 +171,6 @@ class Notification {
         createdAt: map['createdAt'],
         status: status,
         read: map['read'],
-        title: map['title'],
-        body: map['body'],
         challengeMatch: ChallengeMatch.fromMap(
           map['challengeMatch'],
           challengerPlayer: [],
@@ -226,8 +186,6 @@ class Notification {
         createdAt: map['createdAt'],
         status: status,
         read: map['read'],
-        title: map['title'],
-        body: map['body'],
         followerData: FollowerData.fromMap(map['followerData']),
         teamDetails: TeamDetails.formMap(map['teamDetail']),
         playerDetails: PlayerDetails.fromMap(map['playerDetail']),
