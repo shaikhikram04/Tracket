@@ -1,59 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
+import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
+import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
 import 'package:tracket/notifications/widgets/challenges_fetcher.dart';
-import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
-class ManageChallengesScreen extends StatefulWidget {
-  const ManageChallengesScreen({super.key, this.initialIndex = 0});
-
-  final int initialIndex;
+class ManageChallengesScreen extends BaseTabScreen {
+  const ManageChallengesScreen({super.key, super.initialIndex});
 
   @override
   State<ManageChallengesScreen> createState() => _ManageChallengesScreenState();
 }
 
 class _ManageChallengesScreenState extends State<ManageChallengesScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+    with SingleTickerProviderStateMixin, TabControllerMixin {
+  static const _tabs = [
+    NotificationTabConfig(
+      text: 'Received',
+      icon: Icons.arrow_downward,
+    ),
+    NotificationTabConfig(
+      text: 'Sent',
+      icon: Icons.arrow_upward,
+    ),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-        length: 2, initialIndex: widget.initialIndex, vsync: this);
+    initTabController(
+      _tabs.length,
+      initialIndex: widget.initialIndex,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          dividerColor: Theme.of(context).colorScheme.secondary,
-          indicatorSize: TabBarIndicatorSize.tab,
-          controller: _tabController,
-          unselectedLabelColor: unSelectColor,
-          labelColor: darkGreenColor,
-          labelStyle: MyTextStyle(context).boldBodyLarge,
-          unselectedLabelStyle: MyTextStyle(context).bodyLarge,
-          tabs: const [
-            Tab(
-              text: 'Received',
-              icon: Icon(Icons.arrow_downward),
-            ),
-            Tab(
-              text: 'Sent',
-              icon: Icon(Icons.arrow_upward),
-            ),
+        buildTabBar(tabs: _tabs),
+        buildTabBarView(
+          children: const [
+            ChallengesFetcher(field: 'to'),
+            ChallengesFetcher(field: 'from'),
           ],
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: const [
-              ChallengesFetcher(field: 'to'),
-              ChallengesFetcher(field: 'from'),
-            ],
-          ),
         ),
       ],
     );
