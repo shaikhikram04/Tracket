@@ -8,22 +8,27 @@ class PlayerColumn extends StatelessWidget {
     required this.profileImageUrl,
     required this.playerName,
     required this.cricketRole,
+    this.avatarRadius = 35.0,
+    this.spacing = 2.0,
   });
 
   final String profileImageUrl;
   final String playerName;
   final CricketRole cricketRole;
+  final double avatarRadius;
+  final double spacing;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         getCircleAvatar(
           url: profileImageUrl,
           isTeam: false,
-          radius: 35,
+          radius: avatarRadius,
         ),
-        const SizedBox(height: 2),
+        SizedBox(height: spacing),
         Text(playerName),
         Text(cricketRole.name),
       ],
