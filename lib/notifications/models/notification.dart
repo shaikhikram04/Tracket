@@ -14,11 +14,11 @@ enum NotificationType {
 enum NotificationStatus {
   pending,
   accept,
-  decline;
+  reject;
 
   bool get isPending => this == NotificationStatus.pending;
   bool get isAccepted => this == NotificationStatus.accept;
-  bool get isDeclined => this == NotificationStatus.decline;
+  bool get isReject => this == NotificationStatus.reject;
 }
 
 class NotificationModel {
@@ -204,7 +204,7 @@ class NotificationModel {
 
   bool get isPending => status == NotificationStatus.pending;
   bool get isAccepted => status == NotificationStatus.accept;
-  bool get isDeclined => status == NotificationStatus.decline;
+  bool get isRejected => status == NotificationStatus.reject;
 
   bool get isFollow => type == NotificationType.follow;
   bool get isChallenge => type == NotificationType.matchChallenge;

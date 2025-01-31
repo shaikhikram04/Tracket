@@ -56,7 +56,7 @@ class _ChallengesListState extends State<ChallengesList> {
         return ChallengeCard(
           challenge: challenge,
           isSent: widget.isSent,
-          onCanceChallenge: () => _onCancelChallenge(
+          onCanceChallenge: () => _cancelChallenge(
             index: index,
             notificationId: challenge.notificationId,
             challengerTeamId: challengeData['from'],
@@ -69,7 +69,7 @@ class _ChallengesListState extends State<ChallengesList> {
     );
   }
 
-  Future<void> _onCancelChallenge({
+  Future<void> _cancelChallenge({
     required int index,
     required String notificationId,
     required String challengerTeamId,
@@ -107,7 +107,7 @@ class _ChallengesListState extends State<ChallengesList> {
 
     bool isUndo = false;
 
-    showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
+    showSnackBar('Challenge rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
         challengeList.insert(index, challengeData);
@@ -119,19 +119,12 @@ class _ChallengesListState extends State<ChallengesList> {
     activeTimers[index] = Timer(const Duration(seconds: 5), () async {
       if (!isUndo) {
         // Perform the actual deletion
-        final result = await NotificationServices().deleteNotification(
-          notificationId: challengeData.id,
-          type: NotificationType.matchChallenge,
-          teamId: challengeData.data()['from'],
-          challengedTeamId: challengeData.data()['to'],
-          playerId: null,
-        );
-
-        if (result.success) {
+        try {
+          await NotificationServices()
+              .markNotificationAsRejected(challengeData.id);
           activeTimers.remove(index); // Clean up the timer reference
-        } else {
-          showSnackBar(
-              'Failed to delete notification : ${result.error}', context);
+        } catch (e) {
+          showSnackBar('Failed to reject challenge : ${e}', context);
         }
       }
     });
