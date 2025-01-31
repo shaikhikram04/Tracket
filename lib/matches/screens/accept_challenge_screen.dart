@@ -174,6 +174,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         challengeId: widget.challengeId,
         context: context,
       );
+      widget.onAccepted();
 
       if (!mounted) return;
       Navigator.of(context).pop();
