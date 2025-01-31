@@ -14,11 +14,15 @@ enum NotificationType {
 enum NotificationStatus {
   pending,
   accept,
-  decline,
+  decline;
+
+  bool get isPending => this == NotificationStatus.pending;
+  bool get isAccepted => this == NotificationStatus.accept;
+  bool get isDeclined => this == NotificationStatus.decline;
 }
 
-class Notification {
-  const Notification({
+class NotificationModel {
+  const NotificationModel({
     required this.notificationId,
     required this.from,
     required this.to,
@@ -32,7 +36,7 @@ class Notification {
     required this.challengeMatch,
   });
 
-  factory Notification.request({
+  factory NotificationModel.request({
     required String notificationId,
     required String from,
     required String to,
@@ -43,7 +47,7 @@ class Notification {
     required TeamDetails? teamDetails,
     required PlayerDetails? playerDetails,
   }) =>
-      Notification(
+      NotificationModel(
         notificationId: notificationId,
         from: from,
         to: to,
@@ -57,7 +61,7 @@ class Notification {
         followerData: null,
       );
 
-  factory Notification.challenge({
+  factory NotificationModel.challenge({
     required String notificationId,
     required String from,
     required String to,
@@ -66,7 +70,7 @@ class Notification {
     required bool read,
     required ChallengeMatch challengeMatch,
   }) =>
-      Notification(
+      NotificationModel(
         notificationId: notificationId,
         from: from,
         to: to,
@@ -80,7 +84,7 @@ class Notification {
         teamDetails: null,
       );
 
-  factory Notification.follow({
+  factory NotificationModel.follow({
     required String notificationId,
     required String from,
     required String to,
@@ -89,7 +93,7 @@ class Notification {
     required bool read,
     required FollowerData followerData,
   }) =>
-      Notification(
+      NotificationModel(
         notificationId: notificationId,
         from: from,
         to: to,
@@ -139,7 +143,7 @@ class Notification {
         'challengeMatch': challengeMatch?.toMap,
       };
 
-  factory Notification.fromMap(Map<String, dynamic> map) {
+  factory NotificationModel.fromMap(Map<String, dynamic> map) {
     final type = NotificationType.values.firstWhere(
       (e) => e.name == map['type'],
       orElse: () => NotificationType.offerPlayerRequest,
@@ -152,7 +156,7 @@ class Notification {
 
     if (type == NotificationType.offerPlayerRequest ||
         type == NotificationType.teamJoinRequest) {
-      return Notification.request(
+      return NotificationModel.request(
         notificationId: map['notificationId'],
         from: map['from'],
         to: map['to'],
@@ -164,7 +168,7 @@ class Notification {
         playerDetails: PlayerDetails.fromMap(map['playerDetail']),
       );
     } else if (type == NotificationType.matchChallenge) {
-      return Notification.challenge(
+      return NotificationModel.challenge(
         notificationId: map['notificationId'],
         from: map['from'],
         to: map['to'],
@@ -178,7 +182,7 @@ class Notification {
         ),
       );
     } else {
-      return Notification(
+      return NotificationModel(
         notificationId: map['notificationId'],
         from: map['from'],
         to: map['to'],

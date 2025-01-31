@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/utils/utils.dart';
@@ -49,7 +49,7 @@ class _ChallengesListState extends State<ChallengesList> {
       itemCount: challengeList.length,
       itemBuilder: (context, index) {
         final challengeData = challengeList[index];
-        final challenge = model.Notification.fromMap(challengeData.data());
+        final challenge = NotificationModel.fromMap(challengeData.data());
 
         // Now data contains the updated values
 
@@ -77,7 +77,7 @@ class _ChallengesListState extends State<ChallengesList> {
   }) async {
     final result = await NotificationServices().deleteNotification(
       notificationId: notificationId,
-      type: model.NotificationType.matchChallenge,
+      type: NotificationType.matchChallenge,
       teamId: challengerTeamId,
       challengedTeamId: challengedTeamId,
       playerId: null,
@@ -121,7 +121,7 @@ class _ChallengesListState extends State<ChallengesList> {
         // Perform the actual deletion
         final result = await NotificationServices().deleteNotification(
           notificationId: challengeData.id,
-          type: model.NotificationType.matchChallenge,
+          type: NotificationType.matchChallenge,
           teamId: challengeData.data()['from'],
           challengedTeamId: challengeData.data()['to'],
           playerId: null,

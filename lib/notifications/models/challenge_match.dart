@@ -3,16 +3,6 @@ import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
-enum ChallengeStatus {
-  pending,
-  accept,
-  decline;
-
-  bool get isPending => this == ChallengeStatus.pending;
-  bool get isAccepted => this == ChallengeStatus.accept;
-  bool get isDeclined => this == ChallengeStatus.decline;
-}
-
 class ChallengeMatch {
   ChallengeMatch({
     required this.challengedTeam,
@@ -28,7 +18,6 @@ class ChallengeMatch {
     required this.venue,
     required this.schedule,
     required this.matchType,
-    required this.status,
   });
 
   final MatchTeamInfo challengerTeam;
@@ -42,7 +31,6 @@ class ChallengeMatch {
   final Timestamp updatedAt;
   final int noOfPlayers;
   final MatchType matchType;
-  final ChallengeStatus status;
   List<MatchPlayerInfo> challengerPlayers;
   List<MatchPlayerInfo> challengedPlayers;
 
@@ -58,7 +46,6 @@ class ChallengeMatch {
         'updatedAt': updatedAt,
         'noOfPlayers': noOfPlayers,
         'matchType': matchType.name,
-        'status': status.name
       };
 
   factory ChallengeMatch.fromMap(
@@ -88,7 +75,6 @@ class ChallengeMatch {
         venue: map['venue'] as String,
         schedule: (map['schedule'] as Timestamp).toDate(),
         matchType: Match.getMatchType(map['matchType'] as String),
-        status: map['status'],
       );
 
   ChallengeMatch copyWith({
@@ -105,7 +91,6 @@ class ChallengeMatch {
     MatchType? matchType,
     List<MatchPlayerInfo>? challengerPlayers,
     List<MatchPlayerInfo>? challengedPlayers,
-    ChallengeStatus? status,
   }) =>
       ChallengeMatch(
         challengerTeam: challengerTeam ?? this.challengerTeam,
@@ -121,7 +106,6 @@ class ChallengeMatch {
         matchType: matchType ?? this.matchType,
         challengerPlayers: challengerPlayers ?? this.challengerPlayers,
         challengedPlayers: challengedPlayers ?? this.challengedPlayers,
-        status: status ?? this.status,
       );
 
   void setChallengerPlayers(List<MatchPlayerInfo> players) {

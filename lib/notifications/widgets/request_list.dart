@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/models/notification.dart' ;
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
 import 'package:tracket/players/providers/player_provider.dart';
@@ -42,11 +42,11 @@ class _RequestListState extends ConsumerState<RequestList> {
   }
 
   //* Check if the request is for a player or a team
-  bool _isPlayer(model.NotificationType type) {
-    if (widget.isSent && type == model.NotificationType.offerPlayerRequest) {
+  bool _isPlayer(NotificationType type) {
+    if (widget.isSent && type == NotificationType.offerPlayerRequest) {
       return true;
     }
-    if (!widget.isSent && type == model.NotificationType.teamJoinRequest) {
+    if (!widget.isSent && type == NotificationType.teamJoinRequest) {
       return true;
     }
 
@@ -66,7 +66,7 @@ class _RequestListState extends ConsumerState<RequestList> {
       itemCount: requestList.length,
       itemBuilder: (context, index) {
         final requestData = requestList[index];
-        final request = model.Notification.fromMap(requestData.data());
+        final request = NotificationModel.fromMap(requestData.data());
 
         final isPlayer = _isPlayer(request.type);
 
@@ -96,7 +96,7 @@ class _RequestListState extends ConsumerState<RequestList> {
   Future<void> _onCancelRequest(
       {required int index,
       required String notificationId,
-      required model.NotificationType type,
+      required NotificationType type,
       required String playerId,
       required String teamId}) async {
     final result = await NotificationServices().deleteNotification(
@@ -108,7 +108,7 @@ class _RequestListState extends ConsumerState<RequestList> {
     );
 
     if (result.success) {
-      if (type == model.NotificationType.teamJoinRequest) {
+      if (type == NotificationType.teamJoinRequest) {
         ref.read(playerProvider.notifier).updateRequestedTeam(teamId, false);
       }
       setState(() {
@@ -128,7 +128,7 @@ class _RequestListState extends ConsumerState<RequestList> {
   }
 
   Future<void> _acceptRequest(
-    model.Notification request,
+    NotificationModel request,
     int index,
     bool isPlayer,
     WidgetRef ref,
@@ -168,7 +168,7 @@ class _RequestListState extends ConsumerState<RequestList> {
       if (mounted) {
         String playerId;
         String teamId;
-        if (request.type == model.NotificationType.offerPlayerRequest) {
+        if (request.type == NotificationType.offerPlayerRequest) {
           playerId = request.to;
           teamId = request.from;
         } else {
@@ -195,7 +195,7 @@ class _RequestListState extends ConsumerState<RequestList> {
     BuildContext context, {
     required int index,
     required QueryDocumentSnapshot<Map<String, dynamic>> requestData,
-    required model.NotificationType type,
+    required NotificationType type,
   }) async {
     // Cancel any existing timer for this index
     activeTimers[index]?.cancel();
@@ -220,7 +220,7 @@ class _RequestListState extends ConsumerState<RequestList> {
       if (!isUndo) {
         String playerId;
         String teamId;
-        if (type == model.NotificationType.offerPlayerRequest) {
+        if (type == NotificationType.offerPlayerRequest) {
           playerId = requestData['to'];
           teamId = requestData['from'];
         } else {

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
@@ -40,8 +40,8 @@ class _NotificationsListState extends State<NotificationsList> {
   }
 
   //* Check if the notification is a request from a player
-  bool _isRequestFromPlayer(model.NotificationType type) {
-    if (type == model.NotificationType.teamJoinRequest) {
+  bool _isRequestFromPlayer(NotificationType type) {
+    if (type == NotificationType.teamJoinRequest) {
       return true;
     }
     return false;
@@ -61,12 +61,12 @@ class _NotificationsListState extends State<NotificationsList> {
       itemBuilder: (context, index) {
         final notificationData = notificationList[index];
         final notification =
-            model.Notification.fromMap(notificationData.data());
+            NotificationModel.fromMap(notificationData.data());
         final isRequest =
-            notification.type == model.NotificationType.teamJoinRequest ||
-                notification.type == model.NotificationType.offerPlayerRequest;
+            notification.type == NotificationType.teamJoinRequest ||
+                notification.type == NotificationType.offerPlayerRequest;
         final isChallenge =
-            notification.type == model.NotificationType.matchChallenge;
+            notification.type == NotificationType.matchChallenge;
 
         final isPlayerRequest = _isRequestFromPlayer(notification.type);
 
@@ -114,7 +114,7 @@ class _NotificationsListState extends State<NotificationsList> {
   }
 
   Future<void> _acceptRequest(
-    model.Notification request,
+    NotificationModel request,
     int index,
     bool isPlayer,
     WidgetRef ref,
@@ -182,7 +182,7 @@ class _NotificationsListState extends State<NotificationsList> {
     BuildContext context, {
     required int index,
     required QueryDocumentSnapshot<Map<String, dynamic>> notificationData,
-    required model.NotificationType notificationType,
+    required NotificationType notificationType,
   }) async {
     // Cancel any existing timer for this index
     activeTimers[index]?.cancel();
@@ -208,10 +208,10 @@ class _NotificationsListState extends State<NotificationsList> {
         String? playerId;
         String teamId;
         String? challengedTeamId;
-        if (notificationType == model.NotificationType.offerPlayerRequest) {
+        if (notificationType == NotificationType.offerPlayerRequest) {
           playerId = notificationData['to'];
           teamId = notificationData['from'];
-        } else if (notificationType == model.NotificationType.teamJoinRequest) {
+        } else if (notificationType == NotificationType.teamJoinRequest) {
           playerId = notificationData['from'];
           teamId = notificationData['to'];
         } else {

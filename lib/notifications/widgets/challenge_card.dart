@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/screens/accept_challenge_screen.dart';
-import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -17,7 +17,7 @@ class ChallengeCard extends StatelessWidget {
     required this.onRejectChallenge,
   });
 
-  final model.Notification challenge;
+  final NotificationModel challenge;
   final bool isSent;
   final void Function() onCanceChallenge;
   final void Function() onRejectChallenge;
@@ -150,7 +150,7 @@ class ChallengeCard extends StatelessWidget {
 
   Widget _buildActionButtons(
     BuildContext context,
-    model.Notification request,
+    NotificationModel request,
   ) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),

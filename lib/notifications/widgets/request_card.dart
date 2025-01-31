@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/notifications/models/notification.dart' as model;
+import 'package:tracket/notifications/models/notification.dart' ;
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/providers/request_status_provider.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
@@ -19,7 +19,7 @@ class RequestCard extends StatelessWidget {
     required this.onRejectRequest,
   });
 
-  final model.Notification request;
+  final NotificationModel request;
   final bool isSent;
   final void Function() onCancelRequest;
   final void Function(WidgetRef ref) onAcceptRequest;
@@ -28,7 +28,7 @@ class RequestCard extends StatelessWidget {
   void _navigateToProfile(
     BuildContext context,
     bool isPlayer,
-    model.Notification request,
+    NotificationModel request,
   ) {
     final profileScreen = isPlayer
         ? PlayerProfileScreen(playerId: request.from)
@@ -40,7 +40,7 @@ class RequestCard extends StatelessWidget {
     Map<String, dynamic> data,
   ) {
     if (isSent) {
-      if (request.type == model.NotificationType.offerPlayerRequest) {
+      if (request.type == NotificationType.offerPlayerRequest) {
         data['initialMessage'] = 'Your team ';
         data['middleMessage'] = ' has offered ';
         data['lastMessage'] = ' to join.';
@@ -57,7 +57,7 @@ class RequestCard extends StatelessWidget {
         data['imageUrl'] = request.teamDetails!.logoUrl;
       }
     } else {
-      if (request.type == model.NotificationType.offerPlayerRequest) {
+      if (request.type == NotificationType.offerPlayerRequest) {
         data['middleMessage'] = ' has offered you to join their team.';
         data['lastMessage'] = '';
         data['isPlayer'] = false;
@@ -161,7 +161,7 @@ class RequestCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCancelButton(BuildContext context, model.Notification request) {
+  Widget _buildCancelButton(BuildContext context, NotificationModel request) {
     return Padding(
       padding: const EdgeInsets.only(left: 7),
       child: MyElevatedButton.secondaryElevatedButton(
@@ -184,7 +184,7 @@ class RequestCard extends StatelessWidget {
   Widget _buildActionButtons(
     BuildContext context,
     bool isPlayer,
-    model.Notification request,
+    NotificationModel request,
   ) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
