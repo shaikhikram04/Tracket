@@ -15,12 +15,14 @@ class ChallengeCard extends StatelessWidget {
     required this.isSent,
     required this.onCanceChallenge,
     required this.onRejectChallenge,
+    required this.onAccepted,
   });
 
   final NotificationModel challenge;
   final bool isSent;
   final void Function() onCanceChallenge;
   final void Function() onRejectChallenge;
+  final void Function() onAccepted;
 
   void _navigateToAcceptChallenge(BuildContext context) {
     pushScreen(
@@ -29,6 +31,7 @@ class ChallengeCard extends StatelessWidget {
           challenge: challenge.challengeMatch!,
           isSender: isSent,
           challengeId: challenge.notificationId,
+          onAccepted: onAccepted,
         ));
   }
 

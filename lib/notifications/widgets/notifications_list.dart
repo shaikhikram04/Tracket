@@ -60,8 +60,7 @@ class _NotificationsListState extends State<NotificationsList> {
       itemCount: notificationList.length,
       itemBuilder: (context, index) {
         final notificationData = notificationList[index];
-        final notification =
-            NotificationModel.fromMap(notificationData.data());
+        final notification = NotificationModel.fromMap(notificationData.data());
         final isRequest =
             notification.type == NotificationType.teamJoinRequest ||
                 notification.type == NotificationType.offerPlayerRequest;
@@ -97,6 +96,7 @@ class _NotificationsListState extends State<NotificationsList> {
               notificationData: notificationData,
               notificationType: notification.type,
             ),
+            onAccepted: () => _onChallengeAccepted(index),
           );
         }
 
@@ -230,6 +230,13 @@ class _NotificationsListState extends State<NotificationsList> {
         }
         activeTimers.remove(index); // Clean up the timer reference
       }
+    });
+  }
+
+  void _onChallengeAccepted(int index) {
+    // Remove the request from the list and show the undo snack bar
+    setState(() {
+      notificationList.removeAt(index);
     });
   }
 }

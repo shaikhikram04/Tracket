@@ -64,6 +64,7 @@ class _ChallengesListState extends State<ChallengesList> {
           ),
           onRejectChallenge: () =>
               _rejectChallenge(context, index, challengeData),
+          onAccepted: () => _onAccepted(index),
         );
       },
     );
@@ -120,13 +121,21 @@ class _ChallengesListState extends State<ChallengesList> {
       if (!isUndo) {
         // Perform the actual deletion
         try {
-          await NotificationServices()
-              .markNotificationAsRejected(challengeData.id);
+          await NotificationServices.markNotificationStatus(
+            challengeData.id,
+            NotificationStatus.reject,
+          );
           activeTimers.remove(index); // Clean up the timer reference
         } catch (e) {
           showSnackBar('Failed to reject challenge : ${e}', context);
         }
       }
+    });
+  }
+
+  void _onAccepted(int index) {
+    setState(() {
+      challengeList.removeAt(index);
     });
   }
 }

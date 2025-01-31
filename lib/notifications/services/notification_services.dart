@@ -95,12 +95,15 @@ class NotificationServices {
     );
   }
 
-  Future<void> markNotificationAsRejected(
+  static Future<void> markNotificationStatus(
     String notificationId,
+    NotificationStatus status,
   ) async {
     await _firestore
         .collection(FirestoreCollections.notification)
         .doc(notificationId)
-        .update({'status': NotificationStatus.reject.name});
+        .update({'status': status.name});
   }
+
+  
 }

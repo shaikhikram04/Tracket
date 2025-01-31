@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
-import 'package:tracket/matches/utils/utils.dart';
 import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
 import 'package:tracket/matches/widgets/players_selection_dialog.dart';
@@ -14,6 +13,7 @@ import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/widgets/custom_widgets/value_listenable_builder_3.dart';
 
 class AcceptChallengeScreen extends StatefulWidget {
   const AcceptChallengeScreen({
@@ -21,11 +21,13 @@ class AcceptChallengeScreen extends StatefulWidget {
     required this.challenge,
     required this.isSender,
     required this.challengeId,
+    required this.onAccepted,
   });
 
   final ChallengeMatch challenge;
   final String challengeId;
   final bool isSender;
+  final VoidCallback onAccepted;
 
   @override
   State<AcceptChallengeScreen> createState() => _AcceptChallengeScreenState();
@@ -36,6 +38,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   final _wicketkeeperController = TextEditingController();
 
   bool _isLoading = false;
+  bool _isAccepting = false;
   Team? _challengedTeam;
   late ChallengeMatch _challenge;
 
@@ -131,7 +134,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         _wicketkeeperController.text = player.playerName.toUpperCase();
         _wicketkeeperId.value = player.playerId;
       }
-      return player.copyWith();
+      return player;
     }).toList();
   }
 
@@ -155,6 +158,10 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       return;
     }
 
+    setState(() {
+      _isAccepting = true;
+    });
+
     try {
       _challenge.setChallengedPlayers(_selectedPlayers.value);
       _challenge.updateTeamDetails(
@@ -173,6 +180,10 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       showSnackBar('Challenge Accepted', context);
     } catch (e) {
       _handleError(e);
+    } finally {
+      setState(() {
+        _isAccepting = false;
+      });
     }
   }
 
@@ -248,9 +259,12 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           ),
         ),
         MyCard(
-          child: ValueListenableBuilder<List<MatchPlayerInfo>>(
-            valueListenable: _selectedPlayers,
-            builder: (context, players, _) => MatchSquad(
+          child: ValueListenableBuilder3<List<MatchPlayerInfo>, String, String>(
+            first: _selectedPlayers,
+            second: _captainId,
+            third: _wicketkeeperId,
+            builder: (context, players, captainId, wicketkeeperId, _) =>
+                MatchSquad(
               selectedPlayers: players,
               captainId: _captainId.value,
               wicketkeeperId: _wicketkeeperId.value,
@@ -274,13 +288,20 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   }
 
   Widget _buildRolesSection() {
-    return CaptainAndWicketkeeperDropdown(
-        playersName: getPlayerNames(_selectedPlayers),
-        captainController: _captainController,
-        captainId: _captainId,
-        selectedPlayers: _selectedPlayers,
-        wicketkeeperController: _wicketkeeperController,
-        wicketkeeperId: _wicketkeeperId);
+    return ValueListenableBuilder<List<MatchPlayerInfo>>(
+      valueListenable: _selectedPlayers,
+      builder: (context, players, _) {
+        return CaptainAndWicketkeeperDropdown(
+            playersName: players
+                .map((player) => player.playerName.toUpperCase())
+                .toList(),
+            captainController: _captainController,
+            captainId: _captainId,
+            selectedPlayers: _selectedPlayers,
+            wicketkeeperController: _wicketkeeperController,
+            wicketkeeperId: _wicketkeeperId);
+      },
+    );
   }
 
   Widget _buildActionButtons() {
@@ -309,6 +330,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 fontSize: 16,
                 text: 'Accept',
                 primaryColor: const Color.fromARGB(255, 43, 114, 45),
+                isLoading: _isAccepting,
               ),
             ),
           ),
