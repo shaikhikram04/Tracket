@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/models/player_auth_state.dart';
 import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';

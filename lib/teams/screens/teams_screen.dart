@@ -57,7 +57,7 @@ class TeamsScreen extends ConsumerWidget {
               final String logoUrl = teamData['logoUrl'];
               final String teamName = teamData['teamName'];
               final String shortName = teamData['shortName'];
-              final TeamRole teamRole = player.teams!
+              final TeamRole teamRole = player.playerCricketDetails!.teams
                   .firstWhere((team) => team.id == teamData['id'])
                   .role;
 

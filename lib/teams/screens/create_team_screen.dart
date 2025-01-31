@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
@@ -158,7 +158,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                                     _createTeam(
                                       player.id,
                                       player.name,
-                                      player.cricketRole!,
+                                      player.playerCricketDetails!.cricketRole,
                                     );
                                   },
                                 ),

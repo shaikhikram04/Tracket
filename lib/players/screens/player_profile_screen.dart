@@ -103,7 +103,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                           style: MyTextStyle(context).titleLarge,
                         ),
                         Text(
-                          _playerData.detailedCricketRole,
+                          _playerData.playerCricketDetails!.detailedCricketRole,
                           style: MyTextStyle(context).titleMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -134,19 +134,22 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               StatsData(
-                                number: _playerData.playerStats!.matches!,
+                                number: _playerData
+                                    .playerCricketDetails!.playerStats.matches!,
                                 label: 'Matches',
                                 numColor:
                                     const Color.fromARGB(255, 29, 130, 212),
                               ),
                               StatsData(
-                                number: _playerData.playerStats!.totalRuns,
+                                number: _playerData.playerCricketDetails!
+                                    .playerStats.totalRuns,
                                 label: 'Runs',
                                 numColor:
                                     const Color.fromARGB(255, 39, 141, 42),
                               ),
                               StatsData(
-                                number: _playerData.playerStats!.wicket,
+                                number: _playerData
+                                    .playerCricketDetails!.playerStats.wicket,
                                 label: 'Wickets',
                                 numColor: Colors.red,
                               ),
@@ -184,9 +187,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             child: TabBarView(
                               children: [
                                 BattingStats(
-                                    playerStats: _playerData.playerStats!),
+                                    playerStats: _playerData
+                                        .playerCricketDetails!.playerStats),
                                 BowlingStats(
-                                    playerStats: _playerData.playerStats!),
+                                    playerStats: _playerData
+                                        .playerCricketDetails!.playerStats),
                               ],
                             ),
                           ),
@@ -197,7 +202,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                   const SizedBox(height: 20),
                   // Achievements Section
                   Achievements(
-                    achievements: _playerData.achievements!,
+                    achievements:
+                        _playerData.playerCricketDetails!.achievements,
                   ),
                   const SizedBox(height: 20),
                 ],

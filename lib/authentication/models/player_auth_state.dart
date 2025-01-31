@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 
 class PlayerAuthState {
   final GlobalKey<FormState> formKey;

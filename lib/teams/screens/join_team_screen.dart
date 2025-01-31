@@ -16,7 +16,7 @@ class JoinTeamScreen extends StatelessWidget {
   final Player player;
 
   List<String> get playerTeamsId =>
-      player.teams!.map((team) => team.id).toList();
+      player.playerCricketDetails!.teams.map((team) => team.id).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class JoinTeamScreen extends StatelessWidget {
       role: TeamRole.player,
     );
     final playerInfo = PlayerDetails(
-      cricketRole: player.cricketRole!,
+      cricketRole: player.playerCricketDetails!.cricketRole,
       id: player.id,
       imageUrl: player.profileImageUrl,
       name: player.name,

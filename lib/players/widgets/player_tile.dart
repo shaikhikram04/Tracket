@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';

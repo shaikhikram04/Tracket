@@ -57,9 +57,9 @@ class AddPlayerScreen extends StatelessWidget {
   }
 
   Widget buildPlayerTile(Player player, BuildContext context) {
-    final bool isPrivate = player.isPrivate!;
+    final bool isPrivate = player.playerCricketDetails!.isPrivate;
     final playerInfo = PlayerDetails(
-      cricketRole: player.cricketRole!,
+      cricketRole: player.playerCricketDetails!.cricketRole,
       id: player.id,
       imageUrl: player.profileImageUrl,
       name: player.name,
@@ -80,7 +80,7 @@ class AddPlayerScreen extends StatelessWidget {
       child: MyListTile(
         imageUrl: player.profileImageUrl,
         title: player.name,
-        subtitle: player.cricketRole!.name,
+        subtitle: player.playerCricketDetails!.cricketRole.name,
         onTap: () => pushScreen(context, PlayerProfileScreen(player: player)),
         isPlayer: true,
         trailing: MyConsumer(

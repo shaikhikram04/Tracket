@@ -8,7 +8,7 @@ import 'package:tracket/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/authentication/providers/verification_step.dart';
 import 'package:tracket/authentication/services/email_verification_services.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/utils.dart';
 
 class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
@@ -24,7 +24,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
   void updateRole(String? role) {
     if (role == null) return;
 
-    final newRole = Player.getCricketRole(role);
+    final newRole = PlayerCricketDetails.getCricketRole(role);
     final shouldBeBowler =
         newRole == CricketRole.bowler || newRole == CricketRole.allRounder;
 
@@ -53,7 +53,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     }
 
     state = state.copyWith(
-      bowlingStyle: Player.getBowlingStyle(style),
+      bowlingStyle: PlayerCricketDetails.getBowlingStyle(style),
       isBowler: isBowler,
     );
   }
@@ -66,9 +66,11 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     String? password,
   }) {
     state = state.copyWith(
-      bowlingArm: arm != null ? Player.getPosition(arm) : state.bowlingArm,
+      bowlingArm: arm != null
+          ? PlayerCricketDetails.getPosition(arm)
+          : state.bowlingArm,
       battingPosition: position != null
-          ? Player.getPosition(position)
+          ? PlayerCricketDetails.getPosition(position)
           : state.battingPosition,
       playerName: playerName ?? state.playerName,
       email: email ?? state.email,

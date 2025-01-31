@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/authentication/models/player_signup_data.dart';
 import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/models/player_stats.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
@@ -12,25 +13,29 @@ class PlayerAuthService {
     required PlayerSignupData data,
   }) async {
     try {
-      final player = Player(
-        name: data.playerName,
-        email: data.email,
+      final playerCricketDetail = PlayerCricketDetails(
         cricketRole: data.cricketRole,
         battingPosition: data.battingPosition,
         bowlingArm: data.bowlingArm,
         bowlingStyle: data.bowlingStyle,
+        isPrivate: false,
+        achievements: [],
+        requestedTeams: [],
+        teams: [],
+        playerStats: PlayerStats(),
+      );
+
+      final player = Player(
+        name: data.playerName,
+        email: data.email,
         createdAt: Timestamp.now(),
         id: data.playerId,
         role: 'player',
         profileImageUrl: data.imageUrl,
-        teams: [],
-        playerStats: PlayerStats(),
-        achievements: [],
         following: [],
         followingTeams: [],
         followers: [],
-        isPrivate: false,
-        requestedTeam: [],
+        playerCricketDetails: playerCricketDetail,
       );
 
       await _firestore

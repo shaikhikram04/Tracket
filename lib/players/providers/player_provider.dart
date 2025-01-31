@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/models/bowling_figure.dart';
 import 'package:tracket/players/models/player.dart';
-import 'package:tracket/players/models/player_stats.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 class PlayerNotifier extends StateNotifier<Player> {
@@ -13,19 +12,11 @@ class PlayerNotifier extends StateNotifier<Player> {
           name: '',
           email: '',
           profileImageUrl: '',
-          cricketRole: null,
-          battingPosition: null,
-          bowlingArm: null,
-          bowlingStyle: null,
           createdAt: Timestamp.now(),
-          teams: [],
-          playerStats: null,
-          achievements: [],
           following: [],
           followingTeams: [],
           followers: [],
-          isPrivate: null,
-          requestedTeam: [],
+          playerCricketDetails: null,
         ));
 
   void setPlayer(Player player) {
@@ -33,81 +24,71 @@ class PlayerNotifier extends StateNotifier<Player> {
   }
 
   void updateField({
-    String? id,
     String? email,
     String? name,
     String? role,
     String? profileImageUrl,
-    CricketRole? cricketRole,
-    Position? battingPosition,
-    int? totalTimesOut,
-    BowlingFigure? bestBalling,
-    Position? bowlingArm,
-    BowlingStyle? bowlingStyle,
-    List<TeamDetails>? teams,
-    PlayerStats? playerStats,
-    int? matchesPlayed,
-    List<String>? achievements,
     List? following,
     List? followingTeams,
     List? followers,
-    bool? allowDirectTeamAdd,
-    int? innings,
-    List? requestedTeam,
+    PlayerCricketDetails? playerCricketDetails,
   }) {
     final player = Player(
       role: role ?? state.role,
-      id: id ?? state.id,
+      id: state.id,
       name: name ?? state.name,
       email: email ?? state.email,
       profileImageUrl: profileImageUrl ?? state.profileImageUrl,
-      cricketRole: cricketRole ?? state.cricketRole,
-      battingPosition: battingPosition ?? state.battingPosition,
-      bowlingArm: bowlingArm ?? state.bowlingArm,
-      bowlingStyle: bowlingStyle ?? state.bowlingStyle,
       createdAt: state.createdAt,
-      teams: teams ?? state.teams,
-      playerStats: playerStats ?? state.playerStats,
-      achievements: achievements ?? state.achievements,
       following: following ?? state.following,
       followingTeams: followingTeams ?? state.followingTeams,
       followers: followers ?? state.followers,
-      isPrivate: allowDirectTeamAdd ?? state.isPrivate,
-      requestedTeam: requestedTeam ?? state.requestedTeam,
+      playerCricketDetails: playerCricketDetails ?? state.playerCricketDetails,
     );
 
     state = player;
   }
 
   void updateRequestedTeam(String teamId, bool isAdding) {
-    final updatedRequestedTeams = [...state.requestedTeam!];
+    final updatedRequestedTeams = [
+      ...state.playerCricketDetails!.requestedTeams
+    ];
     if (isAdding) {
       updatedRequestedTeams.add(teamId);
     } else {
       updatedRequestedTeams.remove(teamId);
     }
-    updateField(requestedTeam: updatedRequestedTeams);
+    final updatedPlayerCricketDetail = state.playerCricketDetails!
+        .copywith(requestedTeams: updatedRequestedTeams);
+    updateField(playerCricketDetails: updatedPlayerCricketDetail);
   }
 
   void addTeam(TeamDetails teamInfo) {
-    final updatedTeams = [...state.teams!, teamInfo];
-    updateField(teams: updatedTeams);
+    final updatedTeams = [...state.playerCricketDetails!.teams, teamInfo];
+    final updatedPlayerCricDetail =
+        state.playerCricketDetails!.copywith(teams: updatedTeams);
+    updateField(playerCricketDetails: updatedPlayerCricDetail);
   }
 
   void updateTeamRole(String teamId, TeamRole role) {
-    final updatedTeams = state.teams!.map((team) {
+    final updatedTeams = state.playerCricketDetails!.teams.map((team) {
       if (team.id == teamId) {
         return team.copyWith(role: role);
       }
       return team;
     }).toList();
-    updateField(teams: updatedTeams);
+    final updatedPlayerCricDetail =
+        state.playerCricketDetails!.copywith(teams: updatedTeams);
+    updateField(playerCricketDetails: updatedPlayerCricDetail);
   }
 
   void deleteTeam(String teamId) {
-    final updatedTeams =
-        state.teams!.where((team) => team.id != teamId).toList();
-    updateField(teams: updatedTeams);
+    final updatedTeams = state.playerCricketDetails!.teams
+        .where((team) => team.id != teamId)
+        .toList();
+    final updatedPlayerCricDetail =
+        state.playerCricketDetails!.copywith(teams: updatedTeams);
+    updateField(playerCricketDetails: updatedPlayerCricDetail);
   }
 }
 

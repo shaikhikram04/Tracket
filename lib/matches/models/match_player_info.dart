@@ -1,4 +1,4 @@
-import 'package:tracket/players/models/player.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/models/player_details.dart';
 
 class MatchPlayerInfo {
@@ -23,7 +23,7 @@ class MatchPlayerInfo {
 
   static MatchPlayerInfo fromMap(Map<String, dynamic> snap) => MatchPlayerInfo(
         playerId: snap['playerId'],
-        cricketRole: Player.getCricketRole(snap['cricketRole']),
+        cricketRole: PlayerCricketDetails.getCricketRole(snap['cricketRole']),
         playerName: snap['playerName'],
         profileImageUrl: snap['profileImageUrl'],
       );

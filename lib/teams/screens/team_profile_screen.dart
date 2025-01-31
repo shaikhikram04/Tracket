@@ -83,7 +83,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       //* check if player is not the member of a team
       if (!teamData.playerIds.contains(player.id)) {
         //* get players teams as admin
-        final playerTeamListAsAdmin = player.teams!
+        final playerTeamListAsAdmin = player.playerCricketDetails!.teams
             .where((team) => team.role != TeamRole.player)
             .toList();
 
