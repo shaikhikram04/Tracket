@@ -73,17 +73,18 @@ class Player {
   static Player fromSeed(
       Map<String, dynamic> snap, List<QueryDocumentSnapshot>? playerTeams) {
     return Player(
-        role: snap['role'],
-        id: snap['playerId'],
-        name: snap['playerName'],
-        email: snap['email'],
-        profileImageUrl: snap['profileImageUrl'],
-        createdAt: snap['createdAt'],
-        following: snap['following'],
-        followingTeams: snap['followingTeams'],
-        followers: snap['followers'],
-        playerCricketDetails: PlayerCricketDetails.fromMap(
-            snap['playerCricketDetails'], playerTeams));
+      role: snap['role'],
+      id: snap['playerId'],
+      name: snap['playerName'],
+      email: snap['email'],
+      profileImageUrl: snap['profileImageUrl'],
+      createdAt: snap['createdAt'],
+      following: snap['following'],
+      followingTeams: snap['followingTeams'],
+      followers: snap['followers'],
+      playerCricketDetails: PlayerCricketDetails.fromMap(
+          snap['playerCricketDetails'], playerTeams),
+    );
   }
 
   static Player fromSeedForUser(Map<String, dynamic> snap) {

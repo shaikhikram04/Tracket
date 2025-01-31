@@ -58,8 +58,9 @@ class PlayerNotifier extends StateNotifier<Player> {
     } else {
       updatedRequestedTeams.remove(teamId);
     }
-    final updatedPlayerCricketDetail = state.playerCricketDetails!
-        .copywith(requestedTeams: updatedRequestedTeams);
+    final updatedPlayerCricketDetail = state.playerCricketDetails!.copywith(
+      requestedTeams: updatedRequestedTeams,
+    );
     updateField(playerCricketDetails: updatedPlayerCricketDetail);
   }
 

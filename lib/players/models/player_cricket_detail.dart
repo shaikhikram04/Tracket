@@ -29,8 +29,8 @@ class PlayerCricketDetails {
   final Position? bowlingArm;
   final BowlingStyle bowlingStyle;
   final bool isPrivate;
-  final List<String> achievements;
-  final List<String> requestedTeams;
+  final List achievements;
+  final List requestedTeams;
   final List<TeamDetails> teams;
   final PlayerStats playerStats;
 
@@ -54,7 +54,7 @@ class PlayerCricketDetails {
         'isPrivate': isPrivate,
         'achievements': achievements,
         'requestedTeams': requestedTeams,
-        'playerStats': playerStats,
+        'playerStats': playerStats.toJson,
       };
 
   factory PlayerCricketDetails.fromMap(
@@ -78,8 +78,8 @@ class PlayerCricketDetails {
     Position? bowlingArm,
     BowlingStyle? bowlingStyle,
     bool? isPrivate,
-    List<String>? achievements,
-    List<String>? requestedTeams,
+    List? achievements,
+    List? requestedTeams,
     List<TeamDetails>? teams,
     PlayerStats? playerStats,
   }) {
