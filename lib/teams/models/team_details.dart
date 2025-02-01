@@ -1,9 +1,4 @@
-enum TeamRole {
-  owner,
-  admin,
-  player,
-  none,
-}
+import 'package:tracket/teams/models/team_role.dart';
 
 class TeamDetails {
   TeamDetails({

@@ -4,6 +4,7 @@ import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';

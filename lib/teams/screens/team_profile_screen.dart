@@ -7,6 +7,7 @@ import 'package:tracket/matches/screens/challenge_match_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';

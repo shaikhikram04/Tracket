@@ -1,5 +1,6 @@
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/models/team_role.dart';
 
 class PlayerDetails {
   PlayerDetails({

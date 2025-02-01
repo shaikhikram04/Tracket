@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';

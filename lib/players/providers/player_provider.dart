@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/models/team_role.dart';
 
 class PlayerNotifier extends StateNotifier<Player> {
   PlayerNotifier()

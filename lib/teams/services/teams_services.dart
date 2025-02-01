@@ -6,6 +6,7 @@ import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
+import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/providers/team_provider.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
