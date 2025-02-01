@@ -4,8 +4,7 @@ import 'package:tracket/notifications/screens/manage_requests_screen.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
@@ -42,7 +41,7 @@ class TeamSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final team = ref.watch(teamProvider);
+    final teamState = ref.watch(teamProvider);
 
     void onDeleteTeam() {
       showAlertDoubleBtnDialog(
@@ -52,7 +51,7 @@ class TeamSettingsScreen extends ConsumerWidget {
             'Are you sure you want to delete this team? This action cannot be undone.',
         sureButtonText: 'Delete',
         onSureButtonPressed: () {
-          TeamsServices.deleteTeam(context, team.id);
+          TeamsServices.deleteTeam(context, teamState.team.id);
         },
       );
     }
@@ -66,7 +65,7 @@ class TeamSettingsScreen extends ConsumerWidget {
         onSureButtonPressed: () {
           PlayersServices.changePlayerTeamRole(
               playerId: playerId,
-              teamId: team.id,
+              teamId: teamState.team.id,
               newRole: TeamRole.player,
               ref: ref,
               context: context);
@@ -93,9 +92,9 @@ class TeamSettingsScreen extends ConsumerWidget {
                       IconButton(
                         onPressed: () {
                           ref
-                              .read(requestStatusProvider.notifier)
-                              .setRequestStatus();
-                          pushScreen(context, AddAdmin(team: team));
+                              .read(requestProvider.notifier)
+                              .reset();
+                          pushScreen(context, AddAdmin(team: teamState.team));
                         },
                         icon: const Icon(Icons.person_add),
                         iconSize: 30,
@@ -106,7 +105,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                   //! Admins List
                   Column(
                     children: [
-                      for (final admin in team.admins)
+                      for (final admin in teamState.team.admins)
                         ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 0,
@@ -142,21 +141,21 @@ class TeamSettingsScreen extends ConsumerWidget {
                   getRequestTile(
                     context,
                     'Recieved Requests',
-                    team.requestStatus.pendingRequest,
+                    teamState.team.requestStatus.pendingRequest,
                     () {
                       pushScreen(
-                          context, ManageRequestsScreen(teamId: team.id));
+                          context, ManageRequestsScreen(teamId: teamState.team.id));
                     },
                   ),
                   getRequestTile(
                     context,
                     'Sent Requests',
-                    team.requestStatus.sendRequest,
+                    teamState.team.requestStatus.sendRequest,
                     () {
                       pushScreen(
                           context,
                           ManageRequestsScreen(
-                            teamId: team.id,
+                            teamId: teamState.team.id,
                             initialIndex: 1,
                           ));
                     },
@@ -166,7 +165,7 @@ class TeamSettingsScreen extends ConsumerWidget {
             ),
             //! Privacy Settings
             PrivacySettings(
-              isTeamPrivate: team.isPrivate,
+              isTeamPrivate: teamState.team.isPrivate,
               onSwitchChanged: (newValue) async {
                 if (newValue) {
                   showSnackBar('Now no one can add directly in team', context);
@@ -175,7 +174,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                 }
                 await TeamsServices.updateTeamPrivacy(
                   context,
-                  teamId: team.id,
+                  teamId: teamState.team.id,
                   isPrivate: newValue,
                 );
                 ref

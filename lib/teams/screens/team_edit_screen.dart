@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/teams/models/team.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
+import 'package:tracket/teams/providers/team_state.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/player_capacity_selector.dart';
 import 'package:tracket/teams/widgets/squad.dart';
@@ -25,7 +25,7 @@ class TeamEditScreen extends ConsumerStatefulWidget {
 }
 
 class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
-  late Team _team;
+  late TeamState _teamState;
   Uint8List? _image;
   final _formKey = GlobalKey<FormState>();
   late int _maxPlayersCapacity;
@@ -38,8 +38,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
   @override
   void initState() {
-    _team = ref.read(teamProvider);
-    _maxPlayersCapacity = _team.maxPlayersCapacity;
+    _teamState = ref.read(teamProvider);
+    _maxPlayersCapacity = _teamState.team.maxPlayersCapacity;
     super.initState();
   }
 
@@ -61,12 +61,12 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     _captain = null;
     _wicketkeeper = null;
     List<String> playerNames = [];
-    for (var player in _team.playersList) {
+    for (var player in _teamState.team.playersList) {
       playerNames.add(player.name);
-      if (player.id == _team.captainId) {
+      if (player.id == _teamState.team.captainId) {
         _captain = player.name;
       }
-      if (player.id == _team.wicketkeeperId) {
+      if (player.id == _teamState.team.wicketkeeperId) {
         _wicketkeeper = player.name;
       }
     }
@@ -81,7 +81,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     setState(() {
       _isSaving = true;
     });
-    final teamPlayers = _team.playersList;
+    final teamPlayers = _teamState.team.playersList;
 
     String? captainId;
     if (_captain != null) {
@@ -107,7 +107,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     try {
       await TeamsServices.updateTeamField(
         context,
-        teamId: _team.id,
+        teamId: _teamState.team.id,
         teamName: _teamName,
         shortName: _teamShortName,
         description: _teamDescription,
@@ -142,7 +142,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _team = ref.watch(teamProvider);
+    _teamState = ref.watch(teamProvider);
     final width = MediaQuery.of(context).size.width;
 
     return PopScope(
@@ -152,7 +152,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
         _formKey.currentState!.save();
 
-        final teamPlayers = _team.playersList;
+        final teamPlayers = _teamState.team.playersList;
 
         String captainId = '';
         if (_captain != null) {
@@ -170,12 +170,12 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           wicketkeeperId = teamPlayers[index].id;
         }
 
-        if (_teamName != _team.name ||
-            _teamShortName != _team.shortName ||
-            _teamDescription != _team.description ||
-            _maxPlayersCapacity != _team.maxPlayersCapacity ||
-            captainId != _team.captainId ||
-            wicketkeeperId != _team.wicketkeeperId ||
+        if (_teamName != _teamState.team.name ||
+            _teamShortName != _teamState.team.shortName ||
+            _teamDescription != _teamState.team.description ||
+            _maxPlayersCapacity != _teamState.team.maxPlayersCapacity ||
+            captainId != _teamState.team.captainId ||
+            wicketkeeperId != _teamState.team.wicketkeeperId ||
             _image != null) {
           showAlertDoubleBtnDialog(
             context,
@@ -220,13 +220,13 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           getTitleText('Primary Info', context),
                           //! Team Logo
                           TeamLogoEditor(
-                            logoUrl: _team.logoUrl,
+                            logoUrl: _teamState.team.logoUrl,
                             image: _image,
                             onImageChanged: _editLogo,
                           ),
                           //! Team Name, Short Name, Description
                           MyTextField(
-                            initialText: _team.name,
+                            initialText: _teamState.team.name,
                             onSave: (value) {
                               _teamName = value;
                             },
@@ -237,7 +237,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                                     value, 'Team Name'),
                           ),
                           MyTextField(
-                            initialText: _team.shortName,
+                            initialText: _teamState.team.shortName,
                             onSave: (value) {
                               _teamShortName = value;
                             },
@@ -247,7 +247,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                                 ValidationServices.teamShortNameValidator,
                           ),
                           MyTextField(
-                            initialText: _team.description,
+                            initialText: _teamState.team.description,
                             onSave: (value) {
                               _teamDescription = value;
                             },

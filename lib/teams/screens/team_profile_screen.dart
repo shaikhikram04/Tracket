@@ -8,7 +8,7 @@ import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
@@ -78,11 +78,11 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       }
 
-      final teamData = ref.read(teamProvider);
+      final teamState = ref.read(teamProvider);
       final player = ref.read(playerProvider);
 
       //* check if player is not the member of a team
-      if (!teamData.playerIds.contains(player.id)) {
+      if (!teamState.team.playerIds.contains(player.id)) {
         //* get players teams as admin
         final playerTeamListAsAdmin = player.playerCricketDetails!.teams
             .where((team) => team.role != TeamRole.player)
@@ -92,7 +92,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           List teamChallengedList =
               await TeamsServices.getTeamChallengedList(team.id);
 
-          bool canChallenge = !teamChallengedList.contains(teamData.id);
+          bool canChallenge = !teamChallengedList.contains(teamState.team.id);
 
           _playerTeamsAsAdmin.add({'canChallenge': canChallenge, 'team': team});
         }
@@ -159,11 +159,11 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final teamData = ref.watch(teamProvider);
+    final teamState = ref.watch(teamProvider);
 
     final player = ref.watch(playerProvider);
-    final isFollowed = teamData.followers.contains(player.id);
-    final isAdmin = teamData.admins.any((admin) => admin.id == player.id);
+    final isFollowed = teamState.team.followers.contains(player.id);
+    final isAdmin = teamState.team.admins.any((admin) => admin.id == player.id);
 
     final isChallengeVisible = _playerTeamsAsAdmin.isNotEmpty;
     final canChallenge =
@@ -184,7 +184,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             BorderRadius.vertical(top: Radius.circular(20)),
                       ),
                       builder: (context) => TeamOptions(
-                        isOwner: teamData.createdBy ==
+                        isOwner: teamState.team.createdBy ==
                             FirebaseAuthMethods().currentUserId,
                       ),
                     );
@@ -231,7 +231,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             spacing: 15,
                             children: [
                               getCircleAvatar(
-                                  url: teamData.logoUrl,
+                                  url: teamState.team.logoUrl,
                                   isTeam: true,
                                   radius: 50),
                               Expanded(
@@ -240,16 +240,16 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   children: [
                                     Text.rich(TextSpan(children: [
                                       TextSpan(
-                                        text: teamData.name,
+                                        text: teamState.team.name,
                                         style: MyTextStyle(context).titleLarge,
                                       ),
                                       TextSpan(
-                                        text: '  (${teamData.shortName})',
+                                        text: '  (${teamState.team.shortName})',
                                         style: MyTextStyle(context).titleMedium,
                                       )
                                     ])),
                                     Text(
-                                      teamData.description,
+                                      teamState.team.description,
                                       style: MyTextStyle(context).bodyMedium,
                                     ),
                                   ],
@@ -261,15 +261,15 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               StatsData(
-                                number: teamData.followers.length,
+                                number: teamState.team.followers.length,
                                 label: 'Followers',
                               ),
                               StatsData(
-                                number: teamData.stats.rank,
+                                number: teamState.team.stats.rank,
                                 label: 'Ranking',
                               ),
                               StatsData(
-                                number: teamData.stats.matchesPlayed,
+                                number: teamState.team.stats.matchesPlayed,
                                 label: 'Achievements',
                               ),
                             ],
@@ -286,7 +286,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         context,
                                         isLoading: isFollowing,
                                         onPressed: () => _followTeam(
-                                            teamData.id, player.id, false),
+                                            teamState.team.id,
+                                            player.id,
+                                            false),
                                         text: 'Unfollow',
                                         primaryColor: blackColor,
                                         secondaryColor: lightDrawerBgColor,
@@ -295,7 +297,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         context,
                                         isLoading: isFollowing,
                                         onPressed: () => _followTeam(
-                                            teamData.id, player.id, true),
+                                            teamState.team.id, player.id, true),
                                         text: 'Follow',
                                         primaryColor: const Color.fromARGB(
                                             255, 40, 50, 40),
@@ -311,13 +313,15 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                               playerId: player.id,
                                               playerName: player.name,
                                               challengedTeam: MatchTeamInfo(
-                                                teamId: teamData.id,
-                                                logoUrl: teamData.logoUrl,
-                                                teamName: teamData.name,
-                                                shortName: teamData.shortName,
-                                                captainId: teamData.captainId,
-                                                wicketkeeperId:
-                                                    teamData.wicketkeeperId,
+                                                teamId: teamState.team.id,
+                                                logoUrl: teamState.team.logoUrl,
+                                                teamName: teamState.team.name,
+                                                shortName:
+                                                    teamState.team.shortName,
+                                                captainId:
+                                                    teamState.team.captainId,
+                                                wicketkeeperId: teamState
+                                                    .team.wicketkeeperId,
                                               )),
                                           text: 'Challenge',
                                           primaryColor: const Color.fromARGB(
@@ -357,22 +361,22 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             StatsData(
-                              number: teamData.stats.matchesPlayed,
+                              number: teamState.team.stats.matchesPlayed,
                               label: 'Matches',
                               numColor: const Color.fromARGB(255, 29, 130, 212),
                             ),
                             StatsData(
-                              number: teamData.stats.wins,
+                              number: teamState.team.stats.wins,
                               label: 'Wins',
                               numColor: const Color.fromARGB(255, 39, 141, 42),
                             ),
                             StatsData(
-                              number: teamData.stats.losses,
+                              number: teamState.team.stats.losses,
                               label: 'Losses',
                               numColor: Colors.red,
                             ),
                             StatsData(
-                              number: teamData.stats.tie,
+                              number: teamState.team.stats.tie,
                               label: 'Ties',
                               numColor: Colors.amber,
                             ),

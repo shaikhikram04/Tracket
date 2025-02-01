@@ -6,7 +6,7 @@ import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
@@ -51,9 +51,9 @@ class MyConsumer extends StatelessWidget {
 
   void toggleButton(String playerId, bool isAdding, WidgetRef ref) {
     if (isAdding) {
-      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
+      ref.read(requestProvider.notifier).addRequestInProgress(playerId);
     } else {
-      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+      ref.read(requestProvider.notifier).markRequestSuccess(playerId);
     }
   }
 
@@ -103,7 +103,7 @@ class MyConsumer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final requestStatus = ref.watch(requestStatusProvider);
+        final requestStatus = ref.watch(requestProvider);
         final isRequestInProgress =
             requestStatus.requestInProgress.contains(currentId);
         final isRequestSuccess =

@@ -7,7 +7,7 @@ import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
@@ -102,30 +102,30 @@ class TeamsServices {
     WidgetRef ref,
     BuildContext context,
   ) async {
-    final team = ref.read(teamProvider);
+    final teamState = ref.read(teamProvider);
     try {
       //* Update team's player list in database
       await _firestore
           .collection(FirestoreCollections.teams)
-          .doc(team.id)
+          .doc(teamState.team.id)
           .collection(FirestoreCollections.teamPlayers)
           .doc(playerId)
           .delete();
       ref.read(teamProvider.notifier).deletePlayer(playerId);
-      _firestore.collection(FirestoreCollections.teams).doc(team.id).update({
+      _firestore.collection(FirestoreCollections.teams).doc(teamState.team.id).update({
         'playersIds': FieldValue.arrayRemove([playerId]),
       });
-      if (team.captainId == playerId) {
+      if (teamState.team.captainId == playerId) {
         await _firestore
             .collection(FirestoreCollections.teams)
-            .doc(team.id)
+            .doc(teamState.team.id)
             .update({'captainId': ''});
         ref.read(teamProvider.notifier).updateField(captainId: '');
       }
-      if (team.wicketkeeperId == playerId) {
+      if (teamState.team.wicketkeeperId == playerId) {
         await _firestore
             .collection(FirestoreCollections.teams)
-            .doc(team.id)
+            .doc(teamState.team.id)
             .update({'wicketkeeperId': ''});
         ref.read(teamProvider.notifier).updateField(wicketkeeperId: '');
       }
@@ -135,10 +135,10 @@ class TeamsServices {
           .collection(FirestoreCollections.players)
           .doc(playerId)
           .collection(FirestoreCollections.playerTeams)
-          .doc(team.id)
+          .doc(teamState.team.id)
           .delete();
       if (playerId == ref.read(playerProvider).id) {
-        ref.read(playerProvider.notifier).deleteTeam(team.id);
+        ref.read(playerProvider.notifier).deleteTeam(teamState.team.id);
       }
     } catch (e) {
       if (context.mounted) {
@@ -287,7 +287,7 @@ class TeamsServices {
             : FieldValue.arrayRemove([playerId])
       });
 
-      final followers = ref.read(teamProvider).followers;
+      final followers = ref.read(teamProvider).team.followers;
       isFollow ? followers.add(playerId) : followers.remove(playerId);
 
       ref.read(teamProvider.notifier).updateField(followers: followers);

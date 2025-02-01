@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/widgets/player_tile.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
-import 'package:tracket/teams/providers/team_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -19,14 +18,14 @@ class Squad extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final team = ref.watch(teamProvider);
+    final teamState = ref.watch(teamProvider);
 
     void addPlayer() {
-      ref.read(requestStatusProvider.notifier).setRequestStatus();
+      ref.read(requestProvider.notifier).reset();
       pushScreen(
           context,
           AddPlayerScreen(
-            team: team,
+            team: teamState.team,
           ));
     }
 
@@ -81,19 +80,20 @@ class Squad extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 10),
-        team.playersList.isEmpty
+        teamState.team.playersList.isEmpty
             ? const NoDataFound(
                 title: 'No Player joined yet!',
                 message: 'Tap the button above to request player to join.',
                 isPointingButton: true)
             : Column(
                 children: List.generate(
-                  team.playersList.length,
+                  teamState.team.playersList.length,
                   (index) {
-                    final playerDetail = team.playersList[index];
+                    final playerDetail = teamState.team.playersList[index];
                     final playerId = playerDetail.id;
-                    final isCaptain = team.captainId == playerId;
-                    final isWicketKeeper = team.wicketkeeperId == playerId;
+                    final isCaptain = teamState.team.captainId == playerId;
+                    final isWicketKeeper =
+                        teamState.team.wicketkeeperId == playerId;
                     return PlayerTile(
                       cricketRole: playerDetail.cricketRole,
                       playerId: playerId,

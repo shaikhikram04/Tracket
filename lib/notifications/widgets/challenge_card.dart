@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/screens/accept_challenge_screen.dart';
 import 'package:tracket/notifications/models/notification.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -159,7 +159,7 @@ class ChallengeCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final requestStatus = ref.watch(requestStatusProvider);
+          final requestStatus = ref.watch(requestProvider);
           final isRequestInProgress =
               requestStatus.requestInProgress.contains(request.notificationId);
           final isRequestSuccess =

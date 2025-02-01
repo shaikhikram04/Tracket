@@ -7,7 +7,7 @@ import 'package:tracket/notifications/models/notification.dart' ;
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/teams/providers/request_status_provider.dart';
+import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
@@ -121,9 +121,9 @@ class _RequestListState extends ConsumerState<RequestList> {
 
   void _toggleButton(String playerId, bool isAdding, WidgetRef ref) {
     if (isAdding) {
-      ref.read(requestStatusProvider.notifier).addRequestInProgress(playerId);
+      ref.read(requestProvider.notifier).addRequestInProgress(playerId);
     } else {
-      ref.read(requestStatusProvider.notifier).addRequestSuccess(playerId);
+      ref.read(requestProvider.notifier).markRequestSuccess(playerId);
     }
   }
 
