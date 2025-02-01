@@ -16,3 +16,9 @@ const enableSwitchColor = Color.fromARGB(255, 14, 151, 14);
 //* Darkmode colors
 const darkBackgroundColor = Color.fromRGBO(33, 33, 33, 1);
 const darkThemeColor = Color(0xFF1FE073);
+
+const disableButtonColor1 = const Color.fromARGB(255, 145, 201, 148);
+const disableButtonColor2 = const Color.fromARGB(255, 170, 223, 172);
+
+const enableButtonColor1 = const Color.fromARGB(255, 108, 206, 112);
+
