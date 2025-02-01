@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,11 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/authentication/screens/auth_screen.dart';
-import 'package:tracket/players/models/player_cricket_detail.dart';
-import 'package:tracket/screens/home.dart';
+import 'package:tracket/matches/screens/match_scoring_screen.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 import 'firebase_options.dart';
 
@@ -44,9 +40,7 @@ ThemeData darkMode = ThemeData(
   ),
 );
 
-Future<void> updateFirestoreStructure() async {
-  
-}
+Future<void> updateFirestoreStructure() async {}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -113,11 +107,11 @@ class Tracket extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: currUser == null || !currUser.emailVerified
-          ? const AuthScreen()
-          : const HomeScreen(),
+      // home: currUser == null || !currUser.emailVerified
+      //     ? const AuthScreen()
+      //     : const HomeScreen(),
 
-      // home: const AcceptChallengeScreen(),
+      home: const MatchScoringScreen(),
     );
   }
 }
