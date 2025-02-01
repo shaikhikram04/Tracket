@@ -265,11 +265,11 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                 label: 'Followers',
                               ),
                               StatsData(
-                                number: teamData.rank,
+                                number: teamData.stats.rank,
                                 label: 'Ranking',
                               ),
                               StatsData(
-                                number: teamData.matchesPlayed,
+                                number: teamData.stats.matchesPlayed,
                                 label: 'Achievements',
                               ),
                             ],
@@ -357,22 +357,22 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             StatsData(
-                              number: teamData.matchesPlayed,
+                              number: teamData.stats.matchesPlayed,
                               label: 'Matches',
                               numColor: const Color.fromARGB(255, 29, 130, 212),
                             ),
                             StatsData(
-                              number: teamData.wins,
+                              number: teamData.stats.wins,
                               label: 'Wins',
                               numColor: const Color.fromARGB(255, 39, 141, 42),
                             ),
                             StatsData(
-                              number: teamData.losses,
+                              number: teamData.stats.losses,
                               label: 'Losses',
                               numColor: Colors.red,
                             ),
                             StatsData(
-                              number: teamData.tieCount,
+                              number: teamData.stats.tie,
                               label: 'Ties',
                               numColor: Colors.amber,
                             ),

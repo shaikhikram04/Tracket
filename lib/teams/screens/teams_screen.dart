@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/players/providers/player_provider.dart';
-import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/explore_teams.dart';

@@ -56,7 +56,7 @@ class TeamsServices {
       await _firestore
           .collection(FirestoreCollections.teams)
           .doc(team.id)
-          .set(team.toJson);
+          .set(team.toJson());
 
       final playerInfo = PlayerDetails(
         cricketRole: adminCricketRole,

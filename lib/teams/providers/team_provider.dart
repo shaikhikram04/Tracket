@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
-import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
 
 class TeamProviderNotifier extends StateNotifier<Team> {
@@ -21,8 +20,8 @@ class TeamProviderNotifier extends StateNotifier<Team> {
     String? captainId,
     String? wicketkeeperId,
     bool? isTeamPrivate,
-    List? playerIds,
-    List? followers,
+    List<String>? playerIds,
+    List<String>? followers,
   }) {
     state = state.copyWith(
       name: name,
