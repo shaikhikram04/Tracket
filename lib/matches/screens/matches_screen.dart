@@ -2,8 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/widgets/match_card.dart';
 import 'package:tracket/matches/widgets/match_tabs.dart';
 
-class MatchesScreen extends StatelessWidget {
+class MatchesScreen extends StatefulWidget {
   const MatchesScreen({super.key});
+
+  @override
+  State<MatchesScreen> createState() => _MatchesScreenState();
+}
+
+class _MatchesScreenState extends State<MatchesScreen> {
+  int _selectedTabIndex = 1;
+
+  void onTabChange(int index) {
+    setState(() {
+      _selectedTabIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +27,21 @@ class MatchesScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                MatchTabs(text: 'Completed', isSelected: true),
-                MatchTabs(text: 'Live', isSelected: false),
-                MatchTabs(text: 'Upcoming', isSelected: false),
+                MatchTabs(
+                  text: 'Completed',
+                  isSelected: _selectedTabIndex == 0,
+                  onTap: () => onTabChange(0),
+                ),
+                MatchTabs(
+                  text: 'Live',
+                  isSelected: _selectedTabIndex == 1,
+                  onTap: () => onTabChange(1),
+                ),
+                MatchTabs(
+                  text: 'Upcoming',
+                  isSelected: _selectedTabIndex == 2,
+                  onTap: () => onTabChange(2),
+                ),
               ],
             ),
             Expanded(

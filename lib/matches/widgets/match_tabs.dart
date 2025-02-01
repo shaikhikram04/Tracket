@@ -6,10 +6,12 @@ class MatchTabs extends StatelessWidget {
     super.key,
     required this.text,
     required this.isSelected,
+    required this.onTap,
   });
 
   final String text;
   final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +27,18 @@ class MatchTabs extends StatelessWidget {
             disableButtonColor1,
           ];
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        gradient: SweepGradient(colors: colors),
-        border: isSelected ? Border.all(color: blackColor) : null,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: SweepGradient(colors: colors),
+          border: isSelected ? Border.all(color: blackColor) : null,
+        ),
+        child: Text(text),
       ),
-      child: Text(text),
     );
   }
 }
