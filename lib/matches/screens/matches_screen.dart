@@ -47,7 +47,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 5),
-                itemCount: 4,
+                itemCount: 5,
                 itemBuilder: (BuildContext context, int index) {
                   return const MatchCard();
                 },

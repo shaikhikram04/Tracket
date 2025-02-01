@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class MatchCard extends StatelessWidget {
@@ -14,84 +15,67 @@ class MatchCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 Text('Match 1'),
                 Spacer(),
                 Text('12:30 PM'),
               ],
             ),
+            SizedBox(height: 5),
             Row(
               children: [
                 Column(
                   children: [
                     getCircleAvatar(url: '', isTeam: true, radius: 30),
-                    const Text('Team A'),
+                    Text(
+                      'Team A',
+                      style: MyTextStyle(context).bodyLarge,
+                    ),
                   ],
                 ),
-                const SizedBox(width: 8),
-                const Column(
+                const SizedBox(width: 10),
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('121/5'),
+                    Text(
+                      '121/5',
+                      style: MyTextStyle(context).bodyLarge,
+                    ),
                     Text('10'),
                   ],
                 ),
                 const Spacer(),
-                const Text('v/s'),
+                Text(
+                  'v/s',
+                  style: MyTextStyle(context).boldBodyLarge,
+                ),
                 const Spacer(),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('50/2'),
+                    Text(
+                      '50/2',
+                      style: MyTextStyle(context).bodyLarge,
+                    ),
                     Text('6.5'),
                   ],
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 10),
                 Column(
                   children: [
                     getCircleAvatar(url: '', isTeam: true, radius: 30),
-                    const Text('Team B'),
+                    Text(
+                      'Team B',
+                      style: MyTextStyle(context).bodyLarge,
+                    ),
                   ],
                 ),
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     CircleAvatar(
-            //       radius: 14,
-            //       child: Text('3'),
-            //     ),
-            //     SizedBox(width: 6),
-            //     CircleAvatar(
-            //       radius: 14,
-            //       child: Text('4'),
-            //     ),
-            //     SizedBox(width: 6),
-            //     CircleAvatar(
-            //       radius: 14,
-            //       child: Text('1'),
-            //     ),
-            //     SizedBox(width: 6),
-            //     CircleAvatar(
-            //       radius: 14,
-            //       child: Text('2'),
-            //     ),
-            //     SizedBox(width: 6),
-            //     CircleAvatar(
-            //       radius: 14,
-            //       child: Text('0'),
-            //     ),
-            //     SizedBox(width: 6),
-            //     CircleAvatar(
-            //       radius: 14,
-            //       child: Text(''),
-            //     ),
-            //   ],
-            // ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   children: [
