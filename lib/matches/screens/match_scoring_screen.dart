@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/widgets/scoreboard.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class MatchScoringScreen extends StatelessWidget {
   const MatchScoringScreen({super.key});
@@ -12,10 +12,18 @@ class MatchScoringScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Match Details'),
+        backgroundColor: whiteColor,
+        shape: Border.all(color: Colors.black45, width: 0.3),
       ),
       body: ListView(
         children: [
-          MyCard(
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: whiteColor,
+              border: Border.symmetric(
+                  horizontal: BorderSide(color: Colors.black45, width: 0.5)),
+            ),
             child: Column(
               children: [
                 Row(
@@ -112,49 +120,56 @@ class MatchScoringScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text('BattingTeam Batting'),
                         Text(
-                          '10 (6)     Batsman1Name',
+                          'Batsman1Name     10 (6)',
                           style: MyTextStyle(context).bodyLarge,
                         ),
                         Text(
-                          '25 (15)     Batsman2Name',
+                          'Batsman2Name     25 (15)',
                           style: MyTextStyle(context).bodyLarge,
                         ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 10),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      'BowlerName   15/1 (1.5)',
-                      style: MyTextStyle(context).bodyLarge,
-                      textAlign: TextAlign.left,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('BowlingTeam Bowling'),
+                        Text(
+                          'BowlerName   15/1 (1.5)',
+                          style: MyTextStyle(context).bodyLarge,
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          MyCard(
-              child: Column(
-            children: [
-              getTitleText('Current Partnership', context),
-              SizedBox(height: 15),
-              Text(
-                'Batsman1 & Batsman2    10(8)',
-                style: MyTextStyle(context).titleMedium,
-              )
-            ],
-          )),
+          Container(
+            color: const Color.fromARGB(255, 250, 255, 250),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              children: [
+                getTitleText('Scoreboard', context),
+                Scoreboard(),
+              ],
+            ),
+          )
         ],
       ),
     );
