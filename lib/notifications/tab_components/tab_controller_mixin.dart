@@ -4,10 +4,10 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
-  late final TabController _tabController;
+  late final TabController tabController;
 
   void initTabController(int length, {int initialIndex = 0}) {
-    _tabController = TabController(
+    tabController = TabController(
       length: length,
       initialIndex: initialIndex,
       vsync: this as TickerProvider,
@@ -16,7 +16,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
 
   @override
   void dispose() {
-    _tabController.dispose();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -30,7 +30,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
     return TabBar(
       dividerColor: theme.colorScheme.secondary,
       indicatorSize: TabBarIndicatorSize.tab,
-      controller: _tabController,
+      controller: tabController,
       unselectedLabelColor: unselectedColor ?? unSelectColor,
       labelColor: selectedColor ?? darkGreenColor,
       labelStyle: MyTextStyle(context).boldBodyLarge,
@@ -55,7 +55,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
   }) {
     return Expanded(
       child: TabBarView(
-        controller: _tabController,
+        controller: tabController,
         children: children,
       ),
     );
