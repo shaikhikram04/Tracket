@@ -75,7 +75,6 @@ class AddPlayerScreen extends StatelessWidget {
       role: TeamRole.player,
     );
 
-    final bool isTeamFull = team.playersList.length >= team.maxPlayersCapacity;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: MyListTile(
@@ -90,7 +89,7 @@ class AddPlayerScreen extends StatelessWidget {
           buttonType: 'addPlayer',
           playerInfo: playerInfo,
           teamInfo: teamInfo,
-          isTeamFull: isTeamFull,
+          isTeamHasCapacity: team.hasCapacity,
         ),
       ),
     );

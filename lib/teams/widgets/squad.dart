@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/players/widgets/player_tile.dart';
+import 'package:tracket/players/widgets/squad_player_tile.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -94,7 +94,7 @@ class Squad extends ConsumerWidget {
                     final isCaptain = teamState.team.captainId == playerId;
                     final isWicketKeeper =
                         teamState.team.wicketkeeperId == playerId;
-                    return PlayerTile(
+                    return SquadPlayerTile(
                       cricketRole: playerDetail.cricketRole,
                       playerId: playerId,
                       playerName: playerDetail.name,

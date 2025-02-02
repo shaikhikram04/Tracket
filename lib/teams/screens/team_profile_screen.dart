@@ -62,7 +62,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           widget.teamData!['id'],
           context,
         );
-        final teamObject = Team.formSeed(widget.teamData!, teamPlayer);
+        final teamObject = Team.fromJson(widget.teamData!, teamPlayer);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       } else {
         final team = await FirebaseFirestore.instance
@@ -74,7 +74,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
 
         final teamPlayer =
             await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
-        final teamObject = Team.formSeed(team.data()!, teamPlayer);
+        final teamObject = Team.fromJson(team.data()!, teamPlayer);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       }
 

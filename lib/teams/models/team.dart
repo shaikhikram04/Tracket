@@ -154,5 +154,4 @@ class Team {
     );
   }
 
-  static formSeed(Map<String, dynamic> teamData, param1) {}
 }

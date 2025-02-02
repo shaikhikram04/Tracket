@@ -55,7 +55,7 @@ class JoinTeamScreen extends StatelessWidget {
   }
 
   Widget buildTeamTile(Map<String, dynamic> teamData, BuildContext context) {
-    final team = Team.formSeed(teamData, null);
+    final team = Team.fromJson(teamData, null);
     final teamInfo = TeamDetails(
       id: team.id,
       logoUrl: team.logoUrl,
@@ -83,7 +83,7 @@ class JoinTeamScreen extends StatelessWidget {
           buttonType: 'joinTeam',
           teamInfo: teamInfo,
           playerInfo: playerInfo,
-          isTeamFull: team.playerIds.length >= team.maxPlayersCapacity,
+          isTeamHasCapacity: team.hasCapacity,
         ),
       ),
     );

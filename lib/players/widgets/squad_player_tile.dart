@@ -6,8 +6,8 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
-class PlayerTile extends StatelessWidget {
-  const PlayerTile({
+class SquadPlayerTile extends StatelessWidget {
+  const SquadPlayerTile({
     super.key,
     this.isCaptain = false,
     this.isWicketKeeper = false,

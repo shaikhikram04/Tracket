@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
-import 'package:tracket/players/widgets/player_tile.dart';
+import 'package:tracket/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -75,7 +75,7 @@ class MatchSquad extends StatelessWidget {
   }
 
   Widget _buildPlayerTile(MatchPlayerInfo player) {
-    return PlayerTile(
+    return SquadPlayerTile(
       cricketRole: player.cricketRole,
       playerId: player.playerId,
       playerName: player.playerName,

@@ -19,7 +19,7 @@ class MyConsumer extends StatelessWidget {
     required this.buttonType,
     required this.playerInfo,
     required this.teamInfo,
-    this.isTeamFull = false,
+    this.isTeamHasCapacity = false,
   });
 
   final List<String> idsList;
@@ -27,7 +27,7 @@ class MyConsumer extends StatelessWidget {
   final String buttonType;
   final PlayerDetails playerInfo;
   final TeamDetails teamInfo;
-  final bool isTeamFull;
+  final bool isTeamHasCapacity;
 
   String get currentId =>
       buttonType == 'joinTeam' ? teamInfo.id : playerInfo.id;
@@ -61,6 +61,9 @@ class MyConsumer extends StatelessWidget {
     toggleButton(currentId, true, ref);
     try {
       if (buttonType == 'addPlayer' || buttonType == 'joinTeam') {
+        if (!isTeamHasCapacity) {
+          showSnackBar('Team has reached it capacity.', context);
+        }
         if (isPrivate) {
           NotificationResult result;
           if (buttonType == 'addPlayer') {
