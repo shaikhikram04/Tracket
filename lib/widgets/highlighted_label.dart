@@ -20,18 +20,20 @@ class HighlightedLabel extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 5, bottom: 5),
       padding: const EdgeInsets.symmetric(
-        horizontal: 7,
+        horizontal: 12,
         vertical: 4,
       ),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Text(
         text,
         style: isLabel
             ? MyTextStyle(context).coloredLabelLarge(textColor)
-            : MyTextStyle(context).coloredBodyLarge(textColor),
+            : MyTextStyle(context)
+                .coloredBodyMedium(textColor)
+                .copyWith(fontWeight: FontWeight.w600),
       ),
     );
   }

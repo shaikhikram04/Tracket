@@ -68,6 +68,9 @@ class MyTextStyle {
 
   TextStyle get bodyMedium => textTheme.bodyMedium!;
 
+  TextStyle coloredBodyMedium(Color textColor) =>
+      bodyMedium.copyWith(color: textColor);
+
   //! Label
   TextStyle coloredLabelLarge(Color textColor) =>
       textTheme.labelLarge!.copyWith(color: textColor);
