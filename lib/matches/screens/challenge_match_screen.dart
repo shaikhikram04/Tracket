@@ -112,7 +112,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         context,
       );
 
-      _challengerTeam = Team.formSeed(teamData, teamPlayers);
+      _challengerTeam = Team.fromJson(teamData, teamPlayers);
     } catch (e) {
       if (!mounted) return;
       _handleError('Failed to load team data', e);

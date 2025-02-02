@@ -91,7 +91,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         final teamPlayers =
             await TeamsServices.getTeamPlayersFromId(teamId, context);
 
-        _challengedTeam = Team.formSeed(teamSnap, teamPlayers);
+        _challengedTeam = Team.fromJson(teamSnap, teamPlayers);
 
         _challengedTeamPlayers.value =
             MatchPlayerInfo.fromPlayerDetailList(_challengedTeam!.playersList);
