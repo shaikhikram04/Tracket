@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/widgets/match_scoreboard.dart';
+import 'package:tracket/matches/widgets/scoreboard_component/match_scoreboard.dart';
 import 'package:tracket/utils/utils.dart';
 
 class ScoreboardSection extends StatelessWidget {

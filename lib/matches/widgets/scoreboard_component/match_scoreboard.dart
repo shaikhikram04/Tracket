@@ -3,7 +3,7 @@ import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
-import 'package:tracket/matches/widgets/inning_scoreboard.dart';
+import 'package:tracket/matches/widgets/scoreboard_component/inning_scoreboard.dart';
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
 import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
@@ -35,7 +35,7 @@ class _ScoreboardState extends State<Scoreboard>
         buildTabBar(tabs: _tabs),
         const SizedBox(height: 8),
         SizedBox(
-          height: 500,
+          height: 465,
           child: TabBarView(
             controller: tabController,
             physics: NeverScrollableScrollPhysics(),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/widgets/match_status_card.dart';
-import 'package:tracket/matches/widgets/scoreboard_section.dart';
+import 'package:tracket/matches/widgets/scoreboard_component/scoreboard_section.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchScoringScreen extends StatelessWidget {
   const MatchScoringScreen({super.key});
@@ -11,9 +12,33 @@ class MatchScoringScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: ListView(
-        children: const [
+        children: [
           MatchStatusCard(),
           ScoreboardSection(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(TextSpan(children: [
+                  TextSpan(
+                    text: 'Toss : ',
+                    style:
+                        MyTextStyle(context).coloredBodyLarge(darkGreenColor),
+                  ),
+                  TextSpan(text: 'Team 1 won the toss and decided to bat first')
+                ])),
+                Text.rich(TextSpan(children: [
+                  TextSpan(
+                    text: 'Venue : ',
+                    style:
+                        MyTextStyle(context).coloredBodyLarge(darkGreenColor),
+                  ),
+                  TextSpan(text: 'Wafa Complex')
+                ])),
+              ],
+            ),
+          )
         ],
       ),
     );
