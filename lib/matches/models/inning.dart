@@ -4,7 +4,8 @@ import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
-List<T> initializeStats<T>(List<MatchPlayerInfo> players, T Function(MatchPlayerInfo) builder) {
+List<T> initializeStats<T>(
+    List<MatchPlayerInfo> players, T Function(MatchPlayerInfo) builder) {
   return players.map(builder).toList();
 }
 
@@ -146,8 +147,8 @@ class Inning {
     if (notOutBatsmen.length < 2) return [0, 0];
 
     return [
-      notOutBatsmen[0].runs + notOutBatsmen[1].runs,
-      notOutBatsmen[0].ballsFaced + notOutBatsmen[1].ballsFaced,
+      notOutBatsmen[0].runs! + notOutBatsmen[1].runs!,
+      notOutBatsmen[0].ballsFaced! + notOutBatsmen[1].ballsFaced!,
     ];
   }
 

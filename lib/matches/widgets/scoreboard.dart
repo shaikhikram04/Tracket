@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/inning_data.dart';
+import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/inning.dart';
+import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/widgets/batting_scorecard.dart';
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
@@ -32,9 +34,10 @@ class _ScoreboardState extends State<Scoreboard>
         buildTabBar(tabs: _tabs),
         const SizedBox(height: 8),
         SizedBox(
-          height: 200,
+          height: 400,
           child: TabBarView(
             controller: tabController,
+            physics: NeverScrollableScrollPhysics(),
             children: [
               BattingScorecard(innings: _mockFirstInnings()),
               BattingScorecard(innings: _mockSecondInnings()),
@@ -45,38 +48,93 @@ class _ScoreboardState extends State<Scoreboard>
     );
   }
 
-  InningsData _mockFirstInnings() => InningsData(
-        batsmen: [
-          BatsmanData(
-            name: 'Batsman1 name',
-            dismissalInfo: 'c fielder1   b fielder2',
+  Inning _mockFirstInnings() => Inning(
+        battingStats: [
+          BattingScore(
+            playerName: 'Batsman1 name',
             runs: 7,
-            balls: 9,
+            ballsFaced: 9,
             fours: 1,
             sixes: 0,
-            strikeRate: 80.64,
+            uuid: '',
           ),
-          BatsmanData(
-            name: 'Batsman2 name',
-            dismissalInfo: 'Not out',
+          BattingScore(
+            playerName: 'Batsman2 name',
             runs: 20,
-            balls: 14,
+            ballsFaced: 14,
             fours: 2,
             sixes: 0,
-            strikeRate: 117.54,
+            uuid: '',
           ),
-          BatsmanData(
-            name: 'Batsman3 name',
-            dismissalInfo: 'Not out',
+          BattingScore(
+            playerName: 'Batsman3 name',
             runs: 20,
-            balls: 14,
+            ballsFaced: 14,
             fours: 2,
             sixes: 0,
-            strikeRate: 117.54,
+            uuid: '',
           ),
         ],
+        battingTeam: MatchTeamInfo(
+          teamId: '',
+          captainId: '',
+          logoUrl: '',
+          shortName: '',
+          teamName: '',
+          wicketkeeperId: '',
+        ),
+        bowlingTeam: MatchTeamInfo(
+            teamId: '',
+            captainId: '',
+            logoUrl: '',
+            shortName: '',
+            teamName: '',
+            wicketkeeperId: ''),
+        bowlingStats: [],
       );
 
-  InningsData _mockSecondInnings() =>
-      InningsData(batsmen: []); // Add second innings data
+  Inning _mockSecondInnings() => Inning(
+        battingStats: [
+          BattingScore(
+            playerName: 'Batsman1 name',
+            runs: null,
+            ballsFaced: null,
+            fours: null,
+            sixes: null,
+            uuid: '',
+          ),
+          BattingScore(
+            playerName: 'Batsman2 name',
+            runs: null,
+            ballsFaced: null,
+            fours: null,
+            sixes: null,
+            uuid: '',
+          ),
+          BattingScore(
+            playerName: 'Batsman3 name',
+            runs: null,
+            ballsFaced: null,
+            fours: null,
+            sixes: null,
+            uuid: '',
+          ),
+        ],
+        battingTeam: MatchTeamInfo(
+          teamId: '',
+          captainId: '',
+          logoUrl: '',
+          shortName: '',
+          teamName: '',
+          wicketkeeperId: '',
+        ),
+        bowlingTeam: MatchTeamInfo(
+            teamId: '',
+            captainId: '',
+            logoUrl: '',
+            shortName: '',
+            teamName: '',
+            wicketkeeperId: ''),
+        bowlingStats: [],
+      ); // Add second innings data
 }

@@ -25,27 +25,32 @@ class BattingScore {
 
   final String uuid;
   final String playerName;
-  final int runs;
-  final int ballsFaced;
-  final int sixes;
-  final int fours;
+  final int? runs;
+  final int? ballsFaced;
+  final int? sixes;
+  final int? fours;
   bool isOut;
   ReasonOfOut? reasonOfOut;
 
-  double get strikeRate {
+  double? get strikeRate {
+    if (runs == null || ballsFaced == null) return null;
+
     if (ballsFaced == 0) return 0.0;
 
-    return (runs / ballsFaced) * 100;
+    return (runs! / ballsFaced!) * 100;
   }
 
   // Additional useful methods
-  int get totalBoundaries => fours + sixes;
+  int? get totalBoundaries =>
+      (fours == null || sixes == null) ? null : fours! + sixes!;
 
-  int get runsFromBoundaries => (fours * 4) + (sixes * 6);
+  int? get runsFromBoundaries =>
+      (fours == null || sixes == null) ? null : (fours! * 4) + (sixes! * 6);
 
-  double get boundaryPercentage {
+  double? get boundaryPercentage {
+    if (runs == null || runsFromBoundaries == null) return null;
     if (runs == 0) return 0.0;
-    return (runsFromBoundaries / runs) * 100;
+    return (runsFromBoundaries! / runs!) * 100;
   }
 
   // Immutable state updates
