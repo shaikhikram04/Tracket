@@ -11,12 +11,13 @@ class MatchScoringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
+      backgroundColor: whiteColor,
       body: ListView(
         children: [
           MatchStatusCard(),
           ScoreboardSection(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

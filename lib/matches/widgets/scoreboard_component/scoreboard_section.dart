@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/match_scoreboard.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 class ScoreboardSection extends StatelessWidget {
@@ -8,8 +9,14 @@ class ScoreboardSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(255, 250, 255, 250),
       padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 250, 255, 250),
+        border: Border.all(
+          color: lightBackgroundColor,
+        ),
+        boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 1)],
+      ),
       child: Column(
         children: [
           Padding(
