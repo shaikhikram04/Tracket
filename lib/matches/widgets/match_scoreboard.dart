@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
-import 'package:tracket/matches/widgets/batting_scorecard.dart';
+import 'package:tracket/matches/widgets/inning_scoreboard.dart';
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
 import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
@@ -34,13 +35,13 @@ class _ScoreboardState extends State<Scoreboard>
         buildTabBar(tabs: _tabs),
         const SizedBox(height: 8),
         SizedBox(
-          height: 400,
+          height: 500,
           child: TabBarView(
             controller: tabController,
             physics: NeverScrollableScrollPhysics(),
             children: [
-              BattingScorecard(innings: _mockFirstInnings()),
-              BattingScorecard(innings: _mockSecondInnings()),
+              InningScoreboard(inning: _mockFirstInnings()),
+              InningScoreboard(inning: _mockSecondInnings()),
             ],
           ),
         ),
@@ -90,7 +91,24 @@ class _ScoreboardState extends State<Scoreboard>
             shortName: '',
             teamName: '',
             wicketkeeperId: ''),
-        bowlingStats: [],
+        bowlingStats: [
+          BowlingScore(
+            uuid: '',
+            playerName: 'Bowler1',
+            balls: 6,
+            wickets: 0,
+            runsGiven: 12,
+            maidenOvers: 0,
+          ),
+          BowlingScore(
+            uuid: '',
+            playerName: 'Bowler2',
+            balls: 12,
+            wickets: 1,
+            runsGiven: 15,
+            maidenOvers: 0,
+          ),
+        ],
       );
 
   Inning _mockSecondInnings() => Inning(
@@ -120,6 +138,7 @@ class _ScoreboardState extends State<Scoreboard>
             uuid: '',
           ),
         ],
+        bowlingStats: [],
         battingTeam: MatchTeamInfo(
           teamId: '',
           captainId: '',
@@ -135,6 +154,5 @@ class _ScoreboardState extends State<Scoreboard>
             shortName: '',
             teamName: '',
             wicketkeeperId: ''),
-        bowlingStats: [],
       ); // Add second innings data
 }

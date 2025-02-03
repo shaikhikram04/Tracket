@@ -113,6 +113,7 @@ class _FallOfWickets extends StatelessWidget {
         _buildWicketsList(context),
         const SizedBox(height: 6),
         const _Divider(),
+        SizedBox(height: 20),
       ],
     );
   }
