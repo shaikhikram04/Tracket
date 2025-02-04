@@ -101,6 +101,8 @@ class MatchesServices {
       team1Players: [],
       team2Players: [],
       schedule: challegeMatch.schedule,
+      stricker: [],
+      currentBowlers: [],
     );
 
     _firestore
@@ -160,6 +162,8 @@ class MatchesServices {
       updatedAt: Timestamp.now(),
       venue: challenge.venue,
       schedule: challenge.schedule,
+      stricker: [],
+      currentBowlers: [],
     );
 
     //* Storing match data

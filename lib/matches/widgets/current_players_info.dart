@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class CurrentPlayersInfo extends StatelessWidget {
-  const CurrentPlayersInfo({super.key});
+  const CurrentPlayersInfo({
+    super.key,
+    required this.stricker,
+    required this.bowlers,
+  });
+
+  final List<StrikerData> stricker;
+  final List<CurrentBowlerData> bowlers;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +35,19 @@ class CurrentPlayersInfo extends StatelessWidget {
               ),
         ),
         const SizedBox(height: 4),
-        _buildPlayerInfo(context, 'Batsman1Name', '10', '6'),
+        _buildPlayerInfo(
+          context,
+          stricker[0].playerName,
+          stricker[0].runs.toString(),
+          stricker[0].balls.toString(),
+        ),
         const SizedBox(height: 2),
-        _buildPlayerInfo(context, 'Batsman2Name', '25', '15'),
+        _buildPlayerInfo(
+          context,
+          stricker[1].playerName,
+          stricker[1].runs.toString(),
+          stricker[1].balls.toString(),
+        ),
       ],
     );
   }
@@ -46,7 +64,7 @@ class CurrentPlayersInfo extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          'BowlerName   15/1 (1.5)',
+          '${bowlers[0].playerName}   ${bowlers[0].runsGiven}/${bowlers[0].wickets} (${bowlers[0].oversDisplay})',
           style: MyTextStyle(context).bodyLarge,
         ),
       ],

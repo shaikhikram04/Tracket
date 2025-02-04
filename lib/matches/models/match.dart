@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
@@ -27,6 +28,8 @@ class Match {
     required this.matchType,
     required this.venue,
     required this.schedule,
+    required this.stricker,
+    required this.currentBowlers,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
@@ -55,6 +58,8 @@ class Match {
   final Timestamp updatedAt;
   final DateTime schedule;
   final List currentOverRuns;
+  final List<StrikerData> stricker;
+  final List<CurrentBowlerData> currentBowlers;
 
   MatchStatus status;
   Inning? inning1;

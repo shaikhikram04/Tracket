@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
@@ -81,6 +82,19 @@ class MatchScoringScreen extends StatelessWidget {
       tossDecision: TossDecision.batting,
       spectatorsAllowed: true,
       updatedAt: Timestamp.now(),
+      stricker: [
+        StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
+        StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+      ],
+      currentBowlers: [
+        CurrentBowlerData(
+          playerName: 'Player 3',
+          id: '23',
+          runsGiven: 0,
+          wickets: 0,
+          balls: 0,
+        )
+      ],
     );
 
     match.initializeFirstInnings();
@@ -90,7 +104,9 @@ class MatchScoringScreen extends StatelessWidget {
       backgroundColor: whiteColor,
       body: ListView(
         children: [
-          MatchStatusCard(match: match,),
+          MatchStatusCard(
+            match: match,
+          ),
           ScoreboardSection(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

@@ -6,21 +6,27 @@ class _BallInfo {
   final Color color;
 
   _BallInfo(this.value, this.color);
+
+  factory _BallInfo.fromRun(final run) {
+    Color color = Colors.grey[300]!;
+    if (run == 'W') {
+      color = Colors.red;
+    } else if (run == '6' || run == '4') {
+      color = greenColor;
+    }
+    return _BallInfo(run ?? '-', color);
+  }
 }
 
 class RecentBallsIndicator extends StatelessWidget {
-  const RecentBallsIndicator({super.key});
+  const RecentBallsIndicator({super.key, required this.currentOverIndicator});
+
+  final List currentOverIndicator;
 
   @override
   Widget build(BuildContext context) {
-    final recentBalls = [
-      _BallInfo('4', greenColor),
-      _BallInfo('W', Colors.red),
-      _BallInfo('6', greenColor),
-      _BallInfo('2', Colors.grey[300]!),
-      _BallInfo('0', Colors.grey[300]!),
-      _BallInfo('-', Colors.grey[300]!),
-    ];
+    final recentBalls =
+        currentOverIndicator.map((run) => _BallInfo.fromRun(run)).toList();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
