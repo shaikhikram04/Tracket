@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/widgets/current_players_info.dart';
 import 'package:tracket/matches/widgets/match_header.dart';
 import 'package:tracket/matches/widgets/recent_ball_indicator.dart';
@@ -6,7 +7,9 @@ import 'package:tracket/matches/widgets/teams_score_section.dart';
 import 'package:tracket/utils/colors.dart';
 
 class MatchStatusCard extends StatelessWidget {
-  const MatchStatusCard({super.key});
+  const MatchStatusCard({super.key, required this.match});
+
+  final Match match;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +23,8 @@ class MatchStatusCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          MatchHeader(),
+        children: [
+          MatchHeader(match: match),
           SizedBox(height: 16),
           TeamsScoreSection(),
           SizedBox(height: 16),

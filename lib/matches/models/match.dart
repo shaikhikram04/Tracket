@@ -112,12 +112,14 @@ class Match {
             battingTeam: team1,
             bowlingTeam: team2,
             battingPlayers: team1Players,
-            bowlingPlayers: team2Players)
+            bowlingPlayers: team2Players,
+          )
         : Inning.initialize(
             battingTeam: team2,
             bowlingTeam: team1,
             battingPlayers: team2Players,
-            bowlingPlayers: team1Players);
+            bowlingPlayers: team1Players,
+          );
 
     status = MatchStatus.live;
   }
@@ -128,7 +130,7 @@ class Match {
           'First innings must be completed before starting second innings');
     }
 
-    inning2 =  Inning.initialize(
+    inning2 = Inning.initialize(
       battingTeam: inning1!.bowlingTeam,
       bowlingTeam: inning1!.battingTeam,
       battingPlayers: getBowlingTeamPlayers(),
