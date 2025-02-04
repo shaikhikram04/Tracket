@@ -104,10 +104,11 @@ class MatchScoringScreen extends StatelessWidget {
       backgroundColor: whiteColor,
       body: ListView(
         children: [
-          MatchStatusCard(
-            match: match,
+          MatchStatusCard(match: match),
+          ScoreboardSection(
+            inning1: match.inning1,
+            inning2: match.inning2,
           ),
-          ScoreboardSection(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(

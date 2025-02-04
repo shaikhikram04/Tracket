@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/match_scoreboard.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 class ScoreboardSection extends StatelessWidget {
-  const ScoreboardSection({super.key});
+  const ScoreboardSection({
+    super.key,
+    required this.inning1,
+    required this.inning2,
+  });
+
+  final Inning? inning1;
+  final Inning? inning2;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,10 @@ class ScoreboardSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: getTitleText('Scoreboard', context),
           ),
-          const Scoreboard(),
+          Scoreboard(
+            inning1: inning1,
+            inning2: inning2,
+          ),
         ],
       ),
     );
