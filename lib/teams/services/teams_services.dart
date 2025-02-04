@@ -32,6 +32,7 @@ class TeamsServices {
     required String createdBy,
     required String adminName,
     required CricketRole adminCricketRole,
+    required String longCricketRole,
     required String description,
     String adminImageUrl = '',
     required WidgetRef ref,
@@ -64,6 +65,7 @@ class TeamsServices {
         imageUrl: adminImageUrl,
         name: adminName,
         role: TeamRole.owner,
+        longCricketRole: longCricketRole
       );
 
       await _firestore

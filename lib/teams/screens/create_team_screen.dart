@@ -57,6 +57,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         adminCricketRole: player.playerCricketDetails!.cricketRole,
         description: _teamFormData.description!,
         ref: ref,
+        longCricketRole: player.playerCricketDetails!.detailedCricketRole,
       );
 
       if (!mounted) return;

@@ -95,7 +95,7 @@ class Squad extends ConsumerWidget {
                     final isWicketKeeper =
                         teamState.team.wicketkeeperId == playerId;
                     return SquadPlayerTile(
-                      cricketRole: playerDetail.cricketRole,
+                      cricketRole: playerDetail.cricketRole.name,
                       playerId: playerId,
                       playerName: playerDetail.name,
                       profileImageUrl: playerDetail.imageUrl,

@@ -9,6 +9,7 @@ class PlayerDetails {
     required this.imageUrl,
     required this.name,
     required this.role,
+    required this.longCricketRole,
   });
 
   final String id;
@@ -16,6 +17,7 @@ class PlayerDetails {
   final CricketRole cricketRole;
   final String imageUrl;
   final TeamRole role;
+  final String longCricketRole;
 
   static PlayerDetails fromMap(Map<String, dynamic> playerDetail) =>
       PlayerDetails(
@@ -25,6 +27,7 @@ class PlayerDetails {
         imageUrl: playerDetail['imageUrl'],
         name: playerDetail['name'],
         role: TeamDetails.getTeamRole(playerDetail['role']),
+        longCricketRole: playerDetail['longCricketRole'],
       );
 
   Map<String, dynamic> get toMap => {
@@ -33,6 +36,7 @@ class PlayerDetails {
         'cricketRole': cricketRole.name,
         'imageUrl': imageUrl,
         'role': role.name,
+        'longCricketRole': longCricketRole
       };
 
   PlayerDetails copyWith() {
@@ -42,6 +46,7 @@ class PlayerDetails {
       imageUrl: imageUrl,
       cricketRole: cricketRole,
       role: role,
+      longCricketRole: longCricketRole,
     );
   }
 }

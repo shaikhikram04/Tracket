@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -22,7 +21,7 @@ class SquadPlayerTile extends StatelessWidget {
 
   final String playerId;
   final String playerName;
-  final CricketRole cricketRole;
+  final String cricketRole;
   final String profileImageUrl;
   final TeamRole teamRole;
   final bool isCaptain;
@@ -61,7 +60,7 @@ class SquadPlayerTile extends StatelessWidget {
                     ),
                     Wrap(children: [
                       Text(
-                        cricketRole.name,
+                        cricketRole,
                         style: MyTextStyle(context).bodyMedium,
                         overflow: TextOverflow.ellipsis,
                       ),

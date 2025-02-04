@@ -69,6 +69,7 @@ class JoinTeamScreen extends StatelessWidget {
       imageUrl: player.profileImageUrl,
       name: player.name,
       role: TeamRole.player,
+      longCricketRole: player.playerCricketDetails!.detailedCricketRole,
     );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

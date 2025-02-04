@@ -13,9 +13,10 @@ class MatchSquad extends StatelessWidget {
     this.onAddPressed,
     this.isPlayerCanAdd = true,
     this.title = 'Squad',
+    this.titleFontSize = 23.0,
+    this.isLongCricketRole = false,
   });
 
-  static const double _titleFontSize = 23.0;
   static const double _iconSize = 30.0;
   static const double _verticalSpacing = 10.0;
 
@@ -25,6 +26,8 @@ class MatchSquad extends StatelessWidget {
   final VoidCallback? onAddPressed;
   final bool isPlayerCanAdd;
   final String title;
+  final double titleFontSize;
+  final bool isLongCricketRole;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class MatchSquad extends StatelessWidget {
         Text(
           title,
           style: MyTextStyle(context).titleMedium.copyWith(
-                fontSize: _titleFontSize,
+                fontSize: titleFontSize,
               ),
         ),
         const Spacer(),
@@ -76,7 +79,8 @@ class MatchSquad extends StatelessWidget {
 
   Widget _buildPlayerTile(MatchPlayerInfo player) {
     return SquadPlayerTile(
-      cricketRole: player.cricketRole,
+      cricketRole:
+          isLongCricketRole ? player.longCricketRole : player.cricketRole.name,
       playerId: player.playerId,
       playerName: player.playerName,
       profileImageUrl: player.profileImageUrl,

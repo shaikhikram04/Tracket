@@ -57,22 +57,36 @@ class _ScoreboardState extends State<Scoreboard>
             children: [
               widget.inning1 != null
                   ? InningScoreboard(inning: widget.inning1!)
-                  : MatchSquad(
-                      selectedPlayers: widget.team1Players,
-                      captainId: widget.team1.captainId,
-                      wicketkeeperId: widget.team1.wicketkeeperId,
-                      isPlayerCanAdd: false,
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 5,
+                      ),
+                      child: MatchSquad(
+                        selectedPlayers: widget.team1Players,
+                        captainId: widget.team1.captainId,
+                        wicketkeeperId: widget.team1.wicketkeeperId,
+                        isPlayerCanAdd: false,
+                        titleFontSize: 17,
+                        title: '${widget.team1.teamName} Squad',
+                        isLongCricketRole: true,
+                      ),
                     ),
               widget.inning2 != null
                   ? InningScoreboard(inning: widget.inning2!)
                   : Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
+                        horizontal: 15,
+                        vertical: 5,
+                      ),
                       child: MatchSquad(
                         selectedPlayers: widget.team2Players,
                         captainId: widget.team2.captainId,
                         wicketkeeperId: widget.team2.wicketkeeperId,
                         isPlayerCanAdd: false,
+                        titleFontSize: 17,
+                        title: '${widget.team2.teamName}  Squad',
+                        isLongCricketRole: true,
                       ),
                     ),
             ],

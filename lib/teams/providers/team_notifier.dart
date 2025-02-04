@@ -148,7 +148,7 @@ class TeamNotifier extends StateNotifier<TeamState> {
         id: player.id,
         imageUrl: player.imageUrl,
         name: player.name,
-        role: role,
+        role: role, longCricketRole: player.longCricketRole,
       );
 
       await updateField(playersList: updatedPlayersList);
