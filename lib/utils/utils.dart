@@ -164,6 +164,7 @@ Widget getCircleAvatar({
   Uint8List? image,
   required bool isTeam,
   required double radius,
+  bool hasBorder = true,
 }) {
   AssetImage defaultImage = AssetImage(isTeam
       ? 'assets/images/team_logo.png'
@@ -171,10 +172,12 @@ Widget getCircleAvatar({
   return Container(
     decoration: BoxDecoration(
       shape: BoxShape.circle,
-      border: Border.all(
-        color: blackColor, // Border color
-        width: 2.0, // Border width
-      ),
+      border: hasBorder
+          ? Border.all(
+              color: blackColor, // Border color
+              width: 2.0, // Border width
+            )
+          : null,
     ),
     child: CircleAvatar(
         radius: radius,

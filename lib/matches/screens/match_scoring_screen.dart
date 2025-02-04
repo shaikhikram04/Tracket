@@ -108,6 +108,10 @@ class MatchScoringScreen extends StatelessWidget {
           ScoreboardSection(
             inning1: match.inning1,
             inning2: match.inning2,
+            team1Players: match.team1Players,
+            team2Players: match.team2Players,
+            team1: match.team1,
+            team2: match.team2,
           ),
           TossVenueSection(match: match),
         ],

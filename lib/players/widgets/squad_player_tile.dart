@@ -41,7 +41,11 @@ class SquadPlayerTile extends StatelessWidget {
         child: Expanded(
           child: Row(
             children: [
-              getCircleAvatar(url: profileImageUrl, isTeam: false, radius: 30),
+              getCircleAvatar(
+                  url: profileImageUrl,
+                  isTeam: false,
+                  radius: 30,
+                  hasBorder: false),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
