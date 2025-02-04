@@ -6,9 +6,9 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/widgets/match_status_card.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/scoreboard_section.dart';
+import 'package:tracket/matches/widgets/toss_venue_section.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchScoringScreen extends StatelessWidget {
   const MatchScoringScreen({super.key});
@@ -109,30 +109,7 @@ class MatchScoringScreen extends StatelessWidget {
             inning1: match.inning1,
             inning2: match.inning2,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text.rich(TextSpan(children: [
-                  TextSpan(
-                    text: 'Toss : ',
-                    style:
-                        MyTextStyle(context).coloredBodyLarge(darkGreenColor),
-                  ),
-                  TextSpan(text: 'Team 1 won the toss and decided to bat first')
-                ])),
-                Text.rich(TextSpan(children: [
-                  TextSpan(
-                    text: 'Venue : ',
-                    style:
-                        MyTextStyle(context).coloredBodyLarge(darkGreenColor),
-                  ),
-                  TextSpan(text: 'Wafa Complex')
-                ])),
-              ],
-            ),
-          )
+          TossVenueSection(match: match),
         ],
       ),
     );
