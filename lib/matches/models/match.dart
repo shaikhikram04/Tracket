@@ -27,6 +27,7 @@ class Match {
     required this.matchType,
     required this.venue,
     required this.schedule,
+    this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
     this.spectatorsAllowed = true,
@@ -53,6 +54,7 @@ class Match {
   final bool spectatorsAllowed;
   final Timestamp updatedAt;
   final DateTime schedule;
+  final List currentOverRuns;
 
   MatchStatus status;
   Inning? inning1;
@@ -200,5 +202,6 @@ class Match {
         'winningTeamId': winningTeamId,
         'winningMethod': winningMethod?.name,
         'winningMargin': winningMargin,
+        'currentOverRuns': currentOverRuns,
       };
 }

@@ -26,7 +26,7 @@ class MatchStatusCard extends StatelessWidget {
         children: [
           MatchHeader(match: match),
           SizedBox(height: 16),
-          TeamsScoreSection(),
+          TeamsScoreSection(match: match),
           SizedBox(height: 16),
           RecentBallsIndicator(),
           SizedBox(height: 16),

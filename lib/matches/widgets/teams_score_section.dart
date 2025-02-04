@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class TeamsScoreSection extends StatelessWidget {
-  const TeamsScoreSection({super.key});
+  const TeamsScoreSection({super.key, required this.match});
+
+  final Match match;
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +14,10 @@ class TeamsScoreSection extends StatelessWidget {
       children: [
         _buildTeamScore(
           context,
-          teamName: 'Team A',
-          score: '121/5',
-          overs: '10',
+          teamName: match.team1.teamName,
+          teamLogo: match.team1.logoUrl,
+          score: '${match.inning1!.runs}/${match.inning1!.wickets}',
+          overs: match.inning1!.oversDisplay,
           isFirst: true,
         ),
         const Padding(
@@ -25,9 +29,12 @@ class TeamsScoreSection extends StatelessWidget {
         ),
         _buildTeamScore(
           context,
-          teamName: 'Team B',
-          score: '50/2',
-          overs: '6.5',
+          teamName: match.team2.teamName,
+          teamLogo: match.team2.logoUrl,
+          score: match.inning2 == null
+              ? null
+              : '${match.inning2!.runs}/${match.inning2!.wickets}',
+          overs: match.inning2 == null ? null : match.inning2?.oversDisplay,
           isFirst: false,
         ),
       ],
@@ -37,8 +44,9 @@ class TeamsScoreSection extends StatelessWidget {
   Widget _buildTeamScore(
     BuildContext context, {
     required String teamName,
-    required String score,
-    required String overs,
+    required String teamLogo,
+    required String? score,
+    required String? overs,
     required bool isFirst,
   }) {
     return Expanded(
@@ -47,7 +55,7 @@ class TeamsScoreSection extends StatelessWidget {
         children: [
           Column(
             children: [
-              getCircleAvatar(url: '', isTeam: true, radius: 30),
+              getCircleAvatar(url: teamLogo, isTeam: true, radius: 30),
               const SizedBox(height: 4),
               Text(
                 teamName,
@@ -56,22 +64,25 @@ class TeamsScoreSection extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment:
-                isFirst ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-            children: [
-              Text(
-                score,
-                style: MyTextStyle(context).titleLarge,
-              ),
-              Text(
-                '$overs overs',
-                style: MyTextStyle(context).coloredBodyMedium(
-                  Colors.grey[600]!,
+          score == null
+              ? Text('Yet to bat', style: MyTextStyle(context).boldBodyLarge)
+              : Column(
+                  crossAxisAlignment: isFirst
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      score,
+                      style: MyTextStyle(context).titleLarge,
+                    ),
+                    Text(
+                      '$overs overs',
+                      style: MyTextStyle(context).coloredBodyMedium(
+                        Colors.grey[600]!,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ],
       ),
     );
