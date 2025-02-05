@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/colors.dart';
 
 class MatchTabs extends StatelessWidget {
   const MatchTabs({
@@ -15,18 +14,6 @@ class MatchTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Color> colors = isSelected
-        ? [
-            greenColor,
-            enableButtonColor1,
-            greenColor,
-          ]
-        : [
-            disableButtonColor1,
-            disableButtonColor2,
-            disableButtonColor1,
-          ];
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -34,19 +21,20 @@ class MatchTabs extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
             color: isSelected
                 ? Theme.of(context).primaryColor
-                : Colors.grey.withOpacity(0.3),
+                : Colors.grey.withValues(alpha: 0.5),
             width: 1.5,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color:
+                        Theme.of(context).primaryColor.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   )
