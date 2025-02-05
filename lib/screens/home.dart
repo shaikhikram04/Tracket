@@ -6,7 +6,6 @@ import 'package:tracket/notifications/screens/notifications_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/teams/screens/teams_screen.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/main_drawer.dart';
 
@@ -75,10 +74,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        backgroundColor: const Color(0xFF2ecc71),
+        elevation: 0,
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
+            color: Colors.white,
             iconSize: 30,
             onPressed: () {
               pushScreen(context, const NotificationsScreen());
@@ -92,38 +101,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         index: _selectedIndex,
         children: _screens,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex % 3,
-        elevation: 10,
-        backgroundColor: greenColor,
-        onTap: _selectItem,
-        selectedItemColor: blackColor,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w800),
-        showSelectedLabels: true,
-        unselectedItemColor: unSelectColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.groups,
-              semanticLabel: 'Teams Tab',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              spreadRadius: 2,
             ),
-            label: 'Teams',
+          ],
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _selectedIndex % 3,
+          type: BottomNavigationBarType.shifting,
+          backgroundColor: Colors.white,
+          elevation: 10,
+          onTap: _selectItem,
+          selectedItemColor: const Color(0xFF2ecc71),
+          unselectedItemColor: Colors.grey.shade500,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF2ecc71),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.sports_cricket,
-              semanticLabel: 'Matches Tab',
+          showSelectedLabels: true,
+          items: const [  
+            BottomNavigationBarItem(
+              icon: Icon(Icons.groups),
+              label: 'Teams',
+              backgroundColor: Colors.white,
             ),
-            label: 'Matches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.bar_chart,
-              semanticLabel: 'Tournaments Tab',
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sports_cricket),
+              label: 'Matches',
+              backgroundColor: Colors.white,
             ),
-            label: 'Tournaments',
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: 'Tournaments',
+              backgroundColor: Colors.white,
+            ),
+          ],
+        ),
       ),
     );
   }

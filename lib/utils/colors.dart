@@ -1,23 +1,76 @@
 import 'package:flutter/material.dart';
 
+//* Primary Color Scheme
+const Color primaryColor = Color(0xFF2ECC71); // Main green
+const Color primaryVariant = Color(0xFF27AE60); // Darker green variant
+const Color primaryLight = Color(0xFF58D68D); // Lighter green
+
+//* Secondary Color Scheme
+const Color secondaryColor = Color(0xFF3498DB); // Blue accent
+const Color secondaryVariant = Color(0xFF2980B9); // Darker blue
+const Color secondaryLight = Color(0xFF5DADE2); // Lighter blue
+
+//* Background and Surface Colors
+const lightBackgroundColor = Color(0xFFF0F4F0); // Soft green-tinted background
+const darkBackgroundColor = Color(0xFF1F2937); // Dark background
+const surfaceColor = Color(0xFFFFFFFF); // White surface
+const surfaceVariant = Color(0xFFF1F8E9); // Light green surface
+
+//* Text and Icon Colors
+const primaryTextColor = Color(0xFF212121); // Dark text
+const secondaryTextColor = Color(0xFF757575); // Muted text
+const onPrimaryColor = Colors.white; // Text on primary color
+const onSecondaryColor = Colors.white; // Text on secondary color
+
+//* Status and Feedback Colors
+const successColor = Color(0xFF4CAF50); // Success green
+const warningColor = Color(0xFFFFC107); // Warning yellow
+const errorColor = Color(0xFFF44336); // Error red
+const infoColor = Color(0xFF2196F3); // Information blue
+
+//* Neutral and Grayscale
+const Color lightGrey = Color(0xFFE0E0E0);
+const Color mediumGrey = Color(0xFF9E9E9E);
+const Color darkGrey = Color(0xFF616161);
+
+//* Specific Component Colors
+const buttonEnabledColor = Color(0xFF2ECC71); // Button when active
+const buttonDisabledColor = Color(0xFFA9A9A9); // Button when disabled
+const switchActiveColor = Color(0xFF27AE60); // Switch when on
+const switchInactiveColor = Color(0xFFBDBDBD); // Switch when off
+
+//* Dark Mode Specific
+const darkPrimaryColor = Color(0xFF34D399); // Mint green for dark mode
+const darkSurfaceColor = Color(0xFF374151); // Dark surface color
+const darkOnSurfaceColor = Color(0xFFE5E7EB); // Light text on dark surface
+
+//* Gradient Colors
+const gradientStart = Color(0xFF2ECC71);
+const gradientEnd = Color(0xFF27AE60);
+
+//* Additional Accent Colors
+const accentOrange = Color(0xFFFF5722);
+const accentPurple = Color(0xFF9C27B0);
+const accentTeal = Color(0xFF009688);
+
 //* Light mode colors
-const lightBackgroundColor = const Color.fromARGB(255, 248, 250, 248);
-const greenColor = Colors.green;
-const lightCardColor = Color.fromARGB(255, 171, 219, 177);
-const lightDrawerBgColor = Color.fromARGB(255, 83, 158, 86);
-const onLightDrawer = Color.fromARGB(255, 221, 229, 217);
-const blackColor = Color.fromARGB(255, 18, 20, 18);
+const greenColor = Color(0xFF2ECC71); // Vibrant, fresh green
+const lightCardColor = Color(0xFFB5E0BC); // Softer, more muted green for cards
+const lightDrawerBgColor = Color(0xFF27AE60); // Deeper green for drawer
+const onLightDrawer =
+    Color(0xFFE8F5E9); // Light, fresh green for drawer elements
+const blackColor = Color(0xFF1E1E1E); // Slightly softer black
 const whiteColor = Colors.white;
-const unSelectColor = Color.fromARGB(214, 32, 53, 32);
-const buttonBgColor = Color.fromARGB(255, 117, 198, 120);
-const darkGreenColor = Color.fromARGB(255, 2, 63, 4);
-const enableSwitchColor = Color.fromARGB(255, 14, 151, 14);
+const unSelectColor = Color(0xFF34495E); // More sophisticated unselectd color
+const buttonBgColor = Color(0xFF2ECC71); // Matching vibrant green for buttons
+const darkGreenColor = Color(0xFF016A10); // Rich, deep green
+const enableSwitchColor = Color(0xFF27AE60); // Bright, active green
 
-//* Darkmode colors
-const darkBackgroundColor = Color.fromRGBO(33, 33, 33, 1);
-const darkThemeColor = Color(0xFF1FE073);
+//* Dark mode colors
+const darkThemeColor = Color(0xFF34D399); // Mint green for dark theme
+const disableButtonColor1 = Color(0xFF6EE7B7); // Soft mint green
+const disableButtonColor2 = Color(0xFF6EE7B7); // Matching soft mint green
+const enableButtonColor1 = Color(0xFF10B981); // Bright, active green
 
-const disableButtonColor1 = const Color.fromARGB(255, 145, 201, 148);
-const disableButtonColor2 = const Color.fromARGB(255, 170, 223, 172);
-
-const enableButtonColor1 = const Color.fromARGB(255, 108, 206, 112);
+//* Accent and supporting colors
+const Color accentColor = Color(0xFF4CAF50); // Complementary green accent
