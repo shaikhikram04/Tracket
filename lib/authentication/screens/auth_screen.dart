@@ -98,71 +98,45 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Widget _buildTabBarView(double height) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: SizedBox(
-        height: height,
-        child: _isChangingTab
-            ? getCircleLoadingIndicator(color: primaryColor)
-            : TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _tabController,
-                children: const [
-                  PlayerAuth(),
-                  UserAuth(),
-                ],
-              ),
-      ),
+    return SizedBox(
+      height: height,
+      child: _isChangingTab
+          ? getCircleLoadingIndicator()
+          : TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: const [
+                PlayerAuth(),
+                UserAuth(),
+              ],
+            ),
     );
   }
 
   Widget _buildAuthTabs() {
-    return Container(
-      decoration: BoxDecoration(
-        color: surfaceColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 2),
+    return TabBar(
+      dividerColor: Theme.of(context).colorScheme.secondary,
+      indicatorSize: TabBarIndicatorSize.tab,
+      controller: _tabController,
+      labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
+      tabs: const [
+        Tab(
+          child: Text(
+            'Player',
+            style: TextStyle(fontSize: _tabFontSize),
+            semanticsLabel: 'Player Authentication',
           ),
-        ],
-      ),
-      child: TabBar(
-        controller: _tabController,
-        indicator: BoxDecoration(
-          color: primaryColor.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
         ),
-        labelColor: primaryColor,
-        unselectedLabelColor: secondaryTextColor,
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
+        Tab(
+          child: Text(
+            'User',
+            style: TextStyle(fontSize: _tabFontSize),
+            semanticsLabel: 'User Authentication',
+          ),
         ),
-        // dividerColor: Theme.of(context).colorScheme.secondary,
-        // indicatorSize: TabBarIndicatorSize.tab,
-        // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
-        tabs: const [
-          Tab(
-            child: Text(
-              'Player',
-              // style: TextStyle(fontSize: _tabFontSize),
-              // semanticsLabel: 'Player Authentication',
-            ),
-          ),
-          Tab(
-            child: Text(
-              'User',
-              // style: TextStyle(fontSize: _tabFontSize),
-              // semanticsLabel: 'User Authentication',
-            ),
-          ),
-        ],
-        onTap: _handleTabChange,
-      ),
+      ],
+      onTap: _handleTabChange,
     );
   }
 }
