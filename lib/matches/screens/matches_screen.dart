@@ -12,7 +12,7 @@ class MatchesScreen extends StatefulWidget {
 class _MatchesScreenState extends State<MatchesScreen> {
   int _selectedTabIndex = 1;
 
-  void onTabChange(int index) {
+  void _onTabChange(int index) {
     setState(() {
       _selectedTabIndex = index;
     });
@@ -22,31 +22,34 @@ class _MatchesScreenState extends State<MatchesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Row(
-              children: [
-                MatchTabs(
-                  text: 'Completed',
-                  isSelected: _selectedTabIndex == 0,
-                  onTap: () => onTabChange(0),
-                ),
-                MatchTabs(
-                  text: 'Live',
-                  isSelected: _selectedTabIndex == 1,
-                  onTap: () => onTabChange(1),
-                ),
-                MatchTabs(
-                  text: 'Upcoming',
-                  isSelected: _selectedTabIndex == 2,
-                  onTap: () => onTabChange(2),
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  MatchTabs(
+                    text: 'Completed',
+                    isSelected: _selectedTabIndex == 0,
+                    onTap: () => _onTabChange(0),
+                  ),
+                  MatchTabs(
+                    text: 'Live',
+                    isSelected: _selectedTabIndex == 1,
+                    onTap: () => _onTabChange(1),
+                  ),
+                  MatchTabs(
+                    text: 'Upcoming',
+                    isSelected: _selectedTabIndex == 2,
+                    onTap: () => _onTabChange(2),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 itemCount: 5,
                 itemBuilder: (BuildContext context, int index) {
                   return const MatchCard();

@@ -27,17 +27,41 @@ class MatchTabs extends StatelessWidget {
             disableButtonColor1,
           ];
 
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        margin: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: SweepGradient(colors: colors),
-          border: isSelected ? Border.all(color: blackColor) : null,
+          color: isSelected
+              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: isSelected
+                ? Theme.of(context).primaryColor
+                : Colors.grey.withOpacity(0.3),
+            width: 1.5,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  )
+                ]
+              : null,
         ),
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(
+            color:
+                isSelected ? Theme.of(context).primaryColor : Colors.grey[600],
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+            fontSize: 15,
+          ),
+        ),
       ),
     );
   }
