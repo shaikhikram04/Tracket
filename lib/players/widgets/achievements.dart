@@ -41,7 +41,6 @@ class Achievements extends StatelessWidget {
           achievements.length,
           (index) => HighlightedLabel(
             text: achievements[index],
-            bgColor: Colors.deepOrange.shade100,
             textColor: Colors.deepOrange.shade900,
           ),
         ),

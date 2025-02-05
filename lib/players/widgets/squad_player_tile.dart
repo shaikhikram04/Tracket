@@ -71,7 +71,6 @@ class SquadPlayerTile extends StatelessWidget {
                         if (isCaptain)
                           HighlightedLabel(
                             text: 'Captain',
-                            bgColor: Colors.blue.shade100,
                             textColor: Colors.blue.shade900,
                           ),
                         if (isCaptain && isWicketKeeper)
@@ -79,7 +78,6 @@ class SquadPlayerTile extends StatelessWidget {
                         if (isWicketKeeper)
                           HighlightedLabel(
                             text: 'Wicketkeeper',
-                            bgColor: Colors.orange.shade100,
                             textColor: Colors.orange.shade900,
                           ),
                       ],

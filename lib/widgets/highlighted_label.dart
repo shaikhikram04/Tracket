@@ -5,13 +5,11 @@ class HighlightedLabel extends StatelessWidget {
   const HighlightedLabel({
     super.key,
     required this.text,
-    required this.bgColor,
     required this.textColor,
     this.isLabel = true,
   });
 
   final String text;
-  final Color bgColor;
   final Color textColor;
   final bool isLabel;
 
@@ -24,7 +22,7 @@ class HighlightedLabel extends StatelessWidget {
         vertical: 4,
       ),
       decoration: BoxDecoration(
-        color: bgColor,
+        color: textColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Text(

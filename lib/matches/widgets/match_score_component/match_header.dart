@@ -22,7 +22,6 @@ class MatchHeader extends StatelessWidget {
         if (match.status == MatchStatus.live)
           HighlightedLabel(
             text: 'LIVE',
-            bgColor: greenColor.withOpacity(0.1),
             textColor: greenColor,
             isLabel: false,
           ),
