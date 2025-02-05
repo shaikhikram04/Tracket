@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/widgets/match_card.dart';
-import 'package:tracket/matches/widgets/match_tabs.dart';
+import 'package:tracket/matches/widgets/scoreboard_component/match_tabs.dart';
 
 class MatchesScreen extends StatefulWidget {
   const MatchesScreen({super.key});

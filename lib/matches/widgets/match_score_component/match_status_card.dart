@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
-import 'package:tracket/matches/widgets/current_players_info.dart';
-import 'package:tracket/matches/widgets/match_header.dart';
-import 'package:tracket/matches/widgets/recent_ball_indicator.dart';
-import 'package:tracket/matches/widgets/teams_score_section.dart';
+import 'package:tracket/matches/widgets/match_score_component/current_players_info.dart';
+import 'package:tracket/matches/widgets/match_score_component/match_header.dart';
+import 'package:tracket/matches/widgets/match_score_component/recent_ball_indicator.dart';
+import 'package:tracket/matches/widgets/match_score_component/teams_score_section.dart';
 import 'package:tracket/utils/colors.dart';
 
 class MatchStatusCard extends StatelessWidget {

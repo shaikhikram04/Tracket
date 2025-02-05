@@ -4,9 +4,9 @@ import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
-import 'package:tracket/matches/widgets/match_status_card.dart';
+import 'package:tracket/matches/widgets/match_score_component/match_status_card.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/scoreboard_section.dart';
-import 'package:tracket/matches/widgets/toss_venue_section.dart';
+import 'package:tracket/matches/widgets/match_score_component/toss_venue_section.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
 
