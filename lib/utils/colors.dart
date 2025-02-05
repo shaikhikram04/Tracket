@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //* Light mode colors
-const lightBackgroundColor = Color.fromARGB(255, 239, 250, 239);
+const lightBackgroundColor = const Color.fromARGB(255, 248, 250, 248);
 const greenColor = Colors.green;
 const lightCardColor = Color.fromARGB(255, 171, 219, 177);
 const lightDrawerBgColor = Color.fromARGB(255, 83, 158, 86);
@@ -21,4 +21,3 @@ const disableButtonColor1 = const Color.fromARGB(255, 145, 201, 148);
 const disableButtonColor2 = const Color.fromARGB(255, 170, 223, 172);
 
 const enableButtonColor1 = const Color.fromARGB(255, 108, 206, 112);
-
