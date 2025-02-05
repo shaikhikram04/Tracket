@@ -172,7 +172,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Team Details'),
-        backgroundColor: greenColor,
+        backgroundColor: primaryColor,
         actions: isAdmin
             ? [
                 IconButton(
@@ -198,7 +198,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
               ]
             : null,
         centerTitle: false,
-        shape: Border.all(color: greenColor, width: 0),
+        shape: Border.all(color: primaryColor, width: 0),
       ),
       body: _isLoading
           ? getCircleLoadingIndicator()
@@ -211,8 +211,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          greenColor,
-                          lightDrawerBgColor,
+                          gradientStart,
+                          gradientEnd,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -291,7 +291,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             false),
                                         text: 'Unfollow',
                                         primaryColor: blackColor,
-                                        secondaryColor: lightDrawerBgColor,
+                                        secondaryColor: primaryVariant,
                                       )
                                     : MyElevatedButton.primaryElevatedButton(
                                         context,
@@ -333,7 +333,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                           text: 'Challenged',
                                           onPressed: null,
                                           primaryColor: blackColor,
-                                          secondaryColor: lightDrawerBgColor,
+                                          secondaryColor: primaryVariant,
                                         ),
                                 ),
                               if (!isChallengeVisible)

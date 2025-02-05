@@ -10,9 +10,9 @@ class MyElevatedButton {
     required String text,
     bool isSubmit = false,
     bool isLoading = false,
-    Color primaryColor = greenColor,
+    Color primaryColor = primaryColor,
     Color secondaryColor = whiteColor,
-    Color disabledColor = greenColor,
+    Color disabledColor = primaryColor,
     double fontSize = 14,
   }) {
     return ElevatedButton(

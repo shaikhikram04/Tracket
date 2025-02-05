@@ -18,7 +18,7 @@ class StepLabel extends StatelessWidget {
     return Text(
       label,
       style: TextStyle(
-        color: isActive ? greenColor : Colors.grey.shade600,
+        color: isActive ? primaryColor : Colors.grey.shade600,
         fontSize: _labelFontSize,
       ),
     );

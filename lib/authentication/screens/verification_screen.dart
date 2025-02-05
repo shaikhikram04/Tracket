@@ -99,7 +99,7 @@ class VerificationScreen extends ConsumerWidget {
     return Expanded(
       child: Container(
         height: _lineHeight,
-        color: isActive ? greenColor : Colors.grey[350],
+        color: isActive ? primaryColor : Colors.grey[350],
       ),
     );
   }

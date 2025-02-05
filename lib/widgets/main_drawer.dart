@@ -39,7 +39,10 @@ class MainDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [lightDrawerBgColor, greenColor],
+                colors: [
+                  gradientEnd,
+                  gradientEnd,
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

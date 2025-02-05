@@ -135,7 +135,7 @@ class MatchCard extends StatelessWidget {
                     ),
                   ),
                   match.status == MatchStatus.live
-                      ? HighlightedLabel(text: 'LIVE', textColor: greenColor)
+                      ? HighlightedLabel(text: 'LIVE', textColor: primaryColor)
                       : Text(
                           DateFormat.Hm().format(match.schedule),
                           style: TextStyle(

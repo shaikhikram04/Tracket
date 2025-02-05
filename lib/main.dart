@@ -16,7 +16,7 @@ ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.light,
     surface: lightBackgroundColor,
-    seedColor: greenColor,
+    seedColor: primaryColor,
   ),
   cardColor: lightCardColor,
   scaffoldBackgroundColor: lightBackgroundColor,
@@ -37,7 +37,7 @@ ThemeData darkMode = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.dark,
     surface: darkBackgroundColor,
-    seedColor: darkThemeColor,
+    seedColor: darkPrimaryColor,
   ),
 );
 

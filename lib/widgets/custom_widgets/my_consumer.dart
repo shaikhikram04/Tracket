@@ -116,7 +116,7 @@ class MyConsumer extends StatelessWidget {
 
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: isAdded ? Colors.grey : buttonBgColor,
+            backgroundColor: isAdded ? Colors.grey : buttonEnabledColor,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),

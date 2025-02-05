@@ -375,7 +375,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         subtitle: const Text(
           'Any one can see this match',
         ),
-        activeColor: enableSwitchColor,
+        activeColor: switchActiveColor,
         onChanged: (value) {
           setState(() {
             _allowSpectators.value = value;

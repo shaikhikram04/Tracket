@@ -45,7 +45,7 @@ class _PrivacySettingsState extends State<PrivacySettings> {
             subtitle: const Text(
               'When your team is private, only admins can add new members.',
             ),
-            activeColor: enableSwitchColor,
+            activeColor: switchActiveColor,
             onChanged: (value) {
               setState(() {
                 isSwitchedOn = value;

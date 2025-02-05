@@ -12,7 +12,7 @@ class _BallInfo {
     if (run == 'W') {
       color = Colors.red;
     } else if (run == '6' || run == '4') {
-      color = greenColor;
+      color = primaryColor;
     }
     return _BallInfo(run ?? '-', color);
   }

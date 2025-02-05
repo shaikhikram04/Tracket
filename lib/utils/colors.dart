@@ -54,23 +54,10 @@ const accentPurple = Color(0xFF9C27B0);
 const accentTeal = Color(0xFF009688);
 
 //* Light mode colors
-const greenColor = Color(0xFF2ECC71); // Vibrant, fresh green
 const lightCardColor = Color(0xFFB5E0BC); // Softer, more muted green for cards
-const lightDrawerBgColor = Color(0xFF27AE60); // Deeper green for drawer
 const onLightDrawer =
     Color(0xFFE8F5E9); // Light, fresh green for drawer elements
 const blackColor = Color(0xFF1E1E1E); // Slightly softer black
 const whiteColor = Colors.white;
 const unSelectColor = Color(0xFF34495E); // More sophisticated unselectd color
-const buttonBgColor = Color(0xFF2ECC71); // Matching vibrant green for buttons
 const darkGreenColor = Color(0xFF016A10); // Rich, deep green
-const enableSwitchColor = Color(0xFF27AE60); // Bright, active green
-
-//* Dark mode colors
-const darkThemeColor = Color(0xFF34D399); // Mint green for dark theme
-const disableButtonColor1 = Color(0xFF6EE7B7); // Soft mint green
-const disableButtonColor2 = Color(0xFF6EE7B7); // Matching soft mint green
-const enableButtonColor1 = Color(0xFF10B981); // Bright, active green
-
-//* Accent and supporting colors
-const Color accentColor = Color(0xFF4CAF50); // Complementary green accent

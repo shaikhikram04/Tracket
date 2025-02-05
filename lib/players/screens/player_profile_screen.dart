@@ -59,7 +59,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Player Profile'),
-        backgroundColor: greenColor,
+        backgroundColor: primaryColor,
         actions: [
           IconButton(
             icon: const Icon(Icons.share),
@@ -67,7 +67,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           ),
         ],
         centerTitle: false,
-        shape: Border.all(color: greenColor, width: 0),
+        shape: Border.all(color: primaryColor, width: 0),
       ),
       body: _isLoading
           ? getCircleLoadingIndicator()
@@ -80,8 +80,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          greenColor,
-                          lightDrawerBgColor,
+                          gradientEnd,
+                          gradientEnd,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -172,7 +172,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                       child: Column(
                         children: [
                           TabBar(
-                            labelColor: greenColor,
+                            labelColor: primaryColor,
                             labelStyle: MyTextStyle(context).titleMedium,
                             unselectedLabelColor: Colors.grey,
                             indicatorColor: Colors.green,
