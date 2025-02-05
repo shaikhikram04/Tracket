@@ -61,3 +61,4 @@ const blackColor = Color(0xFF1E1E1E); // Slightly softer black
 const whiteColor = Colors.white;
 const unSelectColor = Color(0xFF34495E); // More sophisticated unselectd color
 const darkGreenColor = Color(0xFF016A10); // Rich, deep green
+const shadowColor = Color(0xFF424242);

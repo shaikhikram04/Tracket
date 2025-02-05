@@ -5,6 +5,7 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 //* Authentication screen that provides tabs for Player and User authentication
@@ -76,7 +77,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   child: Card(
                     color: Theme.of(context).cardColor,
                     elevation: 5,
-                    shadowColor: Colors.grey.shade800,
+                    shadowColor: shadowColor,
                     child: Column(
                       children: [
                         //* TabBar for show option of user & player authentication
@@ -97,45 +98,71 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Widget _buildTabBarView(double height) {
-    return SizedBox(
-      height: height,
-      child: _isChangingTab
-          ? getCircleLoadingIndicator()
-          : TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _tabController,
-              children: const [
-                PlayerAuth(),
-                UserAuth(),
-              ],
-            ),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: SizedBox(
+        height: height,
+        child: _isChangingTab
+            ? getCircleLoadingIndicator(color: primaryColor)
+            : TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _tabController,
+                children: const [
+                  PlayerAuth(),
+                  UserAuth(),
+                ],
+              ),
+      ),
     );
   }
 
   Widget _buildAuthTabs() {
-    return TabBar(
-      dividerColor: Theme.of(context).colorScheme.secondary,
-      indicatorSize: TabBarIndicatorSize.tab,
-      controller: _tabController,
-      labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
-      tabs: const [
-        Tab(
-          child: Text(
-            'Player',
-            style: TextStyle(fontSize: _tabFontSize),
-            semanticsLabel: 'Player Authentication',
+    return Container(
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           ),
+        ],
+      ),
+      child: TabBar(
+        controller: _tabController,
+        indicator: BoxDecoration(
+          color: primaryColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
         ),
-        Tab(
-          child: Text(
-            'User',
-            style: TextStyle(fontSize: _tabFontSize),
-            semanticsLabel: 'User Authentication',
+        labelColor: primaryColor,
+        unselectedLabelColor: secondaryTextColor,
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+        // dividerColor: Theme.of(context).colorScheme.secondary,
+        // indicatorSize: TabBarIndicatorSize.tab,
+        // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
+        tabs: const [
+          Tab(
+            child: Text(
+              'Player',
+              // style: TextStyle(fontSize: _tabFontSize),
+              // semanticsLabel: 'Player Authentication',
+            ),
           ),
-        ),
-      ],
-      onTap: _handleTabChange,
+          Tab(
+            child: Text(
+              'User',
+              // style: TextStyle(fontSize: _tabFontSize),
+              // semanticsLabel: 'User Authentication',
+            ),
+          ),
+        ],
+        onTap: _handleTabChange,
+      ),
     );
   }
 }
