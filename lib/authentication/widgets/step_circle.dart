@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/authentication/models/verification_steps_data.dart';
+import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class StepCircle extends StatelessWidget {
   const StepCircle({
@@ -11,8 +12,7 @@ class StepCircle extends StatelessWidget {
   final bool isActive;
   final int step;
 
-  static const double _stepCircleSize = 40.0;
-  static const double _iconSize = 18.0;
+  static const double _stepCircleSize = 50.0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,13 @@ class StepCircle extends StatelessWidget {
           width: 2,
         ),
       ),
-      child: Icon(
-        VerificationStepData.getIconForStep(step),
-        color: isActive ? Colors.white : Colors.grey.shade600,
-        size: _iconSize,
-        semanticLabel: isActive ? 'Step $step completed' : 'Step $step pending',
+      child: Center(
+        child: Text(
+          step.toString(),
+          style: MyTextStyle(context)
+              .bodyLarge
+              .copyWith(color: isActive ? onPrimaryColor : primaryTextColor),
+        ),
       ),
     );
   }

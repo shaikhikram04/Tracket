@@ -25,7 +25,7 @@ class VerificationStepData {
       case 0:
         return Icons.email_outlined;
       case sendEmail:
-        return Icons.check_circle_outline;
+        return Icons.check_circle_outline_outlined;
       case verified:
         return Icons.login_outlined;
       default:

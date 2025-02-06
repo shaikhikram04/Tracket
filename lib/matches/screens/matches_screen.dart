@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/widgets/match_card.dart';
 import 'package:tracket/matches/widgets/match_tabs.dart';
+import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 class MatchesScreen extends StatefulWidget {
   const MatchesScreen({super.key});
