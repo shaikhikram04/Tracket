@@ -5,7 +5,6 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 //* Authentication screen that provides tabs for Player and User authentication
@@ -63,33 +62,70 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     final safeAreaHeight = getSafeAreaHeight(context);
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: safeAreaHeight),
-            child: Column(
-              children: [
-                //* App logo
-                const AppLogo(),
-                //* Auth content
-                Padding(
-                  padding: _horizontalPadding,
-                  child: Card(
-                    color: Theme.of(context).cardColor,
-                    elevation: 5,
-                    shadowColor: shadowColor,
-                    child: Column(
-                      children: [
-                        //* TabBar for show option of user & player authentication
-                        _buildAuthTabs(),
-                        //* Content of TabBar for signup/login user or player
-                        _buildTabBarView(tabBarViewHeight)
-                      ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              const Color(0xFF34D399).withOpacity(0.1),
+              Colors.white.withOpacity(0.8),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: safeAreaHeight),
+              child: Container(
+                // decoration: BoxDecoration(
+                //   gradient: LinearGradient(
+                //     begin: Alignment.topCenter,
+                //     end: Alignment.bottomCenter,
+                //     colors: [
+                //       const Color(0xFF34D399).withOpacity(0.1),
+                //       Colors.white.withOpacity(0.8),
+                //     ],
+                //   ),
+                // ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    const AppLogo(),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: _horizontalPadding,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF2ECC71).withOpacity(0.15),
+                              blurRadius: 15,
+                              offset: const Offset(0, 8),
+                            ),
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 5,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            //* TabBar for show option of user & player authentication
+                            _buildAuthTabs(),
+                            //* Content of TabBar for signup/login user or player
+                            _buildTabBarView(tabBarViewHeight)
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: _bottomPadding)
+                  ],
                 ),
-                const SizedBox(height: _bottomPadding)
-              ],
+              ),
             ),
           ),
         ),
@@ -114,29 +150,46 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Widget _buildAuthTabs() {
-    return TabBar(
-      dividerColor: Theme.of(context).colorScheme.secondary,
-      indicatorSize: TabBarIndicatorSize.tab,
-      controller: _tabController,
-      labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
-      tabs: const [
-        Tab(
-          child: Text(
-            'Player',
-            style: TextStyle(fontSize: _tabFontSize),
-            semanticsLabel: 'Player Authentication',
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(20),
         ),
-        Tab(
-          child: Text(
-            'User',
-            style: TextStyle(fontSize: _tabFontSize),
-            semanticsLabel: 'User Authentication',
-          ),
+      ),
+      child: TabBar(
+        dividerColor: Colors.transparent,
+        indicatorSize: TabBarIndicatorSize.tab,
+        controller: _tabController,
+        indicator: BoxDecoration(
+          color: const Color(0xFF2ECC71),
+          borderRadius: BorderRadius.circular(12),
         ),
-      ],
-      onTap: _handleTabChange,
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.grey[700],
+        // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
+        tabs: const [
+          Tab(
+            child: Text(
+              'Player',
+              // style: TextStyle(fontSize: _tabFontSize),
+              // semanticsLabel: 'Player Authentication',
+            ),
+          ),
+          Tab(
+            child: Text(
+              'User',
+              // style: TextStyle(fontSize: _tabFontSize),
+              // semanticsLabel: 'User Authentication',yy
+            ),
+          ),
+        ],
+        onTap: _handleTabChange,
+      ),
     );
   }
 }
