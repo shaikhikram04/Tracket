@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
-import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_text_button.dart';
-import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
@@ -23,18 +19,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   late GlobalKey<FormState> _formKey;
   late bool _isResetEmailSend;
   late bool _isSendingEmail;
-
-  static const double _verticalSpacing = 20.0;
-  static const double _borderRadius = 15.0;
-  static const EdgeInsets _cardPadding = EdgeInsets.all(20);
-  static const EdgeInsets _cardMargin = EdgeInsets.symmetric(
-    horizontal: 20,
-    vertical: 20,
-  );
-
-  String get _messageText => _isResetEmailSend
-      ? 'Reset email link has been send to ${_email!.trim()}. Check your inbox if you registered!'
-      : 'Enter the register email. We will send the reset email on provided email.';
 
   @override
   void initState() {
@@ -88,104 +72,196 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          body: SafeArea(
-            child: Center(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const AppLogo(),
-                    Text(
-                      'Forget Password?',
-                      style: MyTextStyle(context).titleLarge,
-                    ),
-                    Card(
-                      margin: _cardMargin,
-                      color: Theme.of(context).cardColor,
-                      child: Padding(
-                        padding: _cardPadding,
-                        child: Column(
-                          spacing: _verticalSpacing,
-                          children: [
-                            Text(
-                              _messageText,
-                              textAlign: TextAlign.left,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(color: Colors.black),
-                            ),
-                            if (!_isResetEmailSend) _buildEmailForm(),
-                            _buildActionButtons()
-                          ],
+    return Scaffold(
+      backgroundColor: const Color(0xFFF0F4F0),
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color(0xFF34D399).withOpacity(0.1),
+                  Colors.white.withOpacity(0.5),
+                ],
+              ),
+            ),
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 40),
+                      const AppLogo(),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Forget Password?',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF2E7D32),
+                          letterSpacing: 0.5,
                         ),
                       ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: blackColor,
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(fontWeight: FontWeight.w500),
-                        iconSize: 30,
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    const Color(0xFF2ECC71).withOpacity(0.15),
+                                blurRadius: 15,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // spacing: _verticalSpacing,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color(0xFF2ECC71).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  _isResetEmailSend
+                                      ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
+                                      : 'Enter your registered email address. We\'ll send you a link to reset your password.',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800],
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              if (!_isResetEmailSend) ..._buildEmailForm(),
+                              _buildActionButtons(),
+                            ],
+                          ),
+                        ),
                       ),
-                      label: const Text('Back to login'),
-                      icon: const Icon(Icons.arrow_back),
-                    )
-                  ],
+                      const SizedBox(height: 24),
+                      TextButton.icon(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Color(0xFF2E7D32),
+                        ),
+                        label: Text(
+                          'Back to Login',
+                          style: TextStyle(
+                            color: const Color(0xFF2E7D32),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        if (_isSendingEmail)
-          Container(
-            color: Colors.black26,
-            child: Center(
-              child: getCircleLoadingIndicator(),
+          if (_isSendingEmail)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: const Color(0xFF2ECC71),
+                  strokeWidth: 3,
+                ),
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildEmailForm() {
-    return MyTextField(
-      isLogin: true,
-      onSave: (value) => _email = value,
-      label: 'Email',
-      borderRadius: _borderRadius,
-      validator: ValidationServices.emailValidator,
-    );
+  List<Widget> _buildEmailForm() {
+    return [
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: TextFormField(
+          decoration: InputDecoration(
+            hintText: 'Enter your email',
+            prefixIcon: Icon(
+              Icons.email_outlined,
+              color: const Color(0xFF2ECC71),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          onSaved: (value) => _email = value,
+          validator: ValidationServices.emailValidator,
+        ),
+      ),
+      const SizedBox(height: 24),
+    ];
   }
 
   Widget _buildActionButtons() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (_isResetEmailSend)
-          MyTextButton(
-            text: 'Edit email',
+          TextButton(
             onPressed: _onEditEmail,
+            child: Text(
+              'Edit email',
+              style: TextStyle(
+                color: const Color(0xFF2E7D32),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         const Spacer(),
-        // if (_isSendingEmail)
-        //   Padding(
-        //     padding: const EdgeInsets.only(right: 8.0),
-        //     child: SizedBox.square(
-        //       dimension: 20,
-        //       child: getCircleLoadingIndicator(strokeWidth: 2),
-        //     ),
-        //   ),
-        MyTextButton(
-          text: _isResetEmailSend ? 'Resend' : 'Send reset email',
+        ElevatedButton(
           onPressed: _isSendingEmail ? null : _sendResetEmail,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF2ECC71),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 12,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            elevation: 2,
+          ),
+          child: Text(
+            _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
         ),
       ],
     );
