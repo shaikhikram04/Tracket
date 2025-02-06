@@ -47,6 +47,8 @@ const darkOnSurfaceColor = Color(0xFFE5E7EB); // Light text on dark surface
 //* Gradient Colors
 const gradientStart = Color(0xFF2ECC71);
 const gradientEnd = Color(0xFF27AE60);
+final authGredientStart = Color(0xFF34D399).withValues(alpha: 0.1);
+final authGredientEnd = whiteColor.withValues(alpha: 0.8);
 
 //* Additional Accent Colors
 const accentOrange = Color(0xFFFF5722);
@@ -62,3 +64,4 @@ const whiteColor = Colors.white;
 const unSelectColor = Color(0xFF34495E); // More sophisticated unselectd color
 const darkGreenColor = Color(0xFF016A10); // Rich, deep green
 const shadowColor = Color(0xFF424242);
+const transparentColor = Colors.transparent;

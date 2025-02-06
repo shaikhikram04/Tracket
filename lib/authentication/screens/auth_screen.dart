@@ -5,6 +5,7 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 //* Authentication screen that provides tabs for Player and User authentication
@@ -67,8 +68,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              const Color(0xFF34D399).withValues(alpha: 0.1),
-              Colors.white.withValues(alpha: 0.8),
+              authGredientStart,
+              authGredientEnd,
             ],
           ),
         ),
@@ -85,17 +86,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                     padding: _horizontalPadding,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: whiteColor,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color:
-                                const Color(0xFF2ECC71).withValues(alpha: 0.15),
+                            color: primaryColor.withValues(alpha: 0.15),
                             blurRadius: 15,
                             offset: const Offset(0, 8),
                           ),
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.05),
+                            color: blackColor.withValues(alpha: 0.05),
                             blurRadius: 5,
                             offset: const Offset(0, 2),
                           ),
@@ -140,17 +140,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   Widget _buildAuthTabs() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: whiteColor,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(20),
         ),
       ),
       child: TabBar(
-        dividerColor: Colors.transparent,
+        dividerColor: transparentColor,
         indicatorSize: TabBarIndicatorSize.tab,
         controller: _tabController,
         indicator: BoxDecoration(
-          color: const Color(0xFF2ECC71),
+          color: primaryColor,
           borderRadius: BorderRadius.circular(12).copyWith(
             bottomLeft: _tabController.index == 0 ? Radius.circular(0) : null,
             bottomRight: _tabController.index == 0 ? null : Radius.circular(0),
@@ -160,8 +160,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           fontWeight: FontWeight.w600,
           fontSize: 16,
         ),
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[700],
+        labelColor: whiteColor,
+        unselectedLabelColor: darkGrey,
         tabs: const [
           Tab(
             child: Text('Player'),
