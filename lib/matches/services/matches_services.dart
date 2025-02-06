@@ -166,15 +166,30 @@ class MatchesServices {
       currentBowlers: [],
     );
 
+    final matchDocRef =
+        _firestore.collection(FirestoreCollections.matches).doc(match.id);
+
     //* Storing match data
-    await _firestore
-        .collection(FirestoreCollections.matches)
-        .doc(match.id)
-        .set(match.toMap);
+    await matchDocRef.set(match.toMap);
+
+    //* Store team1 players
+    final team1CollectionRef =
+        matchDocRef.collection(FirestoreCollections.team1Players);
+    for (final player in challenge.challengerPlayers) {
+      team1CollectionRef.doc(player.playerId).set(player.toMap);
+    }
+
+    //* Store team2 players
+    final team2CollectionRef =
+        matchDocRef.collection(FirestoreCollections.team2Players);
+    for (final player in challenge.challengedPlayers) {
+      team2CollectionRef.doc(player.playerId).set(player.toMap);
+    }
 
     if (!context.mounted) return;
 
     //* mark challenge as accepted
+
     await NotificationServices.markNotificationStatus(
       challengeId,
       NotificationStatus.accept,

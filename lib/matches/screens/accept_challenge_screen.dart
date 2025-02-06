@@ -9,6 +9,7 @@ import 'package:tracket/matches/widgets/team_section.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -316,6 +317,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               child: MyElevatedButton.secondaryElevatedButton(
                 context,
                 text: 'Reject',
+                secondaryColor: lightBackgroundColor,
                 fontSize: 16,
                 onPressed: () => Navigator.of(context).pop(),
               ),
