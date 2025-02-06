@@ -91,9 +91,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                       getTitleText('Manage Admins', context),
                       IconButton(
                         onPressed: () {
-                          ref
-                              .read(requestProvider.notifier)
-                              .reset();
+                          ref.read(requestProvider.notifier).reset();
                           pushScreen(context, AddAdmin(team: teamState.team));
                         },
                         icon: const Icon(Icons.person_add),
@@ -143,8 +141,8 @@ class TeamSettingsScreen extends ConsumerWidget {
                     'Recieved Requests',
                     teamState.team.requestStatus.pendingRequest,
                     () {
-                      pushScreen(
-                          context, ManageRequestsScreen(teamId: teamState.team.id));
+                      pushScreen(context,
+                          ManageRequestsScreen(teamId: teamState.team.id));
                     },
                   ),
                   getRequestTile(
@@ -190,7 +188,9 @@ class TeamSettingsScreen extends ConsumerWidget {
                 children: [
                   Text(
                     'Delete Team',
-                    style: MyTextStyle(context).coloredTitleLarge(Colors.red),
+                    style: MyTextStyle(context)
+                        .titleLarge
+                        .copyWith(color: Colors.red),
                   ),
                   const Spacer(),
                   MyElevatedButton.secondaryElevatedButton(

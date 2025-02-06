@@ -134,7 +134,8 @@ class _FallOfWickets extends StatelessWidget {
                   TextSpan(
                     text: '  (${wicket.player}, ${wicket.overs} ovs)',
                     style: MyTextStyle(context)
-                        .coloredBodyMedium(Colors.grey.shade600),
+                        .bodyMedium
+                        .copyWith(color: Colors.grey.shade600),
                   ),
                   if (wicket != wickets.last) const TextSpan(text: '  •  '),
                 ])
@@ -170,7 +171,9 @@ class _InfoRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: MyTextStyle(context).boldBodyLarge,
+          style: MyTextStyle(context)
+              .bodyLarge
+              .copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     );

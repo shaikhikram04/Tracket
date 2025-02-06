@@ -31,7 +31,12 @@ class TeamSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TeamColumn(teamName: team1Name, teamLogo: team1Logo),
-              Text(vsText, style: MyTextStyle(context).boldBodyLarge),
+              Text(
+                vsText,
+                style: MyTextStyle(context)
+                    .bodyLarge
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
               TeamColumn(teamName: team2Name, teamLogo: team2Logo),
             ],
           ),

@@ -120,7 +120,8 @@ class ChallengeCard extends StatelessWidget {
   TextSpan _buildBoldTextSpan(String text, BuildContext context) {
     return TextSpan(
       text: text,
-      style: MyTextStyle(context).boldBodyLarge,
+      style:
+          MyTextStyle(context).bodyLarge.copyWith(fontWeight: FontWeight.bold),
     );
   }
 

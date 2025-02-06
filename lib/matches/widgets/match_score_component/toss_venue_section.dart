@@ -30,7 +30,9 @@ class TossVenueSection extends StatelessWidget {
             Text.rich(TextSpan(children: [
               TextSpan(
                 text: 'Toss : ',
-                style: MyTextStyle(context).coloredBodyLarge(darkGreenColor),
+                style: MyTextStyle(context)
+                    .bodyLarge
+                    .copyWith(color: darkGreenColor),
               ),
               TextSpan(
                   text:
@@ -39,7 +41,9 @@ class TossVenueSection extends StatelessWidget {
           Text.rich(TextSpan(children: [
             TextSpan(
               text: 'Venue : ',
-              style: MyTextStyle(context).coloredBodyLarge(darkGreenColor),
+              style: MyTextStyle(context)
+                  .bodyLarge
+                  .copyWith(color: darkGreenColor),
             ),
             TextSpan(text: match.venue)
           ])),

@@ -33,7 +33,9 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
       controller: tabController,
       unselectedLabelColor: unselectedColor ?? unSelectColor,
       labelColor: selectedColor ?? darkGreenColor,
-      labelStyle: MyTextStyle(context).boldBodyLarge,
+      labelStyle: MyTextStyle(context)
+                  .bodyLarge
+                  .copyWith(fontWeight: FontWeight.bold),
       unselectedLabelStyle: MyTextStyle(context).bodyLarge,
       tabs: tabs
           .map((config) => Tab(

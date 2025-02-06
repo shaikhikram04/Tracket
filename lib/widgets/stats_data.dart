@@ -19,7 +19,7 @@ class StatsData extends StatelessWidget {
       children: [
         Text(
           number.toString(),
-          style: MyTextStyle(context).coloredTitleLarge(numColor),
+          style: MyTextStyle(context).titleLarge.copyWith(color: numColor),
         ),
         Text(
           label,

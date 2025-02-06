@@ -173,10 +173,10 @@ class MatchCard extends StatelessWidget {
                               )
                             : Text(
                                 'Yet to bat',
-                                style:
-                                    MyTextStyle(context).boldBodyLarge.copyWith(
-                                          color: Theme.of(context).primaryColor,
-                                        ),
+                                style: MyTextStyle(context).bodyLarge.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                               ),
                         if (match.inning1 != null)
                           Text(
@@ -231,10 +231,10 @@ class MatchCard extends StatelessWidget {
                               )
                             : Text(
                                 'Yet to bat',
-                                style:
-                                    MyTextStyle(context).boldBodyLarge.copyWith(
-                                          color: Theme.of(context).primaryColor,
-                                        ),
+                                style: MyTextStyle(context).bodyLarge.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                               ),
                         if (match.inning2 != null)
                           Text(

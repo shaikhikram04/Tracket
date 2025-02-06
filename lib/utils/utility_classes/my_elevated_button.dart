@@ -26,10 +26,15 @@ class MyElevatedButton {
           : Text(
               text,
               style: isSubmit
-                  ? MyTextStyle(context).submitBtnTextStyle
-                  : MyTextStyle(context)
-                      .buttonBodyLarge(secondaryColor)
-                      .copyWith(fontSize: fontSize),
+                  ? MyTextStyle(context).titleMedium.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: blackColor,
+                      )
+                  : MyTextStyle(context).bodyMedium.copyWith(
+                        color: secondaryColor,
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w500,
+                      ),
               textAlign: TextAlign.center,
             ),
     );
@@ -55,9 +60,11 @@ class MyElevatedButton {
           ? getCircleLoadingIndicator(color: primaryColor)
           : Text(
               text,
-              style: MyTextStyle(context)
-                  .buttonBodyLarge(primaryColor)
-                  .copyWith(fontSize: fontSize),
+              style: MyTextStyle(context).bodyMedium.copyWith(
+                    color: secondaryColor,
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w500,
+                  ),
               textAlign: TextAlign.center,
             ),
     );

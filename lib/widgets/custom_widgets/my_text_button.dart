@@ -18,7 +18,10 @@ class MyTextButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: MyTextStyle(context).textButtonBodyLarge(isUnderlined),
+        style: MyTextStyle(context).bodyLarge.copyWith(
+              decoration: isUnderlined ? TextDecoration.underline : null,
+              color: Colors.black,
+            ),
       ),
     );
   }

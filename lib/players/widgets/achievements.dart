@@ -18,7 +18,7 @@ class Achievements extends StatelessWidget {
       Text(
         'Complete tasks and challenges to earn your first achievement badge!',
         textAlign: TextAlign.center,
-        style: MyTextStyle(context).subTitleBodyMedium,
+        style: MyTextStyle(context).emphasisHigh,
       ),
       const SizedBox(height: 25),
       ElevatedButton(
@@ -30,7 +30,7 @@ class Achievements extends StatelessWidget {
             )),
         child: Text(
           'View Available Achievements',
-          style: MyTextStyle(context).whiteBodyMedium,
+          style: MyTextStyle(context).bodyMedium.copyWith(color: whiteColor),
         ),
       ),
     ]);

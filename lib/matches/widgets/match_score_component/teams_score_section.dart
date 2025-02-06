@@ -65,7 +65,12 @@ class TeamsScoreSection extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           score == null
-              ? Text('Yet to bat', style: MyTextStyle(context).boldBodyLarge)
+              ? Text(
+                  'Yet to bat',
+                  style: MyTextStyle(context)
+                      .bodyLarge
+                      .copyWith(fontWeight: FontWeight.bold),
+                )
               : Column(
                   crossAxisAlignment: isFirst
                       ? CrossAxisAlignment.start
@@ -77,9 +82,9 @@ class TeamsScoreSection extends StatelessWidget {
                     ),
                     Text(
                       '$overs overs',
-                      style: MyTextStyle(context).coloredBodyMedium(
-                        Colors.grey[600]!,
-                      ),
+                      style: MyTextStyle(context).bodyMedium.copyWith(
+                            color: Colors.grey[600]!,
+                          ),
                     ),
                   ],
                 ),

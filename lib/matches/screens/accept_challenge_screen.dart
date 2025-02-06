@@ -349,16 +349,18 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           Expanded(
             child: Text(
               title,
-              style: MyTextStyle(context).boldBodyLarge,
+              style: MyTextStyle(context)
+                  .bodyLarge
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
           ),
           const Text('   :   '),
           Expanded(
             child: Text(
               value,
-              style: MyTextStyle(context)
-                  .boldBodyLarge
-                  .copyWith(color: const Color.fromARGB(255, 50, 124, 53)),
+              style: MyTextStyle(context).bodyLarge.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 50, 124, 53)),
             ),
           )
         ],

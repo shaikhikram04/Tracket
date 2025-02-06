@@ -28,10 +28,10 @@ class HighlightedLabel extends StatelessWidget {
       child: Text(
         text,
         style: isLabel
-            ? MyTextStyle(context).coloredLabelLarge(textColor)
+            ? MyTextStyle(context).labelLarge.copyWith(color: textColor)
             : MyTextStyle(context)
-                .coloredBodyMedium(textColor)
-                .copyWith(fontWeight: FontWeight.w600),
+                .bodyMedium
+                .copyWith(color: textColor, fontWeight: FontWeight.w600),
       ),
     );
   }
