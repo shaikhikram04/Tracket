@@ -19,7 +19,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  static const double _tabFontSize = 21.0;
   static const int _tabSwitchDelay = 180;
   static const double _bottomPadding = 40.0;
   static const EdgeInsets _horizontalPadding =
@@ -68,8 +67,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              const Color(0xFF34D399).withOpacity(0.1),
-              Colors.white.withOpacity(0.8),
+              const Color(0xFF34D399).withValues(alpha: 0.1),
+              Colors.white.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -77,54 +76,43 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           child: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: safeAreaHeight),
-              child: Container(
-                // decoration: BoxDecoration(
-                //   gradient: LinearGradient(
-                //     begin: Alignment.topCenter,
-                //     end: Alignment.bottomCenter,
-                //     colors: [
-                //       const Color(0xFF34D399).withOpacity(0.1),
-                //       Colors.white.withOpacity(0.8),
-                //     ],
-                //   ),
-                // ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30),
-                    const AppLogo(),
-                    const SizedBox(height: 24),
-                    Padding(
-                      padding: _horizontalPadding,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF2ECC71).withOpacity(0.15),
-                              blurRadius: 15,
-                              offset: const Offset(0, 8),
-                            ),
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 5,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            //* TabBar for show option of user & player authentication
-                            _buildAuthTabs(),
-                            //* Content of TabBar for signup/login user or player
-                            _buildTabBarView(tabBarViewHeight)
-                          ],
-                        ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 30),
+                  const AppLogo(),
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: _horizontalPadding,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                const Color(0xFF2ECC71).withValues(alpha: 0.15),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.05),
+                            blurRadius: 5,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          //* TabBar for show option of user & player authentication
+                          _buildAuthTabs(),
+                          //* Content of TabBar for signup/login user or player
+                          _buildTabBarView(tabBarViewHeight)
+                        ],
                       ),
                     ),
-                    const SizedBox(height: _bottomPadding)
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: _bottomPadding)
+                ],
               ),
             ),
           ),
@@ -163,7 +151,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         controller: _tabController,
         indicator: BoxDecoration(
           color: const Color(0xFF2ECC71),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12).copyWith(
+            bottomLeft: _tabController.index == 0 ? Radius.circular(0) : null,
+            bottomRight: _tabController.index == 0 ? null : Radius.circular(0),
+          ),
         ),
         labelStyle: const TextStyle(
           fontWeight: FontWeight.w600,
@@ -171,21 +162,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         ),
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey[700],
-        // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
         tabs: const [
           Tab(
-            child: Text(
-              'Player',
-              // style: TextStyle(fontSize: _tabFontSize),
-              // semanticsLabel: 'Player Authentication',
-            ),
+            child: Text('Player'),
           ),
           Tab(
-            child: Text(
-              'User',
-              // style: TextStyle(fontSize: _tabFontSize),
-              // semanticsLabel: 'User Authentication',yy
-            ),
+            child: Text('User'),
           ),
         ],
         onTap: _handleTabChange,

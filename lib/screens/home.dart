@@ -105,7 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               spreadRadius: 2,
             ),
@@ -124,7 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             color: Color(0xFF2ecc71),
           ),
           showSelectedLabels: true,
-          items: const [  
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.groups),
               label: 'Teams',
