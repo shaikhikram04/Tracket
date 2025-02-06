@@ -74,7 +74,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F4F0),
       body: Stack(
         children: [
           Container(
@@ -103,7 +102,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF2E7D32),
+                          color: darkGreenTextColor,
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -139,7 +138,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       : 'Enter your registered email address. We\'ll send you a link to reset your password.',
                                   style: TextStyle(
                                     fontSize: 15,
-                                    color: Colors.grey[800],
+                                    color: secondaryV2TextColor,
                                     height: 1.5,
                                   ),
                                 ),
@@ -156,12 +155,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(
                           Icons.arrow_back,
-                          color: Color(0xFF2E7D32),
+                          color: darkGreenTextColor,
                         ),
                         label: Text(
                           'Back to Login',
                           style: TextStyle(
-                            color: const Color(0xFF2E7D32),
+                            color: darkGreenTextColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -178,7 +177,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               color: Colors.black.withValues(alpha: 0.3),
               child: Center(
                 child: CircularProgressIndicator(
-                  color: const Color(0xFF2ECC71),
+                  color: primaryColor,
                   strokeWidth: 3,
                 ),
               ),

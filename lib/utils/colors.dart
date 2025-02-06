@@ -19,8 +19,10 @@ const surfaceVariant = Color(0xFFF1F8E9); // Light green surface
 //* Text and Icon Colors
 const primaryTextColor = Color(0xFF212121); // Dark text
 const secondaryTextColor = Color(0xFF757575); // Muted text
+const secondaryV2TextColor = const Color(0xFF424242);
 const onPrimaryColor = Colors.white; // Text on primary color
 const onSecondaryColor = Colors.white; // Text on secondary color
+const darkGreenTextColor = const Color(0xFF2E7D32);
 
 //* Status and Feedback Colors
 const successColor = Color(0xFF4CAF50); // Success green
