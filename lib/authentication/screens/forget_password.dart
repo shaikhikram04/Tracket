@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -83,8 +84,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color(0xFF34D399).withOpacity(0.1),
-                  Colors.white.withOpacity(0.5),
+                  authGredientStart,
+                  authGredientEnd,
                 ],
               ),
             ),
@@ -115,8 +116,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color:
-                                    const Color(0xFF2ECC71).withOpacity(0.15),
+                                color: primaryColor.withValues(alpha: 0.15),
                                 blurRadius: 15,
                                 offset: const Offset(0, 8),
                               ),
@@ -130,8 +130,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color:
-                                      const Color(0xFF2ECC71).withOpacity(0.1),
+                                  color: primaryColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
@@ -176,7 +175,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           if (_isSendingEmail)
             Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               child: Center(
                 child: CircularProgressIndicator(
                   color: const Color(0xFF2ECC71),
@@ -197,7 +196,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               blurRadius: 7,
               offset: const Offset(0, 3),
             ),
