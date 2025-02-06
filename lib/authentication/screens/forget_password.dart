@@ -205,14 +205,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             hintText: 'Enter your email',
             prefixIcon: Icon(
               Icons.email_outlined,
-              color: const Color(0xFF2ECC71),
+              color: primaryColor,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: whiteColor,
           ),
           onSaved: (value) => _email = value,
           validator: ValidationServices.emailValidator,
@@ -232,7 +232,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: Text(
               'Edit email',
               style: MyTextStyle(context).bodyMedium.copyWith(
-                    color: const Color(0xFF2E7D32),
+                    color: darkGreenTextColor,
                     fontWeight: FontWeight.w600,
                   ),
             ),
@@ -241,7 +241,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         ElevatedButton(
           onPressed: _isSendingEmail ? null : _sendResetEmail,
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF2ECC71),
+            backgroundColor: primaryColor,
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
               vertical: 12,
@@ -255,7 +255,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
             style: MyTextStyle(context).bodyLarge.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: whiteColor,
                 ),
           ),
         ),
