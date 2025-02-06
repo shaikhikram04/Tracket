@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -99,12 +100,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       const SizedBox(height: 24),
                       Text(
                         'Forget Password?',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: darkGreenTextColor,
-                          letterSpacing: 0.5,
-                        ),
+                        style: MyTextStyle(context).headlineMedium.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: darkGreenTextColor,
+                              letterSpacing: 0.5,
+                            ),
                       ),
                       const SizedBox(height: 12),
                       Padding(
@@ -136,11 +136,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                   _isResetEmailSend
                                       ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
                                       : 'Enter your registered email address. We\'ll send you a link to reset your password.',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: secondaryV2TextColor,
-                                    height: 1.5,
-                                  ),
+                                  style:
+                                      MyTextStyle(context).bodyMedium.copyWith(
+                                            color: secondaryV2TextColor,
+                                            height: 1.5,
+                                          ),
                                 ),
                               ),
                               const SizedBox(height: 24),
@@ -159,11 +159,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ),
                         label: Text(
                           'Back to Login',
-                          style: TextStyle(
-                            color: darkGreenTextColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: MyTextStyle(context).bodyLarge.copyWith(
+                                color: darkGreenTextColor,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       ),
                     ],
@@ -232,10 +231,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             onPressed: _onEditEmail,
             child: Text(
               'Edit email',
-              style: TextStyle(
-                color: const Color(0xFF2E7D32),
-                fontWeight: FontWeight.w600,
-              ),
+              style: MyTextStyle(context).bodyMedium.copyWith(
+                    color: const Color(0xFF2E7D32),
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
           ),
         const Spacer(),
@@ -254,11 +253,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           child: Text(
             _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
+            style: MyTextStyle(context).bodyLarge.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
           ),
         ),
       ],

@@ -6,6 +6,7 @@ import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 //* Authentication screen that provides tabs for Player and User authentication
@@ -156,10 +157,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
             bottomRight: _tabController.index == 0 ? null : Radius.circular(0),
           ),
         ),
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
-        ),
+        labelStyle: MyTextStyle(context).titleMedium,
         labelColor: whiteColor,
         unselectedLabelColor: darkGrey,
         tabs: const [
