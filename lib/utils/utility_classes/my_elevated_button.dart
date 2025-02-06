@@ -44,8 +44,8 @@ class MyElevatedButton {
     BuildContext context, {
     required String text,
     required Function()? onPressed,
-    Color primaryColor = Colors.red,
-    Color secondaryColor = Colors.white,
+    Color primaryColor = errorColor,
+    Color secondaryColor = whiteColor,
     bool isLoading = false,
     double fontSize = 14,
   }) {
@@ -60,10 +60,10 @@ class MyElevatedButton {
           ? getCircleLoadingIndicator(color: primaryColor)
           : Text(
               text,
-              style: MyTextStyle(context).bodyMedium.copyWith(
-                    color: secondaryColor,
+              style: MyTextStyle(context).titleMedium.copyWith(
+                    color: primaryColor,
                     fontSize: fontSize,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
               textAlign: TextAlign.center,
             ),
