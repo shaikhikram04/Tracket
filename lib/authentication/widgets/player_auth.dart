@@ -5,6 +5,7 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
@@ -145,6 +146,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                     : () => _onSubmit(playerAuthState.isLogin),
                 text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: playerAuthState.isLoading,
+                textStyle: MyTextStyle(context).cardTitle,
               ),
             ),
             const SizedBox(height: 15),
