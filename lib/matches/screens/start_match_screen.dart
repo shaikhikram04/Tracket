@@ -187,7 +187,6 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                       onPressed: _startToss,
                       text: 'Toss Coin',
                       backgroundColor: darkGreenColor,
-                      fontSize: 16,
                       textStyle: MyTextStyle(context).buttonText.copyWith(
                             color: whiteColor,
                           ),

@@ -330,7 +330,6 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               child: MyElevatedButton.primaryElevatedButton(
                 context,
                 onPressed: _acceptChallenge,
-                fontSize: 16,
                 text: 'Accept',
                 backgroundColor: const Color.fromARGB(255, 43, 114, 45),
                 isLoading: _isAccepting,

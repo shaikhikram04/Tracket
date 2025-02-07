@@ -112,7 +112,7 @@ class _MatchPlayersSelectionScreenState
   );
 
   List<MatchPlayerInfo> _openers = [];
-  MatchPlayerInfo? _bowler;
+  List<MatchPlayerInfo> _bowler = [];
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +129,9 @@ class _MatchPlayersSelectionScreenState
               children: [
                 getTitleText('Opening Batsman', context),
                 SizedBox(height: 15),
-                InkWell(
-                  onTap: _openers.isEmpty
-                      ? () async {
+                _openers.isEmpty
+                    ? InkWell(
+                        onTap: () async {
                           final selectedPlayers = await showDialog(
                             context: context,
                             builder: (context) => PlayersSelectionDialog(
@@ -143,13 +143,11 @@ class _MatchPlayersSelectionScreenState
 
                           if (selectedPlayers != null) {
                             setState(() {
-                              _openers = selectedPlayers;
+                              _openers = List.from(selectedPlayers);
                             });
                           }
-                        }
-                      : null,
-                  child: _openers.isEmpty
-                      ? Container(
+                        },
+                        child: Container(
                           height: 100,
                           decoration: BoxDecoration(
                             color: primaryLight.withValues(alpha: 0.1),
@@ -163,24 +161,24 @@ class _MatchPlayersSelectionScreenState
                                   color: darkGreenColor),
                             ),
                           ),
-                        )
-                      : Column(
-                          children: [
-                            SquadPlayerTile(
-                              cricketRole: _openers[0].longCricketRole,
-                              playerName: _openers[0].playerName,
-                              profileImageUrl: _openers[0].profileImageUrl,
-                              playerId: _openers[0].playerId,
-                            ),
-                            SquadPlayerTile(
-                              cricketRole: _openers[1].longCricketRole,
-                              playerName: _openers[1].playerName,
-                              profileImageUrl: _openers[1].profileImageUrl,
-                              playerId: _openers[1].playerId,
-                            ),
-                          ],
                         ),
-                )
+                      )
+                    : Column(
+                        children: [
+                          SquadPlayerTile(
+                            cricketRole: _openers[0].longCricketRole,
+                            playerName: _openers[0].playerName,
+                            profileImageUrl: _openers[0].profileImageUrl,
+                            playerId: _openers[0].playerId,
+                          ),
+                          SquadPlayerTile(
+                            cricketRole: _openers[1].longCricketRole,
+                            playerName: _openers[1].playerName,
+                            profileImageUrl: _openers[1].profileImageUrl,
+                            playerId: _openers[1].playerId,
+                          ),
+                        ],
+                      )
               ],
             ),
           ),
@@ -190,27 +188,26 @@ class _MatchPlayersSelectionScreenState
               children: [
                 getTitleText('Opening Bowler', context),
                 SizedBox(height: 10),
-                InkWell(
-                  onTap: _bowler == null
-                      ? () async {
+                _bowler.isEmpty
+                    ? InkWell(
+                        onTap: () async {
                           final selectedPlayers = await showDialog(
                             context: context,
                             builder: (context) => PlayersSelectionDialog(
-                              playerList: match.team1Players,
-                              selectedPlayers: _openers,
+                              playerList: match.team2Players,
+                              selectedPlayers: _bowler,
                               noOfPlayerCanBeSelected: 1,
                             ),
                           );
 
                           if (selectedPlayers != null) {
                             setState(() {
-                              _bowler = selectedPlayers[0];
+                              _bowler = List.from(selectedPlayers);
+                              ;
                             });
                           }
-                        }
-                      : null,
-                  child: _bowler == null
-                      ? Container(
+                        },
+                        child: Container(
                           height: 100,
                           decoration: BoxDecoration(
                             color: primaryLight.withValues(alpha: 0.1),
@@ -224,18 +221,18 @@ class _MatchPlayersSelectionScreenState
                                   color: darkGreenColor),
                             ),
                           ),
-                        )
-                      : Column(
-                          children: [
-                            SquadPlayerTile(
-                              cricketRole: _bowler!.longCricketRole,
-                              playerName: _bowler!.playerName,
-                              profileImageUrl: _bowler!.profileImageUrl,
-                              playerId: _bowler!.playerId,
-                            ),
-                          ],
                         ),
-                )
+                      )
+                    : Column(
+                        children: [
+                          SquadPlayerTile(
+                            cricketRole: _bowler.first.longCricketRole,
+                            playerName: _bowler.first.playerName,
+                            profileImageUrl: _bowler.first.profileImageUrl,
+                            playerId: _bowler.first.playerId,
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),
