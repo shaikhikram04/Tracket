@@ -58,13 +58,11 @@ class SquadPlayerTile extends StatelessWidget {
                           .bodyLarge!
                           .copyWith(fontSize: 18),
                     ),
-                    Wrap(children: [
-                      Text(
-                        cricketRole,
-                        style: MyTextStyle(context).bodyMedium,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ]),
+                    Text(
+                      cricketRole,
+                      style: MyTextStyle(context).bodyMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 2),
                     Row(
                       children: [

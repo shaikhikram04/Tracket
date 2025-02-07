@@ -11,7 +11,6 @@ class MyElevatedButton {
     bool isLoading = false,
     Color backgroundColor = primaryColor,
     Color disabledColor = mediumGrey,
-    double fontSize = 14,
     EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(
       horizontal: 24,
       vertical: 12,
