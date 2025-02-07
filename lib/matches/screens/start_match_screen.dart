@@ -252,7 +252,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     Text(
                       '$battingTeam will bat first',
                       style: MyTextStyle(context).titleLarge.copyWith(
-                            color: infoColor,
+                            color: accentTeal,
                           ),
                     ),
                     const SizedBox(height: 30),

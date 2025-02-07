@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/screens/start_match_screen.dart';
+import 'package:tracket/matches/screens/operator_match_scoring_screen.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
@@ -111,7 +111,7 @@ class Tracket extends StatelessWidget {
       //     ? const AuthScreen()
       //     : const HomeScreen(),
 
-      home: StartMatchScreen(team1Name: 'Team A', team2Name: 'Team B',),
+      home: OperatorMatchScoringScreen(),
     );
   }
 }
