@@ -189,7 +189,6 @@ class MatchesServices {
     if (!context.mounted) return;
 
     //* mark challenge as accepted
-
     await NotificationServices.markNotificationStatus(
       challengeId,
       NotificationStatus.accept,
