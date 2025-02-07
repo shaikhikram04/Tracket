@@ -309,7 +309,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       context,
                       onPressed: _saveChanges,
                       text: 'Save Changes',
-                      isSubmit: true,
                       isLoading: _isSaving,
                     ),
                   ),

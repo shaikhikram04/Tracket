@@ -96,7 +96,6 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                     : () => _onSubmit(userAuthState.isLogin),
                 text: userAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: userAuthState.isLoading,
-                isSubmit: true,
               ),
             ),
             const SizedBox(height: 15),

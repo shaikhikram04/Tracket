@@ -145,7 +145,6 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                     : () => _onSubmit(playerAuthState.isLogin),
                 text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: playerAuthState.isLoading,
-                isSubmit: true,
               ),
             ),
             const SizedBox(height: 15),
