@@ -8,33 +8,37 @@ class MyElevatedButton {
     BuildContext context, {
     required void Function()? onPressed,
     required String text,
-    bool isSubmit = false,
     bool isLoading = false,
     Color primaryColor = primaryColor,
     Color secondaryColor = whiteColor,
     Color disabledColor = primaryColor,
     double fontSize = 14,
+    EdgeInsetsGeometry? padding,
+    double borderRadius = 25,
+    TextStyle? textStyle,
   }) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: primaryColor,
-        disabledBackgroundColor: disabledColor,
-      ),
+          backgroundColor: primaryColor,
+          disabledBackgroundColor: disabledColor,
+          padding: padding,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadius))),
       child: isLoading
           ? getCircleLoadingIndicator(color: blackColor)
           : Text(
               text,
-              style: isSubmit
-                  ? MyTextStyle(context).titleMedium.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: blackColor,
-                      )
-                  : MyTextStyle(context).bodyMedium.copyWith(
-                        color: secondaryColor,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w500,
-                      ),
+              style: textStyle,
+              // ? MyTextStyle(context).titleMedium.copyWith(
+              //       fontWeight: FontWeight.bold,
+              //       color: secondaryColor,
+              //     )
+              // : MyTextStyle(context).bodyMedium.copyWith(
+              //       color: secondaryColor,
+              //       fontSize: fontSize,
+              //       fontWeight: FontWeight.w500,
+              //     ),
               textAlign: TextAlign.center,
             ),
     );

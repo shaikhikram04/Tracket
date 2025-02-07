@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class StartMatchScreen extends StatefulWidget {
@@ -91,10 +93,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Start Match',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('Start Match'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -109,25 +108,23 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     children: [
                       Text(
                         widget.team1Name,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
+                        style: MyTextStyle(context).titleLarge.copyWith(
                               color: secondaryColor,
                             ),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'VS',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: secondaryTextColor,
-                          ),
+                          style: MyTextStyle(context).bodyMedium.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: secondaryTextColor,
+                              ),
                         ),
                       ),
                       Text(
                         widget.team2Name,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
+                        style: MyTextStyle(context).titleLarge.copyWith(
                               color: accentOrange,
                             ),
                       ),
@@ -136,7 +133,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   const SizedBox(height: 30),
                   Text(
                     'Time for Toss!',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: MyTextStyle(context).titleMedium.copyWith(
                           color: Colors.grey.shade700,
                         ),
                   ),
@@ -185,27 +182,45 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   ),
                   const SizedBox(height: 30),
                   if (!isCoinRotating)
-                    ElevatedButton(
+                    MyElevatedButton.primaryElevatedButton(
+                      context,
                       onPressed: _startToss,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: darkGreenColor,
-                        foregroundColor: whiteColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      child: const Text(
-                        'Toss Coin',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      text: 'Toss Coin',
+                      primaryColor: darkGreenColor,
+                      secondaryColor: whiteColor,
+                      fontSize: 16,
+                      textStyle: MyTextStyle(context).bodyLarge.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: whiteColor,
+                            letterSpacing: 1.5,
+                          ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
                       ),
                     ),
+                  ElevatedButton(
+                    onPressed: _startToss,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: darkGreenColor,
+                      foregroundColor: whiteColor,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                    child: Text(
+                      'Toss Coin',
+                      style: MyTextStyle(context).bodyLarge.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: whiteColor,
+                            letterSpacing: 1.5,
+                          ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -215,18 +230,16 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   children: [
                     Text(
                       '🏆 $tossWinner won the toss!',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                      style: MyTextStyle(context).titleLarge.copyWith(
                             color: darkGreenTextColor,
                           ),
                     ),
                     const SizedBox(height: 20),
                     Text(
                       'Choose your decision:',
-                      style: TextStyle(
-                        color: darkGrey,
-                        fontSize: 16,
-                      ),
+                      style: MyTextStyle(context).bodyLarge.copyWith(
+                            color: darkGrey,
+                          ),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -263,21 +276,22 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   children: [
                     Text(
                       '$battingTeam will bat first',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                      style: MyTextStyle(context).titleLarge.copyWith(
                             color: infoColor,
                           ),
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.play_circle_filled),
-                      label: const Text(
+                      icon: const Icon(
+                        Icons.play_circle_filled,
+                        size: 30,
+                      ),
+                      label: Text(
                         'Start Match',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: MyTextStyle(context)
+                            .titleLarge
+                            .copyWith(fontSize: 20, color: whiteColor),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: darkGreenColor,
