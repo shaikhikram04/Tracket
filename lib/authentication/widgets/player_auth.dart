@@ -147,6 +147,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                 text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: playerAuthState.isLoading,
                 textStyle: MyTextStyle(context).cardTitle,
+                padding: null,
               ),
             ),
             const SizedBox(height: 15),

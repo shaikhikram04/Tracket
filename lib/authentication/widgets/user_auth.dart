@@ -98,6 +98,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 text: userAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: userAuthState.isLoading,
                 textStyle: MyTextStyle(context).cardTitle,
+                padding: null,
               ),
             ),
             const SizedBox(height: 15),
