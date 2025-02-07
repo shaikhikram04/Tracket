@@ -136,11 +136,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                   _isResetEmailSend
                                       ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
                                       : 'Enter your registered email address. We\'ll send you a link to reset your password.',
-                                  style:
-                                      MyTextStyle(context).bodyMedium.copyWith(
-                                            color: secondaryV2TextColor,
-                                            height: 1.5,
-                                          ),
+                                  style: MyTextStyle(context).cardSubtitle,
                                 ),
                               ),
                               const SizedBox(height: 24),
@@ -159,9 +155,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ),
                         label: Text(
                           'Back to Login',
-                          style: MyTextStyle(context).bodyLarge.copyWith(
+                          style: MyTextStyle(context).buttonText.copyWith(
                                 color: darkGreenTextColor,
-                                fontWeight: FontWeight.w600,
                               ),
                         ),
                       ),
@@ -173,7 +168,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           if (_isSendingEmail)
             Container(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: blackColor.withValues(alpha: 0.3),
               child: Center(
                 child: CircularProgressIndicator(
                   color: primaryColor,
@@ -231,9 +226,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             onPressed: _onEditEmail,
             child: Text(
               'Edit email',
-              style: MyTextStyle(context).bodyMedium.copyWith(
+              style: MyTextStyle(context).mediumButtonText.copyWith(
                     color: darkGreenTextColor,
-                    fontWeight: FontWeight.w600,
                   ),
             ),
           ),
@@ -253,10 +247,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           child: Text(
             _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
-            style: MyTextStyle(context).bodyLarge.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: whiteColor,
-                ),
+            style: MyTextStyle(context).buttonText,
           ),
         ),
       ],

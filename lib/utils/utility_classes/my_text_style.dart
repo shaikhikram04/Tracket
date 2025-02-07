@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/colors.dart';
 
 class MyTextStyle {
   const MyTextStyle(this.context);
@@ -105,7 +106,12 @@ class MyTextStyle {
   TextStyle get buttonText => bodyLarge.copyWith(
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
-        
+        color: whiteColor,
+      );
+
+  TextStyle get mediumButtonText => bodyMedium.copyWith(
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.5,
       );
 
   TextStyle get caption => bodySmall.copyWith(
@@ -164,4 +170,11 @@ class MyTextStyle {
         color: Colors.black38,
         height: 1.5,
       );
-  }
+
+  //! Used in code
+  // MyTextStyle(context).headlineMedium.copyWith(
+  //                             fontWeight: FontWeight.bold,
+  //                             color: darkGreenTextColor,
+  //                             letterSpacing: 0.5,
+  //                           ),
+}
