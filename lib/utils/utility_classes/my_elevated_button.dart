@@ -9,8 +9,7 @@ class MyElevatedButton {
     required void Function()? onPressed,
     required String text,
     bool isLoading = false,
-    Color primaryColor = primaryColor,
-    Color secondaryColor = whiteColor,
+    Color backgroundColor = primaryColor,
     Color disabledColor = primaryColor,
     double fontSize = 14,
     EdgeInsetsGeometry? padding,
@@ -20,25 +19,18 @@ class MyElevatedButton {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          disabledBackgroundColor: disabledColor,
-          padding: padding,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius))),
+        backgroundColor: backgroundColor,
+        disabledBackgroundColor: disabledColor,
+        padding: padding,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
       child: isLoading
           ? getCircleLoadingIndicator(color: blackColor)
           : Text(
               text,
               style: textStyle,
-              // ? MyTextStyle(context).titleMedium.copyWith(
-              //       fontWeight: FontWeight.bold,
-              //       color: secondaryColor,
-              //     )
-              // : MyTextStyle(context).bodyMedium.copyWith(
-              //       color: secondaryColor,
-              //       fontSize: fontSize,
-              //       fontWeight: FontWeight.w500,
-              //     ),
               textAlign: TextAlign.center,
             ),
     );
@@ -71,6 +63,36 @@ class MyElevatedButton {
                   ),
               textAlign: TextAlign.center,
             ),
+    );
+  }
+
+  static ElevatedButton iconTextElevatedButton(
+    BuildContext context, {
+    required String text,
+    required Icon icon,
+    required VoidCallback onPressed,
+    TextStyle? textStyle,
+    Color backgroundColor = darkGreenColor,
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(
+      horizontal: 32,
+      vertical: 16,
+    ),
+    double borderRadius = 25,
+  }) {
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: icon,
+      label: Text(
+        text,
+        style: textStyle,
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        padding: padding,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
     );
   }
 }

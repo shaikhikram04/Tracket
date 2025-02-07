@@ -186,41 +186,16 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                       context,
                       onPressed: _startToss,
                       text: 'Toss Coin',
-                      primaryColor: darkGreenColor,
-                      secondaryColor: whiteColor,
-                      fontSize: 16,
-                      textStyle: MyTextStyle(context).bodyLarge.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: whiteColor,
-                            letterSpacing: 1.5,
-                          ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                    ),
-                  ElevatedButton(
-                    onPressed: _startToss,
-                    style: ElevatedButton.styleFrom(
                       backgroundColor: darkGreenColor,
-                      foregroundColor: whiteColor,
+                      fontSize: 16,
+                      textStyle: MyTextStyle(context).buttonText.copyWith(
+                            color: whiteColor,
+                          ),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 16,
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
                     ),
-                    child: Text(
-                      'Toss Coin',
-                      style: MyTextStyle(context).bodyLarge.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: whiteColor,
-                            letterSpacing: 1.5,
-                          ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -281,30 +256,18 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                           ),
                     ),
                     const SizedBox(height: 30),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
+                    MyElevatedButton.iconTextElevatedButton(
+                      context,
+                      text: 'Start Match',
+                      textStyle: MyTextStyle(context)
+                          .titleLarge
+                          .copyWith(fontSize: 20, color: whiteColor),
+                      icon: Icon(
                         Icons.play_circle_filled,
                         size: 30,
+                        color: whiteColor,
                       ),
-                      label: Text(
-                        'Start Match',
-                        style: MyTextStyle(context)
-                            .titleLarge
-                            .copyWith(fontSize: 20, color: whiteColor),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: darkGreenColor,
-                        foregroundColor: whiteColor,
-                        iconColor: whiteColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
+                      onPressed: () {},
                     ),
                   ],
                 ),
@@ -320,30 +283,14 @@ class _StartMatchScreenState extends State<StartMatchScreen>
     required String label,
     required VoidCallback onPressed,
   }) {
-    return ElevatedButton.icon(
+    return MyElevatedButton.iconTextElevatedButton(
+      context,
+      text: label,
+      icon: Icon(icon, color: whiteColor),
       onPressed: onPressed,
-      icon: Icon(
-        icon,
-        color: whiteColor,
-      ),
-      label: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: darkGreenColor,
-        foregroundColor: whiteColor,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 12,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
+      textStyle: MyTextStyle(context).buttonText.copyWith(color: whiteColor),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      borderRadius: 20,
     );
   }
 }

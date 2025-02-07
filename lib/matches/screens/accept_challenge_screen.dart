@@ -332,7 +332,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 onPressed: _acceptChallenge,
                 fontSize: 16,
                 text: 'Accept',
-                primaryColor: const Color.fromARGB(255, 43, 114, 45),
+                backgroundColor: const Color.fromARGB(255, 43, 114, 45),
                 isLoading: _isAccepting,
               ),
             ),

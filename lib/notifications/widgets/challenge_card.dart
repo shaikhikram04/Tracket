@@ -188,7 +188,7 @@ class ChallengeCard extends StatelessWidget {
                 context,
                 text: 'Accept',
                 isLoading: isRequestInProgress,
-                primaryColor: const Color.fromARGB(255, 47, 134, 50),
+                backgroundColor: const Color.fromARGB(255, 47, 134, 50),
                 onPressed: () => _navigateToAcceptChallenge(context),
               ),
             ],

@@ -299,7 +299,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         onPressed: () => _followTeam(
                                             teamState.team.id, player.id, true),
                                         text: 'Follow',
-                                        primaryColor: const Color.fromARGB(
+                                        backgroundColor: const Color.fromARGB(
                                             255, 40, 50, 40),
                                       ),
                               ),
@@ -324,7 +324,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                                     .team.wicketkeeperId,
                                               )),
                                           text: 'Challenge',
-                                          primaryColor: const Color.fromARGB(
+                                          backgroundColor: const Color.fromARGB(
                                               255, 40, 50, 40),
                                         )
                                       : MyElevatedButton

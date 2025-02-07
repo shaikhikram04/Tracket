@@ -105,6 +105,7 @@ class MyTextStyle {
   TextStyle get buttonText => bodyLarge.copyWith(
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
+        
       );
 
   TextStyle get caption => bodySmall.copyWith(
