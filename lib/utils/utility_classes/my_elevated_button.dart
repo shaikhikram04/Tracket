@@ -10,9 +10,12 @@ class MyElevatedButton {
     required String text,
     bool isLoading = false,
     Color backgroundColor = primaryColor,
-    Color disabledColor = primaryColor,
+    Color disabledColor = mediumGrey,
     double fontSize = 14,
-    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(
+      horizontal: 24,
+      vertical: 12,
+    ),
     double borderRadius = 25,
     TextStyle? textStyle,
   }) {
@@ -25,6 +28,7 @@ class MyElevatedButton {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),
+        elevation: 2,
       ),
       child: isLoading
           ? getCircleLoadingIndicator(color: blackColor)
