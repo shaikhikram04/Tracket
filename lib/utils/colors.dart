@@ -22,7 +22,7 @@ const secondaryTextColor = Color(0xFF757575); // Muted text
 const secondaryV2TextColor = const Color(0xFF424242);
 const onPrimaryColor = Colors.white; // Text on primary color
 const onSecondaryColor = Colors.white; // Text on secondary color
-const darkGreenTextColor = const Color(0xFF2E7D32);
+const grassGreen = const Color(0xFF2E7D32);
 
 //* Status and Feedback Colors
 const successColor = Color(0xFF4CAF50); // Success green
@@ -40,6 +40,7 @@ const buttonEnabledColor = Color(0xFF2ECC71); // Button when active
 const buttonDisabledColor = Color(0xFFA9A9A9); // Button when disabled
 const switchActiveColor = Color(0xFF27AE60); // Switch when on
 const switchInactiveColor = Color(0xFFBDBDBD); // Switch when off
+const lightGreen = Color(0xFF4CAF50);
 
 //* Dark Mode Specific
 const darkPrimaryColor = Color(0xFF34D399); // Mint green for dark mode
@@ -56,6 +57,7 @@ final authGredientEnd = whiteColor.withValues(alpha: 0.8);
 const accentOrange = Color(0xFFFF5722);
 const accentPurple = Color(0xFF9C27B0);
 const accentTeal = Color(0xFF009688);
+const accentGold = Color(0xFFFFD700);
 
 //* Light mode colors
 const lightCardColor = Color(0xFFB5E0BC); // Softer, more muted green for cards

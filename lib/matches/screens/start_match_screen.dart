@@ -204,7 +204,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     Text(
                       '🏆 $tossWinner won the toss!',
                       style: MyTextStyle(context).titleLarge.copyWith(
-                            color: darkGreenTextColor,
+                            color: grassGreen,
                           ),
                     ),
                     const SizedBox(height: 20),

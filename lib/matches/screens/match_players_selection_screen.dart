@@ -243,7 +243,7 @@ class _MatchPlayersSelectionScreenState
             child: MyElevatedButton.primaryElevatedButton(
               onPressed: () {},
               text: 'Start Match',
-              backgroundColor: darkGreenTextColor,
+              backgroundColor: grassGreen,
               borderRadius: 15,
               textStyle: MyTextStyle(context).titleMedium.copyWith(
                     fontWeight: FontWeight.w600,

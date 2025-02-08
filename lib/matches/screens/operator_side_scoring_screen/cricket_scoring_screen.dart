@@ -5,16 +5,6 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
-// Custom Colors
-class CricketColors {
-  static const primaryGreen = darkGreenColor;
-  static const lightGreen = Color(0xFF4CAF50);
-  static const grassGreen = Color(0xFF2E7D32);
-  static const accentGold = Color(0xFFFFD700);
-  static const white = whiteColor;
-  static const black = blackColor;
-}
-
 // Models
 class Player {
   final String id;
@@ -117,52 +107,64 @@ class MatchStateNotifier extends StateNotifier<MatchState> {
   }
 }
 
-class CricketScoringScreen extends ConsumerWidget {
+class CricketScoringScreen extends ConsumerStatefulWidget {
+  const CricketScoringScreen({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _CricketScoringScreenState createState() => _CricketScoringScreenState();
+}
+
+class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
+  @override
+  Widget build(BuildContext context) {
     final matchState = ref.watch(matchStateProvider);
 
     return Scaffold(
-      backgroundColor: CricketColors.white,
+      backgroundColor: whiteColor,
       appBar: AppBar(
-        backgroundColor: CricketColors.primaryGreen,
+        backgroundColor: darkGreenColor,
         elevation: 0,
         title: Text(
           'Live Scoring',
           style: GoogleFonts.poppins(
-            color: CricketColors.white,
+            color: whiteColor,
             fontWeight: FontWeight.w600,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.undo, color: CricketColors.accentGold),
+            icon: Icon(Icons.undo, color: accentGold),
             onPressed: () {
               // Implement undo functionality
             },
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Enhanced Score Summary Section
-            ScoreboardSection(matchState: matchState),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                // Enhanced Score Summary Section
+                ScoreboardSection(matchState: matchState),
 
-            // Current Over Indicator with animation
-            CurrentOverIndicator(balls: matchState.currentOverBalls),
+                // Current Over Indicator with animation
+                CurrentOverIndicator(balls: matchState.currentOverBalls),
 
-            // Player Stats Section with cards
-            PlayerStatsSection(
-              striker: matchState.striker,
-              nonStriker: matchState.nonStriker,
-              bowler: matchState.currentBowler,
+                // Player Stats Section with cards
+                PlayerStatsSection(
+                  striker: matchState.striker,
+                  nonStriker: matchState.nonStriker,
+                  bowler: matchState.currentBowler,
+                ),
+
+                // Scoring Controls with enhanced design
+                ScoringControls(),
+              ],
             ),
-
-            // Scoring Controls with enhanced design
-            ScoringControls(),
-          ],
-        ),
+          ),
+          // The blur overlay
+        ],
       ),
     );
   }
@@ -178,7 +180,7 @@ class ScoreboardSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: CricketColors.primaryGreen,
+        color: darkGreenColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
@@ -211,7 +213,7 @@ class ScoreboardSection extends StatelessWidget {
                 Text(
                   'VS',
                   style: MyTextStyle(context).bodyLarge.copyWith(
-                        color: CricketColors.accentGold.withValues(alpha: 0.9),
+                        color: accentGold.withValues(alpha: 0.9),
                         fontWeight: FontWeight.w700,
                       ),
                 ),
@@ -241,14 +243,14 @@ class ScoreboardSection extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: CricketColors.white,
+                        color: whiteColor,
                       ),
                     ),
                     Text(
                       '${matchState.overs}.${matchState.balls} Overs',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
-                        color: CricketColors.white.withValues(alpha: 0.9),
+                        color: whiteColor.withValues(alpha: 0.9),
                       ),
                     ),
                   ],
@@ -257,7 +259,7 @@ class ScoreboardSection extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
-                      color: CricketColors.accentGold.withValues(alpha: 0.25),
+                      color: accentGold.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
@@ -266,7 +268,7 @@ class ScoreboardSection extends StatelessWidget {
                           'TARGET',
                           style: GoogleFonts.poppins(
                             fontSize: 14,
-                            color: CricketColors.accentGold,
+                            color: accentGold,
                           ),
                         ),
                         Text(
@@ -274,7 +276,7 @@ class ScoreboardSection extends StatelessWidget {
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: CricketColors.white,
+                            color: whiteColor,
                           ),
                         ),
                       ],
@@ -317,7 +319,7 @@ class CurrentOverIndicator extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: CricketColors.primaryGreen,
+              color: darkGreenColor,
             ),
           ),
           SizedBox(height: 10),
@@ -331,14 +333,11 @@ class CurrentOverIndicator extends StatelessWidget {
                 height: 45,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: ballValue != null
-                      ? CricketColors.grassGreen
-                      : Colors.grey.shade200,
+                  color: ballValue != null ? grassGreen : Colors.grey.shade200,
                   boxShadow: ballValue != null
                       ? [
                           BoxShadow(
-                            color:
-                                CricketColors.grassGreen.withValues(alpha: 0.3),
+                            color: grassGreen.withValues(alpha: 0.3),
                             blurRadius: 8,
                             offset: Offset(0, 2),
                           ),
@@ -351,7 +350,7 @@ class CurrentOverIndicator extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: CricketColors.white,
+                      color: whiteColor,
                     ),
                   ),
                 ),
@@ -413,7 +412,7 @@ class PlayerStatsSection extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isStriker ? CricketColors.grassGreen : Colors.grey.shade300,
+          color: isStriker ? grassGreen : Colors.grey.shade300,
           width: 2,
         ),
         boxShadow: [
@@ -430,14 +429,13 @@ class PlayerStatsSection extends StatelessWidget {
           Row(
             children: [
               if (isStriker)
-                Icon(Icons.sports_cricket,
-                    color: CricketColors.grassGreen, size: 20),
+                Icon(Icons.sports_cricket, color: grassGreen, size: 20),
               SizedBox(width: 8),
               Text(
                 name,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: CricketColors.black,
+                  color: blackColor,
                 ),
               ),
             ],
@@ -448,7 +446,7 @@ class PlayerStatsSection extends StatelessWidget {
                 score,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: CricketColors.primaryGreen,
+                  color: darkGreenColor,
                 ),
               ),
               SizedBox(width: 10),
@@ -470,7 +468,7 @@ class PlayerStatsSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: CricketColors.grassGreen.withValues(alpha: 0.1),
+        color: grassGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -480,7 +478,7 @@ class PlayerStatsSection extends StatelessWidget {
             name,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
-              color: CricketColors.primaryGreen,
+              color: darkGreenColor,
             ),
           ),
           Row(
@@ -489,7 +487,7 @@ class PlayerStatsSection extends StatelessWidget {
                 figures,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: CricketColors.primaryGreen,
+                  color: darkGreenColor,
                 ),
               ),
               SizedBox(width: 10),
@@ -509,6 +507,8 @@ class PlayerStatsSection extends StatelessWidget {
 }
 
 class ScoringControls extends ConsumerWidget {
+  const ScoringControls({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -527,7 +527,7 @@ class ScoringControls extends ConsumerWidget {
                       ref.read(matchStateProvider.notifier).addRuns(runs);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: CricketColors.lightGreen,
+                      backgroundColor: lightGreen,
                       elevation: 3,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -538,7 +538,7 @@ class ScoringControls extends ConsumerWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: CricketColors.white,
+                        color: whiteColor,
                       ),
                     ),
                   ),
@@ -558,9 +558,7 @@ class ScoringControls extends ConsumerWidget {
                       ref.read(matchStateProvider.notifier).addRuns(runs);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: index == 0
-                          ? CricketColors.lightGreen
-                          : CricketColors.primaryGreen,
+                      backgroundColor: index == 0 ? lightGreen : darkGreenColor,
                       elevation: 3,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -571,7 +569,7 @@ class ScoringControls extends ConsumerWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: CricketColors.white,
+                        color: whiteColor,
                       ),
                     ),
                   ),
@@ -579,37 +577,6 @@ class ScoringControls extends ConsumerWidget {
               );
             }).toList(),
           ),
-
-          // GridView.count(
-          //   shrinkWrap: true,
-          //   physics: NeverScrollableScrollPhysics(),
-          //   crossAxisCount: 4,
-          //   mainAxisSpacing: 10,
-          //   crossAxisSpacing: 10,
-          //   childAspectRatio: 1.6,
-          //   children: [0, 1, 2, 3, 4].map((runs) {
-          //     return ElevatedButton(
-          //       onPressed: () {
-          //         ref.read(matchStateProvider.notifier).addRuns(runs);
-          //       },
-          //       style: ElevatedButton.styleFrom(
-          //         backgroundColor: CricketColors.lightGreen,
-          //         elevation: 3,
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(12),
-          //         ),
-          //       ),
-          //       child: Text(
-          //         '$runs',
-          //         style: GoogleFonts.poppins(
-          //           fontSize: 24,
-          //           fontWeight: FontWeight.bold,
-          //           color: CricketColors.white,
-          //         ),
-          //       ),
-          //     );
-          //   }).toList(),
-          // ),
 
           SizedBox(height: 25),
 
@@ -619,11 +586,9 @@ class ScoringControls extends ConsumerWidget {
             runSpacing: 10,
             children: ['Wide', 'No Ball', 'Leg Bye', 'Bye'].map((extra) {
               return ElevatedButton(
-                onPressed: () {
-                  ref.read(matchStateProvider.notifier).addExtra(extra);
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: CricketColors.accentGold,
+                  backgroundColor: accentGold,
                   elevation: 2,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   shape: RoundedRectangleBorder(
@@ -633,7 +598,7 @@ class ScoringControls extends ConsumerWidget {
                 child: Text(
                   extra,
                   style: GoogleFonts.poppins(
-                    color: CricketColors.black,
+                    color: blackColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -680,7 +645,7 @@ class ScoringControls extends ConsumerWidget {
           'Select Next Batsman',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
-            color: CricketColors.primaryGreen,
+            color: darkGreenColor,
           ),
         ),
         content: Column(

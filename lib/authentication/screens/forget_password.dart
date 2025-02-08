@@ -103,7 +103,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         'Forget Password?',
                         style: MyTextStyle(context).headlineMedium.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: darkGreenTextColor,
+                              color: grassGreen,
                               letterSpacing: 0.5,
                             ),
                       ),
@@ -152,12 +152,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(
                           Icons.arrow_back,
-                          color: darkGreenTextColor,
+                          color: grassGreen,
                         ),
                         label: Text(
                           'Back to Login',
                           style: MyTextStyle(context).buttonText.copyWith(
-                                color: darkGreenTextColor,
+                                color: grassGreen,
                               ),
                         ),
                       ),
@@ -228,7 +228,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: Text(
               'Edit email',
               style: MyTextStyle(context).mediumButtonText.copyWith(
-                    color: darkGreenTextColor,
+                    color: grassGreen,
                   ),
             ),
           ),
