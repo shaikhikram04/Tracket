@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 // Custom Colors
@@ -247,7 +248,7 @@ class ScoreboardSection extends StatelessWidget {
                       '${matchState.overs}.${matchState.balls} Overs',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
-                        color: CricketColors.white.withOpacity(0.9),
+                        color: CricketColors.white.withValues(alpha: 0.9),
                       ),
                     ),
                   ],
@@ -256,7 +257,7 @@ class ScoreboardSection extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
-                      color: CricketColors.accentGold.withOpacity(0.25),
+                      color: CricketColors.accentGold.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
@@ -299,11 +300,11 @@ class CurrentOverIndicator extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 20),
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: whiteColor,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: lightGrey,
             blurRadius: 10,
             offset: Offset(0, 2),
           ),
@@ -336,7 +337,8 @@ class CurrentOverIndicator extends StatelessWidget {
                   boxShadow: ballValue != null
                       ? [
                           BoxShadow(
-                            color: CricketColors.grassGreen.withOpacity(0.3),
+                            color:
+                                CricketColors.grassGreen.withValues(alpha: 0.3),
                             blurRadius: 8,
                             offset: Offset(0, 2),
                           ),
@@ -416,7 +418,7 @@ class PlayerStatsSection extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: lightGrey,
             blurRadius: 10,
             offset: Offset(0, 2),
           ),
@@ -468,7 +470,7 @@ class PlayerStatsSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: CricketColors.grassGreen.withOpacity(0.1),
+        color: CricketColors.grassGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -580,30 +582,26 @@ class ScoringControls extends ConsumerWidget {
           SizedBox(height: 20),
 
           // Wicket Button
-          ElevatedButton.icon(
+          MyElevatedButton.iconTextElevatedButton(
             onPressed: () {
               ref.read(matchStateProvider.notifier).wicketFalls();
               _showNextBatsmanDialog(context);
             },
-            icon: Icon(Icons.sports_cricket),
-            label: Text(
-              'WICKET',
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-              ),
+            text: 'WICKET',
+            textStyle: MyTextStyle(context).buttonText.copyWith(
+                  letterSpacing: 1.2,
+                  fontSize: 18,
+                ),
+            icon: Icon(
+              Icons.sports_cricket,
+              color: whiteColor,
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red.shade600,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 15),
-              minimumSize: Size(double.infinity, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              elevation: 3,
-            ),
+            backgroundColor: Colors.red.shade600,
+            borderRadius: 15,
+            height: 50,
+            width: double.infinity,
           ),
+          SizedBox(height: 5),
         ],
       ),
     );

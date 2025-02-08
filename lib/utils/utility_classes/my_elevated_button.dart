@@ -4,8 +4,7 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class MyElevatedButton {
-  static ElevatedButton primaryElevatedButton(
-    BuildContext context, {
+  static ElevatedButton primaryElevatedButton({
     required void Function()? onPressed,
     required String text,
     bool isLoading = false,
@@ -69,18 +68,19 @@ class MyElevatedButton {
     );
   }
 
-  static ElevatedButton iconTextElevatedButton(
-    BuildContext context, {
+  static ElevatedButton iconTextElevatedButton({
     required String text,
     required Icon icon,
     required VoidCallback onPressed,
     TextStyle? textStyle,
     Color backgroundColor = darkGreenColor,
-    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(
+    EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(
       horizontal: 32,
       vertical: 16,
     ),
     double borderRadius = 25,
+    double? height,
+    double? width,
   }) {
     return ElevatedButton.icon(
       onPressed: onPressed,
@@ -95,6 +95,8 @@ class MyElevatedButton {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),
+        minimumSize:
+            (width == null || height == null) ? null : Size(width, height),
       ),
     );
   }

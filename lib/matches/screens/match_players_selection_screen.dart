@@ -241,7 +241,6 @@ class _MatchPlayersSelectionScreenState
             height: 50,
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: MyElevatedButton.primaryElevatedButton(
-              context,
               onPressed: () {},
               text: 'Start Match',
               backgroundColor: darkGreenTextColor,
