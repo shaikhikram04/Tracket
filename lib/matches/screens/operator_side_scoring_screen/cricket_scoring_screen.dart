@@ -516,40 +516,102 @@ class ScoringControls extends ConsumerWidget {
       child: Column(
         children: [
           // Runs Grid
-          GridView.count(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            crossAxisCount: 3,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 1.5,
-            children: [0, 1, 2, 3, 4, 6].map((runs) {
-              return ElevatedButton(
-                onPressed: () {
-                  ref.read(matchStateProvider.notifier).addRuns(runs);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: runs == 4 || runs == 6
-                      ? CricketColors.grassGreen
-                      : CricketColors.lightGreen,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          Row(
+            children: [0, 1, 2, 3].map((runs) {
+              return Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref.read(matchStateProvider.notifier).addRuns(runs);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: CricketColors.lightGreen,
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      '$runs',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: CricketColors.white,
+                      ),
+                    ),
                   ),
                 ),
-                child: Text(
-                  '$runs',
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: CricketColors.white,
+              );
+            }).toList(),
+          ),
+          Row(
+            children: List.generate(3, (index) {
+              int runs = index < 2 ? 4 : 6;
+              return Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref.read(matchStateProvider.notifier).addRuns(runs);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: index == 0
+                          ? CricketColors.lightGreen
+                          : CricketColors.primaryGreen,
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      '$runs',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: CricketColors.white,
+                      ),
+                    ),
                   ),
                 ),
               );
             }).toList(),
           ),
 
-          SizedBox(height: 20),
+          // GridView.count(
+          //   shrinkWrap: true,
+          //   physics: NeverScrollableScrollPhysics(),
+          //   crossAxisCount: 4,
+          //   mainAxisSpacing: 10,
+          //   crossAxisSpacing: 10,
+          //   childAspectRatio: 1.6,
+          //   children: [0, 1, 2, 3, 4].map((runs) {
+          //     return ElevatedButton(
+          //       onPressed: () {
+          //         ref.read(matchStateProvider.notifier).addRuns(runs);
+          //       },
+          //       style: ElevatedButton.styleFrom(
+          //         backgroundColor: CricketColors.lightGreen,
+          //         elevation: 3,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(12),
+          //         ),
+          //       ),
+          //       child: Text(
+          //         '$runs',
+          //         style: GoogleFonts.poppins(
+          //           fontSize: 24,
+          //           fontWeight: FontWeight.bold,
+          //           color: CricketColors.white,
+          //         ),
+          //       ),
+          //     );
+          //   }).toList(),
+          // ),
+
+          SizedBox(height: 25),
 
           // Extras Wrap
           Wrap(
@@ -579,7 +641,7 @@ class ScoringControls extends ConsumerWidget {
             }).toList(),
           ),
 
-          SizedBox(height: 20),
+          SizedBox(height: 25),
 
           // Wicket Button
           MyElevatedButton.iconTextElevatedButton(
