@@ -294,7 +294,6 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         secondaryColor: primaryVariant,
                                       )
                                     : MyElevatedButton.primaryElevatedButton(
-                                        context,
                                         isLoading: isFollowing,
                                         onPressed: () => _followTeam(
                                             teamState.team.id, player.id, true),
@@ -308,7 +307,6 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   flex: 2,
                                   child: canChallenge
                                       ? MyElevatedButton.primaryElevatedButton(
-                                          context,
                                           onPressed: () => challengeForAMatch(
                                               playerId: player.id,
                                               playerName: player.name,

@@ -234,7 +234,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
         const Spacer(),
         MyElevatedButton.primaryElevatedButton(
-          context,
           onPressed: _isSendingEmail ? null : _sendResetEmail,
           text: _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
           backgroundColor: primaryColor,

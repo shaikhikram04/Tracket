@@ -185,7 +185,6 @@ class ChallengeCard extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               MyElevatedButton.primaryElevatedButton(
-                context,
                 text: 'Accept',
                 isLoading: isRequestInProgress,
                 backgroundColor: const Color.fromARGB(255, 47, 134, 50),

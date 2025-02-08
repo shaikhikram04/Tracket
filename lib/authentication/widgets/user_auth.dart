@@ -91,7 +91,6 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               width: width * 0.8,
               height: 50,
               child: MyElevatedButton.primaryElevatedButton(
-                context,
                 onPressed: userAuthState.isLoading
                     ? null
                     : () => _onSubmit(userAuthState.isLogin),

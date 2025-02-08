@@ -183,7 +183,6 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   const SizedBox(height: 30),
                   if (!isCoinRotating)
                     MyElevatedButton.primaryElevatedButton(
-                      context,
                       onPressed: _startToss,
                       text: 'Toss Coin',
                       backgroundColor: darkGreenColor,
@@ -256,7 +255,6 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     ),
                     const SizedBox(height: 30),
                     MyElevatedButton.iconTextElevatedButton(
-                      context,
                       text: 'Start Match',
                       textStyle: MyTextStyle(context)
                           .titleLarge
@@ -283,7 +281,6 @@ class _StartMatchScreenState extends State<StartMatchScreen>
     required VoidCallback onPressed,
   }) {
     return MyElevatedButton.iconTextElevatedButton(
-      context,
       text: label,
       icon: Icon(icon, color: whiteColor),
       onPressed: onPressed,

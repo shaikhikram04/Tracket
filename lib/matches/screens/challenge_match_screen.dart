@@ -467,7 +467,6 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           width: double.infinity,
           height: 50,
           child: MyElevatedButton.primaryElevatedButton(
-            context,
             text: 'Challenge Match',
             onPressed: _challengeMatch,
             isLoading: isChallenging,

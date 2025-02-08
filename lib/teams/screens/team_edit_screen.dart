@@ -306,7 +306,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                     width: width * 0.9,
                     height: 50,
                     child: MyElevatedButton.primaryElevatedButton(
-                      context,
                       onPressed: _saveChanges,
                       text: 'Save Changes',
                       isLoading: _isSaving,

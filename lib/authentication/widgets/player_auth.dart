@@ -140,7 +140,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               width: width * 0.8,
               height: 50,
               child: MyElevatedButton.primaryElevatedButton(
-                context,
+                
                 onPressed: playerAuthState.isLoading
                     ? null
                     : () => _onSubmit(playerAuthState.isLogin),
