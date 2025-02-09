@@ -271,10 +271,16 @@ class Match {
       schedule: schedule,
       striker: striker ?? this.striker,
       nonStriker: nonStriker ?? this.nonStriker,
-      currentBowlers: currentBowlers ?? this.currentBowlers,
+      currentBowlers: currentBowler ?? this.currentBowlers,
       currentOverRuns: currentOverRuns ?? this.currentOverRuns,
       isTeam1WonToss: isTeam1WonToss ?? this.isTeam1WonToss,
       tossDecision: tossDecision ?? this.tossDecision,
+      inning1: inning1 ?? this.inning1,
+      inning2: inning2 ?? this.inning2,
+      status: status ?? this.status,
+      winningTeamId: winningTeamId ?? this.winningTeamId,
+      winningMethod: winningMethod ?? this.winningMethod,
+      winningMargin: winningMargin ?? this.winningMargin,
     );
   }
 }

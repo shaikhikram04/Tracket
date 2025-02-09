@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
@@ -64,6 +65,26 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     if (state == null) return;
 
     state = state!.initializeSecondInnings();
+  }
+
+  void addRuns({
+    required int runs,
+    required bool isSix,
+    required bool isFour,
+  }) {
+    
+  }
+
+  void updateStrikers({StrikerData? striker, StrikerData? nonStriker}) {
+    if (state == null) return;
+
+    state = state!.copyWith(striker: striker, nonStriker: nonStriker);
+  }
+
+  void changeBowler(CurrentBowlerData? bowler) {
+    if (state == null) return;
+
+    state = state!.copyWith(currentBowler: bowler);
   }
 
   // Batting management

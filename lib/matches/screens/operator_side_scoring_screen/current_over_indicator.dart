@@ -36,8 +36,8 @@ class CurrentOverIndicator extends StatelessWidget {
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(6, (index) {
-              final ballValue = index < balls.length ? balls[index] : null;
+            children: List.generate(balls.length, (index) {
+              final ballValue = balls[index];
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 4),
                 width: 45,

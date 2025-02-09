@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -11,6 +12,10 @@ class ScoreboardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Inning currentInning = matchState.inningNumber == 1
+        ? matchState.inning1!
+        : matchState.inning2!;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -73,7 +78,7 @@ class ScoreboardSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${matchState.inning1?.runs}/${matchState.inning1?.wickets}',
+                      '${currentInning.runs}/${currentInning.wickets}',
                       style: GoogleFonts.poppins(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -81,7 +86,7 @@ class ScoreboardSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${matchState.inning1?.oversDisplay} Overs',
+                      '${currentInning.oversDisplay} Overs',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: whiteColor.withValues(alpha: 0.9),
@@ -89,7 +94,7 @@ class ScoreboardSection extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (matchState.inning1?.runs != null)
+                if (matchState.inningNumber == 2)
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
@@ -106,7 +111,7 @@ class ScoreboardSection extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${matchState.inning1?.runs}',
+                          '${matchState.target!}',
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,

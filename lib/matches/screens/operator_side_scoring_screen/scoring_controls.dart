@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -22,7 +23,11 @@ class ScoringControls extends ConsumerWidget {
                   margin: EdgeInsets.all(5),
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(matchStateProvider.notifier)
+                          .addRuns(runs: runs, isFour: false, isSix: false);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: lightGreen,
                       elevation: 3,
