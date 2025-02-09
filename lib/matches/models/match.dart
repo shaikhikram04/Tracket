@@ -34,14 +34,19 @@ class Match {
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
+    this.inning1,
+    this.inning2,
+    this.winningMargin,
+    this.winningMethod,
+    this.winningTeamId,
     this.spectatorsAllowed = true,
+    this.status = MatchStatus.scheduled,
     Timestamp? createdAt,
     Timestamp? updatedAt,
     String? id,
   })  : id = id ?? const Uuid().v4(),
         createdAt = createdAt ?? Timestamp.now(),
-        updatedAt = updatedAt ?? Timestamp.now(),
-        status = MatchStatus.scheduled;
+        updatedAt = updatedAt ?? Timestamp.now();
 
   final String id;
   final MatchTeamInfo team1;
@@ -63,12 +68,12 @@ class Match {
   final StrikerData? nonStriker;
   final CurrentBowlerData? currentBowlers;
 
-  MatchStatus status;
-  Inning? inning1;
-  Inning? inning2;
-  String? winningTeamId;
-  WinningMethod? winningMethod;
-  int? winningMargin;
+  final MatchStatus status;
+  final Inning? inning1;
+  final Inning? inning2;
+  final String? winningTeamId;
+  final WinningMethod? winningMethod;
+  final int? winningMargin;
 
   // Match configuration getters
   int get over => switch (matchFormat) {
@@ -107,27 +112,21 @@ class Match {
   }
 
   int get inningNumber {
-    if (inning2 != null) {
-      return 2;
-    }
+    if (inning2 != null) return 2;
 
-    if (inning1 != null) {
-      return 1;
-    }
+    if (inning1 != null) return 1;
 
     return 0;
   }
 
   int? get target {
-    if (inning2 != null) {
-      return inning1!.runs;
-    }
+    if (inning2 != null) return inning1!.runs;
 
     return null;
   }
 
   // Match initialization methods
-  void initializeFirstInnings() {
+  Match initializeFirstInnings() {
     if (tossDecision == null || isTeam1WonToss == null) {
       throw StateError('Toss details must be set before initializing innings');
     }
@@ -136,7 +135,7 @@ class Match {
     final team1Batting = (isTeam1WonToss! && tossWinnerBatting) ||
         (!isTeam1WonToss! && !tossWinnerBatting);
 
-    inning1 = team1Batting
+    final inning1 = team1Batting
         ? Inning.initialize(
             battingTeam: team1,
             bowlingTeam: team2,
@@ -150,37 +149,51 @@ class Match {
             bowlingPlayers: team1Players,
           );
 
-    status = MatchStatus.live;
+    final status = MatchStatus.live;
+
+    return copyWith(inning1: inning1, status: status);
   }
 
-  void initializeSecondInnings() {
+  Match initializeSecondInnings() {
     if (inning1 == null) {
       throw StateError(
           'First innings must be completed before starting second innings');
     }
 
-    inning2 = Inning.initialize(
+    final inning2 = Inning.initialize(
       battingTeam: inning1!.bowlingTeam,
       bowlingTeam: inning1!.battingTeam,
       battingPlayers: getBowlingTeamPlayers(),
       bowlingPlayers: getBattingTeamPlayers(),
     );
+
+    return copyWith(inning2: inning2);
   }
 
   // Match state management
-  void updateMatchStatus(MatchStatus newStatus) {
-    status = newStatus;
+  Match updateMatchStatus(MatchStatus newStatus) {
+    final status = newStatus;
+
+    return copyWith(status: status);
   }
 
-  void setMatchResult({
+  Match setMatchResult({
     required String winningTeamId,
     required WinningMethod method,
     required int margin,
   }) {
-    this.winningTeamId = winningTeamId;
-    winningMethod = method;
-    winningMargin = margin;
-    status = MatchStatus.completed;
+    final _winningTeamId = winningTeamId;
+    final winningMethod = method;
+    final winningMargin = margin;
+
+    final status = MatchStatus.completed;
+
+    return copyWith(
+      winningTeamId: _winningTeamId,
+      winningMethod: winningMethod,
+      winningMargin: winningMargin,
+      status: status,
+    );
   }
 
   // Helper methods
@@ -231,4 +244,37 @@ class Match {
         'winningMargin': winningMargin,
         'currentOverRuns': currentOverRuns,
       };
+
+  Match copyWith({
+    StrikerData? striker,
+    StrikerData? nonStriker,
+    CurrentBowlerData? currentBowler,
+    List? currentOverRuns,
+    bool? isTeam1WonToss,
+    TossDecision? tossDecision,
+    Inning? inning1,
+    Inning? inning2,
+    MatchStatus? status,
+    String? winningTeamId,
+    WinningMethod? winningMethod,
+    int? winningMargin,
+  }) {
+    return Match(
+      team1: team1,
+      team2: team2,
+      team1Players: team1Players,
+      team2Players: team2Players,
+      noOfPlayer: noOfPlayer,
+      matchFormat: matchFormat,
+      matchType: matchType,
+      venue: venue,
+      schedule: schedule,
+      striker: striker ?? this.striker,
+      nonStriker: nonStriker ?? this.nonStriker,
+      currentBowlers: currentBowlers ?? this.currentBowlers,
+      currentOverRuns: currentOverRuns ?? this.currentOverRuns,
+      isTeam1WonToss: isTeam1WonToss ?? this.isTeam1WonToss,
+      tossDecision: tossDecision ?? this.tossDecision,
+    );
+  }
 }

@@ -29,8 +29,8 @@ class BattingScore {
   final int? ballsFaced;
   final int? sixes;
   final int? fours;
-  bool isOut;
-  ReasonOfOut? reasonOfOut;
+  final bool isOut;
+  final ReasonOfOut? reasonOfOut;
 
   double? get strikeRate {
     if (runs == null || ballsFaced == null) return null;
@@ -61,10 +61,7 @@ class BattingScore {
     );
   }
 
-  void getOut(ReasonOfOut outReason) {
-    isOut = true;
-    reasonOfOut = outReason;
-  }
+  
 
   BattingScore copyWith({
     bool? isOut,
