@@ -56,7 +56,10 @@ class ScoringControls extends ConsumerWidget {
                   margin: EdgeInsets.all(5),
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(matchStateProvider.notifier).addDelivery(
+                          runs: runs, isFour: index == 1, isSix: index == 2);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: index == 0 ? lightGreen : darkGreenColor,
                       elevation: 3,
