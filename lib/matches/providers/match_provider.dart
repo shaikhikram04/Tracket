@@ -4,6 +4,12 @@ import 'package:tracket/matches/models/match_team_info.dart';
 
 class MatchStateNotifier extends StateNotifier<Match> {
   MatchStateNotifier(super.state);
+
+  void setMatch(Match match) {
+    state = match;
+  }
+
+  
 }
 
 final matchStateProvider = StateNotifierProvider<MatchStateNotifier, Match>(

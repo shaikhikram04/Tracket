@@ -31,7 +31,6 @@ class Match {
     required this.striker,
     required this.nonStriker,
     required this.currentBowlers,
-    this.currentStriker = 0,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
@@ -63,7 +62,6 @@ class Match {
   final StrikerData? striker;
   final StrikerData? nonStriker;
   final CurrentBowlerData? currentBowlers;
-  final int currentStriker;
 
   MatchStatus status;
   Inning? inning1;
@@ -106,6 +104,18 @@ class Match {
 
   List<MatchPlayerInfo> getBowlingTeamPlayers() {
     return bowlingTeam.teamId == team1.teamId ? team1Players : team2Players;
+  }
+
+  int get inningNumber {
+    if (inning2 != null) {
+      return 2;
+    }
+
+    if (inning1 != null) {
+      return 1;
+    }
+
+    return 0;
   }
 
   // Match initialization methods
