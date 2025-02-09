@@ -57,15 +57,13 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   void startFirstInnings() {
     if (state == null) return;
 
-    state!.initializeFirstInnings();
-    state = state;
+    state = state!.initializeFirstInnings();
   }
 
   void startSecondInnings() {
     if (state == null) return;
 
-    state!.initializeSecondInnings();
-    state = state;
+    state = state!.initializeSecondInnings();
   }
 
   // Batting management
@@ -79,22 +77,87 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     if (currentInnings == null) return;
 
     final battingStats = currentInnings!.battingStats;
-    final batsmanIndex = battingStats.indexWhere((stats) => stats.uuid == batsmanId);
-    
+    final batsmanIndex =
+        battingStats.indexWhere((stats) => stats.uuid == batsmanId);
+
     if (batsmanIndex == -1) return;
 
     final updatedBattingStats = List<BattingScore>.from(battingStats);
     updatedBattingStats[batsmanIndex] = battingStats[batsmanIndex].copyWith(
       runs: (battingStats[batsmanIndex].runs ?? 0) + runs,
       ballsFaced: (battingStats[batsmanIndex].ballsFaced ?? 0) + ballsFaced,
-      fours: isFour ? (battingStats[batsmanIndex].fours ?? 0) + 1 : battingStats[batsmanIndex].fours,
-      sixes: isSix ? (battingStats[batsmanIndex].sixes ?? 0) + 1 : battingStats[batsmanIndex].sixes,
+      fours: isFour
+          ? (battingStats[batsmanIndex].fours ?? 0) + 1
+          : battingStats[batsmanIndex].fours,
+      sixes: isSix
+          ? (battingStats[batsmanIndex].sixes ?? 0) + 1
+          : battingStats[batsmanIndex].sixes,
     );
 
     _updateInnings(battingStats: updatedBattingStats);
   }
 
-  void addRuns(int runs) {}
+  // Bowling management
+  void updateBowlingScore({
+    required String bowlerId,
+    required int runs,
+    required bool isWide,
+    required bool isNoBall,
+    required bool isWicket,
+    required bool isDot,
+  }) {
+    if (currentInnings == null) return;
+
+    final bowlingStats = currentInnings!.bowlingStats;
+    final bowlerIndex =
+        bowlingStats.indexWhere((stats) => stats.uuid == bowlerId);
+
+    if (bowlerIndex == -1) return;
+
+    final updatedBowlingStats = List<BowlingScore>.from(bowlingStats);
+    updatedBowlingStats[bowlerIndex] = bowlingStats[bowlerIndex].addBall(
+      runs: runs,
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isWicket: isWicket,
+    );
+
+    // Check for maiden over
+    if (_isCompletedOver(updatedBowlingStats[bowlerIndex].balls) &&
+        _isLastOverMaiden(bowlerId)) {
+      updatedBowlingStats[bowlerIndex] =
+          updatedBowlingStats[bowlerIndex].addMaidenOver();
+    }
+
+    _updateInnings(bowlingStats: updatedBowlingStats);
+  }
+
+  // Ball-by-ball scoring
+  void addDelivery({
+    required int runs,
+    required bool isFour,
+    required bool isSix,
+    bool isWide = false,
+    bool isNoBall = false,
+    bool isBye = false,
+    bool isLegBye = false,
+    int? byeRuns,
+  }) {
+    if (currentInnings == null) return;
+
+    final updatedInnings = currentInnings!.addDelivery(
+      runs: runs,
+      isFour: isFour,
+      isSix: isSix,
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isBye: isBye,
+      isLegBye: isLegBye,
+      byeRuns: byeRuns,
+    );
+
+    _updateCurrentInnings(updatedInnings);
+  }
 
   // Helper methods
   void _updateInnings({
@@ -121,7 +184,29 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     } else {
       state = state!.copyWith(inning1: updatedInnings);
     }
-    
+  }
+
+  bool _isCompletedOver(int balls) => balls % 6 == 0;
+
+  bool _isLastOverMaiden(String bowlerId) {
+    // Implementation to check if the last over was a maiden
+    // This would need to track the runs in the last 6 deliveries for the specific bowler
+    return false; // Placeholder
+  }
+
+  // Match completion
+  void endMatch({
+    required String winningTeamId,
+    required WinningMethod method,
+    required int margin,
+  }) {
+    if (state == null) return;
+
+    state!.setMatchResult(
+      winningTeamId: winningTeamId,
+      method: method,
+      margin: margin,
+    );
   }
 }
 

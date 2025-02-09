@@ -47,7 +47,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
             child: Column(
               children: [
                 // Enhanced Score Summary Section
-                ScoreboardSection(matchState: matchState),
+                ScoreboardSection(matchState: matchState!),
 
                 // Current Over Indicator with animation
                 CurrentOverIndicator(balls: matchState.currentOverRuns),
