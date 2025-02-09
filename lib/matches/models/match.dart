@@ -118,6 +118,14 @@ class Match {
     return 0;
   }
 
+  int? get target {
+    if (inning2 != null) {
+      return inning1!.runs;
+    }
+
+    return null;
+  }
+
   // Match initialization methods
   void initializeFirstInnings() {
     if (tossDecision == null || isTeam1WonToss == null) {
