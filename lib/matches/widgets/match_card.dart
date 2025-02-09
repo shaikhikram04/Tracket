@@ -90,19 +90,16 @@ class MatchCard extends StatelessWidget {
       tossDecision: TossDecision.batting,
       spectatorsAllowed: true,
       updatedAt: Timestamp.now(),
-      stricker: [
-        StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
-        StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
-      ],
-      currentBowlers: [
-        CurrentBowlerData(
-          playerName: 'Player 3',
-          id: '23',
-          runsGiven: 0,
-          wickets: 0,
-          balls: 0,
-        )
-      ],
+      striker: StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
+      nonStriker:
+          StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+      currentBowlers: CurrentBowlerData(
+        playerName: 'Player 3',
+        id: '23',
+        runsGiven: 0,
+        wickets: 0,
+        balls: 0,
+      ),
     );
 
     match.initializeFirstInnings();
@@ -273,7 +270,7 @@ class MatchCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              '${match.stricker[0].playerName}',
+                              '${match.striker!.playerName}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -281,7 +278,7 @@ class MatchCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${match.stricker[0].runs} (${match.stricker[0].balls})',
+                              '${match.striker!.runs} (${match.striker!.balls})',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -293,7 +290,7 @@ class MatchCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              '${match.stricker[1].playerName}',
+                              '${match.nonStriker!.playerName}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -301,7 +298,7 @@ class MatchCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${match.stricker[1].runs} (${match.stricker[1].balls})',
+                              '${match.nonStriker!.runs} (${match.nonStriker!.balls})',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -328,14 +325,14 @@ class MatchCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          match.currentBowlers.first.playerName,
+                          match.currentBowlers!.playerName,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
                           ),
                         ),
                         Text(
-                          '${match.currentBowlers.first.runsGiven}/${match.currentBowlers.first.wickets} (${match.currentBowlers.first.oversDisplay})',
+                          '${match.currentBowlers!.runsGiven}/${match.currentBowlers!.wickets} (${match.currentBowlers!.oversDisplay})',
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w500,

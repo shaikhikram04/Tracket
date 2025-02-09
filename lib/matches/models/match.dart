@@ -28,8 +28,10 @@ class Match {
     required this.matchType,
     required this.venue,
     required this.schedule,
-    required this.stricker,
+    required this.striker,
+    required this.nonStriker,
     required this.currentBowlers,
+    this.currentStriker = 0,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
@@ -58,8 +60,10 @@ class Match {
   final Timestamp updatedAt;
   final DateTime schedule;
   final List currentOverRuns;
-  final List<StrikerData> stricker;
-  final List<CurrentBowlerData> currentBowlers;
+  final StrikerData? striker;
+  final StrikerData? nonStriker;
+  final CurrentBowlerData? currentBowlers;
+  final int currentStriker;
 
   MatchStatus status;
   Inning? inning1;

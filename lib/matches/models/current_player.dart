@@ -10,6 +10,12 @@ class StrikerData {
     required this.runs,
     required this.balls,
   });
+
+  double get strikeRate {
+    if (balls == 0) return 0.0;
+
+    return (runs / balls) * 100;
+  }
 }
 
 class CurrentBowlerData {
@@ -32,4 +38,12 @@ class CurrentBowlerData {
   int get remainingBalls => balls % 6;
 
   String get oversDisplay => '$completedOvers.${remainingBalls}';
+
+  double get economy {
+    if (balls == 0) {
+      return 0;
+    }
+
+    return runsGiven / (balls / 6.0);
+  }
 }

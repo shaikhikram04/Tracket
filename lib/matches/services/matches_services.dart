@@ -101,8 +101,9 @@ class MatchesServices {
       team1Players: [],
       team2Players: [],
       schedule: challegeMatch.schedule,
-      stricker: [],
-      currentBowlers: [],
+      currentBowlers: null,
+      striker: null,
+      nonStriker: null,
     );
 
     _firestore
@@ -162,8 +163,9 @@ class MatchesServices {
       updatedAt: Timestamp.now(),
       venue: challenge.venue,
       schedule: challenge.schedule,
-      stricker: [],
-      currentBowlers: [],
+      striker: null,
+      nonStriker: null,
+      currentBowlers: null,
     );
 
     final matchDocRef =

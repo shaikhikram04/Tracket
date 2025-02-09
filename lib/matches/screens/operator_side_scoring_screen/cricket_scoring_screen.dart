@@ -1,111 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/models/current_player.dart';
+import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-
-// Models
-class Player {
-  final String id;
-  final String name;
-  int runs;
-  int balls;
-  int fours;
-  int sixes;
-
-  Player({
-    required this.id,
-    required this.name,
-    this.runs = 0,
-    this.balls = 0,
-    this.fours = 0,
-    this.sixes = 0,
-  });
-
-  double get strikeRate => balls > 0 ? (runs / balls) * 100 : 0;
-}
-
-class Bowler {
-  final String id;
-  final String name;
-  int overs;
-  int balls;
-  int runs;
-  int wickets;
-
-  Bowler({
-    required this.id,
-    required this.name,
-    this.overs = 0,
-    this.balls = 0,
-    this.runs = 0,
-    this.wickets = 0,
-  });
-
-  double get economy =>
-      (overs > 0 || balls > 0) ? (runs / ((overs * 6 + balls) / 6)) : 0;
-}
-
-// State Management
-final matchStateProvider =
-    StateNotifierProvider<MatchStateNotifier, MatchState>((ref) {
-  return MatchStateNotifier();
-});
-
-class MatchState {
-  final int totalRuns;
-  final int wickets;
-  final int overs;
-  final int balls;
-  final Player striker;
-  final Player nonStriker;
-  final Bowler currentBowler;
-  final List<int> currentOverBalls;
-  final int? targetScore;
-
-  MatchState({
-    required this.totalRuns,
-    required this.wickets,
-    required this.overs,
-    required this.balls,
-    required this.striker,
-    required this.nonStriker,
-    required this.currentBowler,
-    required this.currentOverBalls,
-    this.targetScore,
-  });
-}
-
-class MatchStateNotifier extends StateNotifier<MatchState> {
-  MatchStateNotifier()
-      : super(MatchState(
-          totalRuns: 0,
-          wickets: 0,
-          overs: 0,
-          balls: 0,
-          striker: Player(id: '1', name: 'Batsman 1'),
-          nonStriker: Player(id: '2', name: 'Batsman 2'),
-          currentBowler: Bowler(id: '1', name: 'Bowler 1'),
-          currentOverBalls: [],
-          targetScore: 250,
-        ));
-
-  void addRuns(int runs) {
-    // Update match state with new runs
-    // Implementation details here
-  }
-
-  void addExtra(String type) {
-    // Handle extras (wide, no-ball, etc.)
-    // Implementation details here
-  }
-
-  void wicketFalls() {
-    // Handle wicket falling
-    // Implementation details here
-  }
-}
 
 class CricketScoringScreen extends ConsumerStatefulWidget {
   const CricketScoringScreen({Key? key}) : super(key: key);
@@ -149,13 +50,13 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                 ScoreboardSection(matchState: matchState),
 
                 // Current Over Indicator with animation
-                CurrentOverIndicator(balls: matchState.currentOverBalls),
+                CurrentOverIndicator(balls: matchState.currentOverRuns),
 
                 // Player Stats Section with cards
                 PlayerStatsSection(
-                  striker: matchState.striker,
-                  nonStriker: matchState.nonStriker,
-                  bowler: matchState.currentBowler,
+                  striker: matchState.striker!,
+                  nonStriker: matchState.nonStriker!,
+                  bowler: matchState.currentBowlers!,
                 ),
 
                 // Scoring Controls with enhanced design
@@ -171,7 +72,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 }
 
 class ScoreboardSection extends StatelessWidget {
-  final MatchState matchState;
+  final Match matchState;
 
   const ScoreboardSection({required this.matchState});
 
@@ -239,7 +140,7 @@ class ScoreboardSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${matchState.totalRuns}/${matchState.wickets}',
+                      '${matchState.inning1?.runs}/${matchState.inning1?.wickets}',
                       style: GoogleFonts.poppins(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -247,7 +148,7 @@ class ScoreboardSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${matchState.overs}.${matchState.balls} Overs',
+                      '${matchState.inning1?.oversDisplay} Overs',
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: whiteColor.withValues(alpha: 0.9),
@@ -255,7 +156,7 @@ class ScoreboardSection extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (matchState.targetScore != null)
+                if (matchState.inning1?.runs != null)
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
@@ -272,7 +173,7 @@ class ScoreboardSection extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${matchState.targetScore}',
+                          '${matchState.inning1?.runs}',
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -292,7 +193,7 @@ class ScoreboardSection extends StatelessWidget {
 }
 
 class CurrentOverIndicator extends StatelessWidget {
-  final List<int> balls;
+  final List balls;
 
   const CurrentOverIndicator({required this.balls});
 
@@ -364,9 +265,9 @@ class CurrentOverIndicator extends StatelessWidget {
 }
 
 class PlayerStatsSection extends StatelessWidget {
-  final Player striker;
-  final Player nonStriker;
-  final Bowler bowler;
+  final StrikerData striker;
+  final StrikerData nonStriker;
+  final CurrentBowlerData bowler;
 
   const PlayerStatsSection({
     required this.striker,
@@ -382,22 +283,22 @@ class PlayerStatsSection extends StatelessWidget {
         children: [
           _buildPlayerCard(
             true,
-            striker.name,
+            striker.playerName,
             '${striker.runs}(${striker.balls})',
-            'SR: ${striker.strikeRate.toStringAsFixed(2)}',
+            'SR: ${striker.strikeRate}',
           ),
           SizedBox(height: 10),
           _buildPlayerCard(
             false,
-            nonStriker.name,
+            nonStriker.playerName,
             '${nonStriker.runs}(${nonStriker.balls})',
-            'SR: ${nonStriker.strikeRate.toStringAsFixed(2)}',
+            'SR: ${nonStriker.strikeRate}',
           ),
           SizedBox(height: 15),
           _buildBowlerCard(
-            bowler.name,
-            '${bowler.overs}.${bowler.balls}-${bowler.wickets}-${bowler.runs}',
-            'Econ: ${bowler.economy.toStringAsFixed(2)}',
+            bowler.playerName,
+            '${bowler.oversDisplay}.-${bowler.wickets}-${bowler.runsGiven}',
+            'Econ: ${bowler.economy}',
           ),
         ],
       ),
@@ -523,9 +424,7 @@ class ScoringControls extends ConsumerWidget {
                   margin: EdgeInsets.all(5),
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: () {
-                      ref.read(matchStateProvider.notifier).addRuns(runs);
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: lightGreen,
                       elevation: 3,
@@ -554,9 +453,7 @@ class ScoringControls extends ConsumerWidget {
                   margin: EdgeInsets.all(5),
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: () {
-                      ref.read(matchStateProvider.notifier).addRuns(runs);
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: index == 0 ? lightGreen : darkGreenColor,
                       elevation: 3,
@@ -610,10 +507,7 @@ class ScoringControls extends ConsumerWidget {
 
           // Wicket Button
           MyElevatedButton.iconTextElevatedButton(
-            onPressed: () {
-              ref.read(matchStateProvider.notifier).wicketFalls();
-              _showNextBatsmanDialog(context);
-            },
+            onPressed: () {},
             text: 'WICKET',
             textStyle: MyTextStyle(context).buttonText.copyWith(
                   letterSpacing: 1.2,
@@ -630,30 +524,6 @@ class ScoringControls extends ConsumerWidget {
           ),
           SizedBox(height: 5),
         ],
-      ),
-    );
-  }
-
-  void _showNextBatsmanDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Text(
-          'Select Next Batsman',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w600,
-            color: darkGreenColor,
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Add list of available batsmen here
-          ],
-        ),
       ),
     );
   }

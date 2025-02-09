@@ -96,19 +96,16 @@ class _MatchPlayersSelectionScreenState
     tossDecision: TossDecision.batting,
     spectatorsAllowed: true,
     updatedAt: Timestamp.now(),
-    stricker: [
-      StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
-      StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
-    ],
-    currentBowlers: [
-      CurrentBowlerData(
-        playerName: 'Player 3',
-        id: '23',
-        runsGiven: 0,
-        wickets: 0,
-        balls: 0,
-      )
-    ],
+    striker: StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
+    nonStriker:
+        StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+    currentBowlers: CurrentBowlerData(
+      playerName: 'Player 3',
+      id: '23',
+      runsGiven: 0,
+      wickets: 0,
+      balls: 0,
+    ),
   );
 
   List<MatchPlayerInfo> _openers = [];
