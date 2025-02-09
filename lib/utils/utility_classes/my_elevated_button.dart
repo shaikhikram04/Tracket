@@ -17,6 +17,7 @@ class MyElevatedButton {
     double borderRadius = 25,
     TextStyle? textStyle,
   }) {
+    final isDisabled = onPressed == null;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -26,7 +27,7 @@ class MyElevatedButton {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),
-        elevation: 2,
+        elevation: isDisabled ? 0 : 2,
       ),
       child: isLoading
           ? getCircleLoadingIndicator(color: blackColor)

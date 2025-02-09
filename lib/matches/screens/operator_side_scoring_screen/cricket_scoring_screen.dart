@@ -24,6 +24,7 @@ class CricketScoringScreen extends ConsumerStatefulWidget {
 
 class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
   late ValueNotifier<bool> isLoading;
+  bool _isBlur = false;
 
   @override
   void initState() {
@@ -153,6 +154,12 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     });
   }
 
+  void _onExtraButtonTab() {
+    setState(() {
+      _isBlur = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final matchState = ref.watch(matchStateProvider);
@@ -184,19 +191,32 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
               child: Column(
                 children: [
                   // Enhanced Score Summary Section
-                  ScoreboardSection(matchState: matchState!),
+                  ScoreboardSection(
+                    matchState: matchState!,
+                    isBlur: _isBlur,
+                  ),
 
                   // Current Over Indicator with animation
-                  CurrentOverIndicator(balls: matchState.currentOverRuns),
+                  CurrentOverIndicator(
+                      balls: matchState.currentOverRuns, isBlur: _isBlur),
 
                   // Player Stats Section with cards
                   PlayerStatsSection(
                     striker: matchState.striker!,
                     nonStriker: matchState.nonStriker!,
                     bowler: matchState.currentBowlers!,
+                    isBlur: _isBlur,
                   ),
 
-                  ScoringControls(),
+                  ScoringControls(
+                    onExtra: _onExtraButtonTab,
+                    isBlur: _isBlur,
+                    makeUnBlur: () {
+                      setState(() {
+                        _isBlur = false;
+                      });
+                    },
+                  ),
                 ],
               ),
             ),

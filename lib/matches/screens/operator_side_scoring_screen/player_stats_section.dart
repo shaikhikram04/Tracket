@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/models/current_player.dart';
@@ -7,38 +9,58 @@ class PlayerStatsSection extends StatelessWidget {
   final StrikerData striker;
   final StrikerData nonStriker;
   final CurrentBowlerData bowler;
+  final bool isBlur;
 
   const PlayerStatsSection({
     required this.striker,
     required this.nonStriker,
     required this.bowler,
+    required this.isBlur,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
+    return ClipRRect(
+      child: Stack(
+        fit: StackFit.passthrough,
         children: [
-          _buildPlayerCard(
-            true,
-            striker.playerName,
-            '${striker.runs}(${striker.balls})',
-            'SR: ${striker.strikeRate}',
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                SizedBox(height: 2),
+                _buildPlayerCard(
+                  true,
+                  striker.playerName,
+                  '${striker.runs}(${striker.balls})',
+                  'SR: ${striker.strikeRate}',
+                ),
+                SizedBox(height: 10),
+                _buildPlayerCard(
+                  false,
+                  nonStriker.playerName,
+                  '${nonStriker.runs}(${nonStriker.balls})',
+                  'SR: ${nonStriker.strikeRate}',
+                ),
+                SizedBox(height: 15),
+                _buildBowlerCard(
+                  bowler.playerName,
+                  '${bowler.oversDisplay}.-${bowler.wickets}-${bowler.runsGiven}',
+                  'Econ: ${bowler.economy}',
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 10),
-          _buildPlayerCard(
-            false,
-            nonStriker.playerName,
-            '${nonStriker.runs}(${nonStriker.balls})',
-            'SR: ${nonStriker.strikeRate}',
-          ),
-          SizedBox(height: 15),
-          _buildBowlerCard(
-            bowler.playerName,
-            '${bowler.oversDisplay}.-${bowler.wickets}-${bowler.runsGiven}',
-            'Econ: ${bowler.economy}',
-          ),
+          if (isBlur)
+            Positioned.fill(
+              child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Container(
+                    color: Colors.transparent,
+                    width: double.infinity,
+                    height: double.infinity,
+                  )),
+            ),
         ],
       ),
     );
