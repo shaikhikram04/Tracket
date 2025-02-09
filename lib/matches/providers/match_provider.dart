@@ -67,14 +67,6 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     state = state!.initializeSecondInnings();
   }
 
-  void addRuns({
-    required int runs,
-    required bool isSix,
-    required bool isFour,
-  }) {
-    
-  }
-
   void updateStrikers({StrikerData? striker, StrikerData? nonStriker}) {
     if (state == null) return;
 

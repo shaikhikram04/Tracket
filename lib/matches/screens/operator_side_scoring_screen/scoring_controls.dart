@@ -26,7 +26,7 @@ class ScoringControls extends ConsumerWidget {
                     onPressed: () {
                       ref
                           .read(matchStateProvider.notifier)
-                          .addRuns(runs: runs, isFour: false, isSix: false);
+                          .addDelivery(runs: runs, isFour: false, isSix: false);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: lightGreen,
