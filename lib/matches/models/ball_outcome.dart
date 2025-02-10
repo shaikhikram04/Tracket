@@ -18,8 +18,6 @@ class BallOutcome {
     this.isWicket = false,
   });
 
-  
-
   Map<String, dynamic> toMap() => {
         'type': type.name,
         'runs': runs,
@@ -31,13 +29,13 @@ class BallOutcome {
       case BallType.valid:
         return '$runs';
       case BallType.wide:
-        return '${runs}WD';
+        return '${runs == 0 ? '' : runs}WD';
       case BallType.noBall:
-        return '${runs}NB';
+        return '${runs == 0 ? '' : runs}NB';
       case BallType.bye:
-        return '${runs}BY';
+        return '${runs == 0 ? '' : runs}BY';
       case BallType.legBye:
-        return '${runs}LB';
+        return '${runs == 0 ? '' : runs}LB';
     }
   }
 
