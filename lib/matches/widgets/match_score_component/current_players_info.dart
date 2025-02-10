@@ -3,16 +3,16 @@ import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class CurrentPlayersInfo extends StatelessWidget {
-  const CurrentPlayersInfo({
+  CurrentPlayersInfo({
     super.key,
-    required this.striker,
-    required this.nonStriker,
-    required this.bowlers,
+    required this.batsmen,
+    required this.bowler,
+    required this.strikerIndex,
   });
 
-  final StrikerData striker;
-  final StrikerData nonStriker;
-  final CurrentBowlerData bowlers;
+  final List<StrikerData> batsmen;
+  final CurrentBowlerData bowler;
+  final int strikerIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +39,16 @@ class CurrentPlayersInfo extends StatelessWidget {
         const SizedBox(height: 4),
         _buildPlayerInfo(
           context,
-          striker.playerName,
-          striker.runs.toString(),
-          striker.balls.toString(),
+          batsmen[0].playerName,
+          batsmen[0].runs.toString(),
+          batsmen[0].balls.toString(),
         ),
         const SizedBox(height: 2),
         _buildPlayerInfo(
           context,
-          nonStriker.playerName,
-          nonStriker.runs.toString(),
-          nonStriker.balls.toString(),
+          batsmen[1].playerName,
+          batsmen[1].runs.toString(),
+          batsmen[1].balls.toString(),
         ),
       ],
     );
@@ -66,7 +66,7 @@ class CurrentPlayersInfo extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          '${bowlers.playerName}   ${bowlers.runsGiven}/${bowlers.wickets} (${bowlers.oversDisplay})',
+          '${bowler.playerName}   ${bowler.runsGiven}/${bowler.wickets} (${bowler.oversDisplay})',
           style: MyTextStyle(context).bodyLarge,
         ),
       ],

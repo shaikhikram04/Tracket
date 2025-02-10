@@ -90,9 +90,11 @@ class MatchCard extends StatelessWidget {
       tossDecision: TossDecision.batting,
       spectatorsAllowed: true,
       updatedAt: Timestamp.now(),
-      striker: StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
-      nonStriker:
-          StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+      currentBatsmen: [
+        StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
+        StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+      ],
+      strikerIndex: 0,
       currentBowlers: CurrentBowlerData(
         playerName: 'Player 3',
         id: '23',
@@ -270,7 +272,7 @@ class MatchCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              '${match.striker!.playerName}',
+                              '${match.currentBatsmen![0].playerName}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -278,7 +280,7 @@ class MatchCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${match.striker!.runs} (${match.striker!.balls})',
+                              '${match.currentBatsmen![0].runs} (${match.currentBatsmen![0].balls})',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.w500,
@@ -290,7 +292,7 @@ class MatchCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              '${match.nonStriker!.playerName}',
+                              '${match.currentBatsmen![1].playerName}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -298,7 +300,7 @@ class MatchCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${match.nonStriker!.runs} (${match.nonStriker!.balls})',
+                              '${match.currentBatsmen![1].runs} (${match.currentBatsmen![1].balls})',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.w500,

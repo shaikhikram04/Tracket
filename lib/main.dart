@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
 import 'package:tracket/utils/colors.dart';
 

@@ -39,8 +39,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       venue: venue,
       schedule: schedule,
       noOfPlayer: noOfPlayer,
-      striker: null,
-      nonStriker: null,
+      currentBatsmen: [],
+      strikerIndex: 0,
       currentBowlers: null,
     );
   }
@@ -68,10 +68,21 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     state = state!.initializeSecondInnings();
   }
 
-  void updateStrikers({StrikerData? striker, StrikerData? nonStriker}) {
+  void updateStrikers({
+    StrikerData? player1,
+    StrikerData? player2,
+    int? strikerIndex,
+  }) {
     if (state == null) return;
 
-    state = state!.copyWith(striker: striker, nonStriker: nonStriker);
+    final currentBatsmen = <StrikerData>[];
+    if (player1 != null) currentBatsmen.add(player1);
+    if (player2 != null) currentBatsmen.add(player2);
+
+    state = state!.copyWith(
+      currentBatsmen: currentBatsmen,
+      strikerIndex: strikerIndex ?? 0,
+    );
   }
 
   void changeBowler(CurrentBowlerData? bowler) {

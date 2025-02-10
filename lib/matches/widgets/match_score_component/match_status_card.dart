@@ -33,9 +33,9 @@ class MatchStatusCard extends StatelessWidget {
           ),
           SizedBox(height: 16),
           CurrentPlayersInfo(
-            striker: match.striker!,
-            nonStriker: match.nonStriker!,
-            bowlers: match.currentBowlers!,
+            batsmen: match.currentBatsmen!,
+            bowler: match.currentBowlers!,
+            strikerIndex: match.strikerIndex,
           ),
         ],
       ),

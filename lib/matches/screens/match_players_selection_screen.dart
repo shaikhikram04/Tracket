@@ -96,9 +96,21 @@ class _MatchPlayersSelectionScreenState
     tossDecision: TossDecision.batting,
     spectatorsAllowed: true,
     updatedAt: Timestamp.now(),
-    striker: StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
-    nonStriker:
-        StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+    currentBatsmen: [
+      StrikerData(
+        id: '11',
+        playerName: 'Player 1',
+        runs: 0,
+        balls: 0,
+      ),
+      StrikerData(
+        id: '12',
+        playerName: 'Player 2',
+        runs: 0,
+        balls: 0,
+      ),
+    ],
+    strikerIndex: 0,
     currentBowlers: CurrentBowlerData(
       playerName: 'Player 3',
       id: '23',

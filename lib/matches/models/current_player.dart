@@ -16,6 +16,13 @@ class StrikerData {
 
     return (runs / balls) * 100;
   }
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'playerName': playerName,
+        'runs': runs,
+        'balls': balls,
+      };
 }
 
 class CurrentBowlerData {

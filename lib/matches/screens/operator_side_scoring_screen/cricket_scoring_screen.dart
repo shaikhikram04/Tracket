@@ -114,9 +114,21 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
       tossDecision: TossDecision.batting,
       spectatorsAllowed: true,
       updatedAt: Timestamp.now(),
-      striker: StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
-      nonStriker:
-          StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+      currentBatsmen: [
+        StrikerData(
+          id: '11',
+          playerName: 'Player 1',
+          runs: 0,
+          balls: 0,
+        ),
+        StrikerData(
+          id: '12',
+          playerName: 'Player 2',
+          runs: 0,
+          balls: 0,
+        ),
+      ],
+      strikerIndex: 0,
       currentBowlers: CurrentBowlerData(
         playerName: 'Player 3',
         id: '23',
@@ -145,7 +157,11 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 
     ref
         .read(matchStateProvider.notifier)
-        .updateStrikers(striker: match.striker, nonStriker: match.nonStriker);
+        .updateStrikers(
+          player1: match.currentBatsmen![0],
+          player2: match.currentBatsmen![1],
+          strikerIndex: match.strikerIndex,
+        );
 
     ref.read(matchStateProvider.notifier).changeBowler(match.currentBowlers);
 
@@ -206,8 +222,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 
                   // Player Stats Section with cards
                   PlayerStatsSection(
-                    striker: matchState.striker!,
-                    nonStriker: matchState.nonStriker!,
+                    striker: matchState.currentBatsmen![0],
+                    nonStriker: matchState.currentBatsmen![1],
                     bowler: matchState.currentBowlers!,
                     isBlur: _isBlur,
                   ),
