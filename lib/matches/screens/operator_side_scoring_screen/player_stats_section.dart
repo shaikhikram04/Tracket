@@ -10,12 +10,14 @@ class PlayerStatsSection extends StatelessWidget {
   final StrikerData nonStriker;
   final CurrentBowlerData bowler;
   final bool isBlur;
+  final int strikerIndex;
 
   const PlayerStatsSection({
     required this.striker,
     required this.nonStriker,
     required this.bowler,
     required this.isBlur,
+    required this.strikerIndex,
   });
 
   @override
@@ -30,14 +32,14 @@ class PlayerStatsSection extends StatelessWidget {
               children: [
                 SizedBox(height: 2),
                 _buildPlayerCard(
-                  true,
+                  strikerIndex == 0,
                   striker.playerName,
                   '${striker.runs}(${striker.balls})',
                   'SR: ${striker.strikeRate}',
                 ),
                 SizedBox(height: 10),
                 _buildPlayerCard(
-                  false,
+                  strikerIndex == 1,
                   nonStriker.playerName,
                   '${nonStriker.runs}(${nonStriker.balls})',
                   'SR: ${nonStriker.strikeRate}',

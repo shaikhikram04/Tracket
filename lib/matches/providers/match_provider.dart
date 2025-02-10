@@ -69,19 +69,14 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   }
 
   void updateStrikers({
-    StrikerData? player1,
-    StrikerData? player2,
-    int? strikerIndex,
+    required int strikerIndex,
+    List<StrikerData>? batsmen,
   }) {
     if (state == null) return;
 
-    final currentBatsmen = <StrikerData>[];
-    if (player1 != null) currentBatsmen.add(player1);
-    if (player2 != null) currentBatsmen.add(player2);
-
     state = state!.copyWith(
-      currentBatsmen: currentBatsmen,
-      strikerIndex: strikerIndex ?? 0,
+      strikerIndex: strikerIndex,
+      currentBatsmen: batsmen ?? state!.currentBatsmen,
     );
   }
 
@@ -196,6 +191,9 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
     _updateCurrentInnings(updatedInnings);
     _updateCurrentOverRuns(ballOutcome);
+    final int strikerIndex =
+        runs % 2 == 0 ? state!.strikerIndex : (state!.strikerIndex + 1) % 2;
+    updateStrikers(strikerIndex: strikerIndex);
   }
 
   // Helper methods

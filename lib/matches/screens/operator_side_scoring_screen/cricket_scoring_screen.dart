@@ -155,11 +155,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 
     ref.read(matchStateProvider.notifier).startFirstInnings();
 
-    ref
-        .read(matchStateProvider.notifier)
-        .updateStrikers(
-          player1: match.currentBatsmen![0],
-          player2: match.currentBatsmen![1],
+    ref.read(matchStateProvider.notifier).updateStrikers(
+          batsmen: match.currentBatsmen,
           strikerIndex: match.strikerIndex,
         );
 
@@ -225,6 +222,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                     striker: matchState.currentBatsmen![0],
                     nonStriker: matchState.currentBatsmen![1],
                     bowler: matchState.currentBowlers!,
+                    strikerIndex: matchState.strikerIndex,
                     isBlur: _isBlur,
                   ),
 
