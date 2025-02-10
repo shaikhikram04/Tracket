@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/utils/colors.dart';
 
 class CurrentOverIndicator extends StatelessWidget {
-  final List balls;
+  final List<BallOutcome?> balls;
   final bool isBlur;
 
   const CurrentOverIndicator({required this.balls, required this.isBlur});
@@ -66,7 +67,7 @@ class CurrentOverIndicator extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          ballValue?.toString() ?? '',
+                          ballValue?.displayOutcome ?? '',
                           style: GoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
