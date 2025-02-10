@@ -52,10 +52,8 @@ class CurrentOverIndicator extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                        balls.length < 6
-                            ? balls.length + remainingBalls
-                            : balls.length, (index) {
+                    children:
+                        List.generate(balls.length + remainingBalls, (index) {
                       final ballValue =
                           index < balls.length ? balls[index] : null;
                       return Container(

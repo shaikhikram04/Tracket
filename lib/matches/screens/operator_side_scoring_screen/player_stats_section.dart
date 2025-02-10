@@ -48,7 +48,7 @@ class PlayerStatsSection extends StatelessWidget {
                 _buildBowlerCard(
                   bowler.playerName,
                   '${bowler.oversDisplay}.-${bowler.wickets}-${bowler.runsGiven}',
-                  'Econ: ${bowler.economy}',
+                  'Econ: ${bowler.economy.toStringAsFixed(2)}',
                 ),
               ],
             ),

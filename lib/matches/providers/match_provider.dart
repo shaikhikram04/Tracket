@@ -106,6 +106,24 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     updateStrikers(strikerIndex: newStrikerIndex);
   }
 
+  void _updateBowlerScore({
+    required int runs,
+    required bool isWide,
+    required bool isNoBall,
+    required bool isWicket,
+  }) {
+    if (state == null) return;
+
+    final updatedBowlingStats = state!.currentBowlers!.addBall(
+      runs: runs,
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isWicket: isWicket,
+    );
+
+    state = state!.copyWith(currentBowler: updatedBowlingStats);
+  }
+
   void changeBowler(CurrentBowlerData? bowler) {
     if (state == null) return;
 
@@ -187,6 +205,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     bool isNoBall = false,
     bool isBye = false,
     bool isLegBye = false,
+    bool isWicket = false,
     int? byeRuns,
   }) {
     if (currentInnings == null) return;
@@ -219,6 +238,12 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     _updateCurrentInnings(updatedInnings);
     _updateCurrentOverRuns(ballOutcome);
     _updateStrikerScore(runs: runs, extraRuns: (isWide || isBye || isLegBye));
+    _updateBowlerScore(
+      runs: runs,
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isWicket: isWicket,
+    );
   }
 
   // Helper methods
