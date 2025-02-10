@@ -6,7 +6,7 @@ import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/utils/colors.dart';
 
 class CurrentOverIndicator extends StatelessWidget {
-  final List<BallOutcome?> balls;
+  final List<BallOutcome> balls;
   final bool isBlur;
 
   const CurrentOverIndicator({required this.balls, required this.isBlur});
@@ -44,8 +44,9 @@ class CurrentOverIndicator extends StatelessWidget {
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(balls.length, (index) {
-                    final ballValue = balls[index];
+                  children: List.generate(
+                      balls.length < 6 ? 6 : balls.length, (index) {
+                    final ballValue = index < balls.length ? balls[index] : null;
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: 4),
                       width: 45,
