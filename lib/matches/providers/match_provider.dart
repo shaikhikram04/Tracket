@@ -275,11 +275,15 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
   void _updateCurrentOverRuns(BallOutcome updatedOverRuns) {
     if (state == null) return;
+    final currentOverRuns = state!.currentOverRuns;
+    for (int i = 0; i < currentOverRuns.length; i++) {
+      if (currentOverRuns[i] == null) {
+        currentOverRuns[i] = updatedOverRuns;
+        break;
+      }
+    }
 
-    state = state!.copyWith(currentOverRuns: [
-      ...state!.currentOverRuns,
-      updatedOverRuns,
-    ]);
+    state = state!.copyWith(currentOverRuns: currentOverRuns);
   }
 
   int get remainingBalls {
