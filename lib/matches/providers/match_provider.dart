@@ -82,21 +82,24 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
   void _updateStrikerScore({
     required int runs,
+    required bool extraRuns,
   }) {
     if (state == null) return;
 
     final strikerIndex = state!.strikerIndex;
 
-    final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
+    if (!extraRuns) {
+      final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
 
-    state = state!.copyWith(
-      currentBatsmen: state!.currentBatsmen!.map((batsman) {
-        if (batsman.id == updatedStriker.id) {
-          return updatedStriker;
-        }
-        return batsman;
-      }).toList(),
-    );
+      state = state!.copyWith(
+        currentBatsmen: state!.currentBatsmen!.map((batsman) {
+          if (batsman.id == updatedStriker.id) {
+            return updatedStriker;
+          }
+          return batsman;
+        }).toList(),
+      );
+    }
 
     final int newStrikerIndex =
         runs % 2 == 0 ? strikerIndex : (strikerIndex + 1) % 2;
@@ -196,7 +199,6 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       isNoBall: isNoBall,
       isBye: isBye,
       isLegBye: isLegBye,
-      byeRuns: byeRuns,
     );
 
     final ballType = isWide
@@ -216,7 +218,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
     _updateCurrentInnings(updatedInnings);
     _updateCurrentOverRuns(ballOutcome);
-    if (!isWide) _updateStrikerScore(runs: runs);
+    _updateStrikerScore(runs: runs, extraRuns: (isWide || isBye || isLegBye));
   }
 
   // Helper methods

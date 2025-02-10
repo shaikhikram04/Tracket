@@ -91,13 +91,12 @@ class Inning {
     bool isNoBall = false,
     bool isBye = false,
     bool isLegBye = false,
-    int? byeRuns,
   }) {
     final newExtras = extras.copyWith(
       wides: extras.wides + (isWide ? 1 : 0),
       noBalls: extras.noBalls + (isNoBall ? 1 : 0),
-      byes: extras.byes + (isBye ? (byeRuns ?? 0) : 0),
-      legByes: extras.legByes + (isLegBye ? (byeRuns ?? 0) : 0),
+      byes: extras.byes + (isBye ? runs : 0),
+      legByes: extras.legByes + (isLegBye ? runs : 0),
     );
 
     return copyWith(
