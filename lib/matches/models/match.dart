@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
@@ -63,7 +64,7 @@ class Match {
   final bool spectatorsAllowed;
   final Timestamp updatedAt;
   final DateTime schedule;
-  final List currentOverRuns;
+  final List<BallOutcome?> currentOverRuns;
   final StrikerData? striker;
   final StrikerData? nonStriker;
   final CurrentBowlerData? currentBowlers;
@@ -242,14 +243,14 @@ class Match {
         'winningTeamId': winningTeamId,
         'winningMethod': winningMethod?.name,
         'winningMargin': winningMargin,
-        'currentOverRuns': currentOverRuns,
+        'currentOverRuns': currentOverRuns.map((e) => e?.toMap()).toList(),
       };
 
   Match copyWith({
     StrikerData? striker,
     StrikerData? nonStriker,
     CurrentBowlerData? currentBowler,
-    List? currentOverRuns,
+    List<BallOutcome?>? currentOverRuns,
     bool? isTeam1WonToss,
     TossDecision? tossDecision,
     Inning? inning1,
