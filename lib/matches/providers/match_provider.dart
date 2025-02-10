@@ -236,7 +236,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
 
     _updateCurrentInnings(updatedInnings);
-    _updateCurrentOverRuns(ballOutcome);
+    _updateCurrentOverRuns(ballOutcome, isWide || isBye || isLegBye);
     _updateStrikerScore(runs: runs, extraRuns: (isWide || isBye || isLegBye));
     _updateBowlerScore(
       runs: runs,
@@ -273,14 +273,19 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     }
   }
 
-  void _updateCurrentOverRuns(BallOutcome updatedOverRuns) {
+  void _updateCurrentOverRuns(BallOutcome updatedOverRuns, bool isExtra) {
     if (state == null) return;
-    final currentOverRuns = state!.currentOverRuns;
+    var currentOverRuns = List<BallOutcome?>.from(state!.currentOverRuns);
+
     for (int i = 0; i < currentOverRuns.length; i++) {
       if (currentOverRuns[i] == null) {
         currentOverRuns[i] = updatedOverRuns;
         break;
       }
+    }
+
+    if (isExtra) {
+      currentOverRuns = [...currentOverRuns, null];
     }
 
     state = state!.copyWith(currentOverRuns: currentOverRuns);
