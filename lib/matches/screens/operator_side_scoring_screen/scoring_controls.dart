@@ -134,7 +134,10 @@ class ScoringControls extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            if (isBlur && index > 0)
+                            if (isBlur &&
+                                ((extras.isWide && index == 2) ||
+                                    (extras.isLegBye && index == 2) ||
+                                    (extras.isBye && index == 2)))
                               Positioned.fill(
                                 child: BackdropFilter(
                                     filter: ImageFilter.blur(
