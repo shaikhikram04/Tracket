@@ -14,7 +14,7 @@ class StrikerData {
   double get strikeRate {
     if (balls == 0) return 0.0;
 
-    return (runs / balls) * 100;
+    return (runs / balls) * 100 ;
   }
 
   Map<String, dynamic> toMap() => {
@@ -23,6 +23,22 @@ class StrikerData {
         'runs': runs,
         'balls': balls,
       };
+
+  StrikerData addRuns(int runs) {
+    return copyWith(runs: this.runs + runs, balls: balls + 1);
+  }
+
+  StrikerData copyWith({
+    int? runs,
+    int? balls,
+  }) {
+    return StrikerData(
+      id: id,
+      playerName: playerName,
+      runs: runs ?? this.runs,
+      balls: balls ?? this.balls,
+    );
+  }
 }
 
 class CurrentBowlerData {
@@ -52,5 +68,26 @@ class CurrentBowlerData {
     }
 
     return runsGiven / (balls / 6.0);
+  }
+
+  CurrentBowlerData addRuns(int runs) {
+    return copyWith(runsGiven: runsGiven + runs, balls: balls + 1);
+  }
+
+  CurrentBowlerData addWicket() {
+    return copyWith(wickets: wickets + 1, balls: balls + 1);
+  }
+
+  CurrentBowlerData copyWith({
+    int? runsGiven,
+    int? wickets,
+    int? balls,
+  }) {
+    return CurrentBowlerData(
+        playerName: playerName,
+        id: id,
+        runsGiven: runsGiven ?? this.runsGiven,
+        wickets: wickets ?? this.wickets,
+        balls: balls ?? this.balls);
   }
 }

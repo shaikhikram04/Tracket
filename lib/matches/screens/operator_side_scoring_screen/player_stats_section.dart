@@ -35,14 +35,14 @@ class PlayerStatsSection extends StatelessWidget {
                   strikerIndex == 0,
                   striker.playerName,
                   '${striker.runs}(${striker.balls})',
-                  'SR: ${striker.strikeRate}',
+                  'SR: ${striker.strikeRate.toStringAsFixed(2)}',
                 ),
                 SizedBox(height: 10),
                 _buildPlayerCard(
                   strikerIndex == 1,
                   nonStriker.playerName,
                   '${nonStriker.runs}(${nonStriker.balls})',
-                  'SR: ${nonStriker.strikeRate}',
+                  'SR: ${nonStriker.strikeRate.toStringAsFixed(2)}',
                 ),
                 SizedBox(height: 15),
                 _buildBowlerCard(

@@ -18,6 +18,8 @@ class BallOutcome {
     this.isWicket = false,
   });
 
+  
+
   Map<String, dynamic> toMap() => {
         'type': type.name,
         'runs': runs,

@@ -80,6 +80,29 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
   }
 
+  void _updateStrikerScore({
+    required int runs,
+  }) {
+    if (state == null) return;
+
+    final strikerIndex = state!.strikerIndex;
+
+    final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
+
+    state = state!.copyWith(
+      currentBatsmen: state!.currentBatsmen!.map((batsman) {
+        if (batsman.id == updatedStriker.id) {
+          return updatedStriker;
+        }
+        return batsman;
+      }).toList(),
+    );
+
+    final int newStrikerIndex =
+        runs % 2 == 0 ? strikerIndex : (strikerIndex + 1) % 2;
+    updateStrikers(strikerIndex: newStrikerIndex);
+  }
+
   void changeBowler(CurrentBowlerData? bowler) {
     if (state == null) return;
 
@@ -176,24 +199,24 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       byeRuns: byeRuns,
     );
 
+    final ballType = isWide
+        ? BallType.wide
+        : isNoBall
+            ? BallType.noBall
+            : isBye
+                ? BallType.bye
+                : isLegBye
+                    ? BallType.legBye
+                    : BallType.valid;
+
     final ballOutcome = BallOutcome(
-      type: isWide
-          ? BallType.wide
-          : isNoBall
-              ? BallType.noBall
-              : isBye
-                  ? BallType.bye
-                  : isLegBye
-                      ? BallType.legBye
-                      : BallType.valid,
+      type: ballType,
       runs: runs,
     );
 
     _updateCurrentInnings(updatedInnings);
     _updateCurrentOverRuns(ballOutcome);
-    final int strikerIndex =
-        runs % 2 == 0 ? state!.strikerIndex : (state!.strikerIndex + 1) % 2;
-    updateStrikers(strikerIndex: strikerIndex);
+    if (!isWide) _updateStrikerScore(runs: runs);
   }
 
   // Helper methods
