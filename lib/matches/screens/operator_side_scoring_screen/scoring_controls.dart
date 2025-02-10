@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -22,6 +23,8 @@ class ScoringControls extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final extras = ref.watch(extrasProvider);
+
     return ClipRRect(
       child: Stack(
         children: [
@@ -50,8 +53,18 @@ class ScoringControls extends ConsumerWidget {
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
+                            bool isByes = extras.isBye || extras.isLegBye;
                             ref.read(matchStateProvider.notifier).addDelivery(
-                                runs: runs, isFour: false, isSix: false);
+                                  runs: runs,
+                                  isFour: false,
+                                  isSix: false,
+                                  isWide: extras.isWide,
+                                  isNoBall: extras.isNoBall,
+                                  isLegBye: extras.isLegBye,
+                                  isBye: extras.isBye,
+                                  byeRuns: isByes ? runs : null,
+                                );
+                            ref.read(extrasProvider.notifier).reset();
                             makeUnBlur();
                           },
                           style: ElevatedButton.styleFrom(
@@ -87,12 +100,20 @@ class ScoringControls extends ConsumerWidget {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
+                                  bool isByes = extras.isBye || extras.isLegBye;
                                   ref
                                       .read(matchStateProvider.notifier)
                                       .addDelivery(
-                                          runs: runs,
-                                          isFour: index == 1,
-                                          isSix: index == 2);
+                                        runs: runs,
+                                        isFour: index == 1,
+                                        isSix: index == 2,
+                                        isWide: extras.isWide,
+                                        isNoBall: extras.isNoBall,
+                                        isLegBye: extras.isLegBye,
+                                        isBye: extras.isBye,
+                                        byeRuns: isByes ? runs : null,
+                                      );
+                                  ref.read(extrasProvider.notifier).reset();
                                   makeUnBlur();
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -148,7 +169,35 @@ class ScoringControls extends ConsumerWidget {
                           return Container(
                             padding: EdgeInsets.symmetric(vertical: 5),
                             child: ElevatedButton(
-                              onPressed: onExtra,
+                              onPressed: () {
+                                onExtra();
+                                switch (extra) {
+                                  case 'Wide':
+                                    ref
+                                        .read(extrasProvider.notifier)
+                                        .updateExtras((state) =>
+                                            state.copyWith(isWide: true));
+                                    break;
+                                  case 'No Ball':
+                                    ref
+                                        .read(extrasProvider.notifier)
+                                        .updateExtras((state) =>
+                                            state.copyWith(isNoBall: true));
+                                    break;
+                                  case 'Leg Bye':
+                                    ref
+                                        .read(extrasProvider.notifier)
+                                        .updateExtras((state) =>
+                                            state.copyWith(isLegBye: true));
+                                    break;
+                                  case 'Bye':
+                                    ref
+                                        .read(extrasProvider.notifier)
+                                        .updateExtras((state) =>
+                                            state.copyWith(isBye: true));
+                                    break;
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: accentGold,
                                 elevation: 2,
@@ -170,18 +219,18 @@ class ScoringControls extends ConsumerWidget {
                         }).toList(),
                       ),
                       if (isBlur)
-                          Positioned.fill(
-                            child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 4,
-                                    sigmaY: 4,
-                                    tileMode: TileMode.clamp),
-                                child: Container(
-                                  color: Colors.transparent,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                )),
-                          ),
+                        Positioned.fill(
+                          child: BackdropFilter(
+                              filter: ImageFilter.blur(
+                                  sigmaX: 4,
+                                  sigmaY: 4,
+                                  tileMode: TileMode.clamp),
+                              child: Container(
+                                color: Colors.transparent,
+                                width: double.infinity,
+                                height: double.infinity,
+                              )),
+                        ),
                     ],
                   ),
                 ),
@@ -197,7 +246,7 @@ class ScoringControls extends ConsumerWidget {
                         fontSize: 18,
                       ),
                   icon: Icon(
-                    Icons.sports_cricket,
+                    Icons.sports_baseball,
                     color: whiteColor,
                   ),
                   backgroundColor: Colors.red.shade600,

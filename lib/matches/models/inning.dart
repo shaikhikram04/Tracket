@@ -102,9 +102,9 @@ class Inning {
 
     return copyWith(
       runs: this.runs + runs + (isWide || isNoBall ? 1 : 0),
-      balls: isWide || isNoBall ? balls : balls + 1,
-      fours: isFour ? fours + 1 : fours,
-      sixes: isSix ? sixes + 1 : sixes,
+      balls: isWide || isNoBall ? this.balls : this.balls + 1,
+      fours: isFour ? this.fours + 1 : this.fours,
+      sixes: isSix ? this.sixes + 1 : this.sixes,
       extras: newExtras,
     );
   }
