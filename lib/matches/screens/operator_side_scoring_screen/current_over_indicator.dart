@@ -7,9 +7,13 @@ import 'package:tracket/utils/colors.dart';
 
 class CurrentOverIndicator extends StatelessWidget {
   final List<BallOutcome> balls;
+  final int remainingBalls;
   final bool isBlur;
 
-  const CurrentOverIndicator({required this.balls, required this.isBlur});
+  const CurrentOverIndicator(
+      {required this.balls,
+      required this.isBlur,
+      required this.remainingBalls});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +22,9 @@ class CurrentOverIndicator extends StatelessWidget {
         fit: StackFit.passthrough,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             padding: EdgeInsets.all(15),
+            width: double.infinity,
             decoration: BoxDecoration(
               color: whiteColor,
               borderRadius: BorderRadius.circular(15),
@@ -42,42 +47,49 @@ class CurrentOverIndicator extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                      balls.length < 6 ? 6 : balls.length, (index) {
-                    final ballValue = index < balls.length ? balls[index] : null;
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 4),
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ballValue != null
-                            ? grassGreen
-                            : Colors.grey.shade200,
-                        boxShadow: ballValue != null
-                            ? [
-                                BoxShadow(
-                                  color: grassGreen.withValues(alpha: 0.3),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 2),
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Center(
-                        child: Text(
-                          ballValue?.displayOutcome ?? '',
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: whiteColor,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                        balls.length < 6
+                            ? balls.length + remainingBalls
+                            : balls.length, (index) {
+                      final ballValue =
+                          index < balls.length ? balls[index] : null;
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        width: 45,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ballValue != null
+                              ? grassGreen
+                              : Colors.grey.shade200,
+                          boxShadow: ballValue != null
+                              ? [
+                                  BoxShadow(
+                                    color: grassGreen.withValues(alpha: 0.3),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        child: Center(
+                          child: Text(
+                            ballValue?.displayOutcome ?? '',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: whiteColor,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ),
               ],
             ),

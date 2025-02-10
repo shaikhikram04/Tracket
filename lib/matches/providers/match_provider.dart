@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/current_player.dart';
@@ -169,7 +170,21 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       byeRuns: byeRuns,
     );
 
+    final ballOutcome = BallOutcome(
+      type: isWide
+          ? BallType.wide
+          : isNoBall
+              ? BallType.noBall
+              : isBye
+                  ? BallType.bye
+                  : isLegBye
+                      ? BallType.legBye
+                      : BallType.valid,
+      runs: runs,
+    );
+
     _updateCurrentInnings(updatedInnings);
+    _updateCurrentOverRuns(ballOutcome);
   }
 
   // Helper methods
@@ -197,6 +212,22 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     } else {
       state = state!.copyWith(inning1: updatedInnings);
     }
+  }
+
+  void _updateCurrentOverRuns(BallOutcome updatedOverRuns) {
+    if (state == null) return;
+
+    state = state!.copyWith(currentOverRuns: [
+      ...state!.currentOverRuns,
+      updatedOverRuns,
+    ]);
+  }
+
+  int get remainingBalls {
+    if (state == null) return 0;
+    if (currentInnings == null) return 6;
+    final rBalls = 6 - currentInnings!.remainingBalls;
+    return rBalls;
   }
 
   bool _isCompletedOver(int balls) => balls % 6 == 0;
