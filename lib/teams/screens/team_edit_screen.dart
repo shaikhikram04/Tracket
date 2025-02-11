@@ -259,7 +259,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           ),
                           //! Team Player Capacity
                           CapacitySelector(
-                              maxPlayersCapacity: _maxPlayersCapacity,
+                              capacity: _maxPlayersCapacity,
                               onIncrement: () {
                                 if (_maxPlayersCapacity < 30) {
                                   setState(

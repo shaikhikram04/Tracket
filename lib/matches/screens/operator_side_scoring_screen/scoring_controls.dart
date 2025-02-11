@@ -248,6 +248,7 @@ class ScoringControls extends ConsumerWidget {
                       context: context,
                       useSafeArea: true,
                       scrollControlDisabledMaxHeightRatio: 0.7,
+                      
                       builder: (context) => WicketReason(),
                     );
                   },

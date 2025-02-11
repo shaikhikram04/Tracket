@@ -5,16 +5,18 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 class CapacitySelector extends StatelessWidget {
   const CapacitySelector({
     super.key,
-    required this.maxPlayersCapacity,
+    required this.capacity,
     required this.onIncrement,
     required this.onDecrement,
     required this.label,
+    this.labelColor,
   });
 
-  final int maxPlayersCapacity;
+  final int capacity;
   final void Function() onIncrement;
   final void Function() onDecrement;
   final String label;
+  final Color? labelColor;
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +25,26 @@ class CapacitySelector extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           '$label:',
-          style: MyTextStyle(context).bodyLarge,
+          style: MyTextStyle(context).bodyLarge.copyWith(
+                fontWeight: FontWeight.w600,
+                color: labelColor,
+              ),
         ),
-        const Spacer(),
+        SizedBox(width: 20),
         IconButton(
           onPressed: onDecrement,
           icon: const Icon(Icons.remove_circle),
           iconSize: 30,
           color: darkGreenColor,
         ),
+        SizedBox(width: 10),
         Text(
-          '$maxPlayersCapacity',
-          style: MyTextStyle(context).bodyLarge,
+          '$capacity',
+          style: MyTextStyle(context).bodyLarge.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
         ),
+        SizedBox(width: 10),
         IconButton(
           onPressed: onIncrement,
           icon: const Icon(Icons.add_circle),
