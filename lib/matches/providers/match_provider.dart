@@ -236,7 +236,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
 
     _updateCurrentInnings(updatedInnings);
-    _updateCurrentOverRuns(ballOutcome, isWide || isBye || isLegBye);
+    _updateCurrentOverRuns(ballOutcome, isWide || isNoBall);
     _updateStrikerScore(runs: runs, extraRuns: (isWide || isBye || isLegBye));
     _updateBowlerScore(
       runs: runs,
