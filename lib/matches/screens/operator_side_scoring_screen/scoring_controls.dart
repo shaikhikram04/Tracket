@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -242,7 +243,14 @@ class ScoringControls extends ConsumerWidget {
 
                 // Wicket Button
                 MyElevatedButton.iconTextElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      useSafeArea: true,
+                      scrollControlDisabledMaxHeightRatio: 0.7,
+                      builder: (context) => WicketReason(),
+                    );
+                  },
                   text: 'WICKET',
                   textStyle: MyTextStyle(context).buttonText.copyWith(
                         letterSpacing: 1.2,

@@ -90,7 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             color: Colors.white,
             iconSize: 30,
             onPressed: () {
-              pushScreen(context, const NotificationsScreen());
+              pushScreen(context, NotificationsScreen());
             },
           ),
           const SizedBox(width: 10),

@@ -1,11 +1,11 @@
 enum ReasonOfOut {
   bowled('Bowled'),
   lbw('LBW'),
-  caught('Caught'),
-  runOut('Run Out'),
   stumped('Stumped'),
   hitWicket('Hit Wicket'),
-  retiredOut('Retired Out');
+  retiredOut('Retired Out'),
+  caught('Caught'),
+  runOut('Run Out'),;
 
   const ReasonOfOut(this.description);
   final String description;
@@ -60,8 +60,6 @@ class BattingScore {
       reasonOfOut: outReason,
     );
   }
-
-  
 
   BattingScore copyWith({
     bool? isOut,

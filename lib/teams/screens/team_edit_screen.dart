@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/providers/team_state.dart';
 import 'package:tracket/teams/services/teams_services.dart';
-import 'package:tracket/teams/widgets/player_capacity_selector.dart';
+import 'package:tracket/teams/widgets/capacity_selector.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -258,15 +258,31 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                             minLines: 2,
                           ),
                           //! Team Player Capacity
-                          PlayerCapacitySelector(
-                            maxPlayersCapacity: _maxPlayersCapacity,
-                            onIncrement: () => setState(
-                              () => _maxPlayersCapacity++,
-                            ),
-                            onDecrement: () => setState(
-                              () => _maxPlayersCapacity--,
-                            ),
-                          )
+                          CapacitySelector(
+                              maxPlayersCapacity: _maxPlayersCapacity,
+                              onIncrement: () {
+                                if (_maxPlayersCapacity < 30) {
+                                  setState(
+                                    () => _maxPlayersCapacity++,
+                                  );
+                                } else {
+                                  showSnackBar(
+                                      'Max players capacity cannot exceed 30',
+                                      context);
+                                }
+                              },
+                              onDecrement: () {
+                                if (_maxPlayersCapacity > 11) {
+                                  setState(
+                                    () => _maxPlayersCapacity--,
+                                  );
+                                } else {
+                                  showSnackBar(
+                                      'Max players capacity cannot be less than 11',
+                                      context);
+                                }
+                              },
+                              label: 'Max Players Capacity'),
                         ],
                       ),
                     ),

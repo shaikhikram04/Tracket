@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const Color primaryColor = Color(0xFF2ECC71); // Main green
 const Color primaryVariant = Color(0xFF27AE60); // Darker green variant
 const Color primaryLight = Color(0xFF58D68D); // Lighter green
+const Color primaryMedium = Color(0xFF16A34A);
 
 //* Secondary Color Scheme
 const Color secondaryColor = Color(0xFF3498DB); // Blue accent
