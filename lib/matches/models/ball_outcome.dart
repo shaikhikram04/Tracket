@@ -1,3 +1,5 @@
+import 'package:tracket/matches/models/batting_score.dart';
+
 enum BallType {
   valid,
   wide,
@@ -11,11 +13,13 @@ class BallOutcome {
   final BallType type;
   final int runs;
   final bool isWicket;
+  final ReasonOfOut? reasonOfOut;
 
   const BallOutcome({
     required this.type,
     required this.runs,
     this.isWicket = false,
+    this.reasonOfOut,
   });
 
   Map<String, dynamic> toMap() => {
@@ -25,6 +29,14 @@ class BallOutcome {
       };
 
   String get displayOutcome {
+    if (isWicket) {
+      if (reasonOfOut == ReasonOfOut.runOut) {
+        String displayRuns = runs == 0 ? '' : runs.toString();
+        return '${displayRuns}RO';
+      }
+      return 'W';
+    }
+
     switch (type) {
       case BallType.valid:
         return '$runs';

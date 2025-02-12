@@ -61,7 +61,9 @@ class CurrentOverIndicator extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: ballValue != null
-                              ? grassGreen
+                              ? ballValue.isWicket
+                                  ? errorColor
+                                  : grassGreen
                               : Colors.grey.shade200,
                           boxShadow: ballValue != null
                               ? [
