@@ -23,6 +23,7 @@ class _WicketReasonState extends State<WicketReason> {
   ReasonOfOut? _reasonOfOut;
   int _runsCompleted = 0;
   String? _runOutBy;
+  String? _runOutBatsman;
   String? _caughtBy;
   double _sheetSize = 0.7;
 
@@ -46,6 +47,15 @@ class _WicketReasonState extends State<WicketReason> {
         context,
         title: 'Error',
         errorMessage: 'Please select a reason',
+        icon: Icons.error,
+      );
+      return;
+    }
+    if (_reasonOfOut == ReasonOfOut.runOut && _runOutBatsman == null) {
+      showIconAlertDialog(
+        context,
+        title: 'Error',
+        errorMessage: 'Please select the batsman who run out',
         icon: Icons.error,
       );
       return;
@@ -212,8 +222,8 @@ class _WicketReasonState extends State<WicketReason> {
                                       options: widget.strikers
                                           .map((e) => e.playerName)
                                           .toList(),
-                                      onSelect: (value) =>
-                                          setState(() => _runOutBy = value),
+                                      onSelect: (value) => setState(
+                                          () => _runOutBatsman = value),
                                       leadingIcon: Icon(Icons.person_outline),
                                     ),
                                     SizedBox(height: 16),
