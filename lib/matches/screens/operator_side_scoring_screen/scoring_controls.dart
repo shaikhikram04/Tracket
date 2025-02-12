@@ -248,7 +248,8 @@ class ScoringControls extends ConsumerWidget {
                     showModalBottomSheet(
                       context: context,
                       useSafeArea: true,
-                      scrollControlDisabledMaxHeightRatio: 0.7,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
                       builder: (context) => WicketReason(
                         fielders: matchState!.getBowlingTeamPlayers(),
                       ),
