@@ -39,6 +39,37 @@ void showVerificationDialog(BuildContext context, String email) {
   );
 }
 
+void showIconAlertDialog(
+  BuildContext context, {
+  required String title,
+  required String errorMessage,
+  required IconData icon,
+}) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        backgroundColor: Colors.white,
+        content: Column(
+          children: [
+            Icon(icon),
+            Text(errorMessage),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void showAlertDialog(BuildContext context, String title, String errorMessage) {
   showDialog(
     context: context,
