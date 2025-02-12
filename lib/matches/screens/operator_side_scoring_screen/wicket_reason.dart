@@ -28,6 +28,18 @@ class _WicketReasonState extends State<WicketReason> {
     });
   }
 
+  void _onConfirm() {
+    Map<String, dynamic> data = {
+      'reasonOfOut': _reasonOfOut,
+      'runsCompleted':
+          _reasonOfOut == ReasonOfOut.runOut ? _runsCompleted : null,
+      'runOutBy': _runOutBy,
+      'caughtBy': _caughtBy,
+    };
+
+    Navigator.of(context).pop(data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -145,50 +157,56 @@ class _WicketReasonState extends State<WicketReason> {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: darkGreenColor),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.clear, color: blackColor),
-                          SizedBox(width: 10),
-                          Text(
-                            'Cancel',
-                            style: MyTextStyle(context).bodyLarge.copyWith(
-                                  color: blackColor,
-                                ),
-                          ),
-                        ],
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).pop(null),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: darkGreenColor),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.clear, color: blackColor),
+                            SizedBox(width: 10),
+                            Text(
+                              'Cancel',
+                              style: MyTextStyle(context).bodyLarge.copyWith(
+                                    color: blackColor,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: darkGreenColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.check, color: whiteColor),
-                          SizedBox(width: 10),
-                          Text(
-                            'Confirm',
-                            style: MyTextStyle(context).bodyLarge.copyWith(
-                                  color: whiteColor,
-                                ),
-                          ),
-                        ],
+                  child: InkWell(
+                    onTap: _onConfirm,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: darkGreenColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.check, color: whiteColor),
+                            SizedBox(width: 10),
+                            Text(
+                              'Confirm',
+                              style: MyTextStyle(context).bodyLarge.copyWith(
+                                    color: whiteColor,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
