@@ -91,6 +91,7 @@ class Inning {
     bool isNoBall = false,
     bool isBye = false,
     bool isLegBye = false,
+    bool isWicket = false,
   }) {
     final newExtras = extras.copyWith(
       wides: extras.wides + (isWide ? 1 : 0),
@@ -104,6 +105,7 @@ class Inning {
       balls: isWide || isNoBall ? this.balls : this.balls + 1,
       fours: isFour ? this.fours + 1 : this.fours,
       sixes: isSix ? this.sixes + 1 : this.sixes,
+      wickets: isWicket ? this.wickets + 1 : this.wickets,
       extras: newExtras,
     );
   }

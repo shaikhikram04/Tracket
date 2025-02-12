@@ -234,6 +234,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       isNoBall: isNoBall,
       isBye: isBye,
       isLegBye: isLegBye,
+      isWicket: isWicket,
     );
 
     final ballType = isWide
