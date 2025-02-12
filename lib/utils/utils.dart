@@ -48,23 +48,73 @@ void showIconAlertDialog(
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        title: Text(title),
-        backgroundColor: Colors.white,
-        content: Column(
-          children: [
-            Icon(icon),
-            Text(errorMessage),
-          ],
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
+        child: SizedBox(
+          width: 250,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 110,
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: errorColor.withValues(alpha: 0.8),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: 45,
+                      color: whiteColor,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      title,
+                      style: MyTextStyle(context).titleMedium.copyWith(
+                            color: whiteColor,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.5,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child: Text(
+                  errorMessage,
+                  style: MyTextStyle(context).bodyLarge.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'OK',
+                        style: MyTextStyle(context).bodyLarge.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: darkGreenColor,
+                            ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-        ],
+        ),
       );
     },
   );

@@ -4,6 +4,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class WicketReason extends StatefulWidget {
@@ -37,6 +38,16 @@ class _WicketReasonState extends State<WicketReason> {
   }
 
   void _onConfirm() {
+    if (_reasonOfOut == null) {
+      showIconAlertDialog(
+        context,
+        title: 'Error',
+        errorMessage: 'Please select a reason',
+        icon: Icons.error,
+      );
+      return;
+    }
+
     Map<String, dynamic> data = {
       'reasonOfOut': _reasonOfOut,
       'runsCompleted':
