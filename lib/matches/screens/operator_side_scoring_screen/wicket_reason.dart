@@ -47,7 +47,24 @@ class _WicketReasonState extends State<WicketReason> {
       );
       return;
     }
-
+    if (_reasonOfOut == ReasonOfOut.runOut && _runOutBy == null) {
+      showIconAlertDialog(
+        context,
+        title: 'Error',
+        errorMessage: 'Please select the fielder who run out the batsman',
+        icon: Icons.error,
+      );
+      return;
+    }
+    if (_reasonOfOut == ReasonOfOut.caught && _caughtBy == null) {
+      showIconAlertDialog(
+        context,
+        title: 'Error',
+        errorMessage: 'Please select the fielder who caught the batsman',
+        icon: Icons.error,
+      );
+      return;
+    }
     Map<String, dynamic> data = {
       'reasonOfOut': _reasonOfOut,
       'runsCompleted':
@@ -83,7 +100,7 @@ class _WicketReasonState extends State<WicketReason> {
                         BorderRadius.vertical(top: Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 10,
                         offset: Offset(0, -2),
                       ),
@@ -97,7 +114,7 @@ class _WicketReasonState extends State<WicketReason> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.3),
+                          color: Colors.grey.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -134,8 +151,8 @@ class _WicketReasonState extends State<WicketReason> {
                                           decoration: BoxDecoration(
                                             color: _selectedIndex == index
                                                 ? primaryMedium
-                                                : primaryMedium
-                                                    .withOpacity(0.2),
+                                                : primaryMedium.withValues(
+                                                    alpha: 0.2),
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
