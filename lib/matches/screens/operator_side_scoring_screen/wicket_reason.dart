@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/colors.dart';
@@ -8,8 +9,10 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class WicketReason extends StatefulWidget {
-  const WicketReason({super.key, required this.fielders});
+  const WicketReason(
+      {super.key, required this.fielders, required this.strikers});
   final List<MatchPlayerInfo> fielders;
+  final List<StrikerData> strikers;
 
   @override
   State<WicketReason> createState() => _WicketReasonState();
@@ -195,6 +198,26 @@ class _WicketReasonState extends State<WicketReason> {
                                     ),
                                     SizedBox(height: 16),
                                     Text(
+                                      'Run out batsman:',
+                                      style: MyTextStyle(context)
+                                          .bodyLarge
+                                          .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: darkGreenColor,
+                                          ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    MyDropdownMenu(
+                                      hintText: 'Select batsman',
+                                      options: widget.strikers
+                                          .map((e) => e.playerName)
+                                          .toList(),
+                                      onSelect: (value) =>
+                                          setState(() => _runOutBy = value),
+                                      leadingIcon: Icon(Icons.person_outline),
+                                    ),
+                                    SizedBox(height: 16),
+                                    Text(
                                       'Run out by:',
                                       style: MyTextStyle(context)
                                           .bodyLarge
@@ -245,7 +268,8 @@ class _WicketReasonState extends State<WicketReason> {
                                           onPressed: () =>
                                               Navigator.of(context).pop(null),
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.white,
+                                            backgroundColor:
+                                                lightBackgroundColor,
                                             foregroundColor: darkGreenColor,
                                             side: BorderSide(
                                                 color: darkGreenColor),

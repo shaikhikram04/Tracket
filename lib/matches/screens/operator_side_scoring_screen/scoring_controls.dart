@@ -244,16 +244,27 @@ class ScoringControls extends ConsumerWidget {
 
                 // Wicket Button
                 MyElevatedButton.iconTextElevatedButton(
-                  onPressed: () {
-                    showModalBottomSheet(
+                  onPressed: () async {
+                    final result = await showModalBottomSheet(
                       context: context,
                       useSafeArea: true,
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
                       builder: (context) => WicketReason(
                         fielders: matchState!.getBowlingTeamPlayers(),
+                        strikers: matchState.currentBatsmen!,
                       ),
                     );
+                    if (result != null) {
+                      ref.read(matchStateProvider.notifier).addDelivery(
+                            runs: result['runsCompleted'] ?? 0,
+                            isWicket: true,
+                            isWide: false,
+                            isNoBall: false,
+                            isFour: false,
+                            isSix: false,
+                          );
+                    }
                   },
                   text: 'WICKET',
                   textStyle: MyTextStyle(context).buttonText.copyWith(

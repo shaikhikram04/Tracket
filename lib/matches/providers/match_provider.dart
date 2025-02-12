@@ -82,13 +82,18 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
   void _updateStrikerScore({
     required int runs,
-    required bool extraRuns,
+    required bool isExtraRuns,
+    required bool isWicket,
   }) {
     if (state == null) return;
 
     final strikerIndex = state!.strikerIndex;
 
-    if (!extraRuns) {
+    if (isWicket) {
+      final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
+    }
+
+    if (!isExtraRuns) {
       final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
 
       state = state!.copyWith(
@@ -233,11 +238,16 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     final ballOutcome = BallOutcome(
       type: ballType,
       runs: runs,
+      isWicket: isWicket,
     );
 
     _updateCurrentInnings(updatedInnings);
     _updateCurrentOverRuns(ballOutcome, isWide || isNoBall);
-    _updateStrikerScore(runs: runs, extraRuns: (isWide || isBye || isLegBye));
+    _updateStrikerScore(
+      runs: runs,
+      isExtraRuns: (isWide || isBye || isLegBye),
+      isWicket: isWicket,
+    );
     _updateBowlerScore(
       runs: runs,
       isWide: isWide,

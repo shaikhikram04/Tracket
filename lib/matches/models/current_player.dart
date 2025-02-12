@@ -77,7 +77,7 @@ class CurrentBowlerData {
     required bool isNoBall,
   }) {
     final runsGiven =
-        this.runsGiven + (isWide || isNoBall ? 1 : 0) + (isNoBall ? runs : 0);
+        this.runsGiven + (isWide || isNoBall ? 1 : 0) + (!isWide ? runs : 0);
     final balls = this.balls + (isWide || isNoBall ? 0 : 1);
     final wickets = isWicket ? this.wickets + 1 : this.wickets;
 
