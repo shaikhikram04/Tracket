@@ -3,12 +3,14 @@ class StrikerData {
   final int balls;
   final String playerName;
   final String id;
+  final bool isOut;
 
   StrikerData({
     required this.id,
     required this.playerName,
     required this.runs,
     required this.balls,
+    this.isOut = false,
   });
 
   double get strikeRate {
@@ -27,17 +29,26 @@ class StrikerData {
   StrikerData addRuns(int runs) {
     return copyWith(runs: this.runs + runs, balls: balls + 1);
   }
-  
+
+  StrikerData wicket(int runs, bool isAddBall) {
+    return copyWith(
+      isOut: true,
+      balls: isAddBall ? balls + 1 : balls,
+      runs: this.runs + runs,
+    );
+  }
 
   StrikerData copyWith({
     int? runs,
     int? balls,
+    bool? isOut,
   }) {
     return StrikerData(
       id: id,
       playerName: playerName,
       runs: runs ?? this.runs,
       balls: balls ?? this.balls,
+      isOut: isOut ?? this.isOut,
     );
   }
 }

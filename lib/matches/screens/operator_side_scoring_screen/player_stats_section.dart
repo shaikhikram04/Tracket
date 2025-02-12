@@ -36,6 +36,7 @@ class PlayerStatsSection extends StatelessWidget {
                   striker.playerName,
                   '${striker.runs}(${striker.balls})',
                   'SR: ${striker.strikeRate.toStringAsFixed(2)}',
+                  striker.isOut,
                 ),
                 SizedBox(height: 10),
                 _buildPlayerCard(
@@ -43,6 +44,7 @@ class PlayerStatsSection extends StatelessWidget {
                   nonStriker.playerName,
                   '${nonStriker.runs}(${nonStriker.balls})',
                   'SR: ${nonStriker.strikeRate.toStringAsFixed(2)}',
+                  nonStriker.isOut,
                 ),
                 SizedBox(height: 15),
                 _buildBowlerCard(
@@ -69,14 +71,23 @@ class PlayerStatsSection extends StatelessWidget {
   }
 
   Widget _buildPlayerCard(
-      bool isStriker, String name, String score, String strikeRate) {
+    bool isStriker,
+    String name,
+    String score,
+    String strikeRate,
+    bool isOut,
+  ) {
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isOut ? errorColor.withValues(alpha: 0.2) : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isStriker ? grassGreen : Colors.grey.shade300,
+          color: isStriker
+              ? isOut
+                  ? errorColor
+                  : grassGreen
+              : Colors.grey.shade300,
           width: 2,
         ),
         boxShadow: [

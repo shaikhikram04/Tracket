@@ -84,28 +84,47 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     required int runs,
     required bool isExtraRuns,
     required bool isWicket,
-    String? outBatsman,
+    String? outBatsmanId,
   }) {
     if (state == null) return;
 
     final strikerIndex = state!.strikerIndex;
 
+    // Handle wicket case
     if (isWicket) {
+      if (outBatsmanId == null) {
+        final updatedStriker =
+            state!.currentBatsmen![strikerIndex].wicket(runs, true);
+        state = state!.copyWith(
+          currentBatsmen: state!.currentBatsmen!.map((batsman) {
+            if (batsman.id == updatedStriker.id) {
+              return updatedStriker;
+            }
+            return batsman;
+          }).toList(),
+        );
+      } else {
+        final updatedNonStriker =
+            state!.currentBatsmen![(strikerIndex + 1) % 2].wicket(0, false);
+
+        final updatedStriker =
+            state!.currentBatsmen![strikerIndex].addRuns(runs);
+        state = state!.copyWith(
+          currentBatsmen: state!.currentBatsmen!.map((batsman) {
+            if (batsman.id == updatedStriker.id) {
+              return updatedStriker;
+            }
+            return updatedNonStriker;
+          }).toList(),
+        );
+      }
+
+      return;
+    }
+
+    // Handle runs for valid deliveries
+    if (!isExtraRuns) {
       final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
-
-      state!.currentBatsmen!.removeWhere((e) => e.id == outBatsman);
-
-      state = state!.copyWith(
-        currentBatsmen: state!.currentBatsmen!.map((batsman) {
-          if (batsman.id != outBatsman) return updatedStriker;
-          return batsman;
-        }).toList(),
-      );
-
-      updateStrikers(strikerIndex: 0);
-    } else if (!isExtraRuns) {
-      final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
-
       state = state!.copyWith(
         currentBatsmen: state!.currentBatsmen!.map((batsman) {
           if (batsman.id == updatedStriker.id) {
@@ -116,6 +135,9 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       );
     }
 
+    // Change strike based on runs scored
+    // For odd runs, batsmen change ends
+    // For even runs, same batsman retains strike
     final int newStrikerIndex =
         runs % 2 == 0 ? strikerIndex : (strikerIndex + 1) % 2;
     updateStrikers(strikerIndex: newStrikerIndex);
@@ -259,7 +281,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       runs: runs,
       isExtraRuns: (isWide || isBye || isLegBye),
       isWicket: isWicket,
-      outBatsman: outBatsman,
+      outBatsmanId: outBatsman,
     );
     _updateBowlerScore(
       runs: runs,
