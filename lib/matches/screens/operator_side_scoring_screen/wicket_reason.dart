@@ -82,6 +82,7 @@ class _WicketReasonState extends State<WicketReason> {
       'reasonOfOut': _reasonOfOut,
       'runsCompleted':
           _reasonOfOut == ReasonOfOut.runOut ? _runsCompleted : null,
+      'runOutBatsman': _runOutBatsman,
       'runOutBy': _runOutBy,
       'caughtBy': _caughtBy,
     };
@@ -223,7 +224,14 @@ class _WicketReasonState extends State<WicketReason> {
                                           .map((e) => e.playerName)
                                           .toList(),
                                       onSelect: (value) => setState(
-                                          () => _runOutBatsman = value),
+                                        () {
+                                          int index = widget.strikers
+                                              .indexWhere(
+                                                  (e) => e.playerName == value);
+                                          _runOutBatsman =
+                                              widget.strikers[index].id;
+                                        },
+                                      ),
                                       leadingIcon: Icon(Icons.person_outline),
                                     ),
                                     SizedBox(height: 16),
@@ -242,8 +250,15 @@ class _WicketReasonState extends State<WicketReason> {
                                       options: widget.fielders
                                           .map((e) => e.playerName)
                                           .toList(),
-                                      onSelect: (value) =>
-                                          setState(() => _runOutBy = value),
+                                      onSelect: (value) => setState(
+                                        () {
+                                          int index = widget.fielders
+                                              .indexWhere(
+                                                  (e) => e.playerName == value);
+                                          _runOutBy =
+                                              widget.fielders[index].playerId;
+                                        },
+                                      ),
                                       leadingIcon: Icon(Icons.person_outline),
                                     ),
                                   ],

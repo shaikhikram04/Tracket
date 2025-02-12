@@ -84,6 +84,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     required int runs,
     required bool isExtraRuns,
     required bool isWicket,
+    String? outBatsman,
   }) {
     if (state == null) return;
 
@@ -91,9 +92,18 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
     if (isWicket) {
       final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
-    }
 
-    if (!isExtraRuns) {
+      state!.currentBatsmen!.removeWhere((e) => e.id == outBatsman);
+
+      state = state!.copyWith(
+        currentBatsmen: state!.currentBatsmen!.map((batsman) {
+          if (batsman.id != outBatsman) return updatedStriker;
+          return batsman;
+        }).toList(),
+      );
+
+      updateStrikers(strikerIndex: 0);
+    } else if (!isExtraRuns) {
       final updatedStriker = state!.currentBatsmen![strikerIndex].addRuns(runs);
 
       state = state!.copyWith(
@@ -212,6 +222,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     bool isLegBye = false,
     bool isWicket = false,
     int? byeRuns,
+    String? outBatsman,
   }) {
     if (currentInnings == null) return;
 
@@ -247,6 +258,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       runs: runs,
       isExtraRuns: (isWide || isBye || isLegBye),
       isWicket: isWicket,
+      outBatsman: outBatsman,
     );
     _updateBowlerScore(
       runs: runs,

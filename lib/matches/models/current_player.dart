@@ -27,6 +27,7 @@ class StrikerData {
   StrikerData addRuns(int runs) {
     return copyWith(runs: this.runs + runs, balls: balls + 1);
   }
+  
 
   StrikerData copyWith({
     int? runs,

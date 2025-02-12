@@ -263,6 +263,7 @@ class ScoringControls extends ConsumerWidget {
                             isNoBall: false,
                             isFour: false,
                             isSix: false,
+                            outBatsman: result['runOutBatsman'],
                           );
                     }
                   },
