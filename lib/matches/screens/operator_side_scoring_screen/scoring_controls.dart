@@ -264,6 +264,7 @@ class ScoringControls extends ConsumerWidget {
                             isFour: false,
                             isSix: false,
                             outBatsman: result['runOutBatsman'],
+                            reasonOfOut: result['reasonOfOut'],
                           );
                     }
                   },

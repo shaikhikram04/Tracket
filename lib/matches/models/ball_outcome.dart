@@ -32,7 +32,7 @@ class BallOutcome {
     if (isWicket) {
       if (reasonOfOut == ReasonOfOut.runOut) {
         String displayRuns = runs == 0 ? '' : runs.toString();
-        return '${displayRuns}RO';
+        return '${displayRuns}W';
       }
       return 'W';
     }

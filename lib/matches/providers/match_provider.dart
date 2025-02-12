@@ -245,6 +245,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     bool isWicket = false,
     int? byeRuns,
     String? outBatsman,
+    ReasonOfOut? reasonOfOut,
   }) {
     if (currentInnings == null) return;
 
@@ -258,6 +259,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       isLegBye: isLegBye,
       isWicket: isWicket,
     );
+
+    _updateCurrentInnings(updatedInnings);
 
     final ballType = isWide
         ? BallType.wide
@@ -273,16 +276,17 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       type: ballType,
       runs: runs,
       isWicket: isWicket,
+      reasonOfOut: reasonOfOut,
     );
-
-    _updateCurrentInnings(updatedInnings);
     _updateCurrentOverRuns(ballOutcome, isWide || isNoBall);
+
     _updateStrikerScore(
       runs: runs,
       isExtraRuns: (isWide || isBye || isLegBye),
       isWicket: isWicket,
       outBatsmanId: outBatsman,
     );
+
     _updateBowlerScore(
       runs: runs,
       isWide: isWide,
