@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class WicketReason extends StatefulWidget {
-  const WicketReason({super.key});
+  const WicketReason({super.key, required this.fielders});
+  final List<MatchPlayerInfo> fielders;
 
   @override
   State<WicketReason> createState() => _WicketReasonState();
@@ -15,8 +18,8 @@ class _WicketReasonState extends State<WicketReason> {
   int _selectedIndex = -1;
   ReasonOfOut? _reasonOfOut;
   int _runsCompleted = 0;
-  String _runOutBy = '';
-  String _caughtBy = '';
+  String? _runOutBy;
+  String? _caughtBy;
 
   void _onReasonSelected(int index) {
     setState(() {
@@ -106,15 +109,16 @@ class _WicketReasonState extends State<WicketReason> {
                 ),
               ),
               SizedBox(height: 2),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Enter fielder's name",
-                  prefixIcon: Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              )
+              MyDropdownMenu(
+                hintText: 'Select fielder',
+                options: widget.fielders.map((e) => e.playerName).toList(),
+                onSelect: (value) {
+                  setState(() {
+                    _runOutBy = value;
+                  });
+                },
+                leadingIcon: Icon(Icons.person_outline),
+              ),
             ],
             if (_reasonOfOut == ReasonOfOut.caught) ...[
               SizedBox(height: 10),
@@ -125,16 +129,17 @@ class _WicketReasonState extends State<WicketReason> {
                       color: darkGreenColor,
                     ),
               ),
-              SizedBox(height: 2),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Enter fielder's name",
-                  prefixIcon: Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              )
+              SizedBox(height: 3),
+              MyDropdownMenu(
+                hintText: 'Select fielder',
+                options: widget.fielders.map((e) => e.playerName).toList(),
+                onSelect: (value) {
+                  setState(() {
+                    _caughtBy = value;
+                  });
+                },
+                leadingIcon: Icon(Icons.person_outline),
+              ),
             ],
             SizedBox(height: 20),
             Row(

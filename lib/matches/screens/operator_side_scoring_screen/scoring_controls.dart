@@ -25,6 +25,7 @@ class ScoringControls extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final extras = ref.watch(extrasProvider);
+    final matchState = ref.watch(matchStateProvider);
 
     return ClipRRect(
       child: Stack(
@@ -248,8 +249,9 @@ class ScoringControls extends ConsumerWidget {
                       context: context,
                       useSafeArea: true,
                       scrollControlDisabledMaxHeightRatio: 0.7,
-                      
-                      builder: (context) => WicketReason(),
+                      builder: (context) => WicketReason(
+                        fielders: matchState!.getBowlingTeamPlayers(),
+                      ),
                     );
                   },
                   text: 'WICKET',

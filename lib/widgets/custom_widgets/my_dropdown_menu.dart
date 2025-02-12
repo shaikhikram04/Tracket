@@ -4,10 +4,12 @@ class MyDropdownMenu extends StatelessWidget {
   const MyDropdownMenu({
     super.key,
     required this.options,
-    required this.label,
     required this.onSelect,
     this.initialSelection,
     this.controller,
+    this.hintText,
+    this.label = '',
+    this.leadingIcon,
   });
 
   final List<String> options;
@@ -15,6 +17,8 @@ class MyDropdownMenu extends StatelessWidget {
   final void Function(String? value) onSelect;
   final String? initialSelection;
   final TextEditingController? controller;
+  final String? hintText;
+  final Icon? leadingIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,9 @@ class MyDropdownMenu extends StatelessWidget {
       controller: controller,
       onSelected: onSelect,
       width: width * 0.8,
-      label: Text(label),
+      label: label.isEmpty ? null : Text(label),
+      hintText: hintText,
+      leadingIcon: leadingIcon,
       menuStyle: MenuStyle(
         backgroundColor: WidgetStatePropertyAll(
           Theme.of(context).colorScheme.surface,
