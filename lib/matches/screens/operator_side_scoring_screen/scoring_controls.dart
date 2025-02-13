@@ -261,45 +261,62 @@ class ScoringControls extends ConsumerWidget {
                 SizedBox(height: 17),
 
                 // Wicket Button
-                MyElevatedButton.iconTextElevatedButton(
-                  onPressed: () async {
-                    final result = await showModalBottomSheet(
-                      context: context,
-                      useSafeArea: true,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => WicketReason(
-                        fielders: matchState!.getBowlingTeamPlayers(),
-                        strikers: matchState.currentBatsmen!,
-                        extras: extras,
-                      ),
-                    );
-                    if (result != null) {
-                      ref.read(matchStateProvider.notifier).addDelivery(
-                            runs: result['runsCompleted'] ?? 0,
-                            isWicket: true,
-                            extras: extras,
-                            isFour: false,
-                            isSix: false,
-                            outBatsman: result['runOutBatsman'],
-                            reasonOfOut: result['reasonOfOut'],
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Stack(
+                    children: [
+                      MyElevatedButton.iconTextElevatedButton(
+                        onPressed: () async {
+                          final result = await showModalBottomSheet(
+                            context: context,
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => WicketReason(
+                              fielders: matchState!.getBowlingTeamPlayers(),
+                              strikers: matchState.currentBatsmen!,
+                              extras: extras,
+                            ),
                           );
-                    }
-                    makeUnBlur();
-                  },
-                  text: 'WICKET',
-                  textStyle: MyTextStyle(context).buttonText.copyWith(
-                        letterSpacing: 1.2,
-                        fontSize: 18,
+                          if (result != null) {
+                            ref.read(matchStateProvider.notifier).addDelivery(
+                                  runs: result['runsCompleted'] ?? 0,
+                                  isWicket: true,
+                                  extras: extras,
+                                  isFour: false,
+                                  isSix: false,
+                                  outBatsman: result['runOutBatsman'],
+                                  reasonOfOut: result['reasonOfOut'],
+                                );
+                          }
+                          makeUnBlur();
+                        },
+                        text: 'WICKET',
+                        textStyle: MyTextStyle(context).buttonText.copyWith(
+                              letterSpacing: 1.2,
+                              fontSize: 18,
+                            ),
+                        icon: Icon(
+                          Icons.sports_baseball,
+                          color: whiteColor,
+                        ),
+                        backgroundColor: Colors.red.shade600,
+                        borderRadius: 15,
+                        height: 50,
+                        width: double.infinity,
                       ),
-                  icon: Icon(
-                    Icons.sports_baseball,
-                    color: whiteColor,
+                      if (extras.isBye || extras.isLegBye)
+                        Positioned.fill(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                                sigmaX: 4, sigmaY: 4, tileMode: TileMode.clamp),
+                            child: Container(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                  backgroundColor: Colors.red.shade600,
-                  borderRadius: 15,
-                  height: 50,
-                  width: double.infinity,
                 ),
                 SizedBox(height: 5),
               ],
