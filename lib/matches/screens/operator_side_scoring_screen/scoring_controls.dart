@@ -55,16 +55,11 @@ class ScoringControls extends ConsumerWidget {
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
-                            bool isByes = extras.isBye || extras.isLegBye;
                             ref.read(matchStateProvider.notifier).addDelivery(
                                   runs: runs,
                                   isFour: false,
                                   isSix: false,
-                                  isWide: extras.isWide,
-                                  isNoBall: extras.isNoBall,
-                                  isLegBye: extras.isLegBye,
-                                  isBye: extras.isBye,
-                                  byeRuns: isByes ? runs : null,
+                                  extras: extras,
                                 );
                             ref.read(extrasProvider.notifier).reset();
                             makeUnBlur();
@@ -102,18 +97,13 @@ class ScoringControls extends ConsumerWidget {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  bool isByes = extras.isBye || extras.isLegBye;
                                   ref
                                       .read(matchStateProvider.notifier)
                                       .addDelivery(
                                         runs: runs,
                                         isFour: index == 1,
                                         isSix: index == 2,
-                                        isWide: extras.isWide,
-                                        isNoBall: extras.isNoBall,
-                                        isLegBye: extras.isLegBye,
-                                        isBye: extras.isBye,
-                                        byeRuns: isByes ? runs : null,
+                                        extras: extras,
                                       );
                                   ref.read(extrasProvider.notifier).reset();
                                   makeUnBlur();
@@ -260,14 +250,14 @@ class ScoringControls extends ConsumerWidget {
                       ref.read(matchStateProvider.notifier).addDelivery(
                             runs: result['runsCompleted'] ?? 0,
                             isWicket: true,
-                            isWide: false,
-                            isNoBall: false,
+                            extras: extras,
                             isFour: false,
                             isSix: false,
                             outBatsman: result['runOutBatsman'],
                             reasonOfOut: result['reasonOfOut'],
                           );
                     }
+                    makeUnBlur();
                   },
                   text: 'WICKET',
                   textStyle: MyTextStyle(context).buttonText.copyWith(

@@ -33,11 +33,48 @@ class _WicketReasonState extends State<WicketReason> {
   String? _runOutBatsman;
   String? _caughtBy;
   double _sheetSize = 0.65;
+  List<ReasonOfOut> _reasons = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _addReason();
+  }
+
+  void _addReason() {
+    final extras = widget.extras;
+
+    if (extras.isWide) {
+      _reasons = [
+        ReasonOfOut.stumped,
+        ReasonOfOut.hitWicket,
+        ReasonOfOut.runOut,
+      ];
+    } else if (extras.isNoBall) {
+      _reasons = [
+        ReasonOfOut.hitWicket,
+        ReasonOfOut.runOut,
+      ];
+    } else if (extras.isBye || extras.isLegBye) {
+      _reasons = [
+        ReasonOfOut.runOut,
+      ];
+    } else {
+      _reasons = [
+        ReasonOfOut.hitWicket,
+        ReasonOfOut.runOut,
+        ReasonOfOut.stumped,
+        ReasonOfOut.caught,
+        ReasonOfOut.bowled,
+        ReasonOfOut.lbw,
+      ];
+    }
+  }
 
   void _onReasonSelected(int index) {
     setState(() {
       _selectedIndex = index;
-      _reasonOfOut = ReasonOfOut.values[index];
+      _reasonOfOut = _reasons[index];
       // Adjust sheet size based on selected reason
       if (_reasonOfOut == ReasonOfOut.runOut ||
           _reasonOfOut == ReasonOfOut.caught) {
@@ -158,9 +195,8 @@ class _WicketReasonState extends State<WicketReason> {
                                   ),
                                   SizedBox(height: 16),
                                   // Dismissal options
-                                  ...List.generate(
-                                    ReasonOfOut.values.length,
-                                    (index) => Padding(
+                                  ...List.generate(_reasons.length, (index) {
+                                    return Padding(
                                       padding: EdgeInsets.only(bottom: 10),
                                       child: InkWell(
                                         onTap: () => _onReasonSelected(index),
@@ -179,8 +215,7 @@ class _WicketReasonState extends State<WicketReason> {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              ReasonOfOut
-                                                  .values[index].description,
+                                              _reasons[index].description,
                                               style: MyTextStyle(context)
                                                   .bodyLarge
                                                   .copyWith(
@@ -194,8 +229,8 @@ class _WicketReasonState extends State<WicketReason> {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  }),
                                   // Additional fields based on selection
                                   if (_reasonOfOut == ReasonOfOut.runOut) ...[
                                     SizedBox(height: 16),
