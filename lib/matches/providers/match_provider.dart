@@ -92,7 +92,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
     // Handle wicket case
     if (isWicket) {
-      if (outBatsmanId == null) {
+      if (outBatsmanId == null ||
+          outBatsmanId == state!.currentBatsmen![strikerIndex].id) {
         final updatedStriker =
             state!.currentBatsmen![strikerIndex].wicket(runs, true);
         state = state!.copyWith(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -9,10 +10,16 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class WicketReason extends StatefulWidget {
-  const WicketReason(
-      {super.key, required this.fielders, required this.strikers});
+  const WicketReason({
+    super.key,
+    required this.fielders,
+    required this.strikers,
+    required this.extras,
+  });
+
   final List<MatchPlayerInfo> fielders;
   final List<StrikerData> strikers;
+  final ExtrasState extras;
 
   @override
   State<WicketReason> createState() => _WicketReasonState();
@@ -25,7 +32,7 @@ class _WicketReasonState extends State<WicketReason> {
   String? _runOutBy;
   String? _runOutBatsman;
   String? _caughtBy;
-  double _sheetSize = 0.7;
+  double _sheetSize = 0.65;
 
   void _onReasonSelected(int index) {
     setState(() {
@@ -36,7 +43,7 @@ class _WicketReasonState extends State<WicketReason> {
           _reasonOfOut == ReasonOfOut.caught) {
         _sheetSize = 0.85;
       } else {
-        _sheetSize = 0.7;
+        _sheetSize = 0.65;
       }
     });
   }
@@ -103,7 +110,7 @@ class _WicketReasonState extends State<WicketReason> {
           minChildSize: 0.5,
           maxChildSize: 0.95,
           snap: true,
-          snapSizes: [0.7, 0.85, 0.95],
+          snapSizes: [0.65, 0.85, 0.95],
           builder: (BuildContext context, ScrollController scrollController) {
             return LayoutBuilder(
               builder: (context, constraints) {

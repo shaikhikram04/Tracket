@@ -253,6 +253,7 @@ class ScoringControls extends ConsumerWidget {
                       builder: (context) => WicketReason(
                         fielders: matchState!.getBowlingTeamPlayers(),
                         strikers: matchState.currentBatsmen!,
+                        extras: extras,
                       ),
                     );
                     if (result != null) {

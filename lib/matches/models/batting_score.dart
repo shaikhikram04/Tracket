@@ -3,7 +3,7 @@ enum ReasonOfOut {
   lbw('LBW'),
   stumped('Stumped'),
   hitWicket('Hit Wicket'),
-  retiredOut('Retired Out'),
+  // retiredOut('Retired Out'),
   caught('Caught'),
   runOut('Run Out'),;
 
