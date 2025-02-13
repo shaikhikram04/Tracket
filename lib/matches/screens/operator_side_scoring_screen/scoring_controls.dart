@@ -152,16 +152,42 @@ class ScoringControls extends ConsumerWidget {
                 SizedBox(height: 17),
 
                 // Extras Wrap
-                ClipRRect(
-                  child: Stack(
-                    fit: StackFit.passthrough,
-                    children: [
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children:
-                            ['Wide', 'No Ball', 'Leg Bye', 'Bye'].map((extra) {
-                          return Container(
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: ['Wide', 'No Ball', 'Leg Bye', 'Bye'].map((extra) {
+                    // Determine if this button should appear blurred based on current extras.
+                    bool shouldBlur = false;
+                    if (isBlur) {
+                      switch (extra) {
+                        case 'Wide':
+                          // If Wide is NOT selected but any other extra is selected,
+                          // then disable Wide.
+                          shouldBlur = extras.isWide ||
+                              (extras.isNoBall ||
+                                  extras.isLegBye ||
+                                  extras.isBye);
+                          break;
+                        case 'No Ball':
+                          // No Ball is only allowed if Wide is not selected.
+                          shouldBlur = extras.isNoBall || extras.isWide;
+                          break;
+                        case 'Leg Bye':
+                          // Leg Bye cannot be combined with Wide or Bye.
+                          shouldBlur = extras.isLegBye ||
+                              (extras.isWide || extras.isBye);
+                          break;
+                        case 'Bye':
+                          // Bye cannot be combined with Wide or Leg Bye.
+                          shouldBlur = extras.isBye ||
+                              (extras.isWide || extras.isLegBye);
+                          break;
+                      }
+                    }
+                    return ClipRRect(
+                      child: Stack(
+                        children: [
+                          Container(
                             padding: EdgeInsets.symmetric(vertical: 5),
                             child: ElevatedButton(
                               onPressed: () {
@@ -210,24 +236,26 @@ class ScoringControls extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                          );
-                        }).toList(),
+                          ),
+                          // If shouldBlur is true, apply a blur overlay to this button.
+                          if (shouldBlur)
+                            Positioned.fill(
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                    sigmaX: 4,
+                                    sigmaY: 4,
+                                    tileMode: TileMode.clamp),
+                                child: Container(
+                                  color: Colors.transparent,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
-                      if (isBlur)
-                        Positioned.fill(
-                          child: BackdropFilter(
-                              filter: ImageFilter.blur(
-                                  sigmaX: 4,
-                                  sigmaY: 4,
-                                  tileMode: TileMode.clamp),
-                              child: Container(
-                                color: Colors.transparent,
-                                width: double.infinity,
-                                height: double.infinity,
-                              )),
-                        ),
-                    ],
-                  ),
+                    );
+                  }).toList(),
                 ),
 
                 SizedBox(height: 17),
