@@ -5,6 +5,7 @@ class BaseSelectionSheet extends StatelessWidget {
   final String title;
   final String instructions;
   final Widget content;
+  final bool showCancelButton;
   final VoidCallback onCancel;
   final VoidCallback? onConfirm;
   final bool confirmEnabled;
@@ -15,6 +16,7 @@ class BaseSelectionSheet extends StatelessWidget {
     required this.instructions,
     required this.content,
     required this.onCancel,
+    this.showCancelButton = true,
     this.onConfirm,
     this.confirmEnabled = true,
   }) : super(key: key);
@@ -70,15 +72,16 @@ class BaseSelectionSheet extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: onCancel,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                if (showCancelButton)
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: onCancel,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: const Text('Cancel'),
                     ),
-                    child: const Text('Cancel'),
                   ),
-                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(

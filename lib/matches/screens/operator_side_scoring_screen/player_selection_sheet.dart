@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 // Selection type enum
 enum SelectionType { batsman, bowler }
@@ -25,15 +26,33 @@ class PlayerSelectionSheet extends StatefulWidget {
     required Function(MatchPlayerInfo) onPlayerSelected,
   }) {
     return showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => PlayerSelectionSheet(
-        type: type,
-        availablePlayers: availablePlayers,
-        onPlayerSelected: onPlayerSelected,
-      ),
-    );
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        isDismissible: false, // Prevents dismissal by tapping outside
+        enableDrag: false, // Prevents dismissal by dragging down
+        barrierColor:
+            Colors.black54, // Optional: makes the backdrop more visible
+        builder: (context) => PopScope(
+              // Handles back button press
+              canPop: false, // Prevents closing with back button
+              onPopInvokedWithResult: (didPop, result) {
+                if (didPop) {
+                  showIconAlertDialog(
+                    context,
+                    title: "Can't go back",
+                    errorMessage:
+                        'Please select a player before going back to the previous screen.',
+                    icon: Icons.warning,
+                  );
+                }
+              },
+              child: PlayerSelectionSheet(
+                type: type,
+                availablePlayers: availablePlayers,
+                onPlayerSelected: onPlayerSelected,
+              ),
+            ));
   }
 
   @override
@@ -46,6 +65,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   @override
   Widget build(BuildContext context) {
     return BaseSelectionSheet(
+      showCancelButton: false,
       title: widget.type == SelectionType.batsman
           ? 'Select the Next Batsman'
           : 'Select the Next Bowler',
