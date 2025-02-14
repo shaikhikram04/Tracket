@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
@@ -21,6 +23,32 @@ class ScoringControls extends ConsumerWidget {
   final VoidCallback onExtra;
   final VoidCallback makeUnBlur;
   final bool isBlur;
+
+  void showNextBatsmanSelection(
+      BuildContext context, List<MatchPlayerInfo> availableBatsmen) {
+    PlayerSelectionSheet.show(
+      context: context,
+      type: SelectionType.batsman,
+      availablePlayers: availableBatsmen,
+      onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
+        // Handle the selected batsman
+        print('Selected batsman: ${selectedPlayer.playerName}');
+      },
+    );
+  }
+
+  void showNextBowlerSelection(
+      BuildContext context, List<MatchPlayerInfo> availableBowlers) {
+    PlayerSelectionSheet.show(
+      context: context,
+      type: SelectionType.bowler,
+      availablePlayers: availableBowlers,
+      onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
+        // Handle the selected bowler
+        print('Selected bowler: ${selectedPlayer.playerName}');
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -290,6 +318,8 @@ class ScoringControls extends ConsumerWidget {
                                 );
                           }
                           makeUnBlur();
+                          showNextBatsmanSelection(
+                              context, matchState!.getBattingTeamPlayers());
                         },
                         text: 'WICKET',
                         textStyle: MyTextStyle(context).buttonText.copyWith(
