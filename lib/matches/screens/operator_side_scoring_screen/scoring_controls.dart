@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
@@ -30,8 +31,14 @@ class ScoringControls extends ConsumerWidget {
       type: SelectionType.batsman,
       availablePlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
       onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
-        // Handle the selected batsman
-        print('Selected batsman: ${selectedPlayer.playerName}');
+        ref.read(matchStateProvider.notifier).setCurrentBatsmenOnOut(
+              StrikerData(
+                id: selectedPlayer.playerId,
+                playerName: selectedPlayer.playerName,
+                runs: 0,
+                balls: 0,
+              ),
+            );
       },
     );
   }
@@ -69,6 +76,7 @@ class ScoringControls extends ConsumerWidget {
                   )),
             ),
           Container(
+            height: 326,
             padding: EdgeInsets.all(16),
             child: Column(
               spacing: 2,

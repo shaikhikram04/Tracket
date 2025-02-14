@@ -83,6 +83,17 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
   }
 
+  void setCurrentBatsmenOnOut(StrikerData newBatsman) {
+    if (state == null) return;
+
+    state = state!.copyWith(
+      currentBatsmen: state!.currentBatsmen!.map((batsman) {
+        if (batsman.isOut) return newBatsman;
+        return batsman;
+      }).toList(),
+    );
+  }
+
   //* Updates the striker's score.
   //* This method is called only when the batsman should be credited
   //* (i.e. not for wides or byes/leg byes or a no-ball with byes/leg byes).

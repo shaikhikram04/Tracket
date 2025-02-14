@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utils.dart';
 
 enum SelectionType { batsman, bowler }
 
@@ -36,17 +35,6 @@ class PlayerSelectionSheet extends StatefulWidget {
       barrierColor: Colors.black54,
       builder: (context) => PopScope(
         canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (didPop) {
-            showIconAlertDialog(
-              context,
-              title: "Can't go back",
-              errorMessage:
-                  'Please select a player before going back to the previous screen.',
-              icon: Icons.warning,
-            );
-          }
-        },
         child: PlayerSelectionSheet(
           type: type,
           availablePlayers: availablePlayers,
