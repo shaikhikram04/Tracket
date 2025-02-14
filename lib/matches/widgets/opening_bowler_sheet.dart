@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
 
 class OpeningBowlerSheet extends StatefulWidget {
@@ -39,6 +40,10 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
         itemBuilder: (context, index) {
           final player = widget.availablePlayers[index];
           final isSelected = selectedBowler == player;
+          final canBowl = player.cricketRole == CricketRole.bowler ||
+              player.cricketRole == CricketRole.allRounder;
+
+          if (!canBowl) return const SizedBox.shrink();
 
           return Card(
             elevation: isSelected ? 4 : 1,
