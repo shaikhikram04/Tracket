@@ -4,7 +4,8 @@ import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
-import 'package:tracket/matches/widgets/players_selection_dialog.dart';
+import 'package:tracket/matches/widgets/opening_batsman_sheet.dart';
+import 'package:tracket/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/colors.dart';
@@ -123,6 +124,136 @@ class _MatchPlayersSelectionScreenState
   List<MatchPlayerInfo> _openers = [];
   List<MatchPlayerInfo> _bowler = [];
 
+  Future<void> _showOpeningBatsmenSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        List<MatchPlayerInfo> tempStrike = [];
+        List<MatchPlayerInfo> tempNonStrike = [];
+
+        return OpeningBatsmenSheet(
+          availablePlayers: match.team1Players,
+          onConfirm: (MatchPlayerInfo striker, MatchPlayerInfo nonStriker) {
+            setState(() {
+              _openers = [striker, nonStriker];
+            });
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _showOpeningBowlerSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        List<MatchPlayerInfo> tempBowler = [];
+
+        return OpeningBowlerSheet(
+          availablePlayers: match.team2Players,
+          onConfirm: (MatchPlayerInfo bowler) {
+            setState(() {
+              _bowler = [bowler];
+            });
+          },
+        );
+
+        // return BaseSelectionSheet(
+        //   title: 'Select the Opening Bowler',
+        //   instructions: 'Choose the first bowler for the match',
+        //   confirmEnabled: tempBowler.isNotEmpty,
+        //   onCancel: () => Navigator.pop(context),
+        //   onConfirm: () {
+        //     if (tempBowler.isNotEmpty) {
+        //       this.setState(() {
+        //         _bowler = tempBowler;
+        //       });
+        //       Navigator.pop(context);
+        //     }
+        //   },
+        //   content: ListView.builder(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16),
+        //     itemCount: match.team2Players.length,
+        //     itemBuilder: (context, index) {
+        //       final player = match.team2Players[index];
+        //       final isSelected = tempBowler.contains(player);
+        //       final canBowl = player.cricketRole == CricketRole.bowler ||
+        //           player.cricketRole == CricketRole.allRounder;
+
+        //       if (!canBowl) return const SizedBox.shrink();
+
+        //       return Card(
+        //         elevation: isSelected ? 4 : 1,
+        //         margin: const EdgeInsets.symmetric(vertical: 4),
+        //         color:
+        //             isSelected ? primaryLight.withAlpha(50) : Colors.white,
+        //         child: InkWell(
+        //           onTap: () {
+        //             setState(() {
+        //               if (isSelected) {
+        //                 tempBowler.remove(player);
+        //               } else {
+        //                 tempBowler = [player];
+        //               }
+        //             });
+        //           },
+        //           child: Padding(
+        //             padding: const EdgeInsets.all(16),
+        //             child: Row(
+        //               children: [
+        //                 Radio<bool>(
+        //                   value: true,
+        //                   groupValue: isSelected,
+        //                   onChanged: (_) {
+        //                     setState(() {
+        //                       if (isSelected) {
+        //                         tempBowler.remove(player);
+        //                       } else {
+        //                         tempBowler = [player];
+        //                       }
+        //                     });
+        //                   },
+        //                   activeColor: darkGreenColor,
+        //                 ),
+        //                 Expanded(
+        //                   child: Column(
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: [
+        //                       Text(
+        //                         player.playerName,
+        //                         style: const TextStyle(
+        //                           fontSize: 16,
+        //                           fontWeight: FontWeight.w500,
+        //                         ),
+        //                       ),
+        //                       Text(
+        //                         player.longCricketRole,
+        //                         style: TextStyle(
+        //                           fontSize: 14,
+        //                           color: Colors.grey[600],
+        //                         ),
+        //                       ),
+        //                     ],
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // );
+        //   },
+        // );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,22 +271,7 @@ class _MatchPlayersSelectionScreenState
                 SizedBox(height: 15),
                 _openers.isEmpty
                     ? InkWell(
-                        onTap: () async {
-                          final selectedPlayers = await showDialog(
-                            context: context,
-                            builder: (context) => PlayersSelectionDialog(
-                              playerList: match.team1Players,
-                              selectedPlayers: _openers,
-                              noOfPlayerCanBeSelected: 2,
-                            ),
-                          );
-
-                          if (selectedPlayers != null) {
-                            setState(() {
-                              _openers = List.from(selectedPlayers);
-                            });
-                          }
-                        },
+                        onTap: _showOpeningBatsmenSheet,
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
@@ -199,23 +315,7 @@ class _MatchPlayersSelectionScreenState
                 SizedBox(height: 10),
                 _bowler.isEmpty
                     ? InkWell(
-                        onTap: () async {
-                          final selectedPlayers = await showDialog(
-                            context: context,
-                            builder: (context) => PlayersSelectionDialog(
-                              playerList: match.team2Players,
-                              selectedPlayers: _bowler,
-                              noOfPlayerCanBeSelected: 1,
-                            ),
-                          );
-
-                          if (selectedPlayers != null) {
-                            setState(() {
-                              _bowler = List.from(selectedPlayers);
-                              ;
-                            });
-                          }
-                        },
+                        onTap: _showOpeningBowlerSheet,
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
@@ -250,7 +350,8 @@ class _MatchPlayersSelectionScreenState
             height: 50,
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: MyElevatedButton.primaryElevatedButton(
-              onPressed: () {},
+              onPressed:
+                  _openers.isNotEmpty && _bowler.isNotEmpty ? () {} : null,
               text: 'Start Match',
               backgroundColor: grassGreen,
               borderRadius: 15,
