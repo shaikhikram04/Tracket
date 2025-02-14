@@ -107,6 +107,7 @@ class Inning {
       sixes: isSix ? this.sixes + 1 : this.sixes,
       wickets: isWicket ? this.wickets + 1 : this.wickets,
       extras: newExtras,
+      
     );
   }
 

@@ -261,12 +261,14 @@ class Match {
     int? winningMargin,
     List<StrikerData>? currentBatsmen,
     int? strikerIndex,
+    List<MatchPlayerInfo>? team1Players,
+    List<MatchPlayerInfo>? team2Players,
   }) {
     return Match(
       team1: team1,
       team2: team2,
-      team1Players: team1Players,
-      team2Players: team2Players,
+      team1Players: team1Players ?? this.team1Players,
+      team2Players: team2Players ?? this.team2Players,
       noOfPlayer: noOfPlayer,
       matchFormat: matchFormat,
       matchType: matchType,

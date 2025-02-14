@@ -65,6 +65,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           playerName: 'Player 1',
           profileImageUrl: '',
           longCricketRole: 'Right-handed .......',
+          battingStatus: BattingStatus.playing,
         ),
         MatchPlayerInfo(
           playerId: '12',
@@ -72,6 +73,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           playerName: 'Player 2',
           profileImageUrl: '',
           longCricketRole: 'Right-handed .......',
+          battingStatus: BattingStatus.playing,
         ),
         MatchPlayerInfo(
           playerId: '13',
@@ -79,6 +81,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           playerName: 'Player 3',
           profileImageUrl: '',
           longCricketRole: 'Right-handed .......',
+          battingStatus: BattingStatus.notOut,
         ),
       ],
       team2Players: [
@@ -88,6 +91,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           playerName: 'Player 1',
           profileImageUrl: '',
           longCricketRole: 'Right-handed .......',
+          battingStatus: BattingStatus.notOut,
         ),
         MatchPlayerInfo(
           playerId: '22',
@@ -95,6 +99,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           playerName: 'Player 2',
           profileImageUrl: '',
           longCricketRole: 'Right-handed .......',
+          battingStatus: BattingStatus.notOut,
         ),
         MatchPlayerInfo(
           playerId: '23',
@@ -102,6 +107,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           playerName: 'Player 3',
           profileImageUrl: '',
           longCricketRole: 'Right-handed .......',
+          battingStatus: BattingStatus.notOut,
         ),
       ],
       noOfPlayer: 3,

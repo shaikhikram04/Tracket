@@ -24,12 +24,11 @@ class ScoringControls extends ConsumerWidget {
   final VoidCallback makeUnBlur;
   final bool isBlur;
 
-  void showNextBatsmanSelection(
-      BuildContext context, List<MatchPlayerInfo> availableBatsmen) {
+  void showNextBatsmanSelection(BuildContext context, WidgetRef ref) {
     PlayerSelectionSheet.show(
       context: context,
       type: SelectionType.batsman,
-      availablePlayers: availableBatsmen,
+      availablePlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
       onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
         // Handle the selected batsman
         print('Selected batsman: ${selectedPlayer.playerName}');
@@ -318,8 +317,7 @@ class ScoringControls extends ConsumerWidget {
                                 );
                           }
                           makeUnBlur();
-                          showNextBatsmanSelection(
-                              context, matchState!.getBattingTeamPlayers());
+                          showNextBatsmanSelection(context, ref);
                         },
                         text: 'WICKET',
                         textStyle: MyTextStyle(context).buttonText.copyWith(

@@ -103,11 +103,25 @@ class MatchStateNotifier extends StateNotifier<Match?> {
           outBatsmanId == state!.currentBatsmen![strikerIndex].id) {
         final updatedStriker =
             state!.currentBatsmen![strikerIndex].wicket(runs, !extras.isWide);
+
+        final updatedMatchPlayer = state!.getBattingTeamPlayers().map((player) {
+          if (player.playerId == updatedStriker.id) {
+            return player.copyWith(battingStatus: BattingStatus.out);
+          }
+          return player;
+        }).toList();
+
         state = state!.copyWith(
           currentBatsmen: state!.currentBatsmen!.map((batsman) {
             if (batsman.id == updatedStriker.id) return updatedStriker;
             return batsman;
           }).toList(),
+          team1Players: state!.battingTeam.teamId == state!.team1.teamId
+              ? updatedMatchPlayer
+              : state!.team1Players,
+          team2Players: state!.battingTeam.teamId == state!.team2.teamId
+              ? updatedMatchPlayer
+              : state!.team2Players,
         );
       } else {
         //* Non-striker gets dismissed (commonly in a run-out).
