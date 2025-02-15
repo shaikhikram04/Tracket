@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
 
 enum SelectionType { batsman, bowler }
@@ -9,7 +11,7 @@ class PlayerSelectionSheet extends StatefulWidget {
   final SelectionType type;
   final List<MatchPlayerInfo> availablePlayers;
   final Function(MatchPlayerInfo) onPlayerSelected;
-  final MatchPlayerInfo? previousBowler;
+  final CurrentBowlerData? previousBowler;
 
   const PlayerSelectionSheet({
     Key? key,
@@ -24,7 +26,7 @@ class PlayerSelectionSheet extends StatefulWidget {
     required SelectionType type,
     required List<MatchPlayerInfo> availablePlayers,
     required Function(MatchPlayerInfo) onPlayerSelected,
-    MatchPlayerInfo? previousBowler,
+    CurrentBowlerData? previousBowler,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -57,8 +59,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
       return player.battingStatus == BattingStatus.out ||
           player.battingStatus == BattingStatus.playing;
     } else {
-      return player.battingStatus == BattingStatus.playing ||
-          player == widget.previousBowler;
+      return player.playerId == widget.previousBowler?.id;
     }
   }
 
@@ -106,7 +107,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
     } else if (player.battingStatus == BattingStatus.playing) {
       return "Currently Playing";
     } else if (widget.type == SelectionType.bowler &&
-        player == widget.previousBowler) {
+        player.playerId == widget.previousBowler?.id) {
       return "Previous Bowler";
     }
     return "Available";
@@ -128,6 +129,12 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
           itemCount: widget.availablePlayers.length,
           itemBuilder: (context, index) {
             final player = widget.availablePlayers[index];
+            if (widget.type == SelectionType.bowler &&
+                (player.cricketRole != CricketRole.allRounder &&
+                    player.cricketRole != CricketRole.bowler)) {
+              return Container();
+            }
+
             final isDisabled = isPlayerDisabled(player);
 
             return Card(

@@ -7,10 +7,12 @@ import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
+import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 
 class MatchStateNotifier extends StateNotifier<Match?> {
-  MatchStateNotifier(super.state);
+  MatchStateNotifier(super.state, this.ref);
+  final Ref ref;
 
   //* Returns the current innings (if second innings has started, use that).
   Inning? get currentInnings {
@@ -215,10 +217,22 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     state = state!.copyWith(currentBowler: updatedBowlingStats);
   }
 
-  //* Changes the bowler.
+  //* Changes the bowler on over change.
   void changeBowler(CurrentBowlerData? bowler) {
     if (state == null) return;
-    state = state!.copyWith(currentBowler: bowler);
+    state = state!.copyWith(
+      currentBowler: bowler,
+      currentOverRuns: [null, null, null, null, null, null],
+      strikerIndex: (state!.strikerIndex + 1) % 2,
+    );
+  }
+
+  //* Sets the current bowler on start of innings.
+  void setCurrentBowler(CurrentBowlerData? newBowler) {
+    if (state == null) return;
+    state = state!.copyWith(
+      currentBowler: newBowler,
+    );
   }
 
   //* Updates the batting statistics for a given batsman.
@@ -381,6 +395,10 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       isWicket: isWicket,
       extras: extras,
     );
+
+    if (_isCompletedOver(currentInnings!.balls)) {
+      ref.read(additionalMatchProvider.notifier).setIsOverCompleted(true);
+    }
   }
 
   //* Helper method to update the innings state.
@@ -442,7 +460,10 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   }
 
   //* Checks if an over is complete (6 legal deliveries).
-  bool _isCompletedOver(int balls) => balls % 6 == 0;
+  bool _isCompletedOver(int balls) {
+    if (balls == 0) return false;
+    return balls % 6 == 0;
+  }
 
   //* Checks if the last over was a maiden for the specified bowler.
   //*
@@ -470,6 +491,6 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
 final matchStateProvider = StateNotifierProvider<MatchStateNotifier, Match?>(
   (ref) {
-    return MatchStateNotifier(null);
+    return MatchStateNotifier(null, ref);
   },
 );

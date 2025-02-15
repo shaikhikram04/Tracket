@@ -166,7 +166,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           strikerIndex: match.strikerIndex,
         );
 
-    ref.read(matchStateProvider.notifier).changeBowler(match.currentBowlers);
+    ref.read(matchStateProvider.notifier).setCurrentBowler(match.currentBowlers);
 
     setState(() {
       isLoading.value = false;
