@@ -382,9 +382,10 @@ class ScoringControls extends ConsumerWidget {
                                         outBatsman: result['runOutBatsman'],
                                         reasonOfOut: result['reasonOfOut'],
                                       );
+                                  makeUnBlur();
+                                  _showNextBatsmanSelection(context, ref);
                                 }
                                 makeUnBlur();
-                                _showNextBatsmanSelection(context, ref);
                               },
                               text: 'WICKET',
                               textStyle:

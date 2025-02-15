@@ -62,11 +62,11 @@ class _WicketReasonState extends State<WicketReason> {
     } else {
       _reasons = [
         ReasonOfOut.hitWicket,
-        ReasonOfOut.runOut,
         ReasonOfOut.stumped,
-        ReasonOfOut.caught,
         ReasonOfOut.bowled,
         ReasonOfOut.lbw,
+        ReasonOfOut.caught,
+        ReasonOfOut.runOut,
       ];
     }
   }
