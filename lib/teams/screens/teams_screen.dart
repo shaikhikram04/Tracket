@@ -63,7 +63,7 @@ class TeamsScreen extends ConsumerWidget {
 
               final isAdmin = teamRole != TeamRole.player;
 
-              return MyListTile(
+              return EnhancedListTile(
                 title: teamName,
                 subtitle: shortName,
                 isPlayer: false,

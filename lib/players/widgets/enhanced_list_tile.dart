@@ -32,7 +32,7 @@ class PlayerListTile extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      child: MyListTile(
+      child: EnhancedListTile(
         imageUrl: player.imageUrl,
         title: player.name,
         subtitle: player.cricketRole.name,

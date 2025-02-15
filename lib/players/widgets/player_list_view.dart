@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
-import 'package:tracket/players/widgets/player_list_tile.dart';
+import 'package:tracket/players/widgets/enhanced_list_tile.dart';
 import 'package:tracket/teams/models/team.dart';
 
 class PlayerListView extends StatelessWidget {

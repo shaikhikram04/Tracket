@@ -78,7 +78,7 @@ class AddPlayerScreen extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      child: MyListTile(
+      child: EnhancedListTile(
         imageUrl: player.profileImageUrl,
         title: player.name,
         subtitle: player.playerCricketDetails!.cricketRole.name,

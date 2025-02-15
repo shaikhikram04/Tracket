@@ -45,7 +45,7 @@ class ExploreTeams extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final teamSnap = snap[index].data();
 
-              return MyListTile(
+              return EnhancedListTile(
                 imageUrl: teamSnap['logoUrl'],
                 title: teamSnap['teamName'],
                 subtitle: teamSnap['shortName'],
