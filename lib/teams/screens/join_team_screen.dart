@@ -8,7 +8,7 @@ import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
+import 'package:tracket/widgets/custom_widgets/action_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class JoinTeamScreen extends StatelessWidget {
@@ -78,7 +78,7 @@ class JoinTeamScreen extends StatelessWidget {
         title: Text(team.name),
         subtitle: Text(team.shortName),
         onTap: () => pushScreen(context, TeamProfileScreen(teamData: teamData)),
-        trailing: MyConsumer(
+        trailing: ActionButton(
           idsList: playerTeamsId,
           isPrivate: team.isPrivate,
           buttonType: 'joinTeam',

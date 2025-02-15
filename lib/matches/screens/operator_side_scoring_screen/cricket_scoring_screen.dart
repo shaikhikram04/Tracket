@@ -111,7 +111,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         ),
       ],
       noOfPlayer: 3,
-      matchFormat: MatchFormat.over10,
+      matchFormat: MatchFormat.over5,
       matchType: MatchType.friendly,
       venue: 'Wafa Complex',
       schedule: DateTime.now(),
@@ -166,7 +166,9 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           strikerIndex: match.strikerIndex,
         );
 
-    ref.read(matchStateProvider.notifier).setCurrentBowler(match.currentBowlers);
+    ref
+        .read(matchStateProvider.notifier)
+        .setCurrentBowler(match.currentBowlers);
 
     setState(() {
       isLoading.value = false;

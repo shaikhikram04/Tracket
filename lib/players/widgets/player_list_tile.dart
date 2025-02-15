@@ -3,7 +3,7 @@ import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/widgets/custom_widgets/my_consumer.dart';
+import 'package:tracket/widgets/custom_widgets/action_button.dart';
 import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
 
 class PlayerListTile extends StatelessWidget {
@@ -38,7 +38,7 @@ class PlayerListTile extends StatelessWidget {
         subtitle: player.cricketRole.name,
         onTap: onTap,
         isPlayer: true,
-        trailing: MyConsumer(
+        trailing: ActionButton(
           idsList: team.playerIds,
           isPrivate: isPrivate,
           buttonType: 'addPlayer',

@@ -275,6 +275,7 @@ Widget getCircleLoadingIndicator({
   double strokeWidth = 4,
   Color? color,
   double? dimension,
+  Animation<Color?>? valueColor,
 }) {
   return Center(
     child: Padding(
@@ -284,6 +285,7 @@ Widget getCircleLoadingIndicator({
         child: CircularProgressIndicator(
           strokeWidth: strokeWidth,
           color: color,
+          valueColor: valueColor,
         ),
       ),
     ),

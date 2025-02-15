@@ -6,6 +6,7 @@ import 'package:tracket/notifications/screens/notifications_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/teams/screens/teams_screen.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/main_drawer.dart';
 
@@ -17,7 +18,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  var _selectedIndex = 1;
+  var _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -43,7 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     } finally {
       setState(() {
-        _selectedIndex = 1;
+        _selectedIndex = 0;
       });
     }
   }
@@ -75,6 +76,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF2ecc71),
+        foregroundColor: whiteColor,
         elevation: 0,
         title: Text(
           title,
