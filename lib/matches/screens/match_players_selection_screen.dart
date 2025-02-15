@@ -136,9 +136,6 @@ class _MatchPlayersSelectionScreenState
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        List<MatchPlayerInfo> tempStrike = [];
-        List<MatchPlayerInfo> tempNonStrike = [];
-
         return OpeningBatsmenSheet(
           availablePlayers: match.team1Players,
           onConfirm: (MatchPlayerInfo striker, MatchPlayerInfo nonStriker) {
@@ -157,8 +154,6 @@ class _MatchPlayersSelectionScreenState
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        List<MatchPlayerInfo> tempBowler = [];
-
         return OpeningBowlerSheet(
           availablePlayers: match.team2Players,
           onConfirm: (MatchPlayerInfo bowler) {
@@ -167,95 +162,6 @@ class _MatchPlayersSelectionScreenState
             });
           },
         );
-
-        // return BaseSelectionSheet(
-        //   title: 'Select the Opening Bowler',
-        //   instructions: 'Choose the first bowler for the match',
-        //   confirmEnabled: tempBowler.isNotEmpty,
-        //   onCancel: () => Navigator.pop(context),
-        //   onConfirm: () {
-        //     if (tempBowler.isNotEmpty) {
-        //       this.setState(() {
-        //         _bowler = tempBowler;
-        //       });
-        //       Navigator.pop(context);
-        //     }
-        //   },
-        //   content: ListView.builder(
-        //     padding: const EdgeInsets.symmetric(horizontal: 16),
-        //     itemCount: match.team2Players.length,
-        //     itemBuilder: (context, index) {
-        //       final player = match.team2Players[index];
-        //       final isSelected = tempBowler.contains(player);
-        //       final canBowl = player.cricketRole == CricketRole.bowler ||
-        //           player.cricketRole == CricketRole.allRounder;
-
-        //       if (!canBowl) return const SizedBox.shrink();
-
-        //       return Card(
-        //         elevation: isSelected ? 4 : 1,
-        //         margin: const EdgeInsets.symmetric(vertical: 4),
-        //         color:
-        //             isSelected ? primaryLight.withAlpha(50) : Colors.white,
-        //         child: InkWell(
-        //           onTap: () {
-        //             setState(() {
-        //               if (isSelected) {
-        //                 tempBowler.remove(player);
-        //               } else {
-        //                 tempBowler = [player];
-        //               }
-        //             });
-        //           },
-        //           child: Padding(
-        //             padding: const EdgeInsets.all(16),
-        //             child: Row(
-        //               children: [
-        //                 Radio<bool>(
-        //                   value: true,
-        //                   groupValue: isSelected,
-        //                   onChanged: (_) {
-        //                     setState(() {
-        //                       if (isSelected) {
-        //                         tempBowler.remove(player);
-        //                       } else {
-        //                         tempBowler = [player];
-        //                       }
-        //                     });
-        //                   },
-        //                   activeColor: darkGreenColor,
-        //                 ),
-        //                 Expanded(
-        //                   child: Column(
-        //                     crossAxisAlignment: CrossAxisAlignment.start,
-        //                     children: [
-        //                       Text(
-        //                         player.playerName,
-        //                         style: const TextStyle(
-        //                           fontSize: 16,
-        //                           fontWeight: FontWeight.w500,
-        //                         ),
-        //                       ),
-        //                       Text(
-        //                         player.longCricketRole,
-        //                         style: TextStyle(
-        //                           fontSize: 14,
-        //                           color: Colors.grey[600],
-        //                         ),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // );
-        //   },
-        // );
       },
     );
   }
