@@ -11,7 +11,7 @@ import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
+import 'package:tracket/widgets/custom_widgets/enhanced_list_tile.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class TeamsScreen extends ConsumerWidget {

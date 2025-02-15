@@ -8,7 +8,7 @@ import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/action_button.dart';
-import 'package:tracket/widgets/custom_widgets/my_list_tile.dart';
+import 'package:tracket/widgets/custom_widgets/enhanced_list_tile.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 class AddPlayerScreen extends StatelessWidget {

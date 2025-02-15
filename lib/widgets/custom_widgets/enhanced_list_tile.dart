@@ -50,7 +50,7 @@ class EnhancedListTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(
               color: isSelected
-                  ? theme.colorScheme.primary.withOpacity(0.5)
+                  ? theme.colorScheme.primary.withValues(alpha: 0.5)
                   : Colors.transparent,
             ),
           ),
@@ -61,8 +61,8 @@ class EnhancedListTile extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           highlightColor:
-              highlightColor ?? theme.highlightColor.withOpacity(0.1),
-          splashColor: rippleColor ?? theme.splashColor.withOpacity(0.1),
+              highlightColor ?? theme.highlightColor.withValues(alpha: 0.1),
+          splashColor: rippleColor ?? theme.splashColor.withValues(alpha: 0.1),
           child: Padding(
             padding: contentPadding ??
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -81,7 +81,7 @@ class EnhancedListTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: textStyle.bodyLarge?.copyWith(
+                        style: textStyle.bodyLarge.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                         maxLines: titleMaxLines,
@@ -90,9 +90,9 @@ class EnhancedListTile extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         subtitle,
-                        style: textStyle.bodyMedium?.copyWith(
+                        style: textStyle.bodyMedium.copyWith(
                           color: theme.textTheme.bodyMedium?.color
-                              ?.withOpacity(0.7),
+                              ?.withValues(alpha: 0.7),
                         ),
                         maxLines: subtitleMaxLines,
                         overflow: TextOverflow.ellipsis,
@@ -120,7 +120,7 @@ class EnhancedListTile extends StatelessWidget {
         boxShadow: [
           if (isSelected)
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               spreadRadius: 1,
             ),
