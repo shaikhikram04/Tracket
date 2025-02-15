@@ -11,6 +11,7 @@ class EnhancedListTile extends StatelessWidget {
     required this.trailing,
     required this.onTap,
     required this.isPlayer,
+    this.onLongPress,
     this.avatarRadius = 30,
     this.contentPadding,
     this.titleMaxLines = 1,
@@ -28,6 +29,7 @@ class EnhancedListTile extends StatelessWidget {
   final Widget? trailing;
   final bool isPlayer;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final double avatarRadius;
   final EdgeInsetsGeometry? contentPadding;
   final int titleMaxLines;

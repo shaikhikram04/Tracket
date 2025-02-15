@@ -91,6 +91,7 @@ class AddPlayerScreen extends StatelessWidget {
           playerInfo: playerInfo,
           teamInfo: teamInfo,
           isTeamHasCapacity: team.hasCapacity,
+
         ),
       ),
     );

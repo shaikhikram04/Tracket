@@ -28,6 +28,7 @@ class PlayerListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final player = players[index];
         return PlayerListTile(
+          showRoleIcon: true,
           player: player,
           team: team,
           onTap: () => Navigator.push(
