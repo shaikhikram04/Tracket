@@ -1,57 +1,154 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/enhanced_list_tile.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
-class ExploreTeams extends StatelessWidget {
+class ExploreTeams extends StatefulWidget {
   const ExploreTeams({super.key});
 
   @override
+  State<ExploreTeams> createState() => _ExploreTeamsState();
+}
+
+class _ExploreTeamsState extends State<ExploreTeams> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Explore Teams'),
+        elevation: 0,
+        backgroundColor: grassGreen, // Dark green
+        title: const Text(
+          'Explore Teams',
+          style: TextStyle(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              onChanged: (value) => setState(() => _searchQuery = value),
+              decoration: InputDecoration(
+                hintText: 'Search teams...',
+                filled: true,
+                fillColor: whiteColor,
+                prefixIcon: const Icon(Icons.search, color: grassGreen),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+            ),
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(FirestoreCollections.teams)
             .orderBy('followers', descending: true)
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return getCircleLoadingIndicator();
+            return const Center(
+              child: CircularProgressIndicator(
+                color: grassGreen,
+              ),
+            );
           }
 
           if (snapshot.hasError) {
             return Center(
-              child: Text(snapshot.error.toString()),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Error: ${snapshot.error}',
+                    style: theme.textTheme.titleMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             );
           }
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
             return const NoDataFound(
-              title: 'No team created yet',
-              message: 'Wait for team creation to explore',
+              title: 'No Teams Available',
+              message: 'Be the first to create a team!',
             );
           }
 
-          final snap = snapshot.data!.docs;
+          final teams = snapshot.data!.docs;
+          final filteredTeams = teams.where((team) {
+            final teamData = team.data() as Map<String, dynamic>;
+            final teamName = teamData['teamName'].toString().toLowerCase();
+            final shortName = teamData['shortName'].toString().toLowerCase();
+            final searchLower = _searchQuery.toLowerCase();
+            return teamName.contains(searchLower) ||
+                shortName.contains(searchLower);
+          }).toList();
+
+          if (filteredTeams.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.search_off,
+                    size: 64,
+                    color: Colors.grey,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No teams found matching "$_searchQuery"',
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            );
+          }
 
           return ListView.builder(
-            itemCount: snap.length,
+            padding: const EdgeInsets.all(8),
+            itemCount: filteredTeams.length,
             itemBuilder: (BuildContext context, int index) {
-              final teamSnap = snap[index].data();
+              final teamData =
+                  filteredTeams[index].data() as Map<String, dynamic>;
 
               return EnhancedListTile(
-                imageUrl: teamSnap['logoUrl'],
-                title: teamSnap['teamName'],
-                subtitle: teamSnap['shortName'],
-                trailing: null,
-                onTap: () =>
-                    pushScreen(context, TeamProfileScreen(teamData: teamSnap)),
+                imageUrl: teamData['logoUrl'],
+                title: teamData['teamName'],
+                subtitle:
+                    '${teamData['shortName']} • ${(teamData['followers'] as List<dynamic>).length} followers',
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: grassGreen,
+                ),
+                onTap: () => pushScreen(
+                  context,
+                  TeamProfileScreen(teamData: teamData),
+                ),
                 isPlayer: false,
               );
             },
