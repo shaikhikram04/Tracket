@@ -46,6 +46,7 @@ const buttonDisabledColor = Color(0xFFA9A9A9); // Button when disabled
 const switchActiveColor = Color(0xFF27AE60); // Switch when on
 const switchInactiveColor = Color(0xFFBDBDBD); // Switch when off
 const lightGreen = Color(0xFF4CAF50);
+const selectedChipColor = Color(0xFF81C784);
 
 //* Dark Mode Specific
 const darkPrimaryColor = Color(0xFF34D399); // Mint green for dark mode

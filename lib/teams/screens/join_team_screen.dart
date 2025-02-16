@@ -6,47 +6,166 @@ import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/action_button.dart';
+import 'package:tracket/widgets/custom_widgets/enhanced_list_tile.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
-class JoinTeamScreen extends StatelessWidget {
+class JoinTeamScreen extends StatefulWidget {
   const JoinTeamScreen(this.player, {super.key});
 
   final Player player;
 
+  @override
+  State<JoinTeamScreen> createState() => _JoinTeamScreenState();
+}
+
+class _JoinTeamScreenState extends State<JoinTeamScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  bool _isPrivateOnly = false;
+  bool _hasCapacityOnly = false;
+
   List<String> get playerTeamsId =>
-      player.playerCricketDetails!.teams.map((team) => team.id).toList();
+      widget.player.playerCricketDetails!.teams.map((team) => team.id).toList();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Join Team'),
+        elevation: 0,
+        backgroundColor: grassGreen,
+        title: const Text(
+          'Join Team',
+          style: TextStyle(
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(120),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: (value) => setState(() => _searchQuery = value),
+                  decoration: InputDecoration(
+                    hintText: 'Search teams...',
+                    filled: true,
+                    fillColor: whiteColor,
+                    prefixIcon: const Icon(Icons.search, color: grassGreen),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  children: [
+                    FilterChip(
+                      selected: _isPrivateOnly,
+                      label: const Text('Private Teams'),
+                      onSelected: (value) =>
+                          setState(() => _isPrivateOnly = value),
+                      backgroundColor: whiteColor,
+                      selectedColor: selectedChipColor,
+                    ),
+                    const SizedBox(width: 8),
+                    FilterChip(
+                      selected: _hasCapacityOnly,
+                      label: const Text('Has Capacity'),
+                      onSelected: (value) =>
+                          setState(() => _hasCapacityOnly = value),
+                      backgroundColor: whiteColor,
+                      selectedColor: selectedChipColor,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(FirestoreCollections.teams)
-            .where('id', whereNotIn: player.playerTeamsId)
+            .where('id', whereNotIn: playerTeamsId)
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return getCircleLoadingIndicator();
+            return const Center(
+              child: CircularProgressIndicator(
+                color: grassGreen,
+              ),
+            );
           }
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
-            return const Center(
-                child: NoDataFound(
-                    title: 'No Teams available to join',
-                    message: 'Please check back later or create a new team.'));
+            return const NoDataFound(
+              title: 'No Teams Available',
+              message: 'All teams are already joined or no teams exist yet.',
+            );
           }
 
-          final snap = snapshot.data!.docs;
+          final teams = snapshot.data!.docs;
+          final filteredTeams = teams.where((team) {
+            final teamData = team.data() as Map<String, dynamic>;
+            final teamObj = Team.fromJson(teamData, null);
+
+            bool matchesSearch = teamObj.name
+                    .toLowerCase()
+                    .contains(_searchQuery.toLowerCase()) ||
+                teamObj.shortName
+                    .toLowerCase()
+                    .contains(_searchQuery.toLowerCase());
+
+            bool matchesFilters = true;
+            if (_isPrivateOnly)
+              matchesFilters = matchesFilters && teamObj.isPrivate;
+            if (_hasCapacityOnly)
+              matchesFilters = matchesFilters && teamObj.hasCapacity;
+
+            return matchesSearch && matchesFilters;
+          }).toList();
+
+          if (filteredTeams.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.search_off, size: 64, color: mediumGrey),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No teams found matching your criteria',
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            );
+          }
+
           return ListView.builder(
-            itemCount: snapshot.data!.size,
+            padding: const EdgeInsets.all(8),
+            itemCount: filteredTeams.length,
             itemBuilder: (context, index) {
-              return buildTeamTile(snap[index].data(), context);
+              return buildTeamCard(
+                  filteredTeams[index].data() as Map<String, dynamic>);
             },
           );
         },
@@ -54,7 +173,7 @@ class JoinTeamScreen extends StatelessWidget {
     );
   }
 
-  Widget buildTeamTile(Map<String, dynamic> teamData, BuildContext context) {
+  Widget buildTeamCard(Map<String, dynamic> teamData) {
     final team = Team.fromJson(teamData, null);
     final teamInfo = TeamDetails(
       id: team.id,
@@ -63,29 +182,75 @@ class JoinTeamScreen extends StatelessWidget {
       shortName: team.shortName,
       role: TeamRole.player,
     );
+
     final playerInfo = PlayerDetails(
-      cricketRole: player.playerCricketDetails!.cricketRole,
-      id: player.id,
-      imageUrl: player.profileImageUrl,
-      name: player.name,
+      cricketRole: widget.player.playerCricketDetails!.cricketRole,
+      id: widget.player.id,
+      imageUrl: widget.player.profileImageUrl,
+      name: widget.player.name,
       role: TeamRole.player,
-      longCricketRole: player.playerCricketDetails!.detailedCricketRole,
+      longCricketRole: widget.player.playerCricketDetails!.detailedCricketRole,
     );
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      child: ListTile(
-        leading: getCircleAvatar(url: team.logoUrl, isTeam: true, radius: 30),
-        title: Text(team.name),
-        subtitle: Text(team.shortName),
-        onTap: () => pushScreen(context, TeamProfileScreen(teamData: teamData)),
-        trailing: ActionButton(
-          idsList: playerTeamsId,
-          isPrivate: team.isPrivate,
-          buttonType: 'joinTeam',
-          teamInfo: teamInfo,
-          playerInfo: playerInfo,
-          isTeamHasCapacity: team.hasCapacity,
-        ),
+
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          EnhancedListTile(
+            imageUrl: team.logoUrl,
+            title: team.name,
+            subtitle: team.shortName,
+            onTap: () =>
+                pushScreen(context, TeamProfileScreen(teamData: teamData)),
+            trailing: null,
+            isPlayer: false,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      team.isPrivate ? Icons.lock : Icons.lock_open,
+                      size: 16,
+                      color: secondaryTextColor,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      team.isPrivate ? 'Private' : 'Public',
+                      style: TextStyle(color: secondaryTextColor),
+                    ),
+                    const SizedBox(width: 12),
+                    Icon(
+                      team.hasCapacity ? Icons.people : Icons.group_off,
+                      size: 16,
+                      color: secondaryTextColor,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      team.hasCapacity ? 'Has Capacity' : 'Full',
+                      style: TextStyle(color: secondaryTextColor),
+                    ),
+                  ],
+                ),
+                ActionButton(
+                  idsList: playerTeamsId,
+                  isPrivate: team.isPrivate,
+                  buttonType: 'joinTeam',
+                  teamInfo: teamInfo,
+                  playerInfo: playerInfo,
+                  isTeamHasCapacity: team.hasCapacity,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
