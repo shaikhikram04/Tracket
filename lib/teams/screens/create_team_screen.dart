@@ -5,17 +5,10 @@ import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team_form_data.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/utils/team_constants.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
-
-const Color primaryColor = Color(0xFF2E7D32); // Deep Green
-const Color secondaryColor = Color(0xFF1B5E20); // Darker Green
-const Color backgroundColor = Color(0xFFF1F8E9); // Light Green Background
-const Color cardColor = Colors.white;
-const Color textPrimaryColor = Color(0xFF1F2937);
-const Color textSecondaryColor = Color(0xFF4B5563);
-const Color accentColor = Color(0xFF81C784); // Light Green Accent
 
 class CreateTeamScreen extends ConsumerStatefulWidget {
   const CreateTeamScreen({super.key});
@@ -123,7 +116,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: primaryColor.withValues(alpha: 0.2),
+            color: grassGreen.withValues(alpha: 0.2),
             blurRadius: 10,
             spreadRadius: 2,
           ),
@@ -137,7 +130,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: primaryColor.withValues(alpha: 0.3),
+                    color: grassGreen.withValues(alpha: 0.3),
                     width: 3,
                   ),
                 ),
@@ -156,14 +149,14 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: primaryColor.withValues(alpha: 0.3),
+                        color: grassGreen.withValues(alpha: 0.3),
                         blurRadius: 5,
                         spreadRadius: 1,
                       ),
                     ],
                   ),
                   child: CircleAvatar(
-                    backgroundColor: primaryColor,
+                    backgroundColor: grassGreen,
                     radius: 18,
                     child: IconButton(
                       icon:
@@ -200,7 +193,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: cardColor,
+      color: whiteColor,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -209,7 +202,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             end: Alignment.bottomRight,
             colors: [
               Colors.white,
-              backgroundColor.withValues(alpha: 0.5),
+              lightBackgroundColor2.withValues(alpha: 0.5),
             ],
           ),
         ),
@@ -232,7 +225,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.group,
-                primaryColor: primaryColor,
+                primaryColor: grassGreen,
               ),
               SizedBox(height: TeamConstants.defaultSpacing),
               MyTextField(
@@ -247,7 +240,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.short_text,
-                primaryColor: primaryColor,
+                primaryColor: grassGreen,
               ),
               const SizedBox(height: 20),
               MyTextField(
@@ -266,7 +259,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.description,
-                primaryColor: primaryColor,
+                primaryColor: grassGreen,
               ),
               const SizedBox(height: 30),
               _buildAdvancedSettings(),
@@ -283,10 +276,10 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: primaryColor.withValues(alpha: 0.1),
+        color: grassGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: primaryColor.withValues(alpha: 0.2),
+          color: grassGreen.withValues(alpha: 0.2),
         ),
       ),
       child: Text(
@@ -294,7 +287,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: primaryColor,
+          color: grassGreen,
         ),
       ),
     );
@@ -309,10 +302,10 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: backgroundColor.withValues(alpha: 0.5),
+            color: lightBackgroundColor2.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: primaryColor.withValues(alpha: 0.2),
+              color: grassGreen.withValues(alpha: 0.2),
             ),
           ),
           child: Column(
@@ -321,21 +314,21 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 title: const Text('Private Team'),
                 subtitle: Text(
                   'Only invited players can join',
-                  style: TextStyle(color: textSecondaryColor),
+                  style: TextStyle(color: secondaryTextColor),
                 ),
                 value: _isPrivate,
                 onChanged: (value) => setState(() => _isPrivate = value),
-                activeColor: primaryColor,
+                activeColor: grassGreen,
                 contentPadding: EdgeInsets.zero,
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Icon(Icons.people, color: primaryColor),
+                  Icon(Icons.people, color: grassGreen),
                   const SizedBox(width: 12),
                   Text(
                     'Maximum Players:',
-                    style: TextStyle(color: textPrimaryColor),
+                    style: TextStyle(color: textGrassGreen),
                   ),
                   const SizedBox(width: 16),
                   Container(
@@ -344,7 +337,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: primaryColor.withValues(alpha: 0.3),
+                        color: grassGreen.withValues(alpha: 0.3),
                       ),
                     ),
                     child: DropdownButton<int>(
@@ -378,7 +371,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     return Center(
       child: _isLoading
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+              valueColor: AlwaysStoppedAnimation<Color>(grassGreen),
             )
           : Container(
               width: double.infinity,
@@ -386,11 +379,11 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 gradient: LinearGradient(
-                  colors: [primaryColor, secondaryColor],
+                  colors: [grassGreen, darkGrassGreen],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: primaryColor.withValues(alpha: 0.3),
+                    color: grassGreen.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -423,7 +416,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: lightBackgroundColor2,
       appBar: AppBar(
         title: const Text(
           'Create Team',
@@ -433,7 +426,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           ),
         ),
         elevation: 0,
-        backgroundColor: primaryColor,
+        backgroundColor: grassGreen,
         centerTitle: true,
       ),
       body: SingleChildScrollView(

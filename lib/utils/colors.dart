@@ -6,6 +6,9 @@ const Color primaryVariant = Color(0xFF27AE60); // Darker green variant
 const Color primaryLight = Color(0xFF58D68D); // Lighter green
 const Color primaryMedium = Color(0xFF16A34A);
 
+const grassGreen = const Color(0xFF2E7D32);
+const darkGrassGreen = const Color(0xFF1B5E20);
+
 //* Secondary Color Scheme
 const Color secondaryColor = Color(0xFF3498DB); // Blue accent
 const Color secondaryVariant = Color(0xFF2980B9); // Darker blue
@@ -13,6 +16,7 @@ const Color secondaryLight = Color(0xFF5DADE2); // Lighter blue
 
 //* Background and Surface Colors
 const lightBackgroundColor = Color(0xFFF0F4F0); // Soft green-tinted background
+const lightBackgroundColor2 = Color(0xFFF1F8E9); // Soft green-tinted background
 const darkBackgroundColor = Color(0xFF1F2937); // Dark background
 const surfaceColor = Color(0xFFFFFFFF); // White surface
 const surfaceVariant = Color(0xFFF1F8E9); // Light green surface
@@ -23,7 +27,7 @@ const secondaryTextColor = Color(0xFF757575); // Muted text
 const secondaryV2TextColor = const Color(0xFF424242);
 const onPrimaryColor = Colors.white; // Text on primary color
 const onSecondaryColor = Colors.white; // Text on secondary color
-const grassGreen = const Color(0xFF2E7D32);
+const textGrassGreen = Color(0xFF1F2937);
 
 //* Status and Feedback Colors
 const successColor = Color(0xFF4CAF50); // Success green
