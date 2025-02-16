@@ -418,6 +418,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     return Scaffold(
       backgroundColor: lightBackgroundColor2,
       appBar: AppBar(
+        foregroundColor: whiteColor,
         title: const Text(
           'Create Team',
           style: TextStyle(

@@ -30,7 +30,8 @@ class _ExploreTeamsState extends State<ExploreTeams> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: grassGreen, // Dark green
+        backgroundColor: grassGreen,
+        foregroundColor: whiteColor,
         title: const Text(
           'Explore Teams',
           style: TextStyle(

@@ -45,6 +45,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: grassGreen,
+        foregroundColor: whiteColor,
         title: const Text(
           'Join Team',
           style: TextStyle(
