@@ -26,22 +26,47 @@ class TeamEditScreen extends ConsumerStatefulWidget {
 
 class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
   late TeamState _teamState;
-  Uint8List? _image;
   final _formKey = GlobalKey<FormState>();
-  late int _maxPlayersCapacity;
+
+  // State variables
+  Uint8List? _image;
+  int _maxPlayersCapacity = 11;
   String? _teamName;
   String? _teamShortName;
   String? _teamDescription;
   String? _captain;
   String? _wicketkeeper;
   bool _isSaving = false;
+  bool _hasUnsavedChanges = false;
 
   @override
   void initState() {
+    super.initState();
     _teamState = ref.read(teamProvider);
     _maxPlayersCapacity = _teamState.team.maxPlayersCapacity;
-    super.initState();
+    _initializeValues();
   }
+
+  void _initializeValues() {
+    _teamName = _teamState.team.name;
+    _teamShortName = _teamState.team.shortName;
+    _teamDescription = _teamState.team.description;
+    _updateRoles();
+  }
+
+  void _updateRoles() {
+    for (var player in _teamState.team.playersList) {
+      if (player.id == _teamState.team.captainId) {
+        _captain = player.name;
+      }
+      if (player.id == _teamState.team.wicketkeeperId) {
+        _wicketkeeper = player.name;
+      }
+    }
+  }
+
+  List<String> get _playerNames =>
+      _teamState.team.playersList.map((player) => player.name).toList();
 
   Future<void> _editLogo(Uint8List? image) async {
     try {
@@ -49,6 +74,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       if (pickedImage != null) {
         setState(() {
           _image = pickedImage;
+          _hasUnsavedChanges = true;
         });
       }
     } catch (e) {
@@ -57,54 +83,25 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     }
   }
 
-  List<String> get _playerNames {
-    _captain = null;
-    _wicketkeeper = null;
-    List<String> playerNames = [];
-    for (var player in _teamState.team.playersList) {
-      playerNames.add(player.name);
-      if (player.id == _teamState.team.captainId) {
-        _captain = player.name;
-      }
-      if (player.id == _teamState.team.wicketkeeperId) {
-        _wicketkeeper = player.name;
-      }
-    }
-
-    return playerNames;
+  String? _getPlayerId(String? playerName) {
+    if (playerName == null) return null;
+    final player = _teamState.team.playersList
+        .firstWhere((player) => player.name == playerName);
+    return player.id;
   }
 
   Future<void> _saveChanges() async {
     if (!_formKey.currentState!.validate()) return;
-
     _formKey.currentState!.save();
-    setState(() {
-      _isSaving = true;
-    });
-    final teamPlayers = _teamState.team.playersList;
 
-    String? captainId;
-    if (_captain != null) {
-      int index = teamPlayers.indexWhere(
-        (player) => player.name == _captain,
-      );
-      captainId = teamPlayers[index].id;
-    }
+    setState(() => _isSaving = true);
 
-    String? wicketkeeperId;
-    if (_wicketkeeper != null) {
-      int index = teamPlayers.indexWhere(
-        (player) => player.name == _wicketkeeper,
-      );
-      wicketkeeperId = teamPlayers[index].id;
-    }
-
-    String? logoUrl;
-
-    if (_image != null) {
-      //! Upload image to Firebase Storage
-    }
     try {
+      String? logoUrl;
+      if (_image != null) {
+        //! Upload image to Firebase Storage
+      }
+
       await TeamsServices.updateTeamField(
         context,
         teamId: _teamState.team.id,
@@ -112,8 +109,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         shortName: _teamShortName,
         description: _teamDescription,
         maxPlayersCapacity: _maxPlayersCapacity,
-        captainId: captainId,
-        wicketkeeperId: wicketkeeperId,
+        captainId: _getPlayerId(_captain),
+        wicketkeeperId: _getPlayerId(_wicketkeeper),
         logoUrl: logoUrl,
       );
 
@@ -122,8 +119,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             shortName: _teamShortName,
             description: _teamDescription,
             maxPlayersCapacity: _maxPlayersCapacity,
-            captainId: captainId,
-            wicketkeeperId: wicketkeeperId,
+            captainId: _getPlayerId(_captain),
+            wicketkeeperId: _getPlayerId(_wicketkeeper),
           );
 
       if (mounted) {
@@ -132,206 +129,230 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      showSnackBar('Failed to update Team! : $e', context);
+      showSnackBar('Failed to update Team: $e', context);
     } finally {
-      setState(() {
-        _isSaving = false;
-      });
+      setState(() => _isSaving = false);
     }
+  }
+
+  bool _checkForChanges() {
+    return _teamName != _teamState.team.name ||
+        _teamShortName != _teamState.team.shortName ||
+        _teamDescription != _teamState.team.description ||
+        _maxPlayersCapacity != _teamState.team.maxPlayersCapacity ||
+        _getPlayerId(_captain) != _teamState.team.captainId ||
+        _getPlayerId(_wicketkeeper) != _teamState.team.wicketkeeperId ||
+        _image != null;
   }
 
   @override
   Widget build(BuildContext context) {
     _teamState = ref.watch(teamProvider);
-    final width = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
 
     return PopScope(
-      canPop: false,
+      canPop: !_hasUnsavedChanges && !_checkForChanges(),
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
-        _formKey.currentState!.save();
-
-        final teamPlayers = _teamState.team.playersList;
-
-        String captainId = '';
-        if (_captain != null) {
-          int index = teamPlayers.indexWhere(
-            (player) => player.name == _captain,
-          );
-          captainId = teamPlayers[index].id;
-        }
-
-        String wicketkeeperId = '';
-        if (_wicketkeeper != null) {
-          int index = teamPlayers.indexWhere(
-            (player) => player.name == _wicketkeeper,
-          );
-          wicketkeeperId = teamPlayers[index].id;
-        }
-
-        if (_teamName != _teamState.team.name ||
-            _teamShortName != _teamState.team.shortName ||
-            _teamDescription != _teamState.team.description ||
-            _maxPlayersCapacity != _teamState.team.maxPlayersCapacity ||
-            captainId != _teamState.team.captainId ||
-            wicketkeeperId != _teamState.team.wicketkeeperId ||
-            _image != null) {
+        if (_checkForChanges()) {
           showAlertDoubleBtnDialog(
             context,
             title: 'Discard Changes?',
-            content: 'Are you sure you want to discard the changes?',
+            content:
+                'You have unsaved changes. Are you sure you want to discard them?',
             sureButtonText: 'Discard',
-            onSureButtonPressed: () {
-              Navigator.of(context).pop();
-            },
+            onSureButtonPressed: () => Navigator.of(context).pop(),
           );
         } else {
           Navigator.of(context).pop();
         }
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Edit Team'),
-            shadowColor: blackColor,
-            actions: [
-              _isSaving
-                  ? getCircleLoadingIndicator(dimension: 20)
-                  : IconButton(
-                      onPressed: _saveChanges,
-                      icon: const Icon(Icons.save),
-                      iconSize: 30,
-                      color: darkGreenColor,
-                    ),
-              SizedBox(width: _isSaving ? 20 : 10),
-            ],
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: grassGreen,
+          title: const Text(
+            'Edit Team',
+            style: TextStyle(
+              color: whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          body: SingleChildScrollView(
-            child: Center(
+          actions: [
+            if (_isSaving)
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: getCircleLoadingIndicator(
+                  dimension: 24,
+                  color: whiteColor,
+                ),
+              )
+            else
+              IconButton(
+                onPressed: _saveChanges,
+                icon: const Icon(Icons.save_rounded),
+                iconSize: 28,
+                color: whiteColor,
+                tooltip: 'Save Changes',
+              ),
+            const SizedBox(width: 12),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Form(
+              key: _formKey,
+              onChanged: () => setState(() => _hasUnsavedChanges = true),
               child: Column(
                 children: [
-                  //! Primary Info
-                  MyCard(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        spacing: 15,
-                        children: [
-                          getTitleText('Primary Info', context),
-                          //! Team Logo
-                          TeamLogoEditor(
-                            logoUrl: _teamState.team.logoUrl,
-                            image: _image,
-                            onImageChanged: _editLogo,
-                          ),
-                          //! Team Name, Short Name, Description
-                          MyTextField(
-                            initialText: _teamState.team.name,
-                            onSave: (value) {
-                              _teamName = value;
-                            },
-                            label: 'Team Name',
-                            borderRadius: 15,
-                            validator: (value) =>
-                                ValidationServices.nameValidator(
-                                    value, 'Team Name'),
-                          ),
-                          MyTextField(
-                            initialText: _teamState.team.shortName,
-                            onSave: (value) {
-                              _teamShortName = value;
-                            },
-                            label: 'Team Short Name',
-                            borderRadius: 15,
-                            validator:
-                                ValidationServices.teamShortNameValidator,
-                          ),
-                          MyTextField(
-                            initialText: _teamState.team.description,
-                            onSave: (value) {
-                              _teamDescription = value;
-                            },
-                            label: 'Description',
-                            borderRadius: 15,
-                            maxLength: 100,
-                            maxLines: 3,
-                            minLines: 2,
-                          ),
-                          //! Team Player Capacity
-                          CapacitySelector(
-                              capacity: _maxPlayersCapacity,
-                              onIncrement: () {
-                                if (_maxPlayersCapacity < 30) {
-                                  setState(
-                                    () => _maxPlayersCapacity++,
-                                  );
-                                } else {
-                                  showSnackBar(
-                                      'Max players capacity cannot exceed 30',
-                                      context);
-                                }
-                              },
-                              onDecrement: () {
-                                if (_maxPlayersCapacity > 11) {
-                                  setState(
-                                    () => _maxPlayersCapacity--,
-                                  );
-                                } else {
-                                  showSnackBar(
-                                      'Max players capacity cannot be less than 11',
-                                      context);
-                                }
-                              },
-                              label: 'Max Players Capacity'),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  //! Squad
-                  const MyCard(child: Squad(isEdit: true)),
-                  //! Roles
+                  // Primary Info Section
                   MyCard(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 12,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        getTitleText('Roles', context),
-                        //! Captain, Wicketkeeper
-                        MyDropdownMenu(
-                          options: _playerNames,
-                          label: 'Change captancy',
-                          initialSelection: _captain,
-                          onSelect: (value) {
-                            _captain = value;
-                          },
+                        Text(
+                          'Primary Information',
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            color: darkGrassGreen,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        MyDropdownMenu(
-                          options: _playerNames,
-                          label: 'Change Wicketkeeper',
-                          initialSelection: _wicketkeeper,
-                          onSelect: (value) {
-                            _wicketkeeper = value;
+                        const SizedBox(height: 20),
+                        TeamLogoEditor(
+                          logoUrl: _teamState.team.logoUrl,
+                          image: _image,
+                          onImageChanged: _editLogo,
+                        ),
+                        const SizedBox(height: 20),
+                        MyTextField(
+                          initialText: _teamState.team.name,
+                          onSave: (value) => _teamName = value,
+                          label: 'Team Name',
+                          borderRadius: 12,
+                          validator: (value) =>
+                              ValidationServices.nameValidator(
+                                  value, 'Team Name'),
+                        ),
+                        const SizedBox(height: 16),
+                        MyTextField(
+                          initialText: _teamState.team.shortName,
+                          onSave: (value) => _teamShortName = value,
+                          label: 'Team Short Name',
+                          borderRadius: 12,
+                          validator: ValidationServices.teamShortNameValidator,
+                        ),
+                        const SizedBox(height: 16),
+                        MyTextField(
+                          initialText: _teamState.team.description,
+                          onSave: (value) => _teamDescription = value,
+                          label: 'Description',
+                          borderRadius: 12,
+                          maxLength: 100,
+                          maxLines: 3,
+                          minLines: 2,
+                        ),
+                        const SizedBox(height: 16),
+                        CapacitySelector(
+                          capacity: _maxPlayersCapacity,
+                          onIncrement: () {
+                            if (_maxPlayersCapacity < 30) {
+                              setState(() {
+                                _maxPlayersCapacity++;
+                                _hasUnsavedChanges = true;
+                              });
+                            } else {
+                              showSnackBar(
+                                'Maximum team capacity is 30 players',
+                                context,
+                              );
+                            }
                           },
-                        )
+                          onDecrement: () {
+                            if (_maxPlayersCapacity > 11) {
+                              setState(() {
+                                _maxPlayersCapacity--;
+                                _hasUnsavedChanges = true;
+                              });
+                            } else {
+                              showSnackBar(
+                                'Minimum team capacity is 11 players',
+                                context,
+                              );
+                            }
+                          },
+                          label: 'Team Capacity',
+                        ),
                       ],
                     ),
                   ),
-                  //! Save Changes
-                  SizedBox(
-                    width: width * 0.9,
-                    height: 50,
-                    child: MyElevatedButton.primaryElevatedButton(
-                      onPressed: _saveChanges,
-                      text: 'Save Changes',
-                      isLoading: _isSaving,
+                  const SizedBox(height: 16),
+
+                  // Squad Section
+                  const MyCard(child: Squad(isEdit: true)),
+                  const SizedBox(height: 16),
+
+                  // Roles Section
+                  MyCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Team Roles',
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            color: darkGrassGreen,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        MyDropdownMenu(
+                          options: _playerNames,
+                          label: 'Team Captain',
+                          initialSelection: _captain,
+                          onSelect: (value) => setState(() {
+                            _captain = value;
+                            _hasUnsavedChanges = true;
+                          }),
+                          leadingIcon: const Icon(Icons.star_outline),
+                        ),
+                        const SizedBox(height: 16),
+                        MyDropdownMenu(
+                          options: _playerNames,
+                          label: 'Wicketkeeper',
+                          initialSelection: _wicketkeeper,
+                          onSelect: (value) => setState(() {
+                            _wicketkeeper = value;
+                            _hasUnsavedChanges = true;
+                          }),
+                          leadingIcon: const Icon(Icons.sports_cricket),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
+
+                  // Save Button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: size.width,
+                      height: 50,
+                      child: MyElevatedButton.primaryElevatedButton(
+                        onPressed: _saveChanges,
+                        text: 'Save Changes',
+                        isLoading: _isSaving,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
