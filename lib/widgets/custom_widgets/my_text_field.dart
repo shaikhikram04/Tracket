@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyTextField extends StatelessWidget {
@@ -16,6 +15,10 @@ class MyTextField extends StatelessWidget {
     this.validator,
     this.maxLines = 1,
     this.minLines,
+    this.autovalidateMode = AutovalidateMode.disabled,
+    this.fillColor,
+    this.prefixIcon,
+    this.primaryColor = const Color(0xFF2E7D32),
   });
 
   final void Function(String? value) onSave;
@@ -29,6 +32,10 @@ class MyTextField extends StatelessWidget {
   final String? Function(String? value)? validator;
   final int maxLines;
   final int? minLines;
+  final AutovalidateMode? autovalidateMode;
+  final Color? fillColor;
+  final IconData? prefixIcon;
+  final Color primaryColor;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +51,7 @@ class MyTextField extends StatelessWidget {
       style: MyTextStyle(context).bodyLarge,
       maxLines: maxLines,
       minLines: minLines,
+      autovalidateMode: autovalidateMode,
       decoration: InputDecoration(
         suffixIcon: isPassword
             ? IconButton(
@@ -54,10 +62,17 @@ class MyTextField extends StatelessWidget {
               )
             : null,
         labelText: label,
+        fillColor: fillColor,
         errorMaxLines: 2,
+        prefixIcon:
+            prefixIcon != null ? Icon(prefixIcon, color: primaryColor) : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: const BorderSide(color: blackColor),
+          borderSide: BorderSide(color: primaryColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(color: primaryColor, width: 2),
         ),
       ),
       maxLength: maxLength,

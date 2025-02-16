@@ -189,6 +189,15 @@ Future<Uint8List?> pickImage(ImageSource source) async {
   return null;
 }
 
+Future<String?> pickImageFromGalleryPath() async {
+  final ImagePicker imagePicker = ImagePicker();
+  final XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+  if (file != null) {
+    return file.path;
+  }
+  return null;
+}
+
 List<String> enumToString(List<Enum> enums) {
   return enums
       .map(

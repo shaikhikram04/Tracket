@@ -13,6 +13,7 @@ class AddAdmin extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Admin'),
+        elevation: 0,
       ),
       body: PlayerListView(
         players: team.nonAdmins,

@@ -34,6 +34,8 @@ class TeamsServices {
     required CricketRole adminCricketRole,
     required String longCricketRole,
     required String description,
+    required bool isPrivate,
+    required int maxPlayers,
     String adminImageUrl = '',
     required WidgetRef ref,
   }) async {
@@ -53,6 +55,7 @@ class TeamsServices {
         challengedTeams: [],
         playerIds: [createdBy],
         description: description,
+        isPrivate: isPrivate,
       );
       await _firestore
           .collection(FirestoreCollections.teams)

@@ -6,4 +6,5 @@ class TeamFormData {
   String? description;
   Uint8List? logo;
   String logoUrl = '';
+  int? maxPlayers;
 }
