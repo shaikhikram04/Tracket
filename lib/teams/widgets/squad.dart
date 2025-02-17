@@ -29,7 +29,7 @@ class Squad extends ConsumerWidget {
           isEdit: isEdit,
           onAddPlayer: () => _handleAddPlayer(context, ref),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         if (!hasPlayers)
           const _EmptySquadMessage()
         else
@@ -85,7 +85,7 @@ class _SquadHeader extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: 8),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
