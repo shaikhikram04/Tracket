@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team_role.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 class SquadPlayerTile extends StatelessWidget {
@@ -35,7 +36,7 @@ class SquadPlayerTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: Theme.of(context).dividerColor.withOpacity(0.1),
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
         ),
       ),
       child: InkWell(
@@ -80,7 +81,7 @@ class _PlayerAvatar extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -129,7 +130,7 @@ class _PlayerInfo extends StatelessWidget {
         Text(
           cricketRole,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+            color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
           ),
           overflow: TextOverflow.ellipsis,
         ),
@@ -141,7 +142,7 @@ class _PlayerInfo extends StatelessWidget {
               if (isCaptain) ...[
                 const _RoleLabel(
                   label: 'Captain',
-                  color: Colors.blue,
+                  color: captainColor,
                   icon: Icons.star_rounded,
                 ),
                 if (isWicketKeeper) const SizedBox(width: 8),
@@ -149,7 +150,7 @@ class _PlayerInfo extends StatelessWidget {
               if (isWicketKeeper)
                 const _RoleLabel(
                   label: 'Wicketkeeper',
-                  color: Colors.orange,
+                  color: wicketKeeperColor,
                   icon: Icons.sports_cricket_rounded,
                 ),
             ],
@@ -176,7 +177,7 @@ class _RoleLabel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(

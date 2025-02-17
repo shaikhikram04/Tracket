@@ -34,6 +34,8 @@ const successColor = Color(0xFF4CAF50); // Success green
 const warningColor = Color(0xFFFFC107); // Warning yellow
 const errorColor = Color(0xFFF44336); // Error red
 const infoColor = Color(0xFF2196F3); // Information blue
+const captainColor = Color(0xFF2196F3); // Captain blue
+const wicketKeeperColor = Color(0xFFFF9800); // Wicketkeeper yellow
 
 //* Neutral and Grayscale
 const Color lightGrey = Color(0xFFE0E0E0);
