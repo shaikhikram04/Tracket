@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
@@ -233,12 +233,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             ),
           ),
         const Spacer(),
-        MyElevatedButton.primaryElevatedButton(
+        CustomButton.primary(
           onPressed: _isSendingEmail ? null : _sendResetEmail,
           text: _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
           backgroundColor: primaryColor,
           borderRadius: 12,
-          textStyle: MyTextStyle(context).buttonText,
         ),
       ],
     );

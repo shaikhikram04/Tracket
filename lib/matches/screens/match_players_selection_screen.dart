@@ -9,7 +9,7 @@ import 'package:tracket/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -261,7 +261,7 @@ class _MatchPlayersSelectionScreenState
             width: MediaQuery.of(context).size.width,
             height: 50,
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: MyElevatedButton.primaryElevatedButton(
+            child: CustomButton.primary(
               onPressed:
                   _openers.isNotEmpty && _bowler.isNotEmpty ? () {} : null,
               text: 'Start Match',

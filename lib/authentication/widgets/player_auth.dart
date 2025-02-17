@@ -4,7 +4,8 @@ import 'package:tracket/authentication/models/player_auth_state.dart';
 import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
@@ -139,15 +140,17 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             SizedBox(
               width: width * 0.8,
               height: 50,
-              child: MyElevatedButton.primaryElevatedButton(
-                
+              child: CustomButton.primary(
+                elevation: 5,
                 onPressed: playerAuthState.isLoading
                     ? null
                     : () => _onSubmit(playerAuthState.isLogin),
                 text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: playerAuthState.isLoading,
                 textStyle: MyTextStyle(context).cardTitle,
-                padding: null,
+                backgroundColor: primaryColor,
+                foregroundColor: whiteColor,
+                borderRadius: 10,
               ),
             ),
             const SizedBox(height: 15),

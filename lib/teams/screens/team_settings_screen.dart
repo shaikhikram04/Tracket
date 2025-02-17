@@ -9,7 +9,7 @@ import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -119,10 +119,13 @@ class TeamSettingsScreen extends ConsumerWidget {
                             subtitle: Text(admin.role.toString()),
                             trailing: admin.role == TeamRole.owner
                                 ? null
-                                : MyElevatedButton.secondaryElevatedButton(
-                                    context,
-                                    text: 'Remove',
+                                : CustomButton.secondary(
                                     onPressed: () => removeAdmin(admin.id),
+                                    text: 'Remove',
+                                    textStyle: MyTextStyle(context)
+                                        .mediumButtonText
+                                        .copyWith(color: errorColor),
+                                    backgroundColor: errorColor,
                                   )),
                     ],
                   ),
@@ -193,10 +196,13 @@ class TeamSettingsScreen extends ConsumerWidget {
                         .copyWith(color: Colors.red),
                   ),
                   const Spacer(),
-                  MyElevatedButton.secondaryElevatedButton(
-                    context,
-                    text: 'Delete',
+                  CustomButton.secondary(
                     onPressed: onDeleteTeam,
+                    text: 'Delete',
+                    textStyle: MyTextStyle(context)
+                        .mediumButtonText
+                        .copyWith(color: errorColor),
+                    backgroundColor: errorColor,
                   ),
                 ],
               ),

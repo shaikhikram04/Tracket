@@ -9,7 +9,7 @@ import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -337,7 +337,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                     child: SizedBox(
                       width: size.width,
                       height: 50,
-                      child: MyElevatedButton.primaryElevatedButton(
+                      child: CustomButton.primary(
                         onPressed: _saveChanges,
                         text: 'Save Changes',
                         isLoading: _isSaving,

@@ -164,10 +164,10 @@ class _AnimatedNumber extends StatelessWidget {
     // Base multiplier that increases with number size
     final multiplier = switch (digits) {
       1 => 0.3, // Small numbers (0-9)
-      2 => 0.5, // Double digits (10-99)
-      3 => 0.75, // Triple digits (100-999)
-      4 => 1.0, // Thousands (1000-9999)
-      _ => 1.25, // Large numbers (10000+)
+      2 => 0.75, // Double digits (10-99)
+      3 => 1.0, // Triple digits (100-999)
+      4 => 1.25, // Thousands (1000-9999)
+      _ => 1.5, // Large numbers (10000+)
     };
 
     // Calculate final duration

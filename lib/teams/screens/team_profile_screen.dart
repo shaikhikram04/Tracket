@@ -14,8 +14,8 @@ import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/teams/widgets/team_selection_dialog.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -284,31 +284,36 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               Expanded(
                                 flex: 2,
                                 child: isFollowed
-                                    ? MyElevatedButton.secondaryElevatedButton(
-                                        context,
+                                    ? CustomButton.secondary(
                                         isLoading: isFollowing,
                                         onPressed: () => _followTeam(
                                             teamState.team.id,
                                             player.id,
                                             false),
                                         text: 'Unfollow',
-                                        primaryColor: blackColor,
-                                        secondaryColor: primaryVariant,
+                                        backgroundColor: primaryVariant,
+                                        borderColor: blackColor,
+                                        textStyle: MyTextStyle(context)
+                                            .mediumButtonText
+                                            .copyWith(color: blackColor),
                                       )
-                                    : MyElevatedButton.primaryElevatedButton(
+                                    : CustomButton.primary(
                                         isLoading: isFollowing,
                                         onPressed: () => _followTeam(
                                             teamState.team.id, player.id, true),
                                         text: 'Follow',
                                         backgroundColor: const Color.fromARGB(
                                             255, 40, 50, 40),
+                                        textStyle: MyTextStyle(context)
+                                            .mediumButtonText
+                                            .copyWith(color: whiteColor),
                                       ),
                               ),
                               if (isChallengeVisible)
                                 Expanded(
                                   flex: 2,
                                   child: canChallenge
-                                      ? MyElevatedButton.primaryElevatedButton(
+                                      ? CustomButton.primary(
                                           onPressed: () => challengeForAMatch(
                                               playerId: player.id,
                                               playerName: player.name,
@@ -326,14 +331,17 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                           text: 'Challenge',
                                           backgroundColor: const Color.fromARGB(
                                               255, 40, 50, 40),
+                                          textStyle: MyTextStyle(context)
+                                              .mediumButtonText
+                                              .copyWith(color: whiteColor),
                                         )
-                                      : MyElevatedButton
-                                          .secondaryElevatedButton(
-                                          context,
+                                      : CustomButton.secondary(
                                           text: 'Challenged',
                                           onPressed: null,
-                                          primaryColor: blackColor,
-                                          secondaryColor: primaryVariant,
+                                          backgroundColor: primaryVariant,
+                                          textStyle: MyTextStyle(context)
+                                              .mediumButtonText
+                                              .copyWith(color: blackColor),
                                         ),
                                 ),
                               if (!isChallengeVisible)

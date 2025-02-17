@@ -12,7 +12,8 @@ import 'package:tracket/matches/widgets/team_section.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -118,6 +119,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       _handleError('Failed to load team data', e);
     } finally {
       _isLoading.value = false;
+      setState(() {});
     }
   }
 
@@ -466,10 +468,13 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         builder: (context, isChallenging, _) => SizedBox(
           width: double.infinity,
           height: 50,
-          child: MyElevatedButton.primaryElevatedButton(
+          child: CustomButton.primary(
             text: 'Challenge Match',
             onPressed: _challengeMatch,
             isLoading: isChallenging,
+            textStyle: MyTextStyle(context).buttonText,
+            backgroundColor: grassGreen,
+            foregroundColor: whiteColor,
           ),
         ),
       ),

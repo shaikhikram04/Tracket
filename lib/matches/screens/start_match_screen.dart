@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
@@ -182,17 +182,17 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   ),
                   const SizedBox(height: 30),
                   if (!isCoinRotating)
-                    MyElevatedButton.primaryElevatedButton(
+                    CustomButton.primary(
                       onPressed: _startToss,
                       text: 'Toss Coin',
                       backgroundColor: darkGreenColor,
-                      textStyle: MyTextStyle(context).buttonText.copyWith(
-                            color: whiteColor,
-                          ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
+                      // textStyle: MyTextStyle(context).buttonText.copyWith(
+                      //       color: whiteColor,
+                      //     ),
+                      // padding: const EdgeInsets.symmetric(
+                      //   horizontal: 32,
+                      //   vertical: 16,
+                      // ),
                     ),
                 ],
               ),
@@ -254,7 +254,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                           ),
                     ),
                     const SizedBox(height: 30),
-                    MyElevatedButton.iconTextElevatedButton(
+                    CustomButton.primary(
                       text: 'Start Match',
                       textStyle: MyTextStyle(context)
                           .titleLarge
@@ -280,12 +280,11 @@ class _StartMatchScreenState extends State<StartMatchScreen>
     required String label,
     required VoidCallback onPressed,
   }) {
-    return MyElevatedButton.iconTextElevatedButton(
+    return CustomButton.primary(
       text: label,
       icon: Icon(icon, color: whiteColor),
       onPressed: onPressed,
       textStyle: MyTextStyle(context).buttonText.copyWith(color: whiteColor),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       borderRadius: 20,
     );
   }

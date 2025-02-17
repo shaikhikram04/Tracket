@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/screens/accept_challenge_screen.dart';
 import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/teams/providers/providers.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -135,9 +136,7 @@ class ChallengeCard extends StatelessWidget {
   Widget _buildCancelButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 7),
-      child: MyElevatedButton.secondaryElevatedButton(
-        context,
-        text: 'Cancel',
+      child: CustomButton.secondary(
         onPressed: () {
           // Handle cancel logic
           showAlertDoubleBtnDialog(
@@ -148,6 +147,9 @@ class ChallengeCard extends StatelessWidget {
             onSureButtonPressed: onCanceChallenge,
           );
         },
+        textStyle: MyTextStyle(context).buttonText.copyWith(color: errorColor),
+        backgroundColor: errorColor,
+        text: 'Cancel',
       ),
     );
   }
@@ -178,13 +180,15 @@ class ChallengeCard extends StatelessWidget {
                 style: MyTextStyle(context).bodyMedium,
               ),
               const Spacer(),
-              MyElevatedButton.secondaryElevatedButton(
-                context,
-                text: 'Reject',
+              CustomButton.secondary(
                 onPressed: onRejectChallenge,
+                text: 'Reject',
+                textStyle:
+                    MyTextStyle(context).buttonText.copyWith(color: errorColor),
+                backgroundColor: errorColor,
               ),
               const SizedBox(width: 10),
-              MyElevatedButton.primaryElevatedButton(
+              CustomButton.primary(
                 text: 'Accept',
                 isLoading: isRequestInProgress,
                 backgroundColor: const Color.fromARGB(255, 47, 134, 50),

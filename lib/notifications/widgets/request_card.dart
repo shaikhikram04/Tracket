@@ -4,7 +4,8 @@ import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -165,8 +166,7 @@ class RequestCard extends StatelessWidget {
   Widget _buildCancelButton(BuildContext context, NotificationModel request) {
     return Padding(
       padding: const EdgeInsets.only(left: 7),
-      child: MyElevatedButton.secondaryElevatedButton(
-        context,
+      child: CustomButton.secondary(
         text: 'Cancel',
         onPressed: () {
           // Handle cancel logic
@@ -178,6 +178,8 @@ class RequestCard extends StatelessWidget {
             onSureButtonPressed: onCancelRequest,
           );
         },
+        textStyle: MyTextStyle(context).buttonText.copyWith(color: errorColor),
+        backgroundColor: errorColor,
       ),
     );
   }
@@ -209,17 +211,19 @@ class RequestCard extends StatelessWidget {
                 style: MyTextStyle(context).bodyMedium,
               ),
               const Spacer(),
-              MyElevatedButton.primaryElevatedButton(
+              CustomButton.primary(
                 text: 'Accept',
                 isLoading: isRequestInProgress,
                 backgroundColor: const Color.fromARGB(255, 47, 134, 50),
                 onPressed: () => onAcceptRequest(ref),
               ),
               const SizedBox(width: 10),
-              MyElevatedButton.secondaryElevatedButton(
-                context,
+              CustomButton.secondary(
                 text: 'Reject',
                 onPressed: onRejectRequest,
+                textStyle:
+                    MyTextStyle(context).buttonText.copyWith(color: errorColor),
+                backgroundColor: errorColor,
               ),
             ],
           );

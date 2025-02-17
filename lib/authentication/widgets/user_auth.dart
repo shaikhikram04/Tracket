@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
@@ -90,14 +91,17 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             SizedBox(
               width: width * 0.8,
               height: 50,
-              child: MyElevatedButton.primaryElevatedButton(
+              child: CustomButton.primary(
+                elevation: 10,
                 onPressed: userAuthState.isLoading
                     ? null
                     : () => _onSubmit(userAuthState.isLogin),
                 text: userAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: userAuthState.isLoading,
+                backgroundColor: primaryColor,
+                foregroundColor: whiteColor,
+                borderRadius: 10,
                 textStyle: MyTextStyle(context).cardTitle,
-                padding: null,
               ),
             ),
             const SizedBox(height: 15),

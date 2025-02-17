@@ -10,7 +10,7 @@ import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
@@ -314,12 +314,14 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           Expanded(
             child: SizedBox(
               height: 50,
-              child: MyElevatedButton.secondaryElevatedButton(
-                context,
-                text: 'Reject',
-                secondaryColor: lightBackgroundColor,
-                fontSize: 16,
+              child: CustomButton.secondary(
                 onPressed: () => Navigator.of(context).pop(),
+                text: 'Reject',
+                backgroundColor: lightBackgroundColor,
+                textStyle: MyTextStyle(context).buttonText.copyWith(
+                      color: errorColor,
+                    ),
+                borderColor: errorColor,
               ),
             ),
           ),
@@ -327,11 +329,12 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           Expanded(
             child: SizedBox(
               height: 50,
-              child: MyElevatedButton.primaryElevatedButton(
+              child: CustomButton.primary(
                 onPressed: _acceptChallenge,
                 text: 'Accept',
                 backgroundColor: const Color.fromARGB(255, 43, 114, 45),
                 isLoading: _isAccepting,
+                textStyle: MyTextStyle(context).buttonText,
               ),
             ),
           ),

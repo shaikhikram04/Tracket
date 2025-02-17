@@ -11,7 +11,7 @@ import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_elevated_button.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class ScoringControls extends ConsumerWidget {
@@ -110,7 +110,7 @@ class ScoringControls extends ConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 20),
-                      MyElevatedButton.iconTextElevatedButton(
+                      CustomButton.primary(
                         onPressed: () => _showNextBowlerSelection(context, ref),
                         text: 'Change Bowler',
                         textStyle: MyTextStyle(context).buttonText,
@@ -356,7 +356,7 @@ class ScoringControls extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(15),
                         child: Stack(
                           children: [
-                            MyElevatedButton.iconTextElevatedButton(
+                            CustomButton.primary(
                               onPressed: () async {
                                 final result = await showModalBottomSheet(
                                   context: context,
