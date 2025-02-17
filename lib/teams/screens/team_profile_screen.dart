@@ -263,6 +263,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               StatsData(
                                 number: teamState.team.followers.length,
                                 label: 'Followers',
+                                labelColor: darkOnSurfaceColor,
+                                numColor: darkOnSurfaceColor,
                               ),
                               StatsData(
                                 number: teamState.team.stats.rank,

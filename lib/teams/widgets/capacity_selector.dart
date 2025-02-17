@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/colors.dart';
 
 class CapacitySelector extends StatelessWidget {
   const CapacitySelector({
@@ -10,8 +11,8 @@ class CapacitySelector extends StatelessWidget {
     this.labelColor,
     this.minCapacity = 0,
     this.maxCapacity = 30,
-    this.primaryColor = const Color(0xFF2E7D32), // Dark green default
-    this.backgroundColor = const Color(0xFFE8F5E9),
+    this.primaryColor = grassGreen, // Dark green default
+    this.backgroundColor = onLightDrawer,
     this.textStyle, // Light green background
   });
 
@@ -49,7 +50,7 @@ class CapacitySelector extends StatelessWidget {
               color: labelColor ?? primaryColor,
             ),
           ),
-          const SizedBox(width: 25),
+          Spacer(),
           _CapacityButton(
             icon: Icons.remove_rounded,
             onPressed: canDecrement ? onDecrement : null,
