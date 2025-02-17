@@ -288,11 +288,9 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
 
                   // Squad Section
                   const MyCard(child: Squad(isEdit: true)),
-                  const SizedBox(height: 16),
 
                   // Roles Section
                   MyCard(
@@ -331,11 +329,11 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
 
                   // Save Button
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SizedBox(
                       width: size.width,
                       height: 50,
@@ -343,10 +341,16 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         onPressed: _saveChanges,
                         text: 'Save Changes',
                         isLoading: _isSaving,
+                        backgroundColor: grassGreen,
+                        borderRadius: 10,
+                        textStyle: theme.textTheme.titleMedium?.copyWith(
+                          color: whiteColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),

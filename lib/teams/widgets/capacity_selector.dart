@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class CapacitySelector extends StatelessWidget {
   const CapacitySelector({
@@ -10,6 +8,11 @@ class CapacitySelector extends StatelessWidget {
     required this.onDecrement,
     required this.label,
     this.labelColor,
+    this.minCapacity = 0,
+    this.maxCapacity = 30,
+    this.primaryColor = const Color(0xFF2E7D32), // Dark green default
+    this.backgroundColor = const Color(0xFFE8F5E9),
+    this.textStyle, // Light green background
   });
 
   final int capacity;
@@ -17,41 +20,96 @@ class CapacitySelector extends StatelessWidget {
   final void Function() onDecrement;
   final String label;
   final Color? labelColor;
+  final int minCapacity;
+  final int maxCapacity;
+  final Color primaryColor;
+  final Color backgroundColor;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 5),
-        Text(
-          '$label:',
-          style: MyTextStyle(context).bodyLarge.copyWith(
+    final bool canDecrement = capacity > minCapacity;
+    final bool canIncrement = capacity < maxCapacity;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: primaryColor.withOpacity(0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$label:',
+            style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
+                ?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: labelColor ?? primaryColor,
+            ),
+          ),
+          const SizedBox(width: 25),
+          _CapacityButton(
+            icon: Icons.remove_rounded,
+            onPressed: canDecrement ? onDecrement : null,
+            primaryColor: primaryColor,
+          ),
+          Container(
+            constraints: const BoxConstraints(minWidth: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              capacity.toString(),
+              style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
+                  ?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: labelColor,
+                color: primaryColor,
               ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          _CapacityButton(
+            icon: Icons.add_rounded,
+            onPressed: canIncrement ? onIncrement : null,
+            primaryColor: primaryColor,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CapacityButton extends StatelessWidget {
+  const _CapacityButton({
+    required this.icon,
+    required this.onPressed,
+    required this.primaryColor,
+  });
+
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final Color primaryColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 200),
+            opacity: onPressed != null ? 1.0 : 0.5,
+            child: Icon(
+              icon,
+              color: primaryColor,
+              size: 24,
+            ),
+          ),
         ),
-        SizedBox(width: 20),
-        IconButton(
-          onPressed: onDecrement,
-          icon: const Icon(Icons.remove_circle),
-          iconSize: 30,
-          color: darkGreenColor,
-        ),
-        SizedBox(width: 10),
-        Text(
-          '$capacity',
-          style: MyTextStyle(context).bodyLarge.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-        ),
-        SizedBox(width: 10),
-        IconButton(
-          onPressed: onIncrement,
-          icon: const Icon(Icons.add_circle),
-          iconSize: 30,
-          color: darkGreenColor,
-        ),
-      ],
+      ),
     );
   }
 }
