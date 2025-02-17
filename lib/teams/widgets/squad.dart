@@ -19,7 +19,6 @@ class Squad extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final teamState = ref.watch(teamProvider);
-    final theme = Theme.of(context);
     final hasPlayers = teamState.team.playersList.isNotEmpty;
 
     return Column(

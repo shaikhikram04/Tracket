@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/highlighted_label.dart';
 
 class SquadPlayerTile extends StatelessWidget {
   const SquadPlayerTile({
     super.key,
+    required this.playerId,
+    required this.playerName,
+    required this.cricketRole,
+    required this.profileImageUrl,
+    this.teamRole = TeamRole.none,
     this.isCaptain = false,
     this.isWicketKeeper = false,
-    required this.cricketRole,
-    required this.playerName,
-    required this.profileImageUrl,
-    required this.playerId,
-    this.teamRole = TeamRole.none,
     this.isEdit = false,
     this.onDelete,
   });
@@ -27,70 +25,204 @@ class SquadPlayerTile extends StatelessWidget {
   final bool isCaptain;
   final bool isWicketKeeper;
   final bool isEdit;
-  final void Function()? onDelete;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+    return Card(
+      elevation: 0,
+      color: Theme.of(context).colorScheme.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: Theme.of(context).dividerColor.withOpacity(0.1),
+        ),
+      ),
       child: InkWell(
-        onTap: () {
-          pushScreen(context, PlayerProfileScreen(playerId: playerId));
-        },
-        child: Expanded(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () =>
+            pushScreen(context, PlayerProfileScreen(playerId: playerId)),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              getCircleAvatar(
-                  url: profileImageUrl,
-                  isTeam: false,
-                  radius: 30,
-                  hasBorder: false),
-              const SizedBox(width: 10),
+              _PlayerAvatar(profileImageUrl: profileImageUrl),
+              const SizedBox(width: 16),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      playerName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      cricketRole,
-                      style: MyTextStyle(context).bodyMedium,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        if (isCaptain)
-                          HighlightedLabel(
-                            text: 'Captain',
-                            textColor: Colors.blue.shade900,
-                          ),
-                        if (isCaptain && isWicketKeeper)
-                          const SizedBox(width: 7),
-                        if (isWicketKeeper)
-                          HighlightedLabel(
-                            text: 'Wicketkeeper',
-                            textColor: Colors.orange.shade900,
-                          ),
-                      ],
-                    )
-                  ],
+                child: _PlayerInfo(
+                  playerName: playerName,
+                  cricketRole: cricketRole,
+                  isCaptain: isCaptain,
+                  isWicketKeeper: isWicketKeeper,
                 ),
               ),
               if (isEdit && teamRole != TeamRole.owner)
-                IconButton(
-                  onPressed: onDelete,
-                  icon: const Icon(Icons.delete),
-                  iconSize: 25,
-                  color: Colors.red,
-                )
+                _DeleteButton(onDelete: onDelete),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PlayerAvatar extends StatelessWidget {
+  const _PlayerAvatar({required this.profileImageUrl});
+
+  final String profileImageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: 'player_avatar_$profileImageUrl',
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: getCircleAvatar(
+          url: profileImageUrl,
+          isTeam: false,
+          radius: 30,
+          hasBorder: false,
+        ),
+      ),
+    );
+  }
+}
+
+class _PlayerInfo extends StatelessWidget {
+  const _PlayerInfo({
+    required this.playerName,
+    required this.cricketRole,
+    required this.isCaptain,
+    required this.isWicketKeeper,
+  });
+
+  final String playerName;
+  final String cricketRole;
+  final bool isCaptain;
+  final bool isWicketKeeper;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          playerName,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          cricketRole,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        if (isCaptain || isWicketKeeper) const SizedBox(height: 8),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 200),
+          child: Row(
+            children: [
+              if (isCaptain) ...[
+                const _RoleLabel(
+                  label: 'Captain',
+                  color: Colors.blue,
+                  icon: Icons.star_rounded,
+                ),
+                if (isWicketKeeper) const SizedBox(width: 8),
+              ],
+              if (isWicketKeeper)
+                const _RoleLabel(
+                  label: 'Wicketkeeper',
+                  color: Colors.orange,
+                  icon: Icons.sports_cricket_rounded,
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RoleLabel extends StatelessWidget {
+  const _RoleLabel({
+    required this.label,
+    required this.color,
+    required this.icon,
+  });
+
+  final String label;
+  final Color color;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 14,
+            color: color,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DeleteButton extends StatelessWidget {
+  const _DeleteButton({required this.onDelete});
+
+  final VoidCallback? onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Tooltip(
+        message: 'Remove player',
+        child: InkWell(
+          borderRadius: BorderRadius.circular(50),
+          onTap: onDelete,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.delete_outline_rounded,
+              size: 24,
+              color: Theme.of(context).colorScheme.error,
+            ),
           ),
         ),
       ),
