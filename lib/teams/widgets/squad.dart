@@ -182,12 +182,11 @@ class _PlayersList extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: ListView.separated(
+      child: ListView.builder(
         key: ValueKey(players.length),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: players.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
           final player = players[index];
           final playerId = player.id;

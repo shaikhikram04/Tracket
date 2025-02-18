@@ -173,6 +173,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: grassGreen,
+          foregroundColor: whiteColor,
           title: const Text(
             'Edit Team',
             style: TextStyle(

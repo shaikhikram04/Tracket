@@ -1,79 +1,99 @@
 import 'package:flutter/material.dart';
 
-//* Primary Color Scheme
-const Color primaryColor = Color(0xFF2ECC71); // Main green
-const Color primaryVariant = Color(0xFF27AE60); // Darker green variant
-const Color primaryLight = Color(0xFF58D68D); // Lighter green
-const Color primaryMedium = Color(0xFF16A34A);
-
-const grassGreen = const Color(0xFF2E7D32);
-const darkGrassGreen = const Color(0xFF1B5E20);
+//* Brand Colors - Cricket Theme
+const Color primaryColor = Color(0xFF1B8E3D); // Professional cricket green
+const Color primaryVariant = Color(0xFF146E2F); // Darker green for depth
+const Color primaryLight = Color(0xFF47B16C); // Lighter green for accents
+const Color primaryMedium = Color(0xFF219B48); // Medium green for balance
 
 //* Secondary Color Scheme
 const Color secondaryColor = Color(0xFF3498DB); // Blue accent
 const Color secondaryVariant = Color(0xFF2980B9); // Darker blue
 const Color secondaryLight = Color(0xFF5DADE2); // Lighter blue
 
-//* Background and Surface Colors
-const lightBackgroundColor = Color(0xFFF0F4F0); // Soft green-tinted background
-const lightBackgroundColor2 = Color(0xFFF1F8E9); // Soft green-tinted background
-const darkBackgroundColor = Color(0xFF1F2937); // Dark background
-const surfaceColor = Color(0xFFFFFFFF); // White surface
-const surfaceVariant = Color(0xFFF1F8E9); // Light green surface
+// Field and Pitch inspired colors
+const grassGreen = Color(0xFF2E7D32); // Natural grass color
+const darkGrassGreen = const Color(0xFF1B5E20);
+const pitchBrown = Color(0xFFB87A3D); // Cricket pitch color
+const boundaryRope = Color(0xFFE57373); // Boundary rope inspired
 
-//* Text and Icon Colors
-const primaryTextColor = Color(0xFF212121); // Dark text
-const secondaryTextColor = Color(0xFF757575); // Muted text
-const secondaryV2TextColor = const Color(0xFF424242);
-const onPrimaryColor = Colors.white; // Text on primary color
-const onSecondaryColor = Colors.white; // Text on secondary color
-const textGrassGreen = Color(0xFF1F2937);
+//* Light Mode Colors
+class LightThemeColors {
+  // Background hierarchy
+  static const backgroundColor = Color(0xFFF5F7F5); // Subtle green tint
+  static const surfaceColor = Color(0xFFFFFFFF);
+  static const cardColor = Color(0xFFE8F5E9); // Soft green cards
+  static const secondaryBackground = Color(0xFFF0F4F0);
 
-//* Status and Feedback Colors
-const successColor = Color(0xFF4CAF50); // Success green
-const warningColor = Color(0xFFFFC107); // Warning yellow
-const errorColor = Color(0xFFF44336); // Error red
-const infoColor = Color(0xFF2196F3); // Information blue
-const captainColor = Color(0xFF2196F3); // Captain blue
-const wicketKeeperColor = Color(0xFFFF9800); // Wicketkeeper yellow
+  // Text colors
+  static const primaryText = Color(0xFF1A1C19); // Near black
+  static const secondaryText = Color(0xFF424242);
+  static const tertiaryText = Color(0xFF666666);
 
-//* Neutral and Grayscale
-const Color lightGrey = Color(0xFFE0E0E0);
-const Color mediumGrey = Color(0xFF9E9E9E);
-const Color darkGrey = Color(0xFF616161);
+  // Player role colors - Enhanced visibility
+  static const batsmanColor = Color(0xFF1976D2); // Clear blue
+  static const bowlerColor = Color(0xFFD32F2F); // Distinct red
+  static const allRounderColor = Color(0xFF7B1FA2); // Royal purple
+  static const wicketKeeperColor = Color(0xFFEF6C00); // Bright orange
+}
 
-//* Specific Component Colors
-const buttonEnabledColor = Color(0xFF2ECC71); // Button when active
-const buttonDisabledColor = Color(0xFFA9A9A9); // Button when disabled
-const switchActiveColor = Color(0xFF27AE60); // Switch when on
-const switchInactiveColor = Color(0xFFBDBDBD); // Switch when off
-const lightGreen = Color(0xFF4CAF50);
-const selectedChipColor = Color(0xFF81C784);
+//* Dark Mode Colors
+class DarkThemeColors {
+  // Background hierarchy
+  static const backgroundColor = Color(0xFF1A1C19);
+  static const surfaceColor = Color(0xFF2A2C29);
+  static const cardColor = Color(0xFF323631);
+  static const secondaryBackground = Color(0xFF242623);
 
-//* Dark Mode Specific
-const darkPrimaryColor = Color(0xFF34D399); // Mint green for dark mode
-const darkSurfaceColor = Color(0xFF374151); // Dark surface color
-const darkOnSurfaceColor = Color(0xFFE5E7EB); // Light text on dark surface
+  // Text colors
+  static const primaryText = Color(0xFFE6E6E6);
+  static const secondaryText = Color(0xFFB3B3B3);
+  static const tertiaryText = Color(0xFF999999);
 
-//* Gradient Colors
-const gradientStart = Color(0xFF2ECC71);
-const gradientEnd = Color(0xFF27AE60);
-final authGredientStart = Color(0xFF34D399).withValues(alpha: 0.1);
-final authGredientEnd = whiteColor.withValues(alpha: 0.8);
+  // Player role colors - Dark mode optimized
+  static const batsmanColor = Color(0xFF64B5F6);
+  static const bowlerColor = Color(0xFFE57373);
+  static const allRounderColor = Color(0xFFCE93D8);
+  static const wicketKeeperColor = Color(0xFFFFB74D);
+}
 
-//* Additional Accent Colors
-const accentOrange = Color(0xFFFF5722);
-const accentPurple = Color(0xFF9C27B0);
-const accentTeal = Color(0xFF009688);
-const accentGold = Color(0xFFFFD700);
+//* Status Colors - Both Modes
+class StatusColors {
+  // Match states
+  static const liveMatch = Color(0xFF4CAF50);
+  static const upcoming = Color(0xFF2196F3);
+  static const completed = Color(0xFF757575);
 
-//* Light mode colors
-const lightCardColor = Color(0xFFB5E0BC); // Softer, more muted green for cards
-const onLightDrawer =
-    Color(0xFFE8F5E9); // Light, fresh green for drawer elements
-const blackColor = Color(0xFF1E1E1E); // Slightly softer black
-const whiteColor = Colors.white;
-const unSelectColor = Color(0xFF34495E); // More sophisticated unselectd color
-const darkGreenColor = Color(0xFF016A10); // Rich, deep green
-const shadowColor = Color(0xFF424242);
-const transparentColor = Colors.transparent;
+  // Performance indicators
+  static const success = Color(0xFF43A047);
+  static const warning = Color(0xFFFFA000);
+  static const error = Color(0xFFE53935);
+  static const info = Color(0xFF1E88E5);
+}
+
+//* Interactive Elements
+class InteractiveColors {
+  // Buttons
+  static const buttonEnabled = Color(0xFF1B8E3D);
+  static const buttonPressed = Color(0xFF146E2F);
+  static const buttonDisabled = Color(0xFFBDBDBD);
+
+  // Selection states
+  static const selected = Color(0xFF47B16C);
+  static const unselected = Color(0xFF757575);
+  static const focused = Color(0xFF219B48);
+
+  // Input fields
+  static const inputBorder = Color(0xFF2E7D32);
+  static const inputFilled = Color(0xFFF5F7F5);
+  static const inputError = Color(0xFFE53935);
+}
+
+//* Gradients
+class GradientColors {
+  static const matchCardStart = Color(0xFF1B8E3D);
+  static const matchCardEnd = Color(0xFF47B16C);
+
+  static const darkModeStart = Color(0xFF146E2F);
+  static const darkModeEnd = Color(0xFF1B8E3D);
+}

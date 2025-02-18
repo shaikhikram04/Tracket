@@ -28,10 +28,10 @@ class TeamSettingsScreen extends ConsumerWidget {
               text: request,
               style: MyTextStyle(context).bodyLarge,
             ),
-            // TextSpan(
-            //   text: ' ($count)',
-            //   style: Theme.of(context).textTheme.bodyLarge,
-            // ),
+            TextSpan(
+              text: ' ($count)',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ],
         ),
       ),
@@ -202,7 +202,8 @@ class TeamSettingsScreen extends ConsumerWidget {
                     textStyle: MyTextStyle(context)
                         .mediumButtonText
                         .copyWith(color: errorColor),
-                    backgroundColor: errorColor,
+                    backgroundColor: whiteColor,
+                    borderColor: errorColor,
                   ),
                 ],
               ),

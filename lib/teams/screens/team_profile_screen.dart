@@ -184,6 +184,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           style: TextStyle(color: textOnGreen),
         ),
         backgroundColor: gradientGreenStart,
+        foregroundColor: textOnGreen,
         shape: Border.all(color: gradientGreenStart, width: 0),
         actions: isAdmin
             ? [

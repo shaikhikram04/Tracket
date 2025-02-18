@@ -149,7 +149,8 @@ class CustomButton extends StatelessWidget {
           background: backgroundColor ?? defaultPrimary,
           foreground: foregroundColor ?? defaultOnPrimary,
           disabledBackground: theme.disabledColor,
-          disabledForeground: theme.colorScheme.onSurface.withOpacity(0.38),
+          disabledForeground:
+              theme.colorScheme.onSurface.withValues(alpha: 0.38),
           border: Colors.transparent,
         );
       case ButtonVariant.secondary:
