@@ -75,7 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2ecc71),
+        backgroundColor: primaryColor,
         foregroundColor: LightThemeColors.surfaceColor,
         elevation: 0,
         title: Text(
@@ -119,11 +119,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           backgroundColor: Colors.white,
           elevation: 10,
           onTap: _selectItem,
-          selectedItemColor: const Color(0xFF2ecc71),
+          selectedItemColor: primaryColor,
           unselectedItemColor: Colors.grey.shade500,
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.w800,
-            color: Color(0xFF2ecc71),
+            color: primaryColor,
           ),
           showSelectedLabels: true,
           items: const [

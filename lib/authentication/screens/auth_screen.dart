@@ -132,7 +132,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   Widget _buildTabs() {
     return Container(
       decoration: BoxDecoration(
-        color: LightThemeColors.cardColor,
+        color: LightThemeColors.secondaryText.withValues(alpha: 0.25),
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(_kTabRadius),
         ),
@@ -161,9 +161,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   BorderRadius _getTabBorderRadius() {
     return BorderRadius.vertical(
       top: const Radius.circular(_kTabRadius),
-      bottom: Radius.circular(
-        _tabController.index == 0 ? 0 : _kTabRadius,
-      ),
+      bottom: Radius.circular(0),
     );
   }
 
