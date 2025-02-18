@@ -116,7 +116,7 @@ class ScoringControls extends ConsumerWidget {
                         textStyle: MyTextStyle(context).buttonText,
                         icon: Icon(
                           Icons.sports_baseball,
-                          color: whiteColor,
+                          color: LightThemeColors.surfaceColor,
                         ),
                         borderRadius: 15,
                         height: 50,
@@ -151,7 +151,7 @@ class ScoringControls extends ConsumerWidget {
                                   makeUnBlur();
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: lightGreen,
+                                  backgroundColor: primaryLight,
                                   elevation: 3,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -162,7 +162,7 @@ class ScoringControls extends ConsumerWidget {
                                   style: GoogleFonts.poppins(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
-                                    color: whiteColor,
+                                    color: LightThemeColors.surfaceColor,
                                   ),
                                 ),
                               ),
@@ -198,8 +198,8 @@ class ScoringControls extends ConsumerWidget {
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: index == 0
-                                            ? lightGreen
-                                            : darkGreenColor,
+                                            ? primaryLight
+                                            : primaryVariant,
                                         elevation: 3,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -211,7 +211,7 @@ class ScoringControls extends ConsumerWidget {
                                         style: GoogleFonts.poppins(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
-                                          color: whiteColor,
+                                          color: LightThemeColors.surfaceColor,
                                         ),
                                       ),
                                     ),
@@ -311,7 +311,7 @@ class ScoringControls extends ConsumerWidget {
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: accentGold,
+                                      backgroundColor: StatusColors.warning,
                                       elevation: 2,
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 20, vertical: 12),
@@ -322,7 +322,7 @@ class ScoringControls extends ConsumerWidget {
                                     child: Text(
                                       extra,
                                       style: GoogleFonts.poppins(
-                                        color: blackColor,
+                                        color: LightThemeColors.primaryText,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -395,9 +395,9 @@ class ScoringControls extends ConsumerWidget {
                                       ),
                               icon: Icon(
                                 Icons.sports_baseball,
-                                color: whiteColor,
+                                color: LightThemeColors.surfaceColor,
                               ),
-                              backgroundColor: Colors.red.shade600,
+                              backgroundColor: StatusColors.error,
                               borderRadius: 15,
                               height: 50,
                               width: double.infinity,

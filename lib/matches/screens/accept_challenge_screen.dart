@@ -317,11 +317,11 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               child: CustomButton.secondary(
                 onPressed: () => Navigator.of(context).pop(),
                 text: 'Reject',
-                backgroundColor: lightBackgroundColor,
+                backgroundColor: LightThemeColors.backgroundColor,
                 textStyle: MyTextStyle(context).buttonText.copyWith(
-                      color: errorColor,
+                      color: StatusColors.error,
                     ),
-                borderColor: errorColor,
+                borderColor: StatusColors.error,
               ),
             ),
           ),

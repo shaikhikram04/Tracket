@@ -186,20 +186,20 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     final matchState = ref.watch(matchStateProvider);
 
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: LightThemeColors.surfaceColor,
       appBar: AppBar(
-        backgroundColor: darkGreenColor,
+        backgroundColor: LightThemeColors.primaryText,
         elevation: 0,
         title: Text(
           'Live Scoring',
           style: GoogleFonts.poppins(
-            color: whiteColor,
+            color: LightThemeColors.surfaceColor,
             fontWeight: FontWeight.w600,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.undo, color: accentGold),
+            icon: Icon(Icons.undo, color: LightThemeColors.primaryText),
             onPressed: () {
               // Implement undo functionality
             },

@@ -26,11 +26,11 @@ class CurrentOverIndicator extends StatelessWidget {
             padding: EdgeInsets.all(15),
             width: double.infinity,
             decoration: BoxDecoration(
-              color: whiteColor,
+              color: LightThemeColors.surfaceColor,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                  color: lightGrey,
+                  color: LightThemeColors.tertiaryText,
                   blurRadius: 10,
                   offset: Offset(0, 2),
                 ),
@@ -43,7 +43,7 @@ class CurrentOverIndicator extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: darkGreenColor,
+                    color: grassGreen,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -62,7 +62,7 @@ class CurrentOverIndicator extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: ballValue != null
                               ? ballValue.isWicket
-                                  ? errorColor
+                                  ? InteractiveColors.inputError
                                   : grassGreen
                               : Colors.grey.shade200,
                           boxShadow: ballValue != null
@@ -81,7 +81,7 @@ class CurrentOverIndicator extends StatelessWidget {
                             style: GoogleFonts.poppins(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: whiteColor,
+                              color: LightThemeColors.surfaceColor,
                             ),
                           ),
                         ),

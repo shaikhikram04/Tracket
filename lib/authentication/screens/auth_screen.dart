@@ -19,40 +19,52 @@ class AuthScreen extends ConsumerStatefulWidget {
 
 class _AuthScreenState extends ConsumerState<AuthScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  // Constants
+  static const _kAnimationDuration = Duration(milliseconds: 180);
+  static const _kTabRadius = 20.0;
+  static const _kContentPadding = EdgeInsets.symmetric(horizontal: 20);
+  static const _kVerticalSpacing = 24.0;
 
-  static const int _tabSwitchDelay = 180;
-  static const double _bottomPadding = 40.0;
-  static const EdgeInsets _horizontalPadding =
-      EdgeInsets.symmetric(horizontal: 17);
-
+  late final TabController _tabController;
   bool _isChangingTab = false;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabAnimation);
   }
 
-  void _handleTabChange(int index) async {
+  void _handleTabAnimation() {
+    if (!_tabController.indexIsChanging) return;
+    _handleTabChange(_tabController.index);
+  }
+
+  Future<void> _handleTabChange(int index) async {
+    if (_isChangingTab) return;
+
+    setState(() => _isChangingTab = true);
+
     try {
-      if (_tabController.indexIsChanging) {
-        setState(() => _isChangingTab = true);
-        await Future.delayed(const Duration(milliseconds: _tabSwitchDelay));
-        ref.read(playerAuthProvider.notifier).reset();
-        ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
-        setState(() => _isChangingTab = false);
-      }
+      await Future.delayed(_kAnimationDuration);
+      if (!mounted) return;
+
+      ref.read(playerAuthProvider.notifier).reset();
+      ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
     } catch (e) {
-      setState(() => _isChangingTab = false);
       if (mounted) {
-        showSnackBar('Error switching tabs: $e', context);
+        showSnackBar('Something went wrong. Please try again.', context);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isChangingTab = false);
       }
     }
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabAnimation);
     _tabController.dispose();
     super.dispose();
   }
@@ -63,56 +75,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     final safeAreaHeight = getSafeAreaHeight(context);
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              authGredientStart,
-              authGredientEnd,
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: safeAreaHeight),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: safeAreaHeight),
+            child: Padding(
+              padding: _kContentPadding,
               child: Column(
                 children: [
-                  const SizedBox(height: 30),
-                  const AppLogo(),
-                  const SizedBox(height: 24),
-                  Padding(
-                    padding: _horizontalPadding,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: primaryColor.withValues(alpha: 0.15),
-                            blurRadius: 15,
-                            offset: const Offset(0, 8),
-                          ),
-                          BoxShadow(
-                            color: blackColor.withValues(alpha: 0.05),
-                            blurRadius: 5,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          //* TabBar for show option of user & player authentication
-                          _buildAuthTabs(),
-                          //* Content of TabBar for signup/login user or player
-                          _buildTabBarView(tabBarViewHeight)
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: _bottomPadding)
+                  const SizedBox(height: _kVerticalSpacing),
+                  _buildAnimatedLogo(),
+                  const SizedBox(height: _kVerticalSpacing),
+                  _buildAuthContainer(tabBarViewHeight),
+                  const SizedBox(height: _kVerticalSpacing),
                 ],
               ),
             ),
@@ -122,54 +98,98 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     );
   }
 
-  Widget _buildTabBarView(double height) {
-    return SizedBox(
-      height: height,
-      child: _isChangingTab
-          ? getCircleLoadingIndicator()
-          : TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _tabController,
-              children: const [
-                PlayerAuth(),
-                UserAuth(),
-              ],
-            ),
+  Widget _buildAnimatedLogo() {
+    return Hero(
+      tag: 'app_logo',
+      child: const AppLogo(),
     );
   }
 
-  Widget _buildAuthTabs() {
+  Widget _buildAuthContainer(double height) {
+    return AnimatedContainer(
+      duration: _kAnimationDuration,
+      decoration: BoxDecoration(
+        color: LightThemeColors.surfaceColor,
+        borderRadius: BorderRadius.circular(_kTabRadius),
+        boxShadow: [
+          BoxShadow(
+            color: primaryColor.withOpacity(0.12),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildTabs(),
+          _buildAuthContent(height),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabs() {
     return Container(
       decoration: BoxDecoration(
-        color: whiteColor,
+        color: LightThemeColors.cardColor,
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(20),
+          top: Radius.circular(_kTabRadius),
         ),
       ),
       child: TabBar(
-        dividerColor: transparentColor,
-        indicatorSize: TabBarIndicatorSize.tab,
         controller: _tabController,
+        dividerColor: Colors.transparent,
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelStyle: MyTextStyle(context).titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
         indicator: BoxDecoration(
           color: primaryColor,
-          borderRadius: BorderRadius.circular(12).copyWith(
-            bottomLeft: _tabController.index == 0 ? Radius.circular(0) : null,
-            bottomRight: _tabController.index == 0 ? null : Radius.circular(0),
-          ),
+          borderRadius: _getTabBorderRadius(),
         ),
-        labelStyle: MyTextStyle(context).titleMedium,
-        labelColor: whiteColor,
-        unselectedLabelColor: darkGrey,
+        labelColor: LightThemeColors.surfaceColor,
+        unselectedLabelColor: LightThemeColors.secondaryText,
         tabs: const [
-          Tab(
-            child: Text('Player'),
-          ),
-          Tab(
-            child: Text('User'),
-          ),
+          Tab(child: Text('Player')),
+          Tab(child: Text('User')),
         ],
-        onTap: _handleTabChange,
       ),
+    );
+  }
+
+  BorderRadius _getTabBorderRadius() {
+    return BorderRadius.vertical(
+      top: const Radius.circular(_kTabRadius),
+      bottom: Radius.circular(
+        _tabController.index == 0 ? 0 : _kTabRadius,
+      ),
+    );
+  }
+
+  Widget _buildAuthContent(double height) {
+    return AnimatedSwitcher(
+      duration: _kAnimationDuration,
+      child: SizedBox(
+        height: height,
+        child: _isChangingTab
+            ? Center(child: _buildLoadingIndicator())
+            : TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _tabController,
+                children: const [
+                  PlayerAuth(),
+                  UserAuth(),
+                ],
+              ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+      strokeWidth: 3,
     );
   }
 }

@@ -118,14 +118,14 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                           'VS',
                           style: MyTextStyle(context).bodyMedium.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: secondaryTextColor,
+                                color: LightThemeColors.secondaryText,
                               ),
                         ),
                       ),
                       Text(
                         widget.team2Name,
                         style: MyTextStyle(context).titleLarge.copyWith(
-                              color: accentOrange,
+                              color: StatusColors.warning,
                             ),
                       ),
                     ],
@@ -163,7 +163,8 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: blackColor.withValues(alpha: 0.3),
+                                color: LightThemeColors.primaryText
+                                    .withValues(alpha: 0.3),
                                 blurRadius: 15,
                                 offset: const Offset(0, 8),
                               ),
@@ -173,7 +174,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                             child: Icon(
                               Icons.sports_cricket,
                               size: 80,
-                              color: whiteColor,
+                              color: LightThemeColors.surfaceColor,
                             ),
                           ),
                         ),
@@ -185,14 +186,10 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     CustomButton.primary(
                       onPressed: _startToss,
                       text: 'Toss Coin',
-                      backgroundColor: darkGreenColor,
-                      // textStyle: MyTextStyle(context).buttonText.copyWith(
-                      //       color: whiteColor,
-                      //     ),
-                      // padding: const EdgeInsets.symmetric(
-                      //   horizontal: 32,
-                      //   vertical: 16,
-                      // ),
+                      backgroundColor: grassGreen,
+                      textStyle: MyTextStyle(context).buttonText.copyWith(
+                            color: LightThemeColors.surfaceColor,
+                          ),
                     ),
                 ],
               ),
@@ -211,7 +208,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     Text(
                       'Choose your decision:',
                       style: MyTextStyle(context).bodyLarge.copyWith(
-                            color: darkGrey,
+                            color: LightThemeColors.secondaryText,
                           ),
                     ),
                     const SizedBox(height: 20),
@@ -250,7 +247,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     Text(
                       '$battingTeam will bat first',
                       style: MyTextStyle(context).titleLarge.copyWith(
-                            color: accentTeal,
+                            color: LightThemeColors.batsmanColor,
                           ),
                     ),
                     const SizedBox(height: 30),
@@ -258,11 +255,14 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                       text: 'Start Match',
                       textStyle: MyTextStyle(context)
                           .titleLarge
-                          .copyWith(fontSize: 20, color: whiteColor),
+                          .copyWith(
+                            fontSize: 20,
+                            color: LightThemeColors.surfaceColor,
+                          ),
                       icon: Icon(
                         Icons.play_circle_filled,
                         size: 30,
-                        color: whiteColor,
+                        color: LightThemeColors.surfaceColor,
                       ),
                       onPressed: () {},
                     ),
@@ -282,9 +282,11 @@ class _StartMatchScreenState extends State<StartMatchScreen>
   }) {
     return CustomButton.primary(
       text: label,
-      icon: Icon(icon, color: whiteColor),
+      icon: Icon(icon, color: LightThemeColors.surfaceColor),
       onPressed: onPressed,
-      textStyle: MyTextStyle(context).buttonText.copyWith(color: whiteColor),
+      textStyle: MyTextStyle(context).buttonText.copyWith(
+            color: LightThemeColors.surfaceColor,
+          ),
       borderRadius: 20,
     );
   }

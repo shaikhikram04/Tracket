@@ -173,11 +173,11 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: grassGreen,
-          foregroundColor: whiteColor,
+          foregroundColor: LightThemeColors.surfaceColor,
           title: const Text(
             'Edit Team',
             style: TextStyle(
-              color: whiteColor,
+              color: LightThemeColors.surfaceColor,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -187,7 +187,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 padding: const EdgeInsets.all(12.0),
                 child: getCircleLoadingIndicator(
                   dimension: 24,
-                  color: whiteColor,
+                  color: LightThemeColors.surfaceColor,
                 ),
               )
             else
@@ -195,7 +195,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 onPressed: _saveChanges,
                 icon: const Icon(Icons.save_rounded),
                 iconSize: 28,
-                color: whiteColor,
+                color: LightThemeColors.surfaceColor,
                 tooltip: 'Save Changes',
               ),
             const SizedBox(width: 12),
@@ -345,7 +345,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         backgroundColor: grassGreen,
                         borderRadius: 10,
                         textStyle: theme.textTheme.titleMedium?.copyWith(
-                          color: whiteColor,
+                          color: LightThemeColors.surfaceColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

@@ -32,7 +32,11 @@ class StepCircle extends StatelessWidget {
           step.toString(),
           style: MyTextStyle(context)
               .bodyLarge
-              .copyWith(color: isActive ? onPrimaryColor : primaryTextColor),
+              .copyWith(
+                color: isActive
+                    ? LightThemeColors.surfaceColor
+                    : LightThemeColors.primaryText,
+              ),
         ),
       ),
     );

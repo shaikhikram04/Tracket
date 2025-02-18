@@ -309,7 +309,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                   text: value.toInt().toString(),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: darkGreenColor,
+                        color: grassGreen,
                       ),
                 ),
               ],
@@ -377,7 +377,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         subtitle: const Text(
           'Any one can see this match',
         ),
-        activeColor: switchActiveColor,
+        activeColor: InteractiveColors.focused,
         onChanged: (value) {
           setState(() {
             _allowSpectators.value = value;
@@ -474,7 +474,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
             isLoading: isChallenging,
             textStyle: MyTextStyle(context).buttonText,
             backgroundColor: grassGreen,
-            foregroundColor: whiteColor,
+            foregroundColor: LightThemeColors.surfaceColor,
           ),
         ),
       ),
@@ -486,7 +486,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: blackColor),
+          border: Border.all(width: 1, color: LightThemeColors.primaryText),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Align(

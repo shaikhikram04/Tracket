@@ -10,7 +10,7 @@ class MyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      color: whiteColor,
+      color: LightThemeColors.surfaceColor,
       elevation: 7,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),

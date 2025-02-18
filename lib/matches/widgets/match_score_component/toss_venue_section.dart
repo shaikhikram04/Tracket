@@ -32,7 +32,7 @@ class TossVenueSection extends StatelessWidget {
                 text: 'Toss : ',
                 style: MyTextStyle(context)
                     .bodyLarge
-                    .copyWith(color: darkGreenColor),
+                    .copyWith(color: grassGreen),
               ),
               TextSpan(
                   text:
@@ -43,7 +43,7 @@ class TossVenueSection extends StatelessWidget {
               text: 'Venue : ',
               style: MyTextStyle(context)
                   .bodyLarge
-                  .copyWith(color: darkGreenColor),
+                  .copyWith(color: grassGreen),
             ),
             TextSpan(text: match.venue)
           ])),

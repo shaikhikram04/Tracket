@@ -178,8 +178,10 @@ class RequestCard extends StatelessWidget {
             onSureButtonPressed: onCancelRequest,
           );
         },
-        textStyle: MyTextStyle(context).buttonText.copyWith(color: errorColor),
-        backgroundColor: errorColor,
+        textStyle: MyTextStyle(context).buttonText.copyWith(
+              color: StatusColors.error,
+            ),
+        backgroundColor: StatusColors.error,
       ),
     );
   }
@@ -221,9 +223,10 @@ class RequestCard extends StatelessWidget {
               CustomButton.secondary(
                 text: 'Reject',
                 onPressed: onRejectRequest,
-                textStyle:
-                    MyTextStyle(context).buttonText.copyWith(color: errorColor),
-                backgroundColor: errorColor,
+                textStyle: MyTextStyle(context).buttonText.copyWith(
+                      color: StatusColors.error,
+                    ),
+                backgroundColor: StatusColors.error,
               ),
             ],
           );

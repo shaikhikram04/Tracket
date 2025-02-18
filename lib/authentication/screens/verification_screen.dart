@@ -112,7 +112,7 @@ class VerificationScreen extends ConsumerWidget {
                         child: Text(
                           VerificationStepData.getMessage(currentStep, email),
                           style: MyTextStyle(context).bodyMedium.copyWith(
-                                color: secondaryV2TextColor,
+                                color: LightThemeColors.secondaryText,
                                 height: 1.5,
                               ),
                         ),
@@ -135,12 +135,13 @@ class VerificationScreen extends ConsumerWidget {
                       children: [
                         Icon(
                           Icons.email_outlined,
-                          color: whiteColor,
+                          color: LightThemeColors.surfaceColor,
                         ),
                         Text(
                           'Resend Verification Email',
                           style: MyTextStyle(context).titleSmall.copyWith(
-                              color: whiteColor, fontWeight: FontWeight.w400),
+                              color: LightThemeColors.surfaceColor,
+                              fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),

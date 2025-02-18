@@ -193,7 +193,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: whiteColor,
+      color: LightThemeColors.surfaceColor,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -202,7 +202,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             end: Alignment.bottomRight,
             colors: [
               Colors.white,
-              lightBackgroundColor2.withValues(alpha: 0.5),
+              LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
             ],
           ),
         ),
@@ -302,7 +302,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: lightBackgroundColor2.withValues(alpha: 0.5),
+            color: LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
               color: grassGreen.withValues(alpha: 0.2),
@@ -314,7 +314,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 title: const Text('Private Team'),
                 subtitle: Text(
                   'Only invited players can join',
-                  style: TextStyle(color: secondaryTextColor),
+                  style: TextStyle(color: LightThemeColors.secondaryText),
                 ),
                 value: _isPrivate,
                 onChanged: (value) => setState(() => _isPrivate = value),
@@ -328,7 +328,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                   const SizedBox(width: 12),
                   Text(
                     'Maximum Players:',
-                    style: TextStyle(color: textGrassGreen),
+                    style: TextStyle(color: grassGreen),
                   ),
                   const SizedBox(width: 16),
                   Container(
@@ -416,9 +416,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: lightBackgroundColor2,
+      backgroundColor: LightThemeColors.secondaryBackground,
       appBar: AppBar(
-        foregroundColor: whiteColor,
+        foregroundColor: LightThemeColors.surfaceColor,
         title: const Text(
           'Create Team',
           style: TextStyle(

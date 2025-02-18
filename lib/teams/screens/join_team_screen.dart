@@ -45,11 +45,11 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: grassGreen,
-        foregroundColor: whiteColor,
+        foregroundColor: LightThemeColors.surfaceColor,
         title: const Text(
           'Join Team',
           style: TextStyle(
-            color: whiteColor,
+            color: LightThemeColors.surfaceColor,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -65,7 +65,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                   decoration: InputDecoration(
                     hintText: 'Search teams...',
                     filled: true,
-                    fillColor: whiteColor,
+                    fillColor: LightThemeColors.surfaceColor,
                     prefixIcon: const Icon(Icons.search, color: grassGreen),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -84,8 +84,8 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                       label: const Text('Private Teams'),
                       onSelected: (value) =>
                           setState(() => _isPrivateOnly = value),
-                      backgroundColor: whiteColor,
-                      selectedColor: selectedChipColor,
+                      backgroundColor: LightThemeColors.surfaceColor,
+                      selectedColor: primaryMedium,
                     ),
                     const SizedBox(width: 8),
                     FilterChip(
@@ -93,8 +93,8 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                       label: const Text('Has Capacity'),
                       onSelected: (value) =>
                           setState(() => _hasCapacityOnly = value),
-                      backgroundColor: whiteColor,
-                      selectedColor: selectedChipColor,
+                      backgroundColor: LightThemeColors.surfaceColor,
+                      selectedColor: primaryMedium,
                     ),
                   ],
                 ),
@@ -150,7 +150,8 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.search_off, size: 64, color: mediumGrey),
+                  const Icon(Icons.search_off,
+                      size: 64, color: LightThemeColors.secondaryText),
                   const SizedBox(height: 16),
                   Text(
                     'No teams found matching your criteria',
@@ -220,23 +221,23 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     Icon(
                       team.isPrivate ? Icons.lock : Icons.lock_open,
                       size: 16,
-                      color: secondaryTextColor,
+                      color: LightThemeColors.secondaryText,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       team.isPrivate ? 'Private' : 'Public',
-                      style: TextStyle(color: secondaryTextColor),
+                      style: TextStyle(color: LightThemeColors.secondaryText),
                     ),
                     const SizedBox(width: 12),
                     Icon(
                       team.hasCapacity ? Icons.people : Icons.group_off,
                       size: 16,
-                      color: secondaryTextColor,
+                      color: LightThemeColors.secondaryText,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       team.hasCapacity ? 'Has Capacity' : 'Full',
-                      style: TextStyle(color: secondaryTextColor),
+                      style: TextStyle(color: LightThemeColors.secondaryText),
                     ),
                   ],
                 ),

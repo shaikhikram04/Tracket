@@ -195,7 +195,7 @@ class _MatchPlayersSelectionScreenState
                               'Select Openers',
                               style: MyTextStyle(context).bodyLarge.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: darkGreenColor),
+                                  color: grassGreen),
                             ),
                           ),
                         ),
@@ -239,7 +239,7 @@ class _MatchPlayersSelectionScreenState
                               'Select Opening bowler',
                               style: MyTextStyle(context).bodyLarge.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: darkGreenColor),
+                                  color: darkGrassGreen),
                             ),
                           ),
                         ),
@@ -269,7 +269,7 @@ class _MatchPlayersSelectionScreenState
               borderRadius: 15,
               textStyle: MyTextStyle(context).titleMedium.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: whiteColor,
+                    color: LightThemeColors.surfaceColor,
                   ),
             ),
           ),

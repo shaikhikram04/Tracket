@@ -99,7 +99,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 text: userAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: userAuthState.isLoading,
                 backgroundColor: primaryColor,
-                foregroundColor: whiteColor,
+                foregroundColor: LightThemeColors.surfaceColor,
                 borderRadius: 10,
                 textStyle: MyTextStyle(context).cardTitle,
               ),

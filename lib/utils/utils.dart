@@ -22,7 +22,7 @@ void showSnackBar(String content, BuildContext context,
               label: 'Undo',
               onPressed: onUndo!,
               backgroundColor: Colors.grey[200],
-              textColor: blackColor,
+              textColor: LightThemeColors.primaryText,
             )
           : null,
     ),
@@ -62,7 +62,7 @@ void showIconAlertDialog(
                 width: double.infinity,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: errorColor.withValues(alpha: 0.8),
+                  color: StatusColors.error.withValues(alpha: 0.8),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -70,13 +70,13 @@ void showIconAlertDialog(
                     Icon(
                       icon,
                       size: 45,
-                      color: whiteColor,
+                      color: LightThemeColors.surfaceColor,
                     ),
                     SizedBox(height: 10),
                     Text(
                       title,
                       style: MyTextStyle(context).titleMedium.copyWith(
-                            color: whiteColor,
+                            color: LightThemeColors.surfaceColor,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1.5,
                           ),
@@ -105,7 +105,7 @@ void showIconAlertDialog(
                         'OK',
                         style: MyTextStyle(context).bodyLarge.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: darkGreenColor,
+                              color: grassGreen,
                             ),
                       ),
                     ),
@@ -264,7 +264,7 @@ Widget getCircleAvatar({
       shape: BoxShape.circle,
       border: hasBorder
           ? Border.all(
-              color: blackColor, // Border color
+              color: LightThemeColors.primaryText, // Border color
               width: 2.0, // Border width
             )
           : null,

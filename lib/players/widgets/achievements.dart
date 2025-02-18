@@ -30,7 +30,9 @@ class Achievements extends StatelessWidget {
             )),
         child: Text(
           'View Available Achievements',
-          style: MyTextStyle(context).bodyMedium.copyWith(color: whiteColor),
+          style: MyTextStyle(context).bodyMedium.copyWith(
+                color: LightThemeColors.surfaceColor,
+              ),
         ),
       ),
     ]);
@@ -48,7 +50,7 @@ class Achievements extends StatelessWidget {
     }
 
     return Card(
-      color: whiteColor,
+      color: LightThemeColors.surfaceColor,
       margin: const EdgeInsets.symmetric(horizontal: 20),
       elevation: 7,
       child: Padding(

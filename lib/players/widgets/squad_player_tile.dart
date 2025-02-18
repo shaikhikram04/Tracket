@@ -142,7 +142,7 @@ class _PlayerInfo extends StatelessWidget {
               if (isCaptain) ...[
                 const _RoleLabel(
                   label: 'Captain',
-                  color: captainColor,
+                  color: LightThemeColors.batsmanColor,
                   icon: Icons.star_rounded,
                 ),
                 if (isWicketKeeper) const SizedBox(width: 8),
@@ -150,7 +150,7 @@ class _PlayerInfo extends StatelessWidget {
               if (isWicketKeeper)
                 const _RoleLabel(
                   label: 'Wicketkeeper',
-                  color: wicketKeeperColor,
+                  color: LightThemeColors.wicketKeeperColor,
                   icon: Icons.sports_cricket_rounded,
                 ),
             ],

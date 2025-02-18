@@ -67,14 +67,14 @@ class TeamLogoEditor extends StatelessWidget {
                     color: grassGreen,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: whiteColor,
+                      color: LightThemeColors.surfaceColor,
                       width: 2,
                     ),
                   ),
                   child: const Icon(
                     Icons.camera_alt,
                     size: 16,
-                    color: whiteColor,
+                    color: LightThemeColors.surfaceColor,
                   ),
                 ),
               ),
@@ -97,7 +97,7 @@ class TeamLogoEditor extends StatelessWidget {
                 Text(
                   'Upload a team logo here',
                   style: MyTextStyle(context).bodyMedium.copyWith(
-                        color: secondaryTextColor,
+                        color: LightThemeColors.secondaryText,
                       ),
                 ),
                 const SizedBox(height: 8),
@@ -105,7 +105,7 @@ class TeamLogoEditor extends StatelessWidget {
                   onPressed: () => onImageChanged(image),
                   style: TextButton.styleFrom(
                     foregroundColor: grassGreen,
-                    backgroundColor: onLightDrawer,
+                    backgroundColor: LightThemeColors.surfaceColor,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 12,

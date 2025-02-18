@@ -124,7 +124,7 @@ class MatchCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
         ),
-        color: whiteColor,
+        color: LightThemeColors.surfaceColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -135,12 +135,13 @@ class MatchCard extends StatelessWidget {
                   Text(
                     'Match 1',
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: LightThemeColors.primaryText,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   match.status == MatchStatus.live
-                      ? HighlightedLabel(text: 'LIVE', textColor: primaryColor)
+                      ? HighlightedLabel(
+                          text: 'LIVE', textColor: StatusColors.liveMatch)
                       : Text(
                           DateFormat.Hm().format(match.schedule),
                           style: TextStyle(

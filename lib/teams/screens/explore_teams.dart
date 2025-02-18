@@ -31,11 +31,11 @@ class _ExploreTeamsState extends State<ExploreTeams> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: grassGreen,
-        foregroundColor: whiteColor,
+        foregroundColor: LightThemeColors.surfaceColor,
         title: const Text(
           'Explore Teams',
           style: TextStyle(
-            color: whiteColor,
+            color: LightThemeColors.surfaceColor,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -49,7 +49,7 @@ class _ExploreTeamsState extends State<ExploreTeams> {
               decoration: InputDecoration(
                 hintText: 'Search teams...',
                 filled: true,
-                fillColor: whiteColor,
+                fillColor: LightThemeColors.surfaceColor,
                 prefixIcon: const Icon(Icons.search, color: grassGreen),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),

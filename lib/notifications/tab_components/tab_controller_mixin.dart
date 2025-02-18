@@ -31,8 +31,8 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
       dividerColor: theme.colorScheme.secondary,
       indicatorSize: TabBarIndicatorSize.tab,
       controller: tabController,
-      unselectedLabelColor: unselectedColor ?? unSelectColor,
-      labelColor: selectedColor ?? darkGreenColor,
+      unselectedLabelColor: unselectedColor ?? LightThemeColors.secondaryText,
+      labelColor: selectedColor ?? grassGreen,
       labelStyle: MyTextStyle(context)
                   .bodyLarge
                   .copyWith(fontWeight: FontWeight.bold),

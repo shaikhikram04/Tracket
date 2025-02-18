@@ -12,7 +12,7 @@ class CapacitySelector extends StatelessWidget {
     this.minCapacity = 0,
     this.maxCapacity = 30,
     this.primaryColor = grassGreen, // Dark green default
-    this.backgroundColor = onLightDrawer,
+    this.backgroundColor = LightThemeColors.surfaceColor,
     this.textStyle, // Light green background
   });
 

@@ -149,7 +149,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                 isLoading: playerAuthState.isLoading,
                 textStyle: MyTextStyle(context).cardTitle,
                 backgroundColor: primaryColor,
-                foregroundColor: whiteColor,
+                foregroundColor: LightThemeColors.surfaceColor,
                 borderRadius: 10,
               ),
             ),

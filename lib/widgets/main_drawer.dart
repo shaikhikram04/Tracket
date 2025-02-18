@@ -31,17 +31,17 @@ class MainDrawer extends StatelessWidget {
     }
 
     return Drawer(
-      backgroundColor: lightBackgroundColor,
+      backgroundColor: LightThemeColors.backgroundColor,
       width: width * 0.7,
       child: Column(
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  gradientEnd,
-                  gradientEnd,
+                  GradientColors.matchCardStart,
+                  GradientColors.matchCardEnd,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -60,14 +60,14 @@ class MainDrawer extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
-                          .copyWith(color: onLightDrawer),
+                          .copyWith(color: LightThemeColors.surfaceColor),
                     ),
                     Text(
                       'Role',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
-                          .copyWith(color: onLightDrawer),
+                          .copyWith(color: LightThemeColors.surfaceColor),
                     )
                   ],
                 ),

@@ -31,7 +31,7 @@ class ScoreboardSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 250, 255, 250),
         border: Border.all(
-          color: lightBackgroundColor,
+          color: LightThemeColors.backgroundColor,
         ),
         boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 1)],
       ),

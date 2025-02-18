@@ -26,7 +26,7 @@ class ScoreboardSection extends StatelessWidget {
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: darkGreenColor,
+              color: grassGreen,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
@@ -51,7 +51,7 @@ class ScoreboardSection extends StatelessWidget {
                         child: Text(
                           'Team A',
                           style: MyTextStyle(context).titleLarge.copyWith(
-                                color: whiteColor,
+                                color: LightThemeColors.surfaceColor,
                                 fontWeight: FontWeight.w700,
                               ),
                         ),
@@ -59,7 +59,7 @@ class ScoreboardSection extends StatelessWidget {
                       Text(
                         'VS',
                         style: MyTextStyle(context).bodyLarge.copyWith(
-                              color: accentGold.withValues(alpha: 0.9),
+                              color: StatusColors.warning.withValues(alpha: 0.9),
                               fontWeight: FontWeight.w700,
                             ),
                       ),
@@ -67,7 +67,7 @@ class ScoreboardSection extends StatelessWidget {
                         child: Text(
                           'Team B',
                           style: MyTextStyle(context).titleLarge.copyWith(
-                                color: whiteColor,
+                                color: LightThemeColors.surfaceColor,
                                 fontWeight: FontWeight.w700,
                               ),
                           textAlign: TextAlign.right,
@@ -89,14 +89,15 @@ class ScoreboardSection extends StatelessWidget {
                             style: GoogleFonts.poppins(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
-                              color: whiteColor,
+                              color: LightThemeColors.surfaceColor,
                             ),
                           ),
                           Text(
                             '${currentInning.oversDisplay} Overs',
                             style: GoogleFonts.poppins(
                               fontSize: 18,
-                              color: whiteColor.withValues(alpha: 0.9),
+                              color: LightThemeColors.surfaceColor.withValues(
+                                  alpha: 0.9),
                             ),
                           ),
                         ],
@@ -106,7 +107,7 @@ class ScoreboardSection extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
                           decoration: BoxDecoration(
-                            color: accentGold.withValues(alpha: 0.25),
+                            color: StatusColors.warning.withValues(alpha: 0.25),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Column(
@@ -115,7 +116,7 @@ class ScoreboardSection extends StatelessWidget {
                                 'TARGET',
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
-                                  color: accentGold,
+                                  color: StatusColors.warning,
                                 ),
                               ),
                               Text(
@@ -123,7 +124,7 @@ class ScoreboardSection extends StatelessWidget {
                                 style: GoogleFonts.poppins(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
-                                  color: whiteColor,
+                                  color: LightThemeColors.surfaceColor,
                                 ),
                               ),
                             ],

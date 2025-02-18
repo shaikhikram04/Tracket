@@ -71,7 +71,7 @@ class _OpeningBatsmenSheetState extends State<OpeningBatsmenSheet> {
                           : isNonStriker
                               ? Icons.looks_two
                               : Icons.person_outline,
-                      color: isSelected ? darkGreenColor : Colors.grey,
+                      color: isSelected ? grassGreen : Colors.grey,
                     ),
                     const SizedBox(width: 16),
                     Expanded(

@@ -16,7 +16,7 @@ class MatchStatusCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
-        color: whiteColor,
+        color: LightThemeColors.surfaceColor,
         border: Border(
           bottom: BorderSide(color: Colors.black12, width: 0.5),
         ),

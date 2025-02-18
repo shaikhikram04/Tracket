@@ -144,7 +144,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
                   color: selectedPlayer == player
-                      ? successColor
+                      ? StatusColors.success
                       : Colors.grey.withValues(alpha: 0.2),
                   width: selectedPlayer == player ? 2 : 1,
                 ),
@@ -256,7 +256,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                   selectedPlayer = value;
                                 });
                               },
-                        activeColor: darkGreenColor,
+                        activeColor: grassGreen,
                       ),
                     ],
                   ),

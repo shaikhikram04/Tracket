@@ -76,7 +76,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF2ecc71),
-        foregroundColor: whiteColor,
+        foregroundColor: LightThemeColors.surfaceColor,
         elevation: 0,
         title: Text(
           title,

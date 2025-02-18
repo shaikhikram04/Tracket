@@ -4,6 +4,7 @@ import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/players/widgets/achievements.dart';
 import 'package:tracket/players/widgets/batting_stats.dart';
 import 'package:tracket/players/widgets/bowling_stats.dart';
+import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -77,11 +78,11 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                 children: [
                   // Profile Picture and Name
                   Container(
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          gradientEnd,
-                          gradientEnd,
+                          GradientColors.matchCardEnd,
+                          GradientColors.matchCardStart,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -115,7 +116,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                   //! Player Stats
                   Card(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
-                    color: whiteColor,
+                    color: LightThemeColors.surfaceColor,
                     elevation: 7,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -164,7 +165,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
 
                   // Tabs for Detailed Stats
                   Card(
-                    color: whiteColor,
+                    color: LightThemeColors.surfaceColor,
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     elevation: 7,
                     child: DefaultTabController(

@@ -96,7 +96,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                         },
                         icon: const Icon(Icons.person_add),
                         iconSize: 30,
-                        color: darkGreenColor,
+                        color: grassGreen,
                       )
                     ],
                   ),
@@ -124,8 +124,8 @@ class TeamSettingsScreen extends ConsumerWidget {
                                     text: 'Remove',
                                     textStyle: MyTextStyle(context)
                                         .mediumButtonText
-                                        .copyWith(color: errorColor),
-                                    backgroundColor: errorColor,
+                                        .copyWith(color: StatusColors.error),
+                                    backgroundColor: StatusColors.error,
                                   )),
                     ],
                   ),
@@ -201,9 +201,9 @@ class TeamSettingsScreen extends ConsumerWidget {
                     text: 'Delete',
                     textStyle: MyTextStyle(context)
                         .mediumButtonText
-                        .copyWith(color: errorColor),
-                    backgroundColor: whiteColor,
-                    borderColor: errorColor,
+                        .copyWith(color: StatusColors.error),
+                    backgroundColor: LightThemeColors.surfaceColor,
+                    borderColor: StatusColors.error,
                   ),
                 ],
               ),

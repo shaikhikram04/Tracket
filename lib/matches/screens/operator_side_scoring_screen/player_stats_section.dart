@@ -80,19 +80,19 @@ class PlayerStatsSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: isOut ? errorColor.withValues(alpha: 0.2) : Colors.white,
+        color: isOut ? StatusColors.error.withValues(alpha: 0.2) : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isStriker
               ? isOut
-                  ? errorColor
+                  ? StatusColors.error
                   : grassGreen
-              : Colors.grey.shade300,
+              : LightThemeColors.tertiaryText,
           width: 2,
         ),
         boxShadow: [
           BoxShadow(
-            color: lightGrey,
+            color: LightThemeColors.tertiaryText,
             blurRadius: 10,
             offset: Offset(0, 2),
           ),
@@ -110,7 +110,7 @@ class PlayerStatsSection extends StatelessWidget {
                 name,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: blackColor,
+                  color: LightThemeColors.primaryText,
                 ),
               ),
             ],
@@ -121,7 +121,7 @@ class PlayerStatsSection extends StatelessWidget {
                 score,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: darkGreenColor,
+                  color: grassGreen,
                 ),
               ),
               SizedBox(width: 10),
@@ -153,7 +153,7 @@ class PlayerStatsSection extends StatelessWidget {
             name,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
-              color: darkGreenColor,
+              color: grassGreen,
             ),
           ),
           Row(
@@ -162,7 +162,7 @@ class PlayerStatsSection extends StatelessWidget {
                 figures,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: darkGreenColor,
+                  color: grassGreen,
                 ),
               ),
               SizedBox(width: 10),

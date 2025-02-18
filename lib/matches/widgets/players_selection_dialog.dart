@@ -122,7 +122,7 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
-          color: isSelected ? lightCardColor : null,
+          color: isSelected ? LightThemeColors.cardColor : null,
           borderRadius: BorderRadius.circular(10),
         ),
         child: PlayerColumn(

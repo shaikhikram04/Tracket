@@ -147,8 +147,10 @@ class ChallengeCard extends StatelessWidget {
             onSureButtonPressed: onCanceChallenge,
           );
         },
-        textStyle: MyTextStyle(context).buttonText.copyWith(color: errorColor),
-        backgroundColor: errorColor,
+        textStyle: MyTextStyle(context).buttonText.copyWith(
+              color: StatusColors.error,
+            ),
+        backgroundColor: StatusColors.error,
         text: 'Cancel',
       ),
     );
@@ -183,9 +185,10 @@ class ChallengeCard extends StatelessWidget {
               CustomButton.secondary(
                 onPressed: onRejectChallenge,
                 text: 'Reject',
-                textStyle:
-                    MyTextStyle(context).buttonText.copyWith(color: errorColor),
-                backgroundColor: errorColor,
+                textStyle: MyTextStyle(context).buttonText.copyWith(
+                      color: StatusColors.error,
+                    ),
+                backgroundColor: StatusColors.error,
               ),
               const SizedBox(width: 10),
               CustomButton.primary(

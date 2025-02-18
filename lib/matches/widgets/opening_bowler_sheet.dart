@@ -67,7 +67,7 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
                           selectedBowler = value;
                         });
                       },
-                      activeColor: darkGreenColor,
+                      activeColor: grassGreen,
                     ),
                     Expanded(
                       child: Column(

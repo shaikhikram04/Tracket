@@ -148,8 +148,9 @@ class ActionButton extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  isAdded ? Colors.grey.shade200 : buttonEnabledColor,
+              backgroundColor: isAdded
+                  ? LightThemeColors.secondaryBackground
+                  : InteractiveColors.buttonEnabled,
               foregroundColor: Colors.black87,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius),

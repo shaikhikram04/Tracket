@@ -14,7 +14,7 @@ class MatchScoringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      backgroundColor: whiteColor,
+      backgroundColor: LightThemeColors.backgroundColor,
       body: ListView(
         children: [
           MatchStatusCard(match: match),
@@ -35,7 +35,7 @@ class MatchScoringScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: const Text('Match Details'),
-      backgroundColor: whiteColor,
+      backgroundColor: LightThemeColors.surfaceColor,
       elevation: 0,
       shape: const Border(
         bottom: BorderSide(color: Colors.black12, width: 0.5),

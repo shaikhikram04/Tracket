@@ -153,7 +153,7 @@ class _WicketReasonState extends State<WicketReason> {
               builder: (context, constraints) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: lightBackgroundColor,
+                    color: LightThemeColors.backgroundColor,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
                     boxShadow: [
@@ -189,7 +189,7 @@ class _WicketReasonState extends State<WicketReason> {
                                     style: MyTextStyle(context)
                                         .titleMedium
                                         .copyWith(
-                                          color: darkGreenColor,
+                                          color: grassGreen,
                                           fontWeight: FontWeight.w800,
                                         ),
                                   ),
@@ -221,8 +221,8 @@ class _WicketReasonState extends State<WicketReason> {
                                                   .copyWith(
                                                     color:
                                                         _selectedIndex == index
-                                                            ? whiteColor
-                                                            : darkGreenColor,
+                                                            ? LightThemeColors.surfaceColor
+                                                            : grassGreen,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                             ),
@@ -247,7 +247,7 @@ class _WicketReasonState extends State<WicketReason> {
                                         }
                                       },
                                       label: 'Runs completed',
-                                      labelColor: darkGreenColor,
+                                      labelColor: grassGreen,
                                     ),
                                     SizedBox(height: 16),
                                     Text(
@@ -256,7 +256,7 @@ class _WicketReasonState extends State<WicketReason> {
                                           .bodyLarge
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: darkGreenColor,
+                                            color: grassGreen,
                                           ),
                                     ),
                                     SizedBox(height: 8),
@@ -283,7 +283,7 @@ class _WicketReasonState extends State<WicketReason> {
                                           .bodyLarge
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: darkGreenColor,
+                                            color: grassGreen,
                                           ),
                                     ),
                                     SizedBox(height: 8),
@@ -312,7 +312,7 @@ class _WicketReasonState extends State<WicketReason> {
                                           .bodyLarge
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: darkGreenColor,
+                                            color: grassGreen,
                                           ),
                                     ),
                                     SizedBox(height: 8),
@@ -336,10 +336,10 @@ class _WicketReasonState extends State<WicketReason> {
                                               Navigator.of(context).pop(null),
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
-                                                lightBackgroundColor,
-                                            foregroundColor: darkGreenColor,
+                                                LightThemeColors.backgroundColor,
+                                            foregroundColor: grassGreen,
                                             side: BorderSide(
-                                                color: darkGreenColor),
+                                                color: grassGreen),
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 16),
                                             shape: RoundedRectangleBorder(
@@ -352,13 +352,13 @@ class _WicketReasonState extends State<WicketReason> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Icon(Icons.clear,
-                                                  color: darkGreenColor),
+                                                  color: grassGreen),
                                               SizedBox(width: 8),
                                               Text('Cancel',
                                                   style: MyTextStyle(context)
                                                       .bodyLarge
                                                       .copyWith(
-                                                        color: darkGreenColor,
+                                                        color: grassGreen,
                                                       )),
                                             ],
                                           ),
@@ -369,7 +369,7 @@ class _WicketReasonState extends State<WicketReason> {
                                         child: ElevatedButton(
                                           onPressed: _onConfirm,
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: darkGreenColor,
+                                            backgroundColor: grassGreen,
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 16),
                                             shape: RoundedRectangleBorder(
@@ -382,13 +382,16 @@ class _WicketReasonState extends State<WicketReason> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Icon(Icons.check,
-                                                  color: whiteColor),
+                                                  color:
+                                                      LightThemeColors.surfaceColor),
                                               SizedBox(width: 8),
                                               Text('Confirm',
                                                   style: MyTextStyle(context)
                                                       .bodyLarge
                                                       .copyWith(
-                                                        color: whiteColor,
+                                                        color:
+                                                            LightThemeColors
+                                                                .surfaceColor,
                                                       )),
                                             ],
                                           ),
