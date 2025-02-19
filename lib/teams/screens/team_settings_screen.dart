@@ -125,7 +125,10 @@ class TeamSettingsScreen extends ConsumerWidget {
                                     textStyle: MyTextStyle(context)
                                         .mediumButtonText
                                         .copyWith(color: StatusColors.error),
-                                    backgroundColor: StatusColors.error,
+                                    backgroundColor:
+                                        LightThemeColors.surfaceColor,
+                                    borderColor: StatusColors.error,
+                                    size: ButtonSize.small,
                                   )),
                     ],
                   ),
@@ -204,6 +207,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                         .copyWith(color: StatusColors.error),
                     backgroundColor: LightThemeColors.surfaceColor,
                     borderColor: StatusColors.error,
+                    size: ButtonSize.small,
                   ),
                 ],
               ),

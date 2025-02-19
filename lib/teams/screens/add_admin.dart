@@ -69,18 +69,10 @@ class AddAdmin extends StatelessWidget {
               buttonType: ActionButtonType.addAdmin,
               players: team.nonAdmins,
               team: team,
-
               emptyStateWidget: NoDataFound(
                 isRequest: false,
                 title: 'No Available Players',
                 message: 'All players are already administrators',
-
-                // backgroundColor: Theme.of(context).brightness == Brightness.light
-                //     ? LightThemeColors.cardColor
-                //     : DarkThemeColors.cardColor,
-                // textColor: Theme.of(context).brightness == Brightness.light
-                //     ? LightThemeColors.primaryText
-                //     : DarkThemeColors.primaryText,
               ),
             ),
           ),
