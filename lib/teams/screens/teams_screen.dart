@@ -12,6 +12,7 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
+import 'package:tracket/widgets/no_data_found.dart';
 
 class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});
@@ -192,48 +193,12 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.group_outlined,
-              size: 64,
-              color: primaryColor.withValues(alpha: 0.8),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'No Teams Yet',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? DarkThemeColors.primaryText
-                    : LightThemeColors.primaryText,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Join or create a team to get started',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? DarkThemeColors.secondaryText
-                    : LightThemeColors.secondaryText,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Icon(
-              Icons.arrow_downward,
-              size: 32,
-              color: primaryColor.withValues(alpha: 0.8),
-            ),
-          ],
-        ),
-      ),
+    return NoDataFound(
+      title: 'No Team Yet',
+      message: 'Join or create a team to get started',
+      isRequest: false,
+      isPointingButton: true,
+      rotation: 1,
     );
   }
 }
