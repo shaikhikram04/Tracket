@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class PrivacySettings extends StatefulWidget {
   const PrivacySettings({
@@ -28,32 +26,27 @@ class _PrivacySettingsState extends State<PrivacySettings> {
 
   @override
   Widget build(BuildContext context) {
-    return MyCard(
-      child: Column(
-        children: [
-          getTitleText('Privacy Settings', context),
-          const SizedBox(height: 10),
-          SwitchListTile(
-            value: isSwitchedOn,
-            title: Text(
-              'Make team private',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Colors.black, fontSize: 17),
-            ),
-            subtitle: const Text(
-              'When your team is private, only admins can add new members.',
-            ),
-            activeColor: InteractiveColors.focused,
-            onChanged: (value) {
-              setState(() {
-                isSwitchedOn = value;
-              });
-              widget.onSwitchChanged(value);
-            },
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(bottom: 16),
+      child: SwitchListTile(
+        value: isSwitchedOn,
+        title: Text(
+          'Make team private',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: Colors.black, fontSize: 17),
+        ),
+        subtitle: const Text(
+          'When your team is private, only admins can add new members.',
+        ),
+        activeColor: InteractiveColors.focused,
+        onChanged: (value) {
+          setState(() {
+            isSwitchedOn = value;
+          });
+          widget.onSwitchChanged(value);
+        },
       ),
     );
   }

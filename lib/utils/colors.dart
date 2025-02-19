@@ -78,6 +78,7 @@ class InteractiveColors {
   static const buttonEnabled = Color(0xFF1B8E3D);
   static const buttonPressed = Color(0xFF146E2F);
   static const buttonDisabled = Color(0xFFBDBDBD);
+  static const buttonDisabledSecondary = Color(0xFFDFCDCD);
 
   // Selection states
   static const selected = Color(0xFF47B16C);

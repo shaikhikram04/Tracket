@@ -1,220 +1,467 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/notifications/screens/manage_requests_screen.dart';
+import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/providers/providers.dart';
+import 'package:tracket/teams/providers/team_state.dart';
 import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
 
-  ListTile getRequestTile(
-      BuildContext context, String request, int count, void Function() onTap) {
-    return ListTile(
-      onTap: onTap,
-      title: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: request,
-              style: MyTextStyle(context).bodyLarge,
-            ),
-            TextSpan(
-              text: ' ($count)',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ],
-        ),
-      ),
-      trailing: const Icon(Icons.arrow_forward_ios),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final teamState = ref.watch(teamProvider);
-
-    void onDeleteTeam() {
-      showAlertDoubleBtnDialog(
-        context,
-        title: 'Delete Team',
-        content:
-            'Are you sure you want to delete this team? This action cannot be undone.',
-        sureButtonText: 'Delete',
-        onSureButtonPressed: () {
-          TeamsServices.deleteTeam(context, teamState.team.id);
-        },
-      );
-    }
-
-    void removeAdmin(String playerId) {
-      showAlertDoubleBtnDialog(
-        context,
-        title: 'Remove Admin',
-        content: 'Are you sure you want to remove this admin?',
-        sureButtonText: 'Remove',
-        onSureButtonPressed: () {
-          PlayersServices.changePlayerTeamRole(
-              playerId: playerId,
-              teamId: teamState.team.id,
-              newRole: TeamRole.player,
-              ref: ref,
-              context: context);
-        },
-      );
-    }
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDarkMode
+          ? DarkThemeColors.backgroundColor
+          : LightThemeColors.backgroundColor,
       appBar: AppBar(
-        title: const Text('Team Settings'),
+        title: const Text(
+          'Team Settings',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: onPrimary,
+          ),
+        ),
+        backgroundColor: primaryColor,
+        foregroundColor: onPrimary,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            //! Admins Section
-            MyCard(
-              child: Column(
-                children: [
-                  //! Title Row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      getTitleText('Manage Admins', context),
-                      IconButton(
-                        onPressed: () {
-                          ref.read(requestProvider.notifier).reset();
-                          pushScreen(context, AddAdmin(team: teamState.team));
-                        },
-                        icon: const Icon(Icons.person_add),
-                        iconSize: 30,
-                        color: grassGreen,
-                      )
-                    ],
-                  ),
-                  //! Admins List
-                  Column(
-                    children: [
-                      for (final admin in teamState.team.admins)
-                        ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0,
-                              vertical: 2,
-                            ),
-                            onTap: () {
-                              pushScreen(context,
-                                  PlayerProfileScreen(playerId: admin.id));
-                            },
-                            leading: getCircleAvatar(
-                                url: admin.imageUrl, isTeam: false, radius: 25),
-                            title: Text(admin.name),
-                            subtitle: Text(admin.role.toString()),
-                            trailing: admin.role == TeamRole.owner
-                                ? null
-                                : CustomButton.secondary(
-                                    onPressed: () => removeAdmin(admin.id),
-                                    text: 'Remove',
-                                    textStyle: MyTextStyle(context)
-                                        .mediumButtonText
-                                        .copyWith(color: StatusColors.error),
-                                    backgroundColor:
-                                        LightThemeColors.surfaceColor,
-                                    borderColor: StatusColors.error,
-                                    size: ButtonSize.small,
-                                  )),
-                    ],
-                  ),
-                ],
-              ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            children: [
+              _buildAdminsSection(context, ref, teamState),
+              const SizedBox(height: 16),
+              _buildRequestsSection(context, teamState),
+              const SizedBox(height: 16),
+              _buildPrivacySection(context, ref, teamState),
+              const SizedBox(height: 16),
+              _buildDangerZone(context, teamState),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAdminsSection(
+      BuildContext context, WidgetRef ref, TeamState teamState) {
+    return _SectionCard(
+      title: 'Team Administrators',
+      titleIcon: Icons.admin_panel_settings,
+      action: IconButton(
+        onPressed: () {
+          ref.read(requestProvider.notifier).reset();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddAdmin(team: teamState.team),
             ),
-            //! Requests Section
-            MyCard(
-              child: Column(
-                children: [
-                  //! Title Row
-                  getTitleText('Player Request', context),
-                  const SizedBox(height: 10),
-                  getRequestTile(
-                    context,
-                    'Recieved Requests',
-                    teamState.team.requestStatus.pendingRequest,
-                    () {
-                      pushScreen(context,
-                          ManageRequestsScreen(teamId: teamState.team.id));
-                    },
-                  ),
-                  getRequestTile(
-                    context,
-                    'Sent Requests',
-                    teamState.team.requestStatus.sendRequest,
-                    () {
-                      pushScreen(
-                          context,
-                          ManageRequestsScreen(
-                            teamId: teamState.team.id,
-                            initialIndex: 1,
-                          ));
-                    },
-                  ),
-                ],
-              ),
-            ),
-            //! Privacy Settings
-            PrivacySettings(
-              isTeamPrivate: teamState.team.isPrivate,
-              onSwitchChanged: (newValue) async {
-                if (newValue) {
-                  showSnackBar('Now no one can add directly in team', context);
-                } else {
-                  showSnackBar('Now anyone can add directly in team', context);
-                }
-                await TeamsServices.updateTeamPrivacy(
+          );
+        },
+        icon: const Icon(Icons.person_add, color: primaryColor),
+        tooltip: 'Add New Admin',
+      ),
+      child: Column(
+        children: [
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: teamState.team.admins.length,
+            separatorBuilder: (_, __) => const Divider(height: 0.5),
+            itemBuilder: (context, index) {
+              final admin = teamState.team.admins[index];
+              return _AdminListTile(
+                admin: admin,
+                onTap: () => Navigator.push(
                   context,
-                  teamId: teamState.team.id,
-                  isPrivate: newValue,
-                );
-                ref
-                    .read(teamProvider.notifier)
-                    .updateField(isTeamPrivate: newValue);
-              },
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PlayerProfileScreen(playerId: admin.id),
+                  ),
+                ),
+                onRemove: admin.role != TeamRole.owner
+                    ? () => _showRemoveAdminDialog(
+                        context, ref, admin.id, teamState.team.id, admin.name)
+                    : null,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRequestsSection(BuildContext context, TeamState teamState) {
+    return _SectionCard(
+      title: 'Request Management',
+      titleIcon: Icons.people_outline,
+      child: Column(
+        children: [
+          _RequestTile(
+            icon: Icons.download_rounded,
+            title: 'Received Requests',
+            count: teamState.team.requestStatus.pendingRequest,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ManageRequestsScreen(teamId: teamState.team.id),
+              ),
             ),
-            //! Delete Team
-            MyCard(
-              child: Row(
-                spacing: 16,
-                mainAxisSize: MainAxisSize.max,
+          ),
+          const Divider(height: 1),
+          _RequestTile(
+            icon: Icons.upload_rounded,
+            title: 'Sent Requests',
+            count: teamState.team.requestStatus.sendRequest,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ManageRequestsScreen(
+                  teamId: teamState.team.id,
+                  initialIndex: 1,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPrivacySection(
+      BuildContext context, WidgetRef ref, TeamState teamState) {
+    return _SectionCard(
+      title: 'Privacy Settings',
+      titleIcon: Icons.security,
+      child: PrivacySettings(
+        isTeamPrivate: teamState.team.isPrivate,
+        onSwitchChanged: (newValue) => _handlePrivacyChange(
+          context,
+          ref,
+          teamState.team.id,
+          newValue,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDangerZone(BuildContext context, TeamState teamState) {
+    return _SectionCard(
+      title: 'Danger Zone',
+      titleIcon: Icons.warning,
+      backgroundColor: StatusColors.error.withOpacity(0.1),
+      titleColor: StatusColors.error,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            const Icon(Icons.delete_forever, color: StatusColors.error),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Delete Team',
-                    style: MyTextStyle(context)
-                        .titleLarge
-                        .copyWith(color: Colors.red),
+                    style: TextStyle(
+                      color: StatusColors.error,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Spacer(),
-                  CustomButton.secondary(
-                    onPressed: onDeleteTeam,
-                    text: 'Delete',
-                    textStyle: MyTextStyle(context)
-                        .mediumButtonText
-                        .copyWith(color: StatusColors.error),
-                    backgroundColor: LightThemeColors.surfaceColor,
-                    borderColor: StatusColors.error,
-                    size: ButtonSize.small,
+                  const SizedBox(height: 4),
+                  Text(
+                    'This action cannot be undone.',
+                    style: TextStyle(
+                      color: StatusColors.error.withOpacity(0.8),
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            CustomButton.secondary(
+              onPressed: () =>
+                  _showDeleteTeamDialog(context, teamState.team.id),
+              text: 'Delete',
+              textStyle: const TextStyle(color: StatusColors.error),
+              backgroundColor: InteractiveColors.buttonDisabledSecondary,
+              borderColor: StatusColors.error,
+              size: ButtonSize.small,
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _handlePrivacyChange(
+      BuildContext context, WidgetRef ref, String teamId, bool newValue) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          newValue
+              ? 'Team is now private. New members require approval.'
+              : 'Team is now public. Anyone can join directly.',
+        ),
+        backgroundColor: primaryColor,
+      ),
+    );
+
+    await TeamsServices.updateTeamPrivacy(
+      context,
+      teamId: teamId,
+      isPrivate: newValue,
+    );
+    ref.read(teamProvider.notifier).updateField(isTeamPrivate: newValue);
+  }
+
+  void _showRemoveAdminDialog(BuildContext context, WidgetRef ref,
+      String adminId, String teamId, String adminName) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Remove Admin'),
+        content:
+            Text('Are you sure you want to remove $adminName as an admin?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              PlayersServices.changePlayerTeamRole(
+                playerId: adminId,
+                teamId: teamId,
+                newRole: TeamRole.player,
+                ref: ref,
+                context: context,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: StatusColors.error,
+              foregroundColor: onPrimary,
+            ),
+            child: const Text('Remove'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteTeamDialog(BuildContext context, String teamId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Team'),
+        content: const Text(
+          'This action cannot be undone. All team data, including matches and statistics, will be permanently deleted.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              TeamsServices.deleteTeam(context, teamId);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: StatusColors.error,
+              foregroundColor: onPrimary,
+            ),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionCard extends StatelessWidget {
+  const _SectionCard({
+    required this.title,
+    required this.child,
+    required this.titleIcon,
+    this.action,
+    this.backgroundColor,
+    this.titleColor,
+  });
+
+  final String title;
+  final Widget child;
+  final IconData titleIcon;
+  final Widget? action;
+  final Color? backgroundColor;
+  final Color? titleColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: backgroundColor ??
+            (isDarkMode
+                ? DarkThemeColors.surfaceColor
+                : LightThemeColors.surfaceColor),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Icon(
+                  titleIcon,
+                  color: titleColor ?? primaryColor,
+                  size: 24,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: titleColor ??
+                        (isDarkMode
+                            ? DarkThemeColors.primaryText
+                            : LightThemeColors.primaryText),
+                  ),
+                ),
+                const Spacer(),
+                if (action != null) action!,
+              ],
+            ),
+          ),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _AdminListTile extends StatelessWidget {
+  const _AdminListTile({
+    required this.admin,
+    required this.onTap,
+    this.onRemove,
+  });
+
+  final PlayerDetails admin; // Replace with your actual admin model type
+  final VoidCallback onTap;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      leading: getCircleAvatar(
+        url: admin.imageUrl,
+        isTeam: false,
+        radius: 24,
+        hasBorder: false,
+      ),
+      title: Text(
+        admin.name,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      subtitle: Text(
+        admin.role.name,
+        style: TextStyle(
+          color: admin.role == TeamRole.owner ? primaryColor : null,
+        ),
+      ),
+      trailing: onRemove != null
+          ? CustomButton.secondary(
+              onPressed: onRemove!,
+              text: 'Remove',
+              textStyle: const TextStyle(color: StatusColors.error),
+              backgroundColor: LightThemeColors.surfaceColor,
+              borderColor: StatusColors.error,
+              size: ButtonSize.small,
+            )
+          : null,
+    );
+  }
+}
+
+class _RequestTile extends StatelessWidget {
+  const _RequestTile({
+    required this.icon,
+    required this.title,
+    required this.count,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final int count;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return ListTile(
+      onTap: onTap,
+      leading: Icon(icon, color: primaryColor),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: isDarkMode
+              ? DarkThemeColors.primaryText
+              : LightThemeColors.primaryText,
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: primaryLight.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              count.toString(),
+              style: const TextStyle(
+                color: primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          const Icon(Icons.arrow_forward_ios, size: 16),
+        ],
       ),
     );
   }
