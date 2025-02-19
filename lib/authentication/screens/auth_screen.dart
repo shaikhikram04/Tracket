@@ -144,7 +144,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           end: Alignment.bottomRight,
           colors: [
             LightThemeColors.cardColor,
-            LightThemeColors.cardColor.withOpacity(0.8),
+            LightThemeColors.cardColor.withValues(alpha: 0.8),
           ],
         ),
         borderRadius: const BorderRadius.vertical(

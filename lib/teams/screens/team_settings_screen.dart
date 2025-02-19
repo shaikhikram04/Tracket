@@ -164,7 +164,7 @@ class TeamSettingsScreen extends ConsumerWidget {
     return _SectionCard(
       title: 'Danger Zone',
       titleIcon: Icons.warning,
-      backgroundColor: StatusColors.error.withOpacity(0.1),
+      backgroundColor: StatusColors.error.withValues(alpha: 0.1),
       titleColor: StatusColors.error,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -187,7 +187,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                   Text(
                     'This action cannot be undone.',
                     style: TextStyle(
-                      color: StatusColors.error.withOpacity(0.8),
+                      color: StatusColors.error.withValues(alpha:  0.8),
                       fontSize: 12,
                     ),
                   ),
@@ -326,7 +326,7 @@ class _SectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -448,7 +448,7 @@ class _RequestTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: primaryLight.withOpacity(0.2),
+              color: primaryLight.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
