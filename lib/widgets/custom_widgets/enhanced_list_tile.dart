@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -57,7 +58,7 @@ class EnhancedListTile extends StatelessWidget {
             ),
           ),
       child: Material(
-        color: backgroundColor ?? theme.cardColor,
+        color: backgroundColor ?? primaryColor.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           onTap: onTap,

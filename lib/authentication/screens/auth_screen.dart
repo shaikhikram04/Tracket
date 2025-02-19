@@ -75,6 +75,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     final safeAreaHeight = getSafeAreaHeight(context);
 
     return Scaffold(
+      backgroundColor: LightThemeColors.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
@@ -113,10 +114,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         borderRadius: BorderRadius.circular(_kTabRadius),
         boxShadow: [
           BoxShadow(
-            color: primaryColor.withOpacity(0.12),
-            blurRadius: 20,
+            color: primaryColor.withValues(alpha: 0.15),
+            blurRadius: 24,
             offset: const Offset(0, 8),
             spreadRadius: 2,
+          ),
+          BoxShadow(
+            color: primaryLight.withValues(alpha: 0.08),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -132,7 +139,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   Widget _buildTabs() {
     return Container(
       decoration: BoxDecoration(
-        color: LightThemeColors.secondaryText.withValues(alpha: 0.25),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            LightThemeColors.cardColor,
+            LightThemeColors.cardColor.withOpacity(0.8),
+          ],
+        ),
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(_kTabRadius),
         ),
@@ -145,11 +159,29 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
               fontWeight: FontWeight.w600,
             ),
         indicator: BoxDecoration(
-          color: primaryColor,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              primaryColor,
+              primaryMedium,
+            ],
+          ),
           borderRadius: _getTabBorderRadius(),
         ),
         labelColor: LightThemeColors.surfaceColor,
         unselectedLabelColor: LightThemeColors.secondaryText,
+        overlayColor: WidgetStateColor.resolveWith(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.hovered)) {
+              return primaryLight.withValues(alpha: 0.1);
+            }
+            if (states.contains(WidgetState.pressed)) {
+              return primaryLight.withValues(alpha: 0.2);
+            }
+            return Colors.transparent;
+          },
+        ),
         tabs: const [
           Tab(child: Text('Player')),
           Tab(child: Text('User')),
@@ -159,8 +191,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   BorderRadius _getTabBorderRadius() {
-    return BorderRadius.vertical(
-      top: const Radius.circular(_kTabRadius),
+    return const BorderRadius.vertical(
+      top: Radius.circular(_kTabRadius),
       bottom: Radius.circular(0),
     );
   }
@@ -172,13 +204,21 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         height: height,
         child: _isChangingTab
             ? Center(child: _buildLoadingIndicator())
-            : TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _tabController,
-                children: const [
-                  PlayerAuth(),
-                  UserAuth(),
-                ],
+            : Container(
+                decoration: BoxDecoration(
+                  color: LightThemeColors.surfaceColor,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(_kTabRadius),
+                  ),
+                ),
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: const [
+                    PlayerAuth(),
+                    UserAuth(),
+                  ],
+                ),
               ),
       ),
     );
@@ -186,7 +226,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   Widget _buildLoadingIndicator() {
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+      valueColor: AlwaysStoppedAnimation<Color>(primaryMedium),
       strokeWidth: 3,
     );
   }

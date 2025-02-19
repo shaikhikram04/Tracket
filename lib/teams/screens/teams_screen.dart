@@ -8,6 +8,7 @@ import 'package:tracket/teams/screens/create_team_screen.dart';
 import 'package:tracket/teams/screens/explore_teams.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -89,7 +90,7 @@ class TeamsScreen extends ConsumerWidget {
         },
       ),
       floatingActionButton: SpeedDial(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: primaryColor,
         foregroundColor: Colors.white,
         animatedIcon: AnimatedIcons.menu_close,
         overlayOpacity: 0.45,

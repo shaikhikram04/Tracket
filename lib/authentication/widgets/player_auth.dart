@@ -105,13 +105,16 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             const SizedBox(height: 30),
             if (!playerAuthState.isLogin)
               MyTextField(
-                  isLogin: playerAuthState.isLogin,
-                  onSave: (value) => ref
-                      .read(playerAuthProvider.notifier)
-                      .updateField(playerName: value),
-                  label: 'Player Name',
-                  validator: (value) =>
-                      ValidationServices.nameValidator(value, 'Player name')),
+                isLogin: playerAuthState.isLogin,
+                onSave: (value) => ref
+                    .read(playerAuthProvider.notifier)
+                    .updateField(playerName: value),
+                label: 'Player Name',
+                validator: (value) =>
+                    ValidationServices.nameValidator(value, 'Player name'),
+                fillColor: LightThemeColors.backgroundColor,
+                prefixIcon: Icons.person_outline,
+              ),
             if (!playerAuthState.isLogin) const SizedBox(height: 30),
             MyTextField(
               isLogin: playerAuthState.isLogin,
@@ -120,6 +123,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .updateField(email: value),
               label: 'Email',
               validator: ValidationServices.emailValidator,
+              prefixIcon: Icons.email_outlined,
+              fillColor: LightThemeColors.backgroundColor,
             ),
             const SizedBox(height: 30),
             MyTextField(
@@ -134,6 +139,8 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .read(playerAuthProvider.notifier)
                   .togglePasswordVisibility,
               isLogin: playerAuthState.isLogin,
+              fillColor: LightThemeColors.backgroundColor,
+              prefixIcon: Icons.lock_outline,
             ),
             const SizedBox(height: 30),
             if (!playerAuthState.isLogin) ...signUpField,
@@ -147,7 +154,9 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                     : () => _onSubmit(playerAuthState.isLogin),
                 text: playerAuthState.isLogin ? 'Login' : 'Sign Up',
                 isLoading: playerAuthState.isLoading,
-                textStyle: MyTextStyle(context).cardTitle,
+                textStyle: MyTextStyle(context).cardTitle.copyWith(
+                      color: LightThemeColors.surfaceColor,
+                    ),
                 backgroundColor: primaryColor,
                 foregroundColor: LightThemeColors.surfaceColor,
                 borderRadius: 10,

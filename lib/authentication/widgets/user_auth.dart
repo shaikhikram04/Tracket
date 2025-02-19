@@ -63,6 +63,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                     .updateField(playerName: value),
                 label: 'Username',
                 validator: ValidationServices.usernameValidator,
+                fillColor: LightThemeColors.backgroundColor,
+                prefixIcon: Icons.person_outline,
               ),
             if (!userAuthState.isLogin) const SizedBox(height: 30),
             MyTextField(
@@ -72,6 +74,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                   .updateField(email: value),
               label: 'Email',
               validator: ValidationServices.emailValidator,
+              fillColor: LightThemeColors.backgroundColor,
+              prefixIcon: Icons.email_outlined,
             ),
             const SizedBox(height: 30),
             MyTextField(
@@ -86,6 +90,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                   .togglePasswordVisibility,
               validator: (value) => ValidationServices.passwordValidator(
                   value, userAuthState.isLogin),
+              fillColor: LightThemeColors.backgroundColor,
+              prefixIcon: Icons.lock_outline,
             ),
             const SizedBox(height: 30),
             SizedBox(

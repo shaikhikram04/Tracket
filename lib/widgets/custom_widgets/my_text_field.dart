@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyTextField extends StatelessWidget {
@@ -62,7 +63,13 @@ class MyTextField extends StatelessWidget {
               )
             : null,
         labelText: label,
+        labelStyle: MyTextStyle(context).bodyLarge.copyWith(
+              color: fillColor != null
+                  ? LightThemeColors.tertiaryText
+                  : primaryColor.withValues(alpha: 0.7),
+            ),
         fillColor: fillColor,
+        filled: fillColor != null,
         errorMaxLines: 2,
         prefixIcon:
             prefixIcon != null ? Icon(prefixIcon, color: primaryColor) : null,
