@@ -5,6 +5,7 @@ const Color primaryColor = Color(0xFF1B8E3D); // Professional cricket green
 const Color primaryVariant = Color(0xFF146E2F); // Darker green for depth
 const Color primaryLight = Color(0xFF47B16C); // Lighter green for accents
 const Color primaryMedium = Color(0xFF219B48); // Medium green for balance
+const Color onPrimary = Color(0xFFF5F7F5);
 
 //* Secondary Color Scheme
 const Color secondaryColor = Color(0xFF3498DB); // Blue accent

@@ -13,21 +13,13 @@ import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/teams/widgets/team_selection_dialog.dart';
+import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/widgets/stats_data.dart';
-
-const primaryGreen = Color(0xFF2E7D32); // Dark green
-const secondaryGreen = Color(0xFF4CAF50); // Medium green
-const lightGreen = Color(0xFFA5D6A7); // Light green
-const accentGreen = Color(0xFF1B5E20); // Darker green
-const surfaceGreen = Color(0xFFE8F5E9); // Very light green
-const textOnGreen = Colors.white;
-const gradientGreenStart = Color(0xFF43A047);
-const gradientGreenEnd = Color(0xFF2E7D32);
 
 class TeamProfileScreen extends ConsumerStatefulWidget {
   const TeamProfileScreen({
@@ -181,11 +173,11 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       appBar: AppBar(
         title: const Text(
           'Team Details',
-          style: TextStyle(color: textOnGreen),
+          style: TextStyle(color: LightThemeColors.surfaceColor),
         ),
-        backgroundColor: gradientGreenStart,
-        foregroundColor: textOnGreen,
-        shape: Border.all(color: gradientGreenStart, width: 0),
+        backgroundColor: primaryColor,
+        foregroundColor: LightThemeColors.surfaceColor,
+        shape: Border.all(color: primaryColor, width: 0),
         actions: isAdmin
             ? [
                 IconButton(
@@ -202,8 +194,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                     );
                   },
-                  icon:
-                      const Icon(Icons.more_vert, color: textOnGreen, size: 30),
+                  icon: const Icon(Icons.more_vert,
+                      color: LightThemeColors.surfaceColor, size: 30),
                 ),
               ]
             : null,
@@ -211,16 +203,19 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
         elevation: 0,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: primaryGreen))
+          ? const Center(child: CircularProgressIndicator(color: primaryColor))
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Team Logo & name section
                   Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [gradientGreenStart, gradientGreenEnd],
+                        colors: [
+                          GradientColors.matchCardStart,
+                          GradientColors.matchCardEnd,
+                        ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
@@ -254,7 +249,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             style: MyTextStyle(context)
                                                 .titleLarge
                                                 .copyWith(
-                                                  color: textOnGreen,
+                                                  color: LightThemeColors
+                                                      .surfaceColor,
                                                 ),
                                           ),
                                           TextSpan(
@@ -263,7 +259,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             style: MyTextStyle(context)
                                                 .titleMedium
                                                 .copyWith(
-                                                  color: lightGreen,
+                                                  color: LightThemeColors
+                                                      .backgroundColor,
                                                 ),
                                           )
                                         ],
@@ -274,7 +271,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       style: MyTextStyle(context)
                                           .bodyMedium
                                           .copyWith(
-                                            color: textOnGreen,
+                                            color: DarkThemeColors.primaryText,
                                           ),
                                     ),
                                   ],
@@ -288,20 +285,20 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               StatsData(
                                 number: teamState.team.followers.length,
                                 label: 'Followers',
-                                labelColor: lightGreen,
-                                numColor: textOnGreen,
+                                labelColor: DarkThemeColors.primaryText,
+                                numColor: LightThemeColors.surfaceColor,
                               ),
                               StatsData(
                                 number: teamState.team.stats.rank,
                                 label: 'Ranking',
-                                labelColor: lightGreen,
-                                numColor: textOnGreen,
+                                labelColor: DarkThemeColors.primaryText,
+                                numColor: LightThemeColors.surfaceColor,
                               ),
                               StatsData(
                                 number: teamState.team.stats.matchesPlayed,
                                 label: 'Achievements',
-                                labelColor: lightGreen,
-                                numColor: textOnGreen,
+                                labelColor: DarkThemeColors.primaryText,
+                                numColor: LightThemeColors.surfaceColor,
                               ),
                             ],
                           ),
@@ -320,21 +317,22 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             player.id,
                                             false),
                                         text: 'Unfollow',
-                                        backgroundColor: surfaceGreen,
-                                        borderColor: primaryGreen,
+                                        backgroundColor:
+                                            LightThemeColors.surfaceColor,
+                                        borderColor: primaryVariant,
                                         textStyle: MyTextStyle(context)
                                             .mediumButtonText
-                                            .copyWith(color: primaryGreen),
+                                            .copyWith(color: primaryColor),
                                       )
                                     : CustomButton.primary(
                                         isLoading: isFollowing,
                                         onPressed: () => _followTeam(
                                             teamState.team.id, player.id, true),
                                         text: 'Follow',
-                                        backgroundColor: accentGreen,
+                                        backgroundColor: primaryVariant,
                                         textStyle: MyTextStyle(context)
                                             .mediumButtonText
-                                            .copyWith(color: textOnGreen),
+                                            .copyWith(color: onPrimary),
                                       ),
                               ),
                               if (isChallengeVisible)
@@ -358,18 +356,19 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             ),
                                           ),
                                           text: 'Challenge',
-                                          backgroundColor: accentGreen,
+                                          backgroundColor: primaryVariant,
                                           textStyle: MyTextStyle(context)
                                               .mediumButtonText
-                                              .copyWith(color: textOnGreen),
+                                              .copyWith(color: onPrimary),
                                         )
                                       : CustomButton.secondary(
                                           text: 'Challenged',
                                           onPressed: null,
-                                          backgroundColor: surfaceGreen,
+                                          backgroundColor:
+                                              LightThemeColors.surfaceColor,
                                           textStyle: MyTextStyle(context)
                                               .mediumButtonText
-                                              .copyWith(color: primaryGreen),
+                                              .copyWith(color: onPrimary),
                                         ),
                                 ),
                               if (!isChallengeVisible)
@@ -390,7 +389,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontSize: 23,
-                                    color: primaryGreen,
+                                    color: primaryColor,
                                   ),
                         ),
                         const SizedBox(height: 17),
@@ -400,12 +399,12 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             StatsData(
                               number: teamState.team.stats.matchesPlayed,
                               label: 'Matches',
-                              numColor: secondaryGreen,
+                              numColor: primaryColor,
                             ),
                             StatsData(
                               number: teamState.team.stats.wins,
                               label: 'Wins',
-                              numColor: accentGreen,
+                              numColor: primaryColor,
                             ),
                             StatsData(
                               number: teamState.team.stats.losses,

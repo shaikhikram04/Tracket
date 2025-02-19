@@ -3,6 +3,7 @@ import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/players/widgets/player_list_tile.dart';
 import 'package:tracket/teams/models/team.dart';
+import 'package:tracket/widgets/custom_widgets/action_button.dart';
 
 class PlayerListView extends StatelessWidget {
   const PlayerListView({
@@ -10,6 +11,7 @@ class PlayerListView extends StatelessWidget {
     required this.players,
     required this.team,
     required this.emptyStateWidget,
+    required this.buttonType,
     this.isPlayerPrivate = false,
   });
 
@@ -17,7 +19,7 @@ class PlayerListView extends StatelessWidget {
   final Team team;
   final Widget emptyStateWidget;
   final bool isPlayerPrivate;
-
+  final ActionButtonType buttonType;
   @override
   Widget build(BuildContext context) {
     if (players.isEmpty) return emptyStateWidget;
@@ -28,6 +30,7 @@ class PlayerListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final player = players[index];
         return PlayerListTile(
+          buttonType: buttonType,
           showRoleIcon: true,
           player: player,
           team: team,

@@ -244,7 +244,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                 ActionButton(
                   idsList: playerTeamsId,
                   isPrivate: team.isPrivate,
-                  buttonType: 'joinTeam',
+                  buttonType: ActionButtonType.joinTeam,
                   teamInfo: teamInfo,
                   playerInfo: playerInfo,
                   isTeamHasCapacity: team.hasCapacity,

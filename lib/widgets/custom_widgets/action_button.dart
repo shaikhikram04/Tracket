@@ -10,6 +10,12 @@ import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
+enum ActionButtonType {
+  addPlayer,
+  joinTeam,
+  addAdmin,
+}
+
 class ActionButton extends StatelessWidget {
   const ActionButton({
     super.key,
@@ -28,7 +34,7 @@ class ActionButton extends StatelessWidget {
 
   final List<String> idsList;
   final bool isPrivate;
-  final String buttonType;
+  final ActionButtonType buttonType;
   final PlayerDetails playerInfo;
   final TeamDetails teamInfo;
   final bool isTeamHasCapacity;
@@ -41,10 +47,11 @@ class ActionButton extends StatelessWidget {
   final double loadingStrokeWidth;
 
   String get currentId =>
-      buttonType == 'joinTeam' ? teamInfo.id : playerInfo.id;
+      buttonType == ActionButtonType.joinTeam ? teamInfo.id : playerInfo.id;
 
   String _getButtonText(bool isAdded) {
-    final isOffer = buttonType == 'addPlayer' || buttonType == 'addAdmin';
+    final isOffer = buttonType == ActionButtonType.addPlayer ||
+        buttonType == ActionButtonType.addAdmin;
     final baseText = isOffer ? 'Add' : 'Join';
     final pastText = isOffer ? 'Added' : 'Joined';
 
@@ -95,10 +102,10 @@ class ActionButton extends StatelessWidget {
     final requestServices = RequestsServices();
 
     switch (buttonType) {
-      case 'addPlayer':
-      case 'joinTeam':
+      case ActionButtonType.addPlayer:
+      case ActionButtonType.joinTeam:
         if (isPrivate) {
-          final result = buttonType == 'addPlayer'
+          final result = buttonType == ActionButtonType.addPlayer
               ? await requestServices.offerPlayerToJoinTeam(
                   teamInfo: teamInfo,
                   playerInfo: playerInfo,
@@ -121,7 +128,7 @@ class ActionButton extends StatelessWidget {
         }
         break;
 
-      case 'addAdmin':
+      case ActionButtonType.addAdmin:
         await PlayersServices.changePlayerTeamRole(
           playerId: playerInfo.id,
           teamId: teamInfo.id,
@@ -142,7 +149,9 @@ class ActionButton extends StatelessWidget {
             requestStatus.requestInProgress.contains(currentId);
         final isRequestSuccess =
             requestStatus.requestSuccess.contains(currentId);
-        final isAdded = idsList.contains(currentId) || isRequestSuccess;
+        final isAdded = (idsList.contains(currentId) &&
+                buttonType != ActionButtonType.addAdmin) ||
+            isRequestSuccess;
 
         return AnimatedContainer(
           duration: const Duration(milliseconds: 200),
@@ -171,7 +180,7 @@ class ActionButton extends StatelessWidget {
                 : Text(
                     _getButtonText(isAdded),
                     style: TextStyle(
-                      color: isAdded ? Colors.black54 : Colors.black87,
+                      color: isAdded ? Colors.black54 : onPrimary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

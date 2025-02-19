@@ -166,7 +166,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
       trailing: ActionButton(
         idsList: playersId,
         isPrivate: isPrivate,
-        buttonType: 'addPlayer',
+        buttonType: ActionButtonType.addPlayer,
         playerInfo: playerInfo,
         teamInfo: teamInfo,
         isTeamHasCapacity: widget.team.hasCapacity,
@@ -250,7 +250,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         trailing: ActionButton(
           idsList: playersId,
           isPrivate: isPrivate,
-          buttonType: 'addPlayer',
+          buttonType: ActionButtonType.addPlayer,
           playerInfo: playerInfo,
           teamInfo: teamInfo,
           isTeamHasCapacity: widget.team.hasCapacity,

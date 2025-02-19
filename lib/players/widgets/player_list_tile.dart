@@ -13,6 +13,7 @@ class PlayerListTile extends StatelessWidget {
     required this.team,
     required this.onTap,
     required this.isPrivate,
+    required this.buttonType,
     this.isSelected = false,
     this.showRoleIcon = true,
     this.contentPadding,
@@ -33,6 +34,7 @@ class PlayerListTile extends StatelessWidget {
   final Color? backgroundColor;
   final double avatarRadius;
   final double buttonMinWidth;
+  final ActionButtonType buttonType;
 
   TeamDetails get _teamInfo => TeamDetails(
         id: team.id,
@@ -46,7 +48,7 @@ class PlayerListTile extends StatelessWidget {
     return ActionButton(
       idsList: team.playerIds,
       isPrivate: isPrivate,
-      buttonType: 'addPlayer',
+      buttonType: buttonType ,
       playerInfo: player,
       teamInfo: _teamInfo,
       isTeamHasCapacity: team.hasCapacity,
