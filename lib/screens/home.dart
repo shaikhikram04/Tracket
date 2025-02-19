@@ -63,9 +63,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ];
 
   final List<String> _titles = [
-    'Team',
+    'Teams',
     'Matches',
-    'Tournament',
+    'Tournaments',
   ];
 
   @override

@@ -11,6 +11,7 @@ import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/highlighted_label.dart';
 
 class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});
@@ -319,20 +320,10 @@ class _TeamListTile extends StatelessWidget {
           ),
           if (teamRole != TeamRole.player) ...[
             const SizedBox(height: 4),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              decoration: BoxDecoration(
-                color: primaryColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                teamRole.name,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: primaryColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+            HighlightedLabel(
+              text: teamRole.name,
+              size: HighlightSize.small,
+              color: isDarkMode ? DarkThemeColors.primaryText : primaryColor,
             ),
           ],
         ],
