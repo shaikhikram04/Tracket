@@ -10,7 +10,7 @@ class MatchesScreen extends StatefulWidget {
 }
 
 class _MatchesScreenState extends State<MatchesScreen> {
-  int _selectedTabIndex = 1;
+  int _selectedTabIndex = 0;
 
   void _onTabChange(int index) {
     setState(() {
@@ -27,24 +27,31 @@ class _MatchesScreenState extends State<MatchesScreen> {
           children: [
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  MatchTabs(
-                    text: 'Completed',
-                    isSelected: _selectedTabIndex == 0,
-                    onTap: () => _onTabChange(0),
+              child: CricketMatchTabs(
+                tabs: [
+                  MatchTabData(
+                    label: 'My Matches',
+                    count: 0,
+                    isLive: false,
                   ),
-                  MatchTabs(
-                    text: 'Live',
-                    isSelected: _selectedTabIndex == 1,
-                    onTap: () => _onTabChange(1),
+                  MatchTabData(
+                    label: 'Completed',
+                    count: 0,
+                    isLive: false,
                   ),
-                  MatchTabs(
-                    text: 'Upcoming',
-                    isSelected: _selectedTabIndex == 2,
-                    onTap: () => _onTabChange(2),
+                  MatchTabData(
+                    label: 'Live',
+                    count: 0,
+                    isLive: true,
+                  ),
+                  MatchTabData(
+                    label: 'Upcoming',
+                    count: 0,
+                    isLive: false,
                   ),
                 ],
+                selectedIndex: _selectedTabIndex,
+                onTabSelected: _onTabChange,
               ),
             ),
             Expanded(
