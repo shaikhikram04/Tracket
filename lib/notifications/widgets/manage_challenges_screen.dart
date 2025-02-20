@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
 import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
-import 'package:tracket/notifications/widgets/requests_fetcher.dart';
+import 'package:tracket/notifications/widgets/challenges_fetcher.dart';
 
-class ManageRequestsScreen extends BaseTabScreen {
-  const ManageRequestsScreen({super.key, super.initialIndex, this.teamId});
+class ManageChallengesScreen extends BaseTabScreen {
+  const ManageChallengesScreen({super.key, this.teamId});
 
   final String? teamId;
 
   @override
-  State<ManageRequestsScreen> createState() => _RequestsScreenState();
+  State<ManageChallengesScreen> createState() => _ManageChallengesScreenState();
 }
 
-class _RequestsScreenState extends State<ManageRequestsScreen>
+class _ManageChallengesScreenState extends State<ManageChallengesScreen>
     with SingleTickerProviderStateMixin, TabControllerMixin {
   static const _tabs = [
     NotificationTabConfig(
@@ -31,7 +31,7 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
     super.initState();
     initTabController(
       _tabs.length,
-      initialIndex: widget.initialIndex,
+      
     );
   }
 
@@ -41,15 +41,9 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
       children: [
         buildTabBar(tabs: _tabs),
         buildTabBarView(
-          children: [
-            RequestsFetcher(
-              field: 'to',
-              teamId: widget.teamId,
-            ),
-            RequestsFetcher(
-              field: 'from',
-              teamId: widget.teamId,
-            ),
+          children: const [
+            ChallengesFetcher(field: 'to'),
+            ChallengesFetcher(field: 'from'),
           ],
         ),
       ],

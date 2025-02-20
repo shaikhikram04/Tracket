@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/notifications/screens/manage_challenges_screen.dart';
-import 'package:tracket/notifications/screens/manage_requests_screen.dart';
+import 'package:tracket/notifications/widgets/manage_challenges_screen.dart';
+import 'package:tracket/notifications/widgets/manage_requests_screen.dart';
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
 import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';

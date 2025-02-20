@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/notifications/screens/manage_requests_screen.dart';
+import 'package:tracket/notifications/screens/challenge_screen.dart';
+import 'package:tracket/notifications/screens/request_screen.dart';
 import 'package:tracket/players/models/player_details.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/players/services/players_services.dart';
@@ -107,34 +108,31 @@ class TeamSettingsScreen extends ConsumerWidget {
 
   Widget _buildRequestsSection(BuildContext context, TeamState teamState) {
     return _SectionCard(
-      title: 'Request Management',
-      titleIcon: Icons.people_outline,
+      title: 'Request & Challenge Management',
+      titleIcon: Icons.manage_accounts_outlined,
       child: Column(
         children: [
           _RequestTile(
-            icon: Icons.download_rounded,
-            title: 'Received Requests',
+            icon: Icons.group_add_rounded,
+            title: 'Requests',
             count: teamState.team.requestStatus.pendingRequest,
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    ManageRequestsScreen(teamId: teamState.team.id),
+                builder: (context) => RequestScreen(teamId: teamState.team.id),
               ),
             ),
           ),
           const Divider(height: 1),
           _RequestTile(
-            icon: Icons.upload_rounded,
-            title: 'Sent Requests',
+            icon: Icons.sports_cricket_outlined,
+            title: 'Challenges',
             count: teamState.team.requestStatus.sendRequest,
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ManageRequestsScreen(
-                  teamId: teamState.team.id,
-                  initialIndex: 1,
-                ),
+                builder: (context) =>
+                    ChallengeScreen(teamId: teamState.team.id),
               ),
             ),
           ),
@@ -187,7 +185,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                   Text(
                     'This action cannot be undone.',
                     style: TextStyle(
-                      color: StatusColors.error.withValues(alpha:  0.8),
+                      color: StatusColors.error.withValues(alpha: 0.8),
                       fontSize: 12,
                     ),
                   ),
