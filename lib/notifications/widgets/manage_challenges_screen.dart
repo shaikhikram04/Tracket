@@ -31,7 +31,6 @@ class _ManageChallengesScreenState extends State<ManageChallengesScreen>
     super.initState();
     initTabController(
       _tabs.length,
-      
     );
   }
 
@@ -41,9 +40,9 @@ class _ManageChallengesScreenState extends State<ManageChallengesScreen>
       children: [
         buildTabBar(tabs: _tabs),
         buildTabBarView(
-          children: const [
-            ChallengesFetcher(field: 'to'),
-            ChallengesFetcher(field: 'from'),
+          children: [
+            ChallengesFetcher(field: 'to', teamId: widget.teamId),
+            ChallengesFetcher(field: 'from', teamId: widget.teamId),
           ],
         ),
       ],

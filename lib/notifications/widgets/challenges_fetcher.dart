@@ -11,17 +11,23 @@ class ChallengesFetcher extends ConsumerWidget {
   const ChallengesFetcher({
     super.key,
     required this.field,
+    this.teamId,
   });
 
   final String field;
+  final String? teamId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ids = [];
 
-    final player = ref.watch(playerProvider);
-    final playerTeamsId = player.playerTeamsId;
-    ids.addAll([...playerTeamsId, player.id]);
+    if (teamId != null) {
+      ids.add(teamId);
+    } else {
+      final player = ref.watch(playerProvider);
+      final playerTeamsId = player.playerTeamsId;
+      ids.addAll([...playerTeamsId, player.id]);
+    }
 
     return FutureBuilder(
       future: FirebaseFirestore.instance

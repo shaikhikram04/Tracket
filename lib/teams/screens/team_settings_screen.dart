@@ -125,7 +125,7 @@ class TeamSettingsScreen extends ConsumerWidget {
           ),
           const Divider(height: 1),
           _RequestTile(
-            icon: Icons.sports_cricket_outlined,
+            icon: Icons.sports_cricket,
             title: 'Challenges',
             count: teamState.team.requestStatus.sendRequest,
             onTap: () => Navigator.push(
