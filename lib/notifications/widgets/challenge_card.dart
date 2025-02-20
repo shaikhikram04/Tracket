@@ -147,10 +147,12 @@ class ChallengeCard extends StatelessWidget {
             onSureButtonPressed: onCanceChallenge,
           );
         },
-        textStyle: MyTextStyle(context).buttonText.copyWith(
+        textStyle: MyTextStyle(context).mediumButtonText.copyWith(
               color: StatusColors.error,
             ),
-        backgroundColor: StatusColors.error,
+        backgroundColor: LightThemeColors.surfaceColor,
+        borderColor: StatusColors.error,
+        size: ButtonSize.small,
         text: 'Cancel',
       ),
     );
