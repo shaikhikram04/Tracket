@@ -8,31 +8,32 @@ class TeamColumn extends StatelessWidget {
     required this.teamLogo,
     this.avatarRadius = 30.0,
     this.spacing = 8.0,
+    this.textStyle,
   });
 
   final String teamName;
   final String teamLogo;
   final double avatarRadius;
   final double spacing;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        spacing: spacing,
-        children: [
-          getCircleAvatar(
-            url: teamLogo,
-            isTeam: true,
-            radius: avatarRadius,
-          ),
-          Text(
-            teamName,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
+    return Column(
+      spacing: spacing,
+      children: [
+        getCircleAvatar(
+          url: teamLogo,
+          isTeam: true,
+          radius: avatarRadius,
+        ),
+        Text(
+          teamName,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: textStyle,
+        ),
+      ],
     );
   }
 }
