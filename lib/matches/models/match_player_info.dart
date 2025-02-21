@@ -42,7 +42,10 @@ class MatchPlayerInfo {
         playerName: snap['playerName'],
         profileImageUrl: snap['profileImageUrl'],
         longCricketRole: snap['longCricketRole'],
-        battingStatus: BattingStatus.values.byName(snap['battingStatus']),
+        battingStatus: BattingStatus.values.firstWhere(
+          (element) => element.name == snap['battingStatus'],
+          orElse: () => BattingStatus.notOut,
+        ),
       );
 
   static List<MatchPlayerInfo> fromPlayerDetailList(
