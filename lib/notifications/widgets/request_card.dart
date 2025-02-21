@@ -218,8 +218,12 @@ class RequestCard extends StatelessWidget {
               CustomButton.primary(
                 text: 'Accept',
                 isLoading: isRequestInProgress,
-                backgroundColor: const Color.fromARGB(255, 47, 134, 50),
+                backgroundColor: primaryColor,
                 onPressed: () => onAcceptRequest(ref),
+                textStyle: MyTextStyle(context)
+                    .mediumButtonText
+                    .copyWith(color: onPrimary, letterSpacing: 1),
+                size: ButtonSize.small,
               ),
               const SizedBox(width: 10),
               CustomButton.secondary(
@@ -228,35 +232,14 @@ class RequestCard extends StatelessWidget {
                 textStyle: MyTextStyle(context).buttonText.copyWith(
                       color: StatusColors.error,
                     ),
-                backgroundColor: StatusColors.error,
+                backgroundColor: LightThemeColors.surfaceColor,
+                borderColor: StatusColors.error,
+                size: ButtonSize.small,
               ),
             ],
           );
         },
       ),
     );
-  }
-
-  String timeAgo(DateTime dateTime) {
-    final Duration difference = DateTime.now().difference(dateTime);
-
-    if (difference.inDays >= 356) {
-      final int year = (difference.inDays / 365).floor();
-      return '${year}y ago';
-    } else if (difference.inDays >= 30) {
-      final int month = (difference.inDays / 30).floor();
-      return '${month}month ago';
-    } else if (difference.inDays >= 7) {
-      final int week = (difference.inDays / 7).floor();
-      return '${week}w ago';
-    } else if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} min ago';
-    }
-
-    return 'just now';
   }
 }
