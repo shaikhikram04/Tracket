@@ -32,6 +32,7 @@ class Match {
     required this.currentBatsmen,
     required this.strikerIndex,
     required this.currentBowlers,
+    required this.participants,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
@@ -68,6 +69,7 @@ class Match {
   final List<StrikerData>? currentBatsmen;
   final CurrentBowlerData? currentBowlers;
   final int strikerIndex;
+  final List<String> participants;
 
   final MatchStatus status;
   final Inning? inning1;
@@ -246,6 +248,7 @@ class Match {
         'currentOverRuns': currentOverRuns.map((e) => e?.toMap()).toList(),
         'currentBatsmen': currentBatsmen?.map((e) => e.toMap).toList(),
         'strikerIndex': strikerIndex,
+        'participants': participants,
       };
 
   Match copyWith({
@@ -263,6 +266,7 @@ class Match {
     int? strikerIndex,
     List<MatchPlayerInfo>? team1Players,
     List<MatchPlayerInfo>? team2Players,
+    List<String>? participants,
   }) {
     return Match(
       team1: team1,
@@ -286,6 +290,7 @@ class Match {
       winningTeamId: winningTeamId ?? this.winningTeamId,
       winningMethod: winningMethod ?? this.winningMethod,
       winningMargin: winningMargin ?? this.winningMargin,
+      participants: participants ?? this.participants,
     );
   }
 }

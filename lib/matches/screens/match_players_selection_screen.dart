@@ -25,6 +25,7 @@ class MatchPlayersSelectionScreen extends StatefulWidget {
 class _MatchPlayersSelectionScreenState
     extends State<MatchPlayersSelectionScreen> {
   Match match = Match(
+    participants: ['1', '2'],
     team1: MatchTeamInfo(
       teamId: '1',
       captainId: '12',

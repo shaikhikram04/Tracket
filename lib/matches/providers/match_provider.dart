@@ -45,6 +45,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       currentBatsmen: [],
       strikerIndex: 0,
       currentBowlers: null,
+      participants: [team1.teamId, team2.teamId],
     );
   }
 

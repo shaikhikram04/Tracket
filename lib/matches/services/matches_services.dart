@@ -87,6 +87,10 @@ class MatchesServices {
 
   static createMatch(ChallengeMatch challegeMatch) {
     final match = Match(
+      participants: [
+        challegeMatch.challengerTeam.teamId,
+        challegeMatch.challengedTeam.teamId,
+      ],
       team1: challegeMatch.challengerTeam,
       team2: challegeMatch.challengedTeam,
       noOfPlayer: challegeMatch.noOfPlayers,
@@ -149,6 +153,10 @@ class MatchesServices {
     required BuildContext context,
   }) async {
     final match = Match(
+      participants: [
+        challenge.challengerTeam.teamId,
+        challenge.challengedTeam.teamId,
+      ],
       team1: challenge.challengerTeam,
       team2: challenge.challengedTeam,
       team1Players: challenge.challengerPlayers,

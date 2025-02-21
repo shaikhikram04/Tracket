@@ -19,6 +19,7 @@ class MatchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Match match = Match(
+      participants: ['1', '2'],
       team1: MatchTeamInfo(
         teamId: '1',
         captainId: '12',

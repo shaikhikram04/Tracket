@@ -142,6 +142,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         wickets: 0,
         balls: 0,
       ),
+      participants: ['1', '2'],
     );
 
     ref.read(matchStateProvider.notifier).createMatch(
