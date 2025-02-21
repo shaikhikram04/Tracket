@@ -14,111 +14,117 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
 class MatchCard extends StatelessWidget {
-  const MatchCard({super.key});
+  const MatchCard({
+    super.key,
+    this.match,
+  });
+
+  final Match? match;
 
   @override
   Widget build(BuildContext context) {
-    Match match = Match(
-      participants: ['1', '2'],
-      team1: MatchTeamInfo(
-        teamId: '1',
-        captainId: '12',
-        logoUrl: '',
-        shortName: 'T1',
-        teamName: 'Team1',
-        wicketkeeperId: '13',
-      ),
-      team2: MatchTeamInfo(
-        teamId: '2',
-        captainId: '21',
-        logoUrl: '',
-        shortName: 'T2',
-        teamName: 'Team2',
-        wicketkeeperId: '21',
-      ),
-      team1Players: [
-        MatchPlayerInfo(
-          playerId: '11',
-          cricketRole: CricketRole.batsman,
-          playerName: 'Player 1',
-          profileImageUrl: '',
-          longCricketRole: 'Right-handed .......',
-          battingStatus: BattingStatus.playing,
-        ),
-        MatchPlayerInfo(
-          playerId: '12',
-          cricketRole: CricketRole.allRounder,
-          playerName: 'Player 2',
-          profileImageUrl: '',
-          longCricketRole: 'Right-handed .......',
-          battingStatus: BattingStatus.playing,
-        ),
-        MatchPlayerInfo(
-          playerId: '13',
-          cricketRole: CricketRole.bowler,
-          playerName: 'Player 3',
-          profileImageUrl: '',
-          longCricketRole: 'Right-handed .......',
-          battingStatus: BattingStatus.notOut,
-        ),
-      ],
-      team2Players: [
-        MatchPlayerInfo(
-          playerId: '21',
-          cricketRole: CricketRole.batsman,
-          playerName: 'Player 1',
-          profileImageUrl: '',
-          longCricketRole: 'Right-handed .......',
-          battingStatus: BattingStatus.notOut,
-        ),
-        MatchPlayerInfo(
-          playerId: '22',
-          cricketRole: CricketRole.allRounder,
-          playerName: 'Player 2',
-          profileImageUrl: '',
-          longCricketRole: 'Right-handed .......',
-          battingStatus: BattingStatus.notOut,
-        ),
-        MatchPlayerInfo(
-          playerId: '23',
-          cricketRole: CricketRole.bowler,
-          playerName: 'Player 3',
-          profileImageUrl: '',
-          longCricketRole: 'Right-handed .......',
-          battingStatus: BattingStatus.notOut,
-        ),
-      ],
-      noOfPlayer: 3,
-      matchFormat: MatchFormat.over10,
-      matchType: MatchType.friendly,
-      venue: 'Wafa Complex',
-      schedule: DateTime.now(),
-      isTeam1WonToss: true,
-      createdAt: Timestamp.now(),
-      tossDecision: TossDecision.batting,
-      spectatorsAllowed: true,
-      updatedAt: Timestamp.now(),
-      currentBatsmen: [
-        StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
-        StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
-      ],
-      strikerIndex: 0,
-      currentBowlers: CurrentBowlerData(
-        playerName: 'Player 3',
-        id: '23',
-        runsGiven: 0,
-        wickets: 0,
-        balls: 0,
-      ),
-    );
+    Match _match = match ??
+        Match(
+          participants: ['1', '2'],
+          team1: MatchTeamInfo(
+            teamId: '1',
+            captainId: '12',
+            logoUrl: '',
+            shortName: 'T1',
+            teamName: 'Team1',
+            wicketkeeperId: '13',
+          ),
+          team2: MatchTeamInfo(
+            teamId: '2',
+            captainId: '21',
+            logoUrl: '',
+            shortName: 'T2',
+            teamName: 'Team2',
+            wicketkeeperId: '21',
+          ),
+          team1Players: [
+            MatchPlayerInfo(
+              playerId: '11',
+              cricketRole: CricketRole.batsman,
+              playerName: 'Player 1',
+              profileImageUrl: '',
+              longCricketRole: 'Right-handed .......',
+              battingStatus: BattingStatus.playing,
+            ),
+            MatchPlayerInfo(
+              playerId: '12',
+              cricketRole: CricketRole.allRounder,
+              playerName: 'Player 2',
+              profileImageUrl: '',
+              longCricketRole: 'Right-handed .......',
+              battingStatus: BattingStatus.playing,
+            ),
+            MatchPlayerInfo(
+              playerId: '13',
+              cricketRole: CricketRole.bowler,
+              playerName: 'Player 3',
+              profileImageUrl: '',
+              longCricketRole: 'Right-handed .......',
+              battingStatus: BattingStatus.notOut,
+            ),
+          ],
+          team2Players: [
+            MatchPlayerInfo(
+              playerId: '21',
+              cricketRole: CricketRole.batsman,
+              playerName: 'Player 1',
+              profileImageUrl: '',
+              longCricketRole: 'Right-handed .......',
+              battingStatus: BattingStatus.notOut,
+            ),
+            MatchPlayerInfo(
+              playerId: '22',
+              cricketRole: CricketRole.allRounder,
+              playerName: 'Player 2',
+              profileImageUrl: '',
+              longCricketRole: 'Right-handed .......',
+              battingStatus: BattingStatus.notOut,
+            ),
+            MatchPlayerInfo(
+              playerId: '23',
+              cricketRole: CricketRole.bowler,
+              playerName: 'Player 3',
+              profileImageUrl: '',
+              longCricketRole: 'Right-handed .......',
+              battingStatus: BattingStatus.notOut,
+            ),
+          ],
+          noOfPlayer: 3,
+          matchFormat: MatchFormat.over10,
+          matchType: MatchType.friendly,
+          venue: 'Wafa Complex',
+          schedule: DateTime.now(),
+          isTeam1WonToss: true,
+          createdAt: Timestamp.now(),
+          tossDecision: TossDecision.batting,
+          spectatorsAllowed: true,
+          updatedAt: Timestamp.now(),
+          currentBatsmen: [
+            StrikerData(runs: 0, balls: 0, id: '11', playerName: 'Player 1'),
+            StrikerData(runs: 0, balls: 0, id: '12', playerName: 'Player 2'),
+          ],
+          strikerIndex: 0,
+          currentBowlers: CurrentBowlerData(
+            playerName: 'Player 3',
+            id: '23',
+            runsGiven: 0,
+            wickets: 0,
+            balls: 0,
+          ),
+        );
 
-    match = match.initializeFirstInnings();
+    _match = _match.initializeFirstInnings();
 
     return GestureDetector(
       onTap: () => pushScreen(
           context,
           MatchScoringScreen(
-            match: match,
+            match: _match,
           )),
       child: Card(
         elevation: 3,
@@ -141,7 +147,7 @@ class MatchCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  match.status == MatchStatus.live
+                  _match.status == MatchStatus.live
                       ? HighlightedLabel(
                           text: 'LIVE',
                           textStyle: MyTextStyle(context).bodyMedium.copyWith(
@@ -151,7 +157,7 @@ class MatchCard extends StatelessWidget {
                           color: StatusColors.liveMatch.withValues(alpha: 0.2),
                         )
                       : Text(
-                          DateFormat.Hm().format(match.schedule),
+                          DateFormat.Hm().format(_match.schedule),
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w500,
@@ -165,11 +171,11 @@ class MatchCard extends StatelessWidget {
                   // Team A
                   _buildMatchTeamColumn(
                     context,
-                    team: match.team1,
-                    isInningStarted: match.inning1 != null,
-                    runs: match.inning1?.runs,
-                    wickets: match.inning1?.wickets,
-                    oversDisplay: match.inning1?.oversDisplay,
+                    team: _match.team1,
+                    isInningStarted: _match.inning1 != null,
+                    runs: _match.inning1?.runs,
+                    wickets: _match.inning1?.wickets,
+                    oversDisplay: _match.inning1?.oversDisplay,
                   ),
 
                   // VS Badge
@@ -192,15 +198,15 @@ class MatchCard extends StatelessWidget {
                   // Team B
                   _buildMatchTeamColumn(
                     context,
-                    team: match.team2,
-                    isInningStarted: match.inning2 != null,
-                    runs: match.inning2?.runs,
-                    wickets: match.inning2?.wickets,
-                    oversDisplay: match.inning2?.oversDisplay,
+                    team: _match.team2,
+                    isInningStarted: _match.inning2 != null,
+                    runs: _match.inning2?.runs,
+                    wickets: _match.inning2?.wickets,
+                    oversDisplay: _match.inning2?.oversDisplay,
                   ),
                 ],
               ),
-              if (match.status == MatchStatus.live) ...[
+              if (_match.status == MatchStatus.live) ...[
                 const SizedBox(height: 16),
                 Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
                 const SizedBox(height: 16),
@@ -221,11 +227,11 @@ class MatchCard extends StatelessWidget {
                             children: [
                               _buildMatchPlayerText(
                                 context,
-                                match.currentBatsmen![0].playerName,
+                                _match.currentBatsmen![0].playerName,
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                '${match.currentBatsmen![0].runs} (${match.currentBatsmen![0].balls})',
+                                '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
                                 style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w500,
@@ -238,11 +244,11 @@ class MatchCard extends StatelessWidget {
                             children: [
                               _buildMatchPlayerText(
                                 context,
-                                match.currentBatsmen![1].playerName,
+                                _match.currentBatsmen![1].playerName,
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                '${match.currentBatsmen![1].runs} (${match.currentBatsmen![1].balls})',
+                                '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
                                 style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.w500,
@@ -264,10 +270,10 @@ class MatchCard extends StatelessWidget {
                           const SizedBox(height: 4),
                           _buildMatchPlayerText(
                             context,
-                            match.currentBowlers!.playerName,
+                            _match.currentBowlers!.playerName,
                           ),
                           Text(
-                            '${match.currentBowlers!.runsGiven}/${match.currentBowlers!.wickets} (${match.currentBowlers!.oversDisplay})',
+                            '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.w500,

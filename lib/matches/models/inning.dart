@@ -154,6 +154,40 @@ class Inning {
     ];
   }
 
+  
+
+  Map<String, dynamic> toMap() {
+    return {
+      'runs': runs,
+      'wickets': wickets,
+      'balls': balls,
+      'fours': fours,
+      'sixes': sixes,
+      'extras': extras.toMap(),
+      'status': status.name,
+      'battingTeam': battingTeam.toMap,
+      'bowlingTeam': bowlingTeam.toMap,
+      'battingStats': battingStats.map((e) => e.toMap).toList(),
+      'bowlingStats': bowlingStats.map((e) => e.toMap).toList(),
+    };
+  }
+
+  static Inning fromMap(Map<String, dynamic> map) {
+    return Inning(
+      battingTeam: MatchTeamInfo.fromMap(map['battingTeam']),
+      bowlingTeam: MatchTeamInfo.fromMap(map['bowlingTeam']),
+      battingStats: map['battingStats'].map((e) => BattingScore.fromMap(e)).toList(),
+      bowlingStats: map['bowlingStats'].map((e) => BowlingScore.fromMap(e)).toList(),
+      balls: map['balls'],
+      fours: map['fours'],
+      sixes: map['sixes'],
+      runs: map['runs'],
+      wickets: map['wickets'],
+      status: InningsStatus.values.firstWhere((e) => e.name == map['status']),
+      extras: Extras.fromMap(map['extras']),
+    );
+  }
+
   Inning copyWith({
     MatchTeamInfo? battingTeam,
     MatchTeamInfo? bowlingTeam,

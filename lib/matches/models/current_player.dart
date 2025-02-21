@@ -24,6 +24,7 @@ class StrikerData {
         'playerName': playerName,
         'runs': runs,
         'balls': balls,
+        'isOut': isOut,
       };
 
   StrikerData addRuns(int runs) {
@@ -35,6 +36,16 @@ class StrikerData {
       isOut: true,
       balls: isAddBall ? balls + 1 : balls,
       runs: this.runs + runs,
+    );
+  }
+
+  static StrikerData fromMap(Map<String, dynamic> map) {
+    return StrikerData(
+      id: map['id'],
+      playerName: map['playerName'],
+      runs: map['runs'],
+      balls: map['balls'],
+      isOut: map['isOut'],
     );
   }
 
@@ -97,6 +108,26 @@ class CurrentBowlerData {
       runsGiven: runsGiven,
       balls: balls,
       wickets: wickets,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'playerName': playerName,
+      'id': id,
+      'runsGiven': runsGiven,
+      'wickets': wickets,
+      'balls': balls,
+    };
+  }
+
+  static CurrentBowlerData fromMap(Map<String, dynamic> map) {
+    return CurrentBowlerData(
+      playerName: map['playerName'],
+      id: map['id'],
+      runsGiven: map['runsGiven'],
+      wickets: map['wickets'],
+      balls: map['balls'],
     );
   }
 

@@ -93,6 +93,34 @@ class BowlingScore {
         maidenOvers <= overs;
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'uuid': uuid,
+      'playerName': playerName,
+      'balls': balls,
+      'runsGiven': runsGiven,
+      'wickets': wickets,
+      'maidenOvers': maidenOvers,
+      'dots': dots,
+      'noBalls': noBalls,
+      'wides': wides,
+    };
+  }
+
+  static BowlingScore fromMap(Map<String, dynamic> map) {
+    return BowlingScore(
+      uuid: map['uuid'],
+      playerName: map['playerName'],
+      balls: map['balls'],
+      runsGiven: map['runsGiven'],
+      wickets: map['wickets'],
+      maidenOvers: map['maidenOvers'],
+      dots: map['dots'],
+      noBalls: map['noBalls'],
+      wides: map['wides'],
+    );
+  }
+
   BowlingScore copyWith({
     String? playerName,
     int? balls,

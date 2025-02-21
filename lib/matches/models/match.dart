@@ -249,7 +249,58 @@ class Match {
         'currentBatsmen': currentBatsmen?.map((e) => e.toMap).toList(),
         'strikerIndex': strikerIndex,
         'participants': participants,
+        'inning1': inning1?.toMap,
+        'inning2': inning2?.toMap,
+        'team1Players': team1Players.map((e) => e.toMap).toList(),
+        'team2Players': team2Players.map((e) => e.toMap).toList(),
+        'currentBowlers': currentBowlers?.toMap(),
       };
+
+  static List<MatchPlayerInfo> getPlayers(List<Map<String, dynamic>> players) {
+    return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
+  }
+
+  static List<StrikerData> getStrikerData(List<Map<String, dynamic>> data) {
+    return data.map((e) => StrikerData.fromMap(e)).toList();
+  }
+
+  static Match fromMap(Map<String, dynamic> map) {
+    return Match(
+      id: map['id'],
+      team1: MatchTeamInfo.fromMap(map['team1']),
+      team2: MatchTeamInfo.fromMap(map['team2']),
+      team1Players: getPlayers(map['team1Players']),
+      team2Players: getPlayers(map['team2Players']),
+      noOfPlayer: map['noOfPlayer'],
+      matchFormat:
+          MatchFormat.values.firstWhere((e) => e.name == map['matchFormat']),
+      matchType: MatchType.values.firstWhere((e) => e.name == map['matchType']),
+      venue: map['venue'],
+      schedule: map['schedule'].toDate(),
+      currentBatsmen: getStrikerData(map['currentBatsmen']),
+      strikerIndex: map['strikerIndex'],
+      currentBowlers: CurrentBowlerData.fromMap(map['currentBowlers']),
+      participants: map['participants'],
+      isTeam1WonToss: map['isTeam1WonToss'],
+      tossDecision:
+          TossDecision.values.firstWhere((e) => e.name == map['tossDecision']),
+      inning1: map['inning1'] != null ? Inning.fromMap(map['inning1']) : null,
+      inning2: map['inning2'] != null ? Inning.fromMap(map['inning2']) : null,
+      status: MatchStatus.values.firstWhere((e) => e.name == map['status']),
+      winningTeamId: map['winningTeamId'],
+      winningMethod: map['winningMethod'] != null
+          ? WinningMethod.values
+              .firstWhere((e) => e.name == map['winningMethod'])
+          : null,
+      winningMargin: map['winningMargin'],
+      createdAt: map['createdAt'],
+      updatedAt: map['updatedAt'],
+      spectatorsAllowed: map['spectatorsAllowed'],
+      currentOverRuns: map['currentOverRuns']
+          .map((e) => e != null ? BallOutcome.fromMap(e) : null)
+          .toList(),
+    );
+  }
 
   Match copyWith({
     CurrentBowlerData? currentBowler,

@@ -13,6 +13,24 @@ class Extras {
   int get total => wides + noBalls + byes + legByes;
   int get penaltyRuns => wides + noBalls;
 
+  Map<String, dynamic> toMap() {
+    return {
+      'wides': wides,
+      'noBalls': noBalls,
+      'byes': byes,
+      'legByes': legByes,
+    };
+  }
+
+  static Extras fromMap(Map<String, dynamic> map) {
+    return Extras(
+      wides: map['wides'],
+      noBalls: map['noBalls'],
+      byes: map['byes'],
+      legByes: map['legByes'],
+    );
+  }
+
   Extras copyWith({
     int? wides,
     int? noBalls,

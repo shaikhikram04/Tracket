@@ -61,6 +61,32 @@ class BattingScore {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'uuid': uuid,
+      'playerName': playerName,
+      'runs': runs,
+      'ballsFaced': ballsFaced,
+      'fours': fours,
+      'sixes': sixes,
+      'isOut': isOut,
+      'reasonOfOut': reasonOfOut?.name,
+    };
+  }
+
+  static BattingScore fromMap(Map<String, dynamic> map) {
+    return BattingScore(
+      uuid: map['uuid'],
+      playerName: map['playerName'],
+      runs: map['runs'],
+      ballsFaced: map['ballsFaced'],
+      fours: map['fours'],
+      sixes: map['sixes'],
+      isOut: map['isOut'],
+      reasonOfOut: map['reasonOfOut'] != null ? ReasonOfOut.values.firstWhere((e) => e.name == map['reasonOfOut']) : null,
+    );
+  }
+
   BattingScore copyWith({
     bool? isOut,
     ReasonOfOut? reasonOfOut,
