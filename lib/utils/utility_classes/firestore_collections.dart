@@ -6,7 +6,11 @@ class FirestoreCollections {
   static const notification = 'notification';
   static const challengerPlayers = 'challengerPlayers';
   static const challengedPlayers = 'challengedPlayers';
+
+  //? Matches collections
   static const matches = 'matches';
-  static const team1Players = 'team1Players';
-  static const team2Players = 'team2Players';
+  static const innings = 'innings';
+  static const battingStats = 'battingStats';
+  static const bowlingStats = 'bowlingStats';
+  static const balls = 'balls';
 }

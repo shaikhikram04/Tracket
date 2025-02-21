@@ -183,18 +183,18 @@ class MatchesServices {
     await matchDocRef.set(match.toMap);
 
     //* Store team1 players
-    final team1CollectionRef =
-        matchDocRef.collection(FirestoreCollections.team1Players);
-    for (final player in challenge.challengerPlayers) {
-      team1CollectionRef.doc(player.playerId).set(player.toMap);
-    }
+    // final team1CollectionRef =
+    //     matchDocRef.collection(FirestoreCollections.team1Players);
+    // for (final player in challenge.challengerPlayers) {
+    //   team1CollectionRef.doc(player.playerId).set(player.toMap);
+    // }
 
     //* Store team2 players
-    final team2CollectionRef =
-        matchDocRef.collection(FirestoreCollections.team2Players);
-    for (final player in challenge.challengedPlayers) {
-      team2CollectionRef.doc(player.playerId).set(player.toMap);
-    }
+    // final team2CollectionRef =
+    //     matchDocRef.collection(FirestoreCollections.team2Players);
+    // for (final player in challenge.challengedPlayers) {
+    //   team2CollectionRef.doc(player.playerId).set(player.toMap);
+    // }
 
     if (!context.mounted) return;
 
