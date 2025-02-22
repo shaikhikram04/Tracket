@@ -85,8 +85,13 @@ class MatchesServices {
     });
   }
 
-  static createMatch(ChallengeMatch challegeMatch) {
+  static createMatch(
+    ChallengeMatch challegeMatch,
+    String acceptedBy,
+  ) {
     final match = Match(
+      challengerPlayerId: challegeMatch.challengerId,
+      challengeAcceptedBy: acceptedBy,
       participants: [
         challegeMatch.challengerTeam.teamId,
         challegeMatch.challengedTeam.teamId,
@@ -150,9 +155,12 @@ class MatchesServices {
   static Future<void> acceptChallenge({
     required ChallengeMatch challenge,
     required String challengeId,
+    required String acceptedBy,
     required BuildContext context,
   }) async {
     final match = Match(
+      challengerPlayerId: challenge.challengerId,
+      challengeAcceptedBy: acceptedBy,
       participants: [
         challenge.challengerTeam.teamId,
         challenge.challengedTeam.teamId,

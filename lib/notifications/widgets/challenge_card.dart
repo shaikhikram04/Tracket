@@ -24,7 +24,6 @@ class ChallengeCard extends StatelessWidget {
   final void Function() onCanceChallenge;
   final void Function() onRejectChallenge;
   final void Function() onAccepted;
-
   void _navigateToAcceptChallenge(BuildContext context) {
     pushScreen(
         context,

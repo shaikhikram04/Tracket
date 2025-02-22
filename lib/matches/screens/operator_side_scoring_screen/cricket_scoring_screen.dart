@@ -42,6 +42,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
       isLoading.value = true;
     });
     Match match = Match(
+      challengerPlayerId: '12',
+      challengeAcceptedBy: '21',
       team1: MatchTeamInfo(
         teamId: '1',
         captainId: '12',
@@ -155,6 +157,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
           venue: match.venue,
           schedule: match.schedule,
           noOfPlayer: match.noOfPlayer,
+          challengerPlayerId: match.challengerPlayerId,
+          challengeAcceptedBy: match.challengeAcceptedBy,
         );
     ref
         .read(matchStateProvider.notifier)

@@ -31,6 +31,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     required String venue,
     required DateTime schedule,
     required int noOfPlayer,
+    required String challengerPlayerId,
+    required String challengeAcceptedBy,
   }) async {
     state = Match(
       team1: team1,
@@ -46,6 +48,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       strikerIndex: 0,
       currentBowlers: null,
       participants: [team1.teamId, team2.teamId],
+      challengerPlayerId: challengerPlayerId,
+      challengeAcceptedBy: challengeAcceptedBy,
     );
   }
 

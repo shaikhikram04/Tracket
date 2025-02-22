@@ -26,6 +26,8 @@ class _MatchPlayersSelectionScreenState
     extends State<MatchPlayersSelectionScreen> {
   Match match = Match(
     participants: ['1', '2'],
+    challengerPlayerId: '12',
+    challengeAcceptedBy: '21',
     team1: MatchTeamInfo(
       teamId: '1',
       captainId: '12',

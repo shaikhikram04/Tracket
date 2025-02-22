@@ -33,6 +33,8 @@ class Match {
     required this.strikerIndex,
     required this.currentBowlers,
     required this.participants,
+    required this.challengerPlayerId,
+    required this.challengeAcceptedBy,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
@@ -70,6 +72,8 @@ class Match {
   final CurrentBowlerData? currentBowlers;
   final int strikerIndex;
   final List participants;
+  final String challengerPlayerId;
+  final String challengeAcceptedBy;
 
   final MatchStatus status;
   final Inning? inning1;
@@ -264,6 +268,8 @@ class Match {
         'team1Players': team1Players.map((e) => e.toMap).toList(),
         'team2Players': team2Players.map((e) => e.toMap).toList(),
         'currentBowlers': currentBowlers?.toMap(),
+        'challengerPlayerId': challengerPlayerId,
+        'challengeAcceptedBy': challengeAcceptedBy,
       };
 
   static List<MatchPlayerInfo> getPlayers(List players) {
@@ -307,6 +313,8 @@ class Match {
       createdAt: map['createdAt'],
       updatedAt: map['updatedAt'],
       spectatorsAllowed: map['spectatorsAllowed'],
+      challengerPlayerId: map['challengerPlayerId'],
+      challengeAcceptedBy: map['challengeAcceptedBy'],
     );
   }
 
@@ -326,6 +334,8 @@ class Match {
     List<MatchPlayerInfo>? team1Players,
     List<MatchPlayerInfo>? team2Players,
     List<String>? participants,
+    String? challengerPlayerId,
+    String? challengeAcceptedBy,
   }) {
     return Match(
       team1: team1,
@@ -350,6 +360,8 @@ class Match {
       winningMethod: winningMethod ?? this.winningMethod,
       winningMargin: winningMargin ?? this.winningMargin,
       participants: participants ?? this.participants,
+      challengerPlayerId: challengerPlayerId ?? this.challengerPlayerId,
+      challengeAcceptedBy: challengeAcceptedBy ?? this.challengeAcceptedBy,
     );
   }
 }
