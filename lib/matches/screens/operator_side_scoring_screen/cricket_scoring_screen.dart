@@ -220,7 +220,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 
                   // Current Over Indicator with animation
                   CurrentOverIndicator(
-                    balls: matchState.currentOverRuns,
+                    balls: matchState.currentOverRuns ?? [],
                     isBlur: _isBlur,
                     remainingBalls:
                         ref.watch(matchStateProvider.notifier).remainingBalls,

@@ -121,7 +121,8 @@ class CurrentBowlerData {
     };
   }
 
-  static CurrentBowlerData fromMap(Map<String, dynamic> map) {
+  static CurrentBowlerData? fromMap(Map<String, dynamic>? map) {
+    if (map == null) return null;
     return CurrentBowlerData(
       playerName: map['playerName'],
       id: map['id'],

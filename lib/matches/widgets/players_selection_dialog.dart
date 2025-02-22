@@ -49,9 +49,9 @@ class _PlayersSelectionDialogState extends State<PlayersSelectionDialog> {
   }
 
   void _handleSubmit() {
-    final requiredPlayerLen = widget.noOfPlayerCanBeSelected;
-    final selectedPlayerLen = _selectedPlayers.length;
-    final moreToSelect = requiredPlayerLen - selectedPlayerLen;
+    // final requiredPlayerLen = widget.noOfPlayerCanBeSelected;
+    // final selectedPlayerLen = _selectedPlayers.length;
+    // final moreToSelect = requiredPlayerLen - selectedPlayerLen;
     //! make sure that all required players are selected
     // if (selectedPlayerLen != requiredPlayerLen) {
     //   showAlertDialog(

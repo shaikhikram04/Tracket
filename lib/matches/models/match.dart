@@ -69,7 +69,7 @@ class Match {
   final List<StrikerData>? currentBatsmen;
   final CurrentBowlerData? currentBowlers;
   final int strikerIndex;
-  final List<String> participants;
+  final List participants;
 
   final MatchStatus status;
   final Inning? inning1;
@@ -155,6 +155,17 @@ class Match {
     final status = MatchStatus.live;
 
     return copyWith(inning1: inning1, status: status);
+  }
+
+  Match setTossDecision(TossDecision decision, bool _isTeam1WonToss) {
+    final status = MatchStatus.live;
+    final isTeam1WonToss = _isTeam1WonToss;
+
+    return copyWith(
+      tossDecision: decision,
+      isTeam1WonToss: isTeam1WonToss,
+      status: status,
+    );
   }
 
   Match initializeSecondInnings() {
@@ -256,11 +267,11 @@ class Match {
         'currentBowlers': currentBowlers?.toMap(),
       };
 
-  static List<MatchPlayerInfo> getPlayers(List<Map<String, dynamic>> players) {
+  static List<MatchPlayerInfo> getPlayers(List players) {
     return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
   }
 
-  static List<StrikerData> getStrikerData(List<Map<String, dynamic>> data) {
+  static List<StrikerData> getStrikerData(List data) {
     return data.map((e) => StrikerData.fromMap(e)).toList();
   }
 
@@ -282,8 +293,9 @@ class Match {
       currentBowlers: CurrentBowlerData.fromMap(map['currentBowlers']),
       participants: map['participants'],
       isTeam1WonToss: map['isTeam1WonToss'],
-      tossDecision:
-          TossDecision.values.firstWhere((e) => e.name == map['tossDecision']),
+      tossDecision: map['tossDecision'] != null
+          ? TossDecision.values.firstWhere((e) => e.name == map['tossDecision'])
+          : null,
       inning1: map['inning1'] != null ? Inning.fromMap(map['inning1']) : null,
       inning2: map['inning2'] != null ? Inning.fromMap(map['inning2']) : null,
       status: MatchStatus.values.firstWhere((e) => e.name == map['status']),
@@ -296,7 +308,7 @@ class Match {
       createdAt: map['createdAt'],
       updatedAt: map['updatedAt'],
       spectatorsAllowed: map['spectatorsAllowed'],
-      currentOverRuns: map['currentOverRuns']
+      currentOverRuns: (map['currentOverRuns'] as List<dynamic>)
           .map((e) => e != null ? BallOutcome.fromMap(e) : null)
           .toList(),
     );

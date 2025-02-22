@@ -436,7 +436,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   //* so an extra slot (null) is appended.
   void _updateCurrentOverRuns(BallOutcome updatedOverRuns, bool isExtra) {
     if (state == null) return;
-    var currentOverRuns = List<BallOutcome?>.from(state!.currentOverRuns);
+    var currentOverRuns = List<BallOutcome?>.from(state!.currentOverRuns ?? []);
 
     for (int i = 0; i < currentOverRuns.length; i++) {
       if (currentOverRuns[i] == null) {

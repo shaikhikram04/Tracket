@@ -7,10 +7,10 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
 enum MatchesFetcherType {
+  userMatches,
+  completed,
   live,
   upcoming,
-  completed,
-  userMatches,
 }
 
 class MatchesFetcher extends StatelessWidget {

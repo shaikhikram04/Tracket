@@ -118,7 +118,6 @@ class MatchCard extends StatelessWidget {
           ),
         );
 
-    _match = _match.initializeFirstInnings();
 
     return GestureDetector(
       onTap: () => pushScreen(

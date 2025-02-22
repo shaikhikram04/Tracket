@@ -4,7 +4,6 @@ import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/players/widgets/achievements.dart';
 import 'package:tracket/players/widgets/batting_stats.dart';
 import 'package:tracket/players/widgets/bowling_stats.dart';
-import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
@@ -78,7 +77,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                 children: [
                   // Profile Picture and Name
                   Container(
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           GradientColors.matchCardEnd,

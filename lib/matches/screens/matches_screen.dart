@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/widgets/match_card.dart';
 import 'package:tracket/matches/widgets/match_tabs.dart';
+import 'package:tracket/matches/widgets/matches_fetcher.dart';
 
 class MatchesScreen extends StatefulWidget {
   const MatchesScreen({super.key});
@@ -55,12 +55,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return const MatchCard();
-                },
+              child: MatchesFetcher(
+                type: MatchesFetcherType.values[_selectedTabIndex],
               ),
             ),
           ],

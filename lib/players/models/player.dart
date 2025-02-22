@@ -52,10 +52,10 @@ class Player {
       };
 
   List<String> get playerTeamsId {
-    List<String> teamsId = [];
-    teamsId = playerCricketDetails!.teams.map((team) => team.id).toList();
+    List<String>? teamsId = [];
+    teamsId = playerCricketDetails?.teams.map((team) => team.id).toList();
 
-    return teamsId;
+    return teamsId ?? [];
   }
 
   Map<String, dynamic> get toJsonForUser => {
