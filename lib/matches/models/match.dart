@@ -256,7 +256,6 @@ class Match {
         'winningTeamId': winningTeamId,
         'winningMethod': winningMethod?.name,
         'winningMargin': winningMargin,
-        'currentOverRuns': currentOverRuns.map((e) => e?.toMap()).toList(),
         'currentBatsmen': currentBatsmen?.map((e) => e.toMap).toList(),
         'strikerIndex': strikerIndex,
         'participants': participants,
@@ -308,9 +307,6 @@ class Match {
       createdAt: map['createdAt'],
       updatedAt: map['updatedAt'],
       spectatorsAllowed: map['spectatorsAllowed'],
-      currentOverRuns: (map['currentOverRuns'] as List<dynamic>)
-          .map((e) => e != null ? BallOutcome.fromMap(e) : null)
-          .toList(),
     );
   }
 
