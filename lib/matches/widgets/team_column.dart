@@ -30,7 +30,6 @@ class TeamColumn extends StatelessWidget {
         Text(
           teamName,
           textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
           style: textStyle,
         ),
       ],

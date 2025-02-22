@@ -32,11 +32,13 @@ class MatchStatusCard extends StatelessWidget {
             currentOverIndicator: match.currentOverRuns,
           ),
           SizedBox(height: 16),
-          CurrentPlayersInfo(
-            batsmen: match.currentBatsmen!,
-            bowler: match.currentBowlers!,
-            strikerIndex: match.strikerIndex,
-          ),
+          if (match.status == MatchStatus.live) ...[
+            CurrentPlayersInfo(
+              batsmen: match.currentBatsmen!,
+              bowler: match.currentBowlers!,
+              strikerIndex: match.strikerIndex,
+            ),
+          ]
         ],
       ),
     );
