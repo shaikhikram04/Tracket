@@ -4,6 +4,7 @@ import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/screens/match_scoring_screen.dart';
+import 'package:tracket/matches/screens/start_match_screen.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
@@ -129,7 +130,13 @@ class MatchCard extends StatelessWidget {
                   CustomButton.primary(
                     text: 'Start Match',
                     borderRadius: 16,
-                    onPressed: () {},
+                    onPressed: () {
+                      pushScreen(
+                          context,
+                          StartMatchScreen(
+                            match: _match,
+                          ));
+                    },
                   ),
                 ]
               ],

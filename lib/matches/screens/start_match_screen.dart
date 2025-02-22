@@ -1,19 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class StartMatchScreen extends StatefulWidget {
-  final String team1Name;
-  final String team2Name;
+  final Match match;
 
   const StartMatchScreen({
     Key? key,
-    required this.team1Name,
-    required this.team2Name,
+    required this.match,
   }) : super(key: key);
 
   @override
@@ -66,8 +65,9 @@ class _StartMatchScreenState extends State<StartMatchScreen>
       if (status == AnimationStatus.completed) {
         setState(() {
           isCoinRotating = false;
-          tossWinner =
-              Random().nextBool() ? widget.team1Name : widget.team2Name;
+          tossWinner = Random().nextBool()
+              ? widget.match.team1.teamName
+              : widget.match.team2.teamName;
         });
       }
     });
@@ -106,11 +106,14 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        widget.team1Name,
-                        style: MyTextStyle(context).titleLarge.copyWith(
-                              color: secondaryColor,
-                            ),
+                      Expanded(
+                        child: Text(
+                          widget.match.team1.teamName,
+                          style: MyTextStyle(context).titleLarge.copyWith(
+                                color: secondaryColor,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -122,11 +125,14 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                               ),
                         ),
                       ),
-                      Text(
-                        widget.team2Name,
-                        style: MyTextStyle(context).titleLarge.copyWith(
-                              color: StatusColors.warning,
-                            ),
+                      Expanded(
+                        child: Text(
+                          widget.match.team2.teamName,
+                          style: MyTextStyle(context).titleLarge.copyWith(
+                                color: StatusColors.warning,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ],
                   ),
@@ -229,9 +235,10 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                           label: 'Bowl',
                           onPressed: () {
                             setState(() {
-                              battingTeam = tossWinner == widget.team1Name
-                                  ? widget.team2Name
-                                  : widget.team1Name;
+                              battingTeam =
+                                  tossWinner == widget.match.team1.teamName
+                                      ? widget.match.team2.teamName
+                                      : widget.match.team1.teamName;
                             });
                           },
                         ),
@@ -253,9 +260,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     const SizedBox(height: 30),
                     CustomButton.primary(
                       text: 'Start Match',
-                      textStyle: MyTextStyle(context)
-                          .titleLarge
-                          .copyWith(
+                      textStyle: MyTextStyle(context).titleLarge.copyWith(
                             fontSize: 20,
                             color: LightThemeColors.surfaceColor,
                           ),
