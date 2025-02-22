@@ -15,9 +15,11 @@ class ScoreboardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Inning currentInning = matchState.inningNumber == 1
-        ? matchState.inning1!
-        : matchState.inning2!;
+    final Inning? currentInning = matchState.inningNumber == 0
+        ? null
+        : matchState.inningNumber == 1
+            ? matchState.inning1!
+            : matchState.inning2!;
 
     return ClipRRect(
       child: Stack(
@@ -59,7 +61,7 @@ class ScoreboardSection extends StatelessWidget {
                       Text(
                         'VS',
                         style: MyTextStyle(context).bodyLarge.copyWith(
-                              color: StatusColors.warning.withValues(alpha: 0.9),
+                              color: Colors.amberAccent,
                               fontWeight: FontWeight.w700,
                             ),
                       ),
@@ -85,7 +87,7 @@ class ScoreboardSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${currentInning.runs}/${currentInning.wickets}',
+                            '${currentInning?.runs}/${currentInning?.wickets}',
                             style: GoogleFonts.poppins(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
@@ -93,11 +95,11 @@ class ScoreboardSection extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${currentInning.oversDisplay} Overs',
+                            '${currentInning?.oversDisplay} Overs',
                             style: GoogleFonts.poppins(
                               fontSize: 18,
-                              color: LightThemeColors.surfaceColor.withValues(
-                                  alpha: 0.9),
+                              color: LightThemeColors.surfaceColor
+                                  .withValues(alpha: 0.9),
                             ),
                           ),
                         ],
