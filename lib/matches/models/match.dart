@@ -35,6 +35,7 @@ class Match {
     required this.participants,
     required this.challengerPlayerId,
     required this.challengeAcceptedBy,
+    this.startBy,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
@@ -74,6 +75,7 @@ class Match {
   final List participants;
   final String challengerPlayerId;
   final String challengeAcceptedBy;
+  final String? startBy;
 
   final MatchStatus status;
   final Inning? inning1;
@@ -270,6 +272,7 @@ class Match {
         'currentBowlers': currentBowlers?.toMap(),
         'challengerPlayerId': challengerPlayerId,
         'challengeAcceptedBy': challengeAcceptedBy,
+        'startBy': startBy,
       };
 
   static List<MatchPlayerInfo> getPlayers(List players) {
@@ -315,6 +318,7 @@ class Match {
       spectatorsAllowed: map['spectatorsAllowed'],
       challengerPlayerId: map['challengerPlayerId'],
       challengeAcceptedBy: map['challengeAcceptedBy'],
+      startBy: map['startBy'],
     );
   }
 

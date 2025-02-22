@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
@@ -175,7 +175,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         challenge: _challenge,
         challengeId: widget.challengeId,
         context: context,
-        acceptedBy: FirebaseAuth.instance.currentUser!.uid,
+        acceptedBy: FirebaseAuthMethods().currentUserId,
       );
       widget.onAccepted();
 
