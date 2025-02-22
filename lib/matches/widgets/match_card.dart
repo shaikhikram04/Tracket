@@ -118,7 +118,6 @@ class MatchCard extends StatelessWidget {
           ),
         );
 
-
     return GestureDetector(
       onTap: () => pushScreen(
           context,
@@ -156,7 +155,7 @@ class MatchCard extends StatelessWidget {
                           color: StatusColors.liveMatch.withValues(alpha: 0.2),
                         )
                       : Text(
-                          DateFormat.Hm().format(_match.schedule),
+                          DateFormat.MMMEd().format(_match.schedule),
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w500,
@@ -171,6 +170,8 @@ class MatchCard extends StatelessWidget {
                   _buildMatchTeamColumn(
                     context,
                     team: _match.team1,
+                    isMatchStarted: _match.status == MatchStatus.live ||
+                        _match.status == MatchStatus.completed,
                     isInningStarted: _match.inning1 != null,
                     runs: _match.inning1?.runs,
                     wickets: _match.inning1?.wickets,
@@ -198,6 +199,8 @@ class MatchCard extends StatelessWidget {
                   _buildMatchTeamColumn(
                     context,
                     team: _match.team2,
+                    isMatchStarted: _match.status == MatchStatus.live ||
+                        _match.status == MatchStatus.completed,
                     isInningStarted: _match.inning2 != null,
                     runs: _match.inning2?.runs,
                     wickets: _match.inning2?.wickets,
@@ -205,85 +208,94 @@ class MatchCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (_match.status == MatchStatus.live) ...[
-                const SizedBox(height: 16),
-                Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
-                const SizedBox(height: 16),
-                // Current Players
-
-                Row(
-                  children: [
-                    // Batsmen
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatsSubtitle(context, 'Batsmen'),
-                          const SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              _buildMatchPlayerText(
-                                context,
-                                _match.currentBatsmen![0].playerName,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              _buildMatchPlayerText(
-                                context,
-                                _match.currentBatsmen![1].playerName,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Bowler
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          _buildStatsSubtitle(context, 'Bowler'),
-                          const SizedBox(height: 4),
-                          _buildMatchPlayerText(
-                            context,
-                            _match.currentBowlers!.playerName,
-                          ),
-                          Text(
-                            '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+              if (_match.status == MatchStatus.scheduled) ...[
+                Text(
+                  'Starts at ${DateFormat('hh:mm a').format(match!.schedule)}',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 14,
+                  ),
                 ),
-              ]
+                if (_match.status == MatchStatus.live) ...[
+                  const SizedBox(height: 16),
+                  Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
+                  const SizedBox(height: 16),
+                  // Current Players
+
+                  Row(
+                    children: [
+                      // Batsmen
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStatsSubtitle(context, 'Batsmen'),
+                            const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                _buildMatchPlayerText(
+                                  context,
+                                  _match.currentBatsmen![0].playerName,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                _buildMatchPlayerText(
+                                  context,
+                                  _match.currentBatsmen![1].playerName,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Bowler
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            _buildStatsSubtitle(context, 'Bowler'),
+                            const SizedBox(height: 4),
+                            _buildMatchPlayerText(
+                              context,
+                              _match.currentBowlers!.playerName,
+                            ),
+                            Text(
+                              '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ]
+              ],
             ],
           ),
         ),
@@ -294,6 +306,7 @@ class MatchCard extends StatelessWidget {
   Widget _buildMatchTeamColumn(
     BuildContext context, {
     required MatchTeamInfo team,
+    required bool isMatchStarted,
     required bool isInningStarted,
     required int? runs,
     required int? wickets,
@@ -312,29 +325,30 @@ class MatchCard extends StatelessWidget {
                 ),
           ),
           const SizedBox(height: 8),
-          isInningStarted
-              ? Text(
-                  '$runs/$wickets',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                )
-              : Text(
-                  'Yet to bat',
-                  style: MyTextStyle(context).bodyLarge.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                ),
-          if (isInningStarted)
+          if (isInningStarted) ...[
+            Text(
+              '$runs/$wickets',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
             Text(
               '($oversDisplay)',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 14,
               ),
+            ),
+          ],
+          if (!isInningStarted && isMatchStarted)
+            Text(
+              'Yet to bat',
+              style: MyTextStyle(context).bodyLarge.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
             ),
         ],
       ),

@@ -29,7 +29,7 @@ class MatchStatusCard extends StatelessWidget {
           TeamsScoreSection(match: match),
           SizedBox(height: 16),
           RecentBallsIndicator(
-            currentOverIndicator: match.currentOverRuns ?? [],
+            currentOverIndicator: match.currentOverRuns,
           ),
           SizedBox(height: 16),
           CurrentPlayersInfo(
