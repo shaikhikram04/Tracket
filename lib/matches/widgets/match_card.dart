@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/models/match.dart';
-import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/screens/match_scoring_screen.dart';
 import 'package:tracket/matches/screens/start_match_screen.dart';
-import 'package:tracket/matches/widgets/team_column.dart';
+import 'package:tracket/matches/widgets/match_teams_row.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -71,50 +70,7 @@ class MatchCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  // Team A
-                  _buildMatchTeamColumn(
-                    context,
-                    team: _match.team1,
-                    isMatchStarted: _match.status == MatchStatus.live ||
-                        _match.status == MatchStatus.completed,
-                    isInningStarted: _match.inning1 != null,
-                    runs: _match.inning1?.runs,
-                    wickets: _match.inning1?.wickets,
-                    oversDisplay: _match.inning1?.oversDisplay,
-                  ),
-
-                  // VS Badge
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(
-                      'VS',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                  ),
-
-                  // Team B
-                  _buildMatchTeamColumn(
-                    context,
-                    team: _match.team2,
-                    isMatchStarted: _match.status == MatchStatus.live ||
-                        _match.status == MatchStatus.completed,
-                    isInningStarted: _match.inning2 != null,
-                    runs: _match.inning2?.runs,
-                    wickets: _match.inning2?.wickets,
-                    oversDisplay: _match.inning2?.oversDisplay,
-                  ),
-                ],
-              ),
+              MatchTeamsRow(match: match),
               if (_match.status == MatchStatus.scheduled) ...[
                 Text(
                   'Starts at ${DateFormat('hh:mm a').format(_match.schedule)}',
@@ -222,58 +178,6 @@ class MatchCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildMatchTeamColumn(
-    BuildContext context, {
-    required MatchTeamInfo team,
-    required bool isMatchStarted,
-    required bool isInningStarted,
-    required int? runs,
-    required int? wickets,
-    required String? oversDisplay,
-  }) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          TeamColumn(
-            teamName: team.teamName,
-            teamLogo: team.logoUrl,
-            textStyle: MyTextStyle(context).bodyLarge.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-          ),
-          const SizedBox(height: 8),
-          if (isInningStarted) ...[
-            Text(
-              '$runs/$wickets',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            Text(
-              '($oversDisplay)',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-              ),
-            ),
-          ],
-          if (!isInningStarted && isMatchStarted)
-            Text(
-              'Yet to bat',
-              style: MyTextStyle(context).bodyLarge.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
-            ),
-        ],
       ),
     );
   }

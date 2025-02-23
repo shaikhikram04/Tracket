@@ -9,11 +9,13 @@ class CurrentOverIndicator extends StatelessWidget {
   final List<BallOutcome?> balls;
   final int remainingBalls;
   final bool isBlur;
+  final bool showShadow;
 
   const CurrentOverIndicator(
       {required this.balls,
       required this.isBlur,
-      required this.remainingBalls});
+      required this.remainingBalls,
+      this.showShadow = true});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +30,15 @@ class CurrentOverIndicator extends StatelessWidget {
             decoration: BoxDecoration(
               color: LightThemeColors.surfaceColor,
               borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: LightThemeColors.tertiaryText,
-                  blurRadius: 10,
-                  offset: Offset(0, 2),
-                ),
-              ],
+              boxShadow: showShadow
+                  ? [
+                      BoxShadow(
+                        color: LightThemeColors.tertiaryText,
+                        blurRadius: 10,
+                        offset: Offset(0, 2),
+                      ),
+                    ]
+                  : null,
             ),
             child: Column(
               children: [

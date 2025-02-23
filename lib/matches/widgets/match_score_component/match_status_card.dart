@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/current_over_indicator.dart';
 import 'package:tracket/matches/widgets/match_score_component/current_players_info.dart';
 import 'package:tracket/matches/widgets/match_score_component/match_header.dart';
-import 'package:tracket/matches/widgets/match_score_component/recent_ball_indicator.dart';
 import 'package:tracket/matches/widgets/match_score_component/teams_score_section.dart';
 import 'package:tracket/utils/colors.dart';
 
@@ -25,13 +26,17 @@ class MatchStatusCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MatchHeader(match: match),
-          SizedBox(height: 16),
-          TeamsScoreSection(match: match),
-          SizedBox(height: 16),
-          RecentBallsIndicator(
-            currentOverIndicator: match.currentOverRuns,
+          TeamsScoreSection(
+            match: match,
+            showProjectedScore:
+                match.inning1?.status == InningsStatus.inProgress,
           ),
-          SizedBox(height: 16),
+          CurrentOverIndicator(
+            balls: match.currentOverRuns,
+            isBlur: false,
+            remainingBalls: 0,
+            showShadow: false,
+          ),
           if (match.status == MatchStatus.live) ...[
             CurrentPlayersInfo(
               batsmen: match.currentBatsmen!,
