@@ -10,12 +10,16 @@ class CurrentOverIndicator extends StatelessWidget {
   final int remainingBalls;
   final bool isBlur;
   final bool showShadow;
+  final EdgeInsetsGeometry? margin;
+  final Color bgColor;
 
   const CurrentOverIndicator({
     required this.balls,
     required this.isBlur,
     required this.remainingBalls,
+    required this.bgColor,
     this.showShadow = true,
+    this.margin,
   });
 
   @override
@@ -25,11 +29,11 @@ class CurrentOverIndicator extends StatelessWidget {
         fit: StackFit.passthrough,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            margin: margin,
             padding: EdgeInsets.all(15),
             width: double.infinity,
             decoration: BoxDecoration(
-              color: LightThemeColors.surfaceColor,
+              color: bgColor,
               borderRadius: BorderRadius.circular(15),
               boxShadow: showShadow
                   ? [

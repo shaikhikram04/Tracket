@@ -24,36 +24,40 @@ class MatchStatusCard extends StatelessWidget {
           bottom: BorderSide(color: Colors.black12, width: 0.5),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          MatchHeader(match: match),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: isLightMode
-                  ? LightThemeColors.cardColor
-                  : DarkThemeColors.cardColor,
-            ),
-            child: MatchTeamsRow(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: isLightMode
+              ? LightThemeColors.cardColor
+              : DarkThemeColors.cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            MatchHeader(match: match),
+            SizedBox(height: 16),
+            MatchTeamsRow(
               match: match,
               versusBgColor: primaryLight.withValues(alpha: 0.2),
             ),
-          ),
-          CurrentOverIndicator(
-            balls: match.currentOverRuns,
-            isBlur: false,
-            remainingBalls: 0,
-            showShadow: false,
-          ),
-          if (match.status == MatchStatus.live) ...[
-            CurrentPlayersInfo(
-              batsmen: match.currentBatsmen!,
-              bowler: match.currentBowlers!,
-              strikerIndex: match.strikerIndex,
-            ),
-          ]
-        ],
+            if (match.status == MatchStatus.live) ...[
+              CurrentOverIndicator(
+                balls: match.currentOverRuns,
+                isBlur: false,
+                remainingBalls: 0,
+                showShadow: false,
+                margin: null,
+                bgColor: LightThemeColors.surfaceColor.withValues(alpha: 0.9),
+              ),
+              CurrentPlayersInfo(
+                batsmen: match.currentBatsmen!,
+                bowler: match.currentBowlers!,
+                strikerIndex: match.strikerIndex,
+              ),
+            ]
+          ],
+        ),
       ),
     );
   }

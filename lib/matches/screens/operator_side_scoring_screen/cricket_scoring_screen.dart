@@ -228,6 +228,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                     isBlur: _isBlur,
                     remainingBalls:
                         ref.watch(matchStateProvider.notifier).remainingBalls,
+                    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    bgColor: LightThemeColors.surfaceColor,
                   ),
 
                   // Player Stats Section with cards

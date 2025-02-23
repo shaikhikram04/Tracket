@@ -19,28 +19,13 @@ class MatchHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    final isLightMode = brightness == Brightness.light;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: isLightMode
-            ? LightThemeColors.cardColor
-            : DarkThemeColors.cardColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (showDate) _buildDate(context),
-          const Spacer(),
-          _buildMatchStatus(context),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        if (showDate) _buildDate(context),
+        const Spacer(),
+        _buildMatchStatus(context),
+      ],
     );
   }
 
