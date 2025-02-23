@@ -8,9 +8,11 @@ class MatchTeamsRow extends StatelessWidget {
   const MatchTeamsRow({
     super.key,
     required this.match,
+    required this.versusBgColor,
   });
 
   final Match match;
+  final Color versusBgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class MatchTeamsRow extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: versusBgColor,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(

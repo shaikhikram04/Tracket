@@ -70,7 +70,7 @@ class MatchCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              MatchTeamsRow(match: match),
+              MatchTeamsRow(match: match, versusBgColor: Colors.grey[200]!),
               if (_match.status == MatchStatus.scheduled) ...[
                 Text(
                   'Starts at ${DateFormat('hh:mm a').format(_match.schedule)}',

@@ -11,11 +11,12 @@ class CurrentOverIndicator extends StatelessWidget {
   final bool isBlur;
   final bool showShadow;
 
-  const CurrentOverIndicator(
-      {required this.balls,
-      required this.isBlur,
-      required this.remainingBalls,
-      this.showShadow = true});
+  const CurrentOverIndicator({
+    required this.balls,
+    required this.isBlur,
+    required this.remainingBalls,
+    this.showShadow = true,
+  });
 
   @override
   Widget build(BuildContext context) {
