@@ -57,7 +57,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
           final _indicatorColor = indicatorColor ?? theme.colorScheme.primary;
           final _labelColor = labelColor ?? theme.colorScheme.primary;
           final _unselectedLabelColor = unselectedLabelColor ??
-              theme.colorScheme.onSurface.withOpacity(0.7);
+              theme.colorScheme.onSurface.withValues(alpha: 0.7);
           final _labelStyle = labelStyle ??
               theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
@@ -68,7 +68,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: theme.dividerColor.withOpacity(0.3),
+                  color: theme.dividerColor.withValues(alpha: 0.3),
                   width: 1.0,
                 ),
               ),
@@ -182,7 +182,7 @@ class _BadgedIcon extends StatelessWidget {
           size: 22.0,
           color: isSelected
               ? theme.colorScheme.primary
-              : theme.colorScheme.onSurface.withOpacity(0.7),
+              : theme.colorScheme.onSurface.withValues(alpha: 0.7),
         ),
         if (badge != null && badge! > 0)
           Positioned(
@@ -195,7 +195,7 @@ class _BadgedIcon extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: theme.shadowColor.withOpacity(0.3),
+                    color: theme.shadowColor.withValues(alpha: 0.3),
                     blurRadius: 2,
                     offset: const Offset(0, 1),
                   ),
