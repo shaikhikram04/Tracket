@@ -1,6 +1,7 @@
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/extras.dart';
+import 'package:tracket/matches/models/fall_of_wickets.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
@@ -18,6 +19,7 @@ class Inning {
     required this.bowlingTeam,
     required this.battingStats,
     required this.bowlingStats,
+    this.fallOfWickets = const [],
     this.balls = 0,
     this.fours = 0,
     this.runs = 0,
@@ -31,6 +33,7 @@ class Inning {
   final MatchTeamInfo bowlingTeam;
   final List<BattingScore> battingStats;
   final List<BowlingScore> bowlingStats;
+  final List<FallOfWicket> fallOfWickets;
   final int runs;
   final int wickets;
   final int balls;

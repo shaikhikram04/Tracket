@@ -21,6 +21,7 @@ class BattingScore {
     this.isOut = false,
     this.runs = 0,
     this.sixes = 0,
+    this.dismissalInfo = '',
   });
 
   final String uuid;
@@ -31,6 +32,7 @@ class BattingScore {
   final int? fours;
   final bool isOut;
   final ReasonOfOut? reasonOfOut;
+  final String dismissalInfo;
 
   double? get strikeRate {
     if (runs == null || ballsFaced == null) return null;

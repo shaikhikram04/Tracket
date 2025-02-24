@@ -12,7 +12,15 @@ class InningScoreboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BattingScorecard(innings: inning),
+        BattingScorecard(
+          teamName: inning.battingTeam.teamName,
+          battingScores: inning.battingStats,
+          extras: inning.extras,
+          totalScore: inning.runs,
+          wickets: inning.wickets,
+          overs: inning.oversDisplay,
+          fallOfWickets: inning.fallOfWickets,
+        ),
         BowlingScorecard(innings: inning),
       ],
     );
