@@ -32,22 +32,24 @@ class Scoreboard extends BaseTabScreen {
 
 class _ScoreboardState extends State<Scoreboard>
     with SingleTickerProviderStateMixin, TabControllerMixin {
-  static const _tabs = [
-    NotificationTabConfig(text: 'Team1 Inning'),
-    NotificationTabConfig(text: 'Team2 Inning'),
-  ];
+  @override
+  List<NotificationTabConfig> get tabConfigs => [
+        NotificationTabConfig(text: 'Team1 Inning',),
+        NotificationTabConfig(text: 'Team2 Inning'),
+      ];
+  
 
   @override
   void initState() {
     super.initState();
-    initTabController(_tabs.length);
+    initTabController(tabConfigs.length);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildTabBar(tabs: _tabs),
+        buildTabBar(),
         const SizedBox(height: 10),
         SizedBox(
           height: 495,

@@ -15,22 +15,23 @@ class ManageRequestsScreen extends BaseTabScreen {
 
 class _RequestsScreenState extends State<ManageRequestsScreen>
     with SingleTickerProviderStateMixin, TabControllerMixin {
-  static const _tabs = [
-    NotificationTabConfig(
-      text: 'Received',
-      icon: Icons.arrow_downward,
-    ),
-    NotificationTabConfig(
-      text: 'Sent',
-      icon: Icons.arrow_upward,
-    ),
-  ];
+  @override
+  List<NotificationTabConfig> get tabConfigs => [
+        NotificationTabConfig(
+          text: 'Received',
+          icon: Icons.arrow_downward,
+        ),
+        NotificationTabConfig(
+          text: 'Sent',
+          icon: Icons.arrow_upward,
+        ),
+      ];
 
   @override
   void initState() {
     super.initState();
     initTabController(
-      _tabs.length,
+      tabConfigs.length,
     );
   }
 
@@ -38,18 +39,20 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildTabBar(tabs: _tabs),
-        buildTabBarView(
-          children: [
-            RequestsFetcher(
-              field: 'to',
-              teamId: widget.teamId,
-            ),
-            RequestsFetcher(
-              field: 'from',
-              teamId: widget.teamId,
-            ),
-          ],
+        buildTabBar(),
+        Expanded(
+          child: buildTabBarView(
+            children: [
+              RequestsFetcher(
+                field: 'to',
+                teamId: widget.teamId,
+              ),
+              RequestsFetcher(
+                field: 'from',
+                teamId: widget.teamId,
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -38,9 +38,8 @@ class MatchStatusCard extends StatelessWidget {
             CurrentOverIndicator(
               balls: match.currentOverRuns,
               isBlur: false,
-              remainingBalls: 0,
+              remainingBalls: match.inning1!.remainingBalls,
               showShadow: false,
-              margin: null,
               bgColor: LightThemeColors.surfaceColor.withValues(alpha: 0.9),
             ),
             CurrentPlayersInfo(

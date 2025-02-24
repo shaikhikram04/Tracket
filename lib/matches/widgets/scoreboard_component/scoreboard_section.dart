@@ -33,6 +33,7 @@ class ScoreboardSection extends StatelessWidget {
         border: Border.all(
           color: LightThemeColors.backgroundColor,
         ),
+        borderRadius: BorderRadius.vertical(top: Radius.elliptical(20, 10)),
         boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 1)],
       ),
       child: Column(

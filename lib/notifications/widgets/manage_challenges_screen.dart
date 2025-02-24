@@ -15,22 +15,23 @@ class ManageChallengesScreen extends BaseTabScreen {
 
 class _ManageChallengesScreenState extends State<ManageChallengesScreen>
     with SingleTickerProviderStateMixin, TabControllerMixin {
-  static const _tabs = [
-    NotificationTabConfig(
-      text: 'Received',
-      icon: Icons.arrow_downward,
-    ),
-    NotificationTabConfig(
-      text: 'Sent',
-      icon: Icons.arrow_upward,
-    ),
-  ];
+  @override
+  List<NotificationTabConfig> get tabConfigs => [
+        NotificationTabConfig(
+          text: 'Received',
+          icon: Icons.arrow_downward,
+        ),
+        NotificationTabConfig(
+          text: 'Sent',
+          icon: Icons.arrow_upward,
+        ),
+      ];
 
   @override
   void initState() {
     super.initState();
     initTabController(
-      _tabs.length,
+      tabConfigs.length,
     );
   }
 
@@ -38,12 +39,14 @@ class _ManageChallengesScreenState extends State<ManageChallengesScreen>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildTabBar(tabs: _tabs),
-        buildTabBarView(
-          children: [
-            ChallengesFetcher(field: 'to', teamId: widget.teamId),
-            ChallengesFetcher(field: 'from', teamId: widget.teamId),
-          ],
+        buildTabBar(),
+        Expanded(
+          child: buildTabBarView(
+            children: [
+              ChallengesFetcher(field: 'to', teamId: widget.teamId),
+              ChallengesFetcher(field: 'from', teamId: widget.teamId),
+            ],
+          ),
         ),
       ],
     );
