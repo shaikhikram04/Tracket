@@ -5,11 +5,13 @@ class StatColumn extends StatelessWidget {
   final String title;
   final List<String> values;
   final double width;
+  final double height;
 
   const StatColumn({
     required this.title,
     required this.values,
     required this.width,
+    this.height = 60,
   });
 
   @override
@@ -45,7 +47,7 @@ class StatColumn extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
               color: backgroundColor,
-              height: 60,
+              height: height,
               child: Text(
                 val,
                 style: TextStyle(

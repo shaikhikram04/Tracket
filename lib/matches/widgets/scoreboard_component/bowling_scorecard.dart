@@ -122,31 +122,23 @@ class BowlingScorecardDemo extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final isDarkMode = brightness == Brightness.dark;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bowling Scorecard'),
-        backgroundColor: isDarkMode ? primaryVariant : primaryColor,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              BattingScorecard(
-                  teamName: 'India',
-                  battingScores: sampleBatsmen,
-                  extras: sampleExtras,
-                  totalScore: 336,
-                  wickets: 3,
-                  overs: '50.0',
-                  fallOfWickets: sampleFallOfWickets),
-              BowlingScorecard(
-                bowlerStats: sampleStats,
-                isDarkMode: isDarkMode,
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          BattingScorecard(
+              teamName: 'India',
+              battingScores: sampleBatsmen,
+              extras: sampleExtras,
+              totalScore: 336,
+              wickets: 3,
+              overs: '50.0',
+              fallOfWickets: sampleFallOfWickets),
+          BowlingScorecard(
+            bowlerStats: sampleStats,
+            isDarkMode: isDarkMode,
           ),
-        ),
+        ],
       ),
     );
   }
@@ -182,7 +174,7 @@ class BowlingScorecard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Bowling Statistics',
-              style: textTheme.titleLarge?.copyWith(
+              style: textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: isDarkMode ? DarkThemeColors.primaryText : primaryColor,
               ),
@@ -239,6 +231,7 @@ class _ScrollableStatsSection extends StatelessWidget {
                       '-')
                   .toList(),
               width: config.width,
+              height: 50,
             ))
         .toList();
   }
@@ -299,7 +292,7 @@ class _BowlingColumn extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.centerLeft,
                 color: backgroundColor,
-                height: 60,
+                height: 50,
                 child: Text(
                   bowler.playerName,
                   style: TextStyle(
