@@ -12,17 +12,16 @@ class InningScoreboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // BattingScorecard(
-        //   teamName: inning.battingTeam.teamName,
-        //   battingScores: inning.battingStats,
-        //   extras: inning.extras,
-        //   totalScore: inning.runs,
-        //   wickets: inning.wickets,
-        //   overs: inning.oversDisplay,
-        //   fallOfWickets: inning.fallOfWickets,
-        // ),
-        BattingScorecardExample(),
-        BowlingScorecard(innings: inning),
+        BattingScorecard(
+          teamName: inning.battingTeam.teamName,
+          battingScores: inning.battingStats,
+          extras: inning.extras,
+          totalScore: inning.runs,
+          wickets: inning.wickets,
+          overs: inning.oversDisplay,
+          fallOfWickets: inning.fallOfWickets,
+        ),
+        BowlingScorecard(bowlerStats: inning.bowlingStats, isDarkMode: false),
       ],
     );
   }

@@ -3,7 +3,6 @@ import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
-import 'package:tracket/matches/widgets/scoreboard_component/batting_scorecard.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/inning_scoreboard.dart';
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
@@ -54,29 +53,28 @@ class _ScoreboardState extends State<Scoreboard>
         buildTabBar(),
         const SizedBox(height: 10),
         SizedBox(
-          height: 525,
+          height: 495,
           child: TabBarView(
             controller: tabController,
             physics: NeverScrollableScrollPhysics(),
             children: [
-              BattingScorecardExample(),
-              // widget.inning1 != null
-              //     ? InningScoreboard(inning: widget.inning1!)
-              //     : Padding(
-              //         padding: const EdgeInsets.symmetric(
-              //           horizontal: 15,
-              //           vertical: 5,
-              //         ),
-              //         child: MatchSquad(
-              //           selectedPlayers: widget.team1Players,
-              //           captainId: widget.team1.captainId,
-              //           wicketkeeperId: widget.team1.wicketkeeperId,
-              //           isPlayerCanAdd: false,
-              //           titleFontSize: 17,
-              //           title: '${widget.team1.teamName} Squad',
-              //           isLongCricketRole: true,
-              //         ),
-              //       ),
+              widget.inning1 != null
+                  ? InningScoreboard(inning: widget.inning1!)
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 5,
+                      ),
+                      child: MatchSquad(
+                        selectedPlayers: widget.team1Players,
+                        captainId: widget.team1.captainId,
+                        wicketkeeperId: widget.team1.wicketkeeperId,
+                        isPlayerCanAdd: false,
+                        titleFontSize: 17,
+                        title: '${widget.team1.teamName} Squad',
+                        isLongCricketRole: true,
+                      ),
+                    ),
               widget.inning2 != null
                   ? InningScoreboard(inning: widget.inning2!)
                   : Padding(

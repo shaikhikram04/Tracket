@@ -4,85 +4,6 @@ import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/fall_of_wickets.dart';
 import 'package:tracket/utils/colors.dart';
 
-class BattingScorecardExample extends StatelessWidget {
-  const BattingScorecardExample({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Sample data
-    final List<BattingScore> sampleBatsmen = [
-      BattingScore(
-        playerName: 'Rohit Sharma',
-        dismissalInfo: 'c Root b Anderson',
-        runs: 83,
-        ballsFaced: 68,
-        fours: 12,
-        sixes: 2,
-        uuid: '1',
-      ),
-      BattingScore(
-        playerName: 'KL Rahul',
-        dismissalInfo: 'b Archer',
-        runs: 42,
-        ballsFaced: 64,
-        fours: 6,
-        sixes: 0,
-        uuid: '2',
-      ),
-      BattingScore(
-        playerName: 'Virat Kohli',
-        dismissalInfo: 'Not out',
-        runs: 122,
-        ballsFaced: 98,
-        fours: 14,
-        sixes: 4,
-        uuid: '3',
-      ),
-      BattingScore(
-        playerName: 'Rishabh Pant',
-        dismissalInfo: 'Not out',
-        runs: 28,
-        ballsFaced: 18,
-        fours: 3,
-        sixes: 2,
-        uuid: '4',
-      ),
-    ];
-
-    final Extras sampleExtras = Extras(
-      byes: 4,
-      legByes: 6,
-      wides: 8,
-      noBalls: 2,
-    );
-
-    final List<FallOfWicket> sampleFallOfWickets = [
-      FallOfWicket(
-        wicketNumber: 1,
-        runsAtFall: 105,
-        batsmanName: 'Rohit Sharma',
-        overs: 14.2,
-      ),
-      FallOfWicket(
-        wicketNumber: 2,
-        runsAtFall: 142,
-        batsmanName: 'KL Rahul',
-        overs: 22.5,
-      ),
-    ];
-
-    return BattingScorecard(
-      teamName: 'India',
-      extras: sampleExtras,
-      totalScore: 295,
-      wickets: 2,
-      overs: '42.3',
-      fallOfWickets: sampleFallOfWickets,
-      battingScores: sampleBatsmen,
-    );
-  }
-}
-
 class BattingScorecard extends StatelessWidget {
   final String teamName;
   final List<BattingScore> battingScores;
@@ -175,7 +96,7 @@ class BattingScorecard extends StatelessWidget {
   /// Builds the extras row showing byes, leg byes, wides, no balls, and penalties
   Widget _buildExtrasRow() {
     return Container(
-      color: lightPitchBrown.withOpacity(0.15),
+      color: lightPitchBrown.withValues(alpha: 0.15),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
@@ -212,7 +133,7 @@ class BattingScorecard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      color: primaryVariant.withOpacity(0.15),
+      color: primaryVariant.withValues(alpha: 0.15),
       child: Row(
         children: [
           const Expanded(
@@ -359,7 +280,7 @@ class _BattingColumn extends StatelessWidget {
             width: double.infinity,
             height: 40,
             alignment: Alignment.centerLeft,
-            color: lightPitchBrown.withOpacity(0.3),
+            color: lightPitchBrown.withValues(alpha: 0.3),
             child: const Text(
               'BATSMAN',
               style: const TextStyle(
@@ -379,7 +300,7 @@ class _BattingColumn extends StatelessWidget {
                   batsman.dismissalInfo.toLowerCase().contains('not out');
               final backgroundColor = index % 2 == 0
                   ? LightThemeColors.surfaceColor
-                  : lightPitchBrown.withOpacity(0.1);
+                  : lightPitchBrown.withValues(alpha: 0.1);
               return Container(
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.centerLeft,
@@ -437,7 +358,7 @@ class _StatColumn extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            color: lightPitchBrown.withOpacity(0.3),
+            color: lightPitchBrown.withValues(alpha: 0.3),
             width: double.infinity,
             height: 40,
             alignment: Alignment.center,
@@ -457,7 +378,7 @@ class _StatColumn extends StatelessWidget {
 
             final backgroundColor = index % 2 == 0
                 ? LightThemeColors.surfaceColor
-                : lightPitchBrown.withOpacity(0.1);
+                : lightPitchBrown.withValues(alpha: 0.1);
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
