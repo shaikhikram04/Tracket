@@ -2,18 +2,85 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/fall_of_wickets.dart';
+import 'package:tracket/utils/colors.dart';
 
-class CricketColors {
-  static const Color primaryColor = Color(0xFF1B5E20); // Dark green
-  static const Color primaryVariant = Color(0xFF2E7D32); // Medium green
-  static const Color secondaryColor = Color(0xFF43A047); // Light green
-  static const Color pitchBrown = Color(0xFF8D6E63); // Brown
-  static const Color lightPitchBrown = Color(0xFFBCAAA4); // Light brown
-  static const Color textPrimary = Color(0xFF212121);
-  static const Color textSecondary = Color(0xFF757575);
-  static const Color divider = Color(0xFFE0E0E0);
-  static const Color white = Colors.white;
-  static const Color highlightYellow = Color(0xFFFFF59D);
+class BattingScorecardExample extends StatelessWidget {
+  const BattingScorecardExample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Sample data
+    final List<BattingScore> sampleBatsmen = [
+      BattingScore(
+        playerName: 'Rohit Sharma',
+        dismissalInfo: 'c Root b Anderson',
+        runs: 83,
+        ballsFaced: 68,
+        fours: 12,
+        sixes: 2,
+        uuid: '1',
+      ),
+      BattingScore(
+        playerName: 'KL Rahul',
+        dismissalInfo: 'b Archer',
+        runs: 42,
+        ballsFaced: 64,
+        fours: 6,
+        sixes: 0,
+        uuid: '2',
+      ),
+      BattingScore(
+        playerName: 'Virat Kohli',
+        dismissalInfo: 'Not out',
+        runs: 122,
+        ballsFaced: 98,
+        fours: 14,
+        sixes: 4,
+        uuid: '3',
+      ),
+      BattingScore(
+        playerName: 'Rishabh Pant',
+        dismissalInfo: 'Not out',
+        runs: 28,
+        ballsFaced: 18,
+        fours: 3,
+        sixes: 2,
+        uuid: '4',
+      ),
+    ];
+
+    final Extras sampleExtras = Extras(
+      byes: 4,
+      legByes: 6,
+      wides: 8,
+      noBalls: 2,
+    );
+
+    final List<FallOfWicket> sampleFallOfWickets = [
+      FallOfWicket(
+        wicketNumber: 1,
+        runsAtFall: 105,
+        batsmanName: 'Rohit Sharma',
+        overs: 14.2,
+      ),
+      FallOfWicket(
+        wicketNumber: 2,
+        runsAtFall: 142,
+        batsmanName: 'KL Rahul',
+        overs: 22.5,
+      ),
+    ];
+
+    return BattingScorecard(
+      teamName: 'India',
+      extras: sampleExtras,
+      totalScore: 295,
+      wickets: 2,
+      overs: '42.3',
+      fallOfWickets: sampleFallOfWickets,
+      battingScores: sampleBatsmen,
+    );
+  }
 }
 
 class BattingScorecard extends StatelessWidget {
@@ -42,22 +109,25 @@ class BattingScorecard extends StatelessWidget {
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: CricketColors.primaryColor, width: 1.5),
+        side: const BorderSide(color: grassGreen, width: 1.5),
       ),
       margin: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildTeamHeaderRow(),
-          const Divider(height: 1, thickness: 1, color: CricketColors.divider),
+          const Divider(
+              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
           _ScrollableStatsSection(battingScore: battingScores),
-          const Divider(height: 1, thickness: 1, color: CricketColors.divider),
+          const Divider(
+              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
           _buildExtrasRow(),
-          const Divider(height: 1, thickness: 1, color: CricketColors.divider),
+          const Divider(
+              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
           _buildTotalRow(),
           if (fallOfWickets.isNotEmpty) ...[
             const Divider(
-                height: 1, thickness: 1, color: CricketColors.divider),
+                height: 1, thickness: 1, color: LightThemeColors.dividerColor),
             _buildFallOfWicketsRow(),
           ],
         ],
@@ -72,7 +142,7 @@ class BattingScorecard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: const BoxDecoration(
-        color: CricketColors.primaryColor,
+        color: grassGreen,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
           topRight: Radius.circular(12),
@@ -86,7 +156,7 @@ class BattingScorecard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: CricketColors.white,
+              color: LightThemeColors.surfaceColor,
             ),
           ),
           Text(
@@ -94,7 +164,7 @@ class BattingScorecard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: CricketColors.white,
+              color: LightThemeColors.surfaceColor,
             ),
           ),
         ],
@@ -105,7 +175,7 @@ class BattingScorecard extends StatelessWidget {
   /// Builds the extras row showing byes, leg byes, wides, no balls, and penalties
   Widget _buildExtrasRow() {
     return Container(
-      color: CricketColors.lightPitchBrown.withOpacity(0.15),
+      color: lightPitchBrown.withOpacity(0.15),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
@@ -116,7 +186,7 @@ class BattingScorecard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: CricketColors.textPrimary,
+                color: LightThemeColors.primaryText,
               ),
             ),
           ),
@@ -125,9 +195,9 @@ class BattingScorecard extends StatelessWidget {
             child: Text(
               '${extras.total} (b ${extras.byes}, lb ${extras.legByes}, w ${extras.wides}, '
               'nb ${extras.noBalls}, p ${extras.penaltyRuns})',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
-                color: CricketColors.textSecondary,
+                color: LightThemeColors.secondaryText,
               ),
             ),
           ),
@@ -142,7 +212,7 @@ class BattingScorecard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      color: CricketColors.primaryVariant.withOpacity(0.15),
+      color: primaryVariant.withOpacity(0.15),
       child: Row(
         children: [
           const Expanded(
@@ -152,7 +222,7 @@ class BattingScorecard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: CricketColors.textPrimary,
+                color: LightThemeColors.primaryText,
               ),
             ),
           ),
@@ -163,7 +233,7 @@ class BattingScorecard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: CricketColors.primaryColor,
+                color: grassGreen,
               ),
             ),
           ),
@@ -184,7 +254,7 @@ class BattingScorecard extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: CricketColors.textPrimary,
+              color: LightThemeColors.primaryText,
             ),
           ),
           const SizedBox(height: 6),
@@ -192,7 +262,7 @@ class BattingScorecard extends StatelessWidget {
             _formatFallOfWickets(),
             style: const TextStyle(
               fontSize: 13,
-              color: CricketColors.textSecondary,
+              color: LightThemeColors.secondaryText,
               height: 1.4,
             ),
           ),
@@ -289,17 +359,18 @@ class _BattingColumn extends StatelessWidget {
             width: double.infinity,
             height: 40,
             alignment: Alignment.centerLeft,
-            color: CricketColors.lightPitchBrown.withOpacity(0.3),
+            color: lightPitchBrown.withOpacity(0.3),
             child: const Text(
               'BATSMAN',
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: CricketColors.textSecondary,
+                color: LightThemeColors.secondaryText,
               ),
             ),
           ),
-          const Divider(height: 1, thickness: 1, color: CricketColors.divider),
+          const Divider(
+              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
           ...Iterable.generate(
             battingScores.length,
             (index) {
@@ -307,8 +378,8 @@ class _BattingColumn extends StatelessWidget {
               final isNotOut =
                   batsman.dismissalInfo.toLowerCase().contains('not out');
               final backgroundColor = index % 2 == 0
-                  ? CricketColors.white
-                  : CricketColors.lightPitchBrown.withOpacity(0.1);
+                  ? LightThemeColors.surfaceColor
+                  : lightPitchBrown.withOpacity(0.1);
               return Container(
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.centerLeft,
@@ -322,7 +393,7 @@ class _BattingColumn extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: CricketColors.textPrimary,
+                          color: LightThemeColors.primaryText,
                           fontStyle:
                               isNotOut ? FontStyle.italic : FontStyle.normal,
                         ),
@@ -333,8 +404,8 @@ class _BattingColumn extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           color: isNotOut
-                              ? CricketColors.secondaryColor
-                              : CricketColors.textSecondary,
+                              ? primaryLight
+                              : LightThemeColors.secondaryText,
                         ),
                       ),
                     ]),
@@ -366,7 +437,7 @@ class _StatColumn extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            color: CricketColors.lightPitchBrown.withOpacity(0.3),
+            color: lightPitchBrown.withOpacity(0.3),
             width: double.infinity,
             height: 40,
             alignment: Alignment.center,
@@ -375,17 +446,18 @@ class _StatColumn extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: CricketColors.textSecondary,
+                color: LightThemeColors.secondaryText,
               ),
             ),
           ),
-          const Divider(height: 1, thickness: 1, color: CricketColors.divider),
+          const Divider(
+              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
           ...List.generate(values.length, (index) {
             final val = values[index];
 
             final backgroundColor = index % 2 == 0
-                ? CricketColors.white
-                : CricketColors.lightPitchBrown.withOpacity(0.1);
+                ? LightThemeColors.surfaceColor
+                : lightPitchBrown.withOpacity(0.1);
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
@@ -396,7 +468,7 @@ class _StatColumn extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
-                  color: CricketColors.textPrimary,
+                  color: LightThemeColors.primaryText,
                 ),
               ),
             );

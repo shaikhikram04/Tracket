@@ -16,6 +16,7 @@ const Color secondaryLight = Color(0xFF5DADE2); // Lighter blue
 const grassGreen = Color(0xFF2E7D32); // Natural grass color
 const darkGrassGreen = const Color(0xFF1B5E20);
 const pitchBrown = Color(0xFFB87A3D); // Cricket pitch color
+const lightPitchBrown = Color(0xFFBCAAA4); // Light brown
 const boundaryRope = Color(0xFFE57373); // Boundary rope inspired
 
 //* Light Mode Colors
@@ -24,6 +25,7 @@ class LightThemeColors {
   static const backgroundColor = Color(0xFFF5F7F5); // Subtle green tint
   static const surfaceColor = Color(0xFFFFFFFF);
   static const cardColor = Color(0xFFE8F5E9); // Soft green cards
+  static const dividerColor = Color(0xFFE0E0E0);
   static const secondaryBackground = Color(0xFFF0F4F0);
 
   // Text colors
