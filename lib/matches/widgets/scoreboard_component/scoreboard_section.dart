@@ -4,7 +4,6 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/match_scoreboard.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utils.dart';
 
 class ScoreboardSection extends StatelessWidget {
   const ScoreboardSection({
@@ -26,32 +25,17 @@ class ScoreboardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 250, 255, 250),
-        border: Border.all(
-          color: LightThemeColors.backgroundColor,
+    return Column(
+      children: [
+        Scoreboard(
+          inning1: inning1,
+          inning2: inning2,
+          team1Players: team1Players,
+          team2Players: team2Players,
+          team1: team1,
+          team2: team2,
         ),
-        borderRadius: BorderRadius.vertical(top: Radius.elliptical(20, 10)),
-        boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 1)],
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: getTitleText('Scoreboard', context),
-          ),
-          Scoreboard(
-            inning1: inning1,
-            inning2: inning2,
-            team1Players: team1Players,
-            team2Players: team2Players,
-            team1: team1,
-            team2: team2,
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

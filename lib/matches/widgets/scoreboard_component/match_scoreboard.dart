@@ -7,6 +7,8 @@ import 'package:tracket/matches/widgets/scoreboard_component/inning_scoreboard.d
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
 import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
+import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utils.dart';
 
 class Scoreboard extends BaseTabScreen {
   const Scoreboard({
@@ -35,9 +37,13 @@ class _ScoreboardState extends State<Scoreboard>
   @override
   List<NotificationTabConfig> get tabConfigs => [
         NotificationTabConfig(
-          text: 'Team1 Inning',
+          text: widget.team1.teamName,
+          icon: Icons.sports_cricket,
         ),
-        NotificationTabConfig(text: 'Team2 Inning'),
+        NotificationTabConfig(
+          text: widget.team2.teamName,
+          icon: Icons.sports_cricket,
+        ),
       ];
 
   @override
@@ -48,55 +54,108 @@ class _ScoreboardState extends State<Scoreboard>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        buildTabBar(),
-        const SizedBox(height: 10),
-        SizedBox(
-          height: 495,
-          child: TabBarView(
-            controller: tabController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              widget.inning1 != null
-                  ? InningScoreboard(inning: widget.inning1!)
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 5,
-                      ),
-                      child: MatchSquad(
-                        selectedPlayers: widget.team1Players,
-                        captainId: widget.team1.captainId,
-                        wicketkeeperId: widget.team1.wicketkeeperId,
-                        isPlayerCanAdd: false,
-                        titleFontSize: 17,
-                        title: '${widget.team1.teamName} Squad',
-                        isLongCricketRole: true,
-                      ),
-                    ),
-              widget.inning2 != null
-                  ? InningScoreboard(inning: widget.inning2!)
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 5,
-                      ),
-                      child: MatchSquad(
-                        selectedPlayers: widget.team2Players,
-                        captainId: widget.team2.captainId,
-                        wicketkeeperId: widget.team2.wicketkeeperId,
-                        isPlayerCanAdd: false,
-                        titleFontSize: 17,
-                        title: '${widget.team2.teamName}  Squad',
-                        isLongCricketRole: true,
-                      ),
-                    ),
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              LightThemeColors.cardColor.withOpacity(0.5),
+              LightThemeColors.backgroundColor,
             ],
           ),
+          borderRadius: BorderRadius.vertical(top: Radius.elliptical(20, 10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 1,
+              spreadRadius: 1,
+            ),
+          ],
         ),
-        const SizedBox(height: 20),
-      ],
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildHeader(),
+            buildTabBar(),
+            const SizedBox(height: 8),
+            _buildTabContent(constraints),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Center(child: getTitleText('Scoreboard', context)),
     );
+  }
+
+  Widget _buildTabContent(BoxConstraints constraints) {
+    // Calculate a more responsive height based on screen size
+    final screenHeight = constraints.maxHeight;
+    final availableHeight = screenHeight > 600
+        ? screenHeight * 0.6 // Use 60% of available height on larger screens
+        : screenHeight * 0.75; // Use 75% of available height on smaller screens
+
+    // Cap the height to reasonable values
+    final contentHeight = availableHeight.clamp(400.0, 600.0);
+
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: 400,
+        maxHeight: contentHeight,
+      ),
+      child: TabBarView(
+        controller: tabController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          _buildTeamContent(
+            inning: widget.inning1,
+            team: widget.team1,
+            players: widget.team1Players,
+          ),
+          _buildTeamContent(
+            inning: widget.inning2,
+            team: widget.team2,
+            players: widget.team2Players,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTeamContent({
+    required Inning? inning,
+    required MatchTeamInfo team,
+    required List<MatchPlayerInfo> players,
+  }) {
+    if (inning != null) {
+      return InningScoreboard(
+        battingScores: inning.battingStats,
+        extras: inning.extras,
+        bowlingStats: inning.bowlingStats,
+        fallOfWickets: inning.fallOfWickets,
+        overs: inning.oversDisplay,
+        teamName: team.teamName,
+        totalScore: inning.runs,
+        wickets: inning.wickets,
+      );
+    } else {
+      return MatchSquad(
+        selectedPlayers: players,
+        captainId: team.captainId,
+        wicketkeeperId: team.wicketkeeperId,
+        isPlayerCanAdd: false,
+        titleFontSize: 17,
+        title: '${team.teamName} Squad',
+        isLongCricketRole: true,
+      );
+    }
   }
 }
