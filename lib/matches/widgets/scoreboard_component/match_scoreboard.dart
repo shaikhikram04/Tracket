@@ -148,10 +148,9 @@ class _ScoreboardState extends State<Scoreboard>
       );
     } else {
       return MatchSquad(
-        selectedPlayers: players,
+        players: players,
         captainId: team.captainId,
         wicketkeeperId: team.wicketkeeperId,
-        isPlayerCanAdd: false,
         titleFontSize: 17,
         title: '${team.teamName} Squad',
         isLongCricketRole: true,

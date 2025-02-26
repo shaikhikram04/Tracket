@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/widgets/match_score_component/match_status_card.dart';
 import 'package:tracket/matches/widgets/match_score_component/toss_venue_section.dart';
-import 'package:tracket/matches/widgets/scoreboard_component/scoreboard_section.dart';
+import 'package:tracket/matches/widgets/scoreboard_component/match_scoreboard.dart';
 import 'package:tracket/utils/colors.dart';
 
 class MatchScoringScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class MatchScoringScreen extends StatelessWidget {
       body: ListView(
         children: [
           MatchStatusCard(match: match),
-          ScoreboardSection(
+          Scoreboard(
             inning1: match.inning1,
             inning2: match.inning2,
             team1Players: match.team1Players,
