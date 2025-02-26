@@ -82,8 +82,7 @@ class MatchScoringScreen extends StatelessWidget {
               ),
             ),
             Scoreboard(
-              inning1: match.inning1,
-              inning2: match.inning2,
+              matchId: match.id,
               team1Players: match.team1Players,
               team2Players: match.team2Players,
               team1: match.team1,

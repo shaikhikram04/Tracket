@@ -35,23 +35,22 @@ class Match {
     required this.participants,
     required this.challengerPlayerId,
     required this.challengeAcceptedBy,
+    required this.createdAt,
+    required this.updatedAt,
     this.startBy,
     this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
-    this.inning1,
-    this.inning2,
+    // this.inning1,
+    // this.inning2,
     this.winningMargin,
     this.winningMethod,
     this.winningTeamId,
+    this.currentInningNumber,
     this.spectatorsAllowed = true,
     this.status = MatchStatus.scheduled,
-    Timestamp? createdAt,
-    Timestamp? updatedAt,
     String? id,
-  })  : id = id ?? const Uuid().v4(),
-        createdAt = createdAt ?? Timestamp.now(),
-        updatedAt = updatedAt ?? Timestamp.now();
+  }) : id = id ?? const Uuid().v4();
 
   final String id;
   final MatchTeamInfo team1;
@@ -68,6 +67,7 @@ class Match {
   final bool spectatorsAllowed;
   final Timestamp updatedAt;
   final DateTime schedule;
+  final MatchStatus status;
   final List<BallOutcome?> currentOverRuns;
   final List<StrikerData>? currentBatsmen;
   final CurrentBowlerData? currentBowlers;
@@ -76,13 +76,12 @@ class Match {
   final String challengerPlayerId;
   final String challengeAcceptedBy;
   final String? startBy;
-
-  final MatchStatus status;
-  final Inning? inning1;
-  final Inning? inning2;
+  // final Inning? inning1;
+  // final Inning? inning2;
   final String? winningTeamId;
   final WinningMethod? winningMethod;
   final int? winningMargin;
+  final int? currentInningNumber;
 
   // Match configuration getters
   int get over => switch (matchFormat) {
@@ -102,30 +101,32 @@ class Match {
   bool get isInProgress => status == MatchStatus.live;
 
   // Team and player management
-  MatchTeamInfo get battingTeam {
-    if (inning1 == null) return _getTossWinnerTeam(TossDecision.batting);
-    return inning1!.battingTeam;
+  MatchTeamInfo? get battingTeam {
+    if (currentInningNumber == null) return null;
+    if (inningNumber == 1) {
+      return _getTossWinnerTeam(TossDecision.batting);
+    } else {
+      return _getTossWinnerTeam(TossDecision.fielding);
+    }
   }
 
-  MatchTeamInfo get bowlingTeam {
-    if (inning1 == null) return _getTossWinnerTeam(TossDecision.fielding);
-    return inning1!.bowlingTeam;
+  MatchTeamInfo? get bowlingTeam {
+    if (currentInningNumber == null) return null;
+    if (currentInningNumber == 1) {
+      return _getTossWinnerTeam(TossDecision.fielding);
+    } else {
+      return _getTossWinnerTeam(TossDecision.batting);
+    }
   }
 
   List<MatchPlayerInfo> getBattingTeamPlayers() {
-    return battingTeam.teamId == team1.teamId ? team1Players : team2Players;
+    if (battingTeam == null) return [];
+    return battingTeam!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
   List<MatchPlayerInfo> getBowlingTeamPlayers() {
-    return bowlingTeam.teamId == team1.teamId ? team1Players : team2Players;
-  }
-
-  int get inningNumber {
-    if (inning2 != null) return 2;
-
-    if (inning1 != null) return 1;
-
-    return 0;
+    if (bowlingTeam == null) return [];
+    return bowlingTeam!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
   int? get target {

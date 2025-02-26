@@ -9,7 +9,6 @@ class MatchSquad extends StatelessWidget {
   final bool isPlayerCanAdd;
   final Function()? onAddPlayer;
   final bool isLongCricketRole;
-  final double titleFontSize;
   final String captainId;
   final String wicketkeeperId;
 
@@ -20,7 +19,6 @@ class MatchSquad extends StatelessWidget {
     required this.captainId,
     required this.wicketkeeperId,
     this.isLongCricketRole = false,
-    this.titleFontSize = 23,
     this.isPlayerCanAdd = false,
     this.onAddPlayer,
   }) : super(key: key);
