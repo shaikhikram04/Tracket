@@ -12,34 +12,128 @@ class MatchScoringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
+    // Use theme-based colors with fallback to your defined colors
+    final backgroundColor = isDarkMode
+        ? DarkThemeColors.surfaceColor
+        : LightThemeColors.surfaceColor;
+
     return Scaffold(
-      appBar: _buildAppBar(),
-      backgroundColor: LightThemeColors.surfaceColor,
-      body: ListView(
-        children: [
-          MatchStatusCard(match: match),
-          Scoreboard(
-            inning1: match.inning1,
-            inning2: match.inning2,
-            team1Players: match.team1Players,
-            team2Players: match.team2Players,
-            team1: match.team1,
-            team2: match.team2,
-          ),
-          TossVenueSection(match: match),
-        ],
+      appBar: _buildAppBar(context),
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            // Implement refresh logic here in the future
+            await Future.delayed(const Duration(milliseconds: 800));
+          },
+          child: _buildContent(context),
+        ),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: const Text('Match Details'),
-      backgroundColor: LightThemeColors.surfaceColor,
-      elevation: 0,
-      shape: const Border(
-        bottom: BorderSide(color: Colors.black12, width: 0.5),
+  Widget _buildContent(BuildContext context) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        MatchStatusCard(match: match),
+        const SizedBox(height: 8),
+        _buildScoreboardSection(context),
+        const SizedBox(height: 8),
+        TossVenueSection(match: match),
+      ],
+    );
+  }
+
+  Widget _buildScoreboardSection(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8, bottom: 8),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.scoreboard_outlined,
+                    size: 20,
+                    color: theme.colorScheme.secondary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Scoreboard',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Scoreboard(
+              inning1: match.inning1,
+              inning2: match.inning2,
+              team1Players: match.team1Players,
+              team2Players: match.team2Players,
+              team1: match.team1,
+              team2: match.team2,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
+    return AppBar(
+      title: Text(
+        'Match Details',
+        style: TextStyle(
+          color: theme.colorScheme.onSurface,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      backgroundColor: isDarkMode
+          ? theme.colorScheme.surface
+          : LightThemeColors.surfaceColor,
+      elevation: 0,
+      centerTitle: false,
+      shape: Border(
+        bottom: BorderSide(
+          color: theme.dividerColor,
+          width: 0.5,
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.share_outlined),
+          onPressed: () {
+            // Implement share functionality
+          },
+          tooltip: 'Share match details',
+        ),
+        IconButton(
+          icon: const Icon(Icons.more_vert),
+          onPressed: () {
+            // Show additional options
+          },
+          tooltip: 'More options',
+        ),
+      ],
     );
   }
 }

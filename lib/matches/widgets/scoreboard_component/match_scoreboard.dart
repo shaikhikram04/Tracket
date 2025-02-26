@@ -7,8 +7,6 @@ import 'package:tracket/matches/widgets/scoreboard_component/inning_scoreboard.d
 import 'package:tracket/notifications/tab_components/base_tab_screen.dart';
 import 'package:tracket/notifications/tab_components/notification_tab_config.dart';
 import 'package:tracket/notifications/tab_components/tab_controller_mixin.dart';
-import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utils.dart';
 
 class Scoreboard extends BaseTabScreen {
   const Scoreboard({
@@ -55,40 +53,15 @@ class _ScoreboardState extends State<Scoreboard>
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-        color: LightThemeColors.surfaceColor,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          // margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.elliptical(20, 10)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 1,
-                spreadRadius: 1,
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildHeader(),
-              buildTabBar(),
-              const SizedBox(height: 8),
-              _buildTabContent(constraints),
-            ],
-          ),
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          buildTabBar(),
+          const SizedBox(height: 8),
+          _buildTabContent(constraints),
+        ],
       );
     });
-  }
-
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Center(child: getTitleText('Scoreboard', context)),
-    );
   }
 
   Widget _buildTabContent(BoxConstraints constraints) {
