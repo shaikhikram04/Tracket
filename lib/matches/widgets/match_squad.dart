@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/players/widgets/squad_player_tile.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchSquad extends StatelessWidget {
   final String title;
@@ -27,31 +27,14 @@ class MatchSquad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final bool isDarkMode = theme.brightness == Brightness.dark;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? theme.colorScheme.surface
-            : theme.colorScheme.surface.withValues(alpha: 0.7),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHeader(context, onAddPressed: onAddPlayer, iconSize: 20),
-          _buildPlayersList(context),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(height: 10),
+        _buildHeader(context, onAddPressed: onAddPlayer, iconSize: 20),
+        _buildPlayersList(context),
+      ],
     );
   }
 
@@ -60,16 +43,13 @@ class MatchSquad extends StatelessWidget {
     double? iconSize,
     required VoidCallback? onAddPressed,
   }) {
-    final theme = Theme.of(context);
     return Row(
       children: [
         Text(
           title,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: darkGrassGreen,
-          ),
-          overflow: TextOverflow.ellipsis,
+          style: MyTextStyle(context).cardTitle.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const Spacer(),
         if (isPlayerCanAdd)

@@ -56,34 +56,29 @@ class _ScoreboardState extends State<Scoreboard>
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              LightThemeColors.cardColor.withOpacity(0.5),
-              LightThemeColors.backgroundColor,
+        color: LightThemeColors.surfaceColor,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          // margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.elliptical(20, 10)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 1,
+                spreadRadius: 1,
+              ),
             ],
           ),
-          borderRadius: BorderRadius.vertical(top: Radius.elliptical(20, 10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 1,
-              spreadRadius: 1,
-            ),
-          ],
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildHeader(),
-            buildTabBar(),
-            const SizedBox(height: 8),
-            _buildTabContent(constraints),
-          ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildHeader(),
+              buildTabBar(),
+              const SizedBox(height: 8),
+              _buildTabContent(constraints),
+            ],
+          ),
         ),
       );
     });
