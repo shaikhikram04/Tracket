@@ -21,8 +21,8 @@ class MatchStatusCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: isLightMode
-            ? LightThemeColors.cardColor.withValues(alpha: 0.7)
-            : DarkThemeColors.cardColor.withValues(alpha: 0.7),
+            ? LightThemeColors.cardColor.withAlpha(150)
+            : DarkThemeColors.cardColor.withAlpha(150),
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(
