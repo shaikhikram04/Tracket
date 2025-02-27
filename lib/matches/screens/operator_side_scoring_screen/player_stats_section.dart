@@ -2,13 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/models/current_player.dart';
+import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/utils/colors.dart';
 
 class PlayerStatsSection extends StatelessWidget {
-  final StrikerData striker;
-  final StrikerData nonStriker;
-  final CurrentBowlerData bowler;
+  final BattingScore striker;
+  final BattingScore nonStriker;
+  final BowlingScore bowler;
   final bool isBlur;
   final int strikerIndex;
 
