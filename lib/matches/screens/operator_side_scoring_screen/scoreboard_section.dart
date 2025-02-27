@@ -3,24 +3,26 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/models/inning.dart';
-import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class ScoreboardSection extends StatelessWidget {
-  final Match matchState;
+  final String team1Name;
+  final String team2Name;
+  final Inning? currentInning;
+  final int? target;
   final bool isBlur;
 
-  const ScoreboardSection({required this.matchState, required this.isBlur});
+  const ScoreboardSection({
+    required this.team1Name,
+    required this.team2Name,
+    required this.currentInning,
+    required this.target,
+    required this.isBlur,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final Inning? currentInning = matchState.inningNumber == 0
-        ? null
-        : matchState.inningNumber == 1
-            ? matchState.inning1!
-            : matchState.inning2!;
-
     return ClipRRect(
       child: Stack(
         fit: StackFit.passthrough,
@@ -51,7 +53,7 @@ class ScoreboardSection extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          'Team A',
+                          team1Name,
                           style: MyTextStyle(context).titleLarge.copyWith(
                                 color: LightThemeColors.surfaceColor,
                                 fontWeight: FontWeight.w700,
@@ -67,7 +69,7 @@ class ScoreboardSection extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          'Team B',
+                          team2Name,
                           style: MyTextStyle(context).titleLarge.copyWith(
                                 color: LightThemeColors.surfaceColor,
                                 fontWeight: FontWeight.w700,
@@ -104,7 +106,7 @@ class ScoreboardSection extends StatelessWidget {
                           ),
                         ],
                       ),
-                      if (matchState.inningNumber == 2)
+                      if (target != null)
                         Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
@@ -122,7 +124,7 @@ class ScoreboardSection extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${matchState.target!}',
+                                '${target}',
                                 style: GoogleFonts.poppins(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
