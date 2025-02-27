@@ -10,7 +10,7 @@ enum SelectionType { batsman, bowler }
 class PlayerSelectionSheet extends StatefulWidget {
   final SelectionType type;
   final List<MatchPlayerInfo> availablePlayers;
-  final Function(MatchPlayerInfo) onPlayerSelected;
+  final Function(int index) onPlayerSelected;
   final CurrentBowlerData? previousBowler;
 
   const PlayerSelectionSheet({
@@ -25,7 +25,7 @@ class PlayerSelectionSheet extends StatefulWidget {
     required BuildContext context,
     required SelectionType type,
     required List<MatchPlayerInfo> availablePlayers,
-    required Function(MatchPlayerInfo) onPlayerSelected,
+    required Function(int index) onPlayerSelected,
     CurrentBowlerData? previousBowler,
   }) {
     return showModalBottomSheet(
@@ -52,7 +52,8 @@ class PlayerSelectionSheet extends StatefulWidget {
 }
 
 class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
-  MatchPlayerInfo? selectedPlayer;
+  MatchPlayerInfo? _selectedPlayer;
+  int? _selectedPlayerIndex;
 
   bool isPlayerDisabled(MatchPlayerInfo player) {
     if (widget.type == SelectionType.batsman) {
@@ -71,7 +72,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
     } else if (widget.type == SelectionType.bowler &&
         player == widget.previousBowler) {
       return Color(0xFFFFF7E6); // Light orange background for previous bowler
-    } else if (selectedPlayer == player) {
+    } else if (_selectedPlayer == player) {
       return Color(0xFFF6FFED); // Light green background for selected player
     }
     return Colors.white;
@@ -138,15 +139,15 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
             final isDisabled = isPlayerDisabled(player);
 
             return Card(
-              elevation: selectedPlayer == player ? 4 : 1,
+              elevation: _selectedPlayer == player ? 4 : 1,
               margin: const EdgeInsets.symmetric(vertical: 4),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
-                  color: selectedPlayer == player
+                  color: _selectedPlayer == player
                       ? StatusColors.success
                       : Colors.grey.withValues(alpha: 0.2),
-                  width: selectedPlayer == player ? 2 : 1,
+                  width: _selectedPlayer == player ? 2 : 1,
                 ),
               ),
               color: getCardBackgroundColor(player),
@@ -155,7 +156,8 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                     ? null
                     : () {
                         setState(() {
-                          selectedPlayer = player;
+                          _selectedPlayer = player;
+                          _selectedPlayerIndex = index;
                         });
                       },
                 borderRadius: BorderRadius.circular(12),
@@ -248,12 +250,12 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                       ),
                       Radio<MatchPlayerInfo>(
                         value: player,
-                        groupValue: selectedPlayer,
+                        groupValue: _selectedPlayer,
                         onChanged: isDisabled
                             ? null
                             : (MatchPlayerInfo? value) {
                                 setState(() {
-                                  selectedPlayer = value;
+                                  _selectedPlayer = value;
                                 });
                               },
                         activeColor: grassGreen,
@@ -266,9 +268,9 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
           },
         ),
       ),
-      confirmEnabled: selectedPlayer != null,
+      confirmEnabled: _selectedPlayer != null,
       onConfirm: () {
-        widget.onPlayerSelected(selectedPlayer!);
+        widget.onPlayerSelected(_selectedPlayerIndex!);
         Navigator.pop(context);
       },
       onCancel: () => Navigator.pop(context),

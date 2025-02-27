@@ -7,6 +7,7 @@ import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
+import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
@@ -32,14 +33,7 @@ class ScoringControls extends ConsumerWidget {
       type: SelectionType.batsman,
       availablePlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
       onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
-        ref.read(matchStateProvider.notifier).setCurrentBatsmenOnOut(
-              StrikerData(
-                id: selectedPlayer.playerId,
-                playerName: selectedPlayer.playerName,
-                runs: 0,
-                balls: 0,
-              ),
-            );
+        ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut();
       },
     );
   }
