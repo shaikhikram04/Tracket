@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/current_over_indicator.dart';
 import 'package:tracket/matches/widgets/match_score_component/current_players_info.dart';
@@ -7,9 +9,17 @@ import 'package:tracket/matches/widgets/match_teams_row.dart';
 import 'package:tracket/utils/colors.dart';
 
 class MatchStatusCard extends StatelessWidget {
-  const MatchStatusCard({super.key, required this.match});
+  const MatchStatusCard({
+    super.key,
+    required this.match,
+    required this.batsmen,
+    required this.bowler,
+  });
 
   final Match match;
+  final List<BattingScore> batsmen;
+  final int strikerIndex;
+  final BowlingScore bowler;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +53,9 @@ class MatchStatusCard extends StatelessWidget {
               bgColor: LightThemeColors.surfaceColor.withValues(alpha: 0.9),
             ),
             CurrentPlayersInfo(
-              batsmen: match.currentBatsmen!,
-              bowler: match.currentBowlers!,
-              strikerIndex: match.strikerIndex,
+              batsmen: batsmen,
+              bowler: bowler,
+              strikerIndex: strikerIndex,
             ),
           ]
         ],

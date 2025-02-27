@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/matches/models/match.dart';
@@ -8,12 +9,14 @@ import 'package:tracket/widgets/highlighted_label.dart';
 class MatchHeader extends StatelessWidget {
   const MatchHeader({
     super.key,
-    required this.match,
     this.showDate = true,
     this.dateFormat,
+    required this.createdAt,
+    required this.status,
   });
 
-  final Match match;
+  final Timestamp createdAt;
+  final MatchStatus status;
   final bool showDate;
   final DateFormat? dateFormat;
 
@@ -31,7 +34,7 @@ class MatchHeader extends StatelessWidget {
 
   Widget _buildDate(BuildContext context) {
     final formattedDate =
-        (dateFormat ?? DateFormat.yMMMMd()).format(match.createdAt.toDate());
+        (dateFormat ?? DateFormat.yMMMMd()).format(createdAt.toDate());
 
     return Text(
       formattedDate,
@@ -45,7 +48,7 @@ class MatchHeader extends StatelessWidget {
   }
 
   Widget _buildMatchStatus(BuildContext context) {
-    if (match.status != MatchStatus.live) {
+    if (status != MatchStatus.live) {
       return _buildNonLiveStatus(context);
     }
 
@@ -63,7 +66,6 @@ class MatchHeader extends StatelessWidget {
   }
 
   Widget _buildNonLiveStatus(BuildContext context) {
-    final status = match.status;
     late final Color statusColor;
     late final String statusText;
 
