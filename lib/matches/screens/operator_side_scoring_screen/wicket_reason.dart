@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
-import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
@@ -18,7 +17,7 @@ class WicketReason extends StatefulWidget {
   });
 
   final List<MatchPlayerInfo> fielders;
-  final List<StrikerData> strikers;
+  final List<BattingScore> strikers;
   final ExtrasState extras;
 
   @override
@@ -221,7 +220,8 @@ class _WicketReasonState extends State<WicketReason> {
                                                   .copyWith(
                                                     color:
                                                         _selectedIndex == index
-                                                            ? LightThemeColors.surfaceColor
+                                                            ? LightThemeColors
+                                                                .surfaceColor
                                                             : grassGreen,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -271,7 +271,7 @@ class _WicketReasonState extends State<WicketReason> {
                                               .indexWhere(
                                                   (e) => e.playerName == value);
                                           _runOutBatsman =
-                                              widget.strikers[index].id;
+                                              widget.strikers[index].uuid;
                                         },
                                       ),
                                       leadingIcon: Icon(Icons.person_outline),
@@ -335,11 +335,10 @@ class _WicketReasonState extends State<WicketReason> {
                                           onPressed: () =>
                                               Navigator.of(context).pop(null),
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                LightThemeColors.backgroundColor,
+                                            backgroundColor: LightThemeColors
+                                                .backgroundColor,
                                             foregroundColor: grassGreen,
-                                            side: BorderSide(
-                                                color: grassGreen),
+                                            side: BorderSide(color: grassGreen),
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 16),
                                             shape: RoundedRectangleBorder(
@@ -382,16 +381,15 @@ class _WicketReasonState extends State<WicketReason> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Icon(Icons.check,
-                                                  color:
-                                                      LightThemeColors.surfaceColor),
+                                                  color: LightThemeColors
+                                                      .surfaceColor),
                                               SizedBox(width: 8),
                                               Text('Confirm',
                                                   style: MyTextStyle(context)
                                                       .bodyLarge
                                                       .copyWith(
-                                                        color:
-                                                            LightThemeColors
-                                                                .surfaceColor,
+                                                        color: LightThemeColors
+                                                            .surfaceColor,
                                                       )),
                                             ],
                                           ),

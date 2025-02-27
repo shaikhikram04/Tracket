@@ -3,8 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/models/current_player.dart';
-import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
@@ -33,7 +31,9 @@ class ScoringControls extends ConsumerWidget {
       type: SelectionType.batsman,
       availablePlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
       onPlayerSelected: (int selectedPlayerIndex) {
-        ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut(selectedPlayerIndex);
+        ref
+            .read(inningsStateProvider.notifier)
+            .setNewBatsmenOnOut(selectedPlayerIndex);
       },
     );
   }
@@ -43,17 +43,14 @@ class ScoringControls extends ConsumerWidget {
       context: context,
       type: SelectionType.bowler,
       availablePlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
-      previousBowler: ref.watch(inningsStateProvider.notifier).currentInnings!.currentBowlers,
-      onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
+      previousBowlerIndex: ref
+          .watch(inningsStateProvider.notifier)
+          .currentInnings!
+          .currentBowlerIndex,
+      onPlayerSelected: (int selectedPlayerIndex) {
         // Handle the selected bowler
-        ref.read(matchStateProvider.notifier).changeBowler(
-              CurrentBowlerData(
-                id: selectedPlayer.playerId,
-                playerName: selectedPlayer.playerName,
-                runsGiven: 0,
-                wickets: 0,
-                balls: 0,
-              ),
+        ref.read(inningsStateProvider.notifier).changeBowler(
+              selectedPlayerIndex,
             );
 
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
@@ -134,7 +131,7 @@ class ScoringControls extends ConsumerWidget {
                               child: ElevatedButton(
                                 onPressed: () {
                                   ref
-                                      .read(matchStateProvider.notifier)
+                                      .read(inningsStateProvider.notifier)
                                       .addDelivery(
                                         runs: runs,
                                         isFour: false,
@@ -178,7 +175,7 @@ class ScoringControls extends ConsumerWidget {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         ref
-                                            .read(matchStateProvider.notifier)
+                                            .read(inningsStateProvider.notifier)
                                             .addDelivery(
                                               runs: runs,
                                               isFour: index == 1,
@@ -360,13 +357,15 @@ class ScoringControls extends ConsumerWidget {
                                   builder: (context) => WicketReason(
                                     fielders:
                                         matchState!.getBowlingTeamPlayers(),
-                                    strikers: matchState.currentBatsmen!,
+                                    strikers: ref
+                                        .read(inningsStateProvider.notifier)
+                                        .currentBatsmen!,
                                     extras: extras,
                                   ),
                                 );
                                 if (result != null) {
                                   ref
-                                      .read(matchStateProvider.notifier)
+                                      .read(inningsStateProvider.notifier)
                                       .addDelivery(
                                         runs: result['runsCompleted'] ?? 0,
                                         isWicket: true,

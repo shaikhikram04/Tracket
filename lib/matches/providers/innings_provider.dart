@@ -32,6 +32,14 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     return state.last ?? state.first;
   }
 
+  List<BattingScore>? get currentBatsmen {
+    if (_currentInningIndex == null) return null;
+    return [
+      currentInnings!.battingStats[currentInnings!.strikerIndex],
+      currentInnings!.battingStats[currentInnings!.nonStrikerIndex],
+    ];
+  }
+
   //* Starts the first innings.
   void startFirstInnings({
     required int strikerIndex,
