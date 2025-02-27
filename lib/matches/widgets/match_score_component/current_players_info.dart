@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/current_player.dart';
+import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class CurrentPlayersInfo extends StatelessWidget {
@@ -10,8 +11,8 @@ class CurrentPlayersInfo extends StatelessWidget {
     required this.strikerIndex,
   });
 
-  final List<StrikerData> batsmen;
-  final CurrentBowlerData bowler;
+  final List<BattingScore> batsmen;
+  final BowlingScore bowler;
   final int strikerIndex;
 
   @override
@@ -41,14 +42,14 @@ class CurrentPlayersInfo extends StatelessWidget {
           context,
           batsmen[0].playerName,
           batsmen[0].runs.toString(),
-          batsmen[0].balls.toString(),
+          batsmen[0].ballsFaced.toString(),
         ),
         const SizedBox(height: 2),
         _buildPlayerInfo(
           context,
           batsmen[1].playerName,
           batsmen[1].runs.toString(),
-          batsmen[1].balls.toString(),
+          batsmen[1].ballsFaced.toString(),
         ),
       ],
     );

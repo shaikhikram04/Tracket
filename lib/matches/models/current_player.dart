@@ -1,147 +1,147 @@
-class StrikerData {
-  final int runs;
-  final int balls;
-  final String playerName;
-  final String id;
-  final bool isOut;
+// class StrikerData {
+//   final int runs;
+//   final int balls;
+//   final String playerName;
+//   final String id;
+//   final bool isOut;
 
-  StrikerData({
-    required this.id,
-    required this.playerName,
-    required this.runs,
-    required this.balls,
-    this.isOut = false,
-  });
+//   StrikerData({
+//     required this.id,
+//     required this.playerName,
+//     required this.runs,
+//     required this.balls,
+//     this.isOut = false,
+//   });
 
-  double get strikeRate {
-    if (balls == 0) return 0.0;
+//   double get strikeRate {
+//     if (balls == 0) return 0.0;
 
-    return (runs / balls) * 100;
-  }
+//     return (runs / balls) * 100;
+//   }
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'playerName': playerName,
-        'runs': runs,
-        'balls': balls,
-        'isOut': isOut,
-      };
+//   Map<String, dynamic> toMap() => {
+//         'id': id,
+//         'playerName': playerName,
+//         'runs': runs,
+//         'balls': balls,
+//         'isOut': isOut,
+//       };
 
-  StrikerData addRuns(int runs) {
-    return copyWith(runs: this.runs + runs, balls: balls + 1);
-  }
+//   StrikerData addRuns(int runs) {
+//     return copyWith(runs: this.runs + runs, balls: balls + 1);
+//   }
 
-  StrikerData wicket(int runs, bool isAddBall) {
-    return copyWith(
-      isOut: true,
-      balls: isAddBall ? balls + 1 : balls,
-      runs: this.runs + runs,
-    );
-  }
+//   StrikerData wicket(int runs, bool isAddBall) {
+//     return copyWith(
+//       isOut: true,
+//       balls: isAddBall ? balls + 1 : balls,
+//       runs: this.runs + runs,
+//     );
+//   }
 
-  static StrikerData fromMap(Map<String, dynamic> map) {
-    return StrikerData(
-      id: map['id'],
-      playerName: map['playerName'],
-      runs: map['runs'],
-      balls: map['balls'],
-      isOut: map['isOut'],
-    );
-  }
+//   static StrikerData fromMap(Map<String, dynamic> map) {
+//     return StrikerData(
+//       id: map['id'],
+//       playerName: map['playerName'],
+//       runs: map['runs'],
+//       balls: map['balls'],
+//       isOut: map['isOut'],
+//     );
+//   }
 
-  StrikerData copyWith({
-    int? runs,
-    int? balls,
-    bool? isOut,
-  }) {
-    return StrikerData(
-      id: id,
-      playerName: playerName,
-      runs: runs ?? this.runs,
-      balls: balls ?? this.balls,
-      isOut: isOut ?? this.isOut,
-    );
-  }
-}
+//   StrikerData copyWith({
+//     int? runs,
+//     int? balls,
+//     bool? isOut,
+//   }) {
+//     return StrikerData(
+//       id: id,
+//       playerName: playerName,
+//       runs: runs ?? this.runs,
+//       balls: balls ?? this.balls,
+//       isOut: isOut ?? this.isOut,
+//     );
+//   }
+// }
 
-class CurrentBowlerData {
-  final String playerName;
-  final String id;
-  final int runsGiven;
-  final int wickets;
-  final int balls;
+// class CurrentBowlerData {
+//   final String playerName;
+//   final String id;
+//   final int runsGiven;
+//   final int wickets;
+//   final int balls;
 
-  CurrentBowlerData({
-    required this.playerName,
-    required this.id,
-    required this.runsGiven,
-    required this.wickets,
-    required this.balls,
-  });
+//   CurrentBowlerData({
+//     required this.playerName,
+//     required this.id,
+//     required this.runsGiven,
+//     required this.wickets,
+//     required this.balls,
+//   });
 
-  // Computed properties
-  int get completedOvers => balls ~/ 6;
-  int get remainingBalls => balls % 6;
+//   // Computed properties
+//   int get completedOvers => balls ~/ 6;
+//   int get remainingBalls => balls % 6;
 
-  String get oversDisplay => '$completedOvers.${remainingBalls}';
+//   String get oversDisplay => '$completedOvers.${remainingBalls}';
 
-  double get economy {
-    if (balls == 0) {
-      return 0;
-    }
+//   double get economy {
+//     if (balls == 0) {
+//       return 0;
+//     }
 
-    return runsGiven / (balls / 6.0);
-  }
+//     return runsGiven / (balls / 6.0);
+//   }
 
-  CurrentBowlerData addBall({
-    required int runs,
-    required bool isWicket,
-    required bool isWide,
-    required bool isNoBall,
-  }) {
-    final runsGiven =
-        this.runsGiven + (isWide || isNoBall ? 1 : 0) + (!isWide ? runs : 0);
-    final balls = this.balls + (isWide || isNoBall ? 0 : 1);
-    final wickets = isWicket ? this.wickets + 1 : this.wickets;
+//   CurrentBowlerData addBall({
+//     required int runs,
+//     required bool isWicket,
+//     required bool isWide,
+//     required bool isNoBall,
+//   }) {
+//     final runsGiven =
+//         this.runsGiven + (isWide || isNoBall ? 1 : 0) + (!isWide ? runs : 0);
+//     final balls = this.balls + (isWide || isNoBall ? 0 : 1);
+//     final wickets = isWicket ? this.wickets + 1 : this.wickets;
 
-    return copyWith(
-      runsGiven: runsGiven,
-      balls: balls,
-      wickets: wickets,
-    );
-  }
+//     return copyWith(
+//       runsGiven: runsGiven,
+//       balls: balls,
+//       wickets: wickets,
+//     );
+//   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'playerName': playerName,
-      'id': id,
-      'runsGiven': runsGiven,
-      'wickets': wickets,
-      'balls': balls,
-    };
-  }
+//   Map<String, dynamic> toMap() {
+//     return {
+//       'playerName': playerName,
+//       'id': id,
+//       'runsGiven': runsGiven,
+//       'wickets': wickets,
+//       'balls': balls,
+//     };
+//   }
 
-  static CurrentBowlerData? fromMap(Map<String, dynamic>? map) {
-    if (map == null) return null;
-    return CurrentBowlerData(
-      playerName: map['playerName'],
-      id: map['id'],
-      runsGiven: map['runsGiven'],
-      wickets: map['wickets'],
-      balls: map['balls'],
-    );
-  }
+//   static CurrentBowlerData? fromMap(Map<String, dynamic>? map) {
+//     if (map == null) return null;
+//     return CurrentBowlerData(
+//       playerName: map['playerName'],
+//       id: map['id'],
+//       runsGiven: map['runsGiven'],
+//       wickets: map['wickets'],
+//       balls: map['balls'],
+//     );
+//   }
 
-  CurrentBowlerData copyWith({
-    int? runsGiven,
-    int? wickets,
-    int? balls,
-  }) {
-    return CurrentBowlerData(
-        playerName: playerName,
-        id: id,
-        runsGiven: runsGiven ?? this.runsGiven,
-        wickets: wickets ?? this.wickets,
-        balls: balls ?? this.balls);
-  }
-}
+//   CurrentBowlerData copyWith({
+//     int? runsGiven,
+//     int? wickets,
+//     int? balls,
+//   }) {
+//     return CurrentBowlerData(
+//         playerName: playerName,
+//         id: id,
+//         runsGiven: runsGiven ?? this.runsGiven,
+//         wickets: wickets ?? this.wickets,
+//         balls: balls ?? this.balls);
+//   }
+// }

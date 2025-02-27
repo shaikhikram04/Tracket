@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/ball_outcome.dart';
-import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
@@ -293,9 +292,9 @@ class Match {
     return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
   }
 
-  static List<StrikerData> getStrikerData(List data) {
-    return data.map((e) => StrikerData.fromMap(e)).toList();
-  }
+  // static List<StrikerData> getStrikerData(List data) {
+  //   return data.map((e) => StrikerData.fromMap(e)).toList();
+  // }
 
   static Match fromMap(Map<String, dynamic> map) {
     return Match(
