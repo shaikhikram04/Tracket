@@ -29,9 +29,9 @@ class Match {
     required this.matchType,
     required this.venue,
     required this.schedule,
-    required this.currentBatsmen,
-    required this.strikerIndex,
-    required this.currentBowlers,
+    // required this.currentBatsmen,
+    // required this.strikerIndex,
+    // required this.currentBowlers,
     required this.participants,
     required this.challengerPlayerId,
     required this.challengeAcceptedBy,
@@ -72,9 +72,9 @@ class Match {
   final WinningMethod? winningMethod;
   final int? winningMargin;
   final int? currentInningNumber;
-  final List<StrikerData>? currentBatsmen;
-  final CurrentBowlerData? currentBowlers;
-  final int strikerIndex;
+  // final List<StrikerData>? currentBatsmen;
+  // final CurrentBowlerData? currentBowlers;
+  // final int strikerIndex;
   final List participants;
   final String challengerPlayerId;
   final String challengeAcceptedBy;
@@ -138,7 +138,11 @@ class Match {
   // }
 
   // Match initialization methods
-  Inning initializeFirstInnings() {
+  Inning initializeFirstInnings({
+    required int strikerIndex,
+    required int nonStrikerIndex,
+    required int bowlerIndex,
+  }) {
     if (tossDecision == null || isTeam1WonToss == null) {
       throw StateError('Toss details must be set before initializing innings');
     }
@@ -153,12 +157,18 @@ class Match {
             bowlingTeam: team2,
             battingPlayers: team1Players,
             bowlingPlayers: team2Players,
+            currentBowlerIndex: bowlerIndex,
+            strikerIndex: strikerIndex,
+            nonStrikerIndex: nonStrikerIndex,
           )
         : Inning.initialize(
             battingTeam: team2,
             bowlingTeam: team1,
             battingPlayers: team2Players,
             bowlingPlayers: team1Players,
+            currentBowlerIndex: bowlerIndex,
+            strikerIndex: strikerIndex,
+            nonStrikerIndex: nonStrikerIndex,
           );
 
     // final status = MatchStatus.live;
@@ -268,9 +278,9 @@ class Match {
         'winningMethod': winningMethod?.name,
         'winningMargin': winningMargin,
         'currentInningNumber': currentInningNumber,
-        'currentBatsmen': currentBatsmen?.map((e) => e.toMap).toList(),
-        'currentBowlers': currentBowlers?.toMap(),
-        'strikerIndex': strikerIndex,
+        // 'currentBatsmen': currentBatsmen?.map((e) => e.toMap).toList(),
+        // 'currentBowlers': currentBowlers?.toMap(),
+        // 'strikerIndex': strikerIndex,
         'participants': participants,
         // 'inning1': inning1?.toMap,
         // 'inning2': inning2?.toMap,
@@ -300,9 +310,9 @@ class Match {
       matchType: MatchType.values.firstWhere((e) => e.name == map['matchType']),
       venue: map['venue'],
       schedule: map['schedule'].toDate(),
-      currentBatsmen: getStrikerData(map['currentBatsmen']),
-      strikerIndex: map['strikerIndex'],
-      currentBowlers: CurrentBowlerData.fromMap(map['currentBowlers']),
+      // currentBatsmen: getStrikerData(map['currentBatsmen']),
+      // strikerIndex: map['strikerIndex'],
+      // currentBowlers: CurrentBowlerData.fromMap(map['currentBowlers']),
       participants: map['participants'],
       isTeam1WonToss: map['isTeam1WonToss'],
       tossDecision: map['tossDecision'] != null
@@ -327,7 +337,7 @@ class Match {
   }
 
   Match copyWith({
-    CurrentBowlerData? currentBowler,
+    // CurrentBowlerData? currentBowler,
     List<BallOutcome?>? currentOverRuns,
     bool? isTeam1WonToss,
     TossDecision? tossDecision,
@@ -337,8 +347,8 @@ class Match {
     String? winningTeamId,
     WinningMethod? winningMethod,
     int? winningMargin,
-    List<StrikerData>? currentBatsmen,
-    int? strikerIndex,
+    // List<StrikerData>? currentBatsmen,
+    // int? strikerIndex,
     List<MatchPlayerInfo>? team1Players,
     List<MatchPlayerInfo>? team2Players,
     List<String>? participants,
@@ -356,9 +366,9 @@ class Match {
       matchType: matchType,
       venue: venue,
       schedule: schedule,
-      currentBatsmen: currentBatsmen ?? this.currentBatsmen,
-      strikerIndex: strikerIndex ?? this.strikerIndex,
-      currentBowlers: currentBowler ?? this.currentBowlers,
+      // currentBatsmen: currentBatsmen ?? this.currentBatsmen,
+      // strikerIndex: strikerIndex ?? this.strikerIndex,
+      // currentBowlers: currentBowler ?? this.currentBowlers,
       // currentOverRuns: currentOverRuns ?? this.currentOverRuns,
       isTeam1WonToss: isTeam1WonToss ?? this.isTeam1WonToss,
       tossDecision: tossDecision ?? this.tossDecision,

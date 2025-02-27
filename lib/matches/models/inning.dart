@@ -19,6 +19,9 @@ class Inning {
     required this.bowlingTeam,
     required this.battingStats,
     required this.bowlingStats,
+    required this.strikerIndex,
+    required this.nonStrikerIndex,
+    required this.currentBowlerIndex,
     this.fallOfWickets = const [],
     this.balls = 0,
     this.fours = 0,
@@ -41,6 +44,9 @@ class Inning {
   final int fours;
   final int sixes;
   final InningsStatus status;
+  final int strikerIndex;
+  final int nonStrikerIndex;
+  final int currentBowlerIndex;
 
   // Computed properties
   int get completedOvers => balls ~/ 6;
@@ -59,6 +65,9 @@ class Inning {
     required MatchTeamInfo bowlingTeam,
     required List<MatchPlayerInfo> battingPlayers,
     required List<MatchPlayerInfo> bowlingPlayers,
+    required int strikerIndex,
+    required int nonStrikerIndex,
+    required int currentBowlerIndex,
   }) {
     return Inning(
       battingTeam: battingTeam,
@@ -77,6 +86,9 @@ class Inning {
           playerName: player.playerName,
         ),
       ),
+      currentBowlerIndex: currentBowlerIndex,
+      strikerIndex: strikerIndex,
+      nonStrikerIndex: nonStrikerIndex,
     );
   }
 
@@ -104,13 +116,12 @@ class Inning {
     );
 
     return copyWith(
-      runs: this.runs + runs ,
+      runs: this.runs + runs,
       balls: isWide || isNoBall ? this.balls : this.balls + 1,
       fours: isFour ? this.fours + 1 : this.fours,
       sixes: isSix ? this.sixes + 1 : this.sixes,
       wickets: isWicket ? this.wickets + 1 : this.wickets,
       extras: newExtras,
-      
     );
   }
 
@@ -157,8 +168,6 @@ class Inning {
     ];
   }
 
-  
-
   Map<String, dynamic> toMap() {
     return {
       'runs': runs,
@@ -172,6 +181,9 @@ class Inning {
       'bowlingTeam': bowlingTeam.toMap,
       'battingStats': battingStats.map((e) => e.toMap).toList(),
       'bowlingStats': bowlingStats.map((e) => e.toMap).toList(),
+      'strikerIndex': strikerIndex,
+      'nonStrikerIndex': nonStrikerIndex,
+      'currentBowlerIndex': currentBowlerIndex,
     };
   }
 
@@ -179,8 +191,10 @@ class Inning {
     return Inning(
       battingTeam: MatchTeamInfo.fromMap(map['battingTeam']),
       bowlingTeam: MatchTeamInfo.fromMap(map['bowlingTeam']),
-      battingStats: map['battingStats'].map((e) => BattingScore.fromMap(e)).toList(),
-      bowlingStats: map['bowlingStats'].map((e) => BowlingScore.fromMap(e)).toList(),
+      battingStats:
+          map['battingStats'].map((e) => BattingScore.fromMap(e)).toList(),
+      bowlingStats:
+          map['bowlingStats'].map((e) => BowlingScore.fromMap(e)).toList(),
       balls: map['balls'],
       fours: map['fours'],
       sixes: map['sixes'],
@@ -188,6 +202,9 @@ class Inning {
       wickets: map['wickets'],
       status: InningsStatus.values.firstWhere((e) => e.name == map['status']),
       extras: Extras.fromMap(map['extras']),
+      strikerIndex: map['strikerIndex'],
+      nonStrikerIndex: map['nonStrikerIndex'],
+      currentBowlerIndex: map['currentBowlerIndex'],
     );
   }
 
@@ -203,6 +220,9 @@ class Inning {
     int? wickets,
     InningsStatus? status,
     Extras? extras,
+    int? strikerIndex,
+    int? nonStrikerIndex,
+    int? currentBowlerIndex,
   }) =>
       Inning(
         battingTeam: battingTeam ?? this.battingTeam,
@@ -216,5 +236,8 @@ class Inning {
         status: status ?? this.status,
         wickets: wickets ?? this.wickets,
         extras: extras ?? this.extras,
+        strikerIndex: strikerIndex ?? this.strikerIndex,
+        nonStrikerIndex: nonStrikerIndex ?? this.nonStrikerIndex,
+        currentBowlerIndex: currentBowlerIndex ?? this.currentBowlerIndex,
       );
 }

@@ -5,7 +5,8 @@ enum ReasonOfOut {
   hitWicket('Hit Wicket'),
   // retiredOut('Retired Out'),
   caught('Caught'),
-  runOut('Run Out'),;
+  runOut('Run Out'),
+  ;
 
   const ReasonOfOut(this.description);
   final String description;
@@ -16,11 +17,11 @@ class BattingScore {
     required this.uuid,
     required this.playerName,
     this.reasonOfOut,
-    this.ballsFaced = 0,
-    this.fours = 0,
+    this.ballsFaced,
+    this.fours,
     this.isOut = false,
-    this.runs = 0,
-    this.sixes = 0,
+    this.runs,
+    this.sixes,
     this.dismissalInfo = '',
   });
 
@@ -63,6 +64,26 @@ class BattingScore {
     );
   }
 
+  BattingScore addRuns(int runs, {required bool isSix, required bool isFour}) {
+    if (this.runs == null || this.ballsFaced == null) return this;
+
+    return copyWith(
+      runs: this.runs! + runs,
+      ballsFaced: ballsFaced! + 1,
+      fours: isFour ? (fours ?? 0) + 1 : fours,
+      sixes: isSix ? (sixes ?? 0) + 1 : sixes,
+    );
+  }
+
+  BattingScore wicket(int runs, bool isAddBall) {
+    if (this.runs == null || this.ballsFaced == null) return this;
+    return copyWith(
+      isOut: true,
+      ballsFaced: isAddBall ? ballsFaced! + 1 : ballsFaced,
+      runs: this.runs! + runs,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'uuid': uuid,
@@ -85,7 +106,9 @@ class BattingScore {
       fours: map['fours'],
       sixes: map['sixes'],
       isOut: map['isOut'],
-      reasonOfOut: map['reasonOfOut'] != null ? ReasonOfOut.values.firstWhere((e) => e.name == map['reasonOfOut']) : null,
+      reasonOfOut: map['reasonOfOut'] != null
+          ? ReasonOfOut.values.firstWhere((e) => e.name == map['reasonOfOut'])
+          : null,
     );
   }
 

@@ -66,13 +66,16 @@ class BowlingScore {
     bool isNoBall = false,
     bool isWicket = false,
   }) {
+    final runsGiven =
+        this.runsGiven + (isWide || isNoBall ? 1 : 0) + (!isWide ? runs : 0);
+
     return copyWith(
       balls: isWide || isNoBall ? balls : balls + 1,
-      runsGiven: runsGiven + runs,
-      wickets: isWicket ? wickets + 1 : wickets,
+      runsGiven: runsGiven,
       wides: isWide ? wides + 1 : wides,
       noBalls: isNoBall ? noBalls + 1 : noBalls,
       dots: (runs == 0 && !isWide && !isNoBall) ? dots + 1 : dots,
+      wickets: isWicket ? wickets + 1 : wickets,
     );
   }
 
