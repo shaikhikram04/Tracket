@@ -4,7 +4,7 @@ import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
-import 'package:tracket/matches/providers/additional_match_provider.dart';
+import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 
@@ -437,24 +437,20 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       ballType = BallType.legBye;
     }
 
+    //* For an extra (wide or no-ball), the delivery does not count as a legal ball.
+    bool isExtraDelivery = extras.isWide || extras.isNoBall;
+
     final ballOutcome = BallOutcome(
       type: ballType,
       runs: runs,
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
-      ballNumber: currentInnings!.balls +
-          (ballType == BallType.valid ||
-                  ballType == BallType.legBye ||
-                  ballType == BallType.bye
-              ? 1
-              : 0),
+      ballNumber: currentInnings!.balls + (isExtraDelivery ? 0 : 1),
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
     );
 
-    //* For an extra (wide or no-ball), the delivery does not count as a legal ball.
-    bool isExtraDelivery = extras.isWide || extras.isNoBall;
-    _updateCurrentOverRuns(ballOutcome, isExtraDelivery);
+    ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
 
     //* Update the striker’s score only if this delivery is credited to the batsman.
     //* (i.e. not for wides, byes, leg byes, or a no-ball that resulted in byes/leg byes)
@@ -473,10 +469,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isWicket: isWicket,
       extras: extras,
     );
-
-    if (_isCompletedOver(currentInnings!.balls)) {
-      ref.read(additionalMatchProvider.notifier).setIsOverCompleted(true);
-    }
   }
 
   //* Helper to refresh the current innings in the match state.
@@ -489,8 +481,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       state = [state.first, updatedInnings];
     }
   }
-
- 
 }
 
 final inningsStateProvider =

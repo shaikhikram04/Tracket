@@ -1,15 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/ball_outcome.dart';
+import 'package:tracket/matches/providers/additional_match_provider.dart';
 
 class CurrentOverRunsNotifier extends StateNotifier<List<BallOutcome>> {
-  CurrentOverRunsNotifier() : super([]);
+  CurrentOverRunsNotifier(this.ref) : super([]);
+  final Ref ref;
 
   //* Updates the current over's ball outcomes.
   //*
   //* If the delivery is extra (wide/no-ball) the ball is not counted as a legal ball,
   //* so an extra slot (null) is appended.
-  void addBalls(BallOutcome updatedOverRuns, bool isExtra) {
+  void addBalls(BallOutcome updatedOverRuns) {
     state = [...state, updatedOverRuns];
+
+    if (isOverCompleted()) {
+      ref.read(additionalMatchProvider.notifier).setIsOverCompleted(true);
+    }
   }
 
   int get remainingBalls {
@@ -33,7 +39,7 @@ class CurrentOverRunsNotifier extends StateNotifier<List<BallOutcome>> {
     );
   }
 
-   bool isLastOverMaiden(String bowlerId) {
+  bool isLastOverMaiden(String bowlerId) {
     if (state.isEmpty || state.last.ballNumber < 6) return false;
 
     return totalRuns == 0;
@@ -46,5 +52,5 @@ class CurrentOverRunsNotifier extends StateNotifier<List<BallOutcome>> {
 
 final currentOverRunsProvider =
     StateNotifierProvider<CurrentOverRunsNotifier, List<BallOutcome>>((ref) {
-  return CurrentOverRunsNotifier();
+  return CurrentOverRunsNotifier(ref);
 });
