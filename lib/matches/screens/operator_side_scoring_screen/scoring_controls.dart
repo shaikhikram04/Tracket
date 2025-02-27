@@ -32,8 +32,8 @@ class ScoringControls extends ConsumerWidget {
       context: context,
       type: SelectionType.batsman,
       availablePlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
-      onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
-        ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut();
+      onPlayerSelected: (int selectedPlayerIndex) {
+        ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut(selectedPlayerIndex);
       },
     );
   }
@@ -43,7 +43,7 @@ class ScoringControls extends ConsumerWidget {
       context: context,
       type: SelectionType.bowler,
       availablePlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
-      previousBowler: ref.watch(matchStateProvider)!.currentBowlers,
+      previousBowler: ref.watch(inningsStateProvider.notifier).currentInnings!.currentBowlers,
       onPlayerSelected: (MatchPlayerInfo selectedPlayer) {
         // Handle the selected bowler
         ref.read(matchStateProvider.notifier).changeBowler(

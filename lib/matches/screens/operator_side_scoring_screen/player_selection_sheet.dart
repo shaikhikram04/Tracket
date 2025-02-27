@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
@@ -11,14 +10,14 @@ class PlayerSelectionSheet extends StatefulWidget {
   final SelectionType type;
   final List<MatchPlayerInfo> availablePlayers;
   final Function(int index) onPlayerSelected;
-  final CurrentBowlerData? previousBowler;
+  final int? previousBowlerIndex;
 
   const PlayerSelectionSheet({
     Key? key,
     required this.type,
     required this.availablePlayers,
     required this.onPlayerSelected,
-    this.previousBowler,
+    this.previousBowlerIndex,
   }) : super(key: key);
 
   static Future<void> show({
@@ -26,7 +25,7 @@ class PlayerSelectionSheet extends StatefulWidget {
     required SelectionType type,
     required List<MatchPlayerInfo> availablePlayers,
     required Function(int index) onPlayerSelected,
-    CurrentBowlerData? previousBowler,
+    int? previousBowlerIndex,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -41,7 +40,7 @@ class PlayerSelectionSheet extends StatefulWidget {
           type: type,
           availablePlayers: availablePlayers,
           onPlayerSelected: onPlayerSelected,
-          previousBowler: previousBowler,
+          previousBowlerIndex: previousBowlerIndex,
         ),
       ),
     );
@@ -55,22 +54,22 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   MatchPlayerInfo? _selectedPlayer;
   int? _selectedPlayerIndex;
 
-  bool isPlayerDisabled(MatchPlayerInfo player) {
+  bool isPlayerDisabled(MatchPlayerInfo player, int? playerIndex) {
     if (widget.type == SelectionType.batsman) {
       return player.battingStatus == BattingStatus.out ||
           player.battingStatus == BattingStatus.playing;
     } else {
-      return player.playerId == widget.previousBowler?.id;
+      return playerIndex == widget.previousBowlerIndex;
     }
   }
 
-  Color getCardBackgroundColor(MatchPlayerInfo player) {
+  Color getCardBackgroundColor(MatchPlayerInfo player, int? playerIndex) {
     if (player.battingStatus == BattingStatus.out) {
       return Color(0xFFFFF1F0); // Light red background for out players
     } else if (player.battingStatus == BattingStatus.playing) {
       return Color(0xFFF0F5FF); // Light blue background for playing players
     } else if (widget.type == SelectionType.bowler &&
-        player == widget.previousBowler) {
+        player == widget.previousBowlerIndex) {
       return Color(0xFFFFF7E6); // Light orange background for previous bowler
     } else if (_selectedPlayer == player) {
       return Color(0xFFF6FFED); // Light green background for selected player
@@ -78,37 +77,40 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
     return Colors.white;
   }
 
-  Color getIconColor(MatchPlayerInfo player) {
+  Color getIconColor(MatchPlayerInfo player, int? playerIndex) {
     if (player.battingStatus == BattingStatus.out) {
       return Color(0xFFCF1322); // Dark red for out icon
     } else if (player.battingStatus == BattingStatus.playing) {
       return Color(0xFF1890FF); // Blue for playing icon
     } else if (widget.type == SelectionType.bowler &&
-        player == widget.previousBowler) {
+        player == widget.previousBowlerIndex) {
       return Color(0xFFFA8C16); // Orange for previous bowler icon
     }
     return Colors.black;
   }
 
-  Widget? getStatusIcon(MatchPlayerInfo player) {
+  Widget? getStatusIcon(MatchPlayerInfo player, int? playerIndex) {
     if (player.battingStatus == BattingStatus.out) {
-      return Icon(Icons.close, color: getIconColor(player), size: 20);
+      return Icon(Icons.close,
+          color: getIconColor(player, widget.previousBowlerIndex!), size: 20);
     } else if (player.battingStatus == BattingStatus.playing) {
-      return Icon(Icons.sports_cricket, color: getIconColor(player), size: 20);
+      return Icon(Icons.sports_cricket,
+          color: getIconColor(player, widget.previousBowlerIndex), size: 20);
     } else if (widget.type == SelectionType.bowler &&
-        player == widget.previousBowler) {
-      return Icon(Icons.history, color: getIconColor(player), size: 20);
+        player == widget.previousBowlerIndex) {
+      return Icon(Icons.history,
+          color: getIconColor(player, widget.previousBowlerIndex), size: 20);
     }
     return null;
   }
 
-  String getPlayerStatus(MatchPlayerInfo player) {
+  String getPlayerStatus(MatchPlayerInfo player, int? playerIndex) {
     if (player.battingStatus == BattingStatus.out) {
       return "Out";
     } else if (player.battingStatus == BattingStatus.playing) {
       return "Currently Playing";
     } else if (widget.type == SelectionType.bowler &&
-        player.playerId == widget.previousBowler?.id) {
+        player.playerId == widget.previousBowlerIndex) {
       return "Previous Bowler";
     }
     return "Available";
@@ -136,7 +138,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
               return Container();
             }
 
-            final isDisabled = isPlayerDisabled(player);
+            final isDisabled = isPlayerDisabled(player, index);
 
             return Card(
               elevation: _selectedPlayer == player ? 4 : 1,
@@ -150,7 +152,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                   width: _selectedPlayer == player ? 2 : 1,
                 ),
               ),
-              color: getCardBackgroundColor(player),
+              color: getCardBackgroundColor(player, index),
               child: InkWell(
                 onTap: isDisabled
                     ? null
@@ -180,7 +182,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                 : Colors.grey.withValues(alpha: 0.3),
                           ),
                         ),
-                        child: getStatusIcon(player) ??
+                        child: getStatusIcon(player, index) ??
                             Icon(
                               Icons.person,
                               color: isDisabled
@@ -234,7 +236,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                     ),
                                   ),
                                   child: Text(
-                                    getPlayerStatus(player),
+                                    getPlayerStatus(player, index),
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: isDisabled
