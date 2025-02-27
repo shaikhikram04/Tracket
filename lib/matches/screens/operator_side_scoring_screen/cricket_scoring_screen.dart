@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/current_over_indicator.dart';
@@ -185,6 +186,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
   Widget build(BuildContext context) {
     final matchState = ref.watch(matchStateProvider);
     final inningState = ref.watch(inningsStateProvider);
+    final currentOverState = ref.watch(currentOverRunsProvider);
 
     return Scaffold(
       backgroundColor: LightThemeColors.surfaceColor,
@@ -220,10 +222,11 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 
                   // Current Over Indicator with animation
                   CurrentOverIndicator(
-                    balls: matchState.currentOverRuns,
+                    balls: currentOverState,
                     isBlur: _isBlur,
-                    remainingBalls:
-                        ref.watch(inningsStateProvider.notifier).remainingBalls,
+                    remainingBalls: ref
+                        .read(currentOverRunsProvider.notifier)
+                        .remainingBalls,
                     margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     bgColor: LightThemeColors.surfaceColor,
                   ),
