@@ -423,6 +423,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isWicket: isWicket,
     );
 
+    _updateCurrentInnings(updatedInnings);
+
     // Determine the type of delivery.
     BallType ballType = BallType.valid;
     if (extras.isWide) {
@@ -477,50 +479,18 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     }
   }
 
-  //* Updates the current over's ball outcomes.
-  //*
-  //* If the delivery is extra (wide/no-ball) the ball is not counted as a legal ball,
-  //* so an extra slot (null) is appended.
-  void _updateCurrentOverRuns(BallOutcome updatedOverRuns, bool isExtra) {
+  //* Helper to refresh the current innings in the match state.
+  void _updateCurrentInnings(Inning updatedInnings) {
     if (currentInnings == null) return;
-    // var currentOverRuns = List<BallOutcome?>.from(state!.currentOverRuns);
 
-    // for (int i = 0; i < currentOverRuns.length; i++) {
-    //   if (currentOverRuns[i] == null) {
-    //     currentOverRuns[i] = updatedOverRuns;
-    //     break;
-    //   }
-    // }
-
-    // if (isExtra) {
-    //   currentOverRuns = [...currentOverRuns, null];
-    // }
-
-    // TODO : Create a seperate provider for BallOutcome
-    // state = state!.copyWith(currentOverRuns: currentOverRuns);
+    if (_currentInningIndex == 0) {
+      state = [updatedInnings, state.last];
+    } else {
+      state = [state.first, updatedInnings];
+    }
   }
 
-  //* Returns the number of remaining legal deliveries in the current over.
-  int get remainingBalls {
-    if (state == null) return 0;
-    if (currentInnings == null) return 6;
-    final rBalls = 6 - currentInnings!.remainingBalls;
-    return rBalls;
-  }
-
-  //* Checks if an over is complete (6 legal deliveries).
-  bool _isCompletedOver(int balls) {
-    if (balls == 0) return false;
-    return balls % 6 == 0;
-  }
-
-  //* Checks if the last over was a maiden for the specified bowler.
-  //*
-  //* (This placeholder should be replaced with logic that inspects the last 6 legal deliveries.)
-  bool _isLastOverMaiden(String bowlerId) {
-    // TODO: Implement maiden over logic based on last 6 legal deliveries.
-    return false; // Placeholder
-  }
+ 
 }
 
 final inningsStateProvider =

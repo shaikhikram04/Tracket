@@ -29,6 +29,8 @@ class BallOutcome {
     this.reasonOfOut,
   });
 
+  int get remainingBalls => 6 - ballNumber;
+
   Map<String, dynamic> toMap() => {
         'type': type.name,
         'runs': runs,
