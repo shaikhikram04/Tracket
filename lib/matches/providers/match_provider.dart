@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/batting_score.dart';
@@ -13,12 +14,6 @@ import 'package:tracket/matches/providers/extras_provider.dart';
 class MatchStateNotifier extends StateNotifier<Match?> {
   MatchStateNotifier(super.state, this.ref);
   final Ref ref;
-
-  //* Returns the current innings (if second innings has started, use that).
-  Inning? get currentInnings {
-    if (state == null) return null;
-    return state!.inning2 ?? state!.inning1;
-  }
 
   //* Creates a new match with the provided configuration.
   Future<void> createMatch({
@@ -50,6 +45,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       participants: [team1.teamId, team2.teamId],
       challengerPlayerId: challengerPlayerId,
       challengeAcceptedBy: challengeAcceptedBy,
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
     );
   }
 
@@ -63,12 +60,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
   }
 
-  //* Starts the first innings.
-  void startFirstInnings() {
-    if (state == null) return;
-
-    state = state!.initializeFirstInnings();
-  }
+  
 
   //* Starts the second innings.
   void startSecondInnings() {
