@@ -1,12 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/current_player.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
-import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/widgets/opening_batsman_sheet.dart';
 import 'package:tracket/matches/widgets/opening_bowler_sheet.dart';
-import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
@@ -15,7 +11,9 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class MatchPlayersSelectionScreen extends StatefulWidget {
-  const MatchPlayersSelectionScreen({super.key});
+  const MatchPlayersSelectionScreen({super.key, required this.match});
+
+  final Match match;
 
   @override
   State<MatchPlayersSelectionScreen> createState() =>
@@ -24,111 +22,111 @@ class MatchPlayersSelectionScreen extends StatefulWidget {
 
 class _MatchPlayersSelectionScreenState
     extends State<MatchPlayersSelectionScreen> {
-  Match match = Match(
-    participants: ['1', '2'],
-    challengerPlayerId: '12',
-    challengeAcceptedBy: '21',
-    team1: MatchTeamInfo(
-      teamId: '1',
-      captainId: '12',
-      logoUrl: '',
-      shortName: 'T1',
-      teamName: 'Team1',
-      wicketkeeperId: '13',
-    ),
-    team2: MatchTeamInfo(
-      teamId: '2',
-      captainId: '21',
-      logoUrl: '',
-      shortName: 'T2',
-      teamName: 'Team2',
-      wicketkeeperId: '21',
-    ),
-    team1Players: [
-      MatchPlayerInfo(
-        playerId: '11',
-        cricketRole: CricketRole.batsman,
-        playerName: 'Player 1',
-        profileImageUrl: '',
-        longCricketRole: 'Right-handed .......',
-        battingStatus: BattingStatus.playing,
-      ),
-      MatchPlayerInfo(
-        playerId: '12',
-        cricketRole: CricketRole.allRounder,
-        playerName: 'Player 2',
-        profileImageUrl: '',
-        longCricketRole: 'Right-handed .......',
-        battingStatus: BattingStatus.playing,
-      ),
-      MatchPlayerInfo(
-        playerId: '13',
-        cricketRole: CricketRole.bowler,
-        playerName: 'Player 3',
-        profileImageUrl: '',
-        longCricketRole: 'Right-handed .......',
-        battingStatus: BattingStatus.notOut,
-      ),
-    ],
-    team2Players: [
-      MatchPlayerInfo(
-        playerId: '21',
-        cricketRole: CricketRole.batsman,
-        playerName: 'Player 1',
-        profileImageUrl: '',
-        longCricketRole: 'Right-handed .......',
-        battingStatus: BattingStatus.notOut,
-      ),
-      MatchPlayerInfo(
-        playerId: '22',
-        cricketRole: CricketRole.allRounder,
-        playerName: 'Player 2',
-        profileImageUrl: '',
-        longCricketRole: 'Right-handed .......',
-        battingStatus: BattingStatus.notOut,
-      ),
-      MatchPlayerInfo(
-        playerId: '23',
-        cricketRole: CricketRole.bowler,
-        playerName: 'Player 3',
-        profileImageUrl: '',
-        longCricketRole: 'Right-handed .......',
-        battingStatus: BattingStatus.notOut,
-      ),
-    ],
-    noOfPlayer: 3,
-    matchFormat: MatchFormat.over10,
-    matchType: MatchType.friendly,
-    venue: 'Wafa Complex',
-    schedule: DateTime.now(),
-    isTeam1WonToss: true,
-    createdAt: Timestamp.now(),
-    tossDecision: TossDecision.batting,
-    spectatorsAllowed: true,
-    updatedAt: Timestamp.now(),
-    currentBatsmen: [
-      StrikerData(
-        id: '11',
-        playerName: 'Player 1',
-        runs: 0,
-        balls: 0,
-      ),
-      StrikerData(
-        id: '12',
-        playerName: 'Player 2',
-        runs: 0,
-        balls: 0,
-      ),
-    ],
-    strikerIndex: 0,
-    currentBowlers: CurrentBowlerData(
-      playerName: 'Player 3',
-      id: '23',
-      runsGiven: 0,
-      wickets: 0,
-      balls: 0,
-    ),
-  );
+  // Match match = Match(
+  //   participants: ['1', '2'],
+  //   challengerPlayerId: '12',
+  //   challengeAcceptedBy: '21',
+  //   team1: MatchTeamInfo(
+  //     teamId: '1',
+  //     captainId: '12',
+  //     logoUrl: '',
+  //     shortName: 'T1',
+  //     teamName: 'Team1',
+  //     wicketkeeperId: '13',
+  //   ),
+  //   team2: MatchTeamInfo(
+  //     teamId: '2',
+  //     captainId: '21',
+  //     logoUrl: '',
+  //     shortName: 'T2',
+  //     teamName: 'Team2',
+  //     wicketkeeperId: '21',
+  //   ),
+  //   team1Players: [
+  //     MatchPlayerInfo(
+  //       playerId: '11',
+  //       cricketRole: CricketRole.batsman,
+  //       playerName: 'Player 1',
+  //       profileImageUrl: '',
+  //       longCricketRole: 'Right-handed .......',
+  //       battingStatus: BattingStatus.playing,
+  //     ),
+  //     MatchPlayerInfo(
+  //       playerId: '12',
+  //       cricketRole: CricketRole.allRounder,
+  //       playerName: 'Player 2',
+  //       profileImageUrl: '',
+  //       longCricketRole: 'Right-handed .......',
+  //       battingStatus: BattingStatus.playing,
+  //     ),
+  //     MatchPlayerInfo(
+  //       playerId: '13',
+  //       cricketRole: CricketRole.bowler,
+  //       playerName: 'Player 3',
+  //       profileImageUrl: '',
+  //       longCricketRole: 'Right-handed .......',
+  //       battingStatus: BattingStatus.notOut,
+  //     ),
+  //   ],
+  //   team2Players: [
+  //     MatchPlayerInfo(
+  //       playerId: '21',
+  //       cricketRole: CricketRole.batsman,
+  //       playerName: 'Player 1',
+  //       profileImageUrl: '',
+  //       longCricketRole: 'Right-handed .......',
+  //       battingStatus: BattingStatus.notOut,
+  //     ),
+  //     MatchPlayerInfo(
+  //       playerId: '22',
+  //       cricketRole: CricketRole.allRounder,
+  //       playerName: 'Player 2',
+  //       profileImageUrl: '',
+  //       longCricketRole: 'Right-handed .......',
+  //       battingStatus: BattingStatus.notOut,
+  //     ),
+  //     MatchPlayerInfo(
+  //       playerId: '23',
+  //       cricketRole: CricketRole.bowler,
+  //       playerName: 'Player 3',
+  //       profileImageUrl: '',
+  //       longCricketRole: 'Right-handed .......',
+  //       battingStatus: BattingStatus.notOut,
+  //     ),
+  //   ],
+  //   noOfPlayer: 3,
+  //   matchFormat: MatchFormat.over10,
+  //   matchType: MatchType.friendly,
+  //   venue: 'Wafa Complex',
+  //   schedule: DateTime.now(),
+  //   isTeam1WonToss: true,
+  //   createdAt: Timestamp.now(),
+  //   tossDecision: TossDecision.batting,
+  //   spectatorsAllowed: true,
+  //   updatedAt: Timestamp.now(),
+  //   currentBatsmen: [
+  //     StrikerData(
+  //       id: '11',
+  //       playerName: 'Player 1',
+  //       runs: 0,
+  //       balls: 0,
+  //     ),
+  //     StrikerData(
+  //       id: '12',
+  //       playerName: 'Player 2',
+  //       runs: 0,
+  //       balls: 0,
+  //     ),
+  //   ],
+  //   strikerIndex: 0,
+  //   currentBowlers: CurrentBowlerData(
+  //     playerName: 'Player 3',
+  //     id: '23',
+  //     runsGiven: 0,
+  //     wickets: 0,
+  //     balls: 0,
+  //   ),
+  // );
 
   List<MatchPlayerInfo> _openers = [];
   List<MatchPlayerInfo> _bowler = [];
@@ -140,7 +138,7 @@ class _MatchPlayersSelectionScreenState
       backgroundColor: Colors.transparent,
       builder: (context) {
         return OpeningBatsmenSheet(
-          availablePlayers: match.team1Players,
+          availablePlayers: widget.match.team1Players,
           onConfirm: (MatchPlayerInfo striker, MatchPlayerInfo nonStriker) {
             setState(() {
               _openers = [striker, nonStriker];
@@ -158,7 +156,7 @@ class _MatchPlayersSelectionScreenState
       backgroundColor: Colors.transparent,
       builder: (context) {
         return OpeningBowlerSheet(
-          availablePlayers: match.team2Players,
+          availablePlayers: widget.match.team2Players,
           onConfirm: (MatchPlayerInfo bowler) {
             setState(() {
               _bowler = [bowler];
