@@ -8,12 +8,16 @@ class TeamsScoreSection extends StatelessWidget {
   const TeamsScoreSection({
     super.key,
     required this.match,
+    required this.inning1,
+    required this.inning2,
     this.onTeamTap,
     this.showRunRate = true,
     this.showProjectedScore = true,
   });
 
   final Match match;
+  final Inning? inning1;
+  final Inning? inning2;
   final void Function(String teamId)? onTeamTap;
   final bool showRunRate;
   final bool showProjectedScore;
@@ -52,7 +56,7 @@ class TeamsScoreSection extends StatelessWidget {
 
   Widget _buildTeamRow(BuildContext context, bool isTeam1) {
     final team = isTeam1 ? match.team1 : match.team2;
-    final innings = isTeam1 ? match.inning1 : match.inning2;
+    final innings = isTeam1 ? inning1 : inning2;
     final isLightMode = Theme.of(context).brightness == Brightness.light;
 
     return Material(
@@ -208,11 +212,12 @@ class TeamsScoreSection extends StatelessWidget {
   }
 
   Widget _buildMatchStatus(BuildContext context) {
-    if (match.target == null) return const SizedBox.shrink();
+    if (inning2 == null || inning1?.status != InningsStatus.completed)
+      return const SizedBox.shrink();
 
     final isLightMode = Theme.of(context).brightness == Brightness.light;
-    final requiredRuns = match.target! - (match.inning2?.runs ?? 0);
-    final remainingBalls = ((20 * 6) - (match.inning2?.runRate ?? 0)).round();
+    final requiredRuns = (inning1!.runs + 1) - (inning2?.runs ?? 0);
+    final remainingBalls = ((20 * 6) - (inning2?.runRate ?? 0)).round();
 
     return Container(
       margin: const EdgeInsets.only(top: 16),

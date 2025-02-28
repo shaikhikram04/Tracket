@@ -31,6 +31,17 @@ class BallOutcome {
 
   int get remainingBalls => 6 - ballNumber;
 
+  static List<BallOutcome?> getOutComeList(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    List<BallOutcome> balls = [];
+    for (final doc in docs) {
+      final ball = BallOutcome.fromMap(doc.data());
+      balls.add(ball);
+    }
+
+    return balls;
+  }
+
   Map<String, dynamic> toMap() => {
         'type': type.name,
         'runs': runs,
