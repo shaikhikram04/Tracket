@@ -3,6 +3,7 @@ import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
+import 'package:tracket/matches/models/team_score.dart';
 import 'package:uuid/uuid.dart';
 
 enum TossDecision { batting, fielding }
@@ -42,6 +43,8 @@ class Match {
     this.currentInningNumber,
     this.spectatorsAllowed = true,
     this.status = MatchStatus.scheduled,
+    this.team1Score,
+    this.team2Score,
     String? id,
   }) : id = id ?? const Uuid().v4();
 
@@ -69,7 +72,9 @@ class Match {
   final String challengerPlayerId;
   final String challengeAcceptedBy;
   final String? startBy;
-  
+  final TeamScore? team1Score;
+  final TeamScore? team2Score;
+
   // Match configuration getters
   int get over => switch (matchFormat) {
         MatchFormat.over5 => 5,
@@ -115,13 +120,6 @@ class Match {
     if (bowlingTeam == null) return [];
     return bowlingTeam!.teamId == team1.teamId ? team1Players : team2Players;
   }
-
-  // int? get target {
-  //   if (currentInningNumber == 2) return inning1!.runs;
-  //   if (inning2 != null) return inning1!.runs;
-
-  //   return null;
-  // }
 
   // Match initialization methods
   Inning initializeFirstInnings({
@@ -172,22 +170,6 @@ class Match {
       status: status,
     );
   }
-
-  // Match initializeSecondInnings() {
-  //   if (currentInningNumber == null) {
-  //     throw StateError(
-  //         'First innings must be completed before starting second innings');
-  //   }
-
-  //   final inning2 = Inning.initialize(
-  //     battingTeam: inning1!.bowlingTeam,
-  //     bowlingTeam: inning1!.battingTeam,
-  //     battingPlayers: getBowlingTeamPlayers(),
-  //     bowlingPlayers: getBattingTeamPlayers(),
-  //   );
-
-  //   return copyWith(inning2: inning2);
-  // }
 
   // Match state management
   Match updateMatchStatus(MatchStatus newStatus) {
@@ -278,10 +260,6 @@ class Match {
   static List<MatchPlayerInfo> getPlayers(List players) {
     return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
   }
-
-  // static List<StrikerData> getStrikerData(List data) {
-  //   return data.map((e) => StrikerData.fromMap(e)).toList();
-  // }
 
   static Match fromMap(Map<String, dynamic> map) {
     return Match(
