@@ -38,7 +38,7 @@ class MatchStatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          MatchHeader(match: match),
+          MatchHeader(createdAt: match.createdAt, status: match.status),
           SizedBox(height: 16),
           MatchTeamsRow(
             match: match,
