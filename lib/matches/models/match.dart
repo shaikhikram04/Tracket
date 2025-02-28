@@ -28,20 +28,14 @@ class Match {
     required this.matchType,
     required this.venue,
     required this.schedule,
-    // required this.currentBatsmen,
-    // required this.strikerIndex,
-    // required this.currentBowlers,
     required this.participants,
     required this.challengerPlayerId,
     required this.challengeAcceptedBy,
     required this.updatedAt,
     required this.createdAt,
     this.startBy,
-    // this.currentOverRuns = const [null, null, null, null, null, null],
     this.isTeam1WonToss,
     this.tossDecision,
-    // this.inning1,
-    // this.inning2,
     this.winningMargin,
     this.winningMethod,
     this.winningTeamId,
@@ -71,18 +65,11 @@ class Match {
   final WinningMethod? winningMethod;
   final int? winningMargin;
   final int? currentInningNumber;
-  // final List<StrikerData>? currentBatsmen;
-  // final CurrentBowlerData? currentBowlers;
-  // final int strikerIndex;
   final List participants;
   final String challengerPlayerId;
   final String challengeAcceptedBy;
   final String? startBy;
-
-  // final List<BallOutcome?> currentOverRuns;
-  // final Inning? inning1;
-  // final Inning? inning2;
-
+  
   // Match configuration getters
   int get over => switch (matchFormat) {
         MatchFormat.over5 => 5,
