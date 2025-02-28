@@ -111,6 +111,24 @@ class Match {
     }
   }
 
+  TeamScore? get inning1Score {
+    final batTeam = _getTossWinnerTeam(TossDecision.batting);
+    if (batTeam?.teamId == team1.teamId) {
+      return team1Score;
+    } else {
+      return team2Score;
+    }
+  }
+
+  TeamScore? get inning2Score {
+    final batTeam = _getTossWinnerTeam(TossDecision.fielding);
+    if (batTeam?.teamId == team1.teamId) {
+      return team1Score;
+    } else {
+      return team2Score;
+    }
+  }
+
   List<MatchPlayerInfo> getBattingTeamPlayers() {
     if (battingTeam == null) return [];
     return battingTeam!.teamId == team1.teamId ? team1Players : team2Players;
@@ -120,6 +138,13 @@ class Match {
     if (bowlingTeam == null) return [];
     return bowlingTeam!.teamId == team1.teamId ? team1Players : team2Players;
   }
+
+  // int? get target {
+  //   if (currentInningNumber == 2) return inning1!.runs;
+  //   if (inning2 != null) return inning1!.runs;
+
+  //   return null;
+  // }
 
   // Match initialization methods
   Inning initializeFirstInnings({
@@ -171,6 +196,22 @@ class Match {
     );
   }
 
+  // Match initializeSecondInnings() {
+  //   if (currentInningNumber == null) {
+  //     throw StateError(
+  //         'First innings must be completed before starting second innings');
+  //   }
+
+  //   final inning2 = Inning.initialize(
+  //     battingTeam: inning1!.bowlingTeam,
+  //     bowlingTeam: inning1!.battingTeam,
+  //     battingPlayers: getBowlingTeamPlayers(),
+  //     bowlingPlayers: getBattingTeamPlayers(),
+  //   );
+
+  //   return copyWith(inning2: inning2);
+  // }
+
   // Match state management
   Match updateMatchStatus(MatchStatus newStatus) {
     final status = newStatus;
@@ -198,9 +239,9 @@ class Match {
   }
 
   // Helper methods
-  MatchTeamInfo _getTossWinnerTeam(TossDecision decision) {
+  MatchTeamInfo? _getTossWinnerTeam(TossDecision decision) {
     if (isTeam1WonToss == null || tossDecision == null) {
-      throw StateError('Toss details not set');
+      return null;
     }
 
     if (decision == tossDecision) {
@@ -260,6 +301,10 @@ class Match {
   static List<MatchPlayerInfo> getPlayers(List players) {
     return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
   }
+
+  // static List<StrikerData> getStrikerData(List data) {
+  //   return data.map((e) => StrikerData.fromMap(e)).toList();
+  // }
 
   static Match fromMap(Map<String, dynamic> map) {
     return Match(

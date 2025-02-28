@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/widgets/team_column.dart';
@@ -9,18 +8,10 @@ class MatchTeamsRow extends StatelessWidget {
   const MatchTeamsRow({
     super.key,
     required this.versusBgColor,
-    required this.inning1,
-    required this.inning2,
-    required this.team1,
-    required this.team2,
-    required this.status,
+    required this.match,
   });
 
-  final MatchTeamInfo team1;
-  final MatchTeamInfo team2;
-  final MatchStatus status;
-  final Inning? inning1;
-  final Inning? inning2;
+  final Match match;
   final Color versusBgColor;
 
   @override
@@ -30,13 +21,13 @@ class MatchTeamsRow extends StatelessWidget {
         // Team A
         _buildMatchTeamColumn(
           context,
-          team: team1,
-          isMatchStarted:
-              status == MatchStatus.live || status == MatchStatus.completed,
-          isInningStarted: inning1 != null,
-          runs: inning1?.runs,
-          wickets: inning1?.wickets,
-          oversDisplay: inning1?.oversDisplay,
+          team: match.team1,
+          isMatchStarted: match.status == MatchStatus.live ||
+              match.status == MatchStatus.completed,
+          isInningStarted: match.inning1Score != null,
+          runs: match.inning1Score?.runs,
+          wickets: match.inning1Score?.wickets,
+          oversDisplay: match.inning1Score?.oversDisplay,
         ),
 
         // VS Badge
@@ -58,13 +49,13 @@ class MatchTeamsRow extends StatelessWidget {
         // Team B
         _buildMatchTeamColumn(
           context,
-          team: team2,
-          isMatchStarted:
-              status == MatchStatus.live || status == MatchStatus.completed,
-          isInningStarted: inning2 != null,
-          runs: inning2?.runs,
-          wickets: inning2?.wickets,
-          oversDisplay: inning2?.oversDisplay,
+          team: match.team2,
+          isMatchStarted: match.status == MatchStatus.live ||
+              match.status == MatchStatus.completed,
+          isInningStarted: match.inning2Score != null,
+          runs: match.inning2Score?.runs,
+          wickets: match.inning2Score?.wickets,
+          oversDisplay: match.inning2Score?.oversDisplay,
         ),
       ],
     );

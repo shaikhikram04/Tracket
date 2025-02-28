@@ -45,7 +45,7 @@ class MatchCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Match 1',
+                    match.matchType.name,
                     style: TextStyle(
                       color: LightThemeColors.primaryText,
                       fontWeight: FontWeight.w600,
@@ -102,78 +102,78 @@ class MatchCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 // Current Players
 
-                Row(
-                  children: [
-                    // Batsmen
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatsSubtitle(context, 'Batsmen'),
-                          const SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              _buildMatchPlayerText(
-                                context,
-                                _match.currentBatsmen![0].playerName,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              _buildMatchPlayerText(
-                                context,
-                                _match.currentBatsmen![1].playerName,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                // Row(
+                //   children: [
+                //     // Batsmen
+                //     Expanded(
+                //       flex: 1,
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           _buildStatsSubtitle(context, 'Batsmen'),
+                //           const SizedBox(height: 4),
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             children: [
+                //               _buildMatchPlayerText(
+                //                 context,
+                //                 _match.currentBatsmen![0].playerName,
+                //               ),
+                //               const SizedBox(width: 8),
+                //               Text(
+                //                 '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
+                //                 style: TextStyle(
+                //                   color: Theme.of(context).primaryColor,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             children: [
+                //               _buildMatchPlayerText(
+                //                 context,
+                //                 _match.currentBatsmen![1].playerName,
+                //               ),
+                //               const SizedBox(width: 8),
+                //               Text(
+                //                 '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
+                //                 style: TextStyle(
+                //                   color: Theme.of(context).primaryColor,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //     ),
 
-                    // Bowler
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          _buildStatsSubtitle(context, 'Bowler'),
-                          const SizedBox(height: 4),
-                          _buildMatchPlayerText(
-                            context,
-                            _match.currentBowlers!.playerName,
-                          ),
-                          Text(
-                            '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                //     // Bowler
+                //     Expanded(
+                //       flex: 1,
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.end,
+                //         children: [
+                //           _buildStatsSubtitle(context, 'Bowler'),
+                //           const SizedBox(height: 4),
+                //           _buildMatchPlayerText(
+                //             context,
+                //             _match.currentBowlers!.playerName,
+                //           ),
+                //           Text(
+                //             '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
+                //             style: TextStyle(
+                //               color: Theme.of(context).primaryColor,
+                //               fontWeight: FontWeight.w500,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ]
             ],
           ),
@@ -182,29 +182,29 @@ class MatchCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsSubtitle(
-    BuildContext context,
-    String label,
-  ) {
-    return Text(
-      label,
-      style: TextStyle(
-        color: Colors.grey[600],
-        fontSize: 12,
-      ),
-    );
-  }
+  // Widget _buildStatsSubtitle(
+  //   BuildContext context,
+  //   String label,
+  // ) {
+  //   return Text(
+  //     label,
+  //     style: TextStyle(
+  //       color: Colors.grey[600],
+  //       fontSize: 12,
+  //     ),
+  //   );
+  // }
 
-  Widget _buildMatchPlayerText(
-    BuildContext context,
-    String playerName,
-  ) {
-    return Text(
-      playerName,
-      style: TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 14,
-      ),
-    );
-  }
+  // Widget _buildMatchPlayerText(
+  //   BuildContext context,
+  //   String playerName,
+  // ) {
+  //   return Text(
+  //     playerName,
+  //     style: TextStyle(
+  //       fontWeight: FontWeight.w600,
+  //       fontSize: 14,
+  //     ),
+  //   );
+  // }
 }
