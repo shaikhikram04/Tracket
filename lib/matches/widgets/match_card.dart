@@ -20,7 +20,8 @@ class MatchCard extends StatelessWidget {
 
   final Match match;
 
-  Future<void> onStart(BuildContext context, Match match, String startBy) async {
+  Future<void> onStart(
+      BuildContext context, Match match, String startBy) async {
     await MatchesServices.setMatchStartBy(
       startBy: startBy,
       matchId: match.id,
@@ -31,6 +32,19 @@ class MatchCard extends StatelessWidget {
         StartMatchScreen(
           match: match,
         ));
+  }
+
+  bool canShowStartButton(Match match, String userId) {
+    if (match.schedule.isBefore(DateTime.now())) {
+      if (match.startBy == null) {
+        return (match.challengeAcceptedBy == userId ||
+            match.challengerPlayerId == userId);
+      } else {
+        return match.startBy == userId;
+      }
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -93,14 +107,18 @@ class MatchCard extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
-                if (_match.schedule.isBefore(DateTime.now()) &&
-                    (_match.challengerPlayerId == currentUserId ||
-                        _match.challengeAcceptedBy == currentUserId)) ...[
+                if (canShowStartButton(match, currentUserId)) ...[
                   const SizedBox(height: 10),
                   CustomButton.primary(
-                    text: 'Start Match',
+                    text:
+                        match.startBy == null ? 'Start Match' : 'Resume Match',
                     borderRadius: 16,
                     onPressed: () => onStart(context, match, currentUserId),
+                    backgroundColor: primaryVariant,
+                    size: ButtonSize.medium,
+                    textStyle: MyTextStyle(context)
+                        .mediumButtonText
+                        .copyWith(color: onPrimary),
                   ),
                 ]
               ],
