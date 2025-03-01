@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class StartMatchScreen extends StatefulWidget {
@@ -27,6 +29,10 @@ class _StartMatchScreenState extends State<StartMatchScreen>
   late AnimationController _controller;
   late Animation<double> _flipAnimation;
   late Animation<double> _scaleAnimation;
+
+  void _onStartMatch() {
+    pushScreen(context, MatchPlayersSelectionScreen(match: widget.match));
+  }
 
   @override
   void initState() {
@@ -269,7 +275,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                         size: 30,
                         color: LightThemeColors.surfaceColor,
                       ),
-                      onPressed: () {},
+                      onPressed: _onStartMatch,
                     ),
                   ],
                 ),

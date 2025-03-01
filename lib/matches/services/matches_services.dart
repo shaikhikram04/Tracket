@@ -202,4 +202,33 @@ class MatchesServices {
         .doc(matchId)
         .update({'startBy': startBy});
   }
+
+  static Future<void> startMatch({
+    required String matchId,
+    required bool isTeam1WonToss,
+    required TossDecision decision,
+  }) async {
+    final docRef =
+        _firestore.collection(FirestoreCollections.matches).doc(matchId);
+
+    await docRef.update({
+      'isTeam1WonToss': isTeam1WonToss,
+      'tossDecision': decision,
+    });
+
+    // Inning inning = Inning(
+    //   battingTeam: battingTeam,
+    //   bowlingTeam: bowlingTeam,
+    //   battingStats: battingStats,
+    //   bowlingStats: bowlingStats,
+    //   strikerIndex: strikerIndex,
+    //   nonStrikerIndex: nonStrikerIndex,
+    //   currentBowlerIndex: currentBowlerIndex,
+    // );
+
+    // docRef
+    //     .collection(FirestoreCollections.innings)
+    //     .doc(MatchConstant.inning1)
+    //     .set(data);
+  }
 }

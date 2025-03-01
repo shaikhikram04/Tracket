@@ -85,6 +85,13 @@ class _OpeningBatsmenSheetState extends State<OpeningBatsmenSheet> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                          Text(
+                            player.longCricketRole,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ],
                       ),
                     ),
