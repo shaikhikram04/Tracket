@@ -4,6 +4,7 @@ import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/screens/match_scoring_screen.dart';
 import 'package:tracket/matches/screens/start_match_screen.dart';
+import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_teams_row.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
@@ -18,6 +19,19 @@ class MatchCard extends StatelessWidget {
   });
 
   final Match match;
+
+  Future<void> onStart(BuildContext context, Match match, String startBy) async {
+    await MatchesServices.setMatchStartBy(
+      startBy: startBy,
+      matchId: match.id,
+    );
+
+    pushScreen(
+        context,
+        StartMatchScreen(
+          match: match,
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +100,7 @@ class MatchCard extends StatelessWidget {
                   CustomButton.primary(
                     text: 'Start Match',
                     borderRadius: 16,
-                    onPressed: () {
-                      pushScreen(
-                          context,
-                          StartMatchScreen(
-                            match: _match,
-                          ));
-                    },
+                    onPressed: () => onStart(context, match, currentUserId),
                   ),
                 ]
               ],

@@ -192,4 +192,14 @@ class MatchesServices {
       NotificationStatus.accept,
     );
   }
+
+  static Future<void> setMatchStartBy({
+    required String matchId,
+    required String startBy,
+  }) async {
+    await _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .update({'startBy': startBy});
+  }
 }
