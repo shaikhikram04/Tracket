@@ -3,10 +3,13 @@ import 'package:tracket/players/models/player_stats.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 enum CricketRole {
-  batsman,
-  bowler,
-  allRounder,
-  wicketKeeper;
+  batsman('Batsman'),
+  bowler('Bowler'),
+  allRounder('All-Rounder'),
+  wicketKeeper('Wicketkeeper');
+
+  const CricketRole(this.description);
+  final String description;
 }
 
 enum Position {

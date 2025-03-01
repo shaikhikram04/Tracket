@@ -60,6 +60,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
       appBar: AppBar(
         title: const Text('Player Profile'),
         backgroundColor: primaryColor,
+        foregroundColor: onPrimary,
         actions: [
           IconButton(
             icon: const Icon(Icons.share),
@@ -73,15 +74,15 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
           ? getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Profile Picture and Name
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          GradientColors.matchCardEnd,
                           GradientColors.matchCardStart,
+                          GradientColors.matchCardEnd,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -96,15 +97,36 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                           url: _playerData.profileImageUrl,
                           isTeam: false,
                           radius: 50,
+                          hasBorder: false,
                         ),
                         const SizedBox(height: 10),
-                        Text(
-                          _playerData.name,
-                          style: MyTextStyle(context).titleLarge,
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: _playerData.name,
+                                style: MyTextStyle(context).titleLarge.copyWith(
+                                      color: onPrimary,
+                                    ),
+                              ),
+                              TextSpan(
+                                text:
+                                    '  (${_playerData.playerCricketDetails!.cricketRole.description})',
+                                style: MyTextStyle(context)
+                                    .titleMedium
+                                    .copyWith(
+                                      color: LightThemeColors.backgroundColor,
+                                    ),
+                              )
+                            ],
+                          ),
                         ),
+                        SizedBox(height: 8),
                         Text(
                           _playerData.playerCricketDetails!.detailedCricketRole,
-                          style: MyTextStyle(context).titleMedium,
+                          style: MyTextStyle(context)
+                              .bodyLarge
+                              .copyWith(color: onPrimary),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 10),

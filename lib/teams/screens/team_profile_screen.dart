@@ -221,162 +221,155 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                     ),
                     width: width,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 15,
-                      ),
-                      child: Column(
-                        spacing: 10,
-                        children: [
-                          Row(
-                            spacing: 15,
-                            children: [
-                              getCircleAvatar(
-                                url: teamState.team.logoUrl,
-                                isTeam: true,
-                                radius: 50,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: teamState.team.name,
-                                            style: MyTextStyle(context)
-                                                .titleLarge
-                                                .copyWith(
-                                                  color: LightThemeColors
-                                                      .surfaceColor,
-                                                ),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '  (${teamState.team.shortName})',
-                                            style: MyTextStyle(context)
-                                                .titleMedium
-                                                .copyWith(
-                                                  color: LightThemeColors
-                                                      .backgroundColor,
-                                                ),
-                                          )
-                                        ],
-                                      ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
+                    child: Column(
+                      spacing: 10,
+                      children: [
+                        Row(
+                          spacing: 15,
+                          children: [
+                            getCircleAvatar(
+                              url: teamState.team.logoUrl,
+                              isTeam: true,
+                              radius: 50,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 8,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: teamState.team.name,
+                                          style: MyTextStyle(context)
+                                              .titleLarge
+                                              .copyWith(
+                                                color: LightThemeColors
+                                                    .surfaceColor,
+                                              ),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              '  (${teamState.team.shortName})',
+                                          style: MyTextStyle(context)
+                                              .titleMedium
+                                              .copyWith(
+                                                color: LightThemeColors
+                                                    .backgroundColor,
+                                              ),
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      teamState.team.description,
-                                      style: MyTextStyle(context)
-                                          .bodyMedium
-                                          .copyWith(
-                                            color: DarkThemeColors.primaryText,
-                                          ),
+                                  ),
+                                  Text(
+                                    teamState.team.description,
+                                    style: MyTextStyle(context)
+                                        .bodyMedium
+                                        .copyWith(
+                                          color: DarkThemeColors.primaryText,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            StatsData(
+                              number: teamState.team.followers.length,
+                              label: 'Followers',
+                              labelColor: DarkThemeColors.primaryText,
+                              numColor: LightThemeColors.surfaceColor,
+                            ),
+                            StatsData(
+                              number: teamState.team.stats.rank,
+                              label: 'Ranking',
+                              labelColor: DarkThemeColors.primaryText,
+                              numColor: LightThemeColors.surfaceColor,
+                            ),
+                            StatsData(
+                              number: teamState.team.stats.matchesPlayed,
+                              label: 'Achievements',
+                              labelColor: DarkThemeColors.primaryText,
+                              numColor: LightThemeColors.surfaceColor,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            if (!isChallengeVisible)
+                              const Expanded(child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: isFollowed
+                                  ? CustomButton.secondary(
+                                      isLoading: isFollowing,
+                                      onPressed: () => _followTeam(
+                                          teamState.team.id, player.id, false),
+                                      text: 'Unfollow',
+                                      backgroundColor:
+                                          LightThemeColors.surfaceColor,
+                                      borderColor: primaryVariant,
+                                      textStyle: MyTextStyle(context)
+                                          .mediumButtonText
+                                          .copyWith(color: primaryColor),
+                                    )
+                                  : CustomButton.primary(
+                                      isLoading: isFollowing,
+                                      onPressed: () => _followTeam(
+                                          teamState.team.id, player.id, true),
+                                      text: 'Follow',
+                                      backgroundColor: primaryVariant,
+                                      textStyle: MyTextStyle(context)
+                                          .mediumButtonText
+                                          .copyWith(color: onPrimary),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              StatsData(
-                                number: teamState.team.followers.length,
-                                label: 'Followers',
-                                labelColor: DarkThemeColors.primaryText,
-                                numColor: LightThemeColors.surfaceColor,
-                              ),
-                              StatsData(
-                                number: teamState.team.stats.rank,
-                                label: 'Ranking',
-                                labelColor: DarkThemeColors.primaryText,
-                                numColor: LightThemeColors.surfaceColor,
-                              ),
-                              StatsData(
-                                number: teamState.team.stats.matchesPlayed,
-                                label: 'Achievements',
-                                labelColor: DarkThemeColors.primaryText,
-                                numColor: LightThemeColors.surfaceColor,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            spacing: 10,
-                            children: [
-                              if (!isChallengeVisible)
-                                const Expanded(child: SizedBox()),
+                            ),
+                            if (isChallengeVisible)
                               Expanded(
                                 flex: 2,
-                                child: isFollowed
-                                    ? CustomButton.secondary(
-                                        isLoading: isFollowing,
-                                        onPressed: () => _followTeam(
-                                            teamState.team.id,
-                                            player.id,
-                                            false),
-                                        text: 'Unfollow',
-                                        backgroundColor:
-                                            LightThemeColors.surfaceColor,
-                                        borderColor: primaryVariant,
+                                child: canChallenge
+                                    ? CustomButton.primary(
+                                        onPressed: () => challengeForAMatch(
+                                          playerId: player.id,
+                                          playerName: player.name,
+                                          challengedTeam: MatchTeamInfo(
+                                            teamId: teamState.team.id,
+                                            logoUrl: teamState.team.logoUrl,
+                                            teamName: teamState.team.name,
+                                            shortName: teamState.team.shortName,
+                                            captainId: teamState.team.captainId,
+                                            wicketkeeperId:
+                                                teamState.team.wicketkeeperId,
+                                          ),
+                                        ),
+                                        text: 'Challenge',
+                                        backgroundColor: primaryVariant,
                                         textStyle: MyTextStyle(context)
                                             .mediumButtonText
-                                            .copyWith(color: primaryColor),
+                                            .copyWith(color: onPrimary),
                                       )
-                                    : CustomButton.primary(
-                                        isLoading: isFollowing,
-                                        onPressed: () => _followTeam(
-                                            teamState.team.id, player.id, true),
-                                        text: 'Follow',
-                                        backgroundColor: primaryVariant,
+                                    : CustomButton.secondary(
+                                        text: 'Challenged',
+                                        onPressed: null,
+                                        backgroundColor:
+                                            LightThemeColors.surfaceColor,
                                         textStyle: MyTextStyle(context)
                                             .mediumButtonText
                                             .copyWith(color: onPrimary),
                                       ),
                               ),
-                              if (isChallengeVisible)
-                                Expanded(
-                                  flex: 2,
-                                  child: canChallenge
-                                      ? CustomButton.primary(
-                                          onPressed: () => challengeForAMatch(
-                                            playerId: player.id,
-                                            playerName: player.name,
-                                            challengedTeam: MatchTeamInfo(
-                                              teamId: teamState.team.id,
-                                              logoUrl: teamState.team.logoUrl,
-                                              teamName: teamState.team.name,
-                                              shortName:
-                                                  teamState.team.shortName,
-                                              captainId:
-                                                  teamState.team.captainId,
-                                              wicketkeeperId:
-                                                  teamState.team.wicketkeeperId,
-                                            ),
-                                          ),
-                                          text: 'Challenge',
-                                          backgroundColor: primaryVariant,
-                                          textStyle: MyTextStyle(context)
-                                              .mediumButtonText
-                                              .copyWith(color: onPrimary),
-                                        )
-                                      : CustomButton.secondary(
-                                          text: 'Challenged',
-                                          onPressed: null,
-                                          backgroundColor:
-                                              LightThemeColors.surfaceColor,
-                                          textStyle: MyTextStyle(context)
-                                              .mediumButtonText
-                                              .copyWith(color: onPrimary),
-                                        ),
-                                ),
-                              if (!isChallengeVisible)
-                                const Expanded(child: SizedBox()),
-                            ],
-                          )
-                        ],
-                      ),
+                            if (!isChallengeVisible)
+                              const Expanded(child: SizedBox()),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                   const SizedBox(height: 20),
