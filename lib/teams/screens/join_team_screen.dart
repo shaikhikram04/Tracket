@@ -28,8 +28,12 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
   bool _isPrivateOnly = false;
   bool _hasCapacityOnly = false;
 
-  List<String> get playerTeamsId =>
-      widget.player.playerCricketDetails!.teams.map((team) => team.id).toList();
+  List<String> get playerTeamsId => [
+        '',
+        ...widget.player.playerCricketDetails!.teams
+            .map((team) => team.id)
+            .toList()
+      ];
 
   @override
   void dispose() {
