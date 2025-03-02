@@ -9,6 +9,7 @@ import 'package:tracket/notifications/widgets/request_card.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/services/teams_services.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -59,7 +60,7 @@ class _RequestListState extends ConsumerState<RequestList> {
       return const NoDataFound(
         title: 'No Request Found',
         message: '',
-        isRequest: true,
+        iconData: AppIconData.noificationOff
       );
     }
     return ListView.builder(

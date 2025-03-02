@@ -6,16 +6,16 @@ class NoDataFound extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
+    required this.iconData,
     this.isPointingButton = false,
     this.rotation = 0,
-    this.isRequest = false,
   });
 
   final String title;
   final String message;
+  final IconData iconData;
   final bool isPointingButton;
   final int rotation;
-  final bool isRequest;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class NoDataFound extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              isRequest ? Icons.notifications_off_outlined : Icons.group_off,
+              iconData,
               size: 100,
               color: Colors.grey.shade400,
             ),

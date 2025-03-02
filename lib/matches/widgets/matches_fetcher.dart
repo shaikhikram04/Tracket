@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/widgets/match_card.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -65,9 +66,10 @@ class MatchesFetcher extends StatelessWidget {
           return const SizedBox.shrink();
         }
         if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-          return const NoDataFound(
+          return NoDataFound(
             title: 'No matches found',
             message: 'Wait for a match to start',
+            iconData: AppIconData.noMatch,
           );
         }
 

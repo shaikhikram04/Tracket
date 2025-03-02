@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/notifications/services/notification_services.dart';
 import 'package:tracket/notifications/widgets/challenge_card.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -42,7 +43,7 @@ class _ChallengesListState extends State<ChallengesList> {
       return const NoDataFound(
         title: 'No Challenge Found',
         message: '',
-        isRequest: true,
+        iconData: AppIconData.noificationOff,
       );
     }
     return ListView.builder(

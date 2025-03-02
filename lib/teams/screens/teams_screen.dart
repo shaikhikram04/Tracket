@@ -9,6 +9,7 @@ import 'package:tracket/teams/screens/explore_teams.dart';
 import 'package:tracket/teams/screens/join_team_screen.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
@@ -196,9 +197,9 @@ class _EmptyState extends StatelessWidget {
     return NoDataFound(
       title: 'No Team Yet',
       message: 'Join or create a team to get started',
-      isRequest: false,
       isPointingButton: true,
       rotation: 1,
+      iconData: AppIconData.groupOff,
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:tracket/players/widgets/squad_player_tile.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/screens/add_player_screen.dart';
 import 'package:tracket/teams/services/teams_services.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -161,6 +162,7 @@ class _EmptySquadMessage extends StatelessWidget {
       title: 'No Player joined yet!',
       message: 'Tap the button above to request player to join.',
       isPointingButton: true,
+      iconData: AppIconData.groupOff,
     );
   }
 }

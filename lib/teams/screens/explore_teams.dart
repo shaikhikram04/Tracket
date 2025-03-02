@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/enhanced_list_tile.dart';
@@ -96,6 +97,7 @@ class _ExploreTeamsState extends State<ExploreTeams> {
             return const NoDataFound(
               title: 'No Teams Available',
               message: 'Be the first to create a team!',
+                iconData: AppIconData.groupOff,
             );
           }
 

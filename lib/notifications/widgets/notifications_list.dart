@@ -9,6 +9,7 @@ import 'package:tracket/notifications/widgets/challenge_card.dart';
 import 'package:tracket/notifications/widgets/request_card.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/services/teams_services.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/no_data_found.dart';
@@ -53,7 +54,7 @@ class _NotificationsListState extends State<NotificationsList> {
       return const NoDataFound(
         title: 'No notification found',
         message: '',
-        isRequest: true,
+        iconData: AppIconData.noificationOff
       );
     }
     return ListView.builder(

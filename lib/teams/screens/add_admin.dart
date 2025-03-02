@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/players/widgets/player_list_view.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/widgets/custom_widgets/action_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';
 
@@ -70,7 +71,7 @@ class AddAdmin extends StatelessWidget {
               players: team.nonAdmins,
               team: team,
               emptyStateWidget: NoDataFound(
-                isRequest: false,
+                iconData: AppIconData.groupOff,
                 title: 'No Available Players',
                 message: 'All players are already administrators',
               ),
