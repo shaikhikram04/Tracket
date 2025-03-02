@@ -30,6 +30,10 @@ class PlayerAuthState {
     this.isLoading = false,
   });
 
+  bool get shouldBall =>
+      cricketRole == CricketRole.allRounder ||
+      cricketRole == CricketRole.bowler;
+
   PlayerAuthState copyWith({
     GlobalKey<FormState>? formKey,
     String? playerName,

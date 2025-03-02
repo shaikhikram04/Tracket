@@ -69,7 +69,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
-        options: playerAuthState.isBowler
+        options: playerAuthState.shouldBall
             ? enumToString(BowlingStyle.values.sublist(1))
             : enumToString(BowlingStyle.values),
         label: 'Select Bowling Style',

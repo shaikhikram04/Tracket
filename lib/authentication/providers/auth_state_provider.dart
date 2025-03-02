@@ -44,10 +44,10 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     if (style == null) return;
 
     bool isBowler = state.isBowler;
-    if (state.bowlingStyle != BowlingStyle.none && !isBowler) {
+    if (style != BowlingStyle.none.name && !isBowler) {
       ref.read(authScreenSizeProvider.notifier).incrementSize(86);
       isBowler = true;
-    } else if (state.bowlingStyle == BowlingStyle.none && isBowler) {
+    } else if (style == BowlingStyle.none.name && isBowler) {
       ref.read(authScreenSizeProvider.notifier).incrementSize(-86);
       isBowler = false;
     }
