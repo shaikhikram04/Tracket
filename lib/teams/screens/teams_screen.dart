@@ -100,7 +100,7 @@ class TeamsScreen extends ConsumerWidget {
     required VoidCallback onTap,
   }) {
     return SpeedDialChild(
-      child: Icon(icon, color: primaryColor),
+      child: Icon(icon, color: darkGrassGreen),
       backgroundColor: onPrimary,
       label: label,
       labelStyle: const TextStyle(fontWeight: FontWeight.w500),

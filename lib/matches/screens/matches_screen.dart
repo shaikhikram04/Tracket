@@ -21,46 +21,43 @@ class _MatchesScreenState extends State<MatchesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: CricketMatchTabs(
-                tabs: [
-                  MatchTabData(
-                    label: 'My Matches',
-                    count: 0,
-                    isLive: false,
-                  ),
-                  MatchTabData(
-                    label: 'Completed',
-                    count: 0,
-                    isLive: false,
-                  ),
-                  MatchTabData(
-                    label: 'Live',
-                    count: 0,
-                    isLive: true,
-                  ),
-                  MatchTabData(
-                    label: 'Upcoming',
-                    count: 0,
-                    isLive: false,
-                  ),
-                ],
-                selectedIndex: _selectedTabIndex,
-                onTabSelected: _onTabChange,
-              ),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: CricketMatchTabs(
+              tabs: [
+                MatchTabData(
+                  label: 'My Matches',
+                  count: 0,
+                  isLive: false,
+                ),
+                MatchTabData(
+                  label: 'Completed',
+                  count: 0,
+                  isLive: false,
+                ),
+                MatchTabData(
+                  label: 'Live',
+                  count: 0,
+                  isLive: true,
+                ),
+                MatchTabData(
+                  label: 'Upcoming',
+                  count: 0,
+                  isLive: false,
+                ),
+              ],
+              selectedIndex: _selectedTabIndex,
+              onTabSelected: _onTabChange,
             ),
-            Expanded(
-              child: MatchesFetcher(
-                type: MatchesFetcherType.values[_selectedTabIndex],
-              ),
+          ),
+          Expanded(
+            child: MatchesFetcher(
+              type: MatchesFetcherType.values[_selectedTabIndex],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

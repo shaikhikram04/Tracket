@@ -31,11 +31,7 @@ class MatchCard extends ConsumerWidget {
 
     ref.read(matchStateProvider.notifier).setMatch(match);
 
-    pushScreen(
-        context,
-        StartMatchScreen(
-          // match: match,
-        ));
+    pushScreen(context, StartMatchScreen());
   }
 
   bool canShowStartButton(Match match, String userId) {
@@ -68,6 +64,7 @@ class MatchCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
         ),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         color: LightThemeColors.surfaceColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
