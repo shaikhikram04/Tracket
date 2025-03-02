@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/match_scoring_screen.dart';
 import 'package:tracket/matches/screens/start_match_screen.dart';
 import 'package:tracket/matches/services/matches_services.dart';
@@ -12,7 +14,7 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/highlighted_label.dart';
 
-class MatchCard extends StatelessWidget {
+class MatchCard extends ConsumerWidget {
   const MatchCard({
     super.key,
     required this.match,
@@ -21,16 +23,18 @@ class MatchCard extends StatelessWidget {
   final Match match;
 
   Future<void> onStart(
-      BuildContext context, Match match, String startBy) async {
+      BuildContext context, WidgetRef ref, Match match, String startBy) async {
     await MatchesServices.setMatchStartBy(
       startBy: startBy,
       matchId: match.id,
     );
 
+    ref.read(matchStateProvider.notifier).setMatch(match);
+
     pushScreen(
         context,
         StartMatchScreen(
-          match: match,
+          // match: match,
         ));
   }
 
@@ -48,7 +52,7 @@ class MatchCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Match _match = match;
     final String currentUserId = FirebaseAuthMethods().currentUserId;
 
@@ -113,7 +117,8 @@ class MatchCard extends StatelessWidget {
                     text:
                         match.startBy == null ? 'Start Match' : 'Resume Match',
                     borderRadius: 16,
-                    onPressed: () => onStart(context, match, currentUserId),
+                    onPressed: () =>
+                        onStart(context, ref, match, currentUserId),
                     backgroundColor: primaryVariant,
                     size: ButtonSize.medium,
                     textStyle: MyTextStyle(context)

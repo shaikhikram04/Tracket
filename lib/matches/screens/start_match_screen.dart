@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
@@ -9,19 +11,19 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
-class StartMatchScreen extends StatefulWidget {
-  final Match match;
+class StartMatchScreen extends ConsumerStatefulWidget {
+  // final Match match;
 
   const StartMatchScreen({
     Key? key,
-    required this.match,
+    // required this.match,
   }) : super(key: key);
 
   @override
-  State<StartMatchScreen> createState() => _StartMatchScreenState();
+  ConsumerState<StartMatchScreen> createState() => _StartMatchScreenState();
 }
 
-class _StartMatchScreenState extends State<StartMatchScreen>
+class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
     with SingleTickerProviderStateMixin {
   String? tossWinner;
   String? battingTeam;
@@ -30,8 +32,19 @@ class _StartMatchScreenState extends State<StartMatchScreen>
   late Animation<double> _flipAnimation;
   late Animation<double> _scaleAnimation;
 
-  void _onStartMatch() {
-    pushScreen(context, MatchPlayersSelectionScreen(match: widget.match));
+  void _onStartMatch(Match match) {
+    bool isTeam1WonToss = tossWinner == match.team1.teamName;
+    TossDecision decision = isTeam1WonToss
+        ? battingTeam == match.team1.teamName
+            ? TossDecision.batting
+            : TossDecision.fielding
+        : battingTeam == match.team1.teamName
+            ? TossDecision.fielding
+            : TossDecision.batting;
+    ref
+        .read(matchStateProvider.notifier)
+        .setTossResult(isTeam1Won: isTeam1WonToss, decision: decision);
+    pushScreen(context, MatchPlayersSelectionScreen(match: match));
   }
 
   @override
@@ -67,13 +80,15 @@ class _StartMatchScreenState extends State<StartMatchScreen>
       ),
     );
 
+    final match = ref.read(matchStateProvider);
+
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
           isCoinRotating = false;
           tossWinner = Random().nextBool()
-              ? widget.match.team1.teamName
-              : widget.match.team2.teamName;
+              ? match!.team1.teamName
+              : match!.team2.teamName;
         });
       }
     });
@@ -97,6 +112,8 @@ class _StartMatchScreenState extends State<StartMatchScreen>
 
   @override
   Widget build(BuildContext context) {
+    final match = ref.watch(matchStateProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Start Match'),
@@ -114,7 +131,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                     children: [
                       Expanded(
                         child: Text(
-                          widget.match.team1.teamName,
+                          match!.team1.teamName,
                           style: MyTextStyle(context).titleLarge.copyWith(
                                 color: secondaryColor,
                               ),
@@ -133,7 +150,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                       ),
                       Expanded(
                         child: Text(
-                          widget.match.team2.teamName,
+                          match.team2.teamName,
                           style: MyTextStyle(context).titleLarge.copyWith(
                                 color: StatusColors.warning,
                               ),
@@ -241,10 +258,9 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                           label: 'Bowl',
                           onPressed: () {
                             setState(() {
-                              battingTeam =
-                                  tossWinner == widget.match.team1.teamName
-                                      ? widget.match.team2.teamName
-                                      : widget.match.team1.teamName;
+                              battingTeam = tossWinner == match.team1.teamName
+                                  ? match.team2.teamName
+                                  : match.team1.teamName;
                             });
                           },
                         ),
@@ -275,7 +291,7 @@ class _StartMatchScreenState extends State<StartMatchScreen>
                         size: 30,
                         color: LightThemeColors.surfaceColor,
                       ),
-                      onPressed: _onStartMatch,
+                      onPressed: () => _onStartMatch(match),
                     ),
                   ],
                 ),

@@ -32,9 +32,6 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       venue: venue,
       schedule: schedule,
       noOfPlayer: noOfPlayer,
-      // currentBatsmen: [],
-      // strikerIndex: 0,
-      // currentBowlers: null,
       participants: [team1.teamId, team2.teamId],
       challengerPlayerId: challengerPlayerId,
       challengeAcceptedBy: challengeAcceptedBy,
@@ -43,8 +40,12 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
   }
 
+  void setMatch(Match match) {
+    state = match;
+  }
+
   //* Sets the toss result and decision.
-  void setTossResult(bool isTeam1Won, TossDecision decision) {
+  void setTossResult({required bool isTeam1Won, required TossDecision decision}) {
     if (state == null) return;
 
     state = state!.copyWith(

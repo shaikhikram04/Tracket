@@ -148,28 +148,28 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     //   participants: ['1', '2'],
     // );
 
-    ref.read(matchStateProvider.notifier).createMatch(
-          team1: match.team1,
-          team2: match.team2,
-          team1Players: match.team1Players,
-          team2Players: match.team2Players,
-          matchFormat: match.matchFormat,
-          matchType: match.matchType,
-          venue: match.venue,
-          schedule: match.schedule,
-          noOfPlayer: match.noOfPlayer,
-          challengerPlayerId: match.challengerPlayerId,
-          challengeAcceptedBy: match.challengeAcceptedBy,
-        );
-    ref
-        .read(matchStateProvider.notifier)
-        .setTossResult(match.isTeam1WonToss!, match.tossDecision!);
+    // ref.read(matchStateProvider.notifier).createMatch(
+    //       team1: match.team1,
+    //       team2: match.team2,
+    //       team1Players: match.team1Players,
+    //       team2Players: match.team2Players,
+    //       matchFormat: match.matchFormat,
+    //       matchType: match.matchType,
+    //       venue: match.venue,
+    //       schedule: match.schedule,
+    //       noOfPlayer: match.noOfPlayer,
+    //       challengerPlayerId: match.challengerPlayerId,
+    //       challengeAcceptedBy: match.challengeAcceptedBy,
+    //     );
+    // ref
+    //     .read(matchStateProvider.notifier)
+    //     .setTossResult(match.isTeam1WonToss!, match.tossDecision!);
 
-    ref.read(inningsStateProvider.notifier).startFirstInnings(
-          strikerIndex: 0,
-          nonStrikerIndex: 1,
-          bowlerIndex: 0,
-        );
+    // ref.read(inningsStateProvider.notifier).startFirstInnings(
+    //       strikerIndex: 0,
+    //       nonStrikerIndex: 1,
+    //       bowlerIndex: 0,
+    //     );
 
     setState(() {
       isLoading.value = false;
