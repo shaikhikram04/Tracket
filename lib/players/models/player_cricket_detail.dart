@@ -64,7 +64,7 @@ class PlayerCricketDetails {
       Map<String, dynamic> map, List<QueryDocumentSnapshot>? playerTeams) {
     return PlayerCricketDetails(
       cricketRole: getCricketRole(map['cricketRole']),
-      battingPosition: getPosition(map['battingPosition']),
+      battingPosition: getPosition(map['battingPosition'])!,
       bowlingArm: getPosition(map['bowlingArm']),
       bowlingStyle: getBowlingStyle(map['bowlingStyle']),
       isPrivate: map['isPrivate'],
@@ -114,7 +114,8 @@ class PlayerCricketDetails {
     }
   }
 
-  static Position getPosition(String position) {
+  static Position? getPosition(String? position) {
+    if (position == null) return null;
     switch (position) {
       case 'righty':
         return Position.righty;

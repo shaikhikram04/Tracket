@@ -83,7 +83,7 @@ class VerificationScreen extends ConsumerWidget {
                     ProgressStepIndicator(
                       step: 2,
                       currentStep: currentStep,
-                      label: 'Verified',
+                      label: 'Verixfied',
                     ),
                     _buildProgressLine(isActive: currentStep > 2),
                     ProgressStepIndicator(

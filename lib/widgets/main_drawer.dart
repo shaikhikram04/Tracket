@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/screens/auth_screen.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
+    final player = ref.watch(playerProvider);
 
     Future<void> logoutUser() async {
       try {
@@ -37,7 +40,7 @@ class MainDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(20),
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   GradientColors.matchCardStart,
@@ -49,21 +52,26 @@ class MainDrawer extends StatelessWidget {
             ),
             child: Row(
               children: [
-                getCircleAvatar(url: '', isTeam: false, radius: 40),
+                getCircleAvatar(
+                  url: player.profileImageUrl,
+                  isTeam: false,
+                  radius: 40,
+                  hasBorder: false,
+                ),
                 const SizedBox(width: 18),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Username',
+                      player.name,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
                           .copyWith(color: LightThemeColors.surfaceColor),
                     ),
                     Text(
-                      'Role',
+                      player.role,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
