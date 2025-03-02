@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/screens/auth_screen.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/players/providers/player_provider.dart';
+import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class MainDrawer extends ConsumerWidget {
@@ -50,35 +52,56 @@ class MainDrawer extends ConsumerWidget {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: Row(
+            child: Column(
               children: [
-                getCircleAvatar(
-                  url: player.profileImageUrl,
-                  isTeam: false,
-                  radius: 40,
-                  hasBorder: false,
-                ),
-                const SizedBox(width: 18),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text(
-                      player.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: LightThemeColors.surfaceColor),
+                    getCircleAvatar(
+                      url: player.profileImageUrl,
+                      isTeam: false,
+                      radius: 40,
+                      hasBorder: false,
                     ),
-                    Text(
-                      player.role,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: LightThemeColors.surfaceColor),
-                    )
+                    const SizedBox(width: 18),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          player.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(color: LightThemeColors.surfaceColor),
+                        ),
+                        Text(
+                          player.role,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: LightThemeColors.surfaceColor),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
+                InkWell(
+                  onTap: () => pushScreen(
+                      context,
+                      PlayerProfileScreen(
+                        player: player,
+                      )),
+                  child: Text(
+                    'View Profile',
+                    style: MyTextStyle(context).bodyLarge.copyWith(
+                          color: onPrimary,
+                          fontStyle: FontStyle.italic,
+                          letterSpacing: 1,
+                          decoration: TextDecoration.underline,
+                          decorationColor: onPrimary,
+                        ),
+                  ),
+                )
               ],
             ),
           ),
