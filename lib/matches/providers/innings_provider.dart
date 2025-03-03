@@ -40,6 +40,10 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     ];
   }
 
+  void setInnings(List<Inning?> innings) {
+    state = innings;
+  }
+
   //* Starts the first innings.
   void startFirstInnings(Inning inning) {
     final match = ref.read(matchStateProvider);

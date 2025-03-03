@@ -8,6 +8,7 @@ import 'package:tracket/matches/screens/operator_side_scoring_screen/current_ove
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_stats_section.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/scoreboard_section.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/scoring_controls.dart';
+import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -28,143 +29,25 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     isLoading = ValueNotifier(false);
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        loadMatchData();
+        loadInningData();
       },
     );
   }
 
-  void loadMatchData() {
+  Future<void> loadInningData() async {
     setState(() {
       isLoading.value = true;
     });
-    // Match match = Match(
-    //   challengerPlayerId: '12',
-    //   challengeAcceptedBy: '21',
-    //   team1: MatchTeamInfo(
-    //     teamId: '1',
-    //     captainId: '12',
-    //     logoUrl: '',
-    //     shortName: 'T1',
-    //     teamName: 'Team1',
-    //     wicketkeeperId: '13',
-    //   ),
-    //   team2: MatchTeamInfo(
-    //     teamId: '2',
-    //     captainId: '21',
-    //     logoUrl: '',
-    //     shortName: 'T2',
-    //     teamName: 'Team2',
-    //     wicketkeeperId: '21',
-    //   ),
-    //   team1Players: [
-    //     MatchPlayerInfo(
-    //       playerId: '11',
-    //       cricketRole: CricketRole.batsman,
-    //       playerName: 'Player 1',
-    //       profileImageUrl: '',
-    //       longCricketRole: 'Right-handed .......',
-    //       battingStatus: BattingStatus.playing,
-    //     ),
-    //     MatchPlayerInfo(
-    //       playerId: '12',
-    //       cricketRole: CricketRole.allRounder,
-    //       playerName: 'Player 2',
-    //       profileImageUrl: '',
-    //       longCricketRole: 'Right-handed .......',
-    //       battingStatus: BattingStatus.playing,
-    //     ),
-    //     MatchPlayerInfo(
-    //       playerId: '13',
-    //       cricketRole: CricketRole.bowler,
-    //       playerName: 'Player 3',
-    //       profileImageUrl: '',
-    //       longCricketRole: 'Right-handed .......',
-    //       battingStatus: BattingStatus.notOut,
-    //     ),
-    //   ],
-    //   team2Players: [
-    //     MatchPlayerInfo(
-    //       playerId: '21',
-    //       cricketRole: CricketRole.batsman,
-    //       playerName: 'Player 1',
-    //       profileImageUrl: '',
-    //       longCricketRole: 'Right-handed .......',
-    //       battingStatus: BattingStatus.notOut,
-    //     ),
-    //     MatchPlayerInfo(
-    //       playerId: '22',
-    //       cricketRole: CricketRole.allRounder,
-    //       playerName: 'Player 2',
-    //       profileImageUrl: '',
-    //       longCricketRole: 'Right-handed .......',
-    //       battingStatus: BattingStatus.notOut,
-    //     ),
-    //     MatchPlayerInfo(
-    //       playerId: '23',
-    //       cricketRole: CricketRole.bowler,
-    //       playerName: 'Player 3',
-    //       profileImageUrl: '',
-    //       longCricketRole: 'Right-handed .......',
-    //       battingStatus: BattingStatus.notOut,
-    //     ),
-    //   ],
-    //   noOfPlayer: 3,
-    //   matchFormat: MatchFormat.over5,
-    //   matchType: MatchType.friendly,
-    //   venue: 'Wafa Complex',
-    //   schedule: DateTime.now(),
-    //   isTeam1WonToss: true,
-    //   createdAt: Timestamp.now(),
-    //   tossDecision: TossDecision.batting,
-    //   spectatorsAllowed: true,
-    //   updatedAt: Timestamp.now(),
-    //   currentBatsmen: [
-    //     StrikerData(
-    //       id: '11',
-    //       playerName: 'Player 1',
-    //       runs: 0,
-    //       balls: 0,
-    //     ),
-    //     StrikerData(
-    //       id: '12',
-    //       playerName: 'Player 2',
-    //       runs: 0,
-    //       balls: 0,
-    //     ),
-    //   ],
-    //   strikerIndex: 0,
-    //   currentBowlers: CurrentBowlerData(
-    //     playerName: 'Player 3',
-    //     id: '23',
-    //     runsGiven: 0,
-    //     wickets: 0,
-    //     balls: 0,
-    //   ),
-    //   participants: ['1', '2'],
-    // );
 
-    // ref.read(matchStateProvider.notifier).createMatch(
-    //       team1: match.team1,
-    //       team2: match.team2,
-    //       team1Players: match.team1Players,
-    //       team2Players: match.team2Players,
-    //       matchFormat: match.matchFormat,
-    //       matchType: match.matchType,
-    //       venue: match.venue,
-    //       schedule: match.schedule,
-    //       noOfPlayer: match.noOfPlayer,
-    //       challengerPlayerId: match.challengerPlayerId,
-    //       challengeAcceptedBy: match.challengeAcceptedBy,
-    //     );
-    // ref
-    //     .read(matchStateProvider.notifier)
-    //     .setTossResult(match.isTeam1WonToss!, match.tossDecision!);
+    final matchState = ref.read(matchStateProvider);
 
-    // ref.read(inningsStateProvider.notifier).startFirstInnings(
-    //       strikerIndex: 0,
-    //       nonStrikerIndex: 1,
-    //       bowlerIndex: 0,
-    //     );
+    try {
+      final innings =
+          await MatchesServices.getInningsFromMatchId(matchState!.id);
+      ref.read(inningsStateProvider.notifier).setInnings(innings);
+    } catch (e) {
+      showSnackBar('Failed to sent innings : $e', context);
+    }
 
     setState(() {
       isLoading.value = false;
@@ -186,7 +69,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     return Scaffold(
       backgroundColor: LightThemeColors.surfaceColor,
       appBar: AppBar(
-        backgroundColor: LightThemeColors.primaryText,
+        backgroundColor: primaryColor,
         elevation: 0,
         title: Text(
           'Live Scoring',

@@ -187,7 +187,7 @@ class Inning {
     };
   }
 
-  static Inning fromMap(Map<String, dynamic> map) {
+  static Inning fromMap(Map<String, dynamic> map, ) {
     return Inning(
       battingTeam: MatchTeamInfo.fromMap(map['battingTeam']),
       bowlingTeam: MatchTeamInfo.fromMap(map['bowlingTeam']),

@@ -230,4 +230,28 @@ class MatchesServices {
       'team1Score': team1Score.toMap(),
     });
   }
+
+  static Future<List<Inning?>> getInningsFromMatchId(String matchId) async {
+    final inningSnap = await _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.innings)
+        .get();
+
+    final innings = inningSnap.docs;
+
+    Inning? inning1, inning2;
+
+    if (innings.length >= 1) {
+      final inning1Data = innings[0].data();
+      inning1 = Inning.fromMap(inning1Data);
+    }
+
+    if (innings.length == 2) {
+      final inning2Data = innings[1].data();
+      inning2 = Inning.fromMap(inning2Data);
+    }
+
+    return [inning1, inning2];
+  }
 }
