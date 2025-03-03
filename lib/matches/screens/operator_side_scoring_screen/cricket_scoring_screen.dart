@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
@@ -13,9 +12,7 @@ import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 class CricketScoringScreen extends ConsumerStatefulWidget {
-  const CricketScoringScreen({Key? key, required this.match}) : super(key: key);
-
-  final Match match;
+  const CricketScoringScreen({Key? key}) : super(key: key);
 
   @override
   _CricketScoringScreenState createState() => _CricketScoringScreenState();
@@ -24,13 +21,11 @@ class CricketScoringScreen extends ConsumerStatefulWidget {
 class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
   late ValueNotifier<bool> isLoading;
   bool _isBlur = false;
-  late final match;
 
   @override
   void initState() {
     super.initState();
     isLoading = ValueNotifier(false);
-    match = widget.match;
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         loadMatchData();

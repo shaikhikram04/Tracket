@@ -132,8 +132,13 @@ class _MatchPlayersSelectionScreenState
 
   List<MatchPlayerInfo> _openers = [];
   MatchPlayerInfo? _bowler;
+  bool isStarting = false;
 
   Future<void> _onStart() async {
+    setState(() {
+      isStarting = true;
+    });
+
     ref.read(matchStateProvider.notifier).startFirstInning();
 
     final match = ref.read(matchStateProvider)!;
@@ -144,14 +149,22 @@ class _MatchPlayersSelectionScreenState
       bowler: _bowler!,
     );
     ref.read(inningsStateProvider.notifier).startFirstInnings(inning1);
-    await MatchesServices.startMatch(
-      matchId: match.id,
-      isTeam1WonToss: match.isTeam1WonToss!,
-      decision: match.tossDecision!,
-      inning1: inning1,
-    );
+    try {
+      await MatchesServices.startMatch(
+        matchId: match.id,
+        isTeam1WonToss: match.isTeam1WonToss!,
+        decision: match.tossDecision!,
+        inning1: inning1,
+      );
 
-    pushScreen(context, CricketScoringScreen(match: match));
+      pushScreen(context, CricketScoringScreen());
+    } catch (e) {
+      showSnackBar('Failed to start match : ${e.toString()}', context);
+    } finally {
+      setState(() {
+        isStarting = false;
+      });
+    }
   }
 
   Future<void> _showOpeningBatsmenSheet(List<MatchPlayerInfo> players) async {
@@ -294,6 +307,7 @@ class _MatchPlayersSelectionScreenState
               text: 'Start Match',
               backgroundColor: grassGreen,
               borderRadius: 15,
+              isLoading: isStarting,
               textStyle: MyTextStyle(context).titleMedium.copyWith(
                     fontWeight: FontWeight.w600,
                     color: LightThemeColors.surfaceColor,

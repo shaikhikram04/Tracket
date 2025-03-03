@@ -94,8 +94,8 @@ class Match {
 
   // Team and player management
   MatchTeamInfo? get battingTeam {
-    if (currentInningNumber == null) return null;
-    if (currentInningNumber == 1) {
+    if (currentInningNumber == null && isTeam1WonToss == null) return null;
+    if (currentInningNumber == 1 || isTeam1WonToss != null) {
       return _getTossWinnerTeam(TossDecision.batting);
     } else {
       return _getTossWinnerTeam(TossDecision.fielding);
@@ -103,8 +103,8 @@ class Match {
   }
 
   MatchTeamInfo? get bowlingTeam {
-    if (currentInningNumber == null) return null;
-    if (currentInningNumber == 1) {
+    if (currentInningNumber == null && isTeam1WonToss == null) return null;
+    if (currentInningNumber == 1 || isTeam1WonToss != null) {
       return _getTossWinnerTeam(TossDecision.fielding);
     } else {
       return _getTossWinnerTeam(TossDecision.batting);
@@ -347,6 +347,7 @@ class Match {
     TeamScore? team2Score,
   }) {
     return Match(
+      id: id,
       team1: team1,
       team2: team2,
       team1Players: team1Players ?? this.team1Players,

@@ -52,8 +52,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     // );
 
     state = [inning, null];
-
-    ref.read(matchStateProvider.notifier).updateMatchStatus(MatchStatus.live);
   }
 
   // //* Starts the second innings.

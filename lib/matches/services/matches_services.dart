@@ -219,7 +219,7 @@ class MatchesServices {
 
     await docRef.update({
       'isTeam1WonToss': isTeam1WonToss,
-      'tossDecision': decision,
+      'tossDecision': decision.name,
       'currentInningNumber': 1,
       'status': MatchStatus.live.name,
       'team1Score': team1Score.toMap(),
