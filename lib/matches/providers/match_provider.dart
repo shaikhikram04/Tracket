@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
+import 'package:tracket/matches/models/team_score.dart';
 
 class MatchStateNotifier extends StateNotifier<Match?> {
   MatchStateNotifier(super.state, this.ref);
@@ -45,7 +46,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   }
 
   //* Sets the toss result and decision.
-  void setTossResult({required bool isTeam1Won, required TossDecision decision}) {
+  void setTossResult(
+      {required bool isTeam1Won, required TossDecision decision}) {
     if (state == null) return;
 
     state = state!.copyWith(
@@ -58,6 +60,16 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     if (state == null) return;
 
     state = state!.copyWith(status: status);
+  }
+
+  void startFirstInning() {
+    if (state == null) return;
+
+    state = state!.copyWith(
+      currentInningNumber: 1,
+      status: MatchStatus.live,
+      team1Score: TeamScore(runs: 0, balls: 0, wickets: 0),
+    );
   }
 
   // Match completion

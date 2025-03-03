@@ -44,7 +44,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
     ref
         .read(matchStateProvider.notifier)
         .setTossResult(isTeam1Won: isTeam1WonToss, decision: decision);
-    pushScreen(context, MatchPlayersSelectionScreen(match: match));
+    pushScreen(context, MatchPlayersSelectionScreen());
   }
 
   @override
@@ -281,7 +281,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                     ),
                     const SizedBox(height: 30),
                     CustomButton.primary(
-                      text: 'Start Match',
+                      text: 'Next',
                       textStyle: MyTextStyle(context).titleLarge.copyWith(
                             fontSize: 20,
                             color: LightThemeColors.surfaceColor,

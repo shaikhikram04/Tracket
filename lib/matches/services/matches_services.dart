@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
+import 'package:tracket/matches/models/team_score.dart';
+import 'package:tracket/matches/utils/constants.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/notifications/services/notification_services.dart';
@@ -207,28 +210,24 @@ class MatchesServices {
     required String matchId,
     required bool isTeam1WonToss,
     required TossDecision decision,
+    required Inning inning1,
   }) async {
     final docRef =
         _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
+    final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);
+
     await docRef.update({
       'isTeam1WonToss': isTeam1WonToss,
       'tossDecision': decision,
+      'currentInningNumber': 1,
+      'status': MatchStatus.live.name,
+      'team1Score': team1Score.toMap(),
     });
 
-    // Inning inning = Inning(
-    //   battingTeam: battingTeam,
-    //   bowlingTeam: bowlingTeam,
-    //   battingStats: battingStats,
-    //   bowlingStats: bowlingStats,
-    //   strikerIndex: strikerIndex,
-    //   nonStrikerIndex: nonStrikerIndex,
-    //   currentBowlerIndex: currentBowlerIndex,
-    // );
-
-    // docRef
-    //     .collection(FirestoreCollections.innings)
-    //     .doc(MatchConstant.inning1)
-    //     .set(data);
+    docRef
+        .collection(FirestoreCollections.innings)
+        .doc(MatchConstant.inning1)
+        .set(inning1.toMap());
   }
 }

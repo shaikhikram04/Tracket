@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/match.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/providers/innings_provider.dart';
+import 'package:tracket/matches/providers/match_provider.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
+import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/opening_batsman_sheet.dart';
 import 'package:tracket/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/players/widgets/squad_player_tile.dart';
@@ -10,18 +14,16 @@ import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
-class MatchPlayersSelectionScreen extends StatefulWidget {
-  const MatchPlayersSelectionScreen({super.key, required this.match});
-
-  final Match match;
+class MatchPlayersSelectionScreen extends ConsumerStatefulWidget {
+  const MatchPlayersSelectionScreen({super.key});
 
   @override
-  State<MatchPlayersSelectionScreen> createState() =>
+  ConsumerState<MatchPlayersSelectionScreen> createState() =>
       _MatchPlayersSelectionScreenState();
 }
 
 class _MatchPlayersSelectionScreenState
-    extends State<MatchPlayersSelectionScreen> {
+    extends ConsumerState<MatchPlayersSelectionScreen> {
   // Match match = Match(
   //   participants: ['1', '2'],
   //   challengerPlayerId: '12',
@@ -129,16 +131,37 @@ class _MatchPlayersSelectionScreenState
   // );
 
   List<MatchPlayerInfo> _openers = [];
-  List<MatchPlayerInfo> _bowler = [];
+  MatchPlayerInfo? _bowler;
 
-  Future<void> _showOpeningBatsmenSheet() async {
+  Future<void> _onStart() async {
+    ref.read(matchStateProvider.notifier).startFirstInning();
+
+    final match = ref.read(matchStateProvider)!;
+
+    final inning1 = match.initializeFirstInnings(
+      striker: _openers.first,
+      nonStriker: _openers.last,
+      bowler: _bowler!,
+    );
+    ref.read(inningsStateProvider.notifier).startFirstInnings(inning1);
+    await MatchesServices.startMatch(
+      matchId: match.id,
+      isTeam1WonToss: match.isTeam1WonToss!,
+      decision: match.tossDecision!,
+      inning1: inning1,
+    );
+
+    pushScreen(context, CricketScoringScreen(match: match));
+  }
+
+  Future<void> _showOpeningBatsmenSheet(List<MatchPlayerInfo> players) async {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
         return OpeningBatsmenSheet(
-          availablePlayers: widget.match.team1Players,
+          availablePlayers: players,
           onConfirm: (MatchPlayerInfo striker, MatchPlayerInfo nonStriker) {
             setState(() {
               _openers = [striker, nonStriker];
@@ -149,17 +172,17 @@ class _MatchPlayersSelectionScreenState
     );
   }
 
-  Future<void> _showOpeningBowlerSheet() async {
+  Future<void> _showOpeningBowlerSheet(List<MatchPlayerInfo> players) async {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
         return OpeningBowlerSheet(
-          availablePlayers: widget.match.team2Players,
+          availablePlayers: players,
           onConfirm: (MatchPlayerInfo bowler) {
             setState(() {
-              _bowler = [bowler];
+              _bowler = bowler;
             });
           },
         );
@@ -169,6 +192,7 @@ class _MatchPlayersSelectionScreenState
 
   @override
   Widget build(BuildContext context) {
+    final match = ref.watch(matchStateProvider)!;
     return Scaffold(
       appBar: AppBar(
         title: Text('Select Players'),
@@ -184,7 +208,8 @@ class _MatchPlayersSelectionScreenState
                 SizedBox(height: 15),
                 _openers.isEmpty
                     ? InkWell(
-                        onTap: _showOpeningBatsmenSheet,
+                        onTap: () => _showOpeningBatsmenSheet(
+                            match.getBattingTeamPlayers()),
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
@@ -226,9 +251,10 @@ class _MatchPlayersSelectionScreenState
               children: [
                 getTitleText('Opening Bowler', context),
                 SizedBox(height: 10),
-                _bowler.isEmpty
+                _bowler == null
                     ? InkWell(
-                        onTap: _showOpeningBowlerSheet,
+                        onTap: () => _showOpeningBowlerSheet(
+                            match.getBowlingTeamPlayers()),
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
@@ -248,10 +274,10 @@ class _MatchPlayersSelectionScreenState
                     : Column(
                         children: [
                           SquadPlayerTile(
-                            cricketRole: _bowler.first.longCricketRole,
-                            playerName: _bowler.first.playerName,
-                            profileImageUrl: _bowler.first.profileImageUrl,
-                            playerId: _bowler.first.playerId,
+                            cricketRole: _bowler!.longCricketRole,
+                            playerName: _bowler!.playerName,
+                            profileImageUrl: _bowler!.profileImageUrl,
+                            playerId: _bowler!.playerId,
                           ),
                         ],
                       ),
@@ -264,7 +290,7 @@ class _MatchPlayersSelectionScreenState
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CustomButton.primary(
               onPressed:
-                  _openers.isNotEmpty && _bowler.isNotEmpty ? () {} : null,
+                  _openers.isNotEmpty && _bowler != null ? _onStart : null,
               text: 'Start Match',
               backgroundColor: grassGreen,
               borderRadius: 15,

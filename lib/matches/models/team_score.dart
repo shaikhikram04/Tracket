@@ -14,4 +14,10 @@ class TeamScore {
   int get remainingBalls => balls % 6;
 
   String get oversDisplay => '$completedOvers.${remainingBalls}';
+
+  Map<String, dynamic> toMap() => {
+    'runs' : runs,
+    'balls' : balls,
+    'wickets' : wickets,
+  };
 }

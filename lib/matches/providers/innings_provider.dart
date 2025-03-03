@@ -41,42 +41,38 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   }
 
   //* Starts the first innings.
-  void startFirstInnings({
-    required int strikerIndex,
-    required int nonStrikerIndex,
-    required int bowlerIndex,
-  }) {
+  void startFirstInnings(Inning inning) {
     final match = ref.read(matchStateProvider);
     if (match == null) return;
 
-    final inning1 = match.initializeFirstInnings(
-      strikerIndex: strikerIndex,
-      nonStrikerIndex: nonStrikerIndex,
-      bowlerIndex: bowlerIndex,
-    );
+    // final inning1 = match.initializeFirstInnings(
+    //   strikerIndex: strikerIndex,
+    //   nonStrikerIndex: nonStrikerIndex,
+    //   bowlerIndex: bowlerIndex,
+    // );
 
-    state = [inning1, null];
+    state = [inning, null];
 
     ref.read(matchStateProvider.notifier).updateMatchStatus(MatchStatus.live);
   }
 
-  //* Starts the second innings.
-  void startSecondInnings({
-    required int bowlerIndex,
-    required int strikerIndex,
-    required int nonStrikerIndex,
-  }) {
-    final match = ref.read(matchStateProvider);
-    if (match == null) return;
+  // //* Starts the second innings.
+  // void startSecondInnings({
+  //   required int bowlerIndex,
+  //   required int strikerIndex,
+  //   required int nonStrikerIndex,
+  // }) {
+  //   final match = ref.read(matchStateProvider);
+  //   if (match == null) return;
 
-    final inning2 = match.initializeFirstInnings(
-      strikerIndex: strikerIndex,
-      nonStrikerIndex: nonStrikerIndex,
-      bowlerIndex: bowlerIndex,
-    );
+  //   final inning2 = match.initializeFirstInnings(
+  //     strikerIndex: strikerIndex,
+  //     nonStrikerIndex: nonStrikerIndex,
+  //     bowlerIndex: bowlerIndex,
+  //   );
 
-    state = [state.first, inning2];
-  }
+  //   state = [state.first, inning2];
+  // }
 
   //* Updates the striker (and optionally the non-striker) data.
   void updateStrikers({

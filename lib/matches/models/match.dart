@@ -148,39 +148,37 @@ class Match {
 
   // Match initialization methods
   Inning initializeFirstInnings({
-    required int strikerIndex,
-    required int nonStrikerIndex,
-    required int bowlerIndex,
+    required MatchPlayerInfo striker,
+    required MatchPlayerInfo nonStriker,
+    required MatchPlayerInfo bowler,
   }) {
     if (tossDecision == null || isTeam1WonToss == null) {
       throw StateError('Toss details must be set before initializing innings');
     }
 
-    final tossWinnerBatting = tossDecision == TossDecision.batting;
-    final team1Batting = (isTeam1WonToss! && tossWinnerBatting) ||
-        (!isTeam1WonToss! && !tossWinnerBatting);
+    // final tossWinnerBatting = tossDecision == TossDecision.batting;
+    // final team1Batting = (isTeam1WonToss! && tossWinnerBatting) ||
+    //     (!isTeam1WonToss! && !tossWinnerBatting);
 
-    final inning1 = team1Batting
-        ? Inning.initialize(
-            battingTeam: team1,
-            bowlingTeam: team2,
-            battingPlayers: team1Players,
-            bowlingPlayers: team2Players,
-            currentBowlerIndex: bowlerIndex,
-            strikerIndex: strikerIndex,
-            nonStrikerIndex: nonStrikerIndex,
-          )
-        : Inning.initialize(
-            battingTeam: team2,
-            bowlingTeam: team1,
-            battingPlayers: team2Players,
-            bowlingPlayers: team1Players,
-            currentBowlerIndex: bowlerIndex,
-            strikerIndex: strikerIndex,
-            nonStrikerIndex: nonStrikerIndex,
-          );
+    final battingPlayers = getBattingTeamPlayers();
+    final strikerIndex = battingPlayers.indexWhere(
+      (batsman) => batsman.playerId == striker.playerId,
+    );
+    final nonStrikerIndex = battingPlayers
+        .indexWhere((batsman) => batsman.playerId == nonStriker.playerId);
 
-    // final status = MatchStatus.live;
+    final bowlerIndex = getBowlingTeamPlayers()
+        .indexWhere((_bowler) => _bowler.playerId == bowler.playerId);
+
+    final inning1 = Inning.initialize(
+      battingTeam: battingTeam!,
+      bowlingTeam: bowlingTeam!,
+      battingPlayers: getBattingTeamPlayers(),
+      bowlingPlayers: getBowlingTeamPlayers(),
+      currentBowlerIndex: bowlerIndex,
+      strikerIndex: strikerIndex,
+      nonStrikerIndex: nonStrikerIndex,
+    );
 
     return inning1;
   }
@@ -287,12 +285,7 @@ class Match {
         'winningMethod': winningMethod?.name,
         'winningMargin': winningMargin,
         'currentInningNumber': currentInningNumber,
-        // 'currentBatsmen': currentBatsmen?.map((e) => e.toMap).toList(),
-        // 'currentBowlers': currentBowlers?.toMap(),
-        // 'strikerIndex': strikerIndex,
         'participants': participants,
-        // 'inning1': inning1?.toMap,
-        // 'inning2': inning2?.toMap,
         'challengerPlayerId': challengerPlayerId,
         'challengeAcceptedBy': challengeAcceptedBy,
         'startBy': startBy,
@@ -301,10 +294,6 @@ class Match {
   static List<MatchPlayerInfo> getPlayers(List players) {
     return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
   }
-
-  // static List<StrikerData> getStrikerData(List data) {
-  //   return data.map((e) => StrikerData.fromMap(e)).toList();
-  // }
 
   static Match fromMap(Map<String, dynamic> map) {
     return Match(
@@ -319,16 +308,11 @@ class Match {
       matchType: MatchType.values.firstWhere((e) => e.name == map['matchType']),
       venue: map['venue'],
       schedule: map['schedule'].toDate(),
-      // currentBatsmen: getStrikerData(map['currentBatsmen']),
-      // strikerIndex: map['strikerIndex'],
-      // currentBowlers: CurrentBowlerData.fromMap(map['currentBowlers']),
       participants: map['participants'],
       isTeam1WonToss: map['isTeam1WonToss'],
       tossDecision: map['tossDecision'] != null
           ? TossDecision.values.firstWhere((e) => e.name == map['tossDecision'])
           : null,
-      // inning1: map['inning1'] != null ? Inning.fromMap(map['inning1']) : null,
-      // inning2: map['inning2'] != null ? Inning.fromMap(map['inning2']) : null,
       status: MatchStatus.values.firstWhere((e) => e.name == map['status']),
       winningTeamId: map['winningTeamId'],
       winningMethod: map['winningMethod'] != null
@@ -346,24 +330,21 @@ class Match {
   }
 
   Match copyWith({
-    // CurrentBowlerData? currentBowler,
     List<BallOutcome?>? currentOverRuns,
     bool? isTeam1WonToss,
     TossDecision? tossDecision,
-    // Inning? inning1,
-    // Inning? inning2,
     MatchStatus? status,
     String? winningTeamId,
     WinningMethod? winningMethod,
     int? winningMargin,
-    // List<StrikerData>? currentBatsmen,
-    // int? strikerIndex,
     List<MatchPlayerInfo>? team1Players,
     List<MatchPlayerInfo>? team2Players,
     List<String>? participants,
     String? challengerPlayerId,
     String? challengeAcceptedBy,
     int? currentInningNumber,
+    TeamScore? team1Score,
+    TeamScore? team2Score,
   }) {
     return Match(
       team1: team1,
@@ -375,14 +356,8 @@ class Match {
       matchType: matchType,
       venue: venue,
       schedule: schedule,
-      // currentBatsmen: currentBatsmen ?? this.currentBatsmen,
-      // strikerIndex: strikerIndex ?? this.strikerIndex,
-      // currentBowlers: currentBowler ?? this.currentBowlers,
-      // currentOverRuns: currentOverRuns ?? this.currentOverRuns,
       isTeam1WonToss: isTeam1WonToss ?? this.isTeam1WonToss,
       tossDecision: tossDecision ?? this.tossDecision,
-      // inning1: inning1 ?? this.inning1,
-      // inning2: inning2 ?? this.inning2,
       status: status ?? this.status,
       winningTeamId: winningTeamId ?? this.winningTeamId,
       winningMethod: winningMethod ?? this.winningMethod,
@@ -393,6 +368,8 @@ class Match {
       createdAt: createdAt,
       currentInningNumber: currentInningNumber ?? this.currentInningNumber,
       updatedAt: Timestamp.now(),
+      team1Score: team1Score ?? this.team1Score,
+      team2Score: team2Score ?? this.team2Score,
     );
   }
 }
