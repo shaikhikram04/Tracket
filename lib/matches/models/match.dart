@@ -289,6 +289,8 @@ class Match {
         'challengerPlayerId': challengerPlayerId,
         'challengeAcceptedBy': challengeAcceptedBy,
         'startBy': startBy,
+        'team1Score': team1Score?.toMap(),
+        'team2Score': team2Score?.toMap(),
       };
 
   static List<MatchPlayerInfo> getPlayers(List players) {
@@ -326,6 +328,9 @@ class Match {
       challengerPlayerId: map['challengerPlayerId'],
       challengeAcceptedBy: map['challengeAcceptedBy'],
       startBy: map['startBy'],
+      currentInningNumber: map['currentInningNumber'],
+      team1Score: TeamScore.fromMap(map['team1Score']),
+      team2Score: TeamScore.fromMap(map['team2Score']),
     );
   }
 

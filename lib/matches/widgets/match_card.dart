@@ -5,6 +5,7 @@ import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/match_scoring_screen.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
 import 'package:tracket/matches/screens/start_match_screen.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_teams_row.dart';
@@ -31,7 +32,11 @@ class MatchCard extends ConsumerWidget {
 
     ref.read(matchStateProvider.notifier).setMatch(match);
 
-    pushScreen(context, StartMatchScreen());
+    pushScreen(
+        context,
+        match.currentInningNumber == null
+            ? StartMatchScreen()
+            : CricketScoringScreen());
   }
 
   bool canShowStartButton(Match match, String userId) {
@@ -108,21 +113,6 @@ class MatchCard extends ConsumerWidget {
                     fontSize: 14,
                   ),
                 ),
-                if (canShowStartButton(match, currentUserId)) ...[
-                  const SizedBox(height: 10),
-                  CustomButton.primary(
-                    text:
-                        match.startBy == null ? 'Start Match' : 'Resume Match',
-                    borderRadius: 16,
-                    onPressed: () =>
-                        onStart(context, ref, match, currentUserId),
-                    backgroundColor: primaryVariant,
-                    size: ButtonSize.medium,
-                    textStyle: MyTextStyle(context)
-                        .mediumButtonText
-                        .copyWith(color: onPrimary),
-                  ),
-                ]
               ],
               if (_match.status == MatchStatus.live) ...[
                 const SizedBox(height: 16),
@@ -202,6 +192,19 @@ class MatchCard extends ConsumerWidget {
                 //     ),
                 //   ],
                 // ),
+              ],
+              if (canShowStartButton(match, currentUserId)) ...[
+                const SizedBox(height: 10),
+                CustomButton.primary(
+                  text: match.startBy == null ? 'Start Match' : 'Resume Match',
+                  borderRadius: 16,
+                  onPressed: () => onStart(context, ref, match, currentUserId),
+                  backgroundColor: primaryVariant,
+                  size: ButtonSize.medium,
+                  textStyle: MyTextStyle(context)
+                      .mediumButtonText
+                      .copyWith(color: onPrimary),
+                ),
               ]
             ],
           ),

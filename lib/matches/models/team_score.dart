@@ -16,8 +16,18 @@ class TeamScore {
   String get oversDisplay => '$completedOvers.${remainingBalls}';
 
   Map<String, dynamic> toMap() => {
-    'runs' : runs,
-    'balls' : balls,
-    'wickets' : wickets,
-  };
+        'runs': runs,
+        'balls': balls,
+        'wickets': wickets,
+      };
+
+  static TeamScore? fromMap(Map<String, dynamic>? map) {
+    if (map == null) return null;
+
+    return TeamScore(
+      balls: map['balls'],
+      runs: map['runs'],
+      wickets: map['wickets'],
+    );
+  }
 }
