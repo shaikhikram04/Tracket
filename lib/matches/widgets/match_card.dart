@@ -40,7 +40,9 @@ class MatchCard extends ConsumerWidget {
   }
 
   bool canShowStartButton(Match match, String userId) {
-    if (match.schedule.isBefore(DateTime.now())) {
+    if (match.schedule.isBefore(DateTime.now()) &&
+        (match.status == MatchStatus.scheduled ||
+            match.status == MatchStatus.live)) {
       if (match.startBy == null) {
         return (match.challengeAcceptedBy == userId ||
             match.challengerPlayerId == userId);

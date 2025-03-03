@@ -215,6 +215,11 @@ class MatchesServices {
     final docRef =
         _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
+    await docRef
+        .collection(FirestoreCollections.innings)
+        .doc(MatchConstant.inning1)
+        .set(inning1.toMap());
+
     final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);
 
     await docRef.update({
@@ -224,10 +229,5 @@ class MatchesServices {
       'status': MatchStatus.live.name,
       'team1Score': team1Score.toMap(),
     });
-
-    docRef
-        .collection(FirestoreCollections.innings)
-        .doc(MatchConstant.inning1)
-        .set(inning1.toMap());
   }
 }

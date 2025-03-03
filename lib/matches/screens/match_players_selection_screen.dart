@@ -134,6 +134,11 @@ class _MatchPlayersSelectionScreenState
   MatchPlayerInfo? _bowler;
   bool isStarting = false;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<void> _onStart() async {
     setState(() {
       isStarting = true;
