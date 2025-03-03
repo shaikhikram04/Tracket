@@ -11,6 +11,8 @@ class MatchSquad extends StatelessWidget {
   final bool isLongCricketRole;
   final String captainId;
   final String wicketkeeperId;
+  final double titleSize;
+  final double iconSize;
 
   const MatchSquad({
     Key? key,
@@ -20,6 +22,8 @@ class MatchSquad extends StatelessWidget {
     required this.wicketkeeperId,
     this.isLongCricketRole = false,
     this.isPlayerCanAdd = false,
+    this.titleSize = 16,
+    this.iconSize = 20,
     this.onAddPlayer,
   }) : super(key: key);
 
@@ -29,8 +33,7 @@ class MatchSquad extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(height: 10),
-        _buildHeader(context, onAddPressed: onAddPlayer, iconSize: 20),
+        _buildHeader(context, onAddPressed: onAddPlayer, iconSize: iconSize),
         _buildPlayersList(context),
       ],
     );
@@ -47,6 +50,7 @@ class MatchSquad extends StatelessWidget {
           title,
           style: MyTextStyle(context).cardTitle.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: titleSize,
               ),
         ),
         const Spacer(),

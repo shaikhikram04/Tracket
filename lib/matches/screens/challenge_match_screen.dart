@@ -164,6 +164,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       }
       return player.copyWith();
     }).toList();
+
+    setState(() {});
   }
 
   bool _validateMatchDetails() {
@@ -279,11 +281,13 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   Widget _buildMatchDetailsCard() {
     return MyCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           getTitleText('Match Details', context),
+          SizedBox(height: 7),
           _buildPlayerCountSection(),
           _buildMatchFormatDropdown(),
+          SizedBox(height: 10),
           _buildMatchTypeDropdown(),
           _buildSpectatorToggle(),
         ],
@@ -395,6 +399,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         wicketkeeperId: _wicketkeeperId.value,
         isPlayerCanAdd: true,
         onAddPlayer: onAddPlayer,
+        titleSize: 25,
+        iconSize: 30,
       ),
     );
   }
@@ -422,11 +428,12 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         ),
         IconButton(
           onPressed: () async {
+            final initialDate = DateTime.now().add(Duration(minutes: 5));
             final selectedDate = await showDatePicker(
               context: context,
-              firstDate: DateTime.now(),
+              firstDate: initialDate,
               lastDate: DateTime(DateTime.now().year + 1),
-              initialDate: DateTime.now(),
+              initialDate: initialDate,
             );
 
             if (!context.mounted) return;
