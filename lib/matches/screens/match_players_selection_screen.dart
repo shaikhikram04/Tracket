@@ -153,18 +153,17 @@ class _MatchPlayersSelectionScreenState
       nonStriker: _openers.last,
       bowler: _bowler!,
     );
-    ref.read(inningsStateProvider.notifier).startFirstInnings(inning1);
     try {
       await MatchesServices.startMatch(
         matchId: match.id,
         isTeam1WonToss: match.isTeam1WonToss!,
         decision: match.tossDecision!,
         inning1: inning1,
-      );
+      ); 
 
       pushScreen(context, CricketScoringScreen());
     } catch (e) {
-      showSnackBar('Failed to start match : ${e.toString()}', context);
+      showSnackBar('Failed to start match : $e', context);
     } finally {
       setState(() {
         isStarting = false;
