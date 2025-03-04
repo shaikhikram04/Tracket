@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/extras.dart';
@@ -187,12 +188,15 @@ class Inning {
     };
   }
 
-  static Inning fromMap(Map<String, dynamic> map, ) {
+  static Inning fromMap(
+    Map<String, dynamic> map, {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>? battingScore,
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>? bowlingScore,
+  }) {
     return Inning(
       battingTeam: MatchTeamInfo.fromMap(map['battingTeam']),
       bowlingTeam: MatchTeamInfo.fromMap(map['bowlingTeam']),
-      battingStats:
-          map['battingStats'].map((e) => BattingScore.fromMap(e)).toList(),
+      battingStats: getBattingScoreFromDocs(battingScore),
       bowlingStats:
           map['bowlingStats'].map((e) => BowlingScore.fromMap(e)).toList(),
       balls: map['balls'],
@@ -207,6 +211,24 @@ class Inning {
       currentBowlerIndex: map['currentBowlerIndex'],
     );
   }
+
+  static List<BattingScore> getBattingScoreFromDocs(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>? battingScoreDoc,
+  ) =>
+      battingScoreDoc == null
+          ? []
+          : battingScoreDoc
+              .map((doc) => BattingScore.fromMap(doc.data()))
+              .toList();
+
+  static List<BowlingScore> getBowlingScoreFromDocs(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>? bowlingScoreDoc,
+  ) =>
+      bowlingScoreDoc == null
+          ? []
+          : bowlingScoreDoc
+              .map((doc) => BowlingScore.fromMap(doc.data()))
+              .toList();
 
   Inning copyWith({
     MatchTeamInfo? battingTeam,

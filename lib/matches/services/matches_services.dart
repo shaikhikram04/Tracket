@@ -232,26 +232,40 @@ class MatchesServices {
   }
 
   static Future<List<Inning?>> getInningsFromMatchId(String matchId) async {
-    final inningSnap = await _firestore
-        .collection(FirestoreCollections.matches)
-        .doc(matchId)
-        .collection(FirestoreCollections.innings)
-        .get();
+    final matchDocRef =
+        _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
-    final innings = inningSnap.docs;
+    // Fetch innings collection
+    final inningSnap =
+        await matchDocRef.collection(FirestoreCollections.innings).get();
 
-    Inning? inning1, inning2;
+    // Create a list to store innings with their additional data
+    final List<Inning?> innings = [];
 
-    if (innings.length >= 1) {
-      final inning1Data = innings[0].data();
-      inning1 = Inning.fromMap(inning1Data);
+    // Fetch data for each inning
+    for (var inningDoc in inningSnap.docs) {
+      // Convert inning document to Inning object
+      final inningData = inningDoc.data();
+
+      // Fetch batting scores for this inning
+      final battingScoreSnap = await inningDoc.reference
+          .collection(FirestoreCollections.battingStats)
+          .get();
+
+      // Fetch bowling scores for this inning
+      final bowlingScoreSnap = await inningDoc.reference
+          .collection(FirestoreCollections.bowlingStats)
+          .get();
+
+      final inning = Inning.fromMap(
+        inningData,
+        battingScore: battingScoreSnap.docs,
+        bowlingScore: bowlingScoreSnap.docs,
+      );
+
+      innings.add(inning);
     }
 
-    if (innings.length == 2) {
-      final inning2Data = innings[1].data();
-      inning2 = Inning.fromMap(inning2Data);
-    }
-
-    return [inning1, inning2];
+    return innings;
   }
 }
