@@ -37,6 +37,7 @@ class MatchStatusCard extends StatelessWidget {
             versusBgColor: primaryLight.withValues(alpha: 0.2),
           ),
           if (match.status == MatchStatus.live) ...[
+            SizedBox(height: 10),
             CurrentOverFetcher(
               matchId: match.id,
             ),
