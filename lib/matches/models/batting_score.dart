@@ -21,7 +21,7 @@ class BattingScore {
     this.fours = 0,
     this.isOut = false,
     this.runs = 0,
-    this.sixes = 0  ,
+    this.sixes = 0,
     this.dismissalInfo = '',
   });
 
@@ -35,25 +35,20 @@ class BattingScore {
   final ReasonOfOut? reasonOfOut;
   final String dismissalInfo;
 
-  double? get strikeRate {
-    if (runs == null || ballsFaced == null) return null;
-
+  double get strikeRate {
     if (ballsFaced == 0) return 0.0;
 
-    return (runs! / ballsFaced!) * 100;
+    return (runs / ballsFaced) * 100;
   }
 
   // Additional useful methods
-  int? get totalBoundaries =>
-      (fours == null || sixes == null) ? null : fours! + sixes!;
+  int get totalBoundaries => fours + sixes;
 
-  int? get runsFromBoundaries =>
-      (fours == null || sixes == null) ? null : (fours! * 4) + (sixes! * 6);
+  int get runsFromBoundaries => (fours * 4) + (sixes * 6);
 
-  double? get boundaryPercentage {
-    if (runs == null || runsFromBoundaries == null) return null;
+  double get boundaryPercentage {
     if (runs == 0) return 0.0;
-    return (runsFromBoundaries! / runs!) * 100;
+    return (runsFromBoundaries / runs) * 100;
   }
 
   // Immutable state updates
@@ -65,22 +60,19 @@ class BattingScore {
   }
 
   BattingScore addRuns(int runs, {required bool isSix, required bool isFour}) {
-    if (this.runs == null || this.ballsFaced == null) return this;
-
     return copyWith(
-      runs: this.runs! + runs,
-      ballsFaced: ballsFaced! + 1,
-      fours: isFour ? (fours ?? 0) + 1 : fours,
-      sixes: isSix ? (sixes ?? 0) + 1 : sixes,
+      runs: this.runs + runs,
+      ballsFaced: ballsFaced + 1,
+      fours: isFour ? fours + 1 : fours,
+      sixes: isSix ? sixes + 1 : sixes,
     );
   }
 
   BattingScore wicket(int runs, bool isAddBall) {
-    if (this.runs == null || this.ballsFaced == null) return this;
     return copyWith(
       isOut: true,
-      ballsFaced: isAddBall ? ballsFaced! + 1 : ballsFaced,
-      runs: this.runs! + runs,
+      ballsFaced: isAddBall ? ballsFaced + 1 : ballsFaced,
+      runs: this.runs + runs,
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:tracket/matches/widgets/scoreboard_component/batting_scorecard.d
 import 'package:tracket/matches/widgets/scoreboard_component/bowling_scorecard.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
-class InningScoreboard extends StatelessWidget {
+class InningScoreboard extends StatefulWidget {
   const InningScoreboard({
     super.key,
     required this.matchId,
@@ -26,13 +26,18 @@ class InningScoreboard extends StatelessWidget {
   final int inningNumber;
 
   @override
+  State<InningScoreboard> createState() => _InningScoreboardState();
+}
+
+class _InningScoreboardState extends State<InningScoreboard> {
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(FirestoreCollections.matches)
-            .doc(matchId)
+            .doc(widget.matchId)
             .collection(FirestoreCollections.innings)
-            .doc('inning$inningNumber')
+            .doc('inning${widget.inningNumber}')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -41,10 +46,10 @@ class InningScoreboard extends StatelessWidget {
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
             return MatchSquad(
-              players: players,
-              captainId: captainId,
-              wicketkeeperId: wicketkeeperId,
-              title: '${teamName} Squad',
+              players: widget.players,
+              captainId: widget.captainId,
+              wicketkeeperId: widget.wicketkeeperId,
+              title: '${widget.teamName} Squad',
               isLongCricketRole: true,
             );
           }
@@ -55,7 +60,7 @@ class InningScoreboard extends StatelessWidget {
           return Column(
             children: [
               BattingScorecard(
-                teamName: teamName,
+                teamName: widget.teamName,
                 battingScores: inning.battingStats,
                 extras: inning.extras,
                 totalScore: inning.runs,
