@@ -27,10 +27,9 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
   void initState() {
     super.initState();
     isLoading = ValueNotifier(false);
+    loadInningData();
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        loadInningData();
-      },
+      (timeStamp) {},
     );
   }
 
@@ -70,6 +69,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
       backgroundColor: LightThemeColors.surfaceColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
+        foregroundColor: onPrimary,
         elevation: 0,
         title: Text(
           'Live Scoring',

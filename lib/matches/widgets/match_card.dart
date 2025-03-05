@@ -33,10 +33,11 @@ class MatchCard extends ConsumerWidget {
     ref.read(matchStateProvider.notifier).setMatch(match);
 
     pushScreen(
-        context,
-        match.currentInningNumber == null
-            ? StartMatchScreen()
-            : CricketScoringScreen());
+      context,
+      match.currentInningNumber == null
+          ? StartMatchScreen()
+          : CricketScoringScreen(),
+    );
   }
 
   bool canShowStartButton(Match match, String userId) {

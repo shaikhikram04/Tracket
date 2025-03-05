@@ -6,11 +6,6 @@ import 'package:tracket/matches/models/fall_of_wickets.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
-List<T> initializeStats<T>(
-    List<MatchPlayerInfo> players, T Function(MatchPlayerInfo) builder) {
-  return players.map(builder).toList();
-}
-
 // Enum for innings status
 enum InningsStatus { notStarted, inProgress, declared, allOut, completed }
 
@@ -73,23 +68,11 @@ class Inning {
     return Inning(
       battingTeam: battingTeam,
       bowlingTeam: bowlingTeam,
-      battingStats: initializeStats<BattingScore>(
-        battingPlayers,
-        (player) => BattingScore(
-          uuid: player.playerId,
-          playerName: player.playerName,
-        ),
-      ),
-      bowlingStats: initializeStats<BowlingScore>(
-        bowlingPlayers,
-        (player) => BowlingScore(
-          uuid: player.playerId,
-          playerName: player.playerName,
-        ),
-      ),
       currentBowlerIndex: currentBowlerIndex,
       strikerIndex: strikerIndex,
       nonStrikerIndex: nonStrikerIndex,
+      battingStats: [],
+      bowlingStats: [],
     );
   }
 
@@ -190,15 +173,14 @@ class Inning {
 
   static Inning fromMap(
     Map<String, dynamic> map, {
-    List<QueryDocumentSnapshot<Map<String, dynamic>>>? battingScore,
-    List<QueryDocumentSnapshot<Map<String, dynamic>>>? bowlingScore,
+    List<QueryDocumentSnapshot>? battingScore,
+    List<QueryDocumentSnapshot>? bowlingScore,
   }) {
     return Inning(
       battingTeam: MatchTeamInfo.fromMap(map['battingTeam']),
       bowlingTeam: MatchTeamInfo.fromMap(map['bowlingTeam']),
       battingStats: getBattingScoreFromDocs(battingScore),
-      bowlingStats:
-          map['bowlingStats'].map((e) => BowlingScore.fromMap(e)).toList(),
+      bowlingStats: getBowlingScoreFromDocs(bowlingScore),
       balls: map['balls'],
       fours: map['fours'],
       sixes: map['sixes'],
@@ -213,21 +195,23 @@ class Inning {
   }
 
   static List<BattingScore> getBattingScoreFromDocs(
-    List<QueryDocumentSnapshot<Map<String, dynamic>>>? battingScoreDoc,
+    List<QueryDocumentSnapshot>? battingScoreDoc,
   ) =>
       battingScoreDoc == null
           ? []
           : battingScoreDoc
-              .map((doc) => BattingScore.fromMap(doc.data()))
+              .map((doc) =>
+                  BattingScore.fromMap(doc.data() as Map<String, dynamic>))
               .toList();
 
   static List<BowlingScore> getBowlingScoreFromDocs(
-    List<QueryDocumentSnapshot<Map<String, dynamic>>>? bowlingScoreDoc,
+    List<QueryDocumentSnapshot>? bowlingScoreDoc,
   ) =>
       bowlingScoreDoc == null
           ? []
           : bowlingScoreDoc
-              .map((doc) => BowlingScore.fromMap(doc.data()))
+              .map((doc) =>
+                  BowlingScore.fromMap(doc.data() as Map<String, dynamic>))
               .toList();
 
   Inning copyWith({

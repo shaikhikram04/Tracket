@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
-import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
 import 'package:tracket/matches/services/matches_services.dart';
@@ -159,9 +158,17 @@ class _MatchPlayersSelectionScreenState
         isTeam1WonToss: match.isTeam1WonToss!,
         decision: match.tossDecision!,
         inning1: inning1,
-      ); 
+        striker: _openers[0],
+        nonStriker: _openers[1],
+        bowler: _bowler!,
+      );
 
-      pushScreen(context, CricketScoringScreen());
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => CricketScoringScreen(),
+        ),
+        (route) => route.isFirst,
+      );
     } catch (e) {
       showSnackBar('Failed to start match : $e', context);
     } finally {

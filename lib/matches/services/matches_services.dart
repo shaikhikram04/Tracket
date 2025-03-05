@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
@@ -211,18 +213,53 @@ class MatchesServices {
     required bool isTeam1WonToss,
     required TossDecision decision,
     required Inning inning1,
+    required MatchPlayerInfo striker,
+    required MatchPlayerInfo nonStriker,
+    required MatchPlayerInfo bowler,
   }) async {
-    final docRef =
+    final matchDocRef =
         _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
-    await docRef
+    final inningDocRef = matchDocRef
         .collection(FirestoreCollections.innings)
-        .doc(MatchConstant.inning1)
-        .set(inning1.toMap());
+        .doc(MatchConstant.inning1);
 
+    //* set inning
+    await inningDocRef.set(inning1.toMap());
+
+    //* Setting batting score & bowling score for an inning
+    final BattingScore strikerStat = BattingScore(
+      uuid: striker.playerId,
+      playerName: striker.playerName,
+    );
+
+    final BattingScore nonStrikerStat = BattingScore(
+      uuid: nonStriker.playerId,
+      playerName: nonStriker.playerName,
+    );
+
+    final BowlingScore bowlerStat = BowlingScore(
+      uuid: bowler.playerId,
+      playerName: bowler.playerName,
+    );
+    await inningDocRef
+        .collection(FirestoreCollections.battingStats)
+        .doc(strikerStat.uuid)
+        .set(strikerStat.toMap());
+
+    await inningDocRef
+        .collection(FirestoreCollections.battingStats)
+        .doc(nonStrikerStat.uuid)
+        .set(nonStrikerStat.toMap());
+
+    await inningDocRef
+        .collection(FirestoreCollections.bowlingStats)
+        .doc(bowlerStat.uuid)
+        .set(bowlerStat.toMap());
+
+    //* update match field
     final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);
-
-    await docRef.update({
+    await matchDocRef.update({
       'isTeam1WonToss': isTeam1WonToss,
       'tossDecision': decision.name,
       'currentInningNumber': 1,
@@ -264,6 +301,13 @@ class MatchesServices {
       );
 
       innings.add(inning);
+    }
+
+    if (innings.length < 2) {
+      innings.add(null);
+    }
+    if (innings.length < 1) {
+      innings.add(null);
     }
 
     return innings;

@@ -17,20 +17,20 @@ class BattingScore {
     required this.uuid,
     required this.playerName,
     this.reasonOfOut,
-    this.ballsFaced,
-    this.fours,
+    this.ballsFaced = 0,
+    this.fours = 0,
     this.isOut = false,
-    this.runs,
-    this.sixes,
+    this.runs = 0,
+    this.sixes = 0  ,
     this.dismissalInfo = '',
   });
 
   final String uuid;
   final String playerName;
-  final int? runs;
-  final int? ballsFaced;
-  final int? sixes;
-  final int? fours;
+  final int runs;
+  final int ballsFaced;
+  final int sixes;
+  final int fours;
   final bool isOut;
   final ReasonOfOut? reasonOfOut;
   final String dismissalInfo;
