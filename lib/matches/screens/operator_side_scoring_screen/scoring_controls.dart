@@ -43,14 +43,14 @@ class ScoringControls extends ConsumerWidget {
       context: context,
       type: SelectionType.bowler,
       availablePlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
-      previousBowlerIndex: ref
+      previousBowlerId: ref
           .watch(inningsStateProvider.notifier)
           .currentInnings!
           .currentBowlerId,
-      onPlayerSelected: (int selectedPlayerIndex) {
+      onPlayerSelected: (String selectedPlayerId) {
         // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(
-              selectedPlayerIndex,
+              selectedPlayerId,
             );
 
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);

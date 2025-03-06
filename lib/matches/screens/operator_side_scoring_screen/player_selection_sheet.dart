@@ -9,8 +9,8 @@ enum SelectionType { batsman, bowler }
 class PlayerSelectionSheet extends StatefulWidget {
   final SelectionType type;
   final List<MatchPlayerInfo> availablePlayers;
-  final Function(int index) onPlayerSelected;
-  final int? previousBowlerId;
+  final Function(String id) onPlayerSelected;
+  final String? previousBowlerId;
 
   const PlayerSelectionSheet({
     Key? key,
@@ -24,8 +24,8 @@ class PlayerSelectionSheet extends StatefulWidget {
     required BuildContext context,
     required SelectionType type,
     required List<MatchPlayerInfo> availablePlayers,
-    required Function(int index) onPlayerSelected,
-    int? previousBowlerId,
+    required Function(String id) onPlayerSelected,
+    String? previousBowlerId,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -52,7 +52,6 @@ class PlayerSelectionSheet extends StatefulWidget {
 
 class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   MatchPlayerInfo? _selectedPlayer;
-  int? _selectedPlayerIndex;
 
   bool isPlayerDisabled(MatchPlayerInfo player) {
     if (widget.type == SelectionType.batsman) {
@@ -135,7 +134,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
               return Container();
             }
 
-            final isDisabled = isPlayerDisabled(player, index);
+            final isDisabled = isPlayerDisabled(player);
 
             return Card(
               elevation: _selectedPlayer == player ? 4 : 1,
@@ -149,14 +148,13 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                   width: _selectedPlayer == player ? 2 : 1,
                 ),
               ),
-              color: getCardBackgroundColor(player, index),
+              color: getCardBackgroundColor(player),
               child: InkWell(
                 onTap: isDisabled
                     ? null
                     : () {
                         setState(() {
                           _selectedPlayer = player;
-                          _selectedPlayerIndex = index;
                         });
                       },
                 borderRadius: BorderRadius.circular(12),
@@ -179,7 +177,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                 : Colors.grey.withValues(alpha: 0.3),
                           ),
                         ),
-                        child: getStatusIcon(player, index) ??
+                        child: getStatusIcon(player) ??
                             Icon(
                               Icons.person,
                               color: isDisabled
@@ -269,7 +267,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
       ),
       confirmEnabled: _selectedPlayer != null,
       onConfirm: () {
-        widget.onPlayerSelected(_selectedPlayerIndex!);
+        widget.onPlayerSelected(_selectedPlayer!.playerId);
         Navigator.pop(context);
       },
       onCancel: () => Navigator.pop(context),
