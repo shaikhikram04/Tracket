@@ -161,8 +161,9 @@ class _MatchPlayersSelectionScreenState
                             child: Text(
                               'Select Openers',
                               style: MyTextStyle(context).bodyLarge.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: grassGreen),
+                                    fontWeight: FontWeight.w600,
+                                    color: grassGreen,
+                                  ),
                             ),
                           ),
                         ),
