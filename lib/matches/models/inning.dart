@@ -42,7 +42,7 @@ class Inning {
   final InningsStatus status;
   final int strikerIndex;
   final int nonStrikerIndex;
-  final int currentBowlerId;
+  final String currentBowlerId;
 
   // Computed properties
   int get completedOvers => balls ~/ 6;
@@ -63,7 +63,7 @@ class Inning {
     required List<MatchPlayerInfo> bowlingPlayers,
     required int strikerIndex,
     required int nonStrikerIndex,
-    required int currentBowlerId,
+    required String currentBowlerId,
   }) {
     return Inning(
       battingTeam: battingTeam,
@@ -228,7 +228,7 @@ class Inning {
     Extras? extras,
     int? strikerIndex,
     int? nonStrikerIndex,
-    int? currentBowlerId,
+    String? currentBowlerId,
   }) =>
       Inning(
         battingTeam: battingTeam ?? this.battingTeam,

@@ -117,10 +117,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                   PlayerStatsSection(
                     striker: currentBatsman![0],
                     nonStriker: currentBatsman[1],
-                    bowler: inningState.last?.bowlingStats[
-                            inningState.last!.currentBowlerId] ??
-                        inningState.first!.bowlingStats[
-                            inningState.first!.currentBowlerId],
+                    bowler: ref.watch(inningsStateProvider.notifier).currentBowler!,
                     strikerIndex: inningState.last?.strikerIndex ??
                         inningState.first!.strikerIndex,
                     isBlur: _isBlur,

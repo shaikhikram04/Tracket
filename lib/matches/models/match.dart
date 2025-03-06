@@ -167,15 +167,14 @@ class Match {
     final nonStrikerIndex = battingPlayers
         .indexWhere((batsman) => batsman.playerId == nonStriker.playerId);
 
-    final bowlerIndex = getBowlingTeamPlayers()
-        .indexWhere((_bowler) => _bowler.playerId == bowler.playerId);
+    
 
     final inning1 = Inning.initialize(
       battingTeam: battingTeam!,
       bowlingTeam: bowlingTeam!,
       battingPlayers: getBattingTeamPlayers(),
       bowlingPlayers: getBowlingTeamPlayers(),
-      currentBowlerId: bowlerIndex,
+      currentBowlerId: bowler.playerId,
       strikerIndex: strikerIndex,
       nonStrikerIndex: nonStrikerIndex,
     );

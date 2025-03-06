@@ -54,8 +54,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
   BowlingScore? get currentBowler {
     if (_currentInningIndex == null) return null;
-    return currentInnings!.bowlingStats.firstWhere(
-        (bowler) => bowler.uuid == currentInnings!.currentBowlerId);
+    return currentInnings!.bowlingStats
+        .firstWhere((bowler) => bowler.uuid == currentInnings!.currentBowlerId);
   }
 
   void setInnings(List<Inning?> innings) {
@@ -317,12 +317,14 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     final inning = currentInnings!;
     final currentBowlerId = inning.currentBowlerId;
 
-    final updatedBowlingStats = inning.bowlingStats[currentBowlerId].addBall(
-      runs: runsForBowler,
-      isWide: extras.isWide,
-      isNoBall: extras.isNoBall,
-      isWicket: isWicket,
-    );
+    final updatedBowlingStats = inning.bowlingStats
+        .firstWhere((bowler) => bowler.uuid == currentBowlerId)
+        .addBall(
+          runs: runsForBowler,
+          isWide: extras.isWide,
+          isNoBall: extras.isNoBall,
+          isWicket: isWicket,
+        );
 
     if (_currentInningIndex == 0) {
       state = [
@@ -352,7 +354,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   }
 
   //* Sets the current bowler on start of innings.
-  void setCurrentBowler(int newBowlerIndex) {
+  void setCurrentBowler(String newBowlerIndex) {
     if (_currentInningIndex == null) return;
 
     if (_currentInningIndex == 0) {
@@ -369,13 +371,13 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   }
 
   //* Changes the bowler on over change.
-  void changeBowler(int newBowlerIndex) {
+  void changeBowler(String newBowlerId) {
     if (_currentInningIndex == null) return;
 
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
-          currentBowlerId: newBowlerIndex,
+          currentBowlerId: newBowlerId,
           strikerIndex: state.first!.nonStrikerIndex,
           nonStrikerIndex: state.first!.strikerIndex,
         ),
@@ -385,7 +387,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       state = [
         state.first,
         state.last!.copyWith(
-          currentBowlerId: newBowlerIndex,
+          currentBowlerId: newBowlerId,
           strikerIndex: state.last!.nonStrikerIndex,
           nonStrikerIndex: state.last!.strikerIndex,
         ),
