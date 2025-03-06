@@ -175,7 +175,7 @@ class Match {
       bowlingTeam: bowlingTeam!,
       battingPlayers: getBattingTeamPlayers(),
       bowlingPlayers: getBowlingTeamPlayers(),
-      currentBowlerIndex: bowlerIndex,
+      currentBowlerId: bowlerIndex,
       strikerIndex: strikerIndex,
       nonStrikerIndex: nonStrikerIndex,
     );

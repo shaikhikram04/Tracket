@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
-import 'package:tracket/matches/models/extras.dart';
-import 'package:tracket/matches/models/fall_of_wickets.dart';
-import 'package:tracket/matches/widgets/scoreboard_component/batting_scorecard.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/stat_column.dart';
 import 'package:tracket/utils/colors.dart';
 

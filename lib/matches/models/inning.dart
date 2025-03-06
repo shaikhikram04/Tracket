@@ -17,7 +17,7 @@ class Inning {
     required this.bowlingStats,
     required this.strikerIndex,
     required this.nonStrikerIndex,
-    required this.currentBowlerIndex,
+    required this.currentBowlerId,
     this.fallOfWickets = const [],
     this.balls = 0,
     this.fours = 0,
@@ -42,7 +42,7 @@ class Inning {
   final InningsStatus status;
   final int strikerIndex;
   final int nonStrikerIndex;
-  final int currentBowlerIndex;
+  final int currentBowlerId;
 
   // Computed properties
   int get completedOvers => balls ~/ 6;
@@ -63,12 +63,12 @@ class Inning {
     required List<MatchPlayerInfo> bowlingPlayers,
     required int strikerIndex,
     required int nonStrikerIndex,
-    required int currentBowlerIndex,
+    required int currentBowlerId,
   }) {
     return Inning(
       battingTeam: battingTeam,
       bowlingTeam: bowlingTeam,
-      currentBowlerIndex: currentBowlerIndex,
+      currentBowlerId: currentBowlerId,
       strikerIndex: strikerIndex,
       nonStrikerIndex: nonStrikerIndex,
       battingStats: [],
@@ -147,8 +147,8 @@ class Inning {
     if (notOutBatsmen.length < 2) return [0, 0];
 
     return [
-      notOutBatsmen[0].runs! + notOutBatsmen[1].runs!,
-      notOutBatsmen[0].ballsFaced! + notOutBatsmen[1].ballsFaced!,
+      notOutBatsmen[0].runs + notOutBatsmen[1].runs,
+      notOutBatsmen[0].ballsFaced + notOutBatsmen[1].ballsFaced,
     ];
   }
 
@@ -167,7 +167,7 @@ class Inning {
       'bowlingStats': bowlingStats.map((e) => e.toMap()).toList(),
       'strikerIndex': strikerIndex,
       'nonStrikerIndex': nonStrikerIndex,
-      'currentBowlerIndex': currentBowlerIndex,
+      'currentBowlerId': currentBowlerId,
     };
   }
 
@@ -190,7 +190,7 @@ class Inning {
       extras: Extras.fromMap(map['extras']),
       strikerIndex: map['strikerIndex'],
       nonStrikerIndex: map['nonStrikerIndex'],
-      currentBowlerIndex: map['currentBowlerIndex'],
+      currentBowlerId: map['currentBowlerId'],
     );
   }
 
@@ -228,7 +228,7 @@ class Inning {
     Extras? extras,
     int? strikerIndex,
     int? nonStrikerIndex,
-    int? currentBowlerIndex,
+    int? currentBowlerId,
   }) =>
       Inning(
         battingTeam: battingTeam ?? this.battingTeam,
@@ -244,6 +244,6 @@ class Inning {
         extras: extras ?? this.extras,
         strikerIndex: strikerIndex ?? this.strikerIndex,
         nonStrikerIndex: nonStrikerIndex ?? this.nonStrikerIndex,
-        currentBowlerIndex: currentBowlerIndex ?? this.currentBowlerIndex,
+        currentBowlerId: currentBowlerId ?? this.currentBowlerId,
       );
 }

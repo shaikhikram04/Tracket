@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
@@ -34,10 +35,27 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
   List<BattingScore>? get currentBatsmen {
     if (_currentInningIndex == null) return null;
-    return [
-      currentInnings!.battingStats[currentInnings!.strikerIndex],
-      currentInnings!.battingStats[currentInnings!.nonStrikerIndex],
-    ];
+
+    final strikerIndex = currentInnings!.strikerIndex;
+    final nonStrikerIndex = currentInnings!.nonStrikerIndex;
+    final indexes = [strikerIndex, nonStrikerIndex];
+
+    final currbatsman = currentInnings!.battingStats
+        .where(
+          (batsman) => indexes.contains(batsman.battingPosition),
+        )
+        .toList();
+    if (currbatsman.length <= 2) {
+      return currbatsman;
+    } else {
+      return null;
+    }
+  }
+
+  BowlingScore? get currentBowler {
+    if (_currentInningIndex == null) return null;
+    return currentInnings!.bowlingStats.firstWhere(
+        (bowler) => bowler.uuid == currentInnings!.currentBowlerId);
   }
 
   void setInnings(List<Inning?> innings) {
@@ -297,9 +315,9 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     }
 
     final inning = currentInnings!;
-    final currentBowlerIndex = inning.currentBowlerIndex;
+    final currentBowlerId = inning.currentBowlerId;
 
-    final updatedBowlingStats = inning.bowlingStats[currentBowlerIndex].addBall(
+    final updatedBowlingStats = inning.bowlingStats[currentBowlerId].addBall(
       runs: runsForBowler,
       isWide: extras.isWide,
       isNoBall: extras.isNoBall,
@@ -339,13 +357,13 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     if (_currentInningIndex == 0) {
       state = [
-        state.first!.copyWith(currentBowlerIndex: newBowlerIndex),
+        state.first!.copyWith(currentBowlerId: newBowlerIndex),
         state.last,
       ];
     } else {
       state = [
         state.first,
-        state.last!.copyWith(currentBowlerIndex: newBowlerIndex),
+        state.last!.copyWith(currentBowlerId: newBowlerIndex),
       ];
     }
   }
@@ -357,7 +375,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
-          currentBowlerIndex: newBowlerIndex,
+          currentBowlerId: newBowlerIndex,
           strikerIndex: state.first!.nonStrikerIndex,
           nonStrikerIndex: state.first!.strikerIndex,
         ),
@@ -367,7 +385,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       state = [
         state.first,
         state.last!.copyWith(
-          currentBowlerIndex: newBowlerIndex,
+          currentBowlerId: newBowlerIndex,
           strikerIndex: state.last!.nonStrikerIndex,
           nonStrikerIndex: state.last!.strikerIndex,
         ),

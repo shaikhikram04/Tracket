@@ -46,7 +46,7 @@ class ScoringControls extends ConsumerWidget {
       previousBowlerIndex: ref
           .watch(inningsStateProvider.notifier)
           .currentInnings!
-          .currentBowlerIndex,
+          .currentBowlerId,
       onPlayerSelected: (int selectedPlayerIndex) {
         // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(
