@@ -213,9 +213,9 @@ class MatchesServices {
     required bool isTeam1WonToss,
     required TossDecision decision,
     required Inning inning1,
-    required MatchPlayerInfo striker,
-    required MatchPlayerInfo nonStriker,
-    required MatchPlayerInfo bowler,
+    required BattingScore striker,
+    required BattingScore nonStriker,
+    required BowlingScore bowler,
   }) async {
     final matchDocRef =
         _firestore.collection(FirestoreCollections.matches).doc(matchId);
@@ -227,35 +227,20 @@ class MatchesServices {
     //* set inning
     await inningDocRef.set(inning1.toMap());
 
-    //* Setting batting score & bowling score for an inning
-    final BattingScore strikerStat = BattingScore(
-      uuid: striker.playerId,
-      playerName: striker.playerName,
-    );
-
-    final BattingScore nonStrikerStat = BattingScore(
-      uuid: nonStriker.playerId,
-      playerName: nonStriker.playerName,
-    );
-
-    final BowlingScore bowlerStat = BowlingScore(
-      uuid: bowler.playerId,
-      playerName: bowler.playerName,
-    );
     await inningDocRef
         .collection(FirestoreCollections.battingStats)
-        .doc(strikerStat.uuid)
-        .set(strikerStat.toMap());
+        .doc(striker.uuid)
+        .set(striker.toMap());
 
     await inningDocRef
         .collection(FirestoreCollections.battingStats)
-        .doc(nonStrikerStat.uuid)
-        .set(nonStrikerStat.toMap());
+        .doc(nonStriker.uuid)
+        .set(nonStriker.toMap());
 
     await inningDocRef
         .collection(FirestoreCollections.bowlingStats)
-        .doc(bowlerStat.uuid)
-        .set(bowlerStat.toMap());
+        .doc(bowler.uuid)
+        .set(bowler.toMap());
 
     //* update match field
     final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);

@@ -16,6 +16,7 @@ class BattingScore {
   BattingScore({
     required this.uuid,
     required this.playerName,
+    required this.battingPosition,
     this.reasonOfOut,
     this.ballsFaced = 0,
     this.fours = 0,
@@ -34,6 +35,7 @@ class BattingScore {
   final bool isOut;
   final ReasonOfOut? reasonOfOut;
   final String dismissalInfo;
+  final int battingPosition;
 
   double get strikeRate {
     if (ballsFaced == 0) return 0.0;
@@ -101,6 +103,7 @@ class BattingScore {
       reasonOfOut: map['reasonOfOut'] != null
           ? ReasonOfOut.values.firstWhere((e) => e.name == map['reasonOfOut'])
           : null,
+      battingPosition: map['battingPosition'],
     );
   }
 
@@ -112,6 +115,8 @@ class BattingScore {
     int? fours,
     int? runs,
     int? sixes,
+    int? battingPosition,
+    String? dismissalInfo,
   }) =>
       BattingScore(
         uuid: uuid,
@@ -122,5 +127,7 @@ class BattingScore {
         reasonOfOut: reasonOfOut ?? reasonOfOut,
         runs: runs ?? this.runs,
         sixes: sixes ?? this.sixes,
+        battingPosition: battingPosition ?? this.battingPosition,
+        dismissalInfo: dismissalInfo ?? this.dismissalInfo,
       );
 }

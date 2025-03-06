@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
@@ -23,112 +25,6 @@ class MatchPlayersSelectionScreen extends ConsumerStatefulWidget {
 
 class _MatchPlayersSelectionScreenState
     extends ConsumerState<MatchPlayersSelectionScreen> {
-  // Match match = Match(
-  //   participants: ['1', '2'],
-  //   challengerPlayerId: '12',
-  //   challengeAcceptedBy: '21',
-  //   team1: MatchTeamInfo(
-  //     teamId: '1',
-  //     captainId: '12',
-  //     logoUrl: '',
-  //     shortName: 'T1',
-  //     teamName: 'Team1',
-  //     wicketkeeperId: '13',
-  //   ),
-  //   team2: MatchTeamInfo(
-  //     teamId: '2',
-  //     captainId: '21',
-  //     logoUrl: '',
-  //     shortName: 'T2',
-  //     teamName: 'Team2',
-  //     wicketkeeperId: '21',
-  //   ),
-  //   team1Players: [
-  //     MatchPlayerInfo(
-  //       playerId: '11',
-  //       cricketRole: CricketRole.batsman,
-  //       playerName: 'Player 1',
-  //       profileImageUrl: '',
-  //       longCricketRole: 'Right-handed .......',
-  //       battingStatus: BattingStatus.playing,
-  //     ),
-  //     MatchPlayerInfo(
-  //       playerId: '12',
-  //       cricketRole: CricketRole.allRounder,
-  //       playerName: 'Player 2',
-  //       profileImageUrl: '',
-  //       longCricketRole: 'Right-handed .......',
-  //       battingStatus: BattingStatus.playing,
-  //     ),
-  //     MatchPlayerInfo(
-  //       playerId: '13',
-  //       cricketRole: CricketRole.bowler,
-  //       playerName: 'Player 3',
-  //       profileImageUrl: '',
-  //       longCricketRole: 'Right-handed .......',
-  //       battingStatus: BattingStatus.notOut,
-  //     ),
-  //   ],
-  //   team2Players: [
-  //     MatchPlayerInfo(
-  //       playerId: '21',
-  //       cricketRole: CricketRole.batsman,
-  //       playerName: 'Player 1',
-  //       profileImageUrl: '',
-  //       longCricketRole: 'Right-handed .......',
-  //       battingStatus: BattingStatus.notOut,
-  //     ),
-  //     MatchPlayerInfo(
-  //       playerId: '22',
-  //       cricketRole: CricketRole.allRounder,
-  //       playerName: 'Player 2',
-  //       profileImageUrl: '',
-  //       longCricketRole: 'Right-handed .......',
-  //       battingStatus: BattingStatus.notOut,
-  //     ),
-  //     MatchPlayerInfo(
-  //       playerId: '23',
-  //       cricketRole: CricketRole.bowler,
-  //       playerName: 'Player 3',
-  //       profileImageUrl: '',
-  //       longCricketRole: 'Right-handed .......',
-  //       battingStatus: BattingStatus.notOut,
-  //     ),
-  //   ],
-  //   noOfPlayer: 3,
-  //   matchFormat: MatchFormat.over10,
-  //   matchType: MatchType.friendly,
-  //   venue: 'Wafa Complex',
-  //   schedule: DateTime.now(),
-  //   isTeam1WonToss: true,
-  //   createdAt: Timestamp.now(),
-  //   tossDecision: TossDecision.batting,
-  //   spectatorsAllowed: true,
-  //   updatedAt: Timestamp.now(),
-  //   currentBatsmen: [
-  //     StrikerData(
-  //       id: '11',
-  //       playerName: 'Player 1',
-  //       runs: 0,
-  //       balls: 0,
-  //     ),
-  //     StrikerData(
-  //       id: '12',
-  //       playerName: 'Player 2',
-  //       runs: 0,
-  //       balls: 0,
-  //     ),
-  //   ],
-  //   strikerIndex: 0,
-  //   currentBowlers: CurrentBowlerData(
-  //     playerName: 'Player 3',
-  //     id: '23',
-  //     runsGiven: 0,
-  //     wickets: 0,
-  //     balls: 0,
-  //   ),
-  // );
-
   List<MatchPlayerInfo> _openers = [];
   MatchPlayerInfo? _bowler;
   bool isStarting = false;
@@ -138,7 +34,7 @@ class _MatchPlayersSelectionScreenState
     super.initState();
   }
 
-  Future<void> _onStart() async {
+  Future<void> _onStart(List<MatchPlayerInfo> players) async {
     setState(() {
       isStarting = true;
     });
@@ -153,14 +49,35 @@ class _MatchPlayersSelectionScreenState
       bowler: _bowler!,
     );
     try {
+      final striker = BattingScore(
+        uuid: _openers[0].playerId,
+        playerName: _openers[0].playerName,
+        battingPosition: players.indexWhere(
+                (batsman) => batsman.playerId == _openers[0].playerId) +
+            1,
+      );
+
+      final nonStriker = BattingScore(
+        uuid: _openers[1].playerId,
+        playerName: _openers[1].playerName,
+        battingPosition: players.indexWhere(
+                (batsman) => batsman.playerId == _openers[1].playerId) +
+            1,
+      );
+
+      final bowler = BowlingScore(
+        uuid: _bowler!.playerId,
+        playerName: _bowler!.playerName,
+      );
+
       await MatchesServices.startMatch(
         matchId: match.id,
         isTeam1WonToss: match.isTeam1WonToss!,
         decision: match.tossDecision!,
         inning1: inning1,
-        striker: _openers[0],
-        nonStriker: _openers[1],
-        bowler: _bowler!,
+        striker: striker,
+        nonStriker: nonStriker,
+        bowler: bowler,
       );
 
       Navigator.of(context).pushAndRemoveUntil(
@@ -313,8 +230,9 @@ class _MatchPlayersSelectionScreenState
             height: 50,
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CustomButton.primary(
-              onPressed:
-                  _openers.isNotEmpty && _bowler != null ? _onStart : null,
+              onPressed: _openers.isNotEmpty && _bowler != null
+                  ? () => _onStart(match.getBattingTeamPlayers())
+                  : null,
               text: 'Start Match',
               backgroundColor: grassGreen,
               borderRadius: 15,

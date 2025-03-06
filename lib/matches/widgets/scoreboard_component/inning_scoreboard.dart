@@ -69,7 +69,9 @@ class _InningScoreboardState extends State<InningScoreboard> {
                 fallOfWickets: inning.fallOfWickets,
               ),
               BowlingScorecard(
-                  bowlerStats: inning.bowlingStats, isDarkMode: false),
+                bowlerStats: inning.bowlingStats,
+                isDarkMode: false,
+              ),
             ],
           );
         });

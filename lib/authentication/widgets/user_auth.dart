@@ -107,7 +107,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 backgroundColor: primaryColor,
                 foregroundColor: LightThemeColors.surfaceColor,
                 borderRadius: 10,
-                textStyle: MyTextStyle(context).cardTitle,
+                textStyle:
+                    MyTextStyle(context).cardTitle.copyWith(color: onPrimary),
               ),
             ),
             const SizedBox(height: 15),

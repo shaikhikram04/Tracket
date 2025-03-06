@@ -93,7 +93,7 @@ class FirebaseAuthMethods extends AuthService {
   }
 
   @override
-  Future<void> login({
+  Future<void>  login({
     required String email,
     required String password,
     required BuildContext context,

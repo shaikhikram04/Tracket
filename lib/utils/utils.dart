@@ -15,7 +15,7 @@ void showSnackBar(String content, BuildContext context,
       backgroundColor: primaryColor,
       content: Text(
         content,
-        style: MyTextStyle(context).titleMedium,
+        style: MyTextStyle(context).titleMedium.copyWith(color: onPrimary),
       ),
       action: isUndo
           ? SnackBarAction(
@@ -302,24 +302,24 @@ Widget getCircleLoadingIndicator({
 }
 
 String timeAgo(DateTime dateTime) {
-    final Duration difference = DateTime.now().difference(dateTime);
+  final Duration difference = DateTime.now().difference(dateTime);
 
-    if (difference.inDays >= 356) {
-      final int year = (difference.inDays / 365).floor();
-      return '${year} y ago';
-    } else if (difference.inDays >= 30) {
-      final int month = (difference.inDays / 30).floor();
-      return '${month} month ago';
-    } else if (difference.inDays >= 7) {
-      final int week = (difference.inDays / 7).floor();
-      return '${week} w ago';
-    } else if (difference.inDays > 0) {
-      return '${difference.inDays} d ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} h ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} min ago';
-    }
-
-    return 'just now';
+  if (difference.inDays >= 356) {
+    final int year = (difference.inDays / 365).floor();
+    return '${year} y ago';
+  } else if (difference.inDays >= 30) {
+    final int month = (difference.inDays / 30).floor();
+    return '${month} month ago';
+  } else if (difference.inDays >= 7) {
+    final int week = (difference.inDays / 7).floor();
+    return '${week} w ago';
+  } else if (difference.inDays > 0) {
+    return '${difference.inDays} d ago';
+  } else if (difference.inHours > 0) {
+    return '${difference.inHours} h ago';
+  } else if (difference.inMinutes > 0) {
+    return '${difference.inMinutes} min ago';
   }
+
+  return 'just now';
+}

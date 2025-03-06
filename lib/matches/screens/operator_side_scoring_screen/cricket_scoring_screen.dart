@@ -68,7 +68,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     return Scaffold(
       backgroundColor: LightThemeColors.surfaceColor,
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: grassGreen,
         foregroundColor: onPrimary,
         elevation: 0,
         title: Text(
