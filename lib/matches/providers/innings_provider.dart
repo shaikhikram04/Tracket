@@ -95,7 +95,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   //   state = [state.first, inning2];
   // }
 
-  
   void setNewBatsmenOnOut(MatchPlayerInfo newBatsman) {
     if (_currentInningIndex == null) return;
 
@@ -130,75 +129,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
               ? battingPosition
               : state.last!.nonStrikerPosition,
           battingStats: [...state.last!.battingStats, newBatsmanStat],
-        ),
-      ];
-    }
-  }
-
-  //? Updates the bowler's statistics based on the delivery outcome.
-  //* **Logic:**
-  //* - **Wide:** Bowler is charged 1 run (penalty) plus any additional runs
-  //*   (e.g. if the batsmen ran extra).
-  //* - **No-Ball:** Always 1 penalty run. If the batsman hit the ball (i.e. it’s
-  //*   not accompanied by byes/leg byes) add his runs; if byes/leg byes are involved,
-  //*   only the penalty run is charged.
-  //* - **Byes/Leg Byes:** No runs are charged to the bowler.
-  //* - **Legal Delivery:** Add runs scored off the bat.
-  void _updateBowlerScore({
-    required int runs,
-    required bool isWicket,
-    required ExtrasState extras,
-  }) {
-    if (_currentInningIndex == null) return;
-    int runsForBowler = 0;
-    if (extras.isWide) {
-      runsForBowler = 1 + runs;
-    } else if (extras.isNoBall) {
-      if (extras.isBye || extras.isLegBye) {
-        runsForBowler = 1;
-      } else {
-        runsForBowler = 1 + runs;
-      }
-    } else if (extras.isBye || extras.isLegBye) {
-      runsForBowler = 0;
-    } else {
-      runsForBowler = runs;
-    }
-
-    final inning = currentInnings!;
-    final currentBowlerId = inning.currentBowlerId;
-
-    final updatedBowlingStats = inning.bowlingStats
-        .firstWhere((bowler) => bowler.uuid == currentBowlerId)
-        .addBall(
-          runs: runsForBowler,
-          isWide: extras.isWide,
-          isNoBall: extras.isNoBall,
-          isWicket: isWicket,
-        );
-
-    if (_currentInningIndex == 0) {
-      state = [
-        state.first!.copyWith(
-          bowlingStats: inning.bowlingStats.map((player) {
-            if (player.uuid == updatedBowlingStats.uuid) {
-              return updatedBowlingStats;
-            }
-            return player;
-          }).toList(),
-        ),
-        state.last,
-      ];
-    } else {
-      state = [
-        state.first,
-        state.last!.copyWith(
-          bowlingStats: inning.bowlingStats.map((player) {
-            if (player.uuid == updatedBowlingStats.uuid) {
-              return updatedBowlingStats;
-            }
-            return player;
-          }).toList(),
         ),
       ];
     }

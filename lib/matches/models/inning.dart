@@ -102,8 +102,11 @@ class Inning {
 
     int newStrikerPosition = strikerPosition;
     int newNonStrikerPosition = nonStrikerPosition;
+    int runsForBowler = 0;
+    
 
     List<BattingScore> newBattingStat = battingStats;
+    List<BowlingScore> newBowlingStat = bowlingStats;
     //* Wicket handling:
     if (isWicket) {
       //* If the striker is out (or for run-outs affecting the non-striker)
@@ -149,6 +152,32 @@ class Inning {
       }
     }
 
+    if (isWide) {
+      runsForBowler = 1 + runs;
+    } else if (isNoBall) {
+      if (isBye || isLegBye) {
+        runsForBowler = 1;
+      } else {
+        runsForBowler = 1 + runs;
+      }
+    } else if (isBye || isLegBye) {
+      runsForBowler = 0;
+    } else {
+      runsForBowler = runs;
+    }
+
+    newBowlingStat = bowlingStats.map((player) {
+      if (player.uuid == currentBowlerId) {
+        return player.addBall(
+          runs: runsForBowler,
+          isWide: isWide,
+          isNoBall: isNoBall,
+          isWicket: isWicket,
+        );
+      }
+      return player;
+    }).toList();
+
     return copyWith(
       runs: this.runs + runs,
       balls: isWide || isNoBall ? this.balls : this.balls + 1,
@@ -157,6 +186,7 @@ class Inning {
       wickets: isWicket ? this.wickets + 1 : this.wickets,
       extras: newExtras,
       battingStats: newBattingStat,
+      bowlingStats: newBowlingStat,
       strikerPosition: newStrikerPosition,
       nonStrikerPosition: newNonStrikerPosition,
     );
