@@ -7,15 +7,15 @@ import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/utils/colors.dart';
 
 class PlayerStatsSection extends StatelessWidget {
-  final BattingScore striker;
-  final BattingScore nonStriker;
+  final BattingScore batsman1;
+  final BattingScore batsman2;
   final BowlingScore bowler;
   final bool isBlur;
   final int strikerPosition;
 
   const PlayerStatsSection({
-    required this.striker,
-    required this.nonStriker,
+    required this.batsman1,
+    required this.batsman2,
     required this.bowler,
     required this.isBlur,
     required this.strikerPosition,
@@ -33,19 +33,19 @@ class PlayerStatsSection extends StatelessWidget {
               children: [
                 SizedBox(height: 2),
                 _buildPlayerCard(
-                  strikerPosition == 0,
-                  striker.playerName,
-                  '${striker.runs}(${striker.ballsFaced})',
-                  'SR: ${striker.strikeRate.toStringAsFixed(2)}',
-                  striker.isOut,
+                  strikerPosition == batsman1.battingPosition,
+                  batsman1.playerName,
+                  '${batsman1.runs}(${batsman1.ballsFaced})',
+                  'SR: ${batsman1.strikeRate.toStringAsFixed(2)}',
+                  batsman1.isOut,
                 ),
                 SizedBox(height: 10),
                 _buildPlayerCard(
-                  strikerPosition == 1,
-                  nonStriker.playerName,
-                  '${nonStriker.runs}(${nonStriker.ballsFaced})',
-                  'SR: ${nonStriker.strikeRate.toStringAsFixed(2)}',
-                  nonStriker.isOut,
+                  strikerPosition == batsman2.battingPosition,
+                  batsman2.playerName,
+                  '${batsman2.runs}(${batsman2.ballsFaced})',
+                  'SR: ${batsman2.strikeRate.toStringAsFixed(2)}',
+                  batsman2.isOut,
                 ),
                 SizedBox(height: 15),
                 _buildBowlerCard(
@@ -88,7 +88,7 @@ class PlayerStatsSection extends StatelessWidget {
               ? isOut
                   ? StatusColors.error
                   : grassGreen
-              : LightThemeColors.tertiaryText,
+              : LightThemeColors.tertiaryText.withValues(alpha: 0.5),
           width: 2,
         ),
         boxShadow: [

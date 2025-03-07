@@ -30,10 +30,8 @@ class ScoringControls extends ConsumerWidget {
       context: context,
       type: SelectionType.batsman,
       availablePlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
-      onPlayerSelected: ( player) {
-        ref
-            .read(inningsStateProvider.notifier)
-            .setNewBatsmenOnOut(player);
+      onPlayerSelected: (player) {
+        ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut(player);
       },
     );
   }
@@ -300,7 +298,7 @@ class ScoringControls extends ConsumerWidget {
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: StatusColors.warning,
+                                      backgroundColor: Colors.amberAccent,
                                       elevation: 2,
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 20, vertical: 12),

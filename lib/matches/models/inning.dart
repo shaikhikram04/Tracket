@@ -99,6 +99,8 @@ class Inning {
       legByes: extras.legByes + (isLegBye ? runs : 0),
     );
 
+    final List<BattingScore> newBattingStat;
+
     return copyWith(
       runs: this.runs + runs,
       balls: isWide || isNoBall ? this.balls : this.balls + 1,

@@ -172,7 +172,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   }) {
     if (_currentInningIndex == null) return;
 
-    final inning = state[_currentInningIndex!]!;
+    final inning = currentInnings!;
 
     final strikerPosition = inning.strikerPosition;
     final nonStrikerPosition = inning.nonStrikerPosition;
@@ -462,6 +462,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     _updateCurrentInnings(updatedInnings);
 
+    //! Updating currentover Balls
     // Determine the type of delivery.
     BallType ballType = BallType.valid;
     if (extras.isWide) {
@@ -482,30 +483,32 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       runs: runs,
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
-      ballNumber: currentInnings!.balls + (isExtraDelivery ? 0 : 1),
+      ballNumber: currentInnings!.balls % 6,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
     );
 
     ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
 
-    //* Update the striker’s score only if this delivery is credited to the batsman.
-    //* (i.e. not for wides, byes, leg byes, or a no-ball that resulted in byes/leg byes)
-    _updateStrikerScore(
-      runs: runs,
-      isWicket: isWicket,
-      extras: extras,
-      outBatsmanId: outBatsman,
-      isFour: isFour,
-      isSix: isSix,
-    );
 
-    //* Update the bowler’s score.
-    _updateBowlerScore(
-      runs: runs,
-      isWicket: isWicket,
-      extras: extras,
-    );
+
+    // //* Update the striker’s score only if this delivery is credited to the batsman.
+    // //* (i.e. not for wides, byes, leg byes, or a no-ball that resulted in byes/leg byes)
+    // _updateStrikerScore(
+    //   runs: runs,
+    //   isWicket: isWicket,
+    //   extras: extras,
+    //   outBatsmanId: outBatsman,
+    //   isFour: isFour,
+    //   isSix: isSix,
+    // );
+
+    // //* Update the bowler’s score.
+    // _updateBowlerScore(
+    //   runs: runs,
+    //   isWicket: isWicket,
+    //   extras: extras,
+    // );
   }
 
   //* Helper to refresh the current innings in the match state.

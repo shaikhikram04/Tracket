@@ -22,7 +22,7 @@ class CurrentOverRunsNotifier extends StateNotifier<List<BallOutcome>> {
     if (state.isEmpty) {
       return 6;
     }
-    return 6 - state.last.remainingBalls;
+    return state.last.remainingBalls;
   }
 
   //* Checks if an over is complete (6 legal deliveries).
