@@ -250,7 +250,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       runs: runs,
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
-      ballNumber: currentInnings!.balls % 6,
+      ballNumber: currentInnings!.balls % 7,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
     );
