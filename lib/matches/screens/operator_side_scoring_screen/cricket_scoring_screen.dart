@@ -64,7 +64,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     final matchState = ref.watch(matchStateProvider);
     final inningState = ref.watch(inningsStateProvider);
     final currentOverState = ref.watch(currentOverRunsProvider);
-    final currentBatsman = ref.watch(inningsStateProvider.notifier).currentBatsmen;
+    final currentBatsman =
+        ref.watch(inningsStateProvider.notifier).currentBatsmen;
 
     return Scaffold(
       backgroundColor: LightThemeColors.surfaceColor,
@@ -117,9 +118,10 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                   PlayerStatsSection(
                     striker: currentBatsman![0],
                     nonStriker: currentBatsman[1],
-                    bowler: ref.watch(inningsStateProvider.notifier).currentBowler!,
-                    strikerIndex: inningState.last?.strikerIndex ??
-                        inningState.first!.strikerIndex,
+                    bowler:
+                        ref.watch(inningsStateProvider.notifier).currentBowler!,
+                    strikerPosition: inningState.last?.strikerPosition ??
+                        inningState.first!.strikerPosition,
                     isBlur: _isBlur,
                   ),
 

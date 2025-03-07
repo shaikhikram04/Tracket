@@ -161,10 +161,10 @@ class Match {
     //     (!isTeam1WonToss! && !tossWinnerBatting);
 
     final battingPlayers = getBattingTeamPlayers();
-    final strikerIndex = battingPlayers.indexWhere(
+    final strikerPosition = battingPlayers.indexWhere(
       (batsman) => batsman.playerId == striker.playerId,
     );
-    final nonStrikerIndex = battingPlayers
+    final nonStrikerPosition = battingPlayers
         .indexWhere((batsman) => batsman.playerId == nonStriker.playerId);
 
     
@@ -175,8 +175,8 @@ class Match {
       battingPlayers: getBattingTeamPlayers(),
       bowlingPlayers: getBowlingTeamPlayers(),
       currentBowlerId: bowler.playerId,
-      strikerIndex: strikerIndex,
-      nonStrikerIndex: nonStrikerIndex,
+      strikerPosition: strikerPosition,
+      nonStrikerPosition: nonStrikerPosition,
     );
 
     return inning1;

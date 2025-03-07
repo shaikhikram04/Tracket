@@ -15,8 +15,8 @@ class Inning {
     required this.bowlingTeam,
     required this.battingStats,
     required this.bowlingStats,
-    required this.strikerIndex,
-    required this.nonStrikerIndex,
+    required this.strikerPosition,
+    required this.nonStrikerPosition,
     required this.currentBowlerId,
     this.fallOfWickets = const [],
     this.balls = 0,
@@ -40,8 +40,8 @@ class Inning {
   final int fours;
   final int sixes;
   final InningsStatus status;
-  final int strikerIndex;
-  final int nonStrikerIndex;
+  final int strikerPosition;
+  final int nonStrikerPosition;
   final String currentBowlerId;
 
   // Computed properties
@@ -61,16 +61,16 @@ class Inning {
     required MatchTeamInfo bowlingTeam,
     required List<MatchPlayerInfo> battingPlayers,
     required List<MatchPlayerInfo> bowlingPlayers,
-    required int strikerIndex,
-    required int nonStrikerIndex,
+    required int strikerPosition,
+    required int nonStrikerPosition,
     required String currentBowlerId,
   }) {
     return Inning(
       battingTeam: battingTeam,
       bowlingTeam: bowlingTeam,
       currentBowlerId: currentBowlerId,
-      strikerIndex: strikerIndex,
-      nonStrikerIndex: nonStrikerIndex,
+      strikerPosition: strikerPosition,
+      nonStrikerPosition: nonStrikerPosition,
       battingStats: [],
       bowlingStats: [],
     );
@@ -165,8 +165,8 @@ class Inning {
       'bowlingTeam': bowlingTeam.toMap,
       'battingStats': battingStats.map((e) => e.toMap()).toList(),
       'bowlingStats': bowlingStats.map((e) => e.toMap()).toList(),
-      'strikerIndex': strikerIndex,
-      'nonStrikerIndex': nonStrikerIndex,
+      'strikerPosition': strikerPosition,
+      'nonStrikerPosition': nonStrikerPosition,
       'currentBowlerId': currentBowlerId,
     };
   }
@@ -188,8 +188,8 @@ class Inning {
       wickets: map['wickets'],
       status: InningsStatus.values.firstWhere((e) => e.name == map['status']),
       extras: Extras.fromMap(map['extras']),
-      strikerIndex: map['strikerIndex'],
-      nonStrikerIndex: map['nonStrikerIndex'],
+      strikerPosition: map['strikerPosition'],
+      nonStrikerPosition: map['nonStrikerPosition'],
       currentBowlerId: map['currentBowlerId'],
     );
   }
@@ -226,8 +226,8 @@ class Inning {
     int? wickets,
     InningsStatus? status,
     Extras? extras,
-    int? strikerIndex,
-    int? nonStrikerIndex,
+    int? strikerPosition,
+    int? nonStrikerPosition,
     String? currentBowlerId,
   }) =>
       Inning(
@@ -242,8 +242,8 @@ class Inning {
         status: status ?? this.status,
         wickets: wickets ?? this.wickets,
         extras: extras ?? this.extras,
-        strikerIndex: strikerIndex ?? this.strikerIndex,
-        nonStrikerIndex: nonStrikerIndex ?? this.nonStrikerIndex,
+        strikerPosition: strikerPosition ?? this.strikerPosition,
+        nonStrikerPosition: nonStrikerPosition ?? this.nonStrikerPosition,
         currentBowlerId: currentBowlerId ?? this.currentBowlerId,
       );
 }
