@@ -91,6 +91,7 @@ class Inning {
     bool isBye = false,
     bool isLegBye = false,
     bool isWicket = false,
+    String? outBatsmanPosition,
   }) {
     final newExtras = extras.copyWith(
       wides: extras.wides + (isWide ? 1 : 0),
@@ -99,7 +100,54 @@ class Inning {
       legByes: extras.legByes + (isLegBye ? runs : 0),
     );
 
-    final List<BattingScore> newBattingStat;
+    int newStrikerPosition = strikerPosition;
+    int newNonStrikerPosition = nonStrikerPosition;
+
+    List<BattingScore> newBattingStat = battingStats;
+    //* Wicket handling:
+    if (isWicket) {
+      //* If the striker is out (or for run-outs affecting the non-striker)
+      if (outBatsmanPosition == null || outBatsmanPosition == strikerPosition) {
+        newBattingStat = battingStats.map((player) {
+          if (player.battingPosition == strikerPosition) {
+            return player.wicket(runs, !isWide);
+          }
+          return player;
+        }).toList();
+
+        newStrikerPosition = -1;
+      } else {
+        //* Non-striker gets dismissed (commonly in a run-out).
+        newBattingStat = battingStats.map((player) {
+          if (player.battingPosition == strikerPosition) {
+            return player.addRuns(runs, isFour: isFour, isSix: isSix);
+          }
+          if (player.battingPosition == nonStrikerPosition) {
+            return player.wicket(0, false);
+          }
+          return player;
+        }).toList();
+        newNonStrikerPosition = -1;
+      }
+    } else {
+      //* Add runs only if the delivery is not “extra” (i.e. wide, bye, leg bye,
+      //* or a no-ball that resulted in bye/leg bye).
+      final shouldAddRuns =
+          !(isWide || isBye || isLegBye || (isNoBall && (isBye || isLegBye)));
+      if (shouldAddRuns) {
+        newBattingStat = battingStats.map((player) {
+          if (player.battingPosition == strikerPosition) {
+            return player.addRuns(runs, isFour: isFour, isSix: isSix);
+          }
+          return player;
+        }).toList();
+      }
+
+      if (runs.isOdd) {
+        newStrikerPosition = nonStrikerPosition;
+        newNonStrikerPosition = strikerPosition;
+      }
+    }
 
     return copyWith(
       runs: this.runs + runs,
@@ -108,6 +156,9 @@ class Inning {
       sixes: isSix ? this.sixes + 1 : this.sixes,
       wickets: isWicket ? this.wickets + 1 : this.wickets,
       extras: newExtras,
+      battingStats: newBattingStat,
+      strikerPosition: newStrikerPosition,
+      nonStrikerPosition: newNonStrikerPosition,
     );
   }
 

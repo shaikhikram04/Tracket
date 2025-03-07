@@ -95,31 +95,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   //   state = [state.first, inning2];
   // }
 
-  //* Updates the striker (and optionally the non-striker) data.
-  void updateStrikers({
-    required int runs,
-  }) {
-    if (_currentInningIndex == null || runs % 2 == 0) return;
-
-    if (_currentInningIndex == 0) {
-      state = [
-        state.first!.copyWith(
-          strikerPosition: state.first!.nonStrikerPosition,
-          nonStrikerPosition: state.first!.strikerPosition,
-        ),
-        state.last,
-      ];
-    } else {
-      state = [
-        state.first,
-        state.last!.copyWith(
-          strikerPosition: state.last!.nonStrikerPosition,
-          nonStrikerPosition: state.last!.strikerPosition,
-        ),
-      ];
-    }
-  }
-
+  
   void setNewBatsmenOnOut(MatchPlayerInfo newBatsman) {
     if (_currentInningIndex == null) return;
 
@@ -157,142 +133,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         ),
       ];
     }
-  }
-
-  //* Updates the striker's score.
-  //* This method is called only when the batsman should be credited
-  //* (i.e. not for wides or byes/leg byes or a no-ball with byes/leg byes).
-  void _updateStrikerScore({
-    required int runs,
-    required ExtrasState extras,
-    bool isSix = false,
-    bool isFour = false,
-    required bool isWicket,
-    String? outBatsmanId,
-  }) {
-    if (_currentInningIndex == null) return;
-
-    final inning = currentInnings!;
-
-    final strikerPosition = inning.strikerPosition;
-    final nonStrikerPosition = inning.nonStrikerPosition;
-
-    //* Wicket handling:
-    if (isWicket) {
-      //* If the striker is out (or for run-outs affecting the non-striker)
-      if (outBatsmanId == null ||
-          outBatsmanId == inning.battingStats[strikerPosition].uuid) {
-        final updatedStriker =
-            inning.battingStats[strikerPosition].wicket(runs, !extras.isWide);
-
-        inning.battingStats.map((player) {
-          if (player.uuid == updatedStriker.uuid) {
-            return updatedStriker;
-          }
-          return player;
-        }).toList();
-
-        if (_currentInningIndex == 0) {
-          state = [
-            state.first!.copyWith(
-              battingStats: inning.battingStats,
-              strikerPosition: -1,
-            ),
-            state.last,
-          ];
-        } else {
-          state = [
-            state.first,
-            state.last!.copyWith(
-              battingStats: inning.battingStats,
-              strikerPosition: -1,
-            ),
-          ];
-        }
-      } else {
-        //* Non-striker gets dismissed (commonly in a run-out).
-        final updatedNonStriker =
-            inning.battingStats[nonStrikerPosition].wicket(0, false);
-
-        final updatedStriker = inning.battingStats[strikerPosition]
-            .addRuns(runs, isFour: isFour, isSix: isSix);
-
-        if (_currentInningIndex == 0) {
-          state = [
-            state.first!.copyWith(
-              battingStats: inning.battingStats.map((player) {
-                if (player.uuid == updatedStriker.uuid) {
-                  return updatedStriker;
-                }
-                if (player.uuid == updatedNonStriker.uuid) {
-                  return updatedNonStriker;
-                }
-                return player;
-              }).toList(),
-              nonStrikerPosition: -1,
-            ),
-            state.last,
-          ];
-        } else {
-          state = [
-            state.first,
-            state.last!.copyWith(
-              battingStats: inning.battingStats.map((player) {
-                if (player.uuid == updatedStriker.uuid) {
-                  return updatedStriker;
-                }
-                if (player.uuid == updatedNonStriker.uuid) {
-                  return updatedNonStriker;
-                }
-                return player;
-              }).toList(),
-              nonStrikerPosition: -1,
-            ),
-          ];
-        }
-      }
-
-      return;
-    }
-
-    //* Add runs only if the delivery is not “extra” (i.e. wide, bye, leg bye,
-    //* or a no-ball that resulted in bye/leg bye).
-    final shouldAddRuns = !(extras.isWide ||
-        extras.isBye ||
-        extras.isLegBye ||
-        (extras.isNoBall && (extras.isBye || extras.isLegBye)));
-    if (shouldAddRuns) {
-      final updatedStriker = inning.battingStats[strikerPosition]
-          .addRuns(runs, isFour: isFour, isSix: isSix);
-
-      if (_currentInningIndex == 0) {
-        state = [
-          state.first!.copyWith(
-            battingStats: inning.battingStats.map((player) {
-              if (player.uuid == updatedStriker.uuid) {
-                return updatedStriker;
-              }
-              return player;
-            }).toList(),
-          ),
-          state.last,
-        ];
-      } else {
-        state = [
-          state.first,
-          state.last!.copyWith(
-            battingStats: inning.battingStats.map((player) {
-              if (player.uuid == updatedStriker.uuid) {
-                return updatedStriker;
-              }
-              return player;
-            }).toList(),
-          ),
-        ];
-      }
-    }
-
-    updateStrikers(runs: runs);
   }
 
   //? Updates the bowler's statistics based on the delivery outcome.
@@ -463,7 +303,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     _updateCurrentInnings(updatedInnings);
 
     //! Updating currentover Balls
-    // Determine the type of delivery.
+    //* Determine the type of delivery.
     BallType ballType = BallType.valid;
     if (extras.isWide) {
       ballType = BallType.wide;
@@ -474,9 +314,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     } else if (extras.isLegBye) {
       ballType = BallType.legBye;
     }
-
-    //* For an extra (wide or no-ball), the delivery does not count as a legal ball.
-    bool isExtraDelivery = extras.isWide || extras.isNoBall;
 
     final ballOutcome = BallOutcome(
       type: ballType,
@@ -489,26 +326,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     );
 
     ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
-
-
-
-    // //* Update the striker’s score only if this delivery is credited to the batsman.
-    // //* (i.e. not for wides, byes, leg byes, or a no-ball that resulted in byes/leg byes)
-    // _updateStrikerScore(
-    //   runs: runs,
-    //   isWicket: isWicket,
-    //   extras: extras,
-    //   outBatsmanId: outBatsman,
-    //   isFour: isFour,
-    //   isSix: isSix,
-    // );
-
-    // //* Update the bowler’s score.
-    // _updateBowlerScore(
-    //   runs: runs,
-    //   isWicket: isWicket,
-    //   extras: extras,
-    // );
   }
 
   //* Helper to refresh the current innings in the match state.
