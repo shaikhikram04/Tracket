@@ -9,7 +9,7 @@ enum SelectionType { batsman, bowler }
 class PlayerSelectionSheet extends StatefulWidget {
   final SelectionType type;
   final List<MatchPlayerInfo> availablePlayers;
-  final Function(String id) onPlayerSelected;
+  final Function(MatchPlayerInfo player) onPlayerSelected;
   final String? previousBowlerId;
 
   const PlayerSelectionSheet({
@@ -24,7 +24,7 @@ class PlayerSelectionSheet extends StatefulWidget {
     required BuildContext context,
     required SelectionType type,
     required List<MatchPlayerInfo> availablePlayers,
-    required Function(String id) onPlayerSelected,
+    required Function(MatchPlayerInfo player) onPlayerSelected,
     String? previousBowlerId,
   }) {
     return showModalBottomSheet(
@@ -52,6 +52,7 @@ class PlayerSelectionSheet extends StatefulWidget {
 
 class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   MatchPlayerInfo? _selectedPlayer;
+
 
   bool isPlayerDisabled(MatchPlayerInfo player) {
     if (widget.type == SelectionType.batsman) {
@@ -267,7 +268,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
       ),
       confirmEnabled: _selectedPlayer != null,
       onConfirm: () {
-        widget.onPlayerSelected(_selectedPlayer!.playerId);
+        widget.onPlayerSelected(_selectedPlayer!);
         Navigator.pop(context);
       },
       onCancel: () => Navigator.pop(context),

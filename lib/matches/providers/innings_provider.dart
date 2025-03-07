@@ -5,6 +5,7 @@ import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
@@ -119,17 +120,26 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     }
   }
 
-  void setNewBatsmenOnOut(int newBatsmanIndex) {
+  void setNewBatsmenOnOut(MatchPlayerInfo newBatsman) {
     if (_currentInningIndex == null) return;
+
+    final battingPosition = currentInnings!.battingStats.length + 1;
+    final newBatsmanStat = BattingScore(
+      uuid: newBatsman.playerId,
+      playerName: newBatsman.playerName,
+      battingPosition: battingPosition,
+    );
+
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
           strikerIndex: state.first!.strikerIndex != -1
-              ? newBatsmanIndex
+              ? battingPosition
               : state.first!.strikerIndex,
           nonStrikerIndex: state.first!.nonStrikerIndex != -1
-              ? newBatsmanIndex
+              ? battingPosition
               : state.first!.nonStrikerIndex,
+          battingStats: [...state.first!.battingStats, newBatsmanStat],
         ),
         state.last,
       ];
@@ -138,11 +148,12 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         state.first,
         state.last!.copyWith(
           strikerIndex: state.last!.strikerIndex != -1
-              ? newBatsmanIndex
+              ? battingPosition
               : state.last!.strikerIndex,
           nonStrikerIndex: state.last!.nonStrikerIndex != -1
-              ? newBatsmanIndex
+              ? battingPosition
               : state.last!.nonStrikerIndex,
+          battingStats: [...state.last!.battingStats, newBatsmanStat],
         ),
       ];
     }
