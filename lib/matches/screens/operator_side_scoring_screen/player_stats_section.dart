@@ -91,13 +91,15 @@ class PlayerStatsSection extends StatelessWidget {
               : LightThemeColors.tertiaryText.withValues(alpha: 0.5),
           width: 2,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: LightThemeColors.tertiaryText,
-            blurRadius: 10,
-            offset: Offset(0, 2),
-          ),
-        ],
+        boxShadow: isStriker
+            ? [
+                BoxShadow(
+                  color: LightThemeColors.tertiaryText,
+                  blurRadius: 10,
+                  offset: Offset(0, 2),
+                ),
+              ]
+            : null,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
