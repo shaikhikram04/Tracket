@@ -18,6 +18,7 @@ class BallOutcome {
   final ReasonOfOut? reasonOfOut;
   final Timestamp timestamp;
   final int ballNumber;
+  final bool isBoundary;
 
   const BallOutcome({
     required this.type,
@@ -25,6 +26,7 @@ class BallOutcome {
     required this.ballNumber,
     required this.ballId,
     required this.timestamp,
+    required this.isBoundary,
     this.isWicket = false,
     this.reasonOfOut,
   });
@@ -50,6 +52,7 @@ class BallOutcome {
         'ballId': ballId,
         'timestamp': timestamp,
         'ballNumber': ballNumber,
+        'isBoundary': isBoundary,
       };
 
   String get displayOutcome {
@@ -83,6 +86,7 @@ class BallOutcome {
       ballId: map['ballId'],
       timestamp: map['timestamp'],
       ballNumber: map['ballNumber'],
+      isBoundary: map['isBoundary'],
       reasonOfOut: map['reasonOfOut'] != null
           ? ReasonOfOut.values.firstWhere(
               (reason) => reason.name == map['reasonOfOut'],

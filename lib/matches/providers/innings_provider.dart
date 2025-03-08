@@ -254,6 +254,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       ballNumber: currentInnings!.balls % 7,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
+      isBoundary: isFour || isSix,
     );
 
     ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
