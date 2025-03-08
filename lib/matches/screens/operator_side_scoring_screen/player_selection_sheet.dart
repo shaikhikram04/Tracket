@@ -256,18 +256,19 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                           ],
                         ),
                       ),
-                      Radio<MatchPlayerInfo>(
-                        value: player,
-                        groupValue: _selectedPlayer,
-                        onChanged: isDisabled
-                            ? null
-                            : (MatchPlayerInfo? value) {
-                                setState(() {
-                                  _selectedPlayer = value;
-                                });
-                              },
-                        activeColor: grassGreen,
-                      ),
+                      if (!isDisabled)
+                        Radio<MatchPlayerInfo>(
+                          value: player,
+                          groupValue: _selectedPlayer,
+                          onChanged: isDisabled
+                              ? null
+                              : (MatchPlayerInfo? value) {
+                                  setState(() {
+                                    _selectedPlayer = value;
+                                  });
+                                },
+                          activeColor: grassGreen,
+                        ),
                     ],
                   ),
                 ),

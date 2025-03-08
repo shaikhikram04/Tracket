@@ -26,14 +26,26 @@ class ScoringControls extends ConsumerWidget {
   final bool isBlur;
 
   void _showNextBatsmanSelection(BuildContext context, WidgetRef ref) {
+    final battingStats =
+        ref.read(inningsStateProvider.notifier).currentInnings!.battingStats;
+
+    final nonAvailablePlayersId = <String>[];
+    String playingPlayer = '';
+    for (final batsman in battingStats) {
+      if (batsman.isOut)
+        nonAvailablePlayersId.add(batsman.uuid);
+      else
+        playingPlayer = batsman.uuid;
+    }
     PlayerSelectionSheet.show(
       context: context,
       type: SelectionType.batsman,
-      allPlayers: ref.watch(matchStateProvider)!.getBattingTeamPlayers(),
+      allPlayers: ref.read(matchStateProvider)!.getBattingTeamPlayers(),
       onPlayerSelected: (player) {
         ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut(player);
       },
-      nonAvailablePlayers: [],
+      nonAvailablePlayers: nonAvailablePlayersId,
+      playingPlayerId: playingPlayer,
     );
   }
 
