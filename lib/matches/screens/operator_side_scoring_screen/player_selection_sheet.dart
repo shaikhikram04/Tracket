@@ -96,26 +96,30 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   }
 
   Widget? getStatusIcon(MatchPlayerInfo player) {
-    if (player.battingStatus == BattingStatus.out) {
+    if (widget.nonAvailablePlayers.contains(player.playerId)) {
       return Icon(Icons.close, color: getIconColor(player), size: 20);
-    } else if (player.battingStatus == BattingStatus.playing) {
-      return Icon(Icons.sports_cricket, color: getIconColor(player), size: 20);
-    } else if (widget.type == SelectionType.bowler &&
-        player.playerId == widget.previousBowlerId) {
+    } else if (widget.playingPlayer == player.playerId) {
+      if (widget.type == SelectionType.batsman)
+        return Icon(
+          Icons.sports_cricket,
+          color: getIconColor(player),
+          size: 20,
+        );
+
       return Icon(Icons.history, color: getIconColor(player), size: 20);
     }
     return null;
   }
 
   String getPlayerStatus(MatchPlayerInfo player, int? playerIndex) {
-    if (player.battingStatus == BattingStatus.out) {
-      return "Out";
-    } else if (player.battingStatus == BattingStatus.playing) {
-      return "Currently Playing";
-    } else if (widget.type == SelectionType.bowler &&
-        player.playerId == widget.previousBowlerId) {
+    if (widget.nonAvailablePlayers.contains(player.playerId)) {
+      if (widget.type == SelectionType.batsman) return "Out";
+      return 'Overs Completed';
+    } else if (widget.playingPlayer == player.playerId) {
+      if (widget.type == SelectionType.batsman) return "Currently Playing";
       return "Previous Bowler";
     }
+
     return "Available";
   }
 

@@ -26,7 +26,6 @@ class ScoringControls extends ConsumerWidget {
   final bool isBlur;
 
   void _showNextBatsmanSelection(BuildContext context, WidgetRef ref) {
-    
     PlayerSelectionSheet.show(
       context: context,
       type: SelectionType.batsman,
@@ -43,15 +42,16 @@ class ScoringControls extends ConsumerWidget {
       context: context,
       type: SelectionType.bowler,
       allPlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
-      previousBowlerId: ref
-          .watch(inningsStateProvider.notifier)
-          .currentInnings!
-          .currentBowlerId,
       onPlayerSelected: (player) {
         // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(player.playerId);
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
       },
+      nonAvailablePlayers: [],
+      playingPlayerId: ref
+          .watch(inningsStateProvider.notifier)
+          .currentInnings!
+          .currentBowlerId,
     );
   }
 

@@ -106,12 +106,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       battingPosition: battingPosition,
     );
 
-    //* mark as playing
-    ref.read(matchStateProvider.notifier).changePlayerStatus(
-          playerId: newBatsman.playerId,
-          status: BattingStatus.playing,
-        );
-
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
