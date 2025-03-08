@@ -103,7 +103,6 @@ class Inning {
     int newStrikerPosition = strikerPosition;
     int newNonStrikerPosition = nonStrikerPosition;
     int runsForBowler = 0;
-    
 
     List<BattingScore> newBattingStat = battingStats;
     List<BowlingScore> newBowlingStat = bowlingStats;
@@ -118,7 +117,7 @@ class Inning {
           return player;
         }).toList();
 
-        newStrikerPosition = -1;
+        // newStrikerPosition = -1;
       } else {
         //* Non-striker gets dismissed (commonly in a run-out).
         newBattingStat = battingStats.map((player) {
@@ -130,7 +129,7 @@ class Inning {
           }
           return player;
         }).toList();
-        newNonStrikerPosition = -1;
+        // newNonStrikerPosition = -1;
       }
     } else {
       //* Add runs only if the delivery is not “extra” (i.e. wide, bye, leg bye,

@@ -46,11 +46,12 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
           (batsman) => positions.contains(batsman.battingPosition),
         )
         .toList();
-    if (currbatsman.length <= 2) {
-      return currbatsman;
-    } else {
+
+    if (currbatsman.length > 2) {
       return null;
     }
+
+    return currbatsman;
   }
 
   BowlingScore? get currentBowler {
@@ -104,6 +105,12 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       playerName: newBatsman.playerName,
       battingPosition: battingPosition,
     );
+
+    //* mark as playing
+    ref.read(matchStateProvider.notifier).changePlayerStatus(
+          playerId: newBatsman.playerId,
+          status: BattingStatus.playing,
+        );
 
     if (_currentInningIndex == 0) {
       state = [

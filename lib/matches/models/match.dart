@@ -167,8 +167,6 @@ class Match {
     final nonStrikerPosition = battingPlayers
         .indexWhere((batsman) => batsman.playerId == nonStriker.playerId);
 
-    
-
     final inning1 = Inning.initialize(
       battingTeam: battingTeam!,
       bowlingTeam: bowlingTeam!,

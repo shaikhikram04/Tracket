@@ -8,24 +8,27 @@ enum SelectionType { batsman, bowler }
 
 class PlayerSelectionSheet extends StatefulWidget {
   final SelectionType type;
-  final List<MatchPlayerInfo> availablePlayers;
+  final List<MatchPlayerInfo> allPlayers;
+  final List<String> nonAvailablePlayers;
+  final String? playingPlayer;
   final Function(MatchPlayerInfo player) onPlayerSelected;
-  final String? previousBowlerId;
 
   const PlayerSelectionSheet({
     Key? key,
     required this.type,
-    required this.availablePlayers,
+    required this.allPlayers,
     required this.onPlayerSelected,
-    this.previousBowlerId,
+    required this.nonAvailablePlayers,
+    this.playingPlayer,
   }) : super(key: key);
 
   static Future<void> show({
     required BuildContext context,
     required SelectionType type,
-    required List<MatchPlayerInfo> availablePlayers,
+    required List<MatchPlayerInfo> allPlayers,
+    required List<String> nonAvailablePlayers,
     required Function(MatchPlayerInfo player) onPlayerSelected,
-    String? previousBowlerId,
+    String? playingPlayerId,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -38,9 +41,10 @@ class PlayerSelectionSheet extends StatefulWidget {
         canPop: false,
         child: PlayerSelectionSheet(
           type: type,
-          availablePlayers: availablePlayers,
+          allPlayers: allPlayers,
           onPlayerSelected: onPlayerSelected,
-          previousBowlerId: previousBowlerId,
+          nonAvailablePlayers: nonAvailablePlayers,
+          playingPlayer: playingPlayerId,
         ),
       ),
     );
@@ -53,23 +57,22 @@ class PlayerSelectionSheet extends StatefulWidget {
 class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   MatchPlayerInfo? _selectedPlayer;
 
-
   bool isPlayerDisabled(MatchPlayerInfo player) {
-    if (widget.type == SelectionType.batsman) {
-      return player.battingStatus == BattingStatus.out ||
-          player.battingStatus == BattingStatus.playing;
-    } else {
-      return player.playerId == widget.previousBowlerId;
-    }
+    return widget.nonAvailablePlayers.contains(player.playerId) ||
+        widget.playingPlayer == player.playerId;
   }
 
   Color getCardBackgroundColor(MatchPlayerInfo player) {
-    if (player.battingStatus == BattingStatus.out) {
-      return Color(0xFFFFF1F0); // Light red background for out players
-    } else if (player.battingStatus == BattingStatus.playing) {
-      return Color(0xFFF0F5FF); // Light blue background for playing players
-    } else if (widget.type == SelectionType.bowler &&
-        player.playerId == widget.previousBowlerId) {
+    if (widget.nonAvailablePlayers.contains(player.playerId)) {
+      if (widget.type == SelectionType.batsman)
+        return Color(0xFFFFF1F0); // Light red background for out players
+
+      return Color.fromARGB(
+          255, 230, 255, 255); // Light orange background for previous bowler
+    } else if (widget.playingPlayer == player.playerId) {
+      if (widget.type == SelectionType.batsman)
+        return Color(0xFFF0F5FF); // Light blue background for playing players
+
       return Color(0xFFFFF7E6); // Light orange background for previous bowler
     } else if (_selectedPlayer == player) {
       return Color(0xFFF6FFED); // Light green background for selected player
@@ -78,12 +81,15 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   }
 
   Color getIconColor(MatchPlayerInfo player) {
-    if (player.battingStatus == BattingStatus.out) {
-      return Color(0xFFCF1322); // Dark red for out icon
-    } else if (player.battingStatus == BattingStatus.playing) {
-      return Color(0xFF1890FF); // Blue for playing icon
-    } else if (widget.type == SelectionType.bowler &&
-        player.playerId == widget.previousBowlerId) {
+    if (widget.nonAvailablePlayers.contains(player.playerId)) {
+      if (widget.type == SelectionType.batsman)
+        return Color(0xFFCF1322); // Dark red for out icon
+      return Color.fromARGB(
+          255, 231, 22, 250); // Orange for previous bowler icon
+    } else if (widget.playingPlayer == player.playerId) {
+      if (widget.type == SelectionType.batsman)
+        return Color(0xFF1890FF); // Blue for playing icon
+
       return Color(0xFFFA8C16); // Orange for previous bowler icon
     }
     return Colors.black;
@@ -126,9 +132,9 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
       content: Expanded(
         child: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: widget.availablePlayers.length,
+          itemCount: widget.allPlayers.length,
           itemBuilder: (context, index) {
-            final player = widget.availablePlayers[index];
+            final player = widget.allPlayers[index];
             if (widget.type == SelectionType.bowler &&
                 (player.cricketRole != CricketRole.allRounder &&
                     player.cricketRole != CricketRole.bowler)) {

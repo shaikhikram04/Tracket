@@ -86,6 +86,30 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       margin: margin,
     );
   }
+
+  void changePlayerStatus({
+    required String playerId,
+    required BattingStatus status,
+  }) {
+    if (state == null) return;
+
+    final updatedPlayers = state!.getBattingTeamPlayers().map(
+      (player) {
+        if (player.playerId == playerId)
+          return player.copyWith(battingStatus: status);
+
+        return player;
+      },
+    ).toList();
+
+    final bool isTeam1PlayerChange =
+        state!.battingTeam!.teamId == state!.team1.teamId;
+
+    state!.copyWith(
+      team1Players: isTeam1PlayerChange ? updatedPlayers : state!.team1Players,
+      team2Players: isTeam1PlayerChange ? state!.team2Players : updatedPlayers,
+    );
+  }
 }
 
 final matchStateProvider = StateNotifierProvider<MatchStateNotifier, Match?>(
