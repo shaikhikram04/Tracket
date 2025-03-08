@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/models/inning.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -140,17 +139,7 @@ class ScoreboardSection extends StatelessWidget {
               ],
             ),
           ),
-          if (isBlur)
-            Positioned.fill(
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                      sigmaX: 4, sigmaY: 4, tileMode: TileMode.clamp),
-                  child: Container(
-                    color: Colors.transparent,
-                    width: double.infinity,
-                    height: double.infinity,
-                  )),
-            ),
+          if (isBlur) BlurOverlay()
         ],
       ),
     );
