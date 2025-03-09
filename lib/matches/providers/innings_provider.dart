@@ -9,6 +9,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
+import 'package:tracket/matches/services/matches_services.dart';
 
 class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   InningsStateNotifier(this.ref) : super([null, null]);
@@ -186,7 +187,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   //*   where the batsman hits the ball).
   //* - **Bowler:** Charged based on the type of extra (byes/leg byes aren’t counted).
   //* - **Wicket:** Dismissals on a no-ball are disallowed (except run outs).
-  void addDelivery({
+  Future<void> addDelivery({
     required int runs,
     required bool isFour,
     required bool isSix,
@@ -194,13 +195,18 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     bool isWicket = false,
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
-  }) {
+  }) async {
     if (currentInnings == null) return;
 
     //* In a no-ball delivery (except run outs), dismissals are not allowed.
     if (extras.isNoBall && isWicket && (reasonOfOut != ReasonOfOut.runOut)) {
       isWicket = false;
     }
+
+    final teamExtras = currentInnings!.extras;
+    final strikerPosition = currentInnings!.strikerPosition;
+    final nonStrikerPosition = currentInnings!.nonStrikerPosition;
+    final currentBowlerId = currentInnings!.currentBowlerId;
 
     //* Calculate the total team runs for this delivery.
     //* - For a wide: 1 (penalty) + any additional runs (from running).
@@ -259,6 +265,19 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     );
 
     ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
+
+    await MatchesServices.updateMatchScore(
+      matchId: ref.read(matchStateProvider)!.id,
+      currentInningNo: _currentInningIndex! + 1,
+      runs: runs,
+      isFour: isFour,
+      isSix: isSix,
+      teamExtras: teamExtras,
+      strikerPosition: strikerPosition,
+      nonStrikerPosition: nonStrikerPosition,
+      currentBowlerId: currentBowlerId,
+      extras: extras,
+    );
   }
 
   //* Helper to refresh the current innings in the match state.

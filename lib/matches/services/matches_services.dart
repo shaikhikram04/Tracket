@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
+import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
@@ -230,12 +231,12 @@ class MatchesServices {
 
     await inningDocRef
         .collection(FirestoreCollections.battingStats)
-        .doc(striker.uuid)
+        .doc(striker.battingPosition.toString())
         .set(striker.toMap());
 
     await inningDocRef
         .collection(FirestoreCollections.battingStats)
-        .doc(nonStriker.uuid)
+        .doc(nonStriker.uuid.toString())
         .set(nonStriker.toMap());
 
     await inningDocRef
@@ -299,15 +300,192 @@ class MatchesServices {
     return innings;
   }
 
-  static void updateMatchScore({
+  static Future<void> updateMatchScore({
+    required String matchId,
+    required int currentInningNo,
+    required int runs,
+    required bool isFour,
+    required bool isSix,
+    required Extras teamExtras,
+    required int strikerPosition,
+    required int nonStrikerPosition,
+    required String currentBowlerId,
+    required ExtrasState extras,
+    bool isWicket = false,
+    int? outBatsmanPosition,
+    ReasonOfOut? reasonOfOut,
+  }) async {
+    final updatedExtra = teamExtras.addExtras(
+      isWide: extras.isWide,
+      isNoBall: extras.isNoBall,
+      isBye: extras.isBye,
+      isLegBye: extras.isLegBye,
+    );
+
+    final willBallAddedToTeamScore = !extras.isWide && !extras.isNoBall;
+    int totalTeamRuns = 0;
+    if (extras.isWide) {
+      totalTeamRuns = 1 + runs;
+    } else if (extras.isNoBall) {
+      totalTeamRuns = 1 + runs;
+    } else if (extras.isBye || extras.isLegBye) {
+      totalTeamRuns = runs;
+    } else {
+      totalTeamRuns = runs;
+    }
+
+    await _updateCurrentBatsmenStats(
+      matchId: matchId,
+      currentInningNo: currentInningNo,
+      strikerPosition: strikerPosition,
+      nonStrikerPosition: nonStrikerPosition,
+      runs: runs,
+      isFour: isFour,
+      isSix: isSix,
+      extras: extras,
+      isWicket: isWicket,
+      outBatsmanPosition: outBatsmanPosition,
+      reasonOfOut: reasonOfOut,
+    );
+
+    _updateCurrentBowlerStats(
+      matchId: matchId,
+      currentInningNo: currentInningNo,
+      currentBowlerId: currentBowlerId,
+      extras: extras,
+      runs: runs,
+      isWicket: isWicket,
+    );
+
+    int newStrikerPosition = strikerPosition;
+    int newNonStrikerPosition = nonStrikerPosition;
+
+    if (runs.isOdd) {
+      newStrikerPosition = nonStrikerPosition;
+      newNonStrikerPosition = strikerPosition;
+    }
+
+    await _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.innings)
+        .doc('inning$currentInningNo')
+        .update(
+      {
+        'balls': FieldValue.increment(willBallAddedToTeamScore ? 1 : 0),
+        'extras': updatedExtra,
+        'fours': FieldValue.increment(isFour ? 1 : 0),
+        'runs': FieldValue.increment(totalTeamRuns),
+        'sixes': FieldValue.increment(isSix ? 1 : 0),
+        'wicket': FieldValue.increment(isWicket ? 1 : 0),
+        if (nonStrikerPosition != newNonStrikerPosition)
+          'nonStrikerPosition': newNonStrikerPosition,
+        if (strikerPosition != newStrikerPosition)
+          'strikerPosition': newStrikerPosition,
+      },
+    );
+  }
+
+  static Future<void> _updateCurrentBatsmenStats({
+    required String matchId,
+    required int currentInningNo,
+    required int strikerPosition,
+    required int nonStrikerPosition,
     required int runs,
     required bool isFour,
     required bool isSix,
     required ExtrasState extras,
     bool isWicket = false,
-    String? outBatsman,
     ReasonOfOut? reasonOfOut,
-  }) {
-    
+    int? outBatsmanPosition,
+  }) async {
+    final battingStatCollectionRef = _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.innings)
+        .doc('inning$currentInningNo')
+        .collection(FirestoreCollections.battingStats);
+
+    int strikerRuns = 0;
+    int strikerBalls = 0;
+    bool isStrikerOut = false;
+
+    bool isNonStrikerOut = false;
+
+    //* Wicket handling:
+    if (isWicket) {
+      //* If the striker is out (or for run-outs affecting the non-striker)
+      if (outBatsmanPosition == null || outBatsmanPosition == strikerPosition) {
+        strikerRuns = runs;
+        strikerBalls = extras.isWide ? 0 : 1;
+        isStrikerOut = true;
+      } else {
+        //* Non-striker gets dismissed (commonly in a run-out).
+        isNonStrikerOut = true;
+      }
+    } else {
+      //* Add runs only if the delivery is not “extra” (i.e. wide, bye, leg bye,
+      //* or a no-ball that resulted in bye/leg bye).
+      strikerBalls = extras.shouldAddRunsToBowler ? 1 : 0;
+    }
+
+    await battingStatCollectionRef.doc(strikerPosition.toString()).update({
+      'ballsFaced': FieldValue.increment(strikerBalls),
+      if (isFour) 'fours': FieldValue.increment(1),
+      if (isSix) 'sixes': FieldValue.increment(1),
+      if (isStrikerOut) 'isOut': true,
+      if (isStrikerOut && reasonOfOut != null) 'reasonOfOut': reasonOfOut.name,
+      'runs': FieldValue.increment(strikerRuns),
+    });
+
+    await battingStatCollectionRef.doc(nonStrikerPosition.toString()).update({
+      if (isNonStrikerOut) 'isOut': isNonStrikerOut,
+      if (isNonStrikerOut && reasonOfOut != null)
+        'reasonOfOut': reasonOfOut.name,
+    });
+  }
+
+  static Future<void> _updateCurrentBowlerStats({
+    required String matchId,
+    required int currentInningNo,
+    required String currentBowlerId,
+    required ExtrasState extras,
+    required int runs,
+    bool isWicket = false,
+  }) async {
+    final bowlerStatDocRef = _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.innings)
+        .doc('inning$currentInningNo')
+        .collection(FirestoreCollections.bowlingStats)
+        .doc(currentBowlerId);
+
+    bool isballAdd = !extras.isWide && !extras.isNoBall;
+    bool isDot = runs == 0 && !extras.isWide && !extras.isNoBall;
+    int runsForBowler = 0;
+
+    if (extras.isWide) {
+      runsForBowler = 1 + runs;
+    } else if (extras.isNoBall) {
+      if (extras.isBye || extras.isLegBye) {
+        runsForBowler = 1;
+      } else {
+        runsForBowler = 1 + runs;
+      }
+    } else if (extras.isBye || extras.isLegBye) {
+      runsForBowler = 0;
+    } else {
+      runsForBowler = runs;
+    }
+
+    await bowlerStatDocRef.update({
+      if (isballAdd) 'balls': FieldValue.increment(1),
+      if (isDot) 'dots': FieldValue.increment(1),
+      if (extras.isNoBall) 'noBalls': FieldValue.increment(1),
+      'runsGiven': FieldValue.increment(runsForBowler),
+      if (isWicket) 'wickets': FieldValue.increment(1),
+      if (extras.isWide) 'wides': FieldValue.increment(1),
+    });
   }
 }

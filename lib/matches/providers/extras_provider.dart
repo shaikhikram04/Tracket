@@ -13,6 +13,9 @@ class ExtrasState {
     this.isBye = false,
   });
 
+  bool get shouldAddRunsToBowler =>
+      !(isWide || isBye || isLegBye || (isNoBall && (isBye || isLegBye)));
+
   ExtrasState copyWith({
     bool? isWide,
     bool? isNoBall,

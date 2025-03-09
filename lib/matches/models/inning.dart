@@ -93,11 +93,11 @@ class Inning {
     bool isWicket = false,
     int? outBatsmanPosition,
   }) {
-    final newExtras = extras.copyWith(
-      wides: extras.wides + (isWide ? 1 : 0),
-      noBalls: extras.noBalls + (isNoBall ? 1 : 0),
-      byes: extras.byes + (isBye ? runs : 0),
-      legByes: extras.legByes + (isLegBye ? runs : 0),
+    final newExtras = extras.addExtras(
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isBye: isBye,
+      isLegBye: isLegBye,
     );
 
     int newStrikerPosition = strikerPosition;

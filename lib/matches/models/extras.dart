@@ -22,6 +22,20 @@ class Extras {
     };
   }
 
+  Extras addExtras({
+    required bool isWide,
+    required bool isNoBall,
+    required bool isBye,
+    required bool isLegBye,
+  }) {
+    return Extras(
+      byes: byes + (isBye ? 1 : 0),
+      legByes: legByes + (isLegBye ? 1 : 0),
+      noBalls: noBalls + (isNoBall ? 1 : 0),
+      wides: wides + (isWide ? 1 : 0),
+    );
+  }
+
   static Extras fromMap(Map<String, dynamic> map) {
     return Extras(
       wides: map['wides'],
