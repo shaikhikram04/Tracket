@@ -91,7 +91,7 @@ class Inning {
     bool isBye = false,
     bool isLegBye = false,
     bool isWicket = false,
-    String? outBatsmanPosition,
+    int? outBatsmanPosition,
   }) {
     final newExtras = extras.copyWith(
       wides: extras.wides + (isWide ? 1 : 0),
@@ -116,8 +116,6 @@ class Inning {
           }
           return player;
         }).toList();
-
-        // newStrikerPosition = -1;
       } else {
         //* Non-striker gets dismissed (commonly in a run-out).
         newBattingStat = battingStats.map((player) {
@@ -144,11 +142,10 @@ class Inning {
           return player;
         }).toList();
       }
-
-      if (runs.isOdd) {
-        newStrikerPosition = nonStrikerPosition;
-        newNonStrikerPosition = strikerPosition;
-      }
+    }
+    if (runs.isOdd) {
+      newStrikerPosition = nonStrikerPosition;
+      newNonStrikerPosition = strikerPosition;
     }
 
     if (isWide) {

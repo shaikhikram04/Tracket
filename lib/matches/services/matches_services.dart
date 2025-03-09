@@ -7,6 +7,7 @@ import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 import 'package:tracket/matches/models/team_score.dart';
+import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/utils/constants.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/notifications/models/notification.dart';
@@ -296,5 +297,17 @@ class MatchesServices {
     }
 
     return innings;
+  }
+
+  static void updateMatchScore({
+    required int runs,
+    required bool isFour,
+    required bool isSix,
+    required ExtrasState extras,
+    bool isWicket = false,
+    String? outBatsman,
+    ReasonOfOut? reasonOfOut,
+  }) {
+    
   }
 }

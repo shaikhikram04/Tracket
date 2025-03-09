@@ -104,14 +104,14 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.undo, color: LightThemeColors.primaryText),
-            onPressed: () {
-              // Implement undo functionality
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.undo, color: LightThemeColors.primaryText),
+        //     onPressed: () {
+        //       // Implement undo functionality
+        //     },
+        //   ),
+        // ],
       ),
       body: isLoading.value == true
           ? getCircleLoadingIndicator()

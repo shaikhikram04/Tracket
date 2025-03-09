@@ -192,7 +192,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     required bool isSix,
     required ExtrasState extras,
     bool isWicket = false,
-    String? outBatsman,
+    int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
   }) {
     if (currentInnings == null) return;
@@ -229,6 +229,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isBye: extras.isBye,
       isLegBye: extras.isLegBye,
       isWicket: isWicket,
+      outBatsmanPosition: outBatsmanPosition,
     );
 
     _updateCurrentInnings(updatedInnings);

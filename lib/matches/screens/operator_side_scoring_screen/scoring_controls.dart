@@ -279,7 +279,7 @@ class ScoringControls extends ConsumerWidget {
                                   extras: extras,
                                   isFour: false,
                                   isSix: false,
-                                  outBatsman: result['runOutBatsman'],
+                                  outBatsmanPosition: result['runOutBatsman'],
                                   reasonOfOut: result['reasonOfOut'],
                                 );
                             makeUnBlur();

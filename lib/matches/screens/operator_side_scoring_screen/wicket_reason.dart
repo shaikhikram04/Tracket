@@ -29,7 +29,7 @@ class _WicketReasonState extends State<WicketReason> {
   ReasonOfOut? _reasonOfOut;
   int _runsCompleted = 0;
   String? _runOutBy;
-  String? _runOutBatsman;
+  int? _runOutBatsmanPosition;
   String? _caughtBy;
   double _sheetSize = 0.65;
   List<ReasonOfOut> _reasons = [];
@@ -94,7 +94,7 @@ class _WicketReasonState extends State<WicketReason> {
       );
       return;
     }
-    if (_reasonOfOut == ReasonOfOut.runOut && _runOutBatsman == null) {
+    if (_reasonOfOut == ReasonOfOut.runOut && _runOutBatsmanPosition == null) {
       showIconAlertDialog(
         context,
         title: 'Error',
@@ -125,7 +125,7 @@ class _WicketReasonState extends State<WicketReason> {
       'reasonOfOut': _reasonOfOut,
       'runsCompleted':
           _reasonOfOut == ReasonOfOut.runOut ? _runsCompleted : null,
-      'runOutBatsman': _runOutBatsman,
+      'runOutBatsman': _runOutBatsmanPosition,
       'runOutBy': _runOutBy,
       'caughtBy': _caughtBy,
     };
@@ -270,8 +270,8 @@ class _WicketReasonState extends State<WicketReason> {
                                           int index = widget.strikers
                                               .indexWhere(
                                                   (e) => e.playerName == value);
-                                          _runOutBatsman =
-                                              widget.strikers[index].uuid;
+                                          _runOutBatsmanPosition = widget
+                                              .strikers[index].battingPosition;
                                         },
                                       ),
                                       leadingIcon: Icon(Icons.person_outline),
