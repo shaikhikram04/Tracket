@@ -348,7 +348,7 @@ class MatchesServices {
       reasonOfOut: reasonOfOut,
     );
 
-    _updateCurrentBowlerStats(
+    await _updateCurrentBowlerStats(
       matchId: matchId,
       currentInningNo: currentInningNo,
       currentBowlerId: currentBowlerId,
@@ -365,25 +365,29 @@ class MatchesServices {
       newNonStrikerPosition = strikerPosition;
     }
 
-    await _firestore
-        .collection(FirestoreCollections.matches)
-        .doc(matchId)
-        .collection(FirestoreCollections.innings)
-        .doc('inning$currentInningNo')
-        .update(
-      {
-        'balls': FieldValue.increment(willBallAddedToTeamScore ? 1 : 0),
-        'extras': updatedExtra,
-        'fours': FieldValue.increment(isFour ? 1 : 0),
-        'runs': FieldValue.increment(totalTeamRuns),
-        'sixes': FieldValue.increment(isSix ? 1 : 0),
-        'wicket': FieldValue.increment(isWicket ? 1 : 0),
-        if (nonStrikerPosition != newNonStrikerPosition)
-          'nonStrikerPosition': newNonStrikerPosition,
-        if (strikerPosition != newStrikerPosition)
-          'strikerPosition': newStrikerPosition,
-      },
-    );
+    try {
+      await _firestore
+          .collection(FirestoreCollections.matches)
+          .doc(matchId)
+          .collection(FirestoreCollections.innings)
+          .doc('inning$currentInningNo')
+          .update(
+        {
+          if (willBallAddedToTeamScore) 'balls': FieldValue.increment(1),
+          'extras': updatedExtra.toMap(),
+          if (isFour) 'fours': FieldValue.increment(1),
+          'runs': FieldValue.increment(totalTeamRuns),
+          if (isSix) 'sixes': FieldValue.increment(1),
+          if (isWicket) 'wicket': FieldValue.increment(1),
+          if (nonStrikerPosition != newNonStrikerPosition)
+            'nonStrikerPosition': newNonStrikerPosition,
+          if (strikerPosition != newStrikerPosition)
+            'strikerPosition': newStrikerPosition,
+        },
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   static Future<void> _updateCurrentBatsmenStats({
@@ -429,20 +433,25 @@ class MatchesServices {
       strikerBalls = extras.shouldAddRunsToBowler ? 1 : 0;
     }
 
-    await battingStatCollectionRef.doc(strikerPosition.toString()).update({
-      'ballsFaced': FieldValue.increment(strikerBalls),
-      if (isFour) 'fours': FieldValue.increment(1),
-      if (isSix) 'sixes': FieldValue.increment(1),
-      if (isStrikerOut) 'isOut': true,
-      if (isStrikerOut && reasonOfOut != null) 'reasonOfOut': reasonOfOut.name,
-      'runs': FieldValue.increment(strikerRuns),
-    });
+    try {
+      await battingStatCollectionRef.doc(strikerPosition.toString()).update({
+        'ballsFaced': FieldValue.increment(strikerBalls),
+        if (isFour) 'fours': FieldValue.increment(1),
+        if (isSix) 'sixes': FieldValue.increment(1),
+        if (isStrikerOut) 'isOut': true,
+        if (isStrikerOut && reasonOfOut != null)
+          'reasonOfOut': reasonOfOut.name,
+        'runs': FieldValue.increment(strikerRuns),
+      });
 
-    await battingStatCollectionRef.doc(nonStrikerPosition.toString()).update({
-      if (isNonStrikerOut) 'isOut': isNonStrikerOut,
-      if (isNonStrikerOut && reasonOfOut != null)
-        'reasonOfOut': reasonOfOut.name,
-    });
+      await battingStatCollectionRef.doc(nonStrikerPosition.toString()).update({
+        'isOut': isNonStrikerOut,
+        if (isNonStrikerOut && reasonOfOut != null)
+          'reasonOfOut': reasonOfOut.name,
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   static Future<void> _updateCurrentBowlerStats({
@@ -479,13 +488,17 @@ class MatchesServices {
       runsForBowler = runs;
     }
 
-    await bowlerStatDocRef.update({
-      if (isballAdd) 'balls': FieldValue.increment(1),
-      if (isDot) 'dots': FieldValue.increment(1),
-      if (extras.isNoBall) 'noBalls': FieldValue.increment(1),
-      'runsGiven': FieldValue.increment(runsForBowler),
-      if (isWicket) 'wickets': FieldValue.increment(1),
-      if (extras.isWide) 'wides': FieldValue.increment(1),
-    });
+    try {
+      await bowlerStatDocRef.update({
+        if (isballAdd) 'balls': FieldValue.increment(1),
+        if (isDot) 'dots': FieldValue.increment(1),
+        if (extras.isNoBall) 'noBalls': FieldValue.increment(1),
+        'runsGiven': FieldValue.increment(runsForBowler),
+        if (isWicket) 'wickets': FieldValue.increment(1),
+        if (extras.isWide) 'wides': FieldValue.increment(1),
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
