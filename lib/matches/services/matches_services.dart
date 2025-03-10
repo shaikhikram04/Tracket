@@ -311,6 +311,7 @@ class MatchesServices {
     required int nonStrikerPosition,
     required String currentBowlerId,
     required ExtrasState extras,
+    required TeamScore teamScore,
     bool isWicket = false,
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
@@ -366,9 +367,17 @@ class MatchesServices {
     }
 
     try {
-      await _firestore
-          .collection(FirestoreCollections.matches)
-          .doc(matchId)
+      final matchDocRef =
+          _firestore.collection(FirestoreCollections.matches).doc(matchId);
+
+      final updatedTeamScore = teamScore.addDelevery(
+          runs: runs, isAddBall: willBallAddedToTeamScore, isWicket: isWicket);
+
+      matchDocRef.update({
+        'team${currentInningNo}Score': updatedTeamScore.toMap(),
+      });
+
+      await matchDocRef
           .collection(FirestoreCollections.innings)
           .doc('inning$currentInningNo')
           .update(
