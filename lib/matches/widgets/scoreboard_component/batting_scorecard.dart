@@ -322,7 +322,7 @@ class _BattingColumn extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        batsman.dismissalInfo,
+                        batsman.isOut ? batsman.dismissalInfo : 'Not Out',
                         style: TextStyle(
                           fontSize: 12,
                           color: isNotOut
