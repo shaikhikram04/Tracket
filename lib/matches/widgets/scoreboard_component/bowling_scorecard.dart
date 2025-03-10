@@ -71,8 +71,15 @@ class _ScrollableStatsSection extends StatelessWidget {
 
   List<Widget> _buildStatColumns(BuildContext context) {
     final statConfigs = [
-      _StatConfig('O', (b) => b.overs, 60,
-          formatValue: (num? value) => value?.toStringAsFixed(1)),
+      _StatConfig('O', (b) => b.balls, 60, formatValue: (num? balls) {
+        int overs = balls!.toInt() ~/ 6;
+        int remainingBalls = balls.toInt() % 6;
+
+        if (remainingBalls == 0) {
+          return overs.toString();
+        }
+        return '$overs.${remainingBalls}';
+      }),
       _StatConfig('M', (b) => b.maidenOvers, 40),
       _StatConfig('R', (b) => b.runsGiven, 60),
       _StatConfig('W', (b) => b.wickets, 40),
