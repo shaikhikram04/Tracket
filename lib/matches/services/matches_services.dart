@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/extras.dart';
@@ -312,6 +313,7 @@ class MatchesServices {
     required String currentBowlerId,
     required ExtrasState extras,
     required TeamScore teamScore,
+    required BallOutcome ballOutCome,
     bool isWicket = false,
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
@@ -394,6 +396,11 @@ class MatchesServices {
             'strikerPosition': newStrikerPosition,
         },
       );
+
+      await matchDocRef
+          .collection(FirestoreCollections.balls)
+          .doc(ballOutCome.ballId)
+          .set(ballOutCome.toMap());
     } catch (e) {
       debugPrint(e.toString());
     }

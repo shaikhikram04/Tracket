@@ -280,6 +280,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       currentBowlerId: currentBowlerId,
       extras: extras,
       teamScore: matchState.team2Score ?? matchState.team1Score!,
+      ballOutCome: ballOutcome,
     );
   }
 
