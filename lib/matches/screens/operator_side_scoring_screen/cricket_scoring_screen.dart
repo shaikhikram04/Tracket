@@ -48,6 +48,11 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
       final innings =
           await MatchesServices.getInningsFromMatchId(matchState!.id);
       ref.read(inningsStateProvider.notifier).setInnings(innings);
+
+      final currentOverRuns =
+          await MatchesServices.getCurrentOverRuns(matchState.id);
+
+      ref.read(currentOverRunsProvider.notifier).setState(currentOverRuns);
     } catch (e) {
       showSnackBar('Failed to sent innings : $e', context);
     }

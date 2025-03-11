@@ -6,6 +6,10 @@ class CurrentOverRunsNotifier extends StateNotifier<List<BallOutcome>> {
   CurrentOverRunsNotifier(this.ref) : super([]);
   final Ref ref;
 
+  void setState(List<BallOutcome> ballOutcomes) {
+    state = ballOutcomes;
+  }
+
   //* Updates the current over's ball outcomes.
   //*
   //* If the delivery is extra (wide/no-ball) the ball is not counted as a legal ball,

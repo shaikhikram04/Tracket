@@ -517,4 +517,16 @@ class MatchesServices {
       debugPrint(e.toString());
     }
   }
+
+  static Future<List<BallOutcome>> getCurrentOverRuns(String matchId) async {
+    final currentOversSnap = await _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.balls)
+        .get();
+
+    final docs = currentOversSnap.docs;
+
+    return BallOutcome.getOutComeList(docs);
+  }
 }
