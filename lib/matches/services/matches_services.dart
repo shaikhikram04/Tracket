@@ -446,7 +446,10 @@ class MatchesServices {
     } else {
       //* Add runs only if the delivery is not “extra” (i.e. wide, bye, leg bye,
       //* or a no-ball that resulted in bye/leg bye).
-      strikerBalls = extras.shouldAddRunsToBowler ? 1 : 0;
+      if (extras.shouldAddRunsToBowler) {
+        strikerBalls = 1;
+        strikerRuns = runs;
+      }
     }
 
     try {
