@@ -48,50 +48,31 @@ class _ScoreboardState extends State<Scoreboard>
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          buildTabBar(),
-          const SizedBox(height: 8),
-          _buildTabContent(constraints, matchId: widget.matchId),
-        ],
-      );
-    });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        buildTabBar(),
+        const SizedBox(height: 8),
+        _buildTabContent(widget.matchId),
+      ],
+    );
   }
 
-  Widget _buildTabContent(BoxConstraints constraints,
-      {required String matchId}) {
-    // Calculate a more responsive height based on screen size
-    final screenHeight = constraints.maxHeight;
-    final availableHeight = screenHeight > 600
-        ? screenHeight * 0.6 // Use 60% of available height on larger screens
-        : screenHeight * 0.75; // Use 75% of available height on smaller screens
-
-    // Cap the height to reasonable values
-    final contentHeight = availableHeight.clamp(400.0, 600.0);
-
-    return Container(
-      constraints: BoxConstraints(
-        minHeight: 400,
-        maxHeight: contentHeight,
-      ),
-      child: TabBarView(
-        controller: tabController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          _buildTeamContent(
-            team: widget.team1,
-            players: widget.team1Players,
-            inningNumber: 1,
-          ),
-          _buildTeamContent(
-            team: widget.team2,
-            players: widget.team2Players,
-            inningNumber: 2,
-          ),
-        ],
-      ),
+  Widget _buildTabContent(String matchId) {
+    return IndexedStack(
+      index: tabController.index,
+      children: [
+        _buildTeamContent(
+          team: widget.team1,
+          players: widget.team1Players,
+          inningNumber: 1,
+        ),
+        _buildTeamContent(
+          team: widget.team2,
+          players: widget.team2Players,
+          inningNumber: 2,
+        ),
+      ],
     );
   }
 
@@ -100,13 +81,16 @@ class _ScoreboardState extends State<Scoreboard>
     required MatchTeamInfo team,
     required List<MatchPlayerInfo> players,
   }) {
-    return InningScoreboard(
-      matchId: widget.matchId,
-      inningNumber: inningNumber,
-      teamName: team.teamName,
-      captainId: team.captainId,
-      wicketkeeperId: team.wicketkeeperId,
-      players: players,
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: InningScoreboard(
+        matchId: widget.matchId,
+        inningNumber: inningNumber,
+        teamName: team.teamName,
+        captainId: team.captainId,
+        wicketkeeperId: team.wicketkeeperId,
+        players: players,
+      ),
     );
   }
 }

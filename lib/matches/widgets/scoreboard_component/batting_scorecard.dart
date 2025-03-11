@@ -297,8 +297,7 @@ class _BattingColumn extends StatelessWidget {
             battingScores.length,
             (index) {
               final batsman = battingScores[index];
-              final isNotOut =
-                  batsman.dismissalInfo.toLowerCase().contains('not out');
+              final isNotOut = !batsman.isOut;
               final backgroundColor = index % 2 == 0
                   ? LightThemeColors.surfaceColor
                   : lightPitchBrown.withValues(alpha: 0.1);
@@ -322,7 +321,7 @@ class _BattingColumn extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        batsman.isOut ? batsman.dismissalInfo : 'Not Out',
+                        isNotOut ? 'Not Out' : batsman.dismissalInfo,
                         style: TextStyle(
                           fontSize: 12,
                           color: isNotOut

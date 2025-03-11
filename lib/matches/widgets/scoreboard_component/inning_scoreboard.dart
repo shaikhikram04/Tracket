@@ -47,6 +47,7 @@ class InningData {
 class _InningScoreboardState extends State<InningScoreboard> {
   late final Stream<InningData?> _combinedInningStream;
 
+
   @override
   void initState() {
     super.initState();
