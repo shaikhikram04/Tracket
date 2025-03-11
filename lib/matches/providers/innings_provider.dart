@@ -208,6 +208,36 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     final nonStrikerPosition = currentInnings!.nonStrikerPosition;
     final currentBowlerId = currentInnings!.currentBowlerId;
 
+    //! Updating currentover Balls
+    //* Determine the type of delivery.
+    BallType ballType = BallType.valid;
+    if (extras.isWide) {
+      ballType = BallType.wide;
+    } else if (extras.isNoBall) {
+      ballType = BallType.noBall;
+    } else if (extras.isBye) {
+      ballType = BallType.bye;
+    } else if (extras.isLegBye) {
+      ballType = BallType.legBye;
+    }
+
+    final ballOutcome = BallOutcome(
+      type: ballType,
+      runs: runs,
+      isWicket: isWicket,
+      reasonOfOut: reasonOfOut,
+      ballNumber: extras.isWide || extras.isNoBall
+          ? currentInnings!.balls % 7
+          : currentInnings!.balls % 7 + 1,
+      ballId: uuid.v4(),
+      timestamp: Timestamp.now(),
+      isBoundary: isFour || isSix,
+    );
+
+    ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
+
+    final bool isOverCompleted = ballOutcome.remainingBalls == 0;
+
     //* Calculate the total team runs for this delivery.
     //* - For a wide: 1 (penalty) + any additional runs (from running).
     //* - For a no-ball: 1 (penalty) + batsman’s runs (if valid shot) or, if accompanied
@@ -236,35 +266,10 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isLegBye: extras.isLegBye,
       isWicket: isWicket,
       outBatsmanPosition: outBatsmanPosition,
+      isOverCompleted: isOverCompleted,
     );
 
     _updateCurrentInnings(updatedInnings);
-
-    //! Updating currentover Balls
-    //* Determine the type of delivery.
-    BallType ballType = BallType.valid;
-    if (extras.isWide) {
-      ballType = BallType.wide;
-    } else if (extras.isNoBall) {
-      ballType = BallType.noBall;
-    } else if (extras.isBye) {
-      ballType = BallType.bye;
-    } else if (extras.isLegBye) {
-      ballType = BallType.legBye;
-    }
-
-    final ballOutcome = BallOutcome(
-      type: ballType,
-      runs: runs,
-      isWicket: isWicket,
-      reasonOfOut: reasonOfOut,
-      ballNumber: currentInnings!.balls % 7,
-      ballId: uuid.v4(),
-      timestamp: Timestamp.now(),
-      isBoundary: isFour || isSix,
-    );
-
-    ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
 
     final matchState = ref.read(matchStateProvider)!;
 
@@ -281,6 +286,11 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       extras: extras,
       teamScore: matchState.team2Score ?? matchState.team1Score!,
       ballOutCome: ballOutcome,
+      isOverCompleted: isOverCompleted,
+      isMaiden: ref.read(currentOverRunsProvider.notifier).isLastOverMaiden(),
+      isWicket: isWicket,
+      outBatsmanPosition: outBatsmanPosition,
+      reasonOfOut: reasonOfOut,
     );
   }
 

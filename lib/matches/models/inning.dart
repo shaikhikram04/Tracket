@@ -86,6 +86,7 @@ class Inning {
     required int runs,
     required bool isFour,
     required bool isSix,
+    required bool isOverCompleted,
     bool isWide = false,
     bool isNoBall = false,
     bool isBye = false,
@@ -143,7 +144,7 @@ class Inning {
         }).toList();
       }
     }
-    if (runs.isOdd) {
+    if ((runs.isOdd && !isOverCompleted) || (isOverCompleted && runs.isEven)) {
       newStrikerPosition = nonStrikerPosition;
       newNonStrikerPosition = strikerPosition;
     }

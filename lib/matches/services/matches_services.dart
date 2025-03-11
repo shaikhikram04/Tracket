@@ -314,6 +314,8 @@ class MatchesServices {
     required ExtrasState extras,
     required TeamScore teamScore,
     required BallOutcome ballOutCome,
+    required bool isOverCompleted,
+    bool isMaiden = false,
     bool isWicket = false,
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
@@ -358,12 +360,14 @@ class MatchesServices {
       extras: extras,
       runs: runs,
       isWicket: isWicket,
+      isOverCompleted: isOverCompleted,
+      isMaidenOver: isMaiden,
     );
 
     int newStrikerPosition = strikerPosition;
     int newNonStrikerPosition = nonStrikerPosition;
 
-    if (runs.isOdd) {
+    if ((runs.isOdd && !isOverCompleted) || (isOverCompleted && runs.isEven)) {
       newStrikerPosition = nonStrikerPosition;
       newNonStrikerPosition = strikerPosition;
     }
@@ -479,6 +483,8 @@ class MatchesServices {
     required String currentBowlerId,
     required ExtrasState extras,
     required int runs,
+    bool isOverCompleted = false,
+    bool isMaidenOver = false,
     bool isWicket = false,
   }) async {
     final bowlerStatDocRef = _firestore
@@ -515,6 +521,8 @@ class MatchesServices {
         'runsGiven': FieldValue.increment(runsForBowler),
         if (isWicket) 'wickets': FieldValue.increment(1),
         if (extras.isWide) 'wides': FieldValue.increment(1),
+        if (isMaidenOver && isOverCompleted)
+          'maidenOvers': FieldValue.increment(1),
       });
     } catch (e) {
       debugPrint(e.toString());

@@ -32,9 +32,6 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     super.initState();
     isLoading = ValueNotifier(false);
     loadInningData();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {},
-    );
   }
 
   Future<void> loadInningData() async {
@@ -77,6 +74,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(player.playerId);
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
+        ref.read(currentOverRunsProvider.notifier).clear();
       },
       nonAvailablePlayers: [],
       playingPlayerId: ref

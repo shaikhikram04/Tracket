@@ -43,7 +43,7 @@ class CurrentOverRunsNotifier extends StateNotifier<List<BallOutcome>> {
     );
   }
 
-  bool isLastOverMaiden(String bowlerId) {
+  bool isLastOverMaiden() {
     if (state.isEmpty || state.last.ballNumber < 6) return false;
 
     return totalRuns == 0;
