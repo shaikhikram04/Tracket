@@ -21,6 +21,7 @@ class CurrentOverFetcher extends StatelessWidget {
           .collection(FirestoreCollections.matches)
           .doc(matchId)
           .collection(FirestoreCollections.balls)
+          .orderBy('timestamp')
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

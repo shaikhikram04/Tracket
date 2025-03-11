@@ -526,6 +526,7 @@ class MatchesServices {
         .collection(FirestoreCollections.matches)
         .doc(matchId)
         .collection(FirestoreCollections.balls)
+        .orderBy('timestamp')
         .get();
 
     final docs = currentOversSnap.docs;
