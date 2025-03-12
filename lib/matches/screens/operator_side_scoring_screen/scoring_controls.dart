@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
-import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
@@ -22,30 +22,6 @@ class ScoringControls extends ConsumerWidget {
   final VoidCallback onExtra;
   final VoidCallback makeUnBlur;
   final bool isBlur;
-
-  void _showNextBatsmanSelection(BuildContext context, WidgetRef ref) {
-    final battingStats =
-        ref.read(inningsStateProvider.notifier).currentInnings!.battingStats;
-
-    final nonAvailablePlayersId = <String>[];
-    String playingPlayer = '';
-    for (final batsman in battingStats) {
-      if (batsman.isOut)
-        nonAvailablePlayersId.add(batsman.uuid);
-      else
-        playingPlayer = batsman.uuid;
-    }
-    PlayerSelectionSheet.show(
-      context: context,
-      type: SelectionType.batsman,
-      allPlayers: ref.read(matchStateProvider)!.getBattingTeamPlayers(),
-      onPlayerSelected: (player) {
-        ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut(player);
-      },
-      nonAvailablePlayers: nonAvailablePlayersId,
-      playingPlayerId: playingPlayer,
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -283,7 +259,9 @@ class ScoringControls extends ConsumerWidget {
                                   reasonOfOut: result['reasonOfOut'],
                                 );
                             makeUnBlur();
-                            _showNextBatsmanSelection(context, ref);
+                            ref
+                                .read(additionalMatchProvider.notifier)
+                                .setIsWicketDown(true);
                           }
                           makeUnBlur();
                         },

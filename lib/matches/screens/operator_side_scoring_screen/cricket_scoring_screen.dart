@@ -6,14 +6,12 @@ import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/current_over_indicator.dart';
-import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_stats_section.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/scoreboard_section.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/scoring_controls.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/selection_placeholder.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
 class CricketScoringScreen extends ConsumerStatefulWidget {
@@ -70,25 +68,6 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     });
   }
 
-  void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
-    PlayerSelectionSheet.show(
-      context: context,
-      type: SelectionType.bowler,
-      allPlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
-      onPlayerSelected: (player) {
-        // Handle the selected bowler
-        ref.read(inningsStateProvider.notifier).changeBowler(player.playerId);
-        ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
-        ref.read(currentOverRunsProvider.notifier).clear();
-      },
-      nonAvailablePlayers: [],
-      playingPlayerId: ref
-          .watch(inningsStateProvider.notifier)
-          .currentInnings!
-          .currentBowlerId,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final matchState = ref.watch(matchStateProvider);
@@ -96,8 +75,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
     final currentOverState = ref.watch(currentOverRunsProvider);
     final currentBatsman =
         ref.watch(inningsStateProvider.notifier).currentBatsmen;
-    final isOverCompleted = ref.watch(
-        additionalMatchProvider.select((state) => state.isOverCompleted));
+    final completionState = ref.watch(additionalMatchProvider);
 
     return Scaffold(
       backgroundColor: LightThemeColors.surfaceColor,
@@ -157,44 +135,11 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                     isBlur: _isBlur,
                   ),
 
-                  isOverCompleted
-                      ? Container(
-                          height: 326,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Over Completed',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Tap to change bowler',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              CustomButton.primary(
-                                onPressed: () =>
-                                    _showNextBowlerSelection(context, ref),
-                                text: 'Change Bowler',
-                                textStyle: MyTextStyle(context).buttonText,
-                                icon: Icon(
-                                  Icons.sports_baseball,
-                                  color: LightThemeColors.surfaceColor,
-                                ),
-                                borderRadius: 15,
-                                height: 50,
-                                width: 300,
-                              ),
-                            ],
-                          ),
-                        )
+                  completionState.isOverCompleted ||
+                          completionState.isInningsCompleted ||
+                          completionState.isMatchCompleted ||
+                          completionState.isWicketDown
+                      ? SelectionPlaceholder()
                       : ScoringControls(
                           onExtra: _onExtraButtonTab,
                           isBlur: _isBlur,
