@@ -54,8 +54,6 @@ ThemeData darkMode = ThemeData(
   ),
 );
 
-Future<void> updateFirestoreStructure() async {}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -64,8 +62,6 @@ Future<void> main() async {
   );
 
   await dotenv.load();
-
-  await updateFirestoreStructure();
 
   runApp(
     kIsWeb
