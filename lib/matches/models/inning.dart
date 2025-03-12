@@ -55,6 +55,11 @@ class Inning {
     return (runs * 6.0) / balls;
   }
 
+  String get wicketkeeperName {
+    final wkId = bowlingTeam.wicketkeeperId;
+    return bowlingStats.firstWhere((fielder) => fielder.uuid == wkId).playerName;
+  }
+
   // Factory constructor for initialization
   static Inning initialize({
     required MatchTeamInfo battingTeam,
@@ -93,6 +98,8 @@ class Inning {
     bool isLegBye = false,
     bool isWicket = false,
     int? outBatsmanPosition,
+    ReasonOfOut? reasonOfOut,
+    String? dismissalInfo,
   }) {
     final newExtras = extras.addExtras(
       isWide: isWide,
@@ -113,7 +120,12 @@ class Inning {
       if (outBatsmanPosition == null || outBatsmanPosition == strikerPosition) {
         newBattingStat = battingStats.map((player) {
           if (player.battingPosition == strikerPosition) {
-            return player.wicket(runs, !isWide);
+            return player.wicket(
+              runs,
+              countBall: !isWide,
+              reasonOfOut: reasonOfOut!,
+              dismissalInfo: dismissalInfo,
+            );
           }
           return player;
         }).toList();
@@ -124,7 +136,12 @@ class Inning {
             return player.addRuns(runs, isFour: isFour, isSix: isSix);
           }
           if (player.battingPosition == nonStrikerPosition) {
-            return player.wicket(0, false);
+            return player.wicket(
+              0,
+              countBall: false,
+              reasonOfOut: reasonOfOut!,
+              dismissalInfo: dismissalInfo,
+            );
           }
           return player;
         }).toList();

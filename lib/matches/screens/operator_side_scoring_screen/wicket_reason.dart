@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
+import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
@@ -11,11 +12,15 @@ import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';
 class WicketReason extends StatefulWidget {
   const WicketReason({
     super.key,
+    required this.bowler,
     required this.fielders,
     required this.strikers,
     required this.extras,
+    required this.wicketkeeperName,
   });
 
+  final BowlingScore bowler;
+  final String wicketkeeperName;
   final List<MatchPlayerInfo> fielders;
   final List<BattingScore> strikers;
   final ExtrasState extras;
@@ -121,6 +126,7 @@ class _WicketReasonState extends State<WicketReason> {
       );
       return;
     }
+
     Map<String, dynamic> data = {
       'reasonOfOut': _reasonOfOut,
       'runsCompleted':
@@ -128,8 +134,30 @@ class _WicketReasonState extends State<WicketReason> {
       'runOutBatsman': _runOutBatsmanPosition,
       'runOutBy': _runOutBy,
       'caughtBy': _caughtBy,
+      'dismissalInfo': _getDismissalInfo(),
     };
     Navigator.of(context).pop(data);
+  }
+
+  String _getDismissalInfo() {
+    final suffixInfo = _reasonOfOut == ReasonOfOut.runOut
+        ? ''
+        : 'b ${widget.bowler.playerName}';
+    var prefixInfo = '';
+
+    if (_reasonOfOut == ReasonOfOut.caught) {
+      prefixInfo = 'c $_caughtBy  ';
+    } else if (_reasonOfOut == ReasonOfOut.hitWicket) {
+      prefixInfo = 'hit wicket  ';
+    } else if (_reasonOfOut == ReasonOfOut.lbw) {
+      prefixInfo = 'lbw  ';
+    } else if (_reasonOfOut == ReasonOfOut.runOut) {
+      prefixInfo = 'run out ($_runOutBy)';
+    } else if (_reasonOfOut == ReasonOfOut.stumped) {
+      prefixInfo = 'st ${widget.wicketkeeperName}  ';
+    }
+
+    return prefixInfo + suffixInfo;
   }
 
   @override

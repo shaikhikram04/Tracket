@@ -236,18 +236,27 @@ class ScoringControls extends ConsumerWidget {
                       CustomButton.primary(
                         onPressed: () async {
                           final result = await showModalBottomSheet(
-                            context: context,
-                            useSafeArea: true,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => WicketReason(
-                              fielders: matchState!.getBowlingTeamPlayers(),
-                              strikers: ref
-                                  .read(inningsStateProvider.notifier)
-                                  .currentBatsmen!,
-                              extras: extras,
-                            ),
-                          );
+                              context: context,
+                              useSafeArea: true,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) {
+                                final wicketkeeperName = ref
+                                    .read(inningsStateProvider.notifier)
+                                    .currentInnings!
+                                    .wicketkeeperName;
+                                return WicketReason(
+                                  fielders: matchState!.getBowlingTeamPlayers(),
+                                  strikers: ref
+                                      .read(inningsStateProvider.notifier)
+                                      .currentBatsmen!,
+                                  extras: extras,
+                                  bowler: ref
+                                      .read(inningsStateProvider.notifier)
+                                      .currentBowler!,
+                                  wicketkeeperName: wicketkeeperName,
+                                );
+                              });
                           if (result != null) {
                             ref.read(inningsStateProvider.notifier).addDelivery(
                                   runs: result['runsCompleted'] ?? 0,
@@ -257,6 +266,7 @@ class ScoringControls extends ConsumerWidget {
                                   isSix: false,
                                   outBatsmanPosition: result['runOutBatsman'],
                                   reasonOfOut: result['reasonOfOut'],
+                                  dismissalInfo: result['dismissalInfo'],
                                 );
                             makeUnBlur();
                             ref

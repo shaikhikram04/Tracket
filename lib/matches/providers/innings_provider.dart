@@ -195,6 +195,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     bool isWicket = false,
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
+    String? dismissalInfo,
   }) async {
     if (currentInnings == null) return;
 
@@ -267,6 +268,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isWicket: isWicket,
       outBatsmanPosition: outBatsmanPosition,
       isOverCompleted: isOverCompleted,
+      dismissalInfo: dismissalInfo,
+      reasonOfOut: reasonOfOut,
     );
 
     _updateCurrentInnings(updatedInnings);

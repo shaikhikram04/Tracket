@@ -34,7 +34,7 @@ class PlayerStatsSection extends StatelessWidget {
                 _buildPlayerCard(
                   strikerPosition == batsman1.battingPosition,
                   batsman1.playerName,
-                  '${batsman1.runs}(${batsman1.ballsFaced})',
+                  batsman1.displayScore,
                   'SR: ${batsman1.strikeRate.toStringAsFixed(2)}',
                   batsman1.isOut,
                 ),
@@ -42,7 +42,7 @@ class PlayerStatsSection extends StatelessWidget {
                 _buildPlayerCard(
                   strikerPosition == batsman2.battingPosition,
                   batsman2.playerName,
-                  '${batsman2.runs}(${batsman2.ballsFaced})',
+                  batsman2.displayScore,
                   'SR: ${batsman2.strikeRate.toStringAsFixed(2)}',
                   batsman2.isOut,
                 ),

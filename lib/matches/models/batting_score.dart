@@ -3,16 +3,25 @@ enum ReasonOfOut {
   lbw('LBW'),
   stumped('Stumped'),
   hitWicket('Hit Wicket'),
-  // retiredOut('Retired Out'),
   caught('Caught'),
-  runOut('Run Out'),
-  ;
+  runOut('Run Out');
 
   const ReasonOfOut(this.description);
   final String description;
 }
 
 class BattingScore {
+  final String uuid;
+  final String playerName;
+  final int runs;
+  final int ballsFaced;
+  final int sixes;
+  final int fours;
+  final bool isOut;
+  final ReasonOfOut? reasonOfOut;
+  final String dismissalInfo;
+  final int battingPosition;
+
   BattingScore({
     required this.uuid,
     required this.playerName,
@@ -25,17 +34,6 @@ class BattingScore {
     this.sixes = 0,
     this.dismissalInfo = '',
   });
-
-  final String uuid;
-  final String playerName;
-  final int runs;
-  final int ballsFaced;
-  final int sixes;
-  final int fours;
-  final bool isOut;
-  final ReasonOfOut? reasonOfOut;
-  final String dismissalInfo;
-  final int battingPosition;
 
   double get strikeRate {
     if (ballsFaced == 0) return 0.0;
@@ -53,12 +51,9 @@ class BattingScore {
     return (runsFromBoundaries / runs) * 100;
   }
 
-  // Immutable state updates
-  BattingScore markAsOut(ReasonOfOut outReason) {
-    return copyWith(
-      isOut: true,
-      reasonOfOut: outReason,
-    );
+  String get displayScore {
+    final notOutIndicator = isOut ? '' : '*';
+    return '$runs$notOutIndicator ($ballsFaced)';
   }
 
   BattingScore addRuns(int runs, {required bool isSix, required bool isFour}) {
@@ -70,11 +65,13 @@ class BattingScore {
     );
   }
 
-  BattingScore wicket(int runs, bool isAddBall) {
+  BattingScore wicket(int runs, {required bool countBall, required ReasonOfOut reasonOfOut, String? dismissalInfo}) {
     return copyWith(
       isOut: true,
-      ballsFaced: isAddBall ? ballsFaced + 1 : ballsFaced,
+      ballsFaced: countBall ? ballsFaced + 1 : ballsFaced,
       runs: this.runs + runs,
+      reasonOfOut: reasonOfOut,
+      dismissalInfo: dismissalInfo,
     );
   }
 
