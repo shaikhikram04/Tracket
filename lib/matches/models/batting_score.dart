@@ -85,22 +85,28 @@ class BattingScore {
       'sixes': sixes,
       'isOut': isOut,
       'reasonOfOut': reasonOfOut?.name,
+      'dismissalInfo': dismissalInfo,
+      'battingPosition': battingPosition,
     };
   }
 
   static BattingScore fromMap(Map<String, dynamic> map) {
     return BattingScore(
-      uuid: map['uuid'],
-      playerName: map['playerName'],
-      runs: map['runs'],
-      ballsFaced: map['ballsFaced'],
-      fours: map['fours'],
-      sixes: map['sixes'],
-      isOut: map['isOut'],
+      uuid: map['uuid'] ?? '',
+      playerName: map['playerName'] ?? '',
+      runs: map['runs'] ?? 0,
+      ballsFaced: map['ballsFaced'] ?? 0,
+      fours: map['fours'] ?? 0,
+      sixes: map['sixes'] ?? 0,
+      isOut: map['isOut'] ?? false,
       reasonOfOut: map['reasonOfOut'] != null
-          ? ReasonOfOut.values.firstWhere((e) => e.name == map['reasonOfOut'])
+          ? ReasonOfOut.values.firstWhere(
+              (e) => e.name == map['reasonOfOut'],
+              orElse: () => ReasonOfOut.bowled,
+            )
           : null,
-      battingPosition: map['battingPosition'],
+      battingPosition: map['battingPosition'] ?? 0,
+      dismissalInfo: map['dismissalInfo'] ?? '',
     );
   }
 
