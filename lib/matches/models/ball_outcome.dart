@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 
+/// Defines the types of balls that can be bowled in cricket.
 enum BallType {
   valid,
   wide,
@@ -10,6 +11,7 @@ enum BallType {
   // dead
 }
 
+/// Represents the outcome of a single ball in a cricket match.
 class BallOutcome {
   final String ballId;
   final BallType type;
@@ -33,15 +35,26 @@ class BallOutcome {
 
   int get remainingBalls => 6 - ballNumber;
 
-  static List<BallOutcome> getOutComeList(
-      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
-    List<BallOutcome> balls = [];
-    for (final doc in docs) {
-      final ball = BallOutcome.fromMap(doc.data());
-      balls.add(ball);
+  String get displayOutcome {
+    if (isWicket) {
+      if (reasonOfOut == ReasonOfOut.runOut && runs > 0) {
+        return '${runs}W';
+      }
+      return 'W';
     }
 
-    return balls;
+    switch (type) {
+      case BallType.valid:
+        return '$runs';
+      case BallType.wide:
+        return runs <= 0 ? 'WD' : '${runs}WD';
+      case BallType.noBall:
+        return runs == 0 ? 'NB' : '${runs}NB';
+      case BallType.bye:
+        return '${runs}BY';
+      case BallType.legBye:
+        return '${runs}LB';
+    }
   }
 
   Map<String, dynamic> toMap() => {
@@ -55,35 +68,15 @@ class BallOutcome {
         'isBoundary': isBoundary,
       };
 
-  String get displayOutcome {
-    if (isWicket) {
-      if (reasonOfOut == ReasonOfOut.runOut) {
-        String displayRuns = runs == 0 ? '' : runs.toString();
-        return '${displayRuns}W';
-      }
-      return 'W';
-    }
-
-    switch (type) {
-      case BallType.valid:
-        return '$runs';
-      case BallType.wide:
-        return '${runs == 0 ? '' : runs}WD';
-      case BallType.noBall:
-        return '${runs == 0 ? '' : runs}NB';
-      case BallType.bye:
-        return '${runs == 0 ? '' : runs}BY';
-      case BallType.legBye:
-        return '${runs == 0 ? '' : runs}LB';
-    }
-  }
-
   factory BallOutcome.fromMap(Map<String, dynamic> map) {
     return BallOutcome(
-      type: BallType.values.firstWhere((type) => type.name == map['type']),
+      ballId: map['ballId'],
+      type: BallType.values.firstWhere(
+        (type) => type.name == map['type'],
+        orElse: () => BallType.valid,
+      ),
       runs: map['runs'],
       isWicket: map['isWicket'] ?? false,
-      ballId: map['ballId'],
       timestamp: map['timestamp'],
       ballNumber: map['ballNumber'],
       isBoundary: map['isBoundary'],
@@ -94,5 +87,10 @@ class BallOutcome {
             )
           : null,
     );
+  }
+
+  static List<BallOutcome> fromQuerySnapshot(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    return docs.map((doc) => BallOutcome.fromMap(doc.data())).toList();
   }
 }

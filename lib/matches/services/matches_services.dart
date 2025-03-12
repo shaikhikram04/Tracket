@@ -539,6 +539,6 @@ class MatchesServices {
 
     final docs = currentOversSnap.docs;
 
-    return BallOutcome.getOutComeList(docs);
+    return BallOutcome.fromQuerySnapshot(docs);
   }
 }

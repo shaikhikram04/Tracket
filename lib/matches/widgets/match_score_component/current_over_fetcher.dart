@@ -39,7 +39,7 @@ class CurrentOverFetcher extends StatelessWidget {
           remainingBalls = 6 - currOverRuns.last.data()['ballNumber'] as int;
         }
 
-        final balls = BallOutcome.getOutComeList(currOverRuns);
+        final balls = BallOutcome.fromQuerySnapshot(currOverRuns);
 
         return CurrentOverIndicator(
           balls: balls,
