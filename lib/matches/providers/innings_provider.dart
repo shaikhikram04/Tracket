@@ -185,7 +185,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   //*   plus any additional runs scored.
   //* - **Batsman:** Only credited if the delivery is not “extra” (except a no-ball
   //*   where the batsman hits the ball).
-  //* - **Bowler:** Charged based on the type of extra (byes/leg byes aren’t counted).
+  //* - **Bowler:** Charged based on the type of extra (byes/leg byes aren't counted).
   //* - **Wicket:** Dismissals on a no-ball are disallowed (except run outs).
   Future<void> addDelivery({
     required int runs,
@@ -240,7 +240,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     //* Calculate the total team runs for this delivery.
     //* - For a wide: 1 (penalty) + any additional runs (from running).
-    //* - For a no-ball: 1 (penalty) + batsman’s runs (if valid shot) or, if accompanied
+    //* - For a no-ball: 1 (penalty) + batsman`s runs (if valid shot) or, if accompanied
     //*   by byes/leg byes, only the penalty is charged to the bowler (though the team
     //*   score includes the extra runs).
     //* - For byes/leg byes: team runs equal the runs taken.
