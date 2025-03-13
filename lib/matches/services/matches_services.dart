@@ -94,39 +94,6 @@ class MatchesServices {
     });
   }
 
-  static createMatch(
-    ChallengeMatch challegeMatch,
-    String acceptedBy,
-  ) {
-    final match = Match(
-      challengerPlayerId: challegeMatch.challengerId,
-      challengeAcceptedBy: acceptedBy,
-      participants: [
-        challegeMatch.challengerTeam.teamId,
-        challegeMatch.challengedTeam.teamId,
-      ],
-      team1: challegeMatch.challengerTeam,
-      team2: challegeMatch.challengedTeam,
-      noOfPlayer: challegeMatch.noOfPlayers,
-      isTeam1WonToss: null,
-      tossDecision: null,
-      createdAt: Timestamp.now(),
-      matchFormat: challegeMatch.overs,
-      matchType: challegeMatch.matchType,
-      spectatorsAllowed: challegeMatch.allowSpectator,
-      updatedAt: Timestamp.now(),
-      venue: challegeMatch.venue,
-      team1Players: [],
-      team2Players: [],
-      schedule: challegeMatch.schedule,
-    );
-
-    _firestore
-        .collection(FirestoreCollections.matches)
-        .doc(match.id)
-        .set(match.toMap);
-  }
-
   static Future<List<MatchPlayerInfo>> getChallengeMatchTeamPlayers({
     required String challengeId,
     required bool isChallenger,
@@ -165,6 +132,7 @@ class MatchesServices {
     required BuildContext context,
   }) async {
     final match = Match(
+      id: _uuid.v4(),
       challengerPlayerId: challenge.challengerId,
       challengeAcceptedBy: acceptedBy,
       participants: [

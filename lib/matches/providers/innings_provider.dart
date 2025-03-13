@@ -65,40 +65,14 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     state = innings;
   }
 
-  //* Starts the first innings.
-  void startFirstInnings(Inning inning) {
-    final match = ref.read(matchStateProvider);
-    if (match == null) return;
+  int? get target {
+    if (state.last == null) return null;
 
-    // final inning1 = match.initializeFirstInnings(
-    //   strikerPosition: strikerPosition,
-    //   nonStrikerPosition: nonStrikerPosition,
-    //   bowlerId: bowlerId,
-    // );
-
-    state = [inning, null];
+    return state.first!.runs + 1;
   }
 
-  // //* Starts the second innings.
-  // void startSecondInnings({
-  //   required int bowlerId,
-  //   required int strikerPosition,
-  //   required int nonStrikerPosition,
-  // }) {
-  //   final match = ref.read(matchStateProvider);
-  //   if (match == null) return;
-
-  //   final inning2 = match.initializeFirstInnings(
-  //     strikerPosition: strikerPosition,
-  //     nonStrikerPosition: nonStrikerPosition,
-  //     bowlerId: bowlerId,
-  //   );
-
-  //   state = [state.first, inning2];
-  // }
-
   void setNewBatsmenOnOut(MatchPlayerInfo newBatsman) {
-    if (_currentInningIndex == null) return;
+    if (currentInnings == null) return;
 
     final battingPosition = currentInnings!.battingStats.length + 1;
     final newBatsmanStat = BattingScore(

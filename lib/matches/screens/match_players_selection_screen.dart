@@ -43,11 +43,7 @@ class _MatchPlayersSelectionScreenState
 
     final match = ref.read(matchStateProvider)!;
 
-    final inning1 = match.initializeFirstInnings(
-      striker: _openers.first,
-      nonStriker: _openers.last,
-      bowler: _bowler!,
-    );
+    final inning1 = match.initializeFirstInnings(bowlerId: _bowler!.playerId);
     try {
       final striker = BattingScore(
         uuid: _openers[0].playerId,

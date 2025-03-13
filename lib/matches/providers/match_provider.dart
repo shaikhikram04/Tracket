@@ -38,6 +38,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       challengeAcceptedBy: challengeAcceptedBy,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
+      id: uuid.v4(),
     );
   }
 
@@ -50,10 +51,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
       {required bool isTeam1Won, required TossDecision decision}) {
     if (state == null) return;
 
-    state = state!.copyWith(
-      isTeam1WonToss: isTeam1Won,
-      tossDecision: decision,
-    );
+    state = state!.setTossDecision(decision, isTeam1Won);
   }
 
   void updateMatchStatus(MatchStatus status) {

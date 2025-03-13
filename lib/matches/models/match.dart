@@ -19,35 +19,6 @@ enum WinningMethod { byRuns, byWickets, byDls, tied, noResult }
 const uuid = Uuid();
 
 class Match {
-  Match({
-    required this.team1,
-    required this.team2,
-    required this.team1Players,
-    required this.team2Players,
-    required this.noOfPlayer,
-    required this.matchFormat,
-    required this.matchType,
-    required this.venue,
-    required this.schedule,
-    required this.participants,
-    required this.challengerPlayerId,
-    required this.challengeAcceptedBy,
-    required this.updatedAt,
-    required this.createdAt,
-    this.startBy,
-    this.isTeam1WonToss,
-    this.tossDecision,
-    this.winningMargin,
-    this.winningMethod,
-    this.winningTeamId,
-    this.currentInningNumber,
-    this.spectatorsAllowed = true,
-    this.status = MatchStatus.scheduled,
-    this.team1Score,
-    this.team2Score,
-    String? id,
-  }) : id = id ?? const Uuid().v4();
-
   final String id;
   final MatchTeamInfo team1;
   final MatchTeamInfo team2;
@@ -74,6 +45,35 @@ class Match {
   final String? startBy;
   final TeamScore? team1Score;
   final TeamScore? team2Score;
+
+  Match({
+    required this.id,
+    required this.team1,
+    required this.team2,
+    required this.team1Players,
+    required this.team2Players,
+    required this.noOfPlayer,
+    required this.matchFormat,
+    required this.matchType,
+    required this.venue,
+    required this.schedule,
+    required this.participants,
+    required this.challengerPlayerId,
+    required this.challengeAcceptedBy,
+    required this.updatedAt,
+    required this.createdAt,
+    this.startBy,
+    this.isTeam1WonToss,
+    this.tossDecision,
+    this.winningMargin,
+    this.winningMethod,
+    this.winningTeamId,
+    this.currentInningNumber,
+    this.spectatorsAllowed = true,
+    this.status = MatchStatus.scheduled,
+    this.team1Score,
+    this.team2Score,
+  });
 
   // Match configuration getters
   int get over => switch (matchFormat) {
@@ -139,79 +139,53 @@ class Match {
     return bowlingTeam!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
-  // int? get target {
-  //   if (currentInningNumber == 2) return inning1!.runs;
-  //   if (inning2 != null) return inning1!.runs;
-
-  //   return null;
-  // }
-
   // Match initialization methods
   Inning initializeFirstInnings({
-    required MatchPlayerInfo striker,
-    required MatchPlayerInfo nonStriker,
-    required MatchPlayerInfo bowler,
+    required String bowlerId,
   }) {
     if (tossDecision == null || isTeam1WonToss == null) {
       throw StateError('Toss details must be set before initializing innings');
     }
-
-    // final tossWinnerBatting = tossDecision == TossDecision.batting;
-    // final team1Batting = (isTeam1WonToss! && tossWinnerBatting) ||
-    //     (!isTeam1WonToss! && !tossWinnerBatting);
-
-    final battingPlayers = getBattingTeamPlayers();
-    final strikerPosition = battingPlayers.indexWhere(
-      (batsman) => batsman.playerId == striker.playerId,
-    );
-    final nonStrikerPosition = battingPlayers
-        .indexWhere((batsman) => batsman.playerId == nonStriker.playerId);
 
     final inning1 = Inning.initialize(
       battingTeam: battingTeam!,
       bowlingTeam: bowlingTeam!,
       battingPlayers: getBattingTeamPlayers(),
       bowlingPlayers: getBowlingTeamPlayers(),
-      currentBowlerId: bowler.playerId,
-      strikerPosition: strikerPosition,
-      nonStrikerPosition: nonStrikerPosition,
+      currentBowlerId: bowlerId,
+      strikerPosition: 0,
+      nonStrikerPosition: 1,
     );
 
     return inning1;
   }
 
-  Match setTossDecision(TossDecision decision, bool _isTeam1WonToss) {
-    final status = MatchStatus.live;
-    final isTeam1WonToss = _isTeam1WonToss;
+  Inning initializeSecondInnings({
+    required String bowlerId,
+  }) {
+    if (currentInningNumber == null) {
+      throw StateError(
+          'First innings must be completed before starting second innings');
+    }
 
-    return copyWith(
-      tossDecision: decision,
-      isTeam1WonToss: isTeam1WonToss,
-      status: status,
+    final inning2 = Inning.initialize(
+      battingTeam: bowlingTeam!,
+      bowlingTeam: battingTeam!,
+      battingPlayers: getBowlingTeamPlayers(),
+      bowlingPlayers: getBattingTeamPlayers(),
+      strikerPosition: 0,
+      nonStrikerPosition: 1,
+      currentBowlerId: bowlerId,
     );
+
+    return inning2;
   }
 
-  // Match initializeSecondInnings() {
-  //   if (currentInningNumber == null) {
-  //     throw StateError(
-  //         'First innings must be completed before starting second innings');
-  //   }
-
-  //   final inning2 = Inning.initialize(
-  //     battingTeam: inning1!.bowlingTeam,
-  //     bowlingTeam: inning1!.battingTeam,
-  //     battingPlayers: getBowlingTeamPlayers(),
-  //     bowlingPlayers: getBattingTeamPlayers(),
-  //   );
-
-  //   return copyWith(inning2: inning2);
-  // }
-
-  // Match state management
-  Match updateMatchStatus(MatchStatus newStatus) {
-    final status = newStatus;
-
-    return copyWith(status: status);
+  Match setTossDecision(TossDecision decision, bool _isTeam1WonToss) {
+    return copyWith(
+      tossDecision: decision,
+      isTeam1WonToss: _isTeam1WonToss,
+    );
   }
 
   Match setMatchResult({
@@ -261,6 +235,10 @@ class Match {
     );
   }
 
+  static List<MatchPlayerInfo> getPlayers(List players) {
+    return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
+  }
+
   Map<String, dynamic> get toMap => {
         'id': id,
         'team1': team1.toMap,
@@ -290,11 +268,7 @@ class Match {
         'team2Score': team2Score?.toMap(),
       };
 
-  static List<MatchPlayerInfo> getPlayers(List players) {
-    return players.map((e) => MatchPlayerInfo.fromMap(e)).toList();
-  }
-
-  static Match fromMap(Map<String, dynamic> map) {
+  factory Match.fromMap(Map<String, dynamic> map) {
     return Match(
       id: map['id'],
       team1: MatchTeamInfo.fromMap(map['team1']),
