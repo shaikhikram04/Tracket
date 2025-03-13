@@ -10,6 +10,22 @@ import 'package:tracket/matches/models/match_team_info.dart';
 enum InningsStatus { notStarted, inProgress, declared, allOut, completed }
 
 class Inning {
+  final MatchTeamInfo battingTeam;
+  final MatchTeamInfo bowlingTeam;
+  final List<BattingScore> battingStats;
+  final List<BowlingScore> bowlingStats;
+  final List<FallOfWicket> fallOfWickets;
+  final int runs;
+  final int wickets;
+  final int balls;
+  final Extras extras;
+  final int fours;
+  final int sixes;
+  final InningsStatus status;
+  final int strikerPosition;
+  final int nonStrikerPosition;
+  final String currentBowlerId;
+
   const Inning({
     required this.battingTeam,
     required this.bowlingTeam,
@@ -28,27 +44,11 @@ class Inning {
     this.extras = const Extras(),
   });
 
-  final MatchTeamInfo battingTeam;
-  final MatchTeamInfo bowlingTeam;
-  final List<BattingScore> battingStats;
-  final List<BowlingScore> bowlingStats;
-  final List<FallOfWicket> fallOfWickets;
-  final int runs;
-  final int wickets;
-  final int balls;
-  final Extras extras;
-  final int fours;
-  final int sixes;
-  final InningsStatus status;
-  final int strikerPosition;
-  final int nonStrikerPosition;
-  final String currentBowlerId;
-
   // Computed properties
   int get completedOvers => balls ~/ 6;
   int get remainingBalls => balls % 6;
 
-  String get oversDisplay => '$completedOvers.${remainingBalls}';
+  String get oversDisplay => '$completedOvers.$remainingBalls';
 
   double get runRate {
     if (balls == 0) return 0.0;
@@ -57,13 +57,22 @@ class Inning {
 
   String get wicketkeeperName {
     final wkId = bowlingTeam.wicketkeeperId;
-    return bowlingStats
-        .firstWhere((fielder) => fielder.uuid == wkId)
-        .playerName;
+    try {
+      return bowlingStats
+          .firstWhere((fielder) => fielder.uuid == wkId)
+          .playerName;
+    } catch (e) {
+      return 'Unknown';
+    }
   }
 
+  bool get isInningsCompleted =>
+      status == InningsStatus.allOut ||
+      status == InningsStatus.declared ||
+      status == InningsStatus.completed;
+
   // Factory constructor for initialization
-  static Inning initialize({
+  factory Inning.initialize({
     required MatchTeamInfo battingTeam,
     required MatchTeamInfo bowlingTeam,
     required List<MatchPlayerInfo> battingPlayers,
@@ -83,11 +92,6 @@ class Inning {
     );
   }
 
-  bool get isInningsCompleted =>
-      status == InningsStatus.allOut ||
-      status == InningsStatus.declared ||
-      status == InningsStatus.completed;
-
   // State update methods
   Inning addDelivery({
     required int runs,
@@ -103,6 +107,10 @@ class Inning {
     ReasonOfOut? reasonOfOut,
     String? dismissalInfo,
   }) {
+    if (!_isValidDelivery(isWide: isWide, isNoBall: isNoBall, runs: runs)) {
+      throw ArgumentError('Invalid delivery parameters');
+    }
+
     final newExtras = extras.addExtras(
       isWide: isWide,
       isNoBall: isNoBall,
@@ -113,91 +121,45 @@ class Inning {
 
     int newStrikerPosition = strikerPosition;
     int newNonStrikerPosition = nonStrikerPosition;
-    int runsForBowler = 0;
     String outBatsmanName = '';
 
-    List<BattingScore> newBattingStat = battingStats;
-    List<BowlingScore> newBowlingStat = bowlingStats;
-    //* Wicket handling:
-    if (isWicket) {
-      //* If the striker is out (or for run-outs affecting the non-striker)
-      if (outBatsmanPosition == null || outBatsmanPosition == strikerPosition) {
-        newBattingStat = battingStats.map((player) {
-          if (player.battingPosition == strikerPosition) {
-            outBatsmanName = player.playerName;
-            return player.wicket(
-              runs,
-              countBall: !isWide,
-              reasonOfOut: reasonOfOut!,
-              dismissalInfo: dismissalInfo,
-            );
-          }
-          return player;
-        }).toList();
-      } else {
-        //* Non-striker gets dismissed (commonly in a run-out).
-        newBattingStat = battingStats.map((player) {
-          if (player.battingPosition == strikerPosition) {
-            return player.addRuns(runs, isFour: isFour, isSix: isSix);
-          }
-          if (player.battingPosition == nonStrikerPosition) {
-            outBatsmanName = player.playerName;
-            return player.wicket(
-              0,
-              countBall: false,
-              reasonOfOut: reasonOfOut!,
-              dismissalInfo: dismissalInfo,
-            );
-          }
-          return player;
-        }).toList();
-        // newNonStrikerPosition = -1;
-      }
-    } else {
-      //* Add runs only if the delivery is not “extra” (i.e. wide, bye, leg bye,
-      //* or a no-ball that resulted in bye/leg bye).
-      final shouldAddRuns =
-          !(isWide || isBye || isLegBye || (isNoBall && (isBye || isLegBye)));
-      if (shouldAddRuns) {
-        newBattingStat = battingStats.map((player) {
-          if (player.battingPosition == strikerPosition) {
-            return player.addRuns(runs, isFour: isFour, isSix: isSix);
-          }
-          return player;
-        }).toList();
-      }
-    }
+    final runsForBowler = _calculateRunsForBowler(
+      runs: runs,
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isBye: isBye,
+      isLegBye: isLegBye,
+    );
+
+    final newBattingStats = _updateBattingStats(
+      runs: runs,
+      isFour: isFour,
+      isSix: isSix,
+      isWide: isWide,
+      isWicket: isWicket,
+      isBye: isBye,
+      isLegBye: isLegBye,
+      isNoBall: isNoBall,
+      outBatsmanPosition: outBatsmanPosition,
+      reasonOfOut: reasonOfOut,
+      dismissalInfo: dismissalInfo,
+      outBatsmanNameCallback: (name) => outBatsmanName = name,
+    );
+
+    // Update bowling statistics
+    final newBowlingStats = _updateBowlingStats(
+      runsForBowler: runsForBowler,
+      isWide: isWide,
+      isNoBall: isNoBall,
+      isWicket: isWicket,
+    );
+
     if ((runs.isOdd && !isOverCompleted) || (isOverCompleted && runs.isEven)) {
       newStrikerPosition = nonStrikerPosition;
       newNonStrikerPosition = strikerPosition;
     }
 
-    if (isWide) {
-      runsForBowler = 1 + runs;
-    } else if (isNoBall) {
-      if (isBye || isLegBye) {
-        runsForBowler = 1;
-      } else {
-        runsForBowler = 1 + runs;
-      }
-    } else if (isBye || isLegBye) {
-      runsForBowler = 0;
-    } else {
-      runsForBowler = runs;
-    }
-
-    newBowlingStat = bowlingStats.map((player) {
-      if (player.uuid == currentBowlerId) {
-        return player.addBall(
-          runs: runsForBowler,
-          isWide: isWide,
-          isNoBall: isNoBall,
-          isWicket: isWicket,
-        );
-      }
-      return player;
-    }).toList();
-
+    // Create fall of wicket if applicable
     FallOfWicket? fallOfWicket;
     if (isWicket) {
       fallOfWicket = FallOfWicket(
@@ -215,8 +177,8 @@ class Inning {
       sixes: isSix ? this.sixes + 1 : this.sixes,
       wickets: isWicket ? this.wickets + 1 : this.wickets,
       extras: newExtras,
-      battingStats: newBattingStat,
-      bowlingStats: newBowlingStat,
+      battingStats: newBattingStats,
+      bowlingStats: newBowlingStats,
       strikerPosition: newStrikerPosition,
       nonStrikerPosition: newNonStrikerPosition,
       fallOfWickets: isWicket
@@ -229,16 +191,8 @@ class Inning {
     return copyWith(status: newStatus);
   }
 
-  Inning addWicket() {
-    return copyWith(
-      wickets: wickets + 1,
-      status:
-          wickets + 1 >= battingStats.length ? InningsStatus.allOut : status,
-    );
-  }
-
-  // Validation methods
-  bool isValidDelivery({
+  /// Validates whether a delivery configuration is valid
+  bool _isValidDelivery({
     required bool isWide,
     required bool isNoBall,
     required int runs,
@@ -253,6 +207,138 @@ class Inning {
     return totalRunsFromBoundaries <= runs &&
         wickets <= battingStats.length &&
         balls >= 0;
+  }
+
+  /// Calculate runs to be charged to the bowler
+  int _calculateRunsForBowler({
+    required int runs,
+    required bool isWide,
+    required bool isNoBall,
+    required bool isBye,
+    required bool isLegBye,
+  }) {
+    if (isWide) {
+      return 1 + runs; // Wide + any additional runs
+    } else if (isNoBall) {
+      if (isBye || isLegBye) {
+        return 1; // Just the no-ball penalty
+      } else {
+        return 1 + runs; // No-ball + any runs scored
+      }
+    } else if (isBye || isLegBye) {
+      return 0; // Byes/leg-byes aren't charged to the bowler
+    } else {
+      return runs; // Normal runs charged to the bowler
+    }
+  }
+
+  /// Update batting statistics based on the delivery
+  List<BattingScore> _updateBattingStats({
+    required int runs,
+    required bool isFour,
+    required bool isSix,
+    required bool isWide,
+    required bool isWicket,
+    required bool isBye,
+    required bool isLegBye,
+    required bool isNoBall,
+    int? outBatsmanPosition,
+    ReasonOfOut? reasonOfOut,
+    String? dismissalInfo,
+    required Function(String) outBatsmanNameCallback,
+  }) {
+    if (isWicket) {
+      return _updateBattingStatsWithWicket(
+        runs: runs,
+        isFour: isFour,
+        isSix: isSix,
+        isWide: isWide,
+        outBatsmanPosition: outBatsmanPosition,
+        reasonOfOut: reasonOfOut!,
+        dismissalInfo: dismissalInfo,
+        outBatsmanNameCallback: outBatsmanNameCallback,
+      );
+    } else {
+      // Should runs be added to batsman's score?
+      final shouldAddRuns =
+          !(isWide || isBye || isLegBye || (isNoBall && (isBye || isLegBye)));
+
+      if (shouldAddRuns) {
+        return battingStats.map((player) {
+          if (player.battingPosition == strikerPosition) {
+            return player.addRuns(runs, isFour: isFour, isSix: isSix);
+          }
+          return player;
+        }).toList();
+      }
+
+      return battingStats;
+    }
+  }
+
+  /// Update batting stats when a wicket falls
+  List<BattingScore> _updateBattingStatsWithWicket({
+    required int runs,
+    required bool isFour,
+    required bool isSix,
+    required bool isWide,
+    required int? outBatsmanPosition,
+    required ReasonOfOut reasonOfOut,
+    String? dismissalInfo,
+    required Function(String) outBatsmanNameCallback,
+  }) {
+    // If outBatsmanPosition is null or equals striker, the striker is out
+    if (outBatsmanPosition == null || outBatsmanPosition == strikerPosition) {
+      return battingStats.map((player) {
+        if (player.battingPosition == strikerPosition) {
+          outBatsmanNameCallback(player.playerName);
+          return player.wicket(
+            runs,
+            countBall: !isWide,
+            reasonOfOut: reasonOfOut,
+            dismissalInfo: dismissalInfo,
+          );
+        }
+        return player;
+      }).toList();
+    } else {
+      // Non-striker is out (typically in a run-out)
+      return battingStats.map((player) {
+        if (player.battingPosition == strikerPosition) {
+          return player.addRuns(runs, isFour: isFour, isSix: isSix);
+        }
+        if (player.battingPosition == nonStrikerPosition) {
+          outBatsmanNameCallback(player.playerName);
+          return player.wicket(
+            0,
+            countBall: false,
+            reasonOfOut: reasonOfOut,
+            dismissalInfo: dismissalInfo,
+          );
+        }
+        return player;
+      }).toList();
+    }
+  }
+
+  /// Update bowling statistics based on the delivery
+  List<BowlingScore> _updateBowlingStats({
+    required int runsForBowler,
+    required bool isWide,
+    required bool isNoBall,
+    required bool isWicket,
+  }) {
+    return bowlingStats.map((player) {
+      if (player.uuid == currentBowlerId) {
+        return player.addBall(
+          runs: runsForBowler,
+          isWide: isWide,
+          isNoBall: isNoBall,
+          isWicket: isWicket,
+        );
+      }
+      return player;
+    }).toList();
   }
 
   // Partnership calculation
