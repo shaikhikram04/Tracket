@@ -106,6 +106,7 @@ class Inning {
       isNoBall: isNoBall,
       isBye: isBye,
       isLegBye: isLegBye,
+      runs: runs,
     );
 
     int newStrikerPosition = strikerPosition;

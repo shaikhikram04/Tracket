@@ -325,6 +325,7 @@ class MatchesServices {
       isNoBall: extras.isNoBall,
       isBye: extras.isBye,
       isLegBye: extras.isLegBye,
+      runs: runs,
     );
 
     final willBallAddedToTeamScore = !extras.isWide && !extras.isNoBall;
