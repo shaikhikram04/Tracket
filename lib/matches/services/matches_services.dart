@@ -4,6 +4,7 @@ import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/extras.dart';
+import 'package:tracket/matches/models/fall_of_wickets.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
@@ -315,6 +316,7 @@ class MatchesServices {
     required TeamScore teamScore,
     required BallOutcome ballOutCome,
     required bool isOverCompleted,
+    FallOfWicket? fallofWicket,
     bool isMaiden = false,
     bool isWicket = false,
     int? outBatsmanPosition,
@@ -399,6 +401,8 @@ class MatchesServices {
             'nonStrikerPosition': newNonStrikerPosition,
           if (strikerPosition != newStrikerPosition)
             'strikerPosition': newStrikerPosition,
+          if (fallofWicket != null)
+            'fallOfWickets': FieldValue.arrayUnion([fallofWicket.toMap()]),
         },
       );
 

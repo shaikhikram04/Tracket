@@ -57,7 +57,9 @@ class Inning {
 
   String get wicketkeeperName {
     final wkId = bowlingTeam.wicketkeeperId;
-    return bowlingStats.firstWhere((fielder) => fielder.uuid == wkId).playerName;
+    return bowlingStats
+        .firstWhere((fielder) => fielder.uuid == wkId)
+        .playerName;
   }
 
   // Factory constructor for initialization
@@ -112,6 +114,7 @@ class Inning {
     int newStrikerPosition = strikerPosition;
     int newNonStrikerPosition = nonStrikerPosition;
     int runsForBowler = 0;
+    String outBatsmanName = '';
 
     List<BattingScore> newBattingStat = battingStats;
     List<BowlingScore> newBowlingStat = bowlingStats;
@@ -121,6 +124,7 @@ class Inning {
       if (outBatsmanPosition == null || outBatsmanPosition == strikerPosition) {
         newBattingStat = battingStats.map((player) {
           if (player.battingPosition == strikerPosition) {
+            outBatsmanName = player.playerName;
             return player.wicket(
               runs,
               countBall: !isWide,
@@ -137,6 +141,7 @@ class Inning {
             return player.addRuns(runs, isFour: isFour, isSix: isSix);
           }
           if (player.battingPosition == nonStrikerPosition) {
+            outBatsmanName = player.playerName;
             return player.wicket(
               0,
               countBall: false,
@@ -193,6 +198,16 @@ class Inning {
       return player;
     }).toList();
 
+    FallOfWicket? fallOfWicket;
+    if (isWicket) {
+      fallOfWicket = FallOfWicket(
+        wicketNumber: wickets + 1,
+        runsAtFall: this.runs + runs,
+        batsmanName: outBatsmanName,
+        balls: isWide || isNoBall ? this.balls : this.balls + 1,
+      );
+    }
+
     return copyWith(
       runs: this.runs + runs,
       balls: isWide || isNoBall ? this.balls : this.balls + 1,
@@ -204,6 +219,9 @@ class Inning {
       bowlingStats: newBowlingStat,
       strikerPosition: newStrikerPosition,
       nonStrikerPosition: newNonStrikerPosition,
+      fallOfWickets: isWicket
+          ? [...this.fallOfWickets, fallOfWicket!]
+          : this.fallOfWickets,
     );
   }
 
@@ -266,6 +284,8 @@ class Inning {
       'strikerPosition': strikerPosition,
       'nonStrikerPosition': nonStrikerPosition,
       'currentBowlerId': currentBowlerId,
+      'fallOfWickets':
+          fallOfWickets.map((fallOfWicket) => fallOfWicket.toMap()).toList()
     };
   }
 
@@ -289,6 +309,9 @@ class Inning {
       strikerPosition: map['strikerPosition'],
       nonStrikerPosition: map['nonStrikerPosition'],
       currentBowlerId: map['currentBowlerId'],
+      fallOfWickets: map['fallOfWickets']
+          .map((fallOfWicketMap) => FallOfWicket.fromMap(fallOfWicketMap))
+          .toList(),
     );
   }
 
@@ -327,6 +350,7 @@ class Inning {
     int? strikerPosition,
     int? nonStrikerPosition,
     String? currentBowlerId,
+    List<FallOfWicket>? fallOfWickets,
   }) =>
       Inning(
         battingTeam: battingTeam ?? this.battingTeam,
@@ -343,5 +367,6 @@ class Inning {
         strikerPosition: strikerPosition ?? this.strikerPosition,
         nonStrikerPosition: nonStrikerPosition ?? this.nonStrikerPosition,
         currentBowlerId: currentBowlerId ?? this.currentBowlerId,
+        fallOfWickets: fallOfWickets ?? this.fallOfWickets,
       );
 }
