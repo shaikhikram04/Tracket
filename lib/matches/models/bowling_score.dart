@@ -1,4 +1,14 @@
 class BowlingScore {
+  final String uuid;
+  final String playerName;
+  final int balls;
+  final int runsGiven;
+  final int wickets;
+  final int maidenOvers;
+  final int dots;
+  final int wides;
+  final int noBalls;
+
   BowlingScore({
     required this.uuid,
     required this.playerName,
@@ -11,37 +21,21 @@ class BowlingScore {
     this.wides = 0,
   });
 
-  final String uuid;
-  final String playerName;
-  final int balls;
-  final int runsGiven;
-  final int wickets;
-  final int maidenOvers;
-  final int dots;
-  final int wides;
-  final int noBalls;
-
   // Computed properties
   int get overs => balls ~/ 6;
   int get remainingBalls => balls % 6;
 
-  String get oversDisplay {
-    if (remainingBalls == 0) {
-      return overs.toString();
-    }
-    return '$overs.${remainingBalls}';
-  }
+  String get oversDisplay =>
+      remainingBalls == 0 ? overs.toString() : '$overs.${remainingBalls}';
 
   double get economy {
-    if (balls == 0) {
-      return 0;
-    }
+    if (balls == 0) return 0;
 
-    return runsGiven / (balls / 6.0);
+    return (runsGiven * 6) / balls;
   }
 
   double get average {
-    if (wickets == 0) return 0.0;
+    if (wickets == 0) return runsGiven.toDouble();
     return runsGiven / wickets;
   }
 
@@ -59,6 +53,20 @@ class BowlingScore {
     return (dots / balls) * 100;
   }
 
+  String get bowlingFigures => '$wickets/$runsGiven';
+
+  String get detailedFigures => '$oversDisplay-$wickets-$runsGiven';
+
+  bool get isValidOver => balls % 6 == 0;
+
+  bool get hasValidFigures {
+    return balls >= 0 &&
+        runsGiven >= 0 &&
+        wickets >= 0 &&
+        maidenOvers >= 0 &&
+        maidenOvers <= overs;
+  }
+
   // Methods to update bowling figures
   BowlingScore addBall({
     required int runs,
@@ -66,9 +74,6 @@ class BowlingScore {
     bool isNoBall = false,
     bool isWicket = false,
   }) {
-    // final runsGiven =
-    //     this.runsGiven + (isWide || isNoBall ? 1 : 0) + (!isWide ? runs : 0);
-
     return copyWith(
       balls: isWide || isNoBall ? balls : balls + 1,
       runsGiven: runs,
@@ -80,20 +85,12 @@ class BowlingScore {
   }
 
   BowlingScore addMaidenOver() {
+    if (!isValidOver) {
+      throw ArgumentError('Cannot add maiden over: current over is incomplete');
+    }
     return copyWith(
       maidenOvers: maidenOvers + 1,
     );
-  }
-
-  // Validation methods
-  bool get isValidOver => balls % 6 == 0;
-
-  bool get hasValidFigures {
-    return balls >= 0 &&
-        runsGiven >= 0 &&
-        wickets >= 0 &&
-        maidenOvers >= 0 &&
-        maidenOvers <= overs;
   }
 
   Map<String, dynamic> toMap() {
@@ -112,15 +109,15 @@ class BowlingScore {
 
   static BowlingScore fromMap(Map<String, dynamic> map) {
     return BowlingScore(
-      uuid: map['uuid'],
-      playerName: map['playerName'],
-      balls: map['balls'],
-      runsGiven: map['runsGiven'],
-      wickets: map['wickets'],
-      maidenOvers: map['maidenOvers'],
-      dots: map['dots'],
-      noBalls: map['noBalls'],
-      wides: map['wides'],
+      uuid: map['uuid'] ?? '',
+      playerName: map['playerName'] ?? '',
+      balls: map['balls'] ?? 0,
+      runsGiven: map['runsGiven'] ?? 0,
+      wickets: map['wickets'] ?? 0,
+      maidenOvers: map['maidenOvers'] ?? 0,
+      dots: map['dots'] ?? 0,
+      noBalls: map['noBalls'] ?? 0,
+      wides: map['wides'] ?? 0,
     );
   }
 

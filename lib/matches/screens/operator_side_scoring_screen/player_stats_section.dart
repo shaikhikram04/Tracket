@@ -49,7 +49,7 @@ class PlayerStatsSection extends StatelessWidget {
                 SizedBox(height: 15),
                 _buildBowlerCard(
                   bowler.playerName,
-                  '${bowler.oversDisplay}-${bowler.wickets}-${bowler.runsGiven}',
+                  bowler.detailedFigures,
                   'Econ: ${bowler.economy.toStringAsFixed(2)}',
                 ),
               ],
