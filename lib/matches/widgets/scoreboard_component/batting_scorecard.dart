@@ -180,7 +180,7 @@ class BattingScorecard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            _formatFallOfWickets(),
+            FallOfWicket.formatWicketsList(fallOfWickets),
             style: const TextStyle(
               fontSize: 13,
               color: LightThemeColors.secondaryText,
@@ -190,16 +190,6 @@ class BattingScorecard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  /// Formats the fall of wickets data into a readable string
-  String _formatFallOfWickets() {
-    return fallOfWickets.map((wicket) {
-      String oversText = wicket.overs != null
-          ? ' (${wicket.overs!.toStringAsFixed(1)} ov)'
-          : '';
-      return '${wicket.wicketNumber}-${wicket.runsAtFall} ${wicket.batsmanName}$oversText';
-    }).join(' • ');
   }
 }
 
