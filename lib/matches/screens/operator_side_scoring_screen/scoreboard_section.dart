@@ -33,7 +33,7 @@ class ScoreboardSection extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            grassGreen.withValues(alpha:0.9),
+            grassGreen.withValues(alpha: 0.9),
             grassGreen,
           ],
         ),
@@ -43,7 +43,7 @@ class ScoreboardSection extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha:0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 8,
             offset: Offset(0, 4),
           ),
@@ -72,7 +72,7 @@ class ScoreboardSection extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(top: 15, bottom: 10),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha:0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
@@ -81,6 +81,7 @@ class ScoreboardSection extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
+                    spacing: 8,
                     children: [
                       // Team 1
                       _buildTeamDisplay(
@@ -95,7 +96,7 @@ class ScoreboardSection extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha:0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -137,7 +138,7 @@ class ScoreboardSection extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 3),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha:0.15),
+                              color: Colors.white.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
@@ -146,7 +147,7 @@ class ScoreboardSection extends StatelessWidget {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: LightThemeColors.surfaceColor
-                                    .withValues(alpha:0.9),
+                                    .withValues(alpha: 0.9),
                               ),
                             ),
                           ),
@@ -172,7 +173,7 @@ class ScoreboardSection extends StatelessWidget {
                                   fontSize: 30,
                                   fontWeight: FontWeight.w600,
                                   color: LightThemeColors.surfaceColor
-                                      .withValues(alpha:0.85),
+                                      .withValues(alpha: 0.85),
                                 ),
                               ),
                             ],
@@ -185,7 +186,7 @@ class ScoreboardSection extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha:0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Row(
@@ -195,7 +196,7 @@ class ScoreboardSection extends StatelessWidget {
                                   Icons.sports_baseball_outlined,
                                   size: 16,
                                   color: LightThemeColors.surfaceColor
-                                      .withValues(alpha:0.9),
+                                      .withValues(alpha: 0.9),
                                 ),
                                 SizedBox(width: 5),
                                 Text(
@@ -204,7 +205,7 @@ class ScoreboardSection extends StatelessWidget {
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                     color: LightThemeColors.surfaceColor
-                                        .withValues(alpha:0.9),
+                                        .withValues(alpha: 0.9),
                                   ),
                                 ),
                               ],
@@ -228,7 +229,7 @@ class ScoreboardSection extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha:0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
@@ -262,10 +263,12 @@ class ScoreboardSection extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color:
-              isBatting ? Colors.white.withValues(alpha:0.15) : Colors.transparent,
+          color: isBatting
+              ? Colors.white.withValues(alpha: 0.15)
+              : Colors.transparent,
           border: isBatting
-              ? Border.all(color: Colors.amberAccent.withValues(alpha:0.6), width: 1)
+              ? Border.all(
+                  color: Colors.amberAccent.withValues(alpha: 0.6), width: 1)
               : null,
         ),
         child: Row(
@@ -322,13 +325,13 @@ class ScoreboardSection extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            StatusColors.warning.withValues(alpha:0.3),
-            StatusColors.warning.withValues(alpha:0.15),
+            StatusColors.warning.withValues(alpha: 0.3),
+            StatusColors.warning.withValues(alpha: 0.15),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: StatusColors.warning.withValues(alpha:0.3),
+          color: StatusColors.warning.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -358,7 +361,7 @@ class ScoreboardSection extends StatelessWidget {
 
           // Divider
           Divider(
-            color: Colors.white.withValues(alpha:0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             height: 12,
           ),
 
@@ -368,7 +371,7 @@ class ScoreboardSection extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: LightThemeColors.surfaceColor.withValues(alpha:0.9),
+              color: LightThemeColors.surfaceColor.withValues(alpha: 0.9),
             ),
           ),
         ],
@@ -385,7 +388,7 @@ class ScoreboardSection extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha:0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
@@ -393,7 +396,7 @@ class ScoreboardSection extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withValues(alpha:0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
         ),
@@ -420,7 +423,7 @@ class ScoreboardSection extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha:0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -430,7 +433,7 @@ class ScoreboardSection extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withValues(alpha:0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                 ),
               ),
               if (target != null)
