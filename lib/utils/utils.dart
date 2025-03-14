@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracket/authentication/screens/verification_screen.dart';
@@ -270,13 +269,14 @@ Widget getCircleAvatar({
           : null,
     ),
     child: CircleAvatar(
-        radius: radius,
-        backgroundImage: image != null
-            ? MemoryImage(image)
-            : url.isEmpty
-                ? defaultImage
-                : CachedNetworkImageProvider(url),
-        onBackgroundImageError: (_, __) => defaultImage),
+      radius: radius,
+      backgroundImage: image != null
+          ? MemoryImage(image)
+          : url.isEmpty
+              ? defaultImage
+              : NetworkImage(url),
+      onBackgroundImageError: (_, __) => defaultImage,
+    ),
   );
 }
 

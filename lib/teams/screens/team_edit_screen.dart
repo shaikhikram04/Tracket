@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tracket/supabase_services.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/providers/team_state.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -99,7 +100,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     try {
       String? logoUrl;
       if (_image != null) {
-        //! Upload image to Firebase Storage
+        logoUrl = await SupabaseServices.uploadImage(_image!);
       }
 
       await TeamsServices.updateTeamField(
