@@ -80,7 +80,7 @@ class TossVenueSection extends StatelessWidget {
       children: [
         Icon(
           Icons.sports_cricket,
-          color: theme.colorScheme.primary.withOpacity(0.7),
+          color: theme.colorScheme.primary.withValues(alpha:0.7),
           size: 18,
         ),
         const SizedBox(width: 8),
@@ -95,7 +95,7 @@ class TossVenueSection extends StatelessWidget {
           'Awaiting toss',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontStyle: FontStyle.italic,
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            color: theme.colorScheme.onSurface.withValues(alpha:0.7),
           ),
         ),
       ],
@@ -126,7 +126,7 @@ class TossVenueSection extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: labelColor.withOpacity(0.7),
+          color: labelColor.withValues(alpha:0.7),
           size: 18,
         ),
         const SizedBox(width: 8),

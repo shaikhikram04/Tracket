@@ -35,8 +35,8 @@ class TeamsScoreSection extends StatelessWidget {
         border: Border(
           bottom: BorderSide(
             color: isLightMode
-                ? grassGreen.withOpacity(0.1)
-                : darkGrassGreen.withOpacity(0.2),
+                ? grassGreen.withValues(alpha:0.1)
+                : darkGrassGreen.withValues(alpha:0.2),
           ),
         ),
       ),
@@ -202,7 +202,7 @@ class TeamsScoreSection extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: StatusColors.liveMatch.withOpacity(0.4),
+            color: StatusColors.liveMatch.withValues(alpha:0.4),
             blurRadius: 4,
             spreadRadius: 1,
           ),
@@ -228,7 +228,7 @@ class TeamsScoreSection extends StatelessWidget {
             : DarkThemeColors.cardColor,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: primaryColor.withOpacity(0.1),
+          color: primaryColor.withValues(alpha:0.1),
         ),
       ),
       child: Text(

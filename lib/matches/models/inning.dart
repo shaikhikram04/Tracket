@@ -191,8 +191,6 @@ class Inning {
     return copyWith(status: newStatus);
   }
 
-  
-
   /// Validates whether a delivery configuration is valid
   bool _isValidDelivery({
     required bool isWide,
@@ -397,9 +395,11 @@ class Inning {
       strikerPosition: map['strikerPosition'],
       nonStrikerPosition: map['nonStrikerPosition'],
       currentBowlerId: map['currentBowlerId'],
-      fallOfWickets: map['fallOfWickets']
-          .map((fallOfWicketMap) => FallOfWicket.fromMap(fallOfWicketMap))
-          .toList(),
+      fallOfWickets: map['fallOfWickets'].isEmpty
+          ? <FallOfWicket>[]
+          : map['fallOfWickets']
+              .map((fallOfWicketMap) => FallOfWicket.fromMap(fallOfWicketMap))
+              .toList(),
     );
   }
 

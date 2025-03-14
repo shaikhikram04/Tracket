@@ -52,8 +52,7 @@ class BattingScore {
   }
 
   String get displayScore {
-    final notOutIndicator = isOut ? '' : '*';
-    return '$runs$notOutIndicator ($ballsFaced)';
+    return '$runs ($ballsFaced)';
   }
 
   BattingScore addRuns(int runs, {required bool isSix, required bool isFour}) {
@@ -65,7 +64,10 @@ class BattingScore {
     );
   }
 
-  BattingScore wicket(int runs, {required bool countBall, required ReasonOfOut reasonOfOut, String? dismissalInfo}) {
+  BattingScore wicket(int runs,
+      {required bool countBall,
+      required ReasonOfOut reasonOfOut,
+      String? dismissalInfo}) {
     return copyWith(
       isOut: true,
       ballsFaced: countBall ? ballsFaced + 1 : ballsFaced,

@@ -63,13 +63,12 @@ class TeamsServices {
           .set(team.toJson());
 
       final playerInfo = PlayerDetails(
-        cricketRole: adminCricketRole,
-        id: createdBy,
-        imageUrl: adminImageUrl,
-        name: adminName,
-        role: TeamRole.owner,
-        longCricketRole: longCricketRole
-      );
+          cricketRole: adminCricketRole,
+          id: createdBy,
+          imageUrl: adminImageUrl,
+          name: adminName,
+          role: TeamRole.owner,
+          longCricketRole: longCricketRole);
 
       await _firestore
           .collection(FirestoreCollections.teams)
@@ -117,7 +116,10 @@ class TeamsServices {
           .doc(playerId)
           .delete();
       ref.read(teamProvider.notifier).deletePlayer(playerId);
-      _firestore.collection(FirestoreCollections.teams).doc(teamState.team.id).update({
+      _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(teamState.team.id)
+          .update({
         'playersIds': FieldValue.arrayRemove([playerId]),
       });
       if (teamState.team.captainId == playerId) {

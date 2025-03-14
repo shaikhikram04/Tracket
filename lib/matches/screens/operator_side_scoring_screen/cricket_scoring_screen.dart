@@ -111,6 +111,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                     team1Name: matchState!.team1.teamName,
                     team2Name: matchState.team2.teamName,
                     isBlur: _isBlur,
+                    isTeam1Batting: inningState.last == null,
+                    totalOvers: matchState.over,
                   ),
 
                   // Current Over Indicator with animation

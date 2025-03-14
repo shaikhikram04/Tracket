@@ -40,7 +40,7 @@ class AddAdmin extends StatelessWidget {
           // Info Banner
           Container(
             padding: const EdgeInsets.all(16),
-            color: primaryLight.withOpacity(0.1),
+            color: primaryLight.withValues(alpha:0.1),
             child: Row(
               children: [
                 const Icon(

@@ -48,13 +48,13 @@ class CurrentOverIndicator extends StatelessWidget {
 
     Color shadowColor;
     if (ballOutcome.isWicket) {
-      shadowColor = InteractiveColors.inputError.withOpacity(0.3);
+      shadowColor = InteractiveColors.inputError.withValues(alpha:0.3);
     } else if (ballOutcome.runs == 4) {
-      shadowColor = Colors.blue.withOpacity(0.3);
+      shadowColor = Colors.blue.withValues(alpha:0.3);
     } else if (ballOutcome.runs == 6) {
-      shadowColor = Colors.purple.withOpacity(0.3);
+      shadowColor = Colors.purple.withValues(alpha:0.3);
     } else {
-      shadowColor = grassGreen.withOpacity(0.3);
+      shadowColor = grassGreen.withValues(alpha:0.3);
     }
 
     return [
