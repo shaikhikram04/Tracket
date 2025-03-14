@@ -23,7 +23,7 @@ class TeamsScreen extends ConsumerWidget {
     final player = ref.watch(playerProvider);
     final playerTeamsId = [
       ...player.playerTeamsId,
-      ''
+      '',
     ]; // Create new list with empty string
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
@@ -228,12 +228,8 @@ class _TeamsList extends StatelessWidget {
         return _TeamListTile(
           teamData: teamData,
           teamRole: teamRole,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TeamProfileScreen(teamData: teamData),
-            ),
-          ),
+          onTap: () =>
+              pushScreen(context, TeamProfileScreen(teamData: teamData)),
         );
       },
     );

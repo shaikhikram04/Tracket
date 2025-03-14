@@ -100,7 +100,11 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     try {
       String? logoUrl;
       if (_image != null) {
-        logoUrl = await SupabaseServices.uploadImage(_image!);
+        logoUrl = await SupabaseServices.uploadImage(
+          imageByte: _image!,
+          fileName: '${_teamState.team.id}.jpg',
+          isExist: _teamState.team.logoUrl.isNotEmpty,
+        );
       }
 
       await TeamsServices.updateTeamField(
@@ -122,6 +126,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             maxPlayersCapacity: _maxPlayersCapacity,
             captainId: _getPlayerId(_captain),
             wicketkeeperId: _getPlayerId(_wicketkeeper),
+            logoUrl: logoUrl,
           );
 
       if (mounted) {
