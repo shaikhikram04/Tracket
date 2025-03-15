@@ -98,6 +98,7 @@ class Inning {
     required bool isFour,
     required bool isSix,
     required bool isOverCompleted,
+    required bool isInningCompleted,
     bool isWide = false,
     bool isNoBall = false,
     bool isBye = false,

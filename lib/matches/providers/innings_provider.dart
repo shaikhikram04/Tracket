@@ -6,6 +6,7 @@ import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
@@ -230,6 +231,18 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       totalTeamRuns = runs;
     }
 
+    final matchState = ref.read(matchStateProvider)!;
+    final noOfPlayers = matchState.noOfPlayer;
+    final matchOvers = matchState.over;
+
+    final isAllOut =
+        currentInnings!.wickets + (isWicket ? 1 : 0) == (noOfPlayers - 1);
+
+    final isInningCompleted =
+        (target != null && currentInnings!.runs + totalTeamRuns >= target!) ||
+            currentInnings!.completedOvers == matchOvers ||
+            isAllOut;
+
     //* Update the current innings with this delivery.
     final updatedInnings = currentInnings!.addDelivery(
       runs: totalTeamRuns,
@@ -241,6 +254,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isLegBye: extras.isLegBye,
       isWicket: isWicket,
       outBatsmanPosition: outBatsmanPosition,
+      isInningCompleted: isInningCompleted,
       isOverCompleted: isOverCompleted,
       dismissalInfo: dismissalInfo,
       reasonOfOut: reasonOfOut,
@@ -248,7 +262,13 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     _updateCurrentInnings(updatedInnings);
 
-    final matchState = ref.read(matchStateProvider)!;
+    final isMatchCompleted = isInningCompleted && _currentInningIndex == 1;
+
+    if (isMatchCompleted) {
+      ref.read(additionalMatchProvider.notifier).setIsMatchCompleted(true);
+    } else if (isInningCompleted) {
+      ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
+    }
 
     await MatchesServices.updateMatchScore(
       matchId: matchState.id,
