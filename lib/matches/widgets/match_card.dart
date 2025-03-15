@@ -208,7 +208,10 @@ class MatchCard extends ConsumerWidget {
                       .mediumButtonText
                       .copyWith(color: onPrimary),
                 ),
-              ]
+              ],
+              if (match.isCompleted) Text(match.matchCompleteStatement()),
+              if (match.status == MatchStatus.abandoned)
+                Text('Match Abandoned'),
             ],
           ),
         ),

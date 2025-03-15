@@ -14,7 +14,7 @@ enum MatchFormat { over5, over10, over20, over50, test }
 
 enum MatchStatus { scheduled, live, completed, abandoned, cancelled }
 
-enum WinningMethod { byRuns, byWickets, byDls, tied, noResult }
+enum WinningMethod { byRuns, byWickets, tied, noResult }
 
 const uuid = Uuid();
 
@@ -91,6 +91,25 @@ class Match {
   bool get isCompleted => status == MatchStatus.completed;
   bool get isCancelled => status == MatchStatus.cancelled;
   bool get isInProgress => status == MatchStatus.live;
+
+  String matchCompleteStatement() {
+    if (winningMethod == WinningMethod.byRuns ||
+        winningMethod == WinningMethod.byWickets) {
+      final winningTeamName =
+          winningTeamId == team1.teamId ? team1.teamName : team2.teamName;
+
+      final wayToWin =
+          '$winningMargin ${winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets'}';
+
+      return '$winningTeamName won by $wayToWin';
+    } else if (winningMethod == WinningMethod.noResult) {
+      return 'No Result';
+    } else if (winningMethod == WinningMethod.tied) {
+      return 'Match Tied';
+    } else {
+      return '';
+    }
+  }
 
   // Team and player management
   MatchTeamInfo? get battingTeam {
