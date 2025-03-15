@@ -59,29 +59,31 @@ class MainDrawer extends ConsumerWidget {
                     getCircleAvatar(
                       url: player.profileImageUrl,
                       isTeam: false,
-                      radius: 40,
+                      radius: width * 0.08,
                       hasBorder: false,
                     ),
                     const SizedBox(width: 18),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          player.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(color: LightThemeColors.surfaceColor),
-                        ),
-                        Text(
-                          player.role,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: LightThemeColors.surfaceColor),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            player.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: LightThemeColors.surfaceColor),
+                          ),
+                          Text(
+                            player.role,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: LightThemeColors.surfaceColor),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
