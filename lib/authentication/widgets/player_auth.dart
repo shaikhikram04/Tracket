@@ -109,7 +109,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                 onSave: (value) => ref
                     .read(playerAuthProvider.notifier)
                     .updateField(playerName: value),
-                label: 'Player Name',
+                hintText: 'Player Name',
                 validator: (value) =>
                     ValidationServices.nameValidator(value, 'Player name'),
                 fillColor: LightThemeColors.backgroundColor,
@@ -121,7 +121,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
                   .updateField(email: value),
-              label: 'Email',
+              hintText: 'Email',
               validator: ValidationServices.emailValidator,
               prefixIcon: Icons.email_outlined,
               fillColor: LightThemeColors.backgroundColor,
@@ -133,7 +133,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .updateField(password: value),
               validator: (value) => ValidationServices.passwordValidator(
                   value, playerAuthState.isLogin),
-              label: 'Password',
+              hintText: 'Password',
               isPasswordHidden: playerAuthState.isPasswordHidden,
               changeVisibility: ref
                   .read(playerAuthProvider.notifier)

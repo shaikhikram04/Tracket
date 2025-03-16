@@ -6,7 +6,7 @@ class MyTextField extends StatelessWidget {
   const MyTextField({
     super.key,
     required this.onSave,
-    required this.label,
+    this.hintText,
     this.isLogin = false,
     this.changeVisibility,
     this.isPasswordHidden = false,
@@ -20,11 +20,13 @@ class MyTextField extends StatelessWidget {
     this.fillColor,
     this.prefixIcon,
     this.primaryColor = const Color(0xFF2E7D32),
+    this.label,
   });
 
   final void Function(String? value) onSave;
   final bool isPasswordHidden;
-  final String label;
+  final String? hintText;
+  final String? label;
   final void Function()? changeVisibility;
   final double borderRadius;
   final bool isLogin;
@@ -40,8 +42,8 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isEmail = label == "Email";
-    final isPassword = label == 'Password';
+    final isEmail = hintText == "Email";
+    final isPassword = hintText == 'Password';
 
     return TextFormField(
       initialValue: initialText,
@@ -54,6 +56,7 @@ class MyTextField extends StatelessWidget {
       minLines: minLines,
       autovalidateMode: autovalidateMode,
       decoration: InputDecoration(
+        hintText: hintText,
         suffixIcon: isPassword
             ? IconButton(
                 onPressed: changeVisibility,
@@ -62,12 +65,12 @@ class MyTextField extends StatelessWidget {
                 ),
               )
             : null,
-        labelText: label,
-        labelStyle: MyTextStyle(context).bodyLarge.copyWith(
+        hintStyle: MyTextStyle(context).bodyLarge.copyWith(
               color: fillColor != null
                   ? LightThemeColors.tertiaryText
                   : primaryColor.withValues(alpha: 0.7),
             ),
+        labelText: label,
         fillColor: fillColor,
         filled: fillColor != null,
         errorMaxLines: 2,

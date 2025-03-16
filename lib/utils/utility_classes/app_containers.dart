@@ -4,7 +4,7 @@ import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 
 class AppContainers {
-  Container clasicContainer({
+ static  Container clasicContainer({
     required Widget child,
     EdgeInsetsGeometry margin = AppPadding.contentPaddingXl,
     EdgeInsetsGeometry padding = AppPadding.xl,

@@ -4,10 +4,13 @@ import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/utility_classes/app_containers.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
+import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
@@ -98,23 +101,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ),
                     ),
                     SizedBox(height: AppSize.verticalSpacingMd),
-                    Container(
-                      margin: AppPadding.contentPaddingXl,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(AppSize.radiusMd),
-                        boxShadow: [
-                          BoxShadow(
-                            color: primaryColor.withValues(alpha: 0.15),
-                            blurRadius: 15,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      padding: AppPadding.xl,
+                    AppContainers.clasicContainer(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        // spacing: _verticalSpacing,
+                        spacing: AppSize.verticalSpacingMd,
                         children: [
                           Container(
                             padding: AppPadding.sm,
@@ -172,37 +162,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   List<Widget> _buildEmailForm() {
     return [
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(AppSize.radiusMs),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.1),
-              blurRadius: AppSize.shadowRadiusSm,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: TextFormField(
-          decoration: InputDecoration(
-            hintText: 'Enter your email',
-            prefixIcon: Icon(
-              Icons.email_outlined,
-              color: primaryColor,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: LightThemeColors.surfaceColor,
-          ),
-          onSaved: (value) => _email = value,
-          validator: ValidationServices.emailValidator,
-        ),
+      MyTextField(
+        onSave: (value) => _email = value,
+        hintText: 'Enter your email',
+        prefixIcon: AppIconData.email,
+        borderRadius: AppSize.radiusSm,
+        fillColor: LightThemeColors.surfaceColor,
+        validator: ValidationServices.emailValidator,
       ),
-      const SizedBox(height: 24),
+      const SizedBox(height: AppSize.verticalSpacingXl)
     ];
   }
 
