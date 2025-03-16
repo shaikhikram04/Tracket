@@ -11,4 +11,7 @@ class AppPadding {
   static const sm = EdgeInsets.all(12);
   static const xl = EdgeInsets.all(24);
 
+  //* dialog padding
+  static const dialogPadding =
+      EdgeInsets.symmetric(horizontal: 30, vertical: 20);
 }

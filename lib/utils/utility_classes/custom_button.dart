@@ -35,7 +35,7 @@ class CustomButton extends StatelessWidget {
     TextStyle? textStyle,
   }) {
     return CustomButton._(
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
       variant: ButtonVariant.primary,
       isLoading: isLoading,
       backgroundColor: backgroundColor,

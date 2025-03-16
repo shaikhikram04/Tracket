@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/models/verification_steps_data.dart';
 import 'package:tracket/authentication/widgets/progress_step_indicator.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -14,8 +16,6 @@ class VerificationScreen extends ConsumerWidget {
   //* Email address to which verification email is sent
   final String email;
 
-  static const double _horizontalPadding = 30.0;
-  static const double _verticalPadding = 20.0;
   static const double _lineHeight = 2.0;
 
   @override
@@ -43,10 +43,7 @@ class VerificationScreen extends ConsumerWidget {
         child: SizedBox(
           width: width * 0.97,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: _horizontalPadding,
-              vertical: _verticalPadding,
-            ),
+            padding: AppPadding.dialogPadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -64,8 +61,8 @@ class VerificationScreen extends ConsumerWidget {
                     Text(
                       'Authentication',
                       style: MyTextStyle(context).titleLarge.copyWith(
-                            fontWeight: FontWeight.w800, // Add boldness
-                            color: primaryVariant, // Use green theme
+                            fontWeight: FontWeight.w800,
+                            color: primaryVariant,
                           ),
                     ),
                   ],
@@ -134,7 +131,7 @@ class VerificationScreen extends ConsumerWidget {
                       spacing: 10,
                       children: [
                         Icon(
-                          Icons.email_outlined,
+                          AppIconData.email,
                           color: LightThemeColors.surfaceColor,
                         ),
                         Text(

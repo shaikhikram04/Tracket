@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/providers/auth_state_provider.dart';
+import 'package:tracket/authentication/widgets/auth_form.dart';
+import 'package:tracket/authentication/widgets/auth_submit_button.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/utils/colors.dart';
-import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';
 
@@ -33,91 +34,72 @@ class _UserAuthState extends ConsumerState<UserAuth> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     final userAuthState = ref.watch(playerAuthProvider);
 
-    return Form(
-      key: userAuthState.formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              userAuthState.isLogin ? 'Login as User' : 'Signup as user',
-              semanticsLabel: userAuthState.isLogin
-                  ? 'Login form for users'
-                  : 'Signup form for users',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 30),
-            if (!userAuthState.isLogin)
-              MyTextField(
-                isLogin: userAuthState.isLogin,
-                onSave: (value) => ref
-                    .read(playerAuthProvider.notifier)
-                    .updateField(playerName: value),
-                hintText: 'Username',
-                validator: ValidationServices.usernameValidator,
-                fillColor: LightThemeColors.backgroundColor,
-                prefixIcon: Icons.person_outline,
-              ),
-            if (!userAuthState.isLogin) const SizedBox(height: 30),
+    return AuthForm(
+      formKey: userAuthState.formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            userAuthState.isLogin ? 'Login as User' : 'Signup as user',
+            semanticsLabel: userAuthState.isLogin
+                ? 'Login form for users'
+                : 'Signup form for users',
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 30),
+          if (!userAuthState.isLogin)
             MyTextField(
               isLogin: userAuthState.isLogin,
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
-                  .updateField(email: value),
-              hintText: 'Email',
-              validator: ValidationServices.emailValidator,
+                  .updateField(playerName: value),
+              hintText: 'Username',
+              validator: ValidationServices.usernameValidator,
               fillColor: LightThemeColors.backgroundColor,
-              prefixIcon: Icons.email_outlined,
+              prefixIcon: AppIconData.person,
             ),
-            const SizedBox(height: 30),
-            MyTextField(
-              isLogin: userAuthState.isLogin,
-              onSave: (value) => ref
-                  .read(playerAuthProvider.notifier)
-                  .updateField(password: value),
-              hintText: 'Password',
-              isPasswordHidden: userAuthState.isPasswordHidden,
-              changeVisibility: ref
-                  .read(playerAuthProvider.notifier)
-                  .togglePasswordVisibility,
-              validator: (value) => ValidationServices.passwordValidator(
-                  value, userAuthState.isLogin),
-              fillColor: LightThemeColors.backgroundColor,
-              prefixIcon: Icons.lock_outline,
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: width * 0.8,
-              height: 50,
-              child: CustomButton.primary(
-                elevation: 10,
-                onPressed: userAuthState.isLoading
-                    ? null
-                    : () => _onSubmit(userAuthState.isLogin),
-                text: userAuthState.isLogin ? 'Login' : 'Sign Up',
-                isLoading: userAuthState.isLoading,
-                backgroundColor: primaryColor,
-                foregroundColor: LightThemeColors.surfaceColor,
-                borderRadius: 10,
-                textStyle:
-                    MyTextStyle(context).cardTitle.copyWith(color: onPrimary),
-              ),
-            ),
-            const SizedBox(height: 15),
-            AuthenticationToggle(
-              isLogin: userAuthState.isLogin,
-              toggleAuth: _toggleUser,
-            )
-          ],
-        ),
+          if (!userAuthState.isLogin) const SizedBox(height: 30),
+          MyTextField(
+            isLogin: userAuthState.isLogin,
+            onSave: (value) =>
+                ref.read(playerAuthProvider.notifier).updateField(email: value),
+            hintText: 'Email',
+            validator: ValidationServices.emailValidator,
+            fillColor: LightThemeColors.backgroundColor,
+            prefixIcon: AppIconData.email,
+          ),
+          const SizedBox(height: 30),
+          MyTextField(
+            isLogin: userAuthState.isLogin,
+            onSave: (value) => ref
+                .read(playerAuthProvider.notifier)
+                .updateField(password: value),
+            hintText: 'Password',
+            isPasswordHidden: userAuthState.isPasswordHidden,
+            changeVisibility:
+                ref.read(playerAuthProvider.notifier).togglePasswordVisibility,
+            validator: (value) => ValidationServices.passwordValidator(
+                value, userAuthState.isLogin),
+            fillColor: LightThemeColors.backgroundColor,
+            prefixIcon: AppIconData.lock,
+          ),
+          const SizedBox(height: 30),
+          AuthSubmitButton(
+              isLoading: userAuthState.isLoading,
+              onSubmit: () => _onSubmit(userAuthState.isLogin),
+              isLogin: userAuthState.isLogin),
+          const SizedBox(height: 15),
+          AuthenticationToggle(
+            isLogin: userAuthState.isLogin,
+            toggleAuth: _toggleUser,
+          )
+        ],
       ),
     );
   }
