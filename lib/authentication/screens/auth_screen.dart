@@ -79,14 +79,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: safeAreaHeight),
             child: Padding(
-              padding: AppPadding.contentPadding,
+              padding: AppPadding.contentPaddingMd,
               child: Column(
                 children: [
-                  const SizedBox(height: AppSize.verticalSpacing),
+                  const SizedBox(height: AppSize.verticalSpacingXl),
                   const AppLogo(),
-                  const SizedBox(height: AppSize.verticalSpacing),
+                  const SizedBox(height: AppSize.verticalSpacingXl),
                   _buildAuthContainer(tabBarViewHeight),
-                  const SizedBox(height: AppSize.verticalSpacing),
+                  const SizedBox(height: AppSize.verticalSpacingXl),
                 ],
               ),
             ),
@@ -101,7 +101,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       duration: AppDuration.tabAnimationDuration,
       decoration: BoxDecoration(
         color: LightThemeColors.surfaceColor,
-        borderRadius: BorderRadius.circular(AppSize.tabRadius),
+        borderRadius: BorderRadius.circular(AppSize.radiusMd),
         boxShadow: [
           BoxShadow(
             color: primaryColor.withValues(alpha: 0.15),
@@ -138,7 +138,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ],
         ),
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppSize.tabRadius),
+          top: Radius.circular(AppSize.radiusMd),
         ),
       ),
       child: TabBar(
@@ -182,7 +182,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   BorderRadius _getTabBorderRadius() {
     return const BorderRadius.vertical(
-      top: Radius.circular(AppSize.tabRadius),
+      top: Radius.circular(AppSize.radiusMd),
       bottom: Radius.circular(0),
     );
   }
@@ -202,7 +202,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 decoration: BoxDecoration(
                   color: LightThemeColors.surfaceColor,
                   borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(AppSize.tabRadius),
+                    bottom: Radius.circular(AppSize.radiusMd),
                   ),
                 ),
                 child: TabBarView(

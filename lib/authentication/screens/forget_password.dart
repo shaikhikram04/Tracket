@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
@@ -83,10 +85,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               child: Form(
                 key: _formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 40),
                     const AppLogo(),
-                    const SizedBox(height: 24),
+                    SizedBox(height: AppSize.verticalSpacingXl),
                     Text(
                       'Forget Password?',
                       style: MyTextStyle(context).headlineMedium.copyWith(
@@ -95,47 +97,46 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             letterSpacing: 0.5,
                           ),
                     ),
-                    const SizedBox(height: 12),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: primaryColor.withValues(alpha: 0.15),
-                              blurRadius: 15,
-                              offset: const Offset(0, 8),
+                    SizedBox(height: AppSize.verticalSpacingMd),
+                    Container(
+                      margin: AppPadding.contentPaddingXl,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(AppSize.radiusMd),
+                        boxShadow: [
+                          BoxShadow(
+                            color: primaryColor.withValues(alpha: 0.15),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      padding: AppPadding.xl,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // spacing: _verticalSpacing,
+                        children: [
+                          Container(
+                            padding: AppPadding.sm,
+                            decoration: BoxDecoration(
+                              color: primaryColor.withValues(alpha: 0.1),
+                              borderRadius:
+                                  BorderRadius.circular(AppSize.radiusSm),
                             ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // spacing: _verticalSpacing,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: primaryColor.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                _isResetEmailSend
-                                    ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
-                                    : 'Enter your registered email address. We\'ll send you a link to reset your password.',
-                                style: MyTextStyle(context).cardSubtitle,
-                              ),
+                            child: Text(
+                              _isResetEmailSend
+                                  ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
+                                  : 'Enter your registered email address. We\'ll send you a link to reset your password.',
+                              style: MyTextStyle(context).cardSubtitle,
                             ),
-                            const SizedBox(height: 24),
-                            if (!_isResetEmailSend) ..._buildEmailForm(),
-                            _buildActionButtons(),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: AppSize.verticalSpacingXl),
+                          if (!_isResetEmailSend) ..._buildEmailForm(),
+                          _buildActionButtons(),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSize.verticalSpacingXl),
                     TextButton.icon(
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(
@@ -174,11 +175,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(AppSize.radiusMs),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withValues(alpha: 0.1),
-              blurRadius: 7,
+              blurRadius: AppSize.shadowRadiusSm,
               offset: const Offset(0, 3),
             ),
           ],

@@ -1,7 +1,13 @@
 class AppSize {
   //* vertical spacing
-  static const verticalSpacing = 24.0;
+  static const verticalSpacingMd = 12.0;
+  static const verticalSpacingXl = 24.0;
 
   //* radius
-  static const tabRadius = 20.0;
+  static const radiusSm = 12.0;
+  static const radiusMs = 15.0;
+  static const radiusMd = 20.0;
+
+  //* shadow radius
+  static const shadowRadiusSm = 7.0;
 }
