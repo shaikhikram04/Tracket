@@ -37,7 +37,7 @@ class MainDrawer extends ConsumerWidget {
 
     return Drawer(
       backgroundColor: LightThemeColors.backgroundColor,
-      width: width * 0.7,
+      width: width * 0.75,
       child: Column(
         children: [
           DrawerHeader(
@@ -59,7 +59,7 @@ class MainDrawer extends ConsumerWidget {
                     getCircleAvatar(
                       url: player.profileImageUrl,
                       isTeam: false,
-                      radius: width * 0.08,
+                      radius: width * 0.085,
                       hasBorder: false,
                     ),
                     const SizedBox(width: 18),
@@ -87,6 +87,7 @@ class MainDrawer extends ConsumerWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 8),
                 InkWell(
                   onTap: () => pushScreen(
                       context,

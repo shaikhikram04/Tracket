@@ -52,8 +52,6 @@ class _ChallengesListState extends State<ChallengesList> {
         final challengeData = challengeList[index];
         final challenge = NotificationModel.fromMap(challengeData.data());
 
-        // Now data contains the updated values
-
         return ChallengeCard(
           challenge: challenge,
           isSent: widget.isSent,

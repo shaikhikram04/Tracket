@@ -6,6 +6,9 @@ import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/durations.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
@@ -19,12 +22,6 @@ class AuthScreen extends ConsumerStatefulWidget {
 
 class _AuthScreenState extends ConsumerState<AuthScreen>
     with SingleTickerProviderStateMixin {
-  // Constants
-  static const _kAnimationDuration = Duration(milliseconds: 180);
-  static const _kTabRadius = 20.0;
-  static const _kContentPadding = EdgeInsets.symmetric(horizontal: 20);
-  static const _kVerticalSpacing = 24.0;
-
   late final TabController _tabController;
   bool _isChangingTab = false;
 
@@ -46,7 +43,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     setState(() => _isChangingTab = true);
 
     try {
-      await Future.delayed(_kAnimationDuration);
+      await Future.delayed(AppDuration.tabAnimationDuration);
       if (!mounted) return;
 
       ref.read(playerAuthProvider.notifier).reset();
@@ -82,14 +79,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: safeAreaHeight),
             child: Padding(
-              padding: _kContentPadding,
+              padding: AppPadding.contentPadding,
               child: Column(
                 children: [
-                  const SizedBox(height: _kVerticalSpacing),
-                  _buildAnimatedLogo(),
-                  const SizedBox(height: _kVerticalSpacing),
+                  const SizedBox(height: AppSize.verticalSpacing),
+                  const AppLogo(),
+                  const SizedBox(height: AppSize.verticalSpacing),
                   _buildAuthContainer(tabBarViewHeight),
-                  const SizedBox(height: _kVerticalSpacing),
+                  const SizedBox(height: AppSize.verticalSpacing),
                 ],
               ),
             ),
@@ -99,19 +96,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     );
   }
 
-  Widget _buildAnimatedLogo() {
-    return Hero(
-      tag: 'app_logo',
-      child: const AppLogo(),
-    );
-  }
-
   Widget _buildAuthContainer(double height) {
     return AnimatedContainer(
-      duration: _kAnimationDuration,
+      duration: AppDuration.tabAnimationDuration,
       decoration: BoxDecoration(
         color: LightThemeColors.surfaceColor,
-        borderRadius: BorderRadius.circular(_kTabRadius),
+        borderRadius: BorderRadius.circular(AppSize.tabRadius),
         boxShadow: [
           BoxShadow(
             color: primaryColor.withValues(alpha: 0.15),
@@ -148,7 +138,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ],
         ),
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(_kTabRadius),
+          top: Radius.circular(AppSize.tabRadius),
         ),
       ),
       child: TabBar(
@@ -192,23 +182,27 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   BorderRadius _getTabBorderRadius() {
     return const BorderRadius.vertical(
-      top: Radius.circular(_kTabRadius),
+      top: Radius.circular(AppSize.tabRadius),
       bottom: Radius.circular(0),
     );
   }
 
   Widget _buildAuthContent(double height) {
     return AnimatedSwitcher(
-      duration: _kAnimationDuration,
+      duration: AppDuration.tabAnimationDuration,
       child: SizedBox(
         height: height,
         child: _isChangingTab
-            ? Center(child: _buildLoadingIndicator())
+            ? Center(
+                child: getCircleLoadingIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(primaryMedium),
+                strokeWidth: 3,
+              ))
             : Container(
                 decoration: BoxDecoration(
                   color: LightThemeColors.surfaceColor,
                   borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(_kTabRadius),
+                    bottom: Radius.circular(AppSize.tabRadius),
                   ),
                 ),
                 child: TabBarView(
@@ -221,13 +215,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 ),
               ),
       ),
-    );
-  }
-
-  Widget _buildLoadingIndicator() {
-    return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(primaryMedium),
-      strokeWidth: 3,
     );
   }
 }
