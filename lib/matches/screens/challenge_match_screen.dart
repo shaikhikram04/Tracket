@@ -7,7 +7,7 @@ import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/utils/utils.dart';
 import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
-import 'package:tracket/matches/widgets/players_selection_dialog.dart';
+import 'package:tracket/matches/widgets/squad_selection_sheet.dart';
 import 'package:tracket/matches/widgets/team_section.dart';
 import 'package:tracket/teams/models/team.dart';
 import 'package:tracket/teams/services/teams_services.dart';
@@ -130,19 +130,30 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
   Future<void> onAddPlayer() async {
     try {
-      final result = await showDialog<List<MatchPlayerInfo>>(
+      showModalBottomSheet(
         context: context,
-        builder: (context) => PlayersSelectionDialog(
+        isScrollControlled: true,
+        builder: (context) => SquadSelectionSheet(
           playerList:
               MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
-          selectedPlayers: _selectedPlayers.value,
           noOfPlayerCanBeSelected: _noOfPlayers.value.toInt(),
+          onSubmit: (selectedPlayers) {},
         ),
       );
 
-      if (result != null) {
-        _updateSelectedPlayers(result);
-      }
+      // final result = await showDialog<List<MatchPlayerInfo>>(
+      //   context: context,
+      //   builder: (context) => PlayersSelectionDialog(
+      //     playerList:
+      //         MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
+      //     selectedPlayers: _selectedPlayers.value,
+      //     noOfPlayerCanBeSelected: _noOfPlayers.value.toInt(),
+      //   ),
+      // );
+
+      // if (result != null) {
+      //   _updateSelectedPlayers(result);
+      // }
     } catch (e) {
       _handleError('Failed to add players', e);
     }
