@@ -510,7 +510,7 @@ class MatchesServices {
     }
   }
 
-  static Future<void> _deleteBallsCollection() async {
+  static Future<void> deleteBallsCollection() async {
     final collectionRef = _firestore.collection(FirestoreCollections.balls);
     const batchSize = 50;
     Query query = collectionRef.limit(batchSize);

@@ -394,12 +394,16 @@ class Inning {
       strikerPosition: map['strikerPosition'],
       nonStrikerPosition: map['nonStrikerPosition'],
       currentBowlerId: map['currentBowlerId'],
-      fallOfWickets: map['fallOfWickets'].isEmpty
-          ? <FallOfWicket>[]
-          : map['fallOfWickets']
-              .map((fallOfWicketMap) => FallOfWicket.fromMap(fallOfWicketMap))
-              .toList(),
+      fallOfWickets: getFallOfWickets(map['fallOfWickets']),
     );
+  }
+
+  static List<FallOfWicket> getFallOfWickets(List? fallOfWickets) {
+    if (fallOfWickets == null || fallOfWickets.isEmpty) return [];
+
+    return fallOfWickets
+        .map((fallOfWicketMap) => FallOfWicket.fromMap(fallOfWicketMap))
+        .toList();
   }
 
   static List<BattingScore> getBattingScoreFromDocs(

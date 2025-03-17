@@ -6,6 +6,7 @@ import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
+import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -17,11 +18,13 @@ class SelectionPlaceholder extends ConsumerWidget {
       context: context,
       type: SelectionType.bowler,
       allPlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
-      onPlayerSelected: (player) {
+      onPlayerSelected: (player) async {
         // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(player.playerId);
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
         ref.read(currentOverRunsProvider.notifier).clear();
+
+        await MatchesServices.deleteBallsCollection();
       },
       nonAvailablePlayers: [],
       playingPlayerId: ref
