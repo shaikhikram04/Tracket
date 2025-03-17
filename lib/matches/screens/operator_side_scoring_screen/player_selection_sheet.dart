@@ -3,6 +3,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/formatters/formatter.dart';
 
 enum SelectionType { batsman, bowler }
 
@@ -202,26 +203,16 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              player.playerName,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: isDisabled
-                                    ? Colors.grey[600]
-                                    : Colors.black87,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
                             Row(
                               children: [
                                 Text(
-                                  player.cricketRole.name,
+                                  player.playerName,
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
                                     color: isDisabled
-                                        ? Colors.grey[500]
-                                        : Colors.grey[700],
+                                        ? Colors.grey[600]
+                                        : Colors.black87,
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -252,6 +243,19 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                   ),
                                 ),
                               ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.type == SelectionType.bowler
+                                  ? AppFormatter.formatBowlerSubTitle(
+                                      player.longCricketRole)
+                                  : player.longCricketRole,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: isDisabled
+                                    ? Colors.grey[500]
+                                    : Colors.grey[700],
+                              ),
                             ),
                           ],
                         ),

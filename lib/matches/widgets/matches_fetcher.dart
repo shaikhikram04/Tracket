@@ -45,6 +45,7 @@ class MatchesFetcher extends StatelessWidget {
         return FirebaseFirestore.instance
             .collection(FirestoreCollections.matches)
             .where('participants', arrayContainsAny: userTeamIds)
+            .orderBy('schedule', descending: true)
             .snapshots();
       default:
         return FirebaseFirestore.instance
