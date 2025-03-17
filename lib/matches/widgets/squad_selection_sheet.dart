@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
+import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/formatters/formatter.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class SquadSelectionSheet extends StatefulWidget {
@@ -44,12 +46,12 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
             color: isSelected ? Colors.green[100] : Colors.white,
             child: InkWell(
               onTap: () {
-                if (_selectedPlayers.length >= widget.noOfPlayerCanBeSelected)
-                  return;
                 setState(() {
                   if (isSelected) {
                     _selectedPlayers.remove(player);
                   } else {
+                    if (_selectedPlayers.length >=
+                        widget.noOfPlayerCanBeSelected) return;
                     _selectedPlayers.add(player);
                   }
                 });
@@ -93,7 +95,10 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                             ),
                           ),
                           Text(
-                            player.longCricketRole,
+                            player.cricketRole == CricketRole.bowler
+                                ? AppFormatter.formatBowlerSubTitle(
+                                    player.longCricketRole)
+                                : player.longCricketRole,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],

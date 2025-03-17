@@ -115,6 +115,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         playerList: _challengedTeamPlayers.value,
         noOfPlayerCanBeSelected: widget.challenge.noOfPlayers,
         onSubmit: (selectedPlayers) {
+          Navigator.of(context).pop();
           _updatePlayerRoles(selectedPlayers);
         },
       ),

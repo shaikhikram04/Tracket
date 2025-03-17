@@ -132,6 +132,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     try {
       showModalBottomSheet(
         context: context,
+        useSafeArea: true,
+        enableDrag: false,
         isScrollControlled: true,
         builder: (context) => SquadSelectionSheet(
           playerList:
@@ -139,6 +141,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           noOfPlayerCanBeSelected: _noOfPlayers.value.toInt(),
           onSubmit: (selectedPlayers) {
             _updateSelectedPlayers(selectedPlayers);
+            Navigator.of(context).pop();
           },
         ),
       );
