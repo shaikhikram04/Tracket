@@ -81,7 +81,7 @@ class PlayerStatsSection extends StatelessWidget {
               : LightThemeColors.tertiaryText.withValues(alpha: 0.5),
           width: 2,
         ),
-        boxShadow: isStriker
+        boxShadow: isStriker && !isOut
             ? [
                 BoxShadow(
                   color: LightThemeColors.tertiaryText,

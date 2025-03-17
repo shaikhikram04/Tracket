@@ -49,9 +49,18 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
 
       ref.read(currentOverRunsProvider.notifier).setState(currentOverRuns);
 
-      if (currentOverRuns.isNotEmpty &&
-          currentOverRuns.last.remainingBalls == 0) {
+      final isOverCompleted = currentOverRuns.isNotEmpty &&
+          currentOverRuns.last.remainingBalls == 0;
+
+      if (isOverCompleted) {
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(true);
+      }
+
+      final isWicketDown = innings.last?.isWicketDownAtNow() ??
+          innings.first!.isWicketDownAtNow();
+
+      if (isWicketDown) {
+        ref.read(additionalMatchProvider.notifier).setIsWicketDown(true);
       }
     } catch (e) {
       showSnackBar('Failed to sent innings : $e', context);

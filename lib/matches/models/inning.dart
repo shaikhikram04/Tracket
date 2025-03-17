@@ -342,6 +342,16 @@ class Inning {
     }).toList();
   }
 
+  bool isWicketDownAtNow() {
+    final strikers = battingStats
+        .where((batsman) =>
+            batsman.battingPosition == strikerPosition ||
+            batsman.battingPosition == nonStrikerPosition)
+        .toList();
+
+    return (strikers[0].isOut || strikers[1].isOut);
+  }
+
   // Partnership calculation
   List<int> getCurrentPartnership() {
     if (battingStats.isEmpty) return [0, 0];
