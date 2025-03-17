@@ -116,7 +116,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
       ),
       onCancel: () => Navigator.of(context).pop(),
       confirmEnabled: _selectedPlayers.length == widget.noOfPlayerCanBeSelected,
-      onConfirm: () => widget.onSubmit,
+      onConfirm: () => widget.onSubmit(_selectedPlayers),
     );
   }
 }
