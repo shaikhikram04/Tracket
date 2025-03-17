@@ -58,8 +58,25 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
   BowlingScore? get currentBowler {
     if (_currentInningIndex == null) return null;
-    return currentInnings!.bowlingStats
-        .firstWhere((bowler) => bowler.uuid == currentInnings!.currentBowlerId);
+    final currentBowlerIndex = currentInnings!.bowlingStats.indexWhere(
+      (bowler) => bowler.uuid == currentInnings!.currentBowlerId,
+    );
+
+    if (currentBowlerIndex == -1) {
+      final currBowlerInfo =
+          ref.read(matchStateProvider)!.getBowlingTeamPlayers().firstWhere(
+                (bowler) => bowler.playerId == currentInnings!.currentBowlerId,
+              );
+
+      final bowlingStats = BowlingScore(
+        uuid: currBowlerInfo.playerId,
+        playerName: currBowlerInfo.playerName,
+      );
+
+      return bowlingStats;
+    } else {
+      return currentInnings!.bowlingStats[currentBowlerIndex];
+    }
   }
 
   void setInnings(List<Inning?> innings) {
