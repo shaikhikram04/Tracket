@@ -137,23 +137,11 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           playerList:
               MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
           noOfPlayerCanBeSelected: _noOfPlayers.value.toInt(),
-          onSubmit: (selectedPlayers) {},
+          onSubmit: (selectedPlayers) {
+            _updateSelectedPlayers(selectedPlayers);
+          },
         ),
       );
-
-      // final result = await showDialog<List<MatchPlayerInfo>>(
-      //   context: context,
-      //   builder: (context) => PlayersSelectionDialog(
-      //     playerList:
-      //         MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
-      //     selectedPlayers: _selectedPlayers.value,
-      //     noOfPlayerCanBeSelected: _noOfPlayers.value.toInt(),
-      //   ),
-      // );
-
-      // if (result != null) {
-      //   _updateSelectedPlayers(result);
-      // }
     } catch (e) {
       _handleError('Failed to add players', e);
     }

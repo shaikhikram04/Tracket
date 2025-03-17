@@ -44,6 +44,8 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
             color: isSelected ? Colors.green[100] : Colors.white,
             child: InkWell(
               onTap: () {
+                if (_selectedPlayers.length >= widget.noOfPlayerCanBeSelected)
+                  return;
                 setState(() {
                   if (isSelected) {
                     _selectedPlayers.remove(player);
@@ -109,6 +111,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
       ),
       onCancel: () => Navigator.of(context).pop(),
       confirmEnabled: _selectedPlayers.length == widget.noOfPlayerCanBeSelected,
+      onConfirm: () => widget.onSubmit,
     );
   }
 }

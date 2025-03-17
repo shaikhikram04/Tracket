@@ -5,7 +5,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/captain_and_wicketkeeper_dropdown.dart';
 import 'package:tracket/matches/widgets/match_squad.dart';
-import 'package:tracket/matches/widgets/players_selection_dialog.dart';
+import 'package:tracket/matches/widgets/squad_selection_sheet.dart';
 import 'package:tracket/matches/widgets/team_section.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/teams/models/team.dart';
@@ -107,19 +107,18 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     }
   }
 
-  Future<void> onAddPlayer() async {
-    final result = await showDialog<List<MatchPlayerInfo>>(
+  Future<void> _onAddPlayer() async {
+    showModalBottomSheet(
       context: context,
-      builder: (context) => PlayersSelectionDialog(
+      isScrollControlled: true,
+      builder: (context) => SquadSelectionSheet(
         playerList: _challengedTeamPlayers.value,
-        selectedPlayers: _selectedPlayers.value,
         noOfPlayerCanBeSelected: widget.challenge.noOfPlayers,
+        onSubmit: (selectedPlayers) {
+          _updatePlayerRoles(selectedPlayers);
+        },
       ),
     );
-
-    if (result != null) {
-      _updatePlayerRoles(result);
-    }
   }
 
   void _updatePlayerRoles(List<MatchPlayerInfo> players) {
@@ -274,7 +273,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               captainId: _captainId.value,
               wicketkeeperId: _wicketkeeperId.value,
               isPlayerCanAdd: !widget.isSender,
-              onAddPlayer: onAddPlayer,
+              onAddPlayer: _onAddPlayer,
               title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
               titleSize: 25,
               iconSize: 30,
