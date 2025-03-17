@@ -128,26 +128,17 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     showSnackBar('$message${error != null ? ': $error' : ''}', context);
   }
 
-  Future<void> onAddPlayer() async {
-    try {
-      showModalBottomSheet(
-        context: context,
-        useSafeArea: true,
-        enableDrag: false,
-        isScrollControlled: true,
-        builder: (context) => SquadSelectionSheet(
-          playerList:
-              MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
-          noOfPlayerCanBeSelected: _noOfPlayers.value.toInt(),
-          onSubmit: (selectedPlayers) {
-            _updateSelectedPlayers(selectedPlayers);
-            Navigator.of(context).pop();
-          },
-        ),
-      );
-    } catch (e) {
-      _handleError('Failed to add players', e);
-    }
+  void onAddPlayer() {
+    SquadSelectionSheet.show(
+      context,
+      playersList:
+          MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
+      noOfPlayersCanBeSelected: _noOfPlayers.value.toInt(),
+      onSubmit: (List<MatchPlayerInfo> selectedPlayers) {
+        _updateSelectedPlayers(selectedPlayers);
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   void _updateSelectedPlayers(List<MatchPlayerInfo> players) {

@@ -21,6 +21,25 @@ class SquadSelectionSheet extends StatefulWidget {
 
   @override
   State<SquadSelectionSheet> createState() => _SquadSelectionSheetState();
+
+  static Future<void> show(
+    BuildContext context, {
+    required List<MatchPlayerInfo> playersList,
+    required int noOfPlayersCanBeSelected,
+    required void Function(List<MatchPlayerInfo> selectedPlayers) onSubmit,
+  }) async {
+    showModalBottomSheet(
+      context: context,
+      useSafeArea: true,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (context) => SquadSelectionSheet(
+        playerList: playersList,
+        noOfPlayerCanBeSelected: noOfPlayersCanBeSelected,
+        onSubmit: onSubmit,
+      ),
+    );
+  }
 }
 
 class _SquadSelectionSheetState extends State<SquadSelectionSheet> {

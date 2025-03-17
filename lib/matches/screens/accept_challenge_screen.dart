@@ -108,17 +108,14 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   }
 
   Future<void> _onAddPlayer() async {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => SquadSelectionSheet(
-        playerList: _challengedTeamPlayers.value,
-        noOfPlayerCanBeSelected: widget.challenge.noOfPlayers,
-        onSubmit: (selectedPlayers) {
-          Navigator.of(context).pop();
-          _updatePlayerRoles(selectedPlayers);
-        },
-      ),
+    SquadSelectionSheet.show(
+      context,
+      playersList: _challengedTeamPlayers.value,
+      noOfPlayersCanBeSelected: widget.challenge.noOfPlayers,
+      onSubmit: (List<MatchPlayerInfo> selectedPlayers) {
+        _updatePlayerRoles(selectedPlayers);
+        Navigator.of(context).pop();
+      },
     );
   }
 
