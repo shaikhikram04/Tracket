@@ -48,17 +48,13 @@ class _MatchPlayersSelectionScreenState
       final striker = BattingScore(
         uuid: _openers[0].playerId,
         playerName: _openers[0].playerName,
-        battingPosition: players.indexWhere(
-                (batsman) => batsman.playerId == _openers[0].playerId) +
-            1,
+        battingPosition: 1,
       );
 
       final nonStriker = BattingScore(
         uuid: _openers[1].playerId,
         playerName: _openers[1].playerName,
-        battingPosition: players.indexWhere(
-                (batsman) => batsman.playerId == _openers[1].playerId) +
-            1,
+        battingPosition: 2,
       );
 
       final bowler = BowlingScore(

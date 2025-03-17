@@ -189,40 +189,44 @@ class MatchesServices {
     required BattingScore nonStriker,
     required BowlingScore bowler,
   }) async {
-    final matchDocRef =
-        _firestore.collection(FirestoreCollections.matches).doc(matchId);
+    try {
+      final matchDocRef =
+          _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
-    final inningDocRef = matchDocRef
-        .collection(FirestoreCollections.innings)
-        .doc(MatchConstant.inning1);
+      final inningDocRef = matchDocRef
+          .collection(FirestoreCollections.innings)
+          .doc(MatchConstant.inning1);
 
-    //* set inning
-    await inningDocRef.set(inning1.toMap());
+      //* set inning
+      await inningDocRef.set(inning1.toMap());
 
-    await inningDocRef
-        .collection(FirestoreCollections.battingStats)
-        .doc(striker.battingPosition.toString())
-        .set(striker.toMap());
+      await inningDocRef
+          .collection(FirestoreCollections.battingStats)
+          .doc(striker.battingPosition.toString())
+          .set(striker.toMap());
 
-    await inningDocRef
-        .collection(FirestoreCollections.battingStats)
-        .doc(nonStriker.uuid.toString())
-        .set(nonStriker.toMap());
+      await inningDocRef
+          .collection(FirestoreCollections.battingStats)
+          .doc(nonStriker.uuid.toString())
+          .set(nonStriker.toMap());
 
-    await inningDocRef
-        .collection(FirestoreCollections.bowlingStats)
-        .doc(bowler.uuid)
-        .set(bowler.toMap());
+      await inningDocRef
+          .collection(FirestoreCollections.bowlingStats)
+          .doc(bowler.uuid)
+          .set(bowler.toMap());
 
-    //* update match field
-    final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);
-    await matchDocRef.update({
-      'isTeam1WonToss': isTeam1WonToss,
-      'tossDecision': decision.name,
-      'currentInningNumber': 1,
-      'status': MatchStatus.live.name,
-      'team1Score': team1Score.toMap(),
-    });
+      //* update match field
+      final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);
+      await matchDocRef.update({
+        'isTeam1WonToss': isTeam1WonToss,
+        'tossDecision': decision.name,
+        'currentInningNumber': 1,
+        'status': MatchStatus.live.name,
+        'team1Score': team1Score.toMap(),
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   static Future<List<Inning?>> getInningsFromMatchId(String matchId) async {

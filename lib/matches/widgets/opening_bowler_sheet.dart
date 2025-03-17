@@ -3,6 +3,7 @@ import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/formatters/formatter.dart';
 
 class OpeningBowlerSheet extends StatefulWidget {
   final List<MatchPlayerInfo> availablePlayers;
@@ -81,7 +82,8 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
                             ),
                           ),
                           Text(
-                            player.longCricketRole,
+                            AppFormatter.formatBowlerSubTitle(
+                                player.longCricketRole),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],

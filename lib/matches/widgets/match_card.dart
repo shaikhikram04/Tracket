@@ -72,7 +72,7 @@ class MatchCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         color: LightThemeColors.surfaceColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
