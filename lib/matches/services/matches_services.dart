@@ -207,7 +207,7 @@ class MatchesServices {
 
       await inningDocRef
           .collection(FirestoreCollections.battingStats)
-          .doc(nonStriker.uuid.toString())
+          .doc(nonStriker.battingPosition.toString())
           .set(nonStriker.toMap());
 
       await inningDocRef

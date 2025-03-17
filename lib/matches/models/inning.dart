@@ -366,8 +366,6 @@ class Inning {
       'status': status.name,
       'battingTeam': battingTeam.toMap,
       'bowlingTeam': bowlingTeam.toMap,
-      'battingStats': battingStats.map((e) => e.toMap()).toList(),
-      'bowlingStats': bowlingStats.map((e) => e.toMap()).toList(),
       'strikerPosition': strikerPosition,
       'nonStrikerPosition': nonStrikerPosition,
       'currentBowlerId': currentBowlerId,
