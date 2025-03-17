@@ -153,8 +153,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       state = [
         state.first!.copyWith(
           currentBowlerId: newBowlerId,
-          strikerPosition: state.first!.nonStrikerPosition,
-          nonStrikerPosition: state.first!.strikerPosition,
         ),
         state.last,
       ];
@@ -163,8 +161,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         state.first,
         state.last!.copyWith(
           currentBowlerId: newBowlerId,
-          strikerPosition: state.last!.nonStrikerPosition,
-          nonStrikerPosition: state.last!.strikerPosition,
         ),
       ];
     }

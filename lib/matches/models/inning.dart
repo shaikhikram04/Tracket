@@ -332,7 +332,7 @@ class Inning {
     return bowlingStats.map((player) {
       if (player.uuid == currentBowlerId) {
         return player.addBall(
-          runs: runsForBowler,
+          runs: this.runs + runsForBowler,
           isWide: isWide,
           isNoBall: isNoBall,
           isWicket: isWicket,

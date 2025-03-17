@@ -314,30 +314,34 @@ class MatchesServices {
       totalTeamRuns = runs;
     }
 
-    await _updateCurrentBatsmenStats(
-      matchId: matchId,
-      currentInningNo: currentInningNo,
-      strikerPosition: strikerPosition,
-      nonStrikerPosition: nonStrikerPosition,
-      runs: runs,
-      isFour: isFour,
-      isSix: isSix,
-      extras: extras,
-      isWicket: isWicket,
-      outBatsmanPosition: outBatsmanPosition,
-      reasonOfOut: reasonOfOut,
-    );
+    try {
+      await _updateCurrentBatsmenStats(
+        matchId: matchId,
+        currentInningNo: currentInningNo,
+        strikerPosition: strikerPosition,
+        nonStrikerPosition: nonStrikerPosition,
+        runs: runs,
+        isFour: isFour,
+        isSix: isSix,
+        extras: extras,
+        isWicket: isWicket,
+        outBatsmanPosition: outBatsmanPosition,
+        reasonOfOut: reasonOfOut,
+      );
 
-    await _updateCurrentBowlerStats(
-      matchId: matchId,
-      currentInningNo: currentInningNo,
-      currentBowlerId: currentBowlerId,
-      extras: extras,
-      runs: runs,
-      isWicket: isWicket,
-      isOverCompleted: isOverCompleted,
-      isMaidenOver: isMaiden,
-    );
+      await _updateCurrentBowlerStats(
+        matchId: matchId,
+        currentInningNo: currentInningNo,
+        currentBowlerId: currentBowlerId,
+        extras: extras,
+        runs: runs,
+        isWicket: isWicket,
+        isOverCompleted: isOverCompleted,
+        isMaidenOver: isMaiden,
+      );
+    } catch (e) {
+      print(e);
+    }
 
     int newStrikerPosition = strikerPosition;
     int newNonStrikerPosition = nonStrikerPosition;
@@ -503,6 +507,28 @@ class MatchesServices {
       });
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  static Future<void> _deleteBallsCollection() async {
+    final collectionRef = _firestore.collection(FirestoreCollections.balls);
+    const batchSize = 50;
+    Query query = collectionRef.limit(batchSize);
+
+    while (true) {
+      final querySnapshot = await query.get();
+      if (querySnapshot.docs.isEmpty) break;
+
+      // Delete documents in the current batch
+      final batch = FirebaseFirestore.instance.batch();
+      for (final doc in querySnapshot.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+
+      // Paginate to the next batch
+      final lastDoc = querySnapshot.docs.last;
+      query = collectionRef.startAfterDocument(lastDoc).limit(batchSize);
     }
   }
 
