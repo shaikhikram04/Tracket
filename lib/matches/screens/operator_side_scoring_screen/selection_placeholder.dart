@@ -65,26 +65,35 @@ class SelectionPlaceholder extends ConsumerWidget {
   void endMatch() {}
 
   String _getTitle(AdditionalMatchState completionState) {
-    if (completionState.isWicketDown) return 'Wicket Down';
-    if (completionState.isOverCompleted) return 'Over Completed';
-    if (completionState.isInningsCompleted) return 'Inning Completed';
-    if (completionState.isMatchCompleted) return 'Match Completed';
+    if (completionState.isMatchCompleted)
+      return 'Match Completed';
+    else if (completionState.isInningsCompleted)
+      return 'Inning Completed';
+    else if (completionState.isWicketDown)
+      return 'Wicket Down';
+    else if (completionState.isOverCompleted) return 'Over Completed';
     return '';
   }
 
   String _getSubtitle(AdditionalMatchState completionState) {
-    if (completionState.isWicketDown) return 'Tap to select next batsman';
-    if (completionState.isOverCompleted) return 'Tap to change bowler';
-    if (completionState.isInningsCompleted) return 'Tap to proceed next inning';
-    if (completionState.isMatchCompleted) return 'Tab to end Match';
+    if (completionState.isMatchCompleted)
+      return 'Tab to end Match';
+    else if (completionState.isInningsCompleted)
+      return 'Tap to proceed next inning';
+    else if (completionState.isWicketDown)
+      return 'Tap to select next batsman';
+    else if (completionState.isOverCompleted) return 'Tap to change bowler';
     return '';
   }
 
   String _getButtonText(AdditionalMatchState completionState) {
-    if (completionState.isWicketDown) return 'Select Batsman';
-    if (completionState.isOverCompleted) return 'Change Bowler';
-    if (completionState.isInningsCompleted) return 'Start 2nd Inning';
-    if (completionState.isMatchCompleted) return 'End Match';
+    if (completionState.isMatchCompleted)
+      return 'End Match';
+    else if (completionState.isInningsCompleted)
+      return 'Start 2nd Inning';
+    else if (completionState.isWicketDown)
+      return 'Select Batsman';
+    else if (completionState.isOverCompleted) return 'Change Bowler';
     return '';
   }
 
@@ -93,10 +102,14 @@ class SelectionPlaceholder extends ConsumerWidget {
     WidgetRef ref,
     AdditionalMatchState completionState,
   ) {
-    if (completionState.isWicketDown) _showNextBatsmanSelection(context, ref);
-    if (completionState.isOverCompleted) _showNextBowlerSelection(context, ref);
-    if (completionState.isInningsCompleted) startNextInning();
-    if (completionState.isMatchCompleted) endMatch();
+    if (completionState.isMatchCompleted)
+      endMatch();
+    else if (completionState.isInningsCompleted)
+      startNextInning();
+    else if (completionState.isWicketDown)
+      _showNextBatsmanSelection(context, ref);
+    else if (completionState.isOverCompleted)
+      _showNextBowlerSelection(context, ref);
   }
 
   @override

@@ -60,38 +60,79 @@ class MatchesServices {
       matchType: Match.getMatchType(matchType),
     );
 
-    final notification = NotificationModel.challenge(
-      notificationId: _uuid.v4(),
-      from: challengerTeam.teamId,
-      to: challengedTeam.teamId,
-      createdAt: Timestamp.now(),
-      status: NotificationStatus.pending,
-      read: false,
-      challengeMatch: challengeMatch,
-    );
+    try {
+      final notification = NotificationModel.challenge(
+        notificationId: _uuid.v4(),
+        from: challengerTeam.teamId,
+        to: challengedTeam.teamId,
+        createdAt: Timestamp.now(),
+        status: NotificationStatus.pending,
+        read: false,
+        challengeMatch: challengeMatch,
+      );
 
-    await _firestore
-        .collection(FirestoreCollections.notification)
-        .doc(notification.notificationId)
-        .set(notification.toMap);
+      await _firestore
+          .collection(FirestoreCollections.notification)
+          .doc(notification.notificationId)
+          .set(notification.toMap);
 
-    final challengerPlayerCollectionRef = _firestore
-        .collection(FirestoreCollections.notification)
-        .doc(notification.notificationId)
-        .collection(FirestoreCollections.challengerPlayers);
+      final challengerPlayerCollectionRef = _firestore
+          .collection(FirestoreCollections.notification)
+          .doc(notification.notificationId)
+          .collection(FirestoreCollections.challengerPlayers);
 
-    for (final player in challengerPlayers) {
-      await challengerPlayerCollectionRef
-          .doc(player.playerId)
-          .set(player.toMap);
+      for (final player in challengerPlayers) {
+        await challengerPlayerCollectionRef
+            .doc(player.playerId)
+            .set(player.toMap);
+      }
+
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(challengerTeam.teamId)
+          .update({
+        'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
+      });
+    } catch (e) {
+      print(e);
     }
 
-    _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(challengerTeam.teamId)
-        .update({
-      'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
-    });
+    try {
+      final notification = NotificationModel.challenge(
+        notificationId: _uuid.v4(),
+        from: challengerTeam.teamId,
+        to: challengedTeam.teamId,
+        createdAt: Timestamp.now(),
+        status: NotificationStatus.pending,
+        read: false,
+        challengeMatch: challengeMatch,
+      );
+
+      await _firestore
+          .collection(FirestoreCollections.notification)
+          .doc(notification.notificationId)
+          .set(notification.toMap);
+
+      final challengerPlayerCollectionRef = _firestore
+          .collection(FirestoreCollections.notification)
+          .doc(notification.notificationId)
+          .collection(FirestoreCollections.challengerPlayers);
+
+      for (final player in challengerPlayers) {
+        await challengerPlayerCollectionRef
+            .doc(player.playerId)
+            .set(player.toMap);
+      }
+
+      await _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(challengerTeam.teamId)
+          .update({
+        'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   static Future<List<MatchPlayerInfo>> getChallengeMatchTeamPlayers({
@@ -100,28 +141,33 @@ class MatchesServices {
   }) async {
     final List<MatchPlayerInfo> teamPlayers = [];
 
-    final challengeDocRef = _firestore
-        .collection(FirestoreCollections.notification)
-        .doc(challengeId);
-    if (isChallenger) {
-      await challengeDocRef
-          .collection(FirestoreCollections.challengerPlayers)
-          .get()
-          .then((value) {
-        for (final player in value.docs) {
-          teamPlayers.add(MatchPlayerInfo.fromMap(player.data()));
-        }
-      });
-    } else {
-      challengeDocRef
-          .collection(FirestoreCollections.challengedPlayers)
-          .get()
-          .then((value) {
-        for (final player in value.docs) {
-          teamPlayers.add(MatchPlayerInfo.fromMap(player.data()));
-        }
-      });
+    try {
+      final challengeDocRef = _firestore
+          .collection(FirestoreCollections.notification)
+          .doc(challengeId);
+      if (isChallenger) {
+        await challengeDocRef
+            .collection(FirestoreCollections.challengerPlayers)
+            .get()
+            .then((value) {
+          for (final player in value.docs) {
+            teamPlayers.add(MatchPlayerInfo.fromMap(player.data()));
+          }
+        });
+      } else {
+        await challengeDocRef
+            .collection(FirestoreCollections.challengedPlayers)
+            .get()
+            .then((value) {
+          for (final player in value.docs) {
+            teamPlayers.add(MatchPlayerInfo.fromMap(player.data()));
+          }
+        });
+      }
+    } catch (e) {
+      print(e);
     }
+
     return teamPlayers;
   }
 
@@ -155,29 +201,37 @@ class MatchesServices {
       schedule: challenge.schedule,
     );
 
-    final matchDocRef =
-        _firestore.collection(FirestoreCollections.matches).doc(match.id);
+    try {
+      final matchDocRef =
+          _firestore.collection(FirestoreCollections.matches).doc(match.id);
 
-    //* Storing match data
-    await matchDocRef.set(match.toMap);
+      //* Storing match data
+      await matchDocRef.set(match.toMap);
 
-    if (!context.mounted) return;
+      if (!context.mounted) return;
 
-    //* mark challenge as accepted
-    await NotificationServices.markNotificationStatus(
-      challengeId,
-      NotificationStatus.accept,
-    );
+      //* mark challenge as accepted
+      await NotificationServices.markNotificationStatus(
+        challengeId,
+        NotificationStatus.accept,
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   static Future<void> setMatchStartBy({
     required String matchId,
     required String startBy,
   }) async {
-    await _firestore
-        .collection(FirestoreCollections.matches)
-        .doc(matchId)
-        .update({'startBy': startBy});
+    try {
+      await _firestore
+          .collection(FirestoreCollections.matches)
+          .doc(matchId)
+          .update({'startBy': startBy});
+    } catch (e) {
+      print(e);
+    }
   }
 
   static Future<void> startMatch({
@@ -230,45 +284,49 @@ class MatchesServices {
   }
 
   static Future<List<Inning?>> getInningsFromMatchId(String matchId) async {
-    final matchDocRef =
-        _firestore.collection(FirestoreCollections.matches).doc(matchId);
-
-    // Fetch innings collection
-    final inningSnap =
-        await matchDocRef.collection(FirestoreCollections.innings).get();
-
     // Create a list to store innings with their additional data
     final List<Inning?> innings = [];
 
-    // Fetch data for each inning
-    for (var inningDoc in inningSnap.docs) {
-      // Convert inning document to Inning object
-      final inningData = inningDoc.data();
+    try {
+      final matchDocRef =
+          _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
-      // Fetch batting scores for this inning
-      final battingScoreSnap = await inningDoc.reference
-          .collection(FirestoreCollections.battingStats)
-          .get();
+      // Fetch innings collection
+      final inningSnap =
+          await matchDocRef.collection(FirestoreCollections.innings).get();
 
-      // Fetch bowling scores for this inning
-      final bowlingScoreSnap = await inningDoc.reference
-          .collection(FirestoreCollections.bowlingStats)
-          .get();
+      // Fetch data for each inning
+      for (var inningDoc in inningSnap.docs) {
+        // Convert inning document to Inning object
+        final inningData = inningDoc.data();
 
-      final inning = Inning.fromMap(
-        inningData,
-        battingScore: battingScoreSnap.docs,
-        bowlingScore: bowlingScoreSnap.docs,
-      );
+        // Fetch batting scores for this inning
+        final battingScoreSnap = await inningDoc.reference
+            .collection(FirestoreCollections.battingStats)
+            .get();
 
-      innings.add(inning);
-    }
+        // Fetch bowling scores for this inning
+        final bowlingScoreSnap = await inningDoc.reference
+            .collection(FirestoreCollections.bowlingStats)
+            .get();
 
-    if (innings.length < 2) {
-      innings.add(null);
-    }
-    if (innings.length < 1) {
-      innings.add(null);
+        final inning = Inning.fromMap(
+          inningData,
+          battingScore: battingScoreSnap.docs,
+          bowlingScore: bowlingScoreSnap.docs,
+        );
+
+        innings.add(inning);
+      }
+
+      if (innings.length < 2) {
+        innings.add(null);
+      }
+      if (innings.length < 1) {
+        innings.add(null);
+      }
+    } catch (e) {
+      print(e);
     }
 
     return innings;
@@ -293,6 +351,7 @@ class MatchesServices {
     bool isWicket = false,
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
+    String? dismissalInfo,
   }) async {
     final updatedExtra = teamExtras.addExtras(
       isWide: extras.isWide,
@@ -356,9 +415,12 @@ class MatchesServices {
           _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
       final updatedTeamScore = teamScore.addDelevery(
-          runs: runs, isAddBall: willBallAddedToTeamScore, isWicket: isWicket);
+        runs: runs,
+        isAddBall: willBallAddedToTeamScore,
+        isWicket: isWicket,
+      );
 
-      matchDocRef.update({
+      await matchDocRef.update({
         'team${currentInningNo}Score': updatedTeamScore.toMap(),
       });
 
@@ -372,7 +434,7 @@ class MatchesServices {
           if (isFour) 'fours': FieldValue.increment(1),
           'runs': FieldValue.increment(totalTeamRuns),
           if (isSix) 'sixes': FieldValue.increment(1),
-          if (isWicket) 'wicket': FieldValue.increment(1),
+          if (isWicket) 'wickets': FieldValue.increment(1),
           if (nonStrikerPosition != newNonStrikerPosition)
             'nonStrikerPosition': newNonStrikerPosition,
           if (strikerPosition != newStrikerPosition)
@@ -403,6 +465,7 @@ class MatchesServices {
     bool isWicket = false,
     ReasonOfOut? reasonOfOut,
     int? outBatsmanPosition,
+    String? dismissalInfo,
   }) async {
     final battingStatCollectionRef = _firestore
         .collection(FirestoreCollections.matches)
@@ -445,6 +508,7 @@ class MatchesServices {
         if (isStrikerOut) 'isOut': true,
         if (isStrikerOut && reasonOfOut != null)
           'reasonOfOut': reasonOfOut.name,
+        if (dismissalInfo != null) 'dismissalInfo': dismissalInfo,
         'runs': FieldValue.increment(strikerRuns),
       });
 
@@ -515,7 +579,7 @@ class MatchesServices {
         .collection(FirestoreCollections.matches)
         .doc(matchId)
         .collection(FirestoreCollections.balls);
-        
+
     const batchSize = 50;
     Query query = collectionRef.limit(batchSize);
 
