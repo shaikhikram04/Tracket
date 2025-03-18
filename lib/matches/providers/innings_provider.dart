@@ -143,7 +143,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   }
 
   //* Changes the bowler on over change.
-  void changeBowler(String newBowlerId) {
+  Future<void> changeBowler(String newBowlerId) async {
     if (_currentInningIndex == null) return;
 
     final isExistingBowler = currentInnings!.bowlingStats.any(
@@ -182,6 +182,13 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         ),
       ];
     }
+
+    await MatchesServices.setNewBowlerOnOverCompleted(
+      matchId: ref.read(matchStateProvider)!.id,
+      currentInningNo: _currentInningIndex! + 1,
+      newBowlerStat: newBowlerStat,
+      currentBowlerId: newBowlerId,
+    );
   }
 
   //* Adds a delivery outcome.

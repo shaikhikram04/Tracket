@@ -24,7 +24,8 @@ class SelectionPlaceholder extends ConsumerWidget {
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
         ref.read(currentOverRunsProvider.notifier).clear();
 
-        await MatchesServices.deleteBallsCollection();
+        await MatchesServices.deleteBallsCollection(
+            ref.read(matchStateProvider)!.id);
       },
       nonAvailablePlayers: [],
       playingPlayerId: ref

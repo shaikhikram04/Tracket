@@ -510,8 +510,12 @@ class MatchesServices {
     }
   }
 
-  static Future<void> deleteBallsCollection() async {
-    final collectionRef = _firestore.collection(FirestoreCollections.balls);
+  static Future<void> deleteBallsCollection(String matchId) async {
+    final collectionRef = _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.balls);
+        
     const batchSize = 50;
     Query query = collectionRef.limit(batchSize);
 
@@ -576,7 +580,7 @@ class MatchesServices {
   static Future<void> setNewBowlerOnOverCompleted({
     required String matchId,
     required int currentInningNo,
-    required BowlingScore newBowlerStat,
+    required BowlingScore? newBowlerStat,
     required String currentBowlerId,
   }) async {
     final inningDocRef = _firestore
@@ -590,10 +594,11 @@ class MatchesServices {
         'currentBowlerId': currentBowlerId,
       });
 
-      await inningDocRef
-          .collection(FirestoreCollections.bowlingStats)
-          .doc(newBowlerStat.uuid)
-          .set(newBowlerStat.toMap());
+      if (newBowlerStat != null)
+        await inningDocRef
+            .collection(FirestoreCollections.bowlingStats)
+            .doc(newBowlerStat.uuid)
+            .set(newBowlerStat.toMap());
     } catch (e) {
       debugPrint(e.toString());
     }
