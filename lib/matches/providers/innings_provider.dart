@@ -89,7 +89,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     return state.first!.runs + 1;
   }
 
-  void setNewBatsmenOnOut(MatchPlayerInfo newBatsman) {
+  Future<void> setNewBatsmenOnOut(MatchPlayerInfo newBatsman) async {
     if (currentInnings == null) return;
 
     final battingPosition = currentInnings!.battingStats.length + 1;
@@ -99,60 +99,75 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       battingPosition: battingPosition,
     );
 
+    final outBatsmanPosition = currentBatsmen!.firstWhere((batsman) {
+      return batsman.isOut;
+    }).battingPosition;
+
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
-          strikerPosition: state.first!.strikerPosition != -1
+          strikerPosition: outBatsmanPosition == currentInnings!.strikerPosition
               ? battingPosition
-              : state.first!.strikerPosition,
-          nonStrikerPosition: state.first!.nonStrikerPosition != -1
-              ? battingPosition
-              : state.first!.nonStrikerPosition,
-          battingStats: [...state.first!.battingStats, newBatsmanStat],
+              : currentInnings!.strikerPosition,
+          nonStrikerPosition:
+              outBatsmanPosition == currentInnings!.nonStrikerPosition
+                  ? battingPosition
+                  : currentInnings!.nonStrikerPosition,
+          battingStats: [...currentInnings!.battingStats, newBatsmanStat],
         ),
         state.last,
       ];
     } else {
       state = [
         state.first,
-        state.last!.copyWith(
-          strikerPosition: state.last!.strikerPosition != -1
+        state.first!.copyWith(
+          strikerPosition: outBatsmanPosition == currentInnings!.strikerPosition
               ? battingPosition
-              : state.last!.strikerPosition,
-          nonStrikerPosition: state.last!.nonStrikerPosition != -1
-              ? battingPosition
-              : state.last!.nonStrikerPosition,
-          battingStats: [...state.last!.battingStats, newBatsmanStat],
+              : currentInnings!.strikerPosition,
+          nonStrikerPosition:
+              outBatsmanPosition == currentInnings!.nonStrikerPosition
+                  ? battingPosition
+                  : currentInnings!.nonStrikerPosition,
+          battingStats: [...currentInnings!.battingStats, newBatsmanStat],
         ),
       ];
     }
-  }
 
-  //* Sets the current bowler on start of innings.
-  void setCurrentBowler(String newBowlerId) {
-    if (_currentInningIndex == null) return;
-
-    if (_currentInningIndex == 0) {
-      state = [
-        state.first!.copyWith(currentBowlerId: newBowlerId),
-        state.last,
-      ];
-    } else {
-      state = [
-        state.first,
-        state.last!.copyWith(currentBowlerId: newBowlerId),
-      ];
-    }
+    await MatchesServices.setNewBatsmanOnWicket(
+      matchId: ref.read(matchStateProvider)!.id,
+      newBatsmanStat: newBatsmanStat,
+      strikerPosition: currentInnings!.strikerPosition,
+      nonStrikerPosition: currentInnings!.nonStrikerPosition,
+      currentInningNo: _currentInningIndex! + 1,
+    );
   }
 
   //* Changes the bowler on over change.
   void changeBowler(String newBowlerId) {
     if (_currentInningIndex == null) return;
 
+    final isExistingBowler = currentInnings!.bowlingStats.any(
+      (bowler) => bowler.uuid == newBowlerId,
+    );
+
+    BowlingScore? newBowlerStat;
+    if (!isExistingBowler)
+      newBowlerStat = BowlingScore(
+        uuid: newBowlerId,
+        playerName: ref
+            .read(matchStateProvider)!
+            .getBowlingTeamPlayers()
+            .firstWhere((player) => player.playerId == newBowlerId)
+            .playerName,
+      );
+
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
           currentBowlerId: newBowlerId,
+          bowlingStats: isExistingBowler
+              ? null
+              : [...currentInnings!.bowlingStats, newBowlerStat!],
         ),
         state.last,
       ];
@@ -161,6 +176,9 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         state.first,
         state.last!.copyWith(
           currentBowlerId: newBowlerId,
+          bowlingStats: isExistingBowler
+              ? null
+              : [...currentInnings!.bowlingStats, newBowlerStat!],
         ),
       ];
     }
@@ -216,8 +234,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
       ballNumber: extras.isWide || extras.isNoBall
-          ? currentInnings!.balls % 7
-          : currentInnings!.balls % 7 + 1,
+          ? currentInnings!.balls % 6
+          : currentInnings!.balls % 6 + 1,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
       isBoundary: isFour || isSix,

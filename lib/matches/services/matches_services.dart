@@ -544,4 +544,58 @@ class MatchesServices {
 
     return BallOutcome.fromQuerySnapshot(docs);
   }
+
+  static Future<void> setNewBatsmanOnWicket({
+    required String matchId,
+    required int currentInningNo,
+    required BattingScore newBatsmanStat,
+    required int strikerPosition,
+    required int nonStrikerPosition,
+  }) async {
+    final inningDocRef = _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.innings)
+        .doc('inning$currentInningNo');
+
+    try {
+      await inningDocRef.update({
+        'strikerPosition': strikerPosition,
+        'nonStrikerPosition': nonStrikerPosition,
+      });
+
+      await inningDocRef
+          .collection(FirestoreCollections.battingStats)
+          .doc(newBatsmanStat.battingPosition.toString())
+          .set(newBatsmanStat.toMap());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future<void> setNewBowlerOnOverCompleted({
+    required String matchId,
+    required int currentInningNo,
+    required BowlingScore newBowlerStat,
+    required String currentBowlerId,
+  }) async {
+    final inningDocRef = _firestore
+        .collection(FirestoreCollections.matches)
+        .doc(matchId)
+        .collection(FirestoreCollections.innings)
+        .doc('inning$currentInningNo');
+
+    try {
+      await inningDocRef.update({
+        'currentBowlerId': currentBowlerId,
+      });
+
+      await inningDocRef
+          .collection(FirestoreCollections.bowlingStats)
+          .doc(newBowlerStat.uuid)
+          .set(newBowlerStat.toMap());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }
