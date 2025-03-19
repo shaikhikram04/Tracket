@@ -86,7 +86,6 @@ class Inning {
       nonStrikerPosition: nonStrikerPosition,
       battingStats: [],
       bowlingStats: [],
-      
     );
   }
 

@@ -151,15 +151,21 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     );
 
     BowlingScore? newBowlerStat;
-    if (!isExistingBowler)
+    if (isExistingBowler == false) {
+      final matchState = ref.read(matchStateProvider)!;
+      final isInning1 = _currentInningIndex == 0;
+      final playersList = isInning1
+          ? matchState.getBowlingTeamPlayers()
+          : matchState.getBattingTeamPlayers();
+      final playerInfo = playersList.firstWhere(
+        (player) => player.playerId == newBowlerId,
+      );
+      final playerName = playerInfo.playerName;
       newBowlerStat = BowlingScore(
         uuid: newBowlerId,
-        playerName: ref
-            .read(matchStateProvider)!
-            .getBowlingTeamPlayers()
-            .firstWhere((player) => player.playerId == newBowlerId)
-            .playerName,
+        playerName: playerName,
       );
+    }
 
     if (_currentInningIndex == 0) {
       state = [
