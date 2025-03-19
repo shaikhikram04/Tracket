@@ -235,14 +235,17 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       ballType = BallType.legBye;
     }
 
+    final currentInningBallCount = extras.isWide || extras.isNoBall
+        ? currentInnings!.balls
+        : currentInnings!.balls + 1;
+
     final ballOutcome = BallOutcome(
       type: ballType,
       runs: runs,
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
-      ballNumber: extras.isWide || extras.isNoBall
-          ? currentInnings!.balls % 6
-          : currentInnings!.balls % 6 + 1,
+      ballNumber:
+          currentInningBallCount % 6 == 0 ? 6 : currentInningBallCount % 6,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
       isBoundary: isFour || isSix,
@@ -278,7 +281,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     final isInningCompleted =
         (target != null && currentInnings!.runs + totalTeamRuns >= target!) ||
-            currentInnings!.completedOvers == matchOvers ||
+            currentInningBallCount == matchOvers * 6 ||
             isAllOut;
 
     //* Update the current innings with this delivery.
