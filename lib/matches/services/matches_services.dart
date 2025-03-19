@@ -283,6 +283,50 @@ class MatchesServices {
     }
   }
 
+  static Future<void> startSecondInning({
+    required String matchId,
+    required Inning inning2,
+    required BattingScore striker,
+    required BattingScore nonStriker,
+    required BowlingScore bowler,
+  }) async {
+    try {
+      final matchDocRef =
+          _firestore.collection(FirestoreCollections.matches).doc(matchId);
+
+      final inningDocRef = matchDocRef
+          .collection(FirestoreCollections.innings)
+          .doc(MatchConstant.inning2);
+
+      //* set inning
+      await inningDocRef.set(inning2.toMap());
+
+      await inningDocRef
+          .collection(FirestoreCollections.battingStats)
+          .doc(striker.battingPosition.toString())
+          .set(striker.toMap());
+
+      await inningDocRef
+          .collection(FirestoreCollections.battingStats)
+          .doc(nonStriker.battingPosition.toString())
+          .set(nonStriker.toMap());
+
+      await inningDocRef
+          .collection(FirestoreCollections.bowlingStats)
+          .doc(bowler.uuid)
+          .set(bowler.toMap());
+
+      //* update match field
+      final team2Score = TeamScore(runs: 0, balls: 0, wickets: 0);
+      await matchDocRef.update({
+        'currentInningNumber': 2,
+        'team2Score': team2Score.toMap(),
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   static Future<List<Inning?>> getInningsFromMatchId(String matchId) async {
     // Create a list to store innings with their additional data
     final List<Inning?> innings = [];

@@ -70,6 +70,15 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
   }
 
+  void startSecondInning() {
+    if (state == null) return;
+
+    state = state!.copyWith(
+      currentInningNumber: 2,
+      team2Score: TeamScore(runs: 0, balls: 0, wickets: 0),
+    );
+  }
+
   // Match completion
   void endMatch({
     required String winningTeamId,

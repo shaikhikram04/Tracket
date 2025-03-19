@@ -192,8 +192,8 @@ class Match {
       bowlingTeam: battingTeam!,
       battingPlayers: getBowlingTeamPlayers(),
       bowlingPlayers: getBattingTeamPlayers(),
-      strikerPosition: 0,
-      nonStrikerPosition: 1,
+      strikerPosition: 1,
+      nonStrikerPosition: 2,
       currentBowlerId: bowlerId,
     );
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
+import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
@@ -16,7 +17,12 @@ import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_card.dart';
 
 class MatchPlayersSelectionScreen extends ConsumerStatefulWidget {
-  const MatchPlayersSelectionScreen({super.key});
+  const MatchPlayersSelectionScreen({
+    super.key,
+    this.isInning1ToStart = true,
+  });
+
+  final bool isInning1ToStart;
 
   @override
   ConsumerState<MatchPlayersSelectionScreen> createState() =>
@@ -39,11 +45,20 @@ class _MatchPlayersSelectionScreenState
       isStarting = true;
     });
 
-    ref.read(matchStateProvider.notifier).startFirstInning();
+    //* setup match field before starting the inning
+    if (widget.isInning1ToStart)
+      ref.read(matchStateProvider.notifier).startFirstInning();
+    else
+      ref.read(matchStateProvider.notifier).startSecondInning();
 
     final match = ref.read(matchStateProvider)!;
 
-    final inning1 = match.initializeFirstInnings(bowlerId: _bowler!.playerId);
+    final Inning inning;
+    if (widget.isInning1ToStart)
+      inning = match.initializeFirstInnings(bowlerId: _bowler!.playerId);
+    else
+      inning = match.initializeSecondInnings(bowlerId: _bowler!.playerId);
+
     try {
       final striker = BattingScore(
         uuid: _openers[0].playerId,
@@ -62,15 +77,24 @@ class _MatchPlayersSelectionScreenState
         playerName: _bowler!.playerName,
       );
 
-      await MatchesServices.startMatch(
-        matchId: match.id,
-        isTeam1WonToss: match.isTeam1WonToss!,
-        decision: match.tossDecision!,
-        inning1: inning1,
-        striker: striker,
-        nonStriker: nonStriker,
-        bowler: bowler,
-      );
+      if (widget.isInning1ToStart)
+        await MatchesServices.startMatch(
+          matchId: match.id,
+          isTeam1WonToss: match.isTeam1WonToss!,
+          decision: match.tossDecision!,
+          inning1: inning,
+          striker: striker,
+          nonStriker: nonStriker,
+          bowler: bowler,
+        );
+      else
+        await MatchesServices.startSecondInning(
+          matchId: match.id,
+          inning2: inning,
+          striker: striker,
+          nonStriker: nonStriker,
+          bowler: bowler,
+        );
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(

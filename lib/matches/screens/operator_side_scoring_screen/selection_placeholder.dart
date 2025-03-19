@@ -60,9 +60,12 @@ class SelectionPlaceholder extends ConsumerWidget {
     );
   }
 
-  void startNextInning() {}
+  void _startNextInning() {
+    // Handle the next inning
+    
+  }
 
-  void endMatch() {}
+  void _endMatch() {}
 
   String _getTitle(AdditionalMatchState completionState) {
     if (completionState.isMatchCompleted)
@@ -103,9 +106,9 @@ class SelectionPlaceholder extends ConsumerWidget {
     AdditionalMatchState completionState,
   ) {
     if (completionState.isMatchCompleted)
-      endMatch();
+      _endMatch();
     else if (completionState.isInningsCompleted)
-      startNextInning();
+      _startNextInning();
     else if (completionState.isWicketDown)
       _showNextBatsmanSelection(context, ref);
     else if (completionState.isOverCompleted)
@@ -117,7 +120,7 @@ class SelectionPlaceholder extends ConsumerWidget {
     final completionState = ref.watch(additionalMatchProvider);
 
     return Container(
-      height: 320,
+      height: 300,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
