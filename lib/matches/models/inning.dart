@@ -182,6 +182,7 @@ class Inning {
       bowlingStats: newBowlingStats,
       strikerPosition: newStrikerPosition,
       nonStrikerPosition: newNonStrikerPosition,
+      status: isInningCompleted ? InningsStatus.completed : this.status,
       fallOfWickets: isWicket
           ? [...this.fallOfWickets, fallOfWicket!]
           : this.fallOfWickets,

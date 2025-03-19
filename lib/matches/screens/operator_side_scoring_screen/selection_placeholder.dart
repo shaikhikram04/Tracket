@@ -114,7 +114,7 @@ class SelectionPlaceholder extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final completionState = ref.read(additionalMatchProvider);
+    final completionState = ref.watch(additionalMatchProvider);
 
     return Container(
       height: 320,

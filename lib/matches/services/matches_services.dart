@@ -346,6 +346,8 @@ class MatchesServices {
     required TeamScore teamScore,
     required BallOutcome ballOutCome,
     required bool isOverCompleted,
+    required bool isInningCompleted,
+    required bool isMatchCompleted,
     FallOfWicket? fallofWicket,
     bool isMaiden = false,
     bool isWicket = false,
@@ -422,6 +424,7 @@ class MatchesServices {
 
       await matchDocRef.update({
         'team${currentInningNo}Score': updatedTeamScore.toMap(),
+        if (isMatchCompleted) 'status': MatchStatus.completed.name,
       });
 
       await matchDocRef
@@ -441,6 +444,7 @@ class MatchesServices {
             'strikerPosition': newStrikerPosition,
           if (fallofWicket != null)
             'fallOfWickets': FieldValue.arrayUnion([fallofWicket.toMap()]),
+          if (isInningCompleted) 'status': InningsStatus.completed.name,
         },
       );
 

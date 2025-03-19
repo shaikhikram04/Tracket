@@ -328,6 +328,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       reasonOfOut: reasonOfOut,
       fallofWicket: isWicket ? updatedInnings.fallOfWickets.last : null,
       dismissalInfo: dismissalInfo,
+      isInningCompleted: isInningCompleted,
+      isMatchCompleted: isMatchCompleted,
     );
   }
 
