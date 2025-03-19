@@ -121,7 +121,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                   // Enhanced Score Summary Section
                   ScoreboardSection(
                     currentInning: inningState.last ?? inningState.first!,
-                    target: inningState.last?.runs,
+                    target: ref.read(inningsStateProvider.notifier).target,
                     team1Name: matchState!.team1.teamName,
                     team2Name: matchState.team2.teamName,
                     isBlur: _isBlur,

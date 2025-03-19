@@ -5,10 +5,12 @@ import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
+import 'package:tracket/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
+import 'package:tracket/utils/utils.dart';
 
 class SelectionPlaceholder extends ConsumerWidget {
   const SelectionPlaceholder({super.key});
@@ -60,9 +62,9 @@ class SelectionPlaceholder extends ConsumerWidget {
     );
   }
 
-  void _startNextInning() {
+  void _startNextInning(BuildContext context, WidgetRef ref) {
     // Handle the next inning
-    
+    pushScreen(context, MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
   void _endMatch() {}
@@ -108,7 +110,7 @@ class SelectionPlaceholder extends ConsumerWidget {
     if (completionState.isMatchCompleted)
       _endMatch();
     else if (completionState.isInningsCompleted)
-      _startNextInning();
+      _startNextInning(context, ref);
     else if (completionState.isWicketDown)
       _showNextBatsmanSelection(context, ref);
     else if (completionState.isOverCompleted)

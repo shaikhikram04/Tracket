@@ -3,7 +3,6 @@ import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/fall_of_wickets.dart';
-import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/models/match_team_info.dart';
 
 // Enum for innings status
@@ -75,8 +74,6 @@ class Inning {
   factory Inning.initialize({
     required MatchTeamInfo battingTeam,
     required MatchTeamInfo bowlingTeam,
-    required List<MatchPlayerInfo> battingPlayers,
-    required List<MatchPlayerInfo> bowlingPlayers,
     required int strikerPosition,
     required int nonStrikerPosition,
     required String currentBowlerId,
@@ -89,6 +86,7 @@ class Inning {
       nonStrikerPosition: nonStrikerPosition,
       battingStats: [],
       bowlingStats: [],
+      
     );
   }
 

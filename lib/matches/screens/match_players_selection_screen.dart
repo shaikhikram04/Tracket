@@ -4,6 +4,7 @@ import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
+import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
 import 'package:tracket/matches/services/matches_services.dart';
@@ -96,6 +97,12 @@ class _MatchPlayersSelectionScreenState
           bowler: bowler,
         );
 
+      if (!widget.isInning1ToStart) {
+        ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(false);
+        ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
+        ref.read(additionalMatchProvider.notifier).setIsWicketDown(false);
+      }
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => CricketScoringScreen(),
@@ -166,7 +173,9 @@ class _MatchPlayersSelectionScreenState
                 _openers.isEmpty
                     ? InkWell(
                         onTap: () => _showOpeningBatsmenSheet(
-                            match.getBattingTeamPlayers()),
+                            widget.isInning1ToStart
+                                ? match.getBattingTeamPlayers()
+                                : match.getBowlingTeamPlayers()),
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
@@ -212,7 +221,9 @@ class _MatchPlayersSelectionScreenState
                 _bowler == null
                     ? InkWell(
                         onTap: () => _showOpeningBowlerSheet(
-                            match.getBowlingTeamPlayers()),
+                            widget.isInning1ToStart
+                                ? match.getBowlingTeamPlayers()
+                                : match.getBattingTeamPlayers()),
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(

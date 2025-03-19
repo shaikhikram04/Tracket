@@ -169,8 +169,6 @@ class Match {
     final inning1 = Inning.initialize(
       battingTeam: battingTeam!,
       bowlingTeam: bowlingTeam!,
-      battingPlayers: getBattingTeamPlayers(),
-      bowlingPlayers: getBowlingTeamPlayers(),
       currentBowlerId: bowlerId,
       strikerPosition: 1,
       nonStrikerPosition: 2,
@@ -190,8 +188,6 @@ class Match {
     final inning2 = Inning.initialize(
       battingTeam: bowlingTeam!,
       bowlingTeam: battingTeam!,
-      battingPlayers: getBowlingTeamPlayers(),
-      bowlingPlayers: getBattingTeamPlayers(),
       strikerPosition: 1,
       nonStrikerPosition: 2,
       currentBowlerId: bowlerId,
