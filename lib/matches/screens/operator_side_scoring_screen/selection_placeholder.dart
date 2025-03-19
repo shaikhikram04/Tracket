@@ -16,10 +16,16 @@ class SelectionPlaceholder extends ConsumerWidget {
   const SelectionPlaceholder({super.key});
 
   void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
+    final isFirstInning =
+        ref.read(matchStateProvider)!.currentInningNumber == 1;
+    final playersList = isFirstInning
+        ? ref.read(matchStateProvider)!.getBowlingTeamPlayers()
+        : ref.read(matchStateProvider)!.getBattingTeamPlayers();
+
     PlayerSelectionSheet.show(
       context: context,
       type: SelectionType.bowler,
-      allPlayers: ref.watch(matchStateProvider)!.getBowlingTeamPlayers(),
+      allPlayers: playersList,
       onPlayerSelected: (player) async {
         // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(player.playerId);
@@ -49,10 +55,16 @@ class SelectionPlaceholder extends ConsumerWidget {
       else
         playingPlayer = batsman.uuid;
     }
+    final isFirstInning =
+        ref.read(matchStateProvider)!.currentInningNumber == 1;
+
+    final playersList = isFirstInning
+        ? ref.read(matchStateProvider)!.getBattingTeamPlayers()
+        : ref.read(matchStateProvider)!.getBowlingTeamPlayers();
     PlayerSelectionSheet.show(
       context: context,
       type: SelectionType.batsman,
-      allPlayers: ref.read(matchStateProvider)!.getBattingTeamPlayers(),
+      allPlayers: playersList,
       onPlayerSelected: (player) {
         ref.read(inningsStateProvider.notifier).setNewBatsmenOnOut(player);
         ref.read(additionalMatchProvider.notifier).setIsWicketDown(false);

@@ -97,6 +97,8 @@ class _MatchPlayersSelectionScreenState
           bowler: bowler,
         );
 
+      await MatchesServices.deleteBallsCollection(match.id);
+
       if (!widget.isInning1ToStart) {
         ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(false);
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);

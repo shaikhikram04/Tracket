@@ -63,7 +63,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         ref.read(additionalMatchProvider.notifier).setIsWicketDown(true);
       }
 
-      final isInningsCompleted = innings.first!.isInningsCompleted;
+      final isInningsCompleted =
+          innings.first!.isInningsCompleted && innings.last == null;
       if (isInningsCompleted) {
         ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
       }
