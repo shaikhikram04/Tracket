@@ -16,11 +16,7 @@ class SelectionPlaceholder extends ConsumerWidget {
   const SelectionPlaceholder({super.key});
 
   void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
-    final isFirstInning =
-        ref.read(matchStateProvider)!.currentInningNumber == 1;
-    final playersList = isFirstInning
-        ? ref.read(matchStateProvider)!.getBowlingTeamPlayers()
-        : ref.read(matchStateProvider)!.getBattingTeamPlayers();
+    final playersList = ref.read(matchStateProvider)!.getBowlingTeamPlayers();
 
     PlayerSelectionSheet.show(
       context: context,
@@ -55,12 +51,8 @@ class SelectionPlaceholder extends ConsumerWidget {
       else
         playingPlayer = batsman.uuid;
     }
-    final isFirstInning =
-        ref.read(matchStateProvider)!.currentInningNumber == 1;
 
-    final playersList = isFirstInning
-        ? ref.read(matchStateProvider)!.getBattingTeamPlayers()
-        : ref.read(matchStateProvider)!.getBowlingTeamPlayers();
+    final playersList = ref.read(matchStateProvider)!.getBattingTeamPlayers();
     PlayerSelectionSheet.show(
       context: context,
       type: SelectionType.batsman,

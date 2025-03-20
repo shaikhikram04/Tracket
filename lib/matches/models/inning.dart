@@ -54,16 +54,7 @@ class Inning {
     return (runs * 6.0) / balls;
   }
 
-  String get wicketkeeperName {
-    final wkId = bowlingTeam.wicketkeeperId;
-    try {
-      return bowlingStats
-          .firstWhere((fielder) => fielder.uuid == wkId)
-          .playerName;
-    } catch (e) {
-      return 'Unknown';
-    }
-  }
+  
 
   bool get isInningsCompleted =>
       status == InningsStatus.allOut ||

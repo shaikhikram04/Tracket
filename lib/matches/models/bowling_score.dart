@@ -79,7 +79,7 @@ class BowlingScore {
       runsGiven: runs,
       wides: isWide ? wides + 1 : wides,
       noBalls: isNoBall ? noBalls + 1 : noBalls,
-      dots: (runs == 0 && !isWide && !isNoBall) ? dots + 1 : dots,
+      dots: (runs == 0 && !isWide && !isNoBall && !isWicket) ? dots + 1 : dots,
       wickets: isWicket ? wickets + 1 : wickets,
     );
   }

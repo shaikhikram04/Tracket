@@ -114,7 +114,7 @@ class Match {
   // Team and player management
   MatchTeamInfo? get battingTeam {
     if (currentInningNumber == null && isTeam1WonToss == null) return null;
-    if (currentInningNumber == 1 || isTeam1WonToss != null) {
+    if (currentInningNumber == 1 && isTeam1WonToss != null) {
       return _getTossWinnerTeam(TossDecision.batting);
     } else {
       return _getTossWinnerTeam(TossDecision.fielding);

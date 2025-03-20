@@ -153,10 +153,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     BowlingScore? newBowlerStat;
     if (isExistingBowler == false) {
       final matchState = ref.read(matchStateProvider)!;
-      final isInning1 = _currentInningIndex == 0;
-      final playersList = isInning1
-          ? matchState.getBowlingTeamPlayers()
-          : matchState.getBattingTeamPlayers();
+      final playersList = matchState.getBowlingTeamPlayers();
       final playerInfo = playersList.firstWhere(
         (player) => player.playerId == newBowlerId,
       );
@@ -195,6 +192,20 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       newBowlerStat: newBowlerStat,
       currentBowlerId: newBowlerId,
     );
+  }
+
+  String get currentWicketkeeperName {
+    final wkId = currentInnings!.bowlingTeam.wicketkeeperId;
+    try {
+      final matchState = ref.read(matchStateProvider)!;
+      final playersList = matchState.getBowlingTeamPlayers();
+
+      return playersList
+          .firstWhere((player) => player.playerId == wkId)
+          .playerName;
+    } catch (e) {
+      return 'Unknown';
+    }
   }
 
   //* Adds a delivery outcome.

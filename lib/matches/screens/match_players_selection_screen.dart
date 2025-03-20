@@ -175,9 +175,7 @@ class _MatchPlayersSelectionScreenState
                 _openers.isEmpty
                     ? InkWell(
                         onTap: () => _showOpeningBatsmenSheet(
-                            widget.isInning1ToStart
-                                ? match.getBattingTeamPlayers()
-                                : match.getBowlingTeamPlayers()),
+                            match.getBattingTeamPlayers()),
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
@@ -223,9 +221,7 @@ class _MatchPlayersSelectionScreenState
                 _bowler == null
                     ? InkWell(
                         onTap: () => _showOpeningBowlerSheet(
-                            widget.isInning1ToStart
-                                ? match.getBowlingTeamPlayers()
-                                : match.getBattingTeamPlayers()),
+                            match.getBowlingTeamPlayers()),
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(

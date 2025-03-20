@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
@@ -243,8 +242,8 @@ class ScoringControls extends ConsumerWidget {
                               builder: (context) {
                                 final wicketkeeperName = ref
                                     .read(inningsStateProvider.notifier)
-                                    .currentInnings!
-                                    .wicketkeeperName;
+                                    .currentWicketkeeperName;
+
                                 return WicketReason(
                                   fielders: matchState!.getBowlingTeamPlayers(),
                                   strikers: ref
@@ -258,20 +257,20 @@ class ScoringControls extends ConsumerWidget {
                                 );
                               });
                           if (result != null) {
-                            ref.read(inningsStateProvider.notifier).addDelivery(
-                                  runs: result['runsCompleted'] ?? 0,
-                                  isWicket: true,
-                                  extras: extras,
-                                  isFour: false,
-                                  isSix: false,
-                                  outBatsmanPosition: result['runOutBatsman'],
-                                  reasonOfOut: result['reasonOfOut'],
-                                  dismissalInfo: result['dismissalInfo'],
-                                );
+                            // ref.read(inningsStateProvider.notifier).addDelivery(
+                            //       runs: result['runsCompleted'] ?? 0,
+                            //       isWicket: true,
+                            //       extras: extras,
+                            //       isFour: false,
+                            //       isSix: false,
+                            //       outBatsmanPosition: result['runOutBatsman'],
+                            //       reasonOfOut: result['reasonOfOut'],
+                            //       dismissalInfo: result['dismissalInfo'],
+                            //     );
                             makeUnBlur();
-                            ref
-                                .read(additionalMatchProvider.notifier)
-                                .setIsWicketDown(true);
+                            // ref
+                            //     .read(additionalMatchProvider.notifier)
+                            //     .setIsWicketDown(true);
                           }
                           makeUnBlur();
                         },
