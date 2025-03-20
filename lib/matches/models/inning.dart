@@ -149,7 +149,7 @@ class Inning {
       runsForBowler: runsForBowler,
       isWide: isWide,
       isNoBall: isNoBall,
-      isWicket: isWicket,
+      isWicket: reasonOfOut == ReasonOfOut.runOut ? false : isWicket,
     );
 
     if ((runs.isOdd && !isOverCompleted) || (isOverCompleted && runs.isEven)) {

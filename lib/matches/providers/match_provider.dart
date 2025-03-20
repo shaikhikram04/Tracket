@@ -46,6 +46,17 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     state = match;
   }
 
+  //* updates team score
+  void updateTeamScore(TeamScore teamScore) {
+    if (state == null) return;
+
+    if (state!.currentInningNumber == 1) {
+      state = state!.copyWith(team1Score: teamScore);
+    } else {
+      state = state!.copyWith(team2Score: teamScore);
+    }
+  }
+
   //* Sets the toss result and decision.
   void setTossResult(
       {required bool isTeam1Won, required TossDecision decision}) {

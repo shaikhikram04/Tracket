@@ -317,6 +317,14 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
     }
 
+    final teamScore = _currentInningIndex == 0
+        ? matchState.team1Score!
+        : matchState.team2Score!;
+    final updatedTeamScore = teamScore.addDelevery(
+        runs: runs, isAddBall: extras.shouldAddRunsToTeam, isWicket: isWicket);
+
+    ref.read(matchStateProvider.notifier).updateTeamScore(updatedTeamScore);
+
     await MatchesServices.updateMatchScore(
       matchId: matchState.id,
       currentInningNo: _currentInningIndex! + 1,
@@ -328,7 +336,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       nonStrikerPosition: nonStrikerPosition,
       currentBowlerId: currentBowlerId,
       extras: extras,
-      teamScore: matchState.team2Score ?? matchState.team1Score!,
+      teamScore: updatedTeamScore,
       ballOutCome: ballOutcome,
       isOverCompleted: isOverCompleted,
       isMaiden: ref.read(currentOverRunsProvider.notifier).isLastOverMaiden(),

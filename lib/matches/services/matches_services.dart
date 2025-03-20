@@ -440,7 +440,7 @@ class MatchesServices {
         currentBowlerId: currentBowlerId,
         extras: extras,
         runs: runs,
-        isWicket: isWicket,
+        isWicket: reasonOfOut == ReasonOfOut.runOut ? false : isWicket,
         isOverCompleted: isOverCompleted,
         isMaidenOver: isMaiden,
       );
@@ -460,14 +460,8 @@ class MatchesServices {
       final matchDocRef =
           _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
-      final updatedTeamScore = teamScore.addDelevery(
-        runs: runs,
-        isAddBall: willBallAddedToTeamScore,
-        isWicket: isWicket,
-      );
-
       await matchDocRef.update({
-        'team${currentInningNo}Score': updatedTeamScore.toMap(),
+        'team${currentInningNo}Score': teamScore.toMap(),
         if (isMatchCompleted) 'status': MatchStatus.completed.name,
       });
 

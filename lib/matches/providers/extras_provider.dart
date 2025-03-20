@@ -16,6 +16,8 @@ class ExtrasState {
   bool get shouldAddRunsToBowler =>
       !(isWide || isBye || isLegBye || (isNoBall && (isBye || isLegBye)));
 
+  bool get shouldAddRunsToTeam => !(isWide || isNoBall);
+
   ExtrasState copyWith({
     bool? isWide,
     bool? isNoBall,
