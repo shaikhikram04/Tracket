@@ -123,7 +123,7 @@ class Match {
 
   MatchTeamInfo? get bowlingTeam {
     if (currentInningNumber == null && isTeam1WonToss == null) return null;
-    if (currentInningNumber == 1 || isTeam1WonToss != null) {
+    if (currentInningNumber == 1 && isTeam1WonToss != null) {
       return _getTossWinnerTeam(TossDecision.fielding);
     } else {
       return _getTossWinnerTeam(TossDecision.batting);

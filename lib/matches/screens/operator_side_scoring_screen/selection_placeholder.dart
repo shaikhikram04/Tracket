@@ -16,7 +16,8 @@ class SelectionPlaceholder extends ConsumerWidget {
   const SelectionPlaceholder({super.key});
 
   void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
-    final playersList = ref.read(matchStateProvider)!.getBowlingTeamPlayers();
+    final matchState = ref.read(matchStateProvider)!;
+    final playersList = matchState.getBowlingTeamPlayers();
 
     PlayerSelectionSheet.show(
       context: context,

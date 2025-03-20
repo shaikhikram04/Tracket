@@ -120,7 +120,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     } else {
       state = [
         state.first,
-        state.first!.copyWith(
+        state.last!.copyWith(
           strikerPosition: outBatsmanPosition == currentInnings!.strikerPosition
               ? battingPosition
               : currentInnings!.strikerPosition,
