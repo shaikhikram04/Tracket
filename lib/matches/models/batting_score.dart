@@ -64,10 +64,12 @@ class BattingScore {
     );
   }
 
-  BattingScore wicket(int runs,
-      {required bool countBall,
-      required ReasonOfOut reasonOfOut,
-      String? dismissalInfo}) {
+  BattingScore wicket(
+    int runs, {
+    required bool countBall,
+    required ReasonOfOut reasonOfOut,
+    String? dismissalInfo,
+  }) {
     return copyWith(
       isOut: true,
       ballsFaced: countBall ? ballsFaced + 1 : ballsFaced,

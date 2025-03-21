@@ -432,6 +432,7 @@ class MatchesServices {
         isWicket: isWicket,
         outBatsmanPosition: outBatsmanPosition,
         reasonOfOut: reasonOfOut,
+        dismissalInfo: dismissalInfo,
       );
 
       await _updateCurrentBowlerStats(
@@ -558,6 +559,7 @@ class MatchesServices {
         'isOut': isNonStrikerOut,
         if (isNonStrikerOut && reasonOfOut != null)
           'reasonOfOut': reasonOfOut.name,
+        if (dismissalInfo != null) 'dismissalInfo': dismissalInfo,
       });
     } catch (e) {
       debugPrint(e.toString());
