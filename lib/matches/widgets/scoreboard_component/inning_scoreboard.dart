@@ -47,7 +47,6 @@ class InningData {
 class _InningScoreboardState extends State<InningScoreboard> {
   late final Stream<InningData?> _combinedInningStream;
 
-
   @override
   void initState() {
     super.initState();
@@ -133,6 +132,7 @@ class _InningScoreboardState extends State<InningScoreboard> {
                 wickets: inningData.inning.wickets,
                 overs: inningData.inning.oversDisplay,
                 fallOfWickets: inningData.inning.fallOfWickets,
+                allPlayers: widget.players,
               ),
               BowlingScorecard(
                 bowlerStats: inningData.bowlingStats,

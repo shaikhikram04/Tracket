@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/fall_of_wickets.dart';
+import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/stat_column.dart';
 import 'package:tracket/utils/colors.dart';
 
 class BattingScorecard extends StatelessWidget {
   final String teamName;
+  final List<MatchPlayerInfo> allPlayers;
   final List<BattingScore> battingScores;
   final Extras extras;
   final int totalScore;
@@ -23,6 +25,7 @@ class BattingScorecard extends StatelessWidget {
     required this.wickets,
     required this.overs,
     required this.fallOfWickets,
+    required this.allPlayers,
   });
 
   @override
@@ -47,6 +50,11 @@ class BattingScorecard extends StatelessWidget {
           const Divider(
               height: 1, thickness: 1, color: LightThemeColors.dividerColor),
           _buildTotalRow(),
+          if (allPlayers.length > battingScores.length) ...[
+            const Divider(
+                height: 1, thickness: 1, color: LightThemeColors.dividerColor),
+            _buildYetToBatRow(),
+          ],
           if (fallOfWickets.isNotEmpty) ...[
             const Divider(
                 height: 1, thickness: 1, color: LightThemeColors.dividerColor),
@@ -156,6 +164,39 @@ class BattingScorecard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: grassGreen,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildYetToBatRow() {
+    final yetToBat = allPlayers
+        .where((player) => !battingScores.any((b) => b.uuid == player.playerId))
+        .map((player) => player.playerName)
+        .join(' • ');
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Yet to Bat',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: LightThemeColors.primaryText,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            yetToBat,
+            style: const TextStyle(
+              fontSize: 13,
+              color: LightThemeColors.secondaryText,
+              height: 1.4,
             ),
           ),
         ],
