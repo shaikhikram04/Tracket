@@ -7,8 +7,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tracket/authentication/screens/auth_screen.dart';
-import 'package:tracket/screens/home.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/loser_display.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/winner_display.dart';
 import 'package:tracket/utils/colors.dart';
 
 import 'firebase_options.dart';
@@ -116,18 +116,35 @@ class Tracket extends StatelessWidget {
     final currUser = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightMode,
-      title: 'Tracket',
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      darkTheme: darkMode,
-      themeMode: ThemeMode.light,
-      home: currUser == null || !currUser.emailVerified
-          ? const AuthScreen()
-          : const HomeScreen(),
+        debugShowCheckedModeBanner: false,
+        theme: lightMode,
+        title: 'Tracket',
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
+        darkTheme: darkMode,
+        themeMode: ThemeMode.light,
+        // home: currUser == null || !currUser.emailVerified
+        //     ? const AuthScreen()
+        //     : const HomeScreen(),
 
-      // home: BowlingScorecardDemo(),
-    );
+        home: const Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                WinningStatusWidget(
+                  winningTeam: "Mumbai Indians",
+                  winningMargin: "Won by 5 wickets",
+                  animationPath: "assets/animations/trophy.json",
+                ),
+                SizedBox(height: 50),
+                LossStatusWidget(
+                  losingTeam: "Chennai Super Kings",
+                  losingMargin: "Lost by 10 runs",
+                  animationPath: "assets/animations/sad_face.json",
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
