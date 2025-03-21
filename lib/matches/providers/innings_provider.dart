@@ -322,8 +322,29 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     final isMatchCompleted = isInningCompleted && _currentInningIndex == 1;
 
+    String? winningTeamId = null;
+    WinningMethod? winningMethod = null;
+    int? winningMargin = null;
     if (isMatchCompleted) {
       ref.read(additionalMatchProvider.notifier).setIsMatchCompleted(true);
+      final iscurrentBattingTeamWin = currentInnings!.runs > state.first!.runs;
+      winningTeamId = iscurrentBattingTeamWin
+          ? currentInnings!.battingTeam.teamId
+          : state.first!.battingTeam.teamId;
+
+      winningMethod = iscurrentBattingTeamWin
+          ? WinningMethod.byWickets
+          : WinningMethod.byRuns;
+
+      winningMargin = iscurrentBattingTeamWin
+          ? noOfPlayers - currentInnings!.wickets - 1
+          : state.first!.runs - currentInnings!.runs;
+
+      ref.read(matchStateProvider.notifier).endMatch(
+            winningTeamId: winningTeamId,
+            method: winningMethod,
+            margin: winningMargin,
+          );
     } else if (isInningCompleted) {
       ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
     }
@@ -358,6 +379,9 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       dismissalInfo: dismissalInfo,
       isInningCompleted: isInningCompleted,
       isMatchCompleted: isMatchCompleted,
+      winningMargin: isMatchCompleted ? winningMargin : null,
+      winningMethod: isMatchCompleted ? winningMethod : null,
+      winningTeamId: isMatchCompleted ? winningTeamId : null,
     );
   }
 

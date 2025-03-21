@@ -398,6 +398,9 @@ class MatchesServices {
     int? outBatsmanPosition,
     ReasonOfOut? reasonOfOut,
     String? dismissalInfo,
+    String? winningTeamId,
+    WinningMethod? winningMethod,
+    int? winningMargin,
   }) async {
     final updatedExtra = teamExtras.addExtras(
       isWide: extras.isWide,
@@ -463,7 +466,12 @@ class MatchesServices {
 
       await matchDocRef.update({
         'team${currentInningNo}Score': teamScore.toMap(),
-        if (isMatchCompleted) 'status': MatchStatus.completed.name,
+        if (isMatchCompleted) ...{
+          'status': MatchStatus.completed.name,
+          'winningTeamId': winningTeamId,
+          'winningMethod': winningMethod!.name,
+          'winningMargin': winningMargin,
+        }
       });
 
       await matchDocRef
