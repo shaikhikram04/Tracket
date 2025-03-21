@@ -42,7 +42,7 @@ class MainDrawer extends ConsumerWidget {
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   GradientColors.matchCardStart,
@@ -87,7 +87,7 @@ class MainDrawer extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 InkWell(
                   onTap: () => pushScreen(
                       context,

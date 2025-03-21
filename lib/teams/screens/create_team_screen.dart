@@ -227,7 +227,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 prefixIcon: Icons.group,
                 primaryColor: grassGreen,
               ),
-              SizedBox(height: TeamConstants.defaultSpacing),
+              const SizedBox(height: TeamConstants.defaultSpacing),
               MyTextField(
                 isLogin: false,
                 onSave: (value) => _teamFormData.shortName = value,
@@ -284,7 +284,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       ),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: grassGreen,
@@ -312,7 +312,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             children: [
               SwitchListTile(
                 title: const Text('Private Team'),
-                subtitle: Text(
+                subtitle: const Text(
                   'Only invited players can join',
                   style: TextStyle(color: LightThemeColors.secondaryText),
                 ),
@@ -324,9 +324,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Icon(Icons.people, color: grassGreen),
+                  const Icon(Icons.people, color: grassGreen),
                   const SizedBox(width: 12),
-                  Text(
+                  const Text(
                     'Maximum Players:',
                     style: TextStyle(color: grassGreen),
                   ),
@@ -370,7 +370,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
   Widget _buildSubmitButton() {
     return Center(
       child: _isLoading
-          ? CircularProgressIndicator(
+          ? const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(grassGreen),
             )
           : Container(
@@ -378,7 +378,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
               height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [grassGreen, darkGrassGreen],
                 ),
                 boxShadow: [
@@ -439,7 +439,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             children: [
               const SizedBox(height: 30),
               _buildTeamLogoSection(height),
-              SizedBox(height: TeamConstants.defaultSpacing),
+              const SizedBox(height: TeamConstants.defaultSpacing),
               _buildTeamInfoCard(),
               const SizedBox(height: 30),
             ],

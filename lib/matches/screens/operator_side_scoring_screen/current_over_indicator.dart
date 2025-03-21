@@ -74,14 +74,14 @@ class CurrentOverIndicator extends StatelessWidget {
         children: [
           Container(
             margin: margin,
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             width: double.infinity,
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(15),
               boxShadow: showShadow
                   ? [
-                      BoxShadow(
+                      const BoxShadow(
                         color: LightThemeColors.tertiaryText,
                         blurRadius: 10,
                         offset: Offset(0, 2),
@@ -99,12 +99,12 @@ class CurrentOverIndicator extends StatelessWidget {
                     color: grassGreen,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _buildBallsRow(),
               ],
             ),
           ),
-          if (isBlur) BlurOverlay(),
+          if (isBlur) const BlurOverlay(),
         ],
       ),
     );

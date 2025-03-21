@@ -37,7 +37,7 @@ class ScoreboardSection extends StatelessWidget {
             grassGreen,
           ],
         ),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
         ),
@@ -45,14 +45,14 @@ class ScoreboardSection extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Stack(
         children: [
           // Background patterns
-          Positioned(
+          const Positioned(
             right: -20,
             top: -20,
             child: Opacity(
@@ -70,16 +70,16 @@ class ScoreboardSection extends StatelessWidget {
             children: [
               // Teams header
               Container(
-                padding: EdgeInsets.only(top: 15, bottom: 10),
+                padding: const EdgeInsets.only(top: 15, bottom: 10),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     spacing: 8,
                     children: [
@@ -94,7 +94,7 @@ class ScoreboardSection extends StatelessWidget {
                       // VS badge
                       Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
                           color: Colors.black.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
@@ -123,7 +123,7 @@ class ScoreboardSection extends StatelessWidget {
 
               // Scores and info
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 16, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -135,7 +135,7 @@ class ScoreboardSection extends StatelessWidget {
                         children: [
                           // Current batting team label
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 3),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.15),
@@ -152,7 +152,7 @@ class ScoreboardSection extends StatelessWidget {
                             ),
                           ),
 
-                          SizedBox(height: 6),
+                          const SizedBox(height: 6),
 
                           // Score
                           Row(
@@ -179,11 +179,11 @@ class ScoreboardSection extends StatelessWidget {
                             ],
                           ),
 
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
 
                           // Overs pill
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
@@ -198,7 +198,7 @@ class ScoreboardSection extends StatelessWidget {
                                   color: LightThemeColors.surfaceColor
                                       .withValues(alpha: 0.9),
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Text(
                                   '${currentInning?.oversDisplay ?? '0.0'}/${totalOvers}',
                                   style: GoogleFonts.poppins(
@@ -227,10 +227,10 @@ class ScoreboardSection extends StatelessWidget {
 
               // Match info strip
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
@@ -250,7 +250,7 @@ class ScoreboardSection extends StatelessWidget {
           ),
 
           // Blur overlay if needed
-          if (isBlur) BlurOverlay(),
+          if (isBlur) const BlurOverlay(),
         ],
       ),
     );
@@ -260,7 +260,7 @@ class ScoreboardSection extends StatelessWidget {
       bool isBatting, Alignment alignment) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: isBatting
@@ -277,8 +277,8 @@ class ScoreboardSection extends StatelessWidget {
               : MainAxisAlignment.end,
           children: [
             if (alignment == Alignment.centerLeft && isBatting)
-              Padding(
-                padding: const EdgeInsets.only(right: 6),
+              const Padding(
+                padding: EdgeInsets.only(right: 6),
                 child: Icon(
                   Icons.sports_cricket,
                   color: Colors.amberAccent,
@@ -300,8 +300,8 @@ class ScoreboardSection extends StatelessWidget {
               ),
             ),
             if (alignment == Alignment.centerRight && isBatting)
-              Padding(
-                padding: const EdgeInsets.only(left: 6),
+              const Padding(
+                padding: EdgeInsets.only(left: 6),
                 child: Icon(
                   Icons.sports_cricket,
                   color: Colors.amberAccent,
@@ -318,8 +318,8 @@ class ScoreboardSection extends StatelessWidget {
     final runsNeeded = target! - (currentInning?.runs ?? 0);
 
     return Container(
-      margin: EdgeInsets.only(left: 12),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      margin: const EdgeInsets.only(left: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -347,7 +347,7 @@ class ScoreboardSection extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
 
           // Target value
           Text(
@@ -386,7 +386,7 @@ class ScoreboardSection extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
@@ -421,7 +421,7 @@ class ScoreboardSection extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),

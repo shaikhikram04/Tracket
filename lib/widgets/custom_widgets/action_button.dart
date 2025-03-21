@@ -175,7 +175,7 @@ class ActionButton extends StatelessWidget {
                 ? getCircleLoadingIndicator(
                     dimension: loadingSize,
                     strokeWidth: loadingStrokeWidth,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.black54),
                   )
                 : Text(
                     _getButtonText(isAdded),

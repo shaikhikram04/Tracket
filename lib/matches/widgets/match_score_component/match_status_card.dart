@@ -31,13 +31,13 @@ class MatchStatusCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MatchHeader(createdAt: match.createdAt, status: match.status),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           MatchTeamsRow(
             match: match,
             versusBgColor: primaryLight.withValues(alpha: 0.2),
           ),
           if (match.status == MatchStatus.live) ...[
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             CurrentOverFetcher(
               matchId: match.id,
             ),

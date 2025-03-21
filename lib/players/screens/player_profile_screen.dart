@@ -78,7 +78,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                 children: [
                   // Profile Picture and Name
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           GradientColors.matchCardStart,
@@ -121,7 +121,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           _playerData.playerCricketDetails!.detailedCricketRole,
                           style: MyTextStyle(context)

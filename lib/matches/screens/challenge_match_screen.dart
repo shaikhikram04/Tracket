@@ -277,10 +277,10 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           getTitleText('Match Details', context),
-          SizedBox(height: 7),
+          const SizedBox(height: 7),
           _buildPlayerCountSection(),
           _buildMatchFormatDropdown(),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           _buildMatchTypeDropdown(),
           _buildSpectatorToggle(),
         ],
@@ -421,7 +421,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         ),
         IconButton(
           onPressed: () async {
-            final initialDate = DateTime.now().add(Duration(minutes: 5));
+            final initialDate = DateTime.now().add(const Duration(minutes: 5));
             final selectedDate = await showDatePicker(
               context: context,
               firstDate: initialDate,

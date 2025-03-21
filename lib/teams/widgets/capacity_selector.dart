@@ -50,7 +50,7 @@ class CapacitySelector extends StatelessWidget {
               color: labelColor ?? primaryColor,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           _CapacityButton(
             icon: Icons.remove_rounded,
             onPressed: canDecrement ? onDecrement : null,

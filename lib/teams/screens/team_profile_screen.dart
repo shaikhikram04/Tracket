@@ -210,7 +210,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                 children: [
                   // Team Logo & name section
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           GradientColors.matchCardStart,

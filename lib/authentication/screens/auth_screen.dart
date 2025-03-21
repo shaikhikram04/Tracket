@@ -149,7 +149,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
               fontWeight: FontWeight.w600,
             ),
         indicator: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
@@ -195,11 +195,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         child: _isChangingTab
             ? Center(
                 child: getCircleLoadingIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(primaryMedium),
+                valueColor: const AlwaysStoppedAnimation<Color>(primaryMedium),
                 strokeWidth: 3,
               ))
             : Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: LightThemeColors.surfaceColor,
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(AppSize.radiusMd),

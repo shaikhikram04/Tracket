@@ -107,7 +107,7 @@ class _MatchPlayersSelectionScreenState
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => CricketScoringScreen(),
+          builder: (context) => const CricketScoringScreen(),
         ),
         (route) => route.isFirst,
       );
@@ -161,17 +161,17 @@ class _MatchPlayersSelectionScreenState
     final match = ref.watch(matchStateProvider)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Players'),
+        title: const Text('Select Players'),
       ),
       body: Column(
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           MyCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 getTitleText('Opening Batsman', context),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 _openers.isEmpty
                     ? InkWell(
                         onTap: () => _showOpeningBatsmenSheet(
@@ -217,7 +217,7 @@ class _MatchPlayersSelectionScreenState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 getTitleText('Opening Bowler', context),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _bowler == null
                     ? InkWell(
                         onTap: () => _showOpeningBowlerSheet(
@@ -254,7 +254,7 @@ class _MatchPlayersSelectionScreenState
           Container(
             width: MediaQuery.of(context).size.width,
             height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CustomButton.primary(
               onPressed: _openers.isNotEmpty && _bowler != null
                   ? () => _onStart(match.getBattingTeamPlayers())

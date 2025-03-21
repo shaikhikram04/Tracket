@@ -232,7 +232,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     const SizedBox(width: 4),
                     Text(
                       team.isPrivate ? 'Private' : 'Public',
-                      style: TextStyle(color: LightThemeColors.secondaryText),
+                      style: const TextStyle(color: LightThemeColors.secondaryText),
                     ),
                     const SizedBox(width: 12),
                     Icon(
@@ -243,7 +243,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     const SizedBox(width: 4),
                     Text(
                       team.hasCapacity ? 'Has Capacity' : 'Full',
-                      style: TextStyle(color: LightThemeColors.secondaryText),
+                      style: const TextStyle(color: LightThemeColors.secondaryText),
                     ),
                   ],
                 ),

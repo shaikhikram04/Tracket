@@ -59,7 +59,7 @@ void showIconAlertDialog(
               Container(
                 height: 110,
                 width: double.infinity,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: StatusColors.error.withValues(alpha: 0.8),
                 ),
@@ -71,7 +71,7 @@ void showIconAlertDialog(
                       size: 45,
                       color: LightThemeColors.surfaceColor,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       title,
                       style: MyTextStyle(context).titleMedium.copyWith(

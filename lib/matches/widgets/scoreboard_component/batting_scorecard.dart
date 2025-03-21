@@ -116,7 +116,7 @@ class BattingScorecard extends StatelessWidget {
             flex: 8,
             child: Text(
               '${extras.total} (${extras.displayString})',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 color: LightThemeColors.secondaryText,
               ),

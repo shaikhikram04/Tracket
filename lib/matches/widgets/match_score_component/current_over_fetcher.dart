@@ -28,7 +28,7 @@ class CurrentOverFetcher extends StatelessWidget {
           return getCircleLoadingIndicator();
         }
         if (!snapshot.hasData || snapshot.hasError) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
 
         final currOverRuns = snapshot.data!.docs;

@@ -194,7 +194,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NoDataFound(
+    return const NoDataFound(
       title: 'No Team Yet',
       message: 'Join or create a team to get started',
       isPointingButton: true,

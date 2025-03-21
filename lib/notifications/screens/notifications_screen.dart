@@ -17,9 +17,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     with SingleTickerProviderStateMixin, TabControllerMixin {
   @override
   List<NotificationTabConfig> get tabConfigs => [
-        NotificationTabConfig(text: 'All'),
-        NotificationTabConfig(text: 'Requests'),
-        NotificationTabConfig(text: 'Challenge'),
+        const NotificationTabConfig(text: 'All'),
+        const NotificationTabConfig(text: 'Requests'),
+        const NotificationTabConfig(text: 'Challenge'),
       ];
 
   @override

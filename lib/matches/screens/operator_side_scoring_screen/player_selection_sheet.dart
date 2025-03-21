@@ -66,17 +66,17 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   Color getCardBackgroundColor(MatchPlayerInfo player) {
     if (widget.nonAvailablePlayers.contains(player.playerId)) {
       if (widget.type == SelectionType.batsman)
-        return Color(0xFFFFF1F0); // Light red background for out players
+        return const Color(0xFFFFF1F0); // Light red background for out players
 
-      return Color.fromARGB(
+      return const Color.fromARGB(
           255, 230, 255, 255); // Light orange background for previous bowler
     } else if (widget.playingPlayer == player.playerId) {
       if (widget.type == SelectionType.batsman)
-        return Color(0xFFF0F5FF); // Light blue background for playing players
+        return const Color(0xFFF0F5FF); // Light blue background for playing players
 
-      return Color(0xFFFFF7E6); // Light orange background for previous bowler
+      return const Color(0xFFFFF7E6); // Light orange background for previous bowler
     } else if (_selectedPlayer == player) {
-      return Color(0xFFF6FFED); // Light green background for selected player
+      return const Color(0xFFF6FFED); // Light green background for selected player
     }
     return Colors.white;
   }
@@ -84,14 +84,14 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
   Color getIconColor(MatchPlayerInfo player) {
     if (widget.nonAvailablePlayers.contains(player.playerId)) {
       if (widget.type == SelectionType.batsman)
-        return Color(0xFFCF1322); // Dark red for out icon
-      return Color.fromARGB(
+        return const Color(0xFFCF1322); // Dark red for out icon
+      return const Color.fromARGB(
           255, 231, 22, 250); // Orange for previous bowler icon
     } else if (widget.playingPlayer == player.playerId) {
       if (widget.type == SelectionType.batsman)
-        return Color(0xFF1890FF); // Blue for playing icon
+        return const Color(0xFF1890FF); // Blue for playing icon
 
-      return Color(0xFFFA8C16); // Orange for previous bowler icon
+      return const Color(0xFFFA8C16); // Orange for previous bowler icon
     }
     return Colors.black;
   }
@@ -217,7 +217,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                 ),
                                 const SizedBox(width: 8),
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     horizontal: 8,
                                     vertical: 2,
                                   ),

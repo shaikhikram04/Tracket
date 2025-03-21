@@ -17,11 +17,11 @@ class _RequestsScreenState extends State<ManageRequestsScreen>
     with SingleTickerProviderStateMixin, TabControllerMixin {
   @override
   List<NotificationTabConfig> get tabConfigs => [
-        NotificationTabConfig(
+        const NotificationTabConfig(
           text: 'Received',
           icon: Icons.arrow_downward,
         ),
-        NotificationTabConfig(
+        const NotificationTabConfig(
           text: 'Sent',
           icon: Icons.arrow_upward,
         ),

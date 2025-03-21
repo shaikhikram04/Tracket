@@ -7,7 +7,7 @@ class NotificationResult {
     this.error,
   });
 
-  static NotificationResult successful() => NotificationResult(success: true);
+  static NotificationResult successful() => const NotificationResult(success: true);
   static NotificationResult failure(String error) => 
       NotificationResult(success: false, error: error);
 }

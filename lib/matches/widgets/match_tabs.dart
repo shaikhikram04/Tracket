@@ -152,7 +152,7 @@ class _CricketMatchTabsState extends State<CricketMatchTabs> {
                   ),
                   child: Text(
                     tab.count.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: onPrimary,
                       fontSize: 11,
                       fontWeight: FontWeight.w600,

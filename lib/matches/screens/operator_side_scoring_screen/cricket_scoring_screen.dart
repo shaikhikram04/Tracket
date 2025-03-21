@@ -137,7 +137,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                     remainingBalls: ref
                         .read(currentOverRunsProvider.notifier)
                         .remainingBalls,
-                    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                     bgColor: LightThemeColors.surfaceColor,
                   ),
 
@@ -156,7 +156,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                           completionState.isInningsCompleted ||
                           completionState.isMatchCompleted ||
                           completionState.isWicketDown
-                      ? SelectionPlaceholder()
+                      ? const SelectionPlaceholder()
                       : ScoringControls(
                           onExtra: _onExtraButtonTab,
                           isBlur: _isBlur,

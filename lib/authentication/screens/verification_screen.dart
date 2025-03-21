@@ -53,7 +53,7 @@ class VerificationScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 8,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.lock_outline,
                       color: primaryVariant,
                       size: 25,
@@ -117,7 +117,7 @@ class VerificationScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {},
                   child: Container(
@@ -130,7 +130,7 @@ class VerificationScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10,
                       children: [
-                        Icon(
+                        const Icon(
                           AppIconData.email,
                           color: LightThemeColors.surfaceColor,
                         ),

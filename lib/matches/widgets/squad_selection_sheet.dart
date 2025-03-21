@@ -81,7 +81,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                   children: [
                     selectedPlayerPosition > 0
                         ? Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               vertical: 5,
                               horizontal: 9,
                             ),
@@ -97,7 +97,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                                   .copyWith(color: onPrimary),
                             ),
                           )
-                        : Icon(
+                        : const Icon(
                             Icons.person_outline,
                             color: Colors.grey,
                           ),

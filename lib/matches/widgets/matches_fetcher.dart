@@ -67,7 +67,7 @@ class MatchesFetcher extends StatelessWidget {
           return const SizedBox.shrink();
         }
         if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-          return NoDataFound(
+          return const NoDataFound(
             title: 'No matches found',
             message: 'Wait for a match to start',
             iconData: AppIconData.noMatch,

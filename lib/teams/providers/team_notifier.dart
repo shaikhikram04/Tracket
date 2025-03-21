@@ -6,20 +6,20 @@ import 'package:tracket/teams/providers/team_state.dart';
 
 class TeamNotifier extends StateNotifier<TeamState> {
   TeamNotifier()
-      : super(TeamState(
+      : super(const TeamState(
           team: Team(
             id: '',
             name: '',
             shortName: '',
             logoUrl: '',
-            playersList: const [],
-            achievements: const [],
-            followers: const [],
+            playersList: [],
+            achievements: [],
+            followers: [],
             createdBy: '',
-            playerIds: const [],
+            playerIds: [],
             description: '',
-            requestedPlayers: const [],
-            challengedTeams: const [],
+            requestedPlayers: [],
+            challengedTeams: [],
           ),
         ));
 

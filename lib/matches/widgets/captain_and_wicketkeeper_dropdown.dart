@@ -28,7 +28,7 @@ class CaptainAndWicketkeeperDropdown extends StatelessWidget {
       child: Column(
         children: [
           getTitleText('Roles', context),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           MyDropdownMenu(
             options: playersName,
             label: 'Change Captaincy',

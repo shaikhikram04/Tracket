@@ -35,8 +35,8 @@ class MatchCard extends ConsumerWidget {
     pushScreen(
       context,
       match.currentInningNumber == null
-          ? StartMatchScreen()
-          : CricketScoringScreen(),
+          ? const StartMatchScreen()
+          : const CricketScoringScreen(),
     );
   }
 
@@ -83,7 +83,7 @@ class MatchCard extends ConsumerWidget {
                 children: [
                   Text(
                     match.matchType.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: LightThemeColors.primaryText,
                       fontWeight: FontWeight.w600,
                     ),
@@ -211,7 +211,7 @@ class MatchCard extends ConsumerWidget {
               ],
               if (match.isCompleted) Text(match.matchCompleteStatement()),
               if (match.status == MatchStatus.abandoned)
-                Text('Match Abandoned'),
+                const Text('Match Abandoned'),
             ],
           ),
         ),

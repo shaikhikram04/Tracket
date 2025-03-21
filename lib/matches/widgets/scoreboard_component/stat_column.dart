@@ -50,7 +50,7 @@ class StatColumn extends StatelessWidget {
               height: height,
               child: Text(
                 val,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
                   color: LightThemeColors.primaryText,

@@ -31,9 +31,9 @@ class ScoringControls extends ConsumerWidget {
     return ClipRRect(
       child: Stack(
         children: [
-          if (isBlur) BlurOverlay(),
+          if (isBlur) const BlurOverlay(),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               spacing: 2,
               children: [
@@ -42,7 +42,7 @@ class ScoringControls extends ConsumerWidget {
                   children: [0, 1, 2, 3].map((runs) {
                     return Expanded(
                       child: Container(
-                        margin: EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(5),
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
@@ -83,7 +83,7 @@ class ScoringControls extends ConsumerWidget {
                         child: Stack(
                           children: [
                             Container(
-                              margin: EdgeInsets.all(5),
+                              margin: const EdgeInsets.all(5),
                               height: 55,
                               width: double.infinity,
                               child: ElevatedButton(
@@ -122,7 +122,7 @@ class ScoringControls extends ConsumerWidget {
                                 ((extras.isWide && index == 2) ||
                                     (extras.isLegBye && index == 2) ||
                                     (extras.isBye && index == 2)))
-                              BlurOverlay(),
+                              const BlurOverlay(),
                           ],
                         ),
                       ),
@@ -130,7 +130,7 @@ class ScoringControls extends ConsumerWidget {
                   }).toList(),
                 ),
 
-                SizedBox(height: 17),
+                const SizedBox(height: 17),
 
                 // Extras Wrap
                 Wrap(
@@ -169,7 +169,7 @@ class ScoringControls extends ConsumerWidget {
                       child: Stack(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
                             child: ElevatedButton(
                               onPressed: () {
                                 onExtra();
@@ -203,7 +203,7 @@ class ScoringControls extends ConsumerWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amberAccent,
                                 elevation: 2,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 12),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25),
@@ -219,14 +219,14 @@ class ScoringControls extends ConsumerWidget {
                             ),
                           ),
                           // If shouldBlur is true, apply a blur overlay to this button.
-                          if (shouldBlur) BlurOverlay(),
+                          if (shouldBlur) const BlurOverlay(),
                         ],
                       ),
                     );
                   }).toList(),
                 ),
 
-                SizedBox(height: 17),
+                const SizedBox(height: 17),
 
                 // Wicket Button
                 ClipRRect(
@@ -280,7 +280,7 @@ class ScoringControls extends ConsumerWidget {
                               letterSpacing: 1.2,
                               fontSize: 18,
                             ),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.sports_baseball,
                           color: LightThemeColors.surfaceColor,
                         ),
@@ -289,11 +289,11 @@ class ScoringControls extends ConsumerWidget {
                         height: 50,
                         width: double.infinity,
                       ),
-                      if (extras.isBye || extras.isLegBye) BlurOverlay(),
+                      if (extras.isBye || extras.isLegBye) const BlurOverlay(),
                     ],
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
               ],
             ),
           ),

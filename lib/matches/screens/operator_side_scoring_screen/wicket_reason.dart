@@ -174,7 +174,7 @@ class _WicketReasonState extends State<WicketReason> {
           minChildSize: 0.5,
           maxChildSize: 0.95,
           snap: true,
-          snapSizes: [0.65, 0.85, 0.95],
+          snapSizes: const [0.65, 0.85, 0.95],
           builder: (BuildContext context, ScrollController scrollController) {
             return LayoutBuilder(
               builder: (context, constraints) {
@@ -182,12 +182,12 @@ class _WicketReasonState extends State<WicketReason> {
                   decoration: BoxDecoration(
                     color: LightThemeColors.backgroundColor,
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
+                        const BorderRadius.vertical(top: Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 10,
-                        offset: Offset(0, -2),
+                        offset: const Offset(0, -2),
                       ),
                     ],
                   ),
@@ -195,7 +195,7 @@ class _WicketReasonState extends State<WicketReason> {
                     children: [
                       // Drag handle
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 12),
+                        margin: const EdgeInsets.symmetric(vertical: 12),
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
@@ -208,7 +208,7 @@ class _WicketReasonState extends State<WicketReason> {
                           controller: scrollController,
                           slivers: [
                             SliverPadding(
-                              padding: EdgeInsets.fromLTRB(40, 10, 40, 30),
+                              padding: const EdgeInsets.fromLTRB(40, 10, 40, 30),
                               sliver: SliverList(
                                 delegate: SliverChildListDelegate([
                                   Text(
@@ -220,17 +220,17 @@ class _WicketReasonState extends State<WicketReason> {
                                           fontWeight: FontWeight.w800,
                                         ),
                                   ),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   // Dismissal options
                                   ...List.generate(_reasons.length, (index) {
                                     return Padding(
-                                      padding: EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: InkWell(
                                         onTap: () => _onReasonSelected(index),
                                         borderRadius: BorderRadius.circular(10),
                                         child: Container(
                                           height: 50,
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 20),
                                           decoration: BoxDecoration(
                                             color: _selectedIndex == index
@@ -261,7 +261,7 @@ class _WicketReasonState extends State<WicketReason> {
                                   }),
                                   // Additional fields based on selection
                                   if (_reasonOfOut == ReasonOfOut.runOut) ...[
-                                    SizedBox(height: 16),
+                                    const SizedBox(height: 16),
                                     CapacitySelector(
                                       capacity: _runsCompleted,
                                       onIncrement: () {
@@ -277,7 +277,7 @@ class _WicketReasonState extends State<WicketReason> {
                                       label: 'Runs completed',
                                       labelColor: grassGreen,
                                     ),
-                                    SizedBox(height: 16),
+                                    const SizedBox(height: 16),
                                     Text(
                                       'Run out batsman:',
                                       style: MyTextStyle(context)
@@ -287,7 +287,7 @@ class _WicketReasonState extends State<WicketReason> {
                                             color: grassGreen,
                                           ),
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     MyDropdownMenu(
                                       hintText: 'Select batsman',
                                       options: widget.strikers
@@ -302,9 +302,9 @@ class _WicketReasonState extends State<WicketReason> {
                                               .strikers[index].battingPosition;
                                         },
                                       ),
-                                      leadingIcon: Icon(Icons.person_outline),
+                                      leadingIcon: const Icon(Icons.person_outline),
                                     ),
-                                    SizedBox(height: 16),
+                                    const SizedBox(height: 16),
                                     Text(
                                       'Run out by:',
                                       style: MyTextStyle(context)
@@ -314,7 +314,7 @@ class _WicketReasonState extends State<WicketReason> {
                                             color: grassGreen,
                                           ),
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     MyDropdownMenu(
                                       hintText: 'Select fielder',
                                       options: widget.fielders
@@ -329,11 +329,11 @@ class _WicketReasonState extends State<WicketReason> {
                                               widget.fielders[index].playerId;
                                         },
                                       ),
-                                      leadingIcon: Icon(Icons.person_outline),
+                                      leadingIcon: const Icon(Icons.person_outline),
                                     ),
                                   ],
                                   if (_reasonOfOut == ReasonOfOut.caught) ...[
-                                    SizedBox(height: 16),
+                                    const SizedBox(height: 16),
                                     Text(
                                       'Caught by:',
                                       style: MyTextStyle(context)
@@ -343,7 +343,7 @@ class _WicketReasonState extends State<WicketReason> {
                                             color: grassGreen,
                                           ),
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     MyDropdownMenu(
                                       hintText: 'Select fielder',
                                       options: widget.fielders
@@ -351,10 +351,10 @@ class _WicketReasonState extends State<WicketReason> {
                                           .toList(),
                                       onSelect: (value) =>
                                           setState(() => _caughtBy = value),
-                                      leadingIcon: Icon(Icons.person_outline),
+                                      leadingIcon: const Icon(Icons.person_outline),
                                     ),
                                   ],
-                                  SizedBox(height: 24),
+                                  const SizedBox(height: 24),
                                   // Action buttons
                                   Row(
                                     children: [
@@ -366,8 +366,8 @@ class _WicketReasonState extends State<WicketReason> {
                                             backgroundColor: LightThemeColors
                                                 .backgroundColor,
                                             foregroundColor: grassGreen,
-                                            side: BorderSide(color: grassGreen),
-                                            padding: EdgeInsets.symmetric(
+                                            side: const BorderSide(color: grassGreen),
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 16),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -378,9 +378,9 @@ class _WicketReasonState extends State<WicketReason> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Icon(Icons.clear,
+                                              const Icon(Icons.clear,
                                                   color: grassGreen),
-                                              SizedBox(width: 8),
+                                              const SizedBox(width: 8),
                                               Text('Cancel',
                                                   style: MyTextStyle(context)
                                                       .bodyLarge
@@ -391,13 +391,13 @@ class _WicketReasonState extends State<WicketReason> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 12),
+                                      const SizedBox(width: 12),
                                       Expanded(
                                         child: ElevatedButton(
                                           onPressed: _onConfirm,
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: grassGreen,
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 16),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -408,10 +408,10 @@ class _WicketReasonState extends State<WicketReason> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Icon(Icons.check,
+                                              const Icon(Icons.check,
                                                   color: LightThemeColors
                                                       .surfaceColor),
-                                              SizedBox(width: 8),
+                                              const SizedBox(width: 8),
                                               Text('Confirm',
                                                   style: MyTextStyle(context)
                                                       .bodyLarge

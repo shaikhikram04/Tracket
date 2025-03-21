@@ -69,7 +69,7 @@ class SelectionPlaceholder extends ConsumerWidget {
 
   void _startNextInning(BuildContext context, WidgetRef ref) {
     // Handle the next inning
-    pushScreen(context, MatchPlayersSelectionScreen(isInning1ToStart: false));
+    pushScreen(context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
   void _endMatch() {}
@@ -138,7 +138,7 @@ class SelectionPlaceholder extends ConsumerWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             _getSubtitle(completionState),
             style: GoogleFonts.poppins(
@@ -146,7 +146,7 @@ class SelectionPlaceholder extends ConsumerWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           CustomButton.primary(
             onPressed: () => _onTap(context, ref, completionState),
             text: _getButtonText(completionState),

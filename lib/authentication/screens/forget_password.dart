@@ -91,7 +91,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const AppLogo(),
-                    SizedBox(height: AppSize.verticalSpacingXl),
+                    const SizedBox(height: AppSize.verticalSpacingXl),
                     Text(
                       'Forget Password?',
                       style: MyTextStyle(context).headlineMedium.copyWith(
@@ -100,7 +100,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             letterSpacing: 0.5,
                           ),
                     ),
-                    SizedBox(height: AppSize.verticalSpacingMd),
+                    const SizedBox(height: AppSize.verticalSpacingMd),
                     AppContainers.clasicContainer(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +148,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           if (_isSendingEmail)
             Container(
               color: LightThemeColors.primaryText.withValues(alpha: 0.3),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(
                   color: primaryColor,
                   strokeWidth: 3,

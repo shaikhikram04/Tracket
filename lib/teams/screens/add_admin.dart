@@ -70,7 +70,7 @@ class AddAdmin extends StatelessWidget {
               buttonType: ActionButtonType.addAdmin,
               players: team.nonAdmins,
               team: team,
-              emptyStateWidget: NoDataFound(
+              emptyStateWidget: const NoDataFound(
                 iconData: AppIconData.groupOff,
                 title: 'No Available Players',
                 message: 'All players are already administrators',

@@ -44,7 +44,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
     ref
         .read(matchStateProvider.notifier)
         .setTossResult(isTeam1Won: isTeam1WonToss, decision: decision);
-    pushScreen(context, MatchPlayersSelectionScreen());
+    pushScreen(context, const MatchPlayersSelectionScreen());
   }
 
   @override
@@ -119,7 +119,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
         title: const Text('Start Match'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -139,7 +139,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'VS',
                           style: MyTextStyle(context).bodyMedium.copyWith(
@@ -286,7 +286,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                             fontSize: 20,
                             color: LightThemeColors.surfaceColor,
                           ),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.play_circle_filled,
                         size: 30,
                         color: LightThemeColors.surfaceColor,

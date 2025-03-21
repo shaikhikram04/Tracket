@@ -174,7 +174,7 @@ class TeamSettingsScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Delete Team',
                     style: TextStyle(
                       color: StatusColors.error,

@@ -27,10 +27,10 @@ class PlayerStatsSection extends StatelessWidget {
         fit: StackFit.passthrough,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 _buildPlayerCard(
                   strikerPosition == batsman1.battingPosition,
                   batsman1.playerName,
@@ -38,7 +38,7 @@ class PlayerStatsSection extends StatelessWidget {
                   'SR: ${batsman1.strikeRate.toStringAsFixed(2)}',
                   batsman1.isOut,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _buildPlayerCard(
                   strikerPosition == batsman2.battingPosition,
                   batsman2.playerName,
@@ -46,7 +46,7 @@ class PlayerStatsSection extends StatelessWidget {
                   'SR: ${batsman2.strikeRate.toStringAsFixed(2)}',
                   batsman2.isOut,
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 _buildBowlerCard(
                   bowler.playerName,
                   bowler.detailedFigures,
@@ -55,7 +55,7 @@ class PlayerStatsSection extends StatelessWidget {
               ],
             ),
           ),
-          if (isBlur) BlurOverlay()
+          if (isBlur) const BlurOverlay()
         ],
       ),
     );
@@ -69,7 +69,7 @@ class PlayerStatsSection extends StatelessWidget {
     bool isOut,
   ) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: isOut ? StatusColors.error.withValues(alpha: 0.2) : Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -83,7 +83,7 @@ class PlayerStatsSection extends StatelessWidget {
         ),
         boxShadow: isStriker && !isOut
             ? [
-                BoxShadow(
+                const BoxShadow(
                   color: LightThemeColors.tertiaryText,
                   blurRadius: 10,
                   offset: Offset(0, 2),
@@ -97,8 +97,8 @@ class PlayerStatsSection extends StatelessWidget {
           Row(
             children: [
               if (isStriker)
-                Icon(Icons.sports_cricket, color: grassGreen, size: 20),
-              SizedBox(width: 8),
+                const Icon(Icons.sports_cricket, color: grassGreen, size: 20),
+              const SizedBox(width: 8),
               Text(
                 name,
                 style: GoogleFonts.poppins(
@@ -117,7 +117,7 @@ class PlayerStatsSection extends StatelessWidget {
                   color: grassGreen,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 strikeRate,
                 style: GoogleFonts.poppins(
@@ -134,7 +134,7 @@ class PlayerStatsSection extends StatelessWidget {
 
   Widget _buildBowlerCard(String name, String figures, String economy) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: grassGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
@@ -158,7 +158,7 @@ class PlayerStatsSection extends StatelessWidget {
                   color: grassGreen,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 economy,
                 style: GoogleFonts.poppins(

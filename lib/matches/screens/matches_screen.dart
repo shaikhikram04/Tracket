@@ -26,7 +26,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: CricketMatchTabs(
-              tabs: [
+              tabs: const [
                 MatchTabData(
                   label: 'My Matches',
                   count: 0,
