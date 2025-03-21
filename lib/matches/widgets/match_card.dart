@@ -25,10 +25,13 @@ class MatchCard extends ConsumerWidget {
 
   Future<void> onStart(
       BuildContext context, WidgetRef ref, Match match, String startBy) async {
-    await MatchesServices.setMatchStartBy(
-      startBy: startBy,
-      matchId: match.id,
-    );
+    final matchStartBy = ref.read(matchStateProvider)!.startBy;
+    if (matchStartBy == null) {
+      await MatchesServices.setMatchStartBy(
+        startBy: startBy,
+        matchId: match.id,
+      );
+    }
 
     ref.read(matchStateProvider.notifier).setMatch(match);
 

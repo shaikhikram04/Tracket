@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/providers/additional_match_provider.dart';
 import 'package:tracket/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/match_players_selection_screen.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/loser_display.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
+import 'package:tracket/matches/screens/operator_side_scoring_screen/winner_display.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -69,15 +72,12 @@ class SelectionPlaceholder extends ConsumerWidget {
 
   void _startNextInning(BuildContext context, WidgetRef ref) {
     // Handle the next inning
-    pushScreen(context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
+    pushScreen(
+        context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
-  void _endMatch() {}
-
   String _getTitle(AdditionalMatchState completionState) {
-    if (completionState.isMatchCompleted)
-      return 'Match Completed';
-    else if (completionState.isInningsCompleted)
+    if (completionState.isInningsCompleted)
       return 'Inning Completed';
     else if (completionState.isWicketDown)
       return 'Wicket Down';
@@ -86,9 +86,7 @@ class SelectionPlaceholder extends ConsumerWidget {
   }
 
   String _getSubtitle(AdditionalMatchState completionState) {
-    if (completionState.isMatchCompleted)
-      return 'Tab to end Match';
-    else if (completionState.isInningsCompleted)
+    if (completionState.isInningsCompleted)
       return 'Tap to proceed next inning';
     else if (completionState.isWicketDown)
       return 'Tap to select next batsman';
@@ -97,9 +95,7 @@ class SelectionPlaceholder extends ConsumerWidget {
   }
 
   String _getButtonText(AdditionalMatchState completionState) {
-    if (completionState.isMatchCompleted)
-      return 'End Match';
-    else if (completionState.isInningsCompleted)
+    if (completionState.isInningsCompleted)
       return 'Start 2nd Inning';
     else if (completionState.isWicketDown)
       return 'Select Batsman';
@@ -112,9 +108,7 @@ class SelectionPlaceholder extends ConsumerWidget {
     WidgetRef ref,
     AdditionalMatchState completionState,
   ) {
-    if (completionState.isMatchCompleted)
-      _endMatch();
-    else if (completionState.isInningsCompleted)
+    if (completionState.isInningsCompleted)
       _startNextInning(context, ref);
     else if (completionState.isWicketDown)
       _showNextBatsmanSelection(context, ref);
@@ -126,37 +120,60 @@ class SelectionPlaceholder extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final completionState = ref.watch(additionalMatchProvider);
 
-    return Container(
-      height: 300,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            _getTitle(completionState),
-            style: GoogleFonts.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    if (completionState.isMatchCompleted) {
+      final matchState = ref.read(matchStateProvider)!;
+
+      final operatorId = matchState.startBy;
+      final winningTeamPlayers = matchState.winningTeamPlayers;
+      final isOperatorTeamWin =
+          winningTeamPlayers.any((player) => player.playerId == operatorId);
+
+      final marginSuffix =
+          matchState.winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets';
+      final String marginText = '${matchState.winningMargin} $marginSuffix';
+
+      return isOperatorTeamWin
+          ? WinningStatusWidget(
+              winningTeam: matchState.winningTeamName,
+              winningMargin: 'Won by $marginText',
+              animationPath: 'assets/animations/trophy.json')
+          : LossStatusWidget(
+              losingTeam: matchState.losingTeamName,
+              losingMargin: 'Lost by $marginText',
+              animationPath: 'assets/animations/sad_face.json',
+            );
+    } else
+      return Container(
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _getTitle(completionState),
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            _getSubtitle(completionState),
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+            const SizedBox(height: 10),
+            Text(
+              _getSubtitle(completionState),
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          CustomButton.primary(
-            onPressed: () => _onTap(context, ref, completionState),
-            text: _getButtonText(completionState),
-            textStyle: MyTextStyle(context).buttonText,
-            borderRadius: 15,
-            height: 50,
-            width: 300,
-          ),
-        ],
-      ),
-    );
+            const SizedBox(height: 20),
+            CustomButton.primary(
+              onPressed: () => _onTap(context, ref, completionState),
+              text: _getButtonText(completionState),
+              textStyle: MyTextStyle(context).buttonText,
+              borderRadius: 15,
+              height: 50,
+              width: 300,
+            ),
+          ],
+        ),
+      );
   }
 }

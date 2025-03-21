@@ -130,6 +130,21 @@ class Match {
     }
   }
 
+  String get winningTeamName {
+    if (winningTeamId == null) return '';
+    return winningTeamId == team1.teamId ? team1.teamName : team2.teamName;
+  }
+
+  String get losingTeamName {
+    if (winningTeamId == null) return '';
+    return winningTeamId == team1.teamId ? team2.teamName : team1.teamName;
+  }
+
+  List<MatchPlayerInfo> get winningTeamPlayers {
+    if (winningTeamId == null) return [];
+    return winningTeamId == team1.teamId ? team1Players : team2Players;
+  }
+
   TeamScore? get inning1Score {
     final batTeam = _getTossWinnerTeam(TossDecision.batting);
     if (batTeam?.teamId == team1.teamId) {
@@ -319,6 +334,7 @@ class Match {
       team2Score: TeamScore.fromMap(map['team2Score']),
     );
   }
+
 
   Match copyWith({
     List<BallOutcome?>? currentOverRuns,
