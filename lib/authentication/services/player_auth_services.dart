@@ -1,6 +1,7 @@
 // Player-specific authentication
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/authentication/models/player_signup_data.dart';
+import 'package:tracket/players/models/all_format_stats.dart';
 import 'package:tracket/players/models/bowling_stats.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
@@ -14,6 +15,9 @@ class PlayerAuthService {
     required PlayerSignupData data,
   }) async {
     try {
+      final cantBowl = data.cricketRole == CricketRole.batsman ||
+          data.cricketRole == CricketRole.wicketKeeper;
+
       final playerCricketDetail = PlayerCricketDetails(
         cricketRole: data.cricketRole,
         battingPosition: data.battingPosition,
@@ -23,11 +27,22 @@ class PlayerAuthService {
         achievements: [],
         requestedTeams: [],
         teams: [],
-        playerStats: PlayerStats(
-          bowlingStats: data.cricketRole == CricketRole.batsman ||
-                  data.cricketRole == CricketRole.wicketKeeper
-              ? null
-              : const BowlingStats(),
+        allFormatStats: AllFormatStats(
+          over5: PlayerStats(
+            bowlingStats: cantBowl ? null : const BowlingStats(),
+          ),
+          over10: PlayerStats(
+            bowlingStats: cantBowl ? null : const BowlingStats(),
+          ),
+          over20: PlayerStats(
+            bowlingStats: cantBowl ? null : const BowlingStats(),
+          ),
+          over50: PlayerStats(
+            bowlingStats: cantBowl ? null : const BowlingStats(),
+          ),
+          test: PlayerStats(
+            bowlingStats: cantBowl ? null : const BowlingStats(),
+          ),
         ),
       );
 

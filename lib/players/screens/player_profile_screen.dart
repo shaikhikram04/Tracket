@@ -156,22 +156,26 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               StatsData(
-                                number: _playerData
-                                    .playerCricketDetails!.playerStats.matches!,
+                                number: _playerData.playerCricketDetails!
+                                    .allFormatStats.over50.matches!,
                                 label: 'Matches',
                                 numColor:
                                     const Color.fromARGB(255, 29, 130, 212),
                               ),
                               StatsData(
-                                number: _playerData.playerCricketDetails!
-                                    .playerStats.battingStats.totalRuns,
+                                number: _playerData
+                                    .playerCricketDetails!
+                                    .allFormatStats
+                                    .over50
+                                    .battingStats
+                                    .totalRuns,
                                 label: 'Runs',
                                 numColor:
                                     const Color.fromARGB(255, 39, 141, 42),
                               ),
                               StatsData(
-                                number: _playerData
-                                    .playerCricketDetails!.playerStats.bowlingStats!.wicket,
+                                number: _playerData.playerCricketDetails!
+                                    .allFormatStats.over50.bowlingStats!.wicket,
                                 label: 'Wickets',
                                 numColor: Colors.red,
                               ),
@@ -209,11 +213,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             child: TabBarView(
                               children: [
                                 BattingStats(
-                                    playerStats: _playerData
-                                        .playerCricketDetails!.playerStats),
+                                  playerStats: _playerData.playerCricketDetails!
+                                      .allFormatStats.over50,
+                                ),
                                 BowlingStats(
-                                    playerStats: _playerData
-                                        .playerCricketDetails!.playerStats),
+                                  playerStats: _playerData.playerCricketDetails!
+                                      .allFormatStats.over50,
+                                ),
                               ],
                             ),
                           ),

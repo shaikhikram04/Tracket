@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tracket/players/models/player_stats.dart';
+import 'package:tracket/players/models/all_format_stats.dart';
 import 'package:tracket/teams/models/team_details.dart';
 
 enum CricketRole {
@@ -35,7 +35,7 @@ class PlayerCricketDetails {
   final List achievements;
   final List requestedTeams;
   final List<TeamDetails> teams;
-  final PlayerStats playerStats;
+  final AllFormatStats allFormatStats;
 
   PlayerCricketDetails({
     required this.cricketRole,
@@ -46,7 +46,7 @@ class PlayerCricketDetails {
     required this.achievements,
     required this.requestedTeams,
     required this.teams,
-    required this.playerStats,
+    required this.allFormatStats,
   });
 
   Map<String, dynamic> get toMap => {
@@ -57,7 +57,7 @@ class PlayerCricketDetails {
         'isPrivate': isPrivate,
         'achievements': achievements,
         'requestedTeams': requestedTeams,
-        'playerStats': playerStats.toJson,
+        'allFormatStats': allFormatStats.toJson,
       };
 
   factory PlayerCricketDetails.fromMap(
@@ -71,7 +71,7 @@ class PlayerCricketDetails {
       achievements: map['achievements'],
       requestedTeams: map['requestedTeams'],
       teams: playerTeamsToList(playerTeams) ?? [],
-      playerStats: PlayerStats.fromMap(map['playerStats']),
+      allFormatStats: AllFormatStats.fromJson(map['allFormatStats']),
     );
   }
 
@@ -84,7 +84,7 @@ class PlayerCricketDetails {
     List? achievements,
     List? requestedTeams,
     List<TeamDetails>? teams,
-    PlayerStats? playerStats,
+    AllFormatStats? allFormatStats,
   }) {
     return PlayerCricketDetails(
       cricketRole: cricketRole ?? this.cricketRole,
@@ -95,7 +95,7 @@ class PlayerCricketDetails {
       achievements: achievements ?? this.achievements,
       requestedTeams: requestedTeams ?? this.requestedTeams,
       teams: teams ?? this.teams,
-      playerStats: playerStats ?? this.playerStats,
+      allFormatStats: allFormatStats ?? this.allFormatStats,
     );
   }
 

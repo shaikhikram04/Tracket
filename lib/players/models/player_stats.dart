@@ -2,7 +2,7 @@ import 'package:tracket/players/models/batting_stats.dart';
 import 'package:tracket/players/models/bowling_stats.dart';
 
 class PlayerStats {
-  PlayerStats({
+  const PlayerStats({
     this.matches = 0,
     this.battingStats = const BattingStats(),
     this.bowlingStats = const BowlingStats(),
