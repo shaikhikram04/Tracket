@@ -76,6 +76,23 @@ class SelectionPlaceholder extends ConsumerWidget {
         context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
+  void _endMatch(WidgetRef ref) {
+    // Handle the match completion
+    final matchState = ref.read(matchStateProvider)!;
+    final team1Players = matchState.team1Players;
+    final team2Players = matchState.team2Players;
+
+    final innings = ref.read(inningsStateProvider);
+
+    final inning1BattingStats = innings.first!.battingStats;
+    final inning1BowlingStats = innings.first!.bowlingStats;
+
+    final inning2BattingStats = innings.last!.battingStats;
+    final inning2BowlingStats = innings.last!.bowlingStats;
+
+    
+  }
+
   String _getTitle(AdditionalMatchState completionState) {
     if (completionState.isInningsCompleted)
       return 'Inning Completed';
@@ -102,6 +119,8 @@ class SelectionPlaceholder extends ConsumerWidget {
     else if (completionState.isOverCompleted) return 'Change Bowler';
     return '';
   }
+
+
 
   void _onTap(
     BuildContext context,

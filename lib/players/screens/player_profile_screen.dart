@@ -164,14 +164,14 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                               ),
                               StatsData(
                                 number: _playerData.playerCricketDetails!
-                                    .playerStats.totalRuns,
+                                    .playerStats.battingStats.totalRuns,
                                 label: 'Runs',
                                 numColor:
                                     const Color.fromARGB(255, 39, 141, 42),
                               ),
                               StatsData(
                                 number: _playerData
-                                    .playerCricketDetails!.playerStats.wicket,
+                                    .playerCricketDetails!.playerStats.bowlingStats!.wicket,
                                 label: 'Wickets',
                                 numColor: Colors.red,
                               ),

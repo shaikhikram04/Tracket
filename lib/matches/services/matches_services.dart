@@ -719,4 +719,30 @@ class MatchesServices {
       debugPrint(e.toString());
     }
   }
+
+  static Future<void> addMatchStatsToCorrespondingPlayers({
+    required List<MatchPlayerInfo> team1Players,
+    required List<MatchPlayerInfo> team2Players,
+    required List<BattingScore> inning1BattingStats,
+    required List<BowlingScore> inning1BowlingStats,
+    required List<BattingScore> inning2BattingStats,
+    required List<BowlingScore> inning2BowlingStats,
+  }) async {
+    final playersCollectionRef =
+        _firestore.collection(FirestoreCollections.players);
+
+    final allPlayersId = [
+      ...team1Players.map((player) => player.playerId),
+      ...team2Players.map((player) => player.playerId),
+    ];
+
+    final querySnapshot =
+        await playersCollectionRef.where('uuid', whereIn: allPlayersId).get();
+
+    final batch = _firestore.batch();
+    for (final playerDoc in querySnapshot.docs) {
+      final playerId = playerDoc.data()['uuid'];
+      
+    }
+  }
 }

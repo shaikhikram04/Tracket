@@ -9,29 +9,29 @@ class BattingStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notOut = playerStats.innings! - playerStats.outCount!;
+    final notOut = playerStats.battingStats.innings! - playerStats.battingStats.outCount!;
     return Column(
       spacing: 15,
       children: [
         const SizedBox(height: 2),
         StatRow(stats: [
           {'number': playerStats.matches, 'label': 'Matches'},
-          {'number': playerStats.innings, 'label': 'Innings'},
-          {'number': playerStats.totalRuns, 'label': 'Runs'},
+          {'number': playerStats.battingStats.innings, 'label': 'Innings'},
+          {'number': playerStats.battingStats.totalRuns, 'label': 'Runs'},
         ]),
         StatRow(stats: [
-          {'number': playerStats.strikeRate, 'label': 'Strike Rate'},
-          {'number': playerStats.battingAverage, 'label': 'Average'},
-          {'number': playerStats.highestScore, 'label': 'Highest Score'},
+          {'number': playerStats.battingStats.strikeRate, 'label': 'Strike Rate'},
+          {'number': playerStats.battingStats.battingAverage, 'label': 'Average'},
+          {'number': playerStats.battingStats.highestScore, 'label': 'Highest Score'},
         ]),
         StatRow(stats: [
-          {'number': playerStats.hundreds, 'label': 'Hundreds'},
-          {'number': playerStats.fifties, 'label': 'Fifties'},
+          {'number': playerStats.battingStats.hundreds, 'label': 'Hundreds'},
+          {'number': playerStats.battingStats.fifties, 'label': 'Fifties'},
           {'number': notOut, 'label': 'Not Outs'},
         ]),
         StatRow(stats: [
-          {'number': playerStats.six, 'label': 'Sixes'},
-          {'number': playerStats.four, 'label': 'Fours'},
+          {'number': playerStats.battingStats.six, 'label': 'Sixes'},
+          {'number': playerStats.battingStats.four, 'label': 'Fours'},
         ]),
       ],
     );

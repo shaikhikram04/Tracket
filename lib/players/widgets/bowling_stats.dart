@@ -15,15 +15,18 @@ class BowlingStats extends StatelessWidget {
         const SizedBox(height: 15),
         StatRow(stats: [
           {'number': playerStats.matches, 'label': 'Matches'},
-          {'number': playerStats.wicket, 'label': 'Wickets'},
-          {'number': playerStats.economyRate, 'label': 'Economy'},
+          {'number': playerStats.bowlingStats!.wicket, 'label': 'Wickets'},
+          {'number': playerStats.bowlingStats!.economyRate, 'label': 'Economy'},
         ]),
 
         const SizedBox(height: 30),
         StatRow(stats: [
-          {'number': playerStats.bowlingAverage, 'label': 'Average'},
           {
-            'number': playerStats.bestBallingFigure!.inString,
+            'number': playerStats.bowlingStats!.bowlingAverage,
+            'label': 'Average'
+          },
+          {
+            'number': playerStats.bowlingStats!.bestBallingFigure!.inString,
             'label': 'Best Bowling',
           },
         ]),
