@@ -1,6 +1,7 @@
 // Player-specific authentication
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/authentication/models/player_signup_data.dart';
+import 'package:tracket/players/models/bowling_stats.dart';
 import 'package:tracket/players/models/player.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
 import 'package:tracket/players/models/player_stats.dart';
@@ -22,7 +23,12 @@ class PlayerAuthService {
         achievements: [],
         requestedTeams: [],
         teams: [],
-        playerStats: PlayerStats(),
+        playerStats: PlayerStats(
+          bowlingStats: data.cricketRole == CricketRole.batsman ||
+                  data.cricketRole == CricketRole.wicketKeeper
+              ? null
+              : const BowlingStats(),
+        ),
       );
 
       final player = Player(
