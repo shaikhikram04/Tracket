@@ -14,7 +14,7 @@ class PlayerStats {
     this.bowlingStats = const BowlingStats.matchStats(),
   }) : matches = null;
 
-  //* Identifing user uniquely
+  //* Identifying user uniquely
   final String? userId;
 
   final int? matches;

@@ -62,6 +62,17 @@ class TeamsServices {
           .doc(team.id)
           .set(team.toJson());
 
+      final teamStatsCollectionRef = _firestore
+          .collection(FirestoreCollections.teams)
+          .doc(team.id)
+          .collection(FirestoreCollections.stats);
+
+      await teamStatsCollectionRef.doc('over5').set(team.over5.toJson());
+      await teamStatsCollectionRef.doc('over10').set(team.over10.toJson());
+      await teamStatsCollectionRef.doc('over20').set(team.over20.toJson());
+      await teamStatsCollectionRef.doc('over50').set(team.over50.toJson());
+      await teamStatsCollectionRef.doc('test').set(team.test.toJson());
+
       final playerInfo = PlayerDetails(
           cricketRole: adminCricketRole,
           id: createdBy,

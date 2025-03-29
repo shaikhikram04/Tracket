@@ -57,7 +57,6 @@ class PlayerCricketDetails {
         'isPrivate': isPrivate,
         'achievements': achievements,
         'requestedTeams': requestedTeams,
-        'allFormatStats': allFormatStats.toJson,
       };
 
   factory PlayerCricketDetails.fromMap(
@@ -71,7 +70,7 @@ class PlayerCricketDetails {
       achievements: map['achievements'],
       requestedTeams: map['requestedTeams'],
       teams: playerTeamsToList(playerTeams) ?? [],
-      allFormatStats: AllFormatStats.fromJson(map['allFormatStats']),
+      allFormatStats: const AllFormatStats(),
     );
   }
 

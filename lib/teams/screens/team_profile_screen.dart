@@ -287,13 +287,13 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               numColor: LightThemeColors.surfaceColor,
                             ),
                             StatsData(
-                              number: teamState.team.stats.rank,
+                              number: teamState.team.rank,
                               label: 'Ranking',
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
                             ),
                             StatsData(
-                              number: teamState.team.stats.matchesPlayed,
+                              number: teamState.team.over20.matchesPlayed,
                               label: 'Achievements',
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
@@ -390,22 +390,22 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             StatsData(
-                              number: teamState.team.stats.matchesPlayed,
+                              number: teamState.team.over20.matchesPlayed,
                               label: 'Matches',
                               numColor: primaryColor,
                             ),
                             StatsData(
-                              number: teamState.team.stats.wins,
+                              number: teamState.team.over20.wins,
                               label: 'Wins',
                               numColor: primaryColor,
                             ),
                             StatsData(
-                              number: teamState.team.stats.losses,
+                              number: teamState.team.over20.losses,
                               label: 'Losses',
                               numColor: Colors.red[700]!,
                             ),
                             StatsData(
-                              number: teamState.team.stats.tie,
+                              number: teamState.team.over20.tie,
                               label: 'Ties',
                               numColor: Colors.orange[800]!,
                             ),

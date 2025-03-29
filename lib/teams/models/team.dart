@@ -13,7 +13,12 @@ class Team {
   final List<PlayerDetails> playersList;
   final String captainId;
   final String wicketkeeperId;
-  final TeamStats stats;
+  final TeamStats over5;
+  final TeamStats over10;
+  final TeamStats over20;
+  final TeamStats over50;
+  final TeamStats test;
+  final int rank;
   final List<dynamic> achievements;
   final List<String> followers;
   final int maxPlayersCapacity;
@@ -33,7 +38,12 @@ class Team {
     required this.createdBy,
     this.captainId = '',
     this.wicketkeeperId = '',
-    TeamStats? stats,
+    TeamStats? over5,
+    TeamStats? over10,
+    TeamStats? over20,
+    TeamStats? over50,
+    TeamStats? test,
+    this.rank = -1,
     List<dynamic>? achievements,
     List<String>? followers,
     this.maxPlayersCapacity = 15,
@@ -43,7 +53,11 @@ class Team {
     List<String>? playerIds,
     List<String>? requestedPlayers,
     List<String>? challengedTeams,
-  })  : stats = stats ?? const TeamStats(),
+  })  : over5 = over5 ?? const TeamStats(),
+        over10 = over10 ?? const TeamStats(),
+        over20 = over20 ?? const TeamStats(),
+        over50 = over50 ?? const TeamStats(),
+        test = test ?? const TeamStats(),
         achievements = achievements ?? const [],
         followers = followers ?? const [],
         requestStatus = requestStatus ?? const TeamRequestStatus(),
@@ -76,7 +90,7 @@ class Team {
         'logoUrl': logoUrl,
         'captainId': captainId,
         'wicketkeeperId': wicketkeeperId,
-        ...stats.toJson(),
+        'rank': rank,
         'achievements': achievements,
         'followers': followers,
         'maxPlayersCapacity': maxPlayersCapacity,
@@ -101,7 +115,7 @@ class Team {
       createdBy: json['createdBy'],
       captainId: json['captainId'] ?? '',
       wicketkeeperId: json['wicketkeeperId'] ?? '',
-      stats: TeamStats.fromJson(json),
+      rank: json['rank'] ?? -1,
       achievements: json['achievements'] ?? [],
       followers: List<String>.from(json['followers'] ?? []),
       maxPlayersCapacity: json['maxPlayersCapacity'] ?? 15,
@@ -131,6 +145,7 @@ class Team {
     List<String>? playerIds,
     List<String>? requestedPlayers,
     List<String>? challengedTeams,
+    int? rank,
   }) {
     return Team(
       id: id,
@@ -141,7 +156,7 @@ class Team {
       createdBy: createdBy,
       captainId: captainId ?? this.captainId,
       wicketkeeperId: wicketkeeperId ?? this.wicketkeeperId,
-      stats: stats ?? this.stats,
+      rank: rank ?? this.rank,
       achievements: achievements ?? this.achievements,
       followers: followers ?? this.followers,
       maxPlayersCapacity: maxPlayersCapacity ?? this.maxPlayersCapacity,
@@ -153,5 +168,4 @@ class Team {
       challengedTeams: challengedTeams ?? this.challengedTeams,
     );
   }
-
 }

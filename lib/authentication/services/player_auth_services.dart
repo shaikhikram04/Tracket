@@ -59,10 +59,34 @@ class PlayerAuthService {
         playerCricketDetails: playerCricketDetail,
       );
 
-      await _firestore
+      final playerDocRef = _firestore
           .collection(FirestoreCollections.players)
-          .doc(data.playerId)
-          .set(player.toJsonForPlayer);
+          .doc(data.playerId);
+
+      await playerDocRef.set(player.toJsonForPlayer);
+
+      final playerStatsCollectionRef =
+          playerDocRef.collection(FirestoreCollections.stats);
+
+      await playerStatsCollectionRef
+          .doc("over5")
+          .set(playerCricketDetail.allFormatStats.over5.toJson);
+
+      await playerStatsCollectionRef
+          .doc("over10")
+          .set(playerCricketDetail.allFormatStats.over10.toJson);
+
+      await playerStatsCollectionRef
+          .doc("over20")
+          .set(playerCricketDetail.allFormatStats.over20.toJson);
+
+      await playerStatsCollectionRef
+          .doc("over50")
+          .set(playerCricketDetail.allFormatStats.over50.toJson);
+
+      await playerStatsCollectionRef
+          .doc("test")
+          .set(playerCricketDetail.allFormatStats.test.toJson);
 
       return 'success';
     } catch (e) {
