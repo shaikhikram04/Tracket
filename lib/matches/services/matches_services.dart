@@ -15,6 +15,7 @@ import 'package:tracket/matches/utils/constants.dart';
 import 'package:tracket/notifications/models/challenge_match.dart';
 import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/notifications/services/notification_services.dart';
+import 'package:tracket/players/models/bowling_figure.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
@@ -721,6 +722,7 @@ class MatchesServices {
   }
 
   static Future<void> addMatchStatsToCorrespondingPlayers({
+    required MatchFormat matchFormat,
     required List<MatchPlayerInfo> team1Players,
     required List<MatchPlayerInfo> team2Players,
     required List<BattingScore> inning1BattingStats,
@@ -736,13 +738,121 @@ class MatchesServices {
       ...team2Players.map((player) => player.playerId),
     ];
 
-    final querySnapshot =
-        await playersCollectionRef.where('uuid', whereIn: allPlayersId).get();
+    final querySnapshot = await playersCollectionRef
+        .where('playerId', whereIn: allPlayersId)
+        .get();
+
+    final allBattingStats = inning1BattingStats + inning2BattingStats;
+
+    final allBowlingStats = inning1BowlingStats + inning2BowlingStats;
 
     final batch = _firestore.batch();
     for (final playerDoc in querySnapshot.docs) {
-      final playerId = playerDoc.data()['uuid'];
-      
+      final playerId = playerDoc.id;
+
+      final playerStats = await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(playerId)
+          .collection(FirestoreCollections.stats)
+          .doc(matchFormat.name)
+          .get();
+
+      //* batting
+      final BattingScore? playerMatchBattingStat = allBattingStats.firstWhere(
+          (playerStat) => playerStat.uuid == playerId,
+          orElse: null);
+
+      final highestScore = playerStats.data()!['battingStats.highestScore'];
+      final needToUpdateHighScore = playerMatchBattingStat?.runs == null
+          ? false
+          : playerMatchBattingStat!.runs >= highestScore;
+
+      if (playerMatchBattingStat != null)
+        batch.update(
+          playersCollectionRef
+              .doc(playerId)
+              .collection(FirestoreCollections.stats)
+              .doc(matchFormat.name),
+          {
+            'battingStats.ballFaced':
+                FieldValue.increment(playerMatchBattingStat.ballsFaced),
+            if (playerMatchBattingStat.runs >= 50 &&
+                playerMatchBattingStat.runs < 100)
+              'battingStats.fifties': FieldValue.increment(1),
+            'battingStats.four':
+                FieldValue.increment(playerMatchBattingStat.fours),
+            if (needToUpdateHighScore) 'battingStats.highestScore': FieldValue,
+            if (playerMatchBattingStat.runs >= 100 &&
+                playerMatchBattingStat.runs < 200)
+              'battingStats.hundreds': FieldValue.increment(1),
+            'battingStats.innings': FieldValue.increment(1),
+            if (playerMatchBattingStat.isOut)
+              'battingStats.outCount': FieldValue.increment(1),
+            'battingStats.six':
+                FieldValue.increment(playerMatchBattingStat.sixes),
+            'battingStats.totalRuns':
+                FieldValue.increment(playerMatchBattingStat.runs),
+          },
+        );
+
+      //* Bowling
+      final BowlingScore? playerMatchBowlingStat = allBowlingStats.firstWhere(
+        (playerStats) => playerStats.uuid == playerId,
+        orElse: null,
+      );
+
+      final Map<String, dynamic> bestBowlingFigure =
+          playerStats.data()!['bowlingStats.bestBallingFigure'];
+
+      bool needToUpdateBestBowling = false;
+
+      if (playerMatchBowlingStat != null) {
+        if (playerMatchBowlingStat.wickets > bestBowlingFigure['wicket']) {
+          needToUpdateBestBowling = true;
+        } else if (playerMatchBowlingStat.wickets >=
+                bestBowlingFigure['wicket'] &&
+            (playerMatchBowlingStat.runsGiven < bestBowlingFigure['runGiven'] ||
+                playerMatchBowlingStat.balls <
+                    bestBowlingFigure['ballDelivered'])) {
+          needToUpdateBestBowling = true;
+        }
+      }
+
+      if (playerMatchBowlingStat != null) {
+        final BowlingFigure newBowlingFigure = BowlingFigure(
+          runGiven: playerMatchBowlingStat.runsGiven,
+          ballDelivered: playerMatchBowlingStat.balls,
+          wicket: playerMatchBowlingStat.wickets,
+        );
+        batch.update(
+          playersCollectionRef
+              .doc(playerId)
+              .collection(FirestoreCollections.stats)
+              .doc(matchFormat.name),
+          {
+            'bowlingStats.ballDelivered':
+                FieldValue.increment(playerMatchBowlingStat.balls),
+            'bowlingStats.maiden':
+                FieldValue.increment(playerMatchBowlingStat.maidenOvers),
+            'bowlingStats.runGiven':
+                FieldValue.increment(playerMatchBowlingStat.runsGiven),
+            'bowlingStats.wicket':
+                FieldValue.increment(playerMatchBowlingStat.wickets),
+            if (needToUpdateBestBowling)
+              'bowlingStats.bestBallingFigure': newBowlingFigure.toJson,
+          },
+        );
+      }
+
+      batch.update(
+        playersCollectionRef
+            .doc(playerId)
+            .collection(FirestoreCollections.stats)
+            .doc(matchFormat.name),
+        {
+          'matches': FieldValue.increment(1),
+        },
+      );
     }
   }
 }

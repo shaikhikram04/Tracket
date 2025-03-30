@@ -7,7 +7,6 @@ class TeamStats {
     this.matchesPlayed = 0,
     this.wins = 0,
     this.losses = 0,
-
   });
 
   double get winningPercentage {
