@@ -747,6 +747,8 @@ class MatchesServices {
     final allBowlingStats = inning1BowlingStats + inning2BowlingStats;
 
     final batch = _firestore.batch();
+
+    //* updating players stats
     for (final playerDoc in querySnapshot.docs) {
       final playerId = playerDoc.id;
 
@@ -853,6 +855,66 @@ class MatchesServices {
           'matches': FieldValue.increment(1),
         },
       );
+
+      await batch.commit();
+    }
+  }
+
+  static Future<void> updateTeamStatsAfterMatchCompletion({
+    required String team1Id,
+    required String team2Id,
+    required MatchFormat matchFormat,
+    required bool isTeam1Won,
+  }) async {
+    final batch = _firestore.batch();
+
+    //* Updating team 1 stats
+    _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(team1Id)
+        .collection(FirestoreCollections.stats)
+        .doc(matchFormat.name)
+        .get()
+        .then((team1Stats) {
+      batch.update(
+        _firestore
+            .collection(FirestoreCollections.teams)
+            .doc(team1Id)
+            .collection(FirestoreCollections.stats)
+            .doc(matchFormat.name),
+        {
+          'matches': FieldValue.increment(1),
+          if (isTeam1Won) 'wins': FieldValue.increment(1),
+          if (!isTeam1Won) 'losses': FieldValue.increment(1),
+        },
+      );
+    });
+
+    //* Updating team 2 stats
+    _firestore
+        .collection(FirestoreCollections.teams)
+        .doc(team2Id)
+        .collection(FirestoreCollections.stats)
+        .doc(matchFormat.name)
+        .get()
+        .then((team2Stats) {
+      batch.update(
+        _firestore
+            .collection(FirestoreCollections.teams)
+            .doc(team2Id)
+            .collection(FirestoreCollections.stats)
+            .doc(matchFormat.name),
+        {
+          'matches': FieldValue.increment(1),
+          if (!isTeam1Won) 'wins': FieldValue.increment(1),
+          if (isTeam1Won) 'losses': FieldValue.increment(1),
+        },
+      );
+    });
+    try {
+      await batch.commit();
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }
