@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
+import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team_form_data.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/utils/team_constants.dart';
+import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 
 class CreateTeamScreen extends ConsumerStatefulWidget {
   const CreateTeamScreen({super.key});
@@ -76,12 +78,25 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       _formKey.currentState!.save();
       final player = ref.read(playerProvider);
 
+      final teamId = uuid.v4();
+
       if (_teamFormData.logo != null) {
-        // TODO: Implement image upload logic
-        // _teamFormData.logoUrl = await uploadImage(_teamFormData.logo!);
+        final logoUrl = await SupabaseServices.uploadImage(
+          imageByte: _teamFormData.logo!,
+          fileName: teamId,
+          isExist: false,
+          isProfile: false,
+        );
+        if (logoUrl  != null) {
+          _teamFormData.logoUrl = logoUrl;
+        } else {
+          setState(() => _imageError = 'Failed to upload logo image');
+          return;
+        }
       }
 
       final result = await TeamsServices.createTeam(
+        teamId: teamId,
         teamName: _teamFormData.name!,
         shortName: _teamFormData.shortName!,
         createdBy: player.id,

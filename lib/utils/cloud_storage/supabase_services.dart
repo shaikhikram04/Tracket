@@ -7,18 +7,20 @@ class SupabaseServices {
     required Uint8List imageByte,
     required String fileName,
     required bool isExist,
+    required bool isProfile,
   }) async {
     try {
       final supabase = Supabase.instance.client;
+      final bucketName = isProfile ? 'profile-picture' : 'team-logo';
 
       // Upload to Supabase Storage
       if (isExist) {
         await supabase.storage
-            .from('profile-picture')
+            .from(bucketName)
             .updateBinary(fileName, imageByte);
       } else {
         await supabase.storage
-            .from('profile-picture')
+            .from(bucketName)
             .uploadBinary(fileName, imageByte);
       }
 

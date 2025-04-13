@@ -3,20 +3,20 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/utils/cloud_storage/supabase_services.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
+import 'package:tracket/common/widgets/team_logo_editor.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/providers/team_state.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/features/teams/widgets/squad.dart';
+import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
-import 'package:tracket/common/widgets/team_logo_editor.dart';
 
 class TeamEditScreen extends ConsumerStatefulWidget {
   const TeamEditScreen({super.key});
@@ -104,6 +104,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           imageByte: _image!,
           fileName: '${_teamState.team.id}.jpg',
           isExist: _teamState.team.logoUrl.isNotEmpty,
+          isProfile: false,
         );
       }
 

@@ -15,8 +15,24 @@ import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 
-class SelectionPlaceholder extends ConsumerWidget {
+class SelectionPlaceholder extends ConsumerStatefulWidget {
   const SelectionPlaceholder({super.key});
+
+  @override
+  ConsumerState<SelectionPlaceholder> createState() =>
+      _SelectionPlaceholderState();
+}
+
+class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
+  @override
+  void initState() {
+    super.initState();
+    final matchCondition = ref.read(additionalMatchProvider);
+
+    if (matchCondition.isMatchCompleted) {
+      _endMatch(context, ref);
+    }
+  }
 
   void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
     final matchState = ref.read(matchStateProvider)!;
@@ -162,7 +178,7 @@ class SelectionPlaceholder extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final completionState = ref.watch(additionalMatchProvider);
 
     if (completionState.isMatchCompleted) {

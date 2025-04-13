@@ -10,11 +10,9 @@ import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:uuid/uuid.dart';
 
 class TeamsServices {
   static final _firestore = FirebaseFirestore.instance;
-  static const _uuid = Uuid();
 
   static Future<Map<String, dynamic>> getTeamData(String teamId) async {
     final teamSnap = await _firestore
@@ -26,6 +24,7 @@ class TeamsServices {
   }
 
   static Future<String> createTeam({
+    required String teamId,
     required String teamName,
     required String shortName,
     required String logoUrl,
@@ -48,7 +47,7 @@ class TeamsServices {
         logoUrl: logoUrl,
         playersList: [],
         createdBy: createdBy,
-        id: _uuid.v4(),
+        id: teamId,
         achievements: [],
         followers: [],
         requestedPlayers: [],
