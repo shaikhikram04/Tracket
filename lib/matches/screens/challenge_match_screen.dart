@@ -200,7 +200,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     );
 
     try {
-      await MatchesServices.challegeForAMatch(
+      await MatchesServices.challengeForAMatch(
         matchFormatIndex: matchFormatOptions.indexOf(_matchFormat.value!),
         challengerTeam: challengerTeamDetail,
         challengedTeam: widget.challengedTeam,

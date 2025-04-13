@@ -23,7 +23,7 @@ class MatchesServices {
   static final _firestore = FirebaseFirestore.instance;
   static const _uuid = Uuid();
 
-  static Future<void> challegeForAMatch({
+  static Future<void> challengeForAMatch({
     required int matchFormatIndex,
     required MatchTeamInfo challengerTeam,
     required MatchTeamInfo challengedTeam,
@@ -393,7 +393,7 @@ class MatchesServices {
     required bool isOverCompleted,
     required bool isInningCompleted,
     required bool isMatchCompleted,
-    FallOfWicket? fallofWicket,
+    FallOfWicket? fallOfWickets,
     bool isMaiden = false,
     bool isWicket = false,
     int? outBatsmanPosition,
@@ -490,8 +490,8 @@ class MatchesServices {
             'nonStrikerPosition': newNonStrikerPosition,
           if (strikerPosition != newStrikerPosition)
             'strikerPosition': newStrikerPosition,
-          if (fallofWicket != null)
-            'fallOfWickets': FieldValue.arrayUnion([fallofWicket.toMap()]),
+          if (fallOfWickets != null)
+            'fallOfWickets': FieldValue.arrayUnion([fallOfWickets.toMap()]),
           if (isInningCompleted) 'status': InningsStatus.completed.name,
         },
       );
@@ -593,7 +593,7 @@ class MatchesServices {
         .collection(FirestoreCollections.bowlingStats)
         .doc(currentBowlerId);
 
-    bool isballAdd = !extras.isWide && !extras.isNoBall;
+    bool isBallAdd = !extras.isWide && !extras.isNoBall;
     bool isDot = runs == 0 && !extras.isWide && !extras.isNoBall;
     int runsForBowler = 0;
 
@@ -613,7 +613,7 @@ class MatchesServices {
 
     try {
       await bowlerStatDocRef.update({
-        if (isballAdd) 'balls': FieldValue.increment(1),
+        if (isBallAdd) 'balls': FieldValue.increment(1),
         if (isDot) 'dots': FieldValue.increment(1),
         if (extras.isNoBall) 'noBalls': FieldValue.increment(1),
         'runsGiven': FieldValue.increment(runsForBowler),

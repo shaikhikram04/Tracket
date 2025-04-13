@@ -375,7 +375,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       isWicket: isWicket,
       outBatsmanPosition: outBatsmanPosition,
       reasonOfOut: reasonOfOut,
-      fallofWicket: isWicket ? updatedInnings.fallOfWickets.last : null,
+      fallOfWickets: isWicket ? updatedInnings.fallOfWickets.last : null,
       dismissalInfo: dismissalInfo,
       isInningCompleted: isInningCompleted,
       isMatchCompleted: isMatchCompleted,
