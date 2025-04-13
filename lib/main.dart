@@ -7,7 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tracket/authentication/screens/auth_screen.dart';
+import 'package:tracket/features/authentication/screens/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
 import 'package:tracket/utils/constants/colors.dart';
 

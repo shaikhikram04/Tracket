@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tracket/authentication/screens/verification_screen.dart';
+import 'package:tracket/features/authentication/screens/verification_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
