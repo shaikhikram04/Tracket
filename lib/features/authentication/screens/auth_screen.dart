@@ -82,11 +82,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
               padding: AppPadding.contentPaddingMd,
               child: Column(
                 children: [
-                  const SizedBox(height: AppSize.verticalSpacingXl),
+                  const SizedBox(height: TSizes.verticalSpacingXl),
                   const AppLogo(),
-                  const SizedBox(height: AppSize.verticalSpacingXl),
+                  const SizedBox(height: TSizes.verticalSpacingXl),
                   _buildAuthContainer(tabBarViewHeight),
-                  const SizedBox(height: AppSize.verticalSpacingXl),
+                  const SizedBox(height: TSizes.verticalSpacingXl),
                 ],
               ),
             ),
@@ -101,7 +101,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       duration: AppDuration.tabAnimationDuration,
       decoration: BoxDecoration(
         color: LightThemeColors.surfaceColor,
-        borderRadius: BorderRadius.circular(AppSize.radiusMd),
+        borderRadius: BorderRadius.circular(TSizes.radiusMd),
         boxShadow: [
           BoxShadow(
             color: primaryColor.withValues(alpha: 0.15),
@@ -138,7 +138,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ],
         ),
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppSize.radiusMd),
+          top: Radius.circular(TSizes.radiusMd),
         ),
       ),
       child: TabBar(
@@ -182,7 +182,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   BorderRadius _getTabBorderRadius() {
     return const BorderRadius.vertical(
-      top: Radius.circular(AppSize.radiusMd),
+      top: Radius.circular(TSizes.radiusMd),
       bottom: Radius.circular(0),
     );
   }
@@ -202,7 +202,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 decoration: const BoxDecoration(
                   color: LightThemeColors.surfaceColor,
                   borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(AppSize.radiusMd),
+                    bottom: Radius.circular(TSizes.radiusMd),
                   ),
                 ),
                 child: TabBarView(

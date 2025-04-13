@@ -3,8 +3,8 @@ import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class SquadSelectionSheet extends StatefulWidget {
@@ -88,7 +88,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                             decoration: BoxDecoration(
                               color: grassGreen,
                               borderRadius:
-                                  BorderRadius.circular(AppSize.radiusSm),
+                                  BorderRadius.circular(TSizes.radiusSm),
                             ),
                             child: Text(
                               selectedPlayerPosition.toString(),

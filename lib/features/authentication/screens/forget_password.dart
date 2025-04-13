@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/constants/colors.dart';
@@ -10,7 +11,6 @@ import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
@@ -91,7 +91,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const AppLogo(),
-                    const SizedBox(height: AppSize.verticalSpacingXl),
+                    const SizedBox(height: TSizes.verticalSpacingXl),
                     Text(
                       'Forget Password?',
                       style: MyTextStyle(context).headlineMedium.copyWith(
@@ -100,18 +100,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             letterSpacing: 0.5,
                           ),
                     ),
-                    const SizedBox(height: AppSize.verticalSpacingMd),
-                    AppContainers.clasicContainer(
+                    const SizedBox(height: TSizes.verticalSpacingMd),
+                    AppContainers.classicContainer(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: AppSize.verticalSpacingMd,
+                        spacing: TSizes.verticalSpacingMd,
                         children: [
                           Container(
                             padding: AppPadding.sm,
                             decoration: BoxDecoration(
                               color: primaryColor.withValues(alpha: 0.1),
                               borderRadius:
-                                  BorderRadius.circular(AppSize.radiusSm),
+                                  BorderRadius.circular(TSizes.radiusSm),
                             ),
                             child: Text(
                               _isResetEmailSend
@@ -120,13 +120,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               style: MyTextStyle(context).cardSubtitle,
                             ),
                           ),
-                          const SizedBox(height: AppSize.verticalSpacingXl),
+                          const SizedBox(height: TSizes.verticalSpacingXl),
                           if (!_isResetEmailSend) ..._buildEmailForm(),
                           _buildActionButtons(),
                         ],
                       ),
                     ),
-                    const SizedBox(height: AppSize.verticalSpacingXl),
+                    const SizedBox(height: TSizes.verticalSpacingXl),
                     TextButton.icon(
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(
@@ -166,11 +166,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         onSave: (value) => _email = value,
         hintText: 'Enter your email',
         prefixIcon: AppIconData.email,
-        borderRadius: AppSize.radiusSm,
+        borderRadius: TSizes.radiusSm,
         fillColor: LightThemeColors.surfaceColor,
         validator: ValidationServices.emailValidator,
       ),
-      const SizedBox(height: AppSize.verticalSpacingXl)
+      const SizedBox(height: TSizes.verticalSpacingXl)
     ];
   }
 

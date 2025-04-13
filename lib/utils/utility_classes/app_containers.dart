@@ -4,12 +4,12 @@ import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 
 class AppContainers {
- static  Container clasicContainer({
+  static Container classicContainer({
     required Widget child,
     EdgeInsetsGeometry margin = AppPadding.contentPaddingXl,
     EdgeInsetsGeometry padding = AppPadding.xl,
-    double radius = AppSize.radiusMd,
-    double blurRadius = AppSize.radiusMd,
+    double radius = TSizes.radiusMd,
+    double blurRadius = TSizes.radiusMd,
     Color color = Colors.white,
     Color shadowColor = primaryColor,
   }) {
