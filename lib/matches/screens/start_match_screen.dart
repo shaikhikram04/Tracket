@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/match_players_selection_screen.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';

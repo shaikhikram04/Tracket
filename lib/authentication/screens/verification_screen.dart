@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/authentication/models/verification_steps_data.dart';
 import 'package:tracket/authentication/widgets/progress_step_indicator.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';

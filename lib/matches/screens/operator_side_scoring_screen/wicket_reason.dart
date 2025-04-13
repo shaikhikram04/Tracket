@@ -4,7 +4,7 @@ import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/providers/extras_provider.dart';
 import 'package:tracket/teams/widgets/capacity_selector.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_dropdown_menu.dart';

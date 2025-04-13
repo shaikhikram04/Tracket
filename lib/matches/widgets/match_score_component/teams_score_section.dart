@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/inning.dart';
 import 'package:tracket/matches/models/match.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class TeamsScoreSection extends StatelessWidget {

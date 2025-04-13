@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/players/models/player_cricket_detail.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
 
 enum SelectionType { batsman, bowler }

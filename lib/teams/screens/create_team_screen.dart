@@ -5,7 +5,7 @@ import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/teams/models/team_form_data.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/utils/team_constants.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';

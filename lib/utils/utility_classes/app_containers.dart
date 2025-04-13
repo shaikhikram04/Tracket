@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 

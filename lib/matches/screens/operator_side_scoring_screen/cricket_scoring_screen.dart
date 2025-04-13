@@ -11,7 +11,7 @@ import 'package:tracket/matches/screens/operator_side_scoring_screen/scoreboard_
 import 'package:tracket/matches/screens/operator_side_scoring_screen/scoring_controls.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/selection_placeholder.dart';
 import 'package:tracket/matches/services/matches_services.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 class CricketScoringScreen extends ConsumerStatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/stat_column.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class BowlingScorecard extends StatelessWidget {
   final List<BowlingScore> bowlerStats;

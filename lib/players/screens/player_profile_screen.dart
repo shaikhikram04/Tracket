@@ -4,7 +4,7 @@ import 'package:tracket/players/services/players_services.dart';
 import 'package:tracket/players/widgets/achievements.dart';
 import 'package:tracket/players/widgets/batting_stats.dart';
 import 'package:tracket/players/widgets/bowling_stats.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/stats_data.dart';

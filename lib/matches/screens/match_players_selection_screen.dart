@@ -11,7 +11,7 @@ import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/opening_batsman_sheet.dart';
 import 'package:tracket/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/players/widgets/squad_player_tile.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';

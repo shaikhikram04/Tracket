@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/models/ball_outcome.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class CurrentOverIndicator extends StatelessWidget {
   final List<BallOutcome?> balls;

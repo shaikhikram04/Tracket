@@ -6,7 +6,7 @@ import 'package:tracket/notifications/screens/notifications_screen.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/teams/screens/teams_screen.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utils.dart';
 import 'package:tracket/widgets/main_drawer.dart';
 

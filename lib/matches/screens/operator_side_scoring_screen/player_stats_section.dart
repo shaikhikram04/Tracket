@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/matches/models/batting_score.dart';
 import 'package:tracket/matches/models/bowling_score.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class PlayerStatsSection extends StatelessWidget {
   final BattingScore batsman1;

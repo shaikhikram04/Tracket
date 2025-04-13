@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/utility_classes/app_containers.dart';

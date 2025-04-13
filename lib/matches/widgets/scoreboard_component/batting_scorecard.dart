@@ -4,7 +4,7 @@ import 'package:tracket/matches/models/extras.dart';
 import 'package:tracket/matches/models/fall_of_wickets.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/scoreboard_component/stat_column.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class BattingScorecard extends StatelessWidget {
   final String teamName;

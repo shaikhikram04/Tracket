@@ -9,7 +9,7 @@ import 'package:tracket/matches/screens/operator_side_scoring_screen/cricket_sco
 import 'package:tracket/matches/screens/start_match_screen.dart';
 import 'package:tracket/matches/services/matches_services.dart';
 import 'package:tracket/matches/widgets/match_teams_row.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';

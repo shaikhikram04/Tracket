@@ -7,7 +7,7 @@ import 'package:tracket/teams/models/team_details.dart';
 import 'package:tracket/teams/models/team_role.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/services/teams_services.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 enum ActionButtonType {

@@ -4,7 +4,7 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/auth_form.dart';
 import 'package:tracket/authentication/widgets/auth_submit_button.dart';
 import 'package:tracket/authentication/widgets/authentication_toggle.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 import 'package:tracket/widgets/custom_widgets/my_text_field.dart';

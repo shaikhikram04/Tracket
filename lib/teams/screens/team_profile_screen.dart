@@ -13,7 +13,7 @@ import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/squad.dart';
 import 'package:tracket/teams/widgets/team_options.dart';
 import 'package:tracket/teams/widgets/team_selection_dialog.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';

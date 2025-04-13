@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/matches/models/match_player_info.dart';
 import 'package:tracket/matches/widgets/base_selection_sheet.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class OpeningBatsmenSheet extends StatefulWidget {
   final List<MatchPlayerInfo> availablePlayers;

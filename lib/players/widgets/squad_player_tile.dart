@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/models/team_role.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utils.dart';
 
 class SquadPlayerTile extends StatelessWidget {

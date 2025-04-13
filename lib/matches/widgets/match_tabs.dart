@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 // Tab data model for type safety and easy management
 class MatchTabData {

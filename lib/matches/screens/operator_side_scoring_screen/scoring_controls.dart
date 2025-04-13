@@ -7,7 +7,7 @@ import 'package:tracket/matches/providers/innings_provider.dart';
 import 'package:tracket/matches/providers/match_provider.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 

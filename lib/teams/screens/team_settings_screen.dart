@@ -11,7 +11,7 @@ import 'package:tracket/teams/providers/team_state.dart';
 import 'package:tracket/teams/screens/add_admin.dart';
 import 'package:tracket/teams/services/teams_services.dart';
 import 'package:tracket/teams/widgets/privacy_settings.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utils.dart';
 

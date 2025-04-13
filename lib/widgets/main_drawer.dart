@@ -4,7 +4,7 @@ import 'package:tracket/authentication/screens/auth_screen.dart';
 import 'package:tracket/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/players/providers/player_provider.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';
 

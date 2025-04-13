@@ -5,7 +5,7 @@ import 'package:tracket/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/authentication/widgets/app_logo.dart';
 import 'package:tracket/authentication/widgets/player_auth.dart';
 import 'package:tracket/authentication/widgets/user_auth.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/durations.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';

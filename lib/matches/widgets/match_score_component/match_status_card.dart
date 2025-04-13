@@ -3,7 +3,7 @@ import 'package:tracket/matches/models/match.dart';
 import 'package:tracket/matches/widgets/match_score_component/current_over_fetcher.dart';
 import 'package:tracket/matches/widgets/match_score_component/match_header.dart';
 import 'package:tracket/matches/widgets/match_teams_row.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class MatchStatusCard extends StatelessWidget {
   const MatchStatusCard({

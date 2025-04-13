@@ -4,7 +4,7 @@ import 'package:tracket/notifications/models/notification.dart';
 import 'package:tracket/players/screens/player_profile_screen.dart';
 import 'package:tracket/teams/providers/providers.dart';
 import 'package:tracket/teams/screens/team_profile_screen.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utils.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/players/widgets/player_list_view.dart';
 import 'package:tracket/teams/models/team.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/widgets/custom_widgets/action_button.dart';
 import 'package:tracket/widgets/no_data_found.dart';

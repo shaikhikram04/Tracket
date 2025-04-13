@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/colors.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class StatColumn extends StatelessWidget {
   final String title;
