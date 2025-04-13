@@ -323,3 +323,29 @@ String timeAgo(DateTime dateTime) {
 
   return 'just now';
 }
+
+Future<void> showLoadingDialog(BuildContext context, {String? message}) async {
+  await showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            getCircleLoadingIndicator(),
+            const SizedBox(height: 10),
+            if (message != null)
+              Text(
+                message,
+                style: MyTextStyle(context).bodyLarge.copyWith(
+                      color: LightThemeColors.primaryText,
+                    ),
+              ),
+          ],
+        ),
+      );
+    },
+  );
+}

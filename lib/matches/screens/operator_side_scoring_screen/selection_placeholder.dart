@@ -76,7 +76,7 @@ class SelectionPlaceholder extends ConsumerWidget {
         context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
-  void _endMatch(WidgetRef ref) {
+  Future<void> _endMatch(BuildContext context, WidgetRef ref) async {
     // Handle the match completion
     final matchState = ref.read(matchStateProvider)!;
     final team1Players = matchState.team1Players;
@@ -90,7 +90,35 @@ class SelectionPlaceholder extends ConsumerWidget {
     final inning2BattingStats = innings.last!.battingStats;
     final inning2BowlingStats = innings.last!.bowlingStats;
 
-    
+    final team1Id = matchState.team1.teamId;
+    final team2Id = matchState.team2.teamId;
+    final matchFormat = matchState.matchFormat;
+    final isTeam1Won = matchState.winningTeamId == matchState.team1.teamId;
+
+    //* showing circular progress indicator
+    await showLoadingDialog(
+      context,
+      message: 'Finishing match...',
+    );
+
+    await MatchesServices.updateTeamStatsAfterMatchCompletion(
+      team1Id: team1Id,
+      team2Id: team2Id,
+      matchFormat: matchFormat,
+      isTeam1Won: isTeam1Won,
+    );
+
+    await MatchesServices.addMatchStatsToCorrespondingPlayers(
+      matchFormat: matchFormat,
+      team1Players: team1Players,
+      team2Players: team2Players,
+      inning1BattingStats: inning1BattingStats,
+      inning1BowlingStats: inning1BowlingStats,
+      inning2BattingStats: inning2BattingStats,
+      inning2BowlingStats: inning2BowlingStats,
+    );
+
+    Navigator.of(context).pop(); // Close the loading dialog
   }
 
   String _getTitle(AdditionalMatchState completionState) {
@@ -119,8 +147,6 @@ class SelectionPlaceholder extends ConsumerWidget {
     else if (completionState.isOverCompleted) return 'Change Bowler';
     return '';
   }
-
-
 
   void _onTap(
     BuildContext context,
