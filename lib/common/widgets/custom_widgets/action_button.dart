@@ -8,6 +8,9 @@ import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utils.dart';
 
 enum ActionButtonType {
@@ -26,10 +29,10 @@ class ActionButton extends StatelessWidget {
     required this.teamInfo,
     this.isTeamHasCapacity = false,
     this.minWidth = 95,
-    this.height = 35,
-    this.borderRadius = 15,
-    this.loadingSize = 20,
-    this.loadingStrokeWidth = 2.5,
+    this.height = TSizes.buttonMinHeight,
+    this.borderRadius = TSizes.buttonRadius,
+    this.loadingSize = TSizes.loadingIndicatorSm,
+    this.loadingStrokeWidth = TSizes.loadingStrokeWidthSm,
   });
 
   final List<String> idsList;
@@ -52,13 +55,16 @@ class ActionButton extends StatelessWidget {
   String _getButtonText(bool isAdded) {
     final isOffer = buttonType == ActionButtonType.addPlayer ||
         buttonType == ActionButtonType.addAdmin;
-    final baseText = isOffer ? 'Add' : 'Join';
-    final pastText = isOffer ? 'Added' : 'Joined';
+    final baseText = isOffer ? TTextStrings.addButton : TTextStrings.joinButton;
+    final pastText =
+        isOffer ? TTextStrings.addedButton : TTextStrings.joinedButton;
 
     if (!isPrivate) return isAdded ? pastText : baseText;
 
-    final privateText = isOffer ? 'Offer' : 'Request';
-    final privatePastText = isOffer ? 'Offered' : 'Requested';
+    final privateText =
+        isOffer ? TTextStrings.offerButton : TTextStrings.requestButton;
+    final privatePastText =
+        isOffer ? TTextStrings.offeredButton : TTextStrings.requestedButton;
     return isAdded ? privatePastText : privateText;
   }
 
@@ -71,10 +77,14 @@ class ActionButton extends StatelessWidget {
 
   Future<void> _handlePress(WidgetRef ref, BuildContext context) async {
     if (!isTeamHasCapacity &&
-        (buttonType == 'addPlayer' || buttonType == 'joinTeam')) {
+        (buttonType == ActionButtonType.addPlayer ||
+            buttonType == ActionButtonType.joinTeam)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Team has reached its capacity'),
+          content: Text(
+            TTextStrings.teamCapacityError,
+            style: TextStyle(color: Colors.white),
+          ),
           behavior: SnackBarBehavior.floating,
           duration: Duration(seconds: 2),
         ),
@@ -165,17 +175,18 @@ class ActionButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               minimumSize: Size(minWidth, height),
-              elevation: isAdded ? 0 : 2,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              elevation: isAdded ? 0 : TSizes.buttonMinElevation,
+              padding: TPadding.buttonPaddingSm,
             ),
             onPressed: (isAdded || isRequestInProgress)
-                ? null
+                ? null  
                 : () => _handlePress(ref, context),
             child: isRequestInProgress
                 ? getCircleLoadingIndicator(
                     dimension: loadingSize,
                     strokeWidth: loadingStrokeWidth,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.black54),
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.black54),
                   )
                 : Text(
                     _getButtonText(isAdded),

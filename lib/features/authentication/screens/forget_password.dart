@@ -107,7 +107,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         spacing: TSizes.verticalSpacingMd,
                         children: [
                           Container(
-                            padding: AppPadding.sm,
+                            padding: TPadding.sm,
                             decoration: BoxDecoration(
                               color: primaryColor.withValues(alpha: 0.1),
                               borderRadius:

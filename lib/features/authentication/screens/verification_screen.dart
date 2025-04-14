@@ -43,7 +43,7 @@ class VerificationScreen extends ConsumerWidget {
         child: SizedBox(
           width: width * 0.97,
           child: Padding(
-            padding: AppPadding.dialogPadding,
+            padding: TPadding.dialogPadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

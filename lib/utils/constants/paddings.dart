@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class AppPadding {
+class TPadding {
   //* horizontal padding
   static const contentPaddingMd = EdgeInsets.symmetric(horizontal: 20);
   static const contentPaddingXl = EdgeInsets.symmetric(horizontal: 24);
@@ -14,4 +14,7 @@ class AppPadding {
   //* dialog padding
   static const dialogPadding =
       EdgeInsets.symmetric(horizontal: 30, vertical: 20);
+
+  //* button padding
+  static const buttonPaddingSm = EdgeInsets.symmetric(horizontal: 10);
 }

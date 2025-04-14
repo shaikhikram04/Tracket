@@ -18,10 +18,16 @@ class TSizes {
   static const double fontSizeLg = 18.0;
 
   //* Button sized
-  static const double buttonHeight = 18.0;
   static const double buttonRadius = 12.0;
   static const double buttonWidth = 120.0;
   static const double buttonElevation = 4.0;
+  static const double buttonMinElevation = 2.0;
+  static const double buttonMinWidth = 95.0;
+  static const double buttonMinHeight = 35.0;
+
+  //* Loading Indicator sizes
+  static const double loadingIndicatorSm = 20.0;
+  static const double loadingStrokeWidthSm = 2.5;
 
   //* AppBar height
   static const double appBarHeight = 56.0;

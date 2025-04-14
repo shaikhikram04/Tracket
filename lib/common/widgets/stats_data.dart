@@ -174,7 +174,9 @@ class _AnimatedNumber extends StatelessWidget {
     final duration = baseAnimationDuration.inMilliseconds * multiplier;
 
     // Cap the maximum duration at 3 seconds
-    return Duration(milliseconds: duration.toInt().clamp(500, 3000));
+    // return Duration(milliseconds: duration.toInt().clamp(500, 3000));
+
+    return const Duration(milliseconds: 0);
   }
 
   @override

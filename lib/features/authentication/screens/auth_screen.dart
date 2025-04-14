@@ -79,7 +79,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: safeAreaHeight),
             child: Padding(
-              padding: AppPadding.contentPaddingMd,
+              padding: TPadding.contentPaddingMd,
               child: Column(
                 children: [
                   const SizedBox(height: TSizes.verticalSpacingXl),
