@@ -34,6 +34,63 @@ class THelperFunction {
   /// Returns a Color object based on the provided color name string
   static Color? getColor(String value) => _colorMap[value];
 
+  /// Shows a success-themed snackbar
+  static void showSuccessSnackBar(
+    String content,
+    BuildContext context, {
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    final textStyle =
+        MyTextStyle(context).titleMedium.copyWith(color: Colors.white);
+    final snackBar = SnackBar(
+      backgroundColor: primaryColor,
+      behavior: SnackBarBehavior.floating,
+      duration: duration,
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      content: Row(
+        children: [
+          const Icon(Icons.check_circle, color: Colors.white),
+          const SizedBox(width: 12),
+          Expanded(child: Text(content, style: textStyle)),
+        ],
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  /// Shows an error-themed snackbar
+  static void showErrorSnackBar(
+    String content,
+    BuildContext context, {
+    Duration duration = const Duration(seconds: 4),
+  }) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    final textStyle =
+        MyTextStyle(context).titleMedium.copyWith(color: Colors.white);
+    final snackBar = SnackBar(
+      backgroundColor: Colors.red.shade700,
+      behavior: SnackBarBehavior.floating,
+      duration: duration,
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      content: Row(
+        children: [
+          const Icon(Icons.error_outline, color: Colors.white),
+          const SizedBox(width: 12),
+          Expanded(child: Text(content, style: textStyle)),
+        ],
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  /// Displays a snackbar with optional undo action
   static void showSnackBar(
     String content,
     BuildContext context, {
@@ -41,6 +98,7 @@ class THelperFunction {
     void Function()? onUndo,
   }) {
     ScaffoldMessenger.of(context).clearSnackBars();
+
     final textStyle =
         MyTextStyle(context).titleMedium.copyWith(color: onPrimary);
     final snackBar = SnackBar(
@@ -222,6 +280,19 @@ class THelperFunction {
     const errorMessages = {
       'Email-is-already-in-use-as-user': TTextStrings.emailUsedByUser,
       'Email-is-already-in-use-as-player': TTextStrings.emailUsedByPlayer,
+      'invalid-email': 'The email address is invalid',
+      'user-disabled': 'This user account has been disabled',
+      'user-not-found': 'No user found with this email',
+      'wrong-password': 'Incorrect password',
+      'weak-password': 'The password is too weak',
+      'network-request-failed': 'Network error. Please check your connection.',
+      'connection-error':
+          'Unable to connect to servers. Please try again later.',
+      'match-not-found': 'Match details not found',
+      'player-already-exists': 'Player already exists in this team',
+      'team-not-found': 'Team details not found',
+      'insufficient-permissions':
+          'You do not have permission to perform this action',
     };
 
     return errorMessages[errorCode] ?? TTextStrings.unexpectedError;
