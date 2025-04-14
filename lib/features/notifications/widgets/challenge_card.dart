@@ -138,15 +138,18 @@ class ChallengeCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 7),
       child: CustomButton.secondary(
-        onPressed: () {
+        onPressed: () async {
           // Handle cancel logic
-          THelperFunction.showAlertDoubleBtnDialog(
+          final wantToCancel = await THelperFunction.showConfirmationDialog(
             context,
             title: 'Cancel Request',
-            content: 'Are you sure you want to cancel this request?',
-            sureButtonText: 'Yes',
-            onSureButtonPressed: onCancelChallenge,
+            message: 'Are you sure you want to cancel this request?',
+            confirmText: 'Yes',
+            cancelText: 'No',
           );
+          if (wantToCancel) {
+            onCancelChallenge();
+          }
         },
         textStyle: MyTextStyle(context).mediumButtonText.copyWith(
               color: StatusColors.error,

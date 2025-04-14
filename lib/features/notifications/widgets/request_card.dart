@@ -125,8 +125,7 @@ class RequestCard extends StatelessWidget {
   }
 
   Widget _buildProfileImage(bool isPlayer, String imageUrl) {
-    return ImageCircleAvatar(
-        url: imageUrl, isTeam: !isPlayer, radius: 30);
+    return ImageCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 
   Widget _buildRequestDetails(BuildContext context,
@@ -170,15 +169,19 @@ class RequestCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 7),
       child: CustomButton.secondary(
         text: 'Cancel',
-        onPressed: () {
+        onPressed: () async {
           // Handle cancel logic
-          THelperFunction.showAlertDoubleBtnDialog(
+          final wantToCancel = await THelperFunction.showConfirmationDialog(
             context,
             title: 'Cancel Request',
-            content: 'Are you sure you want to cancel this request?',
-            sureButtonText: 'Yes',
-            onSureButtonPressed: onCancelRequest,
+            message: 'Are you sure you want to cancel this request?',
+            confirmText: 'Yes',
+            cancelText: 'No',
           );
+
+          if (wantToCancel) {
+            onCancelRequest();
+          }
         },
         textStyle: MyTextStyle(context).mediumButtonText.copyWith(
               color: StatusColors.error,

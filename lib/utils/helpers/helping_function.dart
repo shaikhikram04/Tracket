@@ -9,38 +9,30 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
+//? Helper functions for the Tracket application
 class THelperFunction {
-  static Color? getColor(String value) {
-    if (value == 'Green') {
-      return Colors.green;
-    } else if (value == 'Red') {
-      return Colors.red;
-    } else if (value == 'Blue') {
-      return Colors.blue;
-    } else if (value == 'Pink') {
-      return Colors.pink;
-    } else if (value == 'Grey') {
-      return Colors.grey;
-    } else if (value == 'Purple') {
-      return Colors.purple;
-    } else if (value == 'Black') {
-      return Colors.black;
-    } else if (value == 'White') {
-      return Colors.white;
-    } else if (value == 'Yellow') {
-      return Colors.yellow;
-    } else if (value == 'Orange') {
-      return Colors.orange;
-    } else if (value == 'Brown') {
-      return Colors.brown;
-    } else if (value == 'Teal') {
-      return Colors.teal;
-    } else if (value == 'Indigo') {
-      return Colors.indigo;
-    } else {
-      return null;
-    }
-  }
+  /// Private constructor to prevent instantiation
+  THelperFunction._();
+
+  /// Maps color name strings to corresponding Flutter Colors
+  static const Map<String, Color> _colorMap = {
+    'Green': Colors.green,
+    'Red': Colors.red,
+    'Blue': Colors.blue,
+    'Pink': Colors.pink,
+    'Grey': Colors.grey,
+    'Purple': Colors.purple,
+    'Black': Colors.black,
+    'White': Colors.white,
+    'Yellow': Colors.yellow,
+    'Orange': Colors.orange,
+    'Brown': Colors.brown,
+    'Teal': Colors.teal,
+    'Indigo': Colors.indigo,
+  };
+
+  /// Returns a Color object based on the provided color name string
+  static Color? getColor(String value) => _colorMap[value];
 
   static void showSnackBar(
     String content,
@@ -49,131 +41,142 @@ class THelperFunction {
     void Function()? onUndo,
   }) {
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: primaryColor,
-        content: Text(
-          content,
-          style: MyTextStyle(context).titleMedium.copyWith(color: onPrimary),
-        ),
-        action: isUndo
-            ? SnackBarAction(
-                label: 'Undo',
-                onPressed: onUndo!,
-                backgroundColor: Colors.grey[200],
-                textColor: LightThemeColors.primaryText,
-              )
-            : null,
-      ),
+    final textStyle =
+        MyTextStyle(context).titleMedium.copyWith(color: onPrimary);
+    final snackBar = SnackBar(
+      backgroundColor: primaryColor,
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      content: Text(content, style: textStyle),
+      action: isUndo && onUndo != null
+          ? SnackBarAction(
+              label: 'Undo',
+              onPressed: onUndo,
+              backgroundColor: Colors.green[50],
+              textColor: primaryColor,
+            )
+          : null,
     );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  /// Shows a dialog for email verification
   static void showVerificationDialog(BuildContext context, String email) {
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) {
-        return VerificationScreen(email);
-      },
+      builder: (_) => VerificationScreen(email),
     );
   }
 
+  /// Shows an alert dialog with an icon
   static void showIconAlertDialog(
     BuildContext context, {
     required String title,
     required String errorMessage,
     required IconData icon,
+    Color iconColor = Colors.white,
+    Color headerColor = Colors.red,
   }) {
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (_) {
+        final textStyle = MyTextStyle(context);
+
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: SizedBox(
-            width: 250,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 110,
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: StatusColors.error.withValues(alpha: 0.8),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        icon,
-                        size: 45,
-                        color: LightThemeColors.surfaceColor,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        title,
-                        style: MyTextStyle(context).titleMedium.copyWith(
-                              color: LightThemeColors.surfaceColor,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.5,
-                            ),
-                      ),
-                    ],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          elevation: 5,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 110,
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: headerColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  child: Text(
-                    errorMessage,
-                    style: MyTextStyle(context).bodyLarge.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                ),
-                Row(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'OK',
-                          style: MyTextStyle(context).bodyLarge.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: grassGreen,
-                              ),
-                        ),
+                    Icon(icon, size: 48, color: iconColor),
+                    const SizedBox(height: 10),
+                    Text(
+                      title,
+                      style: textStyle.titleMedium.copyWith(
+                        color: iconColor,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2,
                       ),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  errorMessage,
+                  style:
+                      textStyle.bodyLarge.copyWith(fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              InkWell(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'OK',
+                    style: textStyle.bodyLarge.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: primaryColor,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
     );
   }
 
+  /// Shows a basic alert dialog
   static void showAlertDialog(
-      BuildContext context, String title, String errorMessage) {
+      BuildContext context, String title, String message) {
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return AlertDialog(
           title: Text(title),
           backgroundColor: Colors.white,
-          content: Text(errorMessage),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          content: Text(message),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK', style: TextStyle(color: primaryColor)),
             ),
           ],
         );
@@ -181,72 +184,29 @@ class THelperFunction {
     );
   }
 
-  static void showAlertDoubleBtnDialog(
-    BuildContext context, {
-    required String title,
-    required String content,
-    required String sureButtonText,
-    required Function() onSureButtonPressed,
-    String secondaryButtonText = 'Cancel',
-  }) {
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-              child: Text(secondaryButtonText),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                onSureButtonPressed();
-              },
-              child: Text(
-                sureButtonText,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+  /// Picks an image from camera or gallery and returns it as bytes
   static Future<Uint8List?> pickImage(ImageSource source) async {
     final ImagePicker imagePicker = ImagePicker();
+    final XFile? file = await imagePicker.pickImage(source: source);
 
-    XFile? file = await imagePicker.pickImage(source: source);
-
-    if (file != null) {
-      return await file.readAsBytes();
-    }
-    return null;
+    return file != null ? await file.readAsBytes() : null;
   }
 
+  /// Picks an image from gallery and returns its file path
   static Future<String?> pickImageFromGalleryPath() async {
     final ImagePicker imagePicker = ImagePicker();
     final XFile? file =
         await imagePicker.pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      return file.path;
-    }
-    return null;
+
+    return file?.path;
   }
 
+  /// Converts a list of enums to a list of strings
   static List<String> enumToString(List<Enum> enums) {
-    return enums
-        .map(
-          (e) => e.name,
-        )
-        .toList();
+    return enums.map((e) => e.name).toList();
   }
 
+  /// Returns a list of match format strings
   static List<String> matchFormatToString() {
     return const [
       TTextStrings.over5,
@@ -257,17 +217,17 @@ class THelperFunction {
     ];
   }
 
+  /// Maps error codes to user-friendly error messages
   static String getErrorMessage(String errorCode) {
-    switch (errorCode) {
-      case 'Email-is-already-in-use-as-user':
-        return TTextStrings.emailUsedByUser;
-      case 'Email-is-already-in-use-as-player':
-        return TTextStrings.emailUsedByPlayer;
-      default:
-        return TTextStrings.unexpectedError;
-    }
+    const errorMessages = {
+      'Email-is-already-in-use-as-user': TTextStrings.emailUsedByUser,
+      'Email-is-already-in-use-as-player': TTextStrings.emailUsedByPlayer,
+    };
+
+    return errorMessages[errorCode] ?? TTextStrings.unexpectedError;
   }
 
+  /// Returns a styled Text widget for titles
   static Text getTitleText(String title, BuildContext context) {
     return Text(
       title,
@@ -275,98 +235,118 @@ class THelperFunction {
     );
   }
 
+  /// Navigates to a new screen
   static void pushScreen(BuildContext context, Widget screen) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => screen,
-      ),
+      MaterialPageRoute(builder: (_) => screen),
     );
   }
 
-
+  /// Formats a date to display as relative time (e.g., "2 days ago")
   static String timeAgo(DateTime dateTime) {
     final Duration difference = DateTime.now().difference(dateTime);
 
-    if (difference.inDays >= 356) {
-      final int year = (difference.inDays / 365).floor();
-      return '${year} y ago';
+    if (difference.inDays >= 365) {
+      final int years = (difference.inDays / 365).floor();
+      return '$years ${years == 1 ? 'year' : 'years'} ago';
     } else if (difference.inDays >= 30) {
-      final int month = (difference.inDays / 30).floor();
-      return '${month} month ago';
+      final int months = (difference.inDays / 30).floor();
+      return '$months ${months == 1 ? 'month' : 'months'} ago';
     } else if (difference.inDays >= 7) {
-      final int week = (difference.inDays / 7).floor();
-      return '${week} w ago';
+      final int weeks = (difference.inDays / 7).floor();
+      return '$weeks ${weeks == 1 ? 'week' : 'weeks'} ago';
     } else if (difference.inDays > 0) {
-      return '${difference.inDays} d ago';
+      return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} h ago';
+      return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} min ago';
+      return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
     }
 
     return 'just now';
   }
 
-  static Future<void> showLoadingDialog(BuildContext context,
-      {String? message}) async {
+  /// Shows a loading dialog with optional message
+  static Future<void> showLoadingDialog(
+    BuildContext context, {
+    String? message,
+  }) async {
     await showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircularLoadingIndicator(),
-              const SizedBox(height: 10),
-              if (message != null)
-                Text(
-                  message,
-                  style: MyTextStyle(context).bodyLarge.copyWith(
-                        color: LightThemeColors.primaryText,
-                      ),
-                ),
-            ],
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.white.withOpacity(0.9),
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularLoadingIndicator(),
+                if (message != null) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    message,
+                    style: MyTextStyle(context).bodyLarge.copyWith(
+                          color: LightThemeColors.primaryText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  static String truncateText(String text, int maxLine) {
-    if (text.length <= maxLine) {
+  /// Truncates text to a specified length and adds ellipsis
+  static String truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
       return text;
-    } else {
-      return '${text.substring(0, maxLine)}...';
     }
+    return '${text.substring(0, maxLength)}...';
   }
 
+  /// Checks if the current theme is dark mode
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }
 
+  /// Gets the screen size
   static Size screenSize(BuildContext context) {
     return MediaQuery.of(context).size;
   }
 
+  /// Gets the screen height
   static double screenHeight(BuildContext context) {
-    return screenSize(context).height;
+    return MediaQuery.of(context).size.height;
   }
 
+  /// Gets the screen width
   static double screenWidth(BuildContext context) {
-    return screenSize(context).width;
+    return MediaQuery.of(context).size.width;
   }
 
-  static String getFormattedDate(DateTime date,
-      {String format = 'dd MMM yyyy'}) {
+  /// Formats a date to a specified format
+  static String getFormattedDate(
+    DateTime date, {
+    String format = 'dd MMM yyyy',
+  }) {
     return DateFormat(format).format(date);
   }
 
+  /// Removes duplicate items from a list
   static List<T> removeDuplicates<T>(List<T> list) {
     return list.toSet().toList();
   }
 
+  /// Wraps a list of widgets into rows with specified number of items per row
   static List<Widget> wrapWidgets(List<Widget> widgets, int rowSize) {
     final wrappedList = <Widget>[];
 
@@ -377,5 +357,82 @@ class THelperFunction {
     }
 
     return wrappedList;
+  }
+
+  /// Shows a success dialog with a checkmark icon
+  static void showSuccessDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+  }) {
+    showIconAlertDialog(
+      context,
+      title: title,
+      errorMessage: message,
+      icon: Icons.check_circle,
+      headerColor: primaryColor,
+      iconColor: Colors.white,
+    );
+  }
+
+  /// Shows a themed confirmation dialog
+  static Future<bool> showConfirmationDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    String confirmText = 'Confirm',
+    String cancelText = 'Cancel',
+  }) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child:
+                  Text(cancelText, style: TextStyle(color: Colors.grey[700])),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: onPrimary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              child: Text(confirmText),
+            ),
+          ],
+        );
+      },
+    );
+
+    return result ?? false;
+  }
+
+  /// Returns responsive padding based on screen size
+  static EdgeInsets responsivePadding(BuildContext context) {
+    final width = screenWidth(context);
+    if (width < 600) {
+      return const EdgeInsets.all(16);
+    } else if (width < 1200) {
+      return const EdgeInsets.all(24);
+    } else {
+      return const EdgeInsets.all(32);
+    }
+  }
+
+  /// Returns a theme-appropriate color based on the current theme
+  static Color getThemeAwareColor(
+    BuildContext context,
+    Color lightColor,
+    Color darkColor,
+  ) {
+    return isDarkMode(context) ? darkColor : lightColor;
   }
 }

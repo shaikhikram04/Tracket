@@ -165,14 +165,16 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         if (didPop) return;
 
         if (_checkForChanges()) {
-          THelperFunction.showAlertDoubleBtnDialog(
+          final isDiscard = await THelperFunction.showConfirmationDialog(
             context,
             title: 'Discard Changes?',
-            content:
+            message:
                 'You have unsaved changes. Are you sure you want to discard them?',
-            sureButtonText: 'Discard',
-            onSureButtonPressed: () => Navigator.of(context).pop(),
+            confirmText: 'Discard',
           );
+          if (isDiscard) {
+            Navigator.of(context).pop();
+          }
         } else {
           Navigator.of(context).pop();
         }

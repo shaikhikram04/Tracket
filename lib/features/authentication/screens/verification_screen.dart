@@ -24,19 +24,23 @@ class VerificationScreen extends ConsumerWidget {
     final double width = MediaQuery.of(context).size.width;
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, _) {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
         //* Consider adding a confirmation dialog
-        THelperFunction.showAlertDoubleBtnDialog(
+        final wantToStay = await THelperFunction.showConfirmationDialog(
           context,
           title: 'Confirm Exit',
-          content:
+          message:
               'Leaving now will cancel the verification process. Are you sure?',
-          sureButtonText: 'Leave',
-          onSureButtonPressed: () => Navigator.of(context).pop(),
-          secondaryButtonText: 'Stay',
+          cancelText: 'Leave',
+          confirmText: 'Stay',
         );
+        if (wantToStay) {
+          // Handle the case when the user wants to stay
+          Navigator.of(context).pop();
+          return;
+        }
       },
       child: Dialog(
         backgroundColor: Colors.white,
