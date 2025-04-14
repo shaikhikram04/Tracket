@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/matches/screens/accept_challenge_screen.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
@@ -94,8 +95,7 @@ class ChallengeCard extends StatelessWidget {
   }
 
   Widget _buildProfileImage(String logoUrl) {
-    return THelperFunction.getCircleAvatar(
-        url: logoUrl, isTeam: true, radius: 30);
+    return ImageCircleAvatar(url: logoUrl, isTeam: true, radius: 30);
   }
 
   Widget _buildRequestDetails(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 
 class TeamColumn extends StatelessWidget {
   const TeamColumn({
@@ -22,7 +22,7 @@ class TeamColumn extends StatelessWidget {
     return Column(
       spacing: spacing,
       children: [
-        THelperFunction.getCircleAvatar(
+        ImageCircleAvatar(
           url: teamLogo,
           isTeam: true,
           radius: avatarRadius,

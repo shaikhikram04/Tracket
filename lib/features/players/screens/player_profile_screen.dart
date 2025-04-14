@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/services/players_services.dart';
 import 'package:tracket/features/players/widgets/achievements.dart';
@@ -93,7 +94,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        THelperFunction.getCircleAvatar(
+                        ImageCircleAvatar(
                           url: _playerData.profileImageUrl,
                           isTeam: false,
                           radius: 50,

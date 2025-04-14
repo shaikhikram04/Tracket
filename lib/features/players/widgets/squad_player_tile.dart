@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/utils/constants/colors.dart';
@@ -87,7 +88,7 @@ class _PlayerAvatar extends StatelessWidget {
             ),
           ],
         ),
-        child: THelperFunction.getCircleAvatar(
+        child: ImageCircleAvatar(
           url: profileImageUrl,
           isTeam: false,
           radius: 30,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/authentication/screens/auth_screen.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
@@ -56,7 +57,7 @@ class MainDrawer extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    THelperFunction.getCircleAvatar(
+                    ImageCircleAvatar(
                       url: player.profileImageUrl,
                       isTeam: false,
                       radius: width * 0.085,

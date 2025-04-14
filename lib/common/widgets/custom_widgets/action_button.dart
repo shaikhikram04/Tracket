@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
     required this.playerInfo,
     required this.teamInfo,
     this.isTeamHasCapacity = false,
-    this.minWidth = 95,
+    this.minWidth = TSizes.buttonMinWidth,
     this.height = TSizes.buttonMinHeight,
     this.borderRadius = TSizes.buttonRadius,
     this.loadingSize = TSizes.loadingIndicatorSm,

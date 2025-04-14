@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team_form_data.dart';
@@ -149,7 +150,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     width: 3,
                   ),
                 ),
-                child: THelperFunction.getCircleAvatar(
+                child: ImageCircleAvatar(
                   url: '',
                   isTeam: true,
                   radius: height * 0.08,

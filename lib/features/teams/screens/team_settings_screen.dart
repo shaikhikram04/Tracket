@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/notifications/screens/challenge_screen.dart';
 import 'package:tracket/features/notifications/screens/request_screen.dart';
 import 'package:tracket/features/players/models/player_details.dart';
@@ -12,7 +13,6 @@ import 'package:tracket/features/teams/screens/add_admin.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
@@ -382,7 +382,7 @@ class _AdminListTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      leading: THelperFunction.getCircleAvatar(
+      leading: ImageCircleAvatar(
         url: admin.imageUrl,
         isTeam: false,
         radius: 24,

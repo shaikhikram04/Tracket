@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
@@ -124,7 +125,7 @@ class RequestCard extends StatelessWidget {
   }
 
   Widget _buildProfileImage(bool isPlayer, String imageUrl) {
-    return THelperFunction.getCircleAvatar(
+    return ImageCircleAvatar(
         url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 

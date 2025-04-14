@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
@@ -254,7 +255,7 @@ class _TeamListTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: THelperFunction.getCircleAvatar(
+      leading: ImageCircleAvatar(
         url: teamData['logoUrl'],
         isTeam: true,
         radius: 28,

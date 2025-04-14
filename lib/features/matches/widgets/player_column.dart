@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PlayerColumn extends StatelessWidget {
   const PlayerColumn({
@@ -23,7 +23,7 @@ class PlayerColumn extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        THelperFunction.getCircleAvatar(
+        ImageCircleAvatar(
           url: profileImageUrl,
           isTeam: false,
           radius: avatarRadius,

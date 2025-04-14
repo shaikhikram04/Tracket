@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
@@ -48,7 +49,7 @@ class TeamSelectionDialog extends StatelessWidget {
                           children: [
                             Opacity(
                               opacity: canChallenge ? 1 : 0.4,
-                              child: THelperFunction.getCircleAvatar(
+                              child: ImageCircleAvatar(
                                   url: team.logoUrl, isTeam: true, radius: 35),
                             ),
                             Text(team.name),

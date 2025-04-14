@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/screens/challenge_match_screen.dart';
@@ -229,7 +230,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                         Row(
                           spacing: 15,
                           children: [
-                            THelperFunction.getCircleAvatar(
+                            ImageCircleAvatar(
                               url: teamState.team.logoUrl,
                               isTeam: true,
                               radius: 50,

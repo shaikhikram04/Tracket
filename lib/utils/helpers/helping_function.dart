@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/features/authentication/screens/verification_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/constants/image_strings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
@@ -43,8 +42,12 @@ class THelperFunction {
     }
   }
 
-  static void showSnackBar(String content, BuildContext context,
-      {bool isUndo = false, void Function()? onUndo}) {
+  static void showSnackBar(
+    String content,
+    BuildContext context, {
+    bool isUndo = false,
+    void Function()? onUndo,
+  }) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -276,37 +279,6 @@ class THelperFunction {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => screen,
-      ),
-    );
-  }
-
-  static Widget getCircleAvatar({
-    required String url,
-    Uint8List? image,
-    required bool isTeam,
-    required double radius,
-    bool hasBorder = true,
-  }) {
-    AssetImage defaultImage =
-        AssetImage(isTeam ? TImages.teamDefaultLogo : TImages.playerDefaultPfp);
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: hasBorder
-            ? Border.all(
-                color: LightThemeColors.primaryText, // Border color
-                width: 2.0, // Border width
-              )
-            : null,
-      ),
-      child: CircleAvatar(
-        radius: radius,
-        backgroundImage: image != null
-            ? MemoryImage(image)
-            : url.isEmpty
-                ? defaultImage
-                : NetworkImage(url),
-        onBackgroundImageError: (_, __) => defaultImage,
       ),
     );
   }
