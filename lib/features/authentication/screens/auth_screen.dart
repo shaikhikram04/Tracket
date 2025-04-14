@@ -9,8 +9,9 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/durations.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/devices/devices_utility.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 //* Authentication screen that provides tabs for Player and User authentication
 class AuthScreen extends ConsumerStatefulWidget {
@@ -50,7 +51,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
     } catch (e) {
       if (mounted) {
-        showSnackBar('Something went wrong. Please try again.', context);
+        THelperFunction.showSnackBar(
+            'Something went wrong. Please try again.', context);
       }
     } finally {
       if (mounted) {
@@ -69,7 +71,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   @override
   Widget build(BuildContext context) {
     final tabBarViewHeight = ref.watch(authScreenSizeProvider);
-    final safeAreaHeight = getSafeAreaHeight(context);
+    final safeAreaHeight = TDeviceUtils.getSafeAreaHeight(context);
 
     return Scaffold(
       backgroundColor: LightThemeColors.backgroundColor,
@@ -194,7 +196,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         height: height,
         child: _isChangingTab
             ? Center(
-                child: getCircleLoadingIndicator(
+                child: THelperFunction.getCircleLoadingIndicator(
                 valueColor: const AlwaysStoppedAnimation<Color>(primaryMedium),
                 strokeWidth: 3,
               ))

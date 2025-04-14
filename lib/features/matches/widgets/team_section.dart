@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/widgets/team_column.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class TeamSection extends StatelessWidget {
@@ -26,7 +26,7 @@ class TeamSection extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          getTitleText('Teams', context),
+          THelperFunction.getTitleText('Teams', context),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

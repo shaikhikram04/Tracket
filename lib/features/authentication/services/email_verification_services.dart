@@ -10,7 +10,7 @@ import 'package:tracket/features/authentication/providers/verification_step.dart
 import 'package:tracket/features/authentication/services/player_auth_services.dart';
 import 'package:tracket/features/authentication/services/user_auth_services.dart';
 import 'package:tracket/screens/home.dart';
-import 'package:tracket/utils/utils.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class EmailVerificationService {
   static const _verificationTimeout = Duration(minutes: 3);
@@ -63,7 +63,7 @@ class EmailVerificationService {
 
   static void _onError(String error, BuildContext context, User user) {
     Navigator.of(context).pop();
-    showSnackBar(error, context);
+    THelperFunction.showSnackBar(error, context);
     user.delete();
   }
 

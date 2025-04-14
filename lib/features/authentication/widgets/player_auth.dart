@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/features/authentication/models/player_auth_state.dart';
 import 'package:tracket/features/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/features/authentication/widgets/auth_form.dart';
@@ -7,11 +9,9 @@ import 'package:tracket/features/authentication/widgets/auth_submit_button.dart'
 import 'package:tracket/features/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 
 class PlayerAuth extends ConsumerStatefulWidget {
   const PlayerAuth({super.key});
@@ -58,28 +58,28 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
 
     List<Widget> signUpField = [
       MyDropdownMenu(
-        options: enumToString(CricketRole.values),
+        options: THelperFunction.enumToString(CricketRole.values),
         label: 'Select Cricket Role',
         onSelect: _onSelectRole,
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
-        options: enumToString(Position.values),
+        options: THelperFunction.enumToString(Position.values),
         label: 'Select Batting Position',
         onSelect: _onSelectBattingPosition,
       ),
       const SizedBox(height: 30),
       MyDropdownMenu(
         options: playerAuthState.shouldBall
-            ? enumToString(BowlingStyle.values.sublist(1))
-            : enumToString(BowlingStyle.values),
+            ? THelperFunction.enumToString(BowlingStyle.values.sublist(1))
+            : THelperFunction.enumToString(BowlingStyle.values),
         label: 'Select Bowling Style',
         onSelect: _onSelectBowlingStyle,
       ),
       const SizedBox(height: 30),
       if (playerAuthState.isBowler)
         MyDropdownMenu(
-          options: enumToString(Position.values),
+          options: THelperFunction.enumToString(Position.values),
           label: 'Select Bowling Arm',
           onSelect: _onSelectBowlingArm,
         ),

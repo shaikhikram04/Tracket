@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
@@ -12,13 +15,10 @@ import 'package:tracket/features/matches/widgets/team_section.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 
 class ChallengeMatchScreen extends StatefulWidget {
   const ChallengeMatchScreen({
@@ -71,8 +71,9 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   late Team _challengerTeam;
 
   // Options
-  final List<String> matchFormatOptions = matchFormatToString();
-  final List<String> matchTypeOptions = enumToString(MatchType.values);
+  final List<String> matchFormatOptions = THelperFunction.matchFormatToString();
+  final List<String> matchTypeOptions =
+      THelperFunction.enumToString(MatchType.values);
 
   @override
   void initState() {
@@ -125,7 +126,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
   void _handleError(String message, [dynamic error]) {
     if (!mounted) return;
-    showSnackBar('$message${error != null ? ': $error' : ''}', context);
+    THelperFunction.showSnackBar(
+        '$message${error != null ? ': $error' : ''}', context);
   }
 
   void onAddPlayer() {
@@ -216,7 +218,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       );
 
       if (mounted) {
-        showSnackBar('Challenge sent successfully!', context);
+        THelperFunction.showSnackBar('Challenge sent successfully!', context);
         Navigator.of(context).pop();
       }
     } catch (e) {
@@ -233,7 +235,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         title: const Text('Challenge Match'),
       ),
       body: _isLoading.value
-          ? getCircleLoadingIndicator()
+          ? THelperFunction.getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Center(
                 child: Column(
@@ -276,7 +278,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          getTitleText('Match Details', context),
+          THelperFunction.getTitleText('Match Details', context),
           const SizedBox(height: 7),
           _buildPlayerCountSection(),
           _buildMatchFormatDropdown(),
@@ -350,7 +352,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     return ValueListenableBuilder(
       valueListenable: _matchType,
       builder: (context, value, child) => MyDropdownMenu(
-        options: enumToString(MatchType.values),
+        options: THelperFunction.enumToString(MatchType.values),
         label: 'Match Type',
         onSelect: (value) {
           _matchType.value = value;
@@ -403,7 +405,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       child: Column(
         spacing: 20,
         children: [
-          getTitleText('Schedule & Venue Detail', context),
+          THelperFunction.getTitleText('Schedule & Venue Detail', context),
           _buildScheduleRow(),
           _buildVenueForm(),
         ],

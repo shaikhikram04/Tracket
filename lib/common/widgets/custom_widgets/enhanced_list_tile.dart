@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 class EnhancedListTile extends StatelessWidget {
   const EnhancedListTile({
@@ -129,7 +129,7 @@ class EnhancedListTile extends StatelessWidget {
             ),
         ],
       ),
-      child: getCircleAvatar(
+      child: THelperFunction.getCircleAvatar(
         url: imageUrl,
         isTeam: !isPlayer,
         radius: avatarRadius,

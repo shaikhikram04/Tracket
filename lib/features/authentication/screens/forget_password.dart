@@ -5,12 +5,12 @@ import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_containers.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
-import 'package:tracket/utils/utils.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
@@ -53,11 +53,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           _isResetEmailSend = true;
         });
       } else {
-        showSnackBar(result, context);
+        THelperFunction.showSnackBar(result, context);
       }
     } catch (e) {
       if (!mounted) return;
-      showSnackBar('An error occurred: $e', context);
+      THelperFunction.showSnackBar('An error occurred: $e', context);
     } finally {
       setState(() => _isSendingEmail = false);
     }

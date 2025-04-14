@@ -5,8 +5,8 @@ import 'package:tracket/features/authentication/services/firebase_auth_methods.d
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
@@ -31,7 +31,7 @@ class MainDrawer extends ConsumerWidget {
       } catch (e) {
         if (!context.mounted) return;
 
-        showSnackBar(e.toString(), context);
+        THelperFunction.showSnackBar(e.toString(), context);
       }
     }
 
@@ -56,7 +56,7 @@ class MainDrawer extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    getCircleAvatar(
+                    THelperFunction.getCircleAvatar(
                       url: player.profileImageUrl,
                       isTeam: false,
                       radius: width * 0.085,
@@ -89,7 +89,7 @@ class MainDrawer extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 InkWell(
-                  onTap: () => pushScreen(
+                  onTap: () => THelperFunction.pushScreen(
                       context,
                       PlayerProfileScreen(
                         player: player,

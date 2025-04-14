@@ -9,8 +9,8 @@ import 'package:tracket/features/authentication/services/auth_service.dart';
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/screens/home.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseAuthMethods extends AuthService {
@@ -108,7 +108,7 @@ class FirebaseAuthMethods extends AuthService {
       );
 
       if (!userCred.user!.emailVerified && context.mounted) {
-        showVerificationDialog(context, email);
+        THelperFunction.showVerificationDialog(context, email);
         final verificationData = VerificationData(
           user: userCred.user!,
           username: '',
@@ -136,24 +136,24 @@ class FirebaseAuthMethods extends AuthService {
     } on FirebaseAuthException catch (error) {
       if (!context.mounted) return;
       if (error.code == 'user-not-found') {
-        showAlertDialog(
+        THelperFunction.showAlertDialog(
           context,
           'User not found',
           'No user found with the provided email. Sign-up first!',
         );
       } else if (error.code == 'invalid-credential') {
-        showSnackBar('Wrong email or password', context);
+        THelperFunction.showSnackBar('Wrong email or password', context);
         rethrow;
       } else if (error.code == 'email-used-by-$oponentRole') {
         _auth.signOut();
-        showSnackBar(
+        THelperFunction.showSnackBar(
           'This email is used as a $oponentRole. Please login as a $oponentRole!',
           context,
         );
       }
     } catch (error) {
       if (!context.mounted) return;
-      showSnackBar(error.toString(), context);
+      THelperFunction.showSnackBar(error.toString(), context);
     }
   }
 

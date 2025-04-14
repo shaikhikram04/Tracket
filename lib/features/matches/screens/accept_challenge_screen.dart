@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
+import 'package:tracket/common/widgets/custom_widgets/value_listenable_builder_3.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
@@ -11,11 +13,9 @@ import 'package:tracket/features/notifications/models/challenge_match.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/common/widgets/custom_widgets/value_listenable_builder_3.dart';
 
 class AcceptChallengeScreen extends StatefulWidget {
   const AcceptChallengeScreen({
@@ -61,7 +61,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   // Improved error handling with dedicated error handler
   Future<void> _handleError(dynamic error) async {
     if (!mounted) return;
-    showSnackBar(error.toString(), context);
+    THelperFunction.showSnackBar(error.toString(), context);
   }
 
   Future<void> _loadSquad() async {
@@ -153,7 +153,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   Future<void> _acceptChallenge() async {
     final validationError = _validateChallenge();
     if (validationError != null) {
-      showSnackBar(validationError, context);
+      THelperFunction.showSnackBar(validationError, context);
       return;
     }
 
@@ -178,7 +178,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
 
       if (!mounted) return;
       Navigator.of(context).pop();
-      showSnackBar('Challenge Accepted', context);
+      THelperFunction.showSnackBar('Challenge Accepted', context);
     } catch (e) {
       _handleError(e);
     } finally {
@@ -206,7 +206,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         title: const Text('Match Challenge  '),
       ),
       body: _isLoading
-          ? getCircleLoadingIndicator()
+          ? THelperFunction.getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 children: [
@@ -236,7 +236,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     return MyCard(
       child: Column(
         children: [
-          getTitleText('Match Details', context),
+          THelperFunction.getTitleText('Match Details', context),
           ...details
               .map((detail) => _matchDetailRow(detail[0], detail[1], context)),
         ],

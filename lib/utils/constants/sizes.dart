@@ -28,6 +28,8 @@ class TSizes {
   //* Loading Indicator sizes
   static const double loadingIndicatorSm = 20.0;
   static const double loadingStrokeWidthSm = 2.5;
+  static const double loadingStrokeWidthMd = 3.0;
+  static const double loadingStrokeWidthLg = 4.0;
 
   //* AppBar height
   static const double appBarHeight = 56.0;

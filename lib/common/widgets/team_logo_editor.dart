@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 class TeamLogoEditor extends StatelessWidget {
   const TeamLogoEditor({
@@ -51,7 +51,7 @@ class TeamLogoEditor extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: getCircleAvatar(
+                child: THelperFunction.getCircleAvatar(
                   url: logoUrl,
                   isTeam: true,
                   radius: 50,

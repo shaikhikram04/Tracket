@@ -4,9 +4,9 @@ import 'package:tracket/features/authentication/models/verification_steps_data.d
 import 'package:tracket/features/authentication/widgets/progress_step_indicator.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 //* Screen that shows the email verification progress
 //* Displays a step indicator with three stages: email sent, verified, and logged in
@@ -28,7 +28,7 @@ class VerificationScreen extends ConsumerWidget {
         if (didPop) return;
 
         //* Consider adding a confirmation dialog
-        showAlertDoubleBtnDialog(
+        THelperFunction.showAlertDoubleBtnDialog(
           context,
           title: 'Confirm Exit',
           content:

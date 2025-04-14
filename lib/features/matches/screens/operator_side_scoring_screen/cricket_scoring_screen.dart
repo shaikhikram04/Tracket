@@ -12,7 +12,7 @@ import 'package:tracket/features/matches/screens/operator_side_scoring_screen/sc
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/selection_placeholder.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utils.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class CricketScoringScreen extends ConsumerStatefulWidget {
   const CricketScoringScreen({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
       }
     } catch (e) {
-      showSnackBar('Failed to sent innings : $e', context);
+      THelperFunction.showSnackBar('Failed to sent innings : $e', context);
     }
 
     setState(() {
@@ -115,7 +115,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         // ],
       ),
       body: isLoading.value == true
-          ? getCircleLoadingIndicator()
+          ? THelperFunction.getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 children: [
@@ -137,7 +137,8 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                     remainingBalls: ref
                         .read(currentOverRunsProvider.notifier)
                         .remainingBalls,
-                    margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
                     bgColor: LightThemeColors.surfaceColor,
                   ),
 

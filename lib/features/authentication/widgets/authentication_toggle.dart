@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/features/authentication/screens/forget_password.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/features/authentication/screens/forget_password.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class AuthenticationToggle extends StatelessWidget {
   const AuthenticationToggle({
@@ -16,7 +16,7 @@ class AuthenticationToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void onForgetPassword() {
-      pushScreen(context, const ForgetPassword());
+      THelperFunction.pushScreen(context, const ForgetPassword());
     }
 
     return Row(

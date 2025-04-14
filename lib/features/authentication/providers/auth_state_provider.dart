@@ -9,7 +9,7 @@ import 'package:tracket/features/authentication/providers/verification_step.dart
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
-import 'package:tracket/utils/utils.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
   final Ref ref;
@@ -127,7 +127,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
 
     state = state.copyWith(isLoading: true);
     try {
-      showVerificationDialog(context, state.email!);
+      THelperFunction.showVerificationDialog(context, state.email!);
 
       final user = await FirebaseAuthMethods().sendVerificationEmail(
         state.email!.trim(),
@@ -196,13 +196,13 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     ref.read(verificationStepProvider.notifier).resetStep();
 
     if (error is FirebaseAuthException) {
-      showAlertDialog(
+      THelperFunction.showAlertDialog(
         context,
         'Error',
-        getErrorMessage(error.code),
+        THelperFunction.getErrorMessage(error.code),
       );
     } else {
-      showAlertDialog(
+      THelperFunction.showAlertDialog(
         context,
         'Error',
         'An unexpected error occurred. Please try again.',
@@ -212,7 +212,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
 
   bool _isDropdownSelected(String? value, String label, BuildContext context) {
     if (value == null) {
-      showSnackBar('Please select $label', context);
+      THelperFunction.showSnackBar('Please select $label', context);
       return false;
     }
     return true;

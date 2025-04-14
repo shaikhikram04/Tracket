@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/providers/extras_provider.dart';
 import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
 
 class WicketReason extends StatefulWidget {
   const WicketReason({
@@ -91,7 +91,7 @@ class _WicketReasonState extends State<WicketReason> {
 
   void _onConfirm() {
     if (_reasonOfOut == null) {
-      showIconAlertDialog(
+      THelperFunction.showIconAlertDialog(
         context,
         title: 'Error',
         errorMessage: 'Please select a reason',
@@ -100,7 +100,7 @@ class _WicketReasonState extends State<WicketReason> {
       return;
     }
     if (_reasonOfOut == ReasonOfOut.runOut && _runOutBatsmanPosition == null) {
-      showIconAlertDialog(
+      THelperFunction.showIconAlertDialog(
         context,
         title: 'Error',
         errorMessage: 'Please select the batsman who run out',
@@ -109,7 +109,7 @@ class _WicketReasonState extends State<WicketReason> {
       return;
     }
     if (_reasonOfOut == ReasonOfOut.runOut && _runOutBy == null) {
-      showIconAlertDialog(
+      THelperFunction.showIconAlertDialog(
         context,
         title: 'Error',
         errorMessage: 'Please select the fielder who run out the batsman',
@@ -118,7 +118,7 @@ class _WicketReasonState extends State<WicketReason> {
       return;
     }
     if (_reasonOfOut == ReasonOfOut.caught && _caughtBy == null) {
-      showIconAlertDialog(
+      THelperFunction.showIconAlertDialog(
         context,
         title: 'Error',
         errorMessage: 'Please select the fielder who caught the batsman',
@@ -208,7 +208,8 @@ class _WicketReasonState extends State<WicketReason> {
                           controller: scrollController,
                           slivers: [
                             SliverPadding(
-                              padding: const EdgeInsets.fromLTRB(40, 10, 40, 30),
+                              padding:
+                                  const EdgeInsets.fromLTRB(40, 10, 40, 30),
                               sliver: SliverList(
                                 delegate: SliverChildListDelegate([
                                   Text(
@@ -224,7 +225,8 @@ class _WicketReasonState extends State<WicketReason> {
                                   // Dismissal options
                                   ...List.generate(_reasons.length, (index) {
                                     return Padding(
-                                      padding: const EdgeInsets.only(bottom: 10),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
                                       child: InkWell(
                                         onTap: () => _onReasonSelected(index),
                                         borderRadius: BorderRadius.circular(10),
@@ -302,7 +304,8 @@ class _WicketReasonState extends State<WicketReason> {
                                               .strikers[index].battingPosition;
                                         },
                                       ),
-                                      leadingIcon: const Icon(Icons.person_outline),
+                                      leadingIcon:
+                                          const Icon(Icons.person_outline),
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
@@ -329,7 +332,8 @@ class _WicketReasonState extends State<WicketReason> {
                                               widget.fielders[index].playerId;
                                         },
                                       ),
-                                      leadingIcon: const Icon(Icons.person_outline),
+                                      leadingIcon:
+                                          const Icon(Icons.person_outline),
                                     ),
                                   ],
                                   if (_reasonOfOut == ReasonOfOut.caught) ...[
@@ -351,7 +355,8 @@ class _WicketReasonState extends State<WicketReason> {
                                           .toList(),
                                       onSelect: (value) =>
                                           setState(() => _caughtBy = value),
-                                      leadingIcon: const Icon(Icons.person_outline),
+                                      leadingIcon:
+                                          const Icon(Icons.person_outline),
                                     ),
                                   ],
                                   const SizedBox(height: 24),
@@ -366,7 +371,8 @@ class _WicketReasonState extends State<WicketReason> {
                                             backgroundColor: LightThemeColors
                                                 .backgroundColor,
                                             foregroundColor: grassGreen,
-                                            side: const BorderSide(color: grassGreen),
+                                            side: const BorderSide(
+                                                color: grassGreen),
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 16),
                                             shape: RoundedRectangleBorder(

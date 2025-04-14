@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
 import 'package:tracket/features/matches/models/inning.dart';
@@ -12,10 +13,9 @@ import 'package:tracket/features/matches/widgets/opening_batsman_sheet.dart';
 import 'package:tracket/features/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/features/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class MatchPlayersSelectionScreen extends ConsumerStatefulWidget {
   const MatchPlayersSelectionScreen({
@@ -112,7 +112,7 @@ class _MatchPlayersSelectionScreenState
         (route) => route.isFirst,
       );
     } catch (e) {
-      showSnackBar('Failed to start match : $e', context);
+      THelperFunction.showSnackBar('Failed to start match : $e', context);
     } finally {
       setState(() {
         isStarting = false;
@@ -170,7 +170,7 @@ class _MatchPlayersSelectionScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                getTitleText('Opening Batsman', context),
+                THelperFunction.getTitleText('Opening Batsman', context),
                 const SizedBox(height: 15),
                 _openers.isEmpty
                     ? InkWell(
@@ -216,7 +216,7 @@ class _MatchPlayersSelectionScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                getTitleText('Opening Bowler', context),
+                THelperFunction.getTitleText('Opening Bowler', context),
                 const SizedBox(height: 10),
                 _bowler == null
                     ? InkWell(

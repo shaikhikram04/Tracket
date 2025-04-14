@@ -6,9 +6,9 @@ import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class StartMatchScreen extends ConsumerStatefulWidget {
@@ -44,7 +44,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
     ref
         .read(matchStateProvider.notifier)
         .setTossResult(isTeam1Won: isTeam1WonToss, decision: decision);
-    pushScreen(context, const MatchPlayersSelectionScreen());
+    THelperFunction.pushScreen(context, const MatchPlayersSelectionScreen());
   }
 
   @override

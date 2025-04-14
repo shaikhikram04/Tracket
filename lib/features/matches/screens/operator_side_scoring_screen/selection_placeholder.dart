@@ -11,9 +11,9 @@ import 'package:tracket/features/matches/screens/operator_side_scoring_screen/lo
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/winner_display.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 class SelectionPlaceholder extends ConsumerStatefulWidget {
   const SelectionPlaceholder({super.key});
@@ -88,7 +88,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
 
   void _startNextInning(BuildContext context, WidgetRef ref) {
     // Handle the next inning
-    pushScreen(
+    THelperFunction.pushScreen(
         context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
@@ -112,7 +112,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     final isTeam1Won = matchState.winningTeamId == matchState.team1.teamId;
 
     //* showing circular progress indicator
-    await showLoadingDialog(
+    await THelperFunction.showLoadingDialog(
       context,
       message: 'Finishing match...',
     );

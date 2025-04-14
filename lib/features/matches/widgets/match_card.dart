@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/providers/match_provider.dart';
@@ -10,10 +11,9 @@ import 'package:tracket/features/matches/screens/start_match_screen.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
 import 'package:tracket/features/matches/widgets/match_teams_row.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/highlighted_label.dart';
 
 class MatchCard extends ConsumerWidget {
   const MatchCard({
@@ -35,7 +35,7 @@ class MatchCard extends ConsumerWidget {
 
     ref.read(matchStateProvider.notifier).setMatch(match);
 
-    pushScreen(
+    THelperFunction.pushScreen(
       context,
       match.currentInningNumber == null
           ? const StartMatchScreen()
@@ -64,7 +64,7 @@ class MatchCard extends ConsumerWidget {
     final String currentUserId = FirebaseAuthMethods().currentUserId;
 
     return GestureDetector(
-      onTap: () => pushScreen(
+      onTap: () => THelperFunction.pushScreen(
           context,
           MatchScoringScreen(
             match: _match,

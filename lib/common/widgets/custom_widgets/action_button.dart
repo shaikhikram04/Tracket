@@ -11,7 +11,7 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
-import 'package:tracket/utils/utils.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 enum ActionButtonType {
   addPlayer,
@@ -182,7 +182,7 @@ class ActionButton extends StatelessWidget {
                 ? null  
                 : () => _handlePress(ref, context),
             child: isRequestInProgress
-                ? getCircleLoadingIndicator(
+                ? THelperFunction. getCircleLoadingIndicator(
                     dimension: loadingSize,
                     strokeWidth: loadingStrokeWidth,
                     valueColor:
