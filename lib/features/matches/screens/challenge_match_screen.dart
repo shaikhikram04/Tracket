@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
@@ -235,7 +236,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         title: const Text('Challenge Match'),
       ),
       body: _isLoading.value
-          ? THelperFunction.getCircleLoadingIndicator()
+          ? const CircularLoadingIndicator()
           : SingleChildScrollView(
               child: Center(
                 child: Column(

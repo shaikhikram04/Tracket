@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/custom_widgets/value_listenable_builder_3.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
@@ -206,7 +207,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         title: const Text('Match Challenge  '),
       ),
       body: _isLoading
-          ? THelperFunction.getCircleLoadingIndicator()
+          ? const CircularLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 children: [

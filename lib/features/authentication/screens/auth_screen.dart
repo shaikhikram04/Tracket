@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/authentication/providers/auth_screen_size.dart';
 import 'package:tracket/features/authentication/providers/auth_state_provider.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
@@ -195,9 +196,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       child: SizedBox(
         height: height,
         child: _isChangingTab
-            ? Center(
-                child: THelperFunction.getCircleLoadingIndicator(
-                valueColor: const AlwaysStoppedAnimation<Color>(primaryMedium),
+            ? const Center(
+                child: CircularLoadingIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(primaryMedium),
                 strokeWidth: 3,
               ))
             : Container(

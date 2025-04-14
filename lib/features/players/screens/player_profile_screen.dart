@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/services/players_services.dart';
@@ -72,7 +73,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         shape: Border.all(color: primaryColor, width: 0),
       ),
       body: _isLoading
-          ? THelperFunction.getCircleLoadingIndicator()
+          ? const CircularLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

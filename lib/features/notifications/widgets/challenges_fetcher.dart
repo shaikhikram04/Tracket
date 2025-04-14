@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/notifications/widgets/challenges_list.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class ChallengesFetcher extends ConsumerWidget {
   const ChallengesFetcher({
@@ -39,7 +39,7 @@ class ChallengesFetcher extends ConsumerWidget {
           .get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return THelperFunction.getCircleLoadingIndicator();
+          return const CircularLoadingIndicator();
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const NoDataFound(

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
@@ -190,9 +191,9 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           ),
           actions: [
             if (_isSaving)
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: THelperFunction.getCircleLoadingIndicator(
+              const Padding(
+                padding: EdgeInsets.all(12.0),
+                child: CircularLoadingIndicator(
                   dimension: 24,
                   color: LightThemeColors.surfaceColor,
                 ),

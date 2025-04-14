@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/matches/providers/additional_match_provider.dart';
 import 'package:tracket/features/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/features/matches/providers/innings_provider.dart';
@@ -115,7 +116,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         // ],
       ),
       body: isLoading.value == true
-          ? THelperFunction.getCircleLoadingIndicator()
+          ? const CircularLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 children: [

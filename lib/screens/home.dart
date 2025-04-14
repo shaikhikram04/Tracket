@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/main_drawer.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/screens/matches_screen.dart';
@@ -59,7 +60,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const TeamsScreen(),
     const MatchesScreen(),
     const TournamentList(),
-    Scaffold(body: THelperFunction.getCircleLoadingIndicator()),
+    const Scaffold(body: CircularLoadingIndicator()),
   ];
 
   final List<String> _titles = [

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/matches/models/ball_outcome.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/current_over_indicator.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 class CurrentOverFetcher extends StatelessWidget {
@@ -25,7 +25,7 @@ class CurrentOverFetcher extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return THelperFunction.getCircleLoadingIndicator();
+          return const CircularLoadingIndicator();
         }
         if (!snapshot.hasData || snapshot.hasError) {
           return const SizedBox.shrink();

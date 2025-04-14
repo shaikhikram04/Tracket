@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/authentication/screens/verification_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -283,26 +283,6 @@ class THelperFunction {
     );
   }
 
-  static Widget getCircleLoadingIndicator({
-    double strokeWidth = TSizes.loadingStrokeWidthLg,
-    Color? color,
-    double? dimension,
-    Animation<Color?>? valueColor,
-  }) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(5),
-        child: SizedBox.square(
-          dimension: dimension,
-          child: CircularProgressIndicator(
-            strokeWidth: strokeWidth,
-            color: color,
-            valueColor: valueColor,
-          ),
-        ),
-      ),
-    );
-  }
 
   static String timeAgo(DateTime dateTime) {
     final Duration difference = DateTime.now().difference(dateTime);
@@ -338,7 +318,7 @@ class THelperFunction {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              getCircleLoadingIndicator(),
+              const CircularLoadingIndicator(),
               const SizedBox(height: 10),
               if (message != null)
                 Text(

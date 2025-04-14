@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/notifications/services/requests_services.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/players/services/players_services.dart';
@@ -11,7 +12,6 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
 
 enum ActionButtonType {
   addPlayer,
@@ -179,10 +179,10 @@ class ActionButton extends StatelessWidget {
               padding: TPadding.buttonPaddingSm,
             ),
             onPressed: (isAdded || isRequestInProgress)
-                ? null  
+                ? null
                 : () => _handlePress(ref, context),
             child: isRequestInProgress
-                ? THelperFunction. getCircleLoadingIndicator(
+                ? CircularLoadingIndicator(
                     dimension: loadingSize,
                     strokeWidth: loadingStrokeWidth,
                     valueColor:
