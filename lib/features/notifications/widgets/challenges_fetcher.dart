@@ -45,7 +45,7 @@ class ChallengesFetcher extends ConsumerWidget {
           return const NoDataFound(
             title: 'No Challenge found',
             message: '',
-            iconData: AppIconData.noificationOff,
+            iconData: AppIconData.notificationOff,
           );
         }
 

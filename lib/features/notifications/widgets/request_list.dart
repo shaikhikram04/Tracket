@@ -60,7 +60,7 @@ class _RequestListState extends ConsumerState<RequestList> {
       return const NoDataFound(
         title: 'No Request Found',
         message: '',
-        iconData: AppIconData.noificationOff
+        iconData: AppIconData.notificationOff
       );
     }
     return ListView.builder(

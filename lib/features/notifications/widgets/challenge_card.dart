@@ -14,14 +14,14 @@ class ChallengeCard extends StatelessWidget {
     super.key,
     required this.challenge,
     required this.isSent,
-    required this.onCanceChallenge,
+    required this.onCancelChallenge,
     required this.onRejectChallenge,
     required this.onAccepted,
   });
 
   final NotificationModel challenge;
   final bool isSent;
-  final void Function() onCanceChallenge;
+  final void Function() onCancelChallenge;
   final void Function() onRejectChallenge;
   final void Function() onAccepted;
 
@@ -78,7 +78,7 @@ class ChallengeCard extends StatelessWidget {
                 _buildRequestDetails(
                   context,
                   firstBoldName: notificationData['firstTeamName'],
-                  secontBoldName: notificationData['secondTeamName'],
+                  secondBoldName: notificationData['secondTeamName'],
                   initialMessage: notificationData['initialMessage'],
                   middleMessage: notificationData['middleMessage'],
                 ),
@@ -101,7 +101,7 @@ class ChallengeCard extends StatelessWidget {
   Widget _buildRequestDetails(
     BuildContext context, {
     required String firstBoldName,
-    required String secontBoldName,
+    required String secondBoldName,
     required String initialMessage,
     required String middleMessage,
   }) {
@@ -112,7 +112,7 @@ class ChallengeCard extends StatelessWidget {
             _buildTextSpan(initialMessage, context),
             _buildBoldTextSpan(firstBoldName, context),
             _buildTextSpan(middleMessage, context),
-            _buildBoldTextSpan(secontBoldName, context),
+            _buildBoldTextSpan(secondBoldName, context),
           ],
         ),
       ),
@@ -145,7 +145,7 @@ class ChallengeCard extends StatelessWidget {
             title: 'Cancel Request',
             content: 'Are you sure you want to cancel this request?',
             sureButtonText: 'Yes',
-            onSureButtonPressed: onCanceChallenge,
+            onSureButtonPressed: onCancelChallenge,
           );
         },
         textStyle: MyTextStyle(context).mediumButtonText.copyWith(

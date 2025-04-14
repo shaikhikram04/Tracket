@@ -54,7 +54,7 @@ class _NotificationsListState extends State<NotificationsList> {
       return const NoDataFound(
           title: 'No notification found',
           message: '',
-          iconData: AppIconData.noificationOff);
+          iconData: AppIconData.notificationOff);
     }
     return ListView.builder(
       itemCount: notificationList.length,
@@ -89,7 +89,7 @@ class _NotificationsListState extends State<NotificationsList> {
           return ChallengeCard(
             challenge: notification,
             isSent: false,
-            onCanceChallenge: () {},
+            onCancelChallenge: () {},
             onRejectChallenge: () => _rejectNotification(
               context,
               index: index,
@@ -194,7 +194,8 @@ class _NotificationsListState extends State<NotificationsList> {
 
     bool isUndo = false;
 
-    THelperFunction.showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
+    THelperFunction.showSnackBar('Request rejected', context, isUndo: true,
+        onUndo: () {
       isUndo = true;
       setState(() {
         notificationList.insert(index, notificationData);

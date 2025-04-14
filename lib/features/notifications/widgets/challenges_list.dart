@@ -43,7 +43,7 @@ class _ChallengesListState extends State<ChallengesList> {
       return const NoDataFound(
         title: 'No Challenge Found',
         message: '',
-        iconData: AppIconData.noificationOff,
+        iconData: AppIconData.notificationOff,
       );
     }
     return ListView.builder(
@@ -55,7 +55,7 @@ class _ChallengesListState extends State<ChallengesList> {
         return ChallengeCard(
           challenge: challenge,
           isSent: widget.isSent,
-          onCanceChallenge: () => _cancelChallenge(
+          onCancelChallenge: () => _cancelChallenge(
             index: index,
             notificationId: challenge.notificationId,
             challengerTeamId: challengeData['from'],

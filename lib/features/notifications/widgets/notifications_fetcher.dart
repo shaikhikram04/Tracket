@@ -34,7 +34,7 @@ class NotificationsFetcher extends ConsumerWidget {
           return const NoDataFound(
             title: 'No Notification found',
             message: '',
-            iconData: AppIconData.noificationOff,
+            iconData: AppIconData.notificationOff,
           );
         }
 

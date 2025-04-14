@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
@@ -8,7 +9,6 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class RequestCard extends StatelessWidget {
   const RequestCard({
@@ -102,7 +102,7 @@ class RequestCard extends StatelessWidget {
                 _buildRequestDetails(
                   context,
                   firstBoldName: requestMap['firstNameInMessage'],
-                  secontBoldName: requestMap['secondNameInMessage'],
+                  secondBoldName: requestMap['secondNameInMessage'],
                   initialMessage: requestMap['initialMessage'],
                   middleMessage: requestMap['middleMessage'],
                   lastMessage: requestMap['lastMessage'],
@@ -124,12 +124,13 @@ class RequestCard extends StatelessWidget {
   }
 
   Widget _buildProfileImage(bool isPlayer, String imageUrl) {
-    return THelperFunction.getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
+    return THelperFunction.getCircleAvatar(
+        url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 
   Widget _buildRequestDetails(BuildContext context,
       {required String firstBoldName,
-      required String secontBoldName,
+      required String secondBoldName,
       required String initialMessage,
       required String middleMessage,
       required String lastMessage}) {
@@ -140,7 +141,7 @@ class RequestCard extends StatelessWidget {
             _buildTextSpan(initialMessage, context),
             _buildBoldTextSpan(firstBoldName, context),
             _buildTextSpan(middleMessage, context),
-            _buildBoldTextSpan(secontBoldName, context),
+            _buildBoldTextSpan(secondBoldName, context),
             _buildTextSpan(lastMessage, context),
           ],
         ),
