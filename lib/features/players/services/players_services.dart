@@ -5,8 +5,8 @@ import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
 
 class PlayersServices {
   static final _firestore = FirebaseFirestore.instance;
@@ -55,7 +55,7 @@ class PlayersServices {
       ref.read(playerProvider.notifier).updateTeamRole(teamId, newRole);
     } catch (e) {
       if (context.mounted) {
-        showSnackBar('Failed to add admin. Please try again later.', context);
+        THelperFunction.showSnackBar('Failed to add admin. Please try again later.', context);
       }
     }
   }

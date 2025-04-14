@@ -12,8 +12,8 @@ import 'package:tracket/features/teams/screens/add_admin.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utils.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
   const TeamSettingsScreen({super.key});
@@ -382,7 +382,7 @@ class _AdminListTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      leading: getCircleAvatar(
+      leading: THelperFunction.getCircleAvatar(
         url: admin.imageUrl,
         isTeam: false,
         radius: 24,

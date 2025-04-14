@@ -9,8 +9,8 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/utils/team_constants.dart';
 import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
-import 'package:tracket/utils/utils.dart';
 
 class CreateTeamScreen extends ConsumerStatefulWidget {
   const CreateTeamScreen({super.key});
@@ -43,7 +43,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
 
   Future<void> _editLogo() async {
     try {
-      final pickedImage = await pickImageFromGalleryPath();
+      final pickedImage = await THelperFunction.pickImageFromGalleryPath();
       if (pickedImage == null) return;
 
       final croppedImage = await ImageCropper().cropImage(
@@ -63,7 +63,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       }
     } catch (e) {
       if (mounted) {
-        showSnackBar('Failed to pick image: ${e.toString()}', context);
+        THelperFunction.showSnackBar('Failed to pick image: ${e.toString()}', context);
       }
     }
   }
@@ -114,12 +114,12 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
 
       if (result == 'success') {
         Navigator.of(context).pop();
-        showSnackBar('Team Created Successfully', context);
+        THelperFunction.showSnackBar('Team Created Successfully', context);
       } else {
-        showSnackBar('Failed to create team: $result', context);
+        THelperFunction.showSnackBar('Failed to create team: $result', context);
       }
     } catch (e) {
-      showSnackBar('An unexpected error occurred', context);
+      THelperFunction.showSnackBar('An unexpected error occurred', context);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -149,7 +149,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     width: 3,
                   ),
                 ),
-                child: getCircleAvatar(
+                child: THelperFunction.getCircleAvatar(
                   url: '',
                   isTeam: true,
                   radius: height * 0.08,

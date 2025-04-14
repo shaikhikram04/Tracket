@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/teams/screens/team_edit_screen.dart';
 import 'package:tracket/features/teams/screens/team_settings_screen.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 
 class TeamOptions extends StatelessWidget {
   const TeamOptions({
@@ -60,7 +60,7 @@ class TeamOptions extends StatelessWidget {
                 subtitle: 'Modify team information and preferences',
                 onTap: () {
                   Navigator.of(context).pop();
-                  pushScreen(context, const TeamEditScreen());
+                  THelperFunction.pushScreen(context, const TeamEditScreen());
                 },
               ),
               if (isOwner) ...[
@@ -73,7 +73,7 @@ class TeamOptions extends StatelessWidget {
                   subtitle: 'Manage team configuration and permissions',
                   onTap: () {
                     Navigator.of(context).pop();
-                    pushScreen(context, const TeamSettingsScreen());
+                    THelperFunction.pushScreen(context, const TeamSettingsScreen());
                   },
                 ),
               ],

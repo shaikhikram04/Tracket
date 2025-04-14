@@ -8,8 +8,8 @@ import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
 
 class TeamsServices {
   static final _firestore = FirebaseFirestore.instance;
@@ -159,7 +159,7 @@ class TeamsServices {
       }
     } catch (e) {
       if (context.mounted) {
-        showSnackBar(
+        THelperFunction.showSnackBar(
             'Failed to delete player. Please try again later.', context);
       }
     }
@@ -202,7 +202,8 @@ class TeamsServices {
       }
     } catch (error) {
       if (context.mounted) {
-        showSnackBar('Failed to add player. Please try again later.', context);
+        THelperFunction.showSnackBar(
+            'Failed to add player. Please try again later.', context);
       }
     }
   }
@@ -236,7 +237,7 @@ class TeamsServices {
           .update(updatedFields);
     } catch (e) {
       if (context.mounted) {
-        showSnackBar('Failed to update team. Please try again later.', context);
+        THelperFunction.showSnackBar('Failed to update team. Please try again later.', context);
       }
     }
   }
@@ -253,7 +254,7 @@ class TeamsServices {
           .update({'isPrivate': isPrivate});
     } catch (e) {
       if (context.mounted) {
-        showSnackBar(
+        THelperFunction.showSnackBar(
             'Failed to update team privacy. Please try again later.', context);
       }
     }
@@ -272,7 +273,7 @@ class TeamsServices {
       teamPlayers = teamPlayerSnap.docs;
     } catch (e) {
       if (context.mounted) {
-        showSnackBar('Unable to fetch Team data', context);
+        THelperFunction.showSnackBar('Unable to fetch Team data', context);
       }
     }
 
@@ -287,7 +288,7 @@ class TeamsServices {
           .delete();
     } catch (e) {
       if (context.mounted) {
-        showSnackBar('Failed to delete team, please try again!', context);
+        THelperFunction.showSnackBar('Failed to delete team, please try again!', context);
       }
     }
   }
@@ -325,7 +326,7 @@ class TeamsServices {
           .updateField(followingTeams: followingTeam);
     } catch (e) {
       if (context.mounted) {
-        showSnackBar(e.toString(), context);
+        THelperFunction.showSnackBar(e.toString(), context);
       }
     }
   }

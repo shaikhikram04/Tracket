@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/notifications/services/notification_services.dart';
 import 'package:tracket/features/notifications/widgets/challenge_card.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class ChallengesList extends StatefulWidget {
   const ChallengesList({
@@ -88,7 +88,8 @@ class _ChallengesListState extends State<ChallengesList> {
         challengeList.removeAt(index);
       });
     } else {
-      showSnackBar('Failed to cancel challenge! : ${result.error}', context);
+      THelperFunction.showSnackBar(
+          'Failed to cancel challenge! : ${result.error}', context);
     }
   }
 
@@ -107,7 +108,8 @@ class _ChallengesListState extends State<ChallengesList> {
 
     bool isUndo = false;
 
-    showSnackBar('Challenge rejected', context, isUndo: true, onUndo: () {
+    THelperFunction.showSnackBar('Challenge rejected', context, isUndo: true,
+        onUndo: () {
       isUndo = true;
       setState(() {
         challengeList.insert(index, challengeData);
@@ -126,7 +128,8 @@ class _ChallengesListState extends State<ChallengesList> {
           );
           activeTimers.remove(index); // Clean up the timer reference
         } catch (e) {
-          showSnackBar('Failed to reject challenge : ${e}', context);
+          THelperFunction.showSnackBar(
+              'Failed to reject challenge : ${e}', context);
         }
       }
     });

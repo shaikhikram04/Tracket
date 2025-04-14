@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/features/teams/models/team_details.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TeamSelectionDialog extends StatelessWidget {
   const TeamSelectionDialog({super.key, required this.teamList});
@@ -18,7 +18,7 @@ class TeamSelectionDialog extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              getTitleText('Select a team', context),
+              THelperFunction.getTitleText('Select a team', context),
               const SizedBox(height: 10),
               Expanded(
                 child: GridView.builder(
@@ -36,7 +36,7 @@ class TeamSelectionDialog extends StatelessWidget {
                       onTap: canChallenge
                           ? () => Navigator.of(context).pop(team)
                           : () {
-                              showAlertDialog(
+                              THelperFunction.showAlertDialog(
                                 context,
                                 'Already Challenged',
                                 'This team has already challenged the current team.',
@@ -48,7 +48,7 @@ class TeamSelectionDialog extends StatelessWidget {
                           children: [
                             Opacity(
                               opacity: canChallenge ? 1 : 0.4,
-                              child: getCircleAvatar(
+                              child: THelperFunction.getCircleAvatar(
                                   url: team.logoUrl, isTeam: true, radius: 35),
                             ),
                             Text(team.name),

@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/notifications/services/notification_services.dart';
 import 'package:tracket/features/notifications/widgets/challenge_card.dart';
 import 'package:tracket/features/notifications/widgets/request_card.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class NotificationsList extends StatefulWidget {
   const NotificationsList({
@@ -52,10 +52,9 @@ class _NotificationsListState extends State<NotificationsList> {
   Widget build(BuildContext context) {
     if (notificationList.isEmpty) {
       return const NoDataFound(
-        title: 'No notification found',
-        message: '',
-        iconData: AppIconData.noificationOff
-      );
+          title: 'No notification found',
+          message: '',
+          iconData: AppIconData.noificationOff);
     }
     return ListView.builder(
       itemCount: notificationList.length,
@@ -138,7 +137,7 @@ class _NotificationsListState extends State<NotificationsList> {
         final currentPlayers = teamPlayers.docs.length;
 
         if (currentPlayers >= teamLimit && mounted) {
-          showSnackBar('Team is full', context);
+          THelperFunction.showSnackBar('Team is full', context);
           _toggleButton(request.notificationId, false, ref);
           return;
         }
@@ -171,7 +170,7 @@ class _NotificationsListState extends State<NotificationsList> {
           challengedTeamId: null,
         );
         if (!result.success) {
-          showSnackBar(result.error!, context);
+          THelperFunction.showSnackBar(result.error!, context);
         }
       }
     } finally {
@@ -195,7 +194,7 @@ class _NotificationsListState extends State<NotificationsList> {
 
     bool isUndo = false;
 
-    showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
+    THelperFunction.showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
         notificationList.insert(index, notificationData);
@@ -227,7 +226,7 @@ class _NotificationsListState extends State<NotificationsList> {
           challengedTeamId: challengedTeamId,
         );
         if (!result.success) {
-          showSnackBar(result.error!, context);
+          THelperFunction.showSnackBar(result.error!, context);
         }
         activeTimers.remove(index); // Clean up the timer reference
       }

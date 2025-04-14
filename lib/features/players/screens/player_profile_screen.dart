@@ -5,8 +5,8 @@ import 'package:tracket/features/players/widgets/achievements.dart';
 import 'package:tracket/features/players/widgets/batting_stats.dart';
 import 'package:tracket/features/players/widgets/bowling_stats.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/stats_data.dart';
 
 class PlayerProfileScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
       setState(() => _playerData = player);
     } catch (error) {
       if (mounted) {
-        showSnackBar('Error fetching player data: $error', context);
+        THelperFunction.showSnackBar('Error fetching player data: $error', context);
       }
     } finally {
       setState(() => _isLoading = false);
@@ -71,7 +71,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         shape: Border.all(color: primaryColor, width: 0),
       ),
       body: _isLoading
-          ? getCircleLoadingIndicator()
+          ? THelperFunction.getCircleLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        getCircleAvatar(
+                        THelperFunction.getCircleAvatar(
                           url: _playerData.profileImageUrl,
                           isTeam: false,
                           radius: 50,

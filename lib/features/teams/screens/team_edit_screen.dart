@@ -14,9 +14,9 @@ import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/features/teams/widgets/squad.dart';
 import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
-import 'package:tracket/utils/utils.dart';
 
 class TeamEditScreen extends ConsumerStatefulWidget {
   const TeamEditScreen({super.key});
@@ -71,7 +71,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
   Future<void> _editLogo(Uint8List? image) async {
     try {
-      final pickedImage = await pickImage(ImageSource.gallery);
+      final pickedImage = await THelperFunction.pickImage(ImageSource.gallery);
       if (pickedImage != null) {
         setState(() {
           _image = pickedImage;
@@ -80,7 +80,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      showSnackBar('Failed to pick an image: $e', context);
+      THelperFunction.showSnackBar('Failed to pick an image: $e', context);
     }
   }
 
@@ -131,12 +131,12 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           );
 
       if (mounted) {
-        showSnackBar('Team updated successfully!', context);
+        THelperFunction.showSnackBar('Team updated successfully!', context);
         Navigator.of(context).pop();
       }
     } catch (e) {
       if (!mounted) return;
-      showSnackBar('Failed to update Team: $e', context);
+      THelperFunction.showSnackBar('Failed to update Team: $e', context);
     } finally {
       setState(() => _isSaving = false);
     }
@@ -164,7 +164,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         if (didPop) return;
 
         if (_checkForChanges()) {
-          showAlertDoubleBtnDialog(
+          THelperFunction.showAlertDoubleBtnDialog(
             context,
             title: 'Discard Changes?',
             content:
@@ -192,7 +192,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             if (_isSaving)
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: getCircleLoadingIndicator(
+                child: THelperFunction.getCircleLoadingIndicator(
                   dimension: 24,
                   color: LightThemeColors.surfaceColor,
                 ),
@@ -272,7 +272,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                                 _hasUnsavedChanges = true;
                               });
                             } else {
-                              showSnackBar(
+                              THelperFunction.showSnackBar(
                                 'Maximum team capacity is 30 players',
                                 context,
                               );
@@ -285,7 +285,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                                 _hasUnsavedChanges = true;
                               });
                             } else {
-                              showSnackBar(
+                              THelperFunction.showSnackBar(
                                 'Minimum team capacity is 11 players',
                                 context,
                               );

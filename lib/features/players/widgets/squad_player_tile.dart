@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utils.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class SquadPlayerTile extends StatelessWidget {
   const SquadPlayerTile({
@@ -41,8 +41,8 @@ class SquadPlayerTile extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () =>
-            pushScreen(context, PlayerProfileScreen(playerId: playerId)),
+        onTap: () => THelperFunction.pushScreen(
+            context, PlayerProfileScreen(playerId: playerId)),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -87,7 +87,7 @@ class _PlayerAvatar extends StatelessWidget {
             ),
           ],
         ),
-        child: getCircleAvatar(
+        child: THelperFunction.getCircleAvatar(
           url: profileImageUrl,
           isTeam: false,
           radius: 30,

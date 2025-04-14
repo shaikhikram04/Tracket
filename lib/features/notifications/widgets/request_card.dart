@@ -5,9 +5,9 @@ import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class RequestCard extends StatelessWidget {
@@ -34,7 +34,7 @@ class RequestCard extends StatelessWidget {
     final profileScreen = isPlayer
         ? PlayerProfileScreen(playerId: request.from)
         : TeamProfileScreen.fromId(teamId: request.to);
-    pushScreen(context, profileScreen);
+    THelperFunction.pushScreen(context, profileScreen);
   }
 
   void _loadData(
@@ -124,7 +124,7 @@ class RequestCard extends StatelessWidget {
   }
 
   Widget _buildProfileImage(bool isPlayer, String imageUrl) {
-    return getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
+    return THelperFunction.getCircleAvatar(url: imageUrl, isTeam: !isPlayer, radius: 30);
   }
 
   Widget _buildRequestDetails(BuildContext context,
@@ -170,7 +170,7 @@ class RequestCard extends StatelessWidget {
         text: 'Cancel',
         onPressed: () {
           // Handle cancel logic
-          showAlertDoubleBtnDialog(
+          THelperFunction.showAlertDoubleBtnDialog(
             context,
             title: 'Cancel Request',
             content: 'Are you sure you want to cancel this request?',
@@ -211,7 +211,7 @@ class RequestCard extends StatelessWidget {
           return Row(
             children: [
               Text(
-                timeAgo(request.createdAt.toDate()),
+                THelperFunction.timeAgo(request.createdAt.toDate()),
                 style: MyTextStyle(context).bodyMedium,
               ),
               const Spacer(),

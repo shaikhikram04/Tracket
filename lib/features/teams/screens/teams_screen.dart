@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tracket/common/widgets/highlighted_label.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/screens/create_team_screen.dart';
@@ -9,11 +11,9 @@ import 'package:tracket/features/teams/screens/explore_teams.dart';
 import 'package:tracket/features/teams/screens/join_team_screen.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/highlighted_label.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class TeamsScreen extends ConsumerWidget {
   const TeamsScreen({super.key});
@@ -228,8 +228,8 @@ class _TeamsList extends StatelessWidget {
         return _TeamListTile(
           teamData: teamData,
           teamRole: teamRole,
-          onTap: () =>
-              pushScreen(context, TeamProfileScreen(teamData: teamData)),
+          onTap: () => THelperFunction.pushScreen(
+              context, TeamProfileScreen(teamData: teamData)),
         );
       },
     );
@@ -254,7 +254,7 @@ class _TeamListTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: getCircleAvatar(
+      leading: THelperFunction.getCircleAvatar(
         url: teamData['logoUrl'],
         isTeam: true,
         radius: 28,

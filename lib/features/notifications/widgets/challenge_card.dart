@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/features/matches/screens/accept_challenge_screen.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class ChallengeCard extends StatelessWidget {
   const ChallengeCard({
@@ -24,8 +24,9 @@ class ChallengeCard extends StatelessWidget {
   final void Function() onCanceChallenge;
   final void Function() onRejectChallenge;
   final void Function() onAccepted;
+
   void _navigateToAcceptChallenge(BuildContext context) {
-    pushScreen(
+    THelperFunction.pushScreen(
         context,
         AcceptChallengeScreen(
           challenge: challenge.challengeMatch!,
@@ -93,7 +94,8 @@ class ChallengeCard extends StatelessWidget {
   }
 
   Widget _buildProfileImage(String logoUrl) {
-    return getCircleAvatar(url: logoUrl, isTeam: true, radius: 30);
+    return THelperFunction.getCircleAvatar(
+        url: logoUrl, isTeam: true, radius: 30);
   }
 
   Widget _buildRequestDetails(
@@ -138,7 +140,7 @@ class ChallengeCard extends StatelessWidget {
       child: CustomButton.secondary(
         onPressed: () {
           // Handle cancel logic
-          showAlertDoubleBtnDialog(
+          THelperFunction.showAlertDoubleBtnDialog(
             context,
             title: 'Cancel Request',
             content: 'Are you sure you want to cancel this request?',
@@ -179,7 +181,7 @@ class ChallengeCard extends StatelessWidget {
           return Row(
             children: [
               Text(
-                timeAgo(request.createdAt.toDate()),
+                THelperFunction.timeAgo(request.createdAt.toDate()),
                 style: MyTextStyle(context).bodyMedium,
               ),
               const Spacer(),

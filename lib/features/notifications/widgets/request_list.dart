@@ -9,9 +9,9 @@ import 'package:tracket/features/notifications/widgets/request_card.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 
 class RequestList extends ConsumerStatefulWidget {
@@ -116,7 +116,7 @@ class _RequestListState extends ConsumerState<RequestList> {
         requestList.removeAt(index);
       });
     } else {
-      showSnackBar(result.error!, context);
+      THelperFunction.showSnackBar(result.error!, context);
     }
   }
 
@@ -151,7 +151,7 @@ class _RequestListState extends ConsumerState<RequestList> {
         final currentPlayers = teamPlayers.docs.length;
 
         if (currentPlayers >= teamLimit && mounted) {
-          showSnackBar('Team is full', context);
+          THelperFunction.showSnackBar('Team is full', context);
           _toggleButton(request.notificationId, false, ref);
           return;
         }
@@ -184,7 +184,7 @@ class _RequestListState extends ConsumerState<RequestList> {
           challengedTeamId: null,
         );
         if (!result.success) {
-          showSnackBar(result.error!, context);
+          THelperFunction.showSnackBar(result.error!, context);
         }
       }
     } finally {
@@ -208,7 +208,7 @@ class _RequestListState extends ConsumerState<RequestList> {
 
     bool isUndo = false;
 
-    showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
+    THelperFunction.showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
         requestList.insert(index, requestData);
@@ -237,7 +237,7 @@ class _RequestListState extends ConsumerState<RequestList> {
           challengedTeamId: null,
         );
         if (!result.success) {
-          showSnackBar(result.error!, context);
+          THelperFunction.showSnackBar(result.error!, context);
         }
         activeTimers.remove(index); // Clean up the timer reference
       }

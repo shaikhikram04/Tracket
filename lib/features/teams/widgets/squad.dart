@@ -5,8 +5,8 @@ import 'package:tracket/features/players/widgets/squad_player_tile.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/screens/add_player_screen.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 
 class Squad extends ConsumerWidget {
@@ -47,7 +47,7 @@ class Squad extends ConsumerWidget {
 
   void _handleAddPlayer(BuildContext context, WidgetRef ref) {
     ref.read(requestProvider.notifier).reset();
-    pushScreen(
+    THelperFunction.pushScreen(
       context,
       AddPlayerScreen(team: ref.read(teamProvider).team),
     );

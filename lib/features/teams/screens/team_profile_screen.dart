@@ -14,10 +14,10 @@ import 'package:tracket/features/teams/widgets/squad.dart';
 import 'package:tracket/features/teams/widgets/team_options.dart';
 import 'package:tracket/features/teams/widgets/team_selection_dialog.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/stats_data.dart';
 
@@ -99,7 +99,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       }
     } catch (e) {
       if (mounted) {
-        showSnackBar(e.toString(), context);
+        THelperFunction.showSnackBar(e.toString(), context);
       }
     }
 
@@ -145,7 +145,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     }
 
     if (challengerTeam != null && mounted) {
-      pushScreen(
+      THelperFunction.pushScreen(
           context,
           ChallengeMatchScreen(
             challengerId: playerId,
@@ -229,7 +229,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                         Row(
                           spacing: 15,
                           children: [
-                            getCircleAvatar(
+                            THelperFunction.getCircleAvatar(
                               url: teamState.team.logoUrl,
                               isTeam: true,
                               radius: 50,

@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
+import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
-import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
-import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class AddPlayerScreen extends StatefulWidget {
   const AddPlayerScreen({super.key, required this.team});
@@ -159,7 +159,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
       imageUrl: player.profileImageUrl,
       title: player.name,
       subtitle: player.playerCricketDetails!.cricketRole.name,
-      onTap: () => pushScreen(
+      onTap: () => THelperFunction.pushScreen(
         context,
         PlayerProfileScreen(player: player),
       ),
@@ -247,7 +247,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         imageUrl: player.profileImageUrl,
         title: player.name,
         subtitle: player.playerCricketDetails!.cricketRole.name,
-        onTap: () => pushScreen(context, PlayerProfileScreen(player: player)),
+        onTap: () => THelperFunction.pushScreen(context, PlayerProfileScreen(player: player)),
         isPlayer: true,
         trailing: ActionButton(
           idsList: playersId,

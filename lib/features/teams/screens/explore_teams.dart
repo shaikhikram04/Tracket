@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utils.dart';
 import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 
@@ -148,7 +148,7 @@ class _ExploreTeamsState extends State<ExploreTeams> {
                   size: 16,
                   color: grassGreen,
                 ),
-                onTap: () => pushScreen(
+                onTap: () => THelperFunction.pushScreen(
                   context,
                   TeamProfileScreen(teamData: teamData),
                 ),
