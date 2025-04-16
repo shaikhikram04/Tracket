@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class EnhancedListTile extends StatelessWidget {
@@ -13,7 +15,7 @@ class EnhancedListTile extends StatelessWidget {
     required this.onTap,
     required this.isPlayer,
     this.onLongPress,
-    this.avatarRadius = 30,
+    this.avatarRadius = TSizes.circleAvatarSm,
     this.contentPadding,
     this.titleMaxLines = 1,
     this.subtitleMaxLines = 2,
@@ -46,11 +48,11 @@ class EnhancedListTile extends StatelessWidget {
     final theme = Theme.of(context);
     final textStyle = MyTextStyle(context);
     return Card(
-      elevation: isSelected ? 2 : 0,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      elevation: isSelected ? TSizes.cardElevation : 0,
+      margin: TPadding.paddingSm,
       shape: shape ??
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(TSizes.radiusSm),
             side: BorderSide(
               color: isSelected
                   ? theme.colorScheme.primary.withValues(alpha: 0.5)
@@ -59,16 +61,15 @@ class EnhancedListTile extends StatelessWidget {
           ),
       child: Material(
         color: backgroundColor ?? primaryColor.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(TSizes.radiusSm),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(TSizes.radiusSm),
           highlightColor:
               highlightColor ?? theme.highlightColor.withValues(alpha: 0.1),
           splashColor: rippleColor ?? theme.splashColor.withValues(alpha: 0.1),
           child: Padding(
-            padding: contentPadding ??
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: contentPadding ?? TPadding.paddingMd,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -76,7 +77,7 @@ class EnhancedListTile extends StatelessWidget {
                   tag: '${isPlayer ? 'player' : 'team'}_$imageUrl',
                   child: _buildAvatar(),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: TSizes.spaceBtwItems),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class EnhancedListTile extends StatelessWidget {
                         maxLines: titleMaxLines,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: TSizes.xs),
                       Text(
                         subtitle,
                         style: textStyle.bodyMedium.copyWith(
@@ -104,7 +105,7 @@ class EnhancedListTile extends StatelessWidget {
                   ),
                 ),
                 if (trailing != null) ...[
-                  const SizedBox(width: 12),
+                  const SizedBox(width: TSizes.spaceBtwItems),
                   trailing!,
                 ],
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 
 class MyCard extends StatelessWidget {
   const MyCard({super.key, required this.child});
@@ -9,7 +10,7 @@ class MyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: TPadding.paddingLg,
       color: LightThemeColors.surfaceColor,
       elevation: 7,
       child: Padding(

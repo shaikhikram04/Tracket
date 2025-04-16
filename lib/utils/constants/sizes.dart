@@ -64,6 +64,7 @@ class TSizes {
   static const double cardRadiusSm = 10.0;
   static const double cardRadiusMd = 12.0;
   static const double cardRadiusLg = 16.0;
+
   static const double cardElevation = 2.0;
 
   //* Image carousel height
@@ -86,6 +87,11 @@ class TSizes {
 
   //* shadow radius
   static const shadowRadiusSm = 7.0;
+
+  //* Circle avatar size
+  static const double circleAvatarXs = 16.0;
+  static const double circleAvatarSm = 30.0;
+  static const double circleAvatarMd = 40.0;
 
   //* user authentication form sizes
   static const double userLoginFormHeight = 397;
