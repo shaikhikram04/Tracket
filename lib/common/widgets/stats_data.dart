@@ -14,7 +14,6 @@ class StatsData extends StatelessWidget {
     this.numberPrefix,
     this.labelStyle,
     this.numberStyle,
-    this.baseAnimationDuration = const Duration(milliseconds: 1500),
   });
 
   final int number;
@@ -28,7 +27,6 @@ class StatsData extends StatelessWidget {
   final String? numberPrefix;
   final TextStyle? labelStyle;
   final TextStyle? numberStyle;
-  final Duration baseAnimationDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,6 @@ class StatsData extends StatelessWidget {
                       color: numColor ?? theme.colorScheme.primary),
               prefix: numberPrefix,
               suffix: numberSuffix,
-              baseAnimationDuration: baseAnimationDuration,
             )
           else
             _StatNumber(
@@ -143,7 +140,6 @@ class _AnimatedNumber extends StatelessWidget {
   const _AnimatedNumber({
     required this.number,
     required this.style,
-    required this.baseAnimationDuration,
     this.prefix,
     this.suffix,
   });
@@ -152,55 +148,22 @@ class _AnimatedNumber extends StatelessWidget {
   final TextStyle style;
   final String? prefix;
   final String? suffix;
-  final Duration baseAnimationDuration;
-
-  Duration _calculateDuration() {
-    // Scale duration based on number magnitude
-    if (number == 0) return const Duration(milliseconds: 100);
-
-    // Calculate the number of digits
-    final digits = number.toString().length;
-
-    // Base multiplier that increases with number size
-    final multiplier = switch (digits) {
-      1 => 0.3, // Small numbers (0-9)
-      2 => 0.75, // Double digits (10-99)
-      3 => 1.0, // Triple digits (100-999)
-      4 => 1.25, // Thousands (1000-9999)
-      _ => 1.5, // Large numbers (10000+)
-    };
-
-    // Calculate final duration
-    final duration = baseAnimationDuration.inMilliseconds * multiplier;
-
-    // Cap the maximum duration at 3 seconds
-    // return Duration(milliseconds: duration.toInt().clamp(500, 3000));
-
-    return const Duration(milliseconds: 0);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: number.toDouble()),
-      duration: _calculateDuration(),
-      curve: Curves.easeOutCubic,
-      builder: (context, value, child) {
-        // Format number based on size
-        String formattedNumber;
-        if (value >= 1000000) {
-          formattedNumber = '${(value / 1000000).toStringAsFixed(1)}M';
-        } else if (value >= 1000) {
-          formattedNumber = '${(value / 1000).toStringAsFixed(1)}K';
-        } else {
-          formattedNumber = value.toInt().toString();
-        }
+    // Format number based on size
+    String formattedNumber;
+    if (number >= 1000000) {
+      formattedNumber = '${(number / 1000000).toStringAsFixed(1)}M';
+    } else if (number >= 1000) {
+      formattedNumber = '${(number / 1000).toStringAsFixed(1)}K';
+    } else {
+      formattedNumber = number.toInt().toString();
+    }
 
-        return Text(
-          '${prefix ?? ''}$formattedNumber${suffix ?? ''}',
-          style: style,
-        );
-      },
+    return Text(
+      '${prefix ?? ''}$formattedNumber${suffix ?? ''}',
+      style: style,
     );
   }
 }

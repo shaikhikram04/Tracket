@@ -20,4 +20,8 @@ class TPadding {
   static const paddingSm = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
   static const paddingMd = EdgeInsets.symmetric(horizontal: 16, vertical: 8);
   static const paddingLg = EdgeInsets.symmetric(horizontal: 20, vertical: 10);
+  static const paddingXl = EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+
+  //* card padding
+  static const cardPaddingSm = EdgeInsets.symmetric(vertical: 25, horizontal: 20);
 }

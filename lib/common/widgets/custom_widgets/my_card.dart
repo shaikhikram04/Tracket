@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 
 class MyCard extends StatelessWidget {
   const MyCard({super.key, required this.child});
@@ -12,9 +13,9 @@ class MyCard extends StatelessWidget {
     return Card(
       margin: TPadding.paddingLg,
       color: LightThemeColors.surfaceColor,
-      elevation: 7,
+      elevation: TSizes.cardElevationXl,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+        padding: TPadding.cardPaddingSm,
         child: child,
       ),
     );

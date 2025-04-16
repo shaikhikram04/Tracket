@@ -65,6 +65,11 @@ class TSizes {
   static const double cardRadiusMd = 12.0;
   static const double cardRadiusLg = 16.0;
 
+  //* card elevation
+  static const double cardElevationSm = 1.0;
+  static const double cardElevationMd = 3.0;
+  static const double cardElevationLg = 5.0;
+  static const double cardElevationXl = 7.0;
   static const double cardElevation = 2.0;
 
   //* Image carousel height
