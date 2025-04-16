@@ -2,8 +2,11 @@ import 'package:flutter/widgets.dart';
 
 class TPadding {
   //* horizontal padding
-  static const contentPaddingMd = EdgeInsets.symmetric(horizontal: 20);
-  static const contentPaddingXl = EdgeInsets.symmetric(horizontal: 24);
+  static const hPaddingMd = EdgeInsets.symmetric(horizontal: 20);
+  static const hPaddingXl = EdgeInsets.symmetric(horizontal: 24);
+
+  //* vertical padding
+  static const vPaddingSm = EdgeInsets.symmetric(vertical: 8);
 
   //* all padding
   static const sm = EdgeInsets.all(12);

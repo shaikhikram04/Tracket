@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 
 class MyDropdownMenu extends StatelessWidget {
   const MyDropdownMenu({
@@ -65,7 +67,7 @@ class MyDropdownMenu extends StatelessWidget {
               ? Icon(
                   leadingIcon!.icon,
                   color: theme.colorScheme.primary,
-                  size: 20,
+                  size: TSizes.iconMd,
                 )
               : null,
           trailingIcon: Icon(
@@ -89,7 +91,7 @@ class MyDropdownMenu extends StatelessWidget {
               theme.colorScheme.surfaceTint,
             ),
             padding: const WidgetStatePropertyAll(
-              EdgeInsets.symmetric(vertical: 8),
+              TPadding.vPaddingSm,
             ),
           ),
           inputDecorationTheme: InputDecorationTheme(
@@ -98,34 +100,31 @@ class MyDropdownMenu extends StatelessWidget {
                 ? theme.colorScheme.surface
                 : theme.colorScheme.onSurface.withValues(alpha: 0.04),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
               borderSide: BorderSide(
                 color: theme.colorScheme.outline,
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
               borderSide: BorderSide(
                 color: theme.colorScheme.outline.withValues(alpha: 0.5),
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
               borderSide: BorderSide(
                 color: theme.colorScheme.primary,
                 width: 2,
               ),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
               borderSide: BorderSide(
                 color: theme.colorScheme.error,
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
+            contentPadding: TPadding.paddingMd,
           ),
           dropdownMenuEntries: options
               .map((option) => DropdownMenuEntry<String>(
@@ -134,18 +133,15 @@ class MyDropdownMenu extends StatelessWidget {
                     style: MenuItemButton.styleFrom(
                       foregroundColor: theme.colorScheme.onSurface,
                       backgroundColor: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
+                      padding: TPadding.paddingMd,
                     ),
                   ))
               .toList(),
         ),
         if (errorText != null) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: TSizes.xs),
           Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: TSizes.spaceBtwItems),
             child: Text(
               errorText!,
               style: theme.textTheme.bodySmall?.copyWith(

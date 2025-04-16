@@ -6,7 +6,7 @@ import 'package:tracket/utils/constants/sizes.dart';
 class AppContainers {
   static Container classicContainer({
     required Widget child,
-    EdgeInsetsGeometry margin = TPadding.contentPaddingXl,
+    EdgeInsetsGeometry margin = TPadding.hPaddingXl,
     EdgeInsetsGeometry padding = TPadding .xl,
     double radius = TSizes.radiusMd,
     double blurRadius = TSizes.radiusMd,
