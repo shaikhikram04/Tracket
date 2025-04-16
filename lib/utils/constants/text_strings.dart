@@ -27,4 +27,9 @@ class TTextStrings {
   static const String over20 = '20 overs';
   static const String over50 = '50 overs';
   static const String test = 'Test';
+
+  //* login and signup
+  static const String email = 'Email';
+  static const String password = 'Password';
+  
 }

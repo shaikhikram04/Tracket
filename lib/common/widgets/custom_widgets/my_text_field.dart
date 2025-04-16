@@ -19,7 +19,7 @@ class MyTextField extends StatelessWidget {
     this.autovalidateMode = AutovalidateMode.disabled,
     this.fillColor,
     this.prefixIcon,
-    this.primaryColor = const Color(0xFF2E7D32),
+    this.primaryColor = grassGreen,
     this.label,
   });
 
