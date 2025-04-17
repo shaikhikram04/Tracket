@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/inning.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class TeamsScoreSection extends StatelessWidget {
   const TeamsScoreSection({
@@ -35,8 +34,8 @@ class TeamsScoreSection extends StatelessWidget {
         border: Border(
           bottom: BorderSide(
             color: isLightMode
-                ? grassGreen.withValues(alpha:0.1)
-                : darkGrassGreen.withValues(alpha:0.2),
+                ? grassGreen.withValues(alpha: 0.1)
+                : darkGrassGreen.withValues(alpha: 0.2),
           ),
         ),
       ),
@@ -85,7 +84,7 @@ class TeamsScoreSection extends StatelessWidget {
                   children: [
                     Text(
                       team.teamName,
-                      style: MyTextStyle(context).bodyLarge.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: innings?.status == InningsStatus.inProgress
                                 ? primaryColor
@@ -97,7 +96,7 @@ class TeamsScoreSection extends StatelessWidget {
                     if (showRunRate && innings?.oversDisplay != '0.0')
                       Text(
                         'RR: ${innings?.runRate.toStringAsFixed(2)}',
-                        style: MyTextStyle(context).bodySmall.copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: isLightMode
                                   ? LightThemeColors.tertiaryText
                                   : DarkThemeColors.tertiaryText,
@@ -137,7 +136,7 @@ class TeamsScoreSection extends StatelessWidget {
               children: [
                 Text(
                   '${innings.runs}/${innings.wickets}',
-                  style: MyTextStyle(context).titleMedium.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.w700,
                         color: innings.status == InningsStatus.inProgress
                             ? primaryColor
@@ -158,7 +157,7 @@ class TeamsScoreSection extends StatelessWidget {
               ),
               child: Text(
                 '${innings.oversDisplay} ov',
-                style: MyTextStyle(context).bodySmall.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: isLightMode
                           ? LightThemeColors.secondaryText
                           : DarkThemeColors.secondaryText,
@@ -184,7 +183,7 @@ class TeamsScoreSection extends StatelessWidget {
       ),
       child: Text(
         'Yet to bat',
-        style: MyTextStyle(context).bodySmall.copyWith(
+        style: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: isLightMode
                   ? LightThemeColors.secondaryText
                   : DarkThemeColors.secondaryText,
@@ -202,7 +201,7 @@ class TeamsScoreSection extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: StatusColors.liveMatch.withValues(alpha:0.4),
+            color: StatusColors.liveMatch.withValues(alpha: 0.4),
             blurRadius: 4,
             spreadRadius: 1,
           ),
@@ -228,12 +227,12 @@ class TeamsScoreSection extends StatelessWidget {
             : DarkThemeColors.cardColor,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: primaryColor.withValues(alpha:0.1),
+          color: primaryColor.withValues(alpha: 0.1),
         ),
       ),
       child: Text(
         'Need $requiredRuns runs from $remainingBalls balls',
-        style: MyTextStyle(context).bodyMedium.copyWith(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: primaryColor,
               fontWeight: FontWeight.w500,
             ),

@@ -10,7 +10,6 @@ import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
@@ -100,7 +99,7 @@ class MainDrawer extends ConsumerWidget {
                       )),
                   child: Text(
                     TTextStrings.viewProfileButton,
-                    style: MyTextStyle(context).bodyLarge.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: onPrimary,
                           fontStyle: FontStyle.italic,
                           letterSpacing: 1,

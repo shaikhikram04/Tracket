@@ -7,7 +7,6 @@ import 'package:tracket/features/matches/providers/extras_provider.dart';
 import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class WicketReason extends StatefulWidget {
   const WicketReason({
@@ -214,8 +213,9 @@ class _WicketReasonState extends State<WicketReason> {
                                 delegate: SliverChildListDelegate([
                                   Text(
                                     'How was the batsman dismissed?',
-                                    style: MyTextStyle(context)
-                                        .titleMedium
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
                                         .copyWith(
                                           color: grassGreen,
                                           fontWeight: FontWeight.w800,
@@ -245,8 +245,9 @@ class _WicketReasonState extends State<WicketReason> {
                                           child: Center(
                                             child: Text(
                                               _reasons[index].description,
-                                              style: MyTextStyle(context)
-                                                  .bodyLarge
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
                                                   .copyWith(
                                                     color:
                                                         _selectedIndex == index
@@ -282,8 +283,9 @@ class _WicketReasonState extends State<WicketReason> {
                                     const SizedBox(height: 16),
                                     Text(
                                       'Run out batsman:',
-                                      style: MyTextStyle(context)
-                                          .bodyLarge
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
                                             color: grassGreen,
@@ -310,8 +312,9 @@ class _WicketReasonState extends State<WicketReason> {
                                     const SizedBox(height: 16),
                                     Text(
                                       'Run out by:',
-                                      style: MyTextStyle(context)
-                                          .bodyLarge
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
                                             color: grassGreen,
@@ -340,8 +343,9 @@ class _WicketReasonState extends State<WicketReason> {
                                     const SizedBox(height: 16),
                                     Text(
                                       'Caught by:',
-                                      style: MyTextStyle(context)
-                                          .bodyLarge
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
                                             color: grassGreen,
@@ -388,8 +392,9 @@ class _WicketReasonState extends State<WicketReason> {
                                                   color: grassGreen),
                                               const SizedBox(width: 8),
                                               Text('Cancel',
-                                                  style: MyTextStyle(context)
-                                                      .bodyLarge
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
                                                       .copyWith(
                                                         color: grassGreen,
                                                       )),
@@ -419,8 +424,9 @@ class _WicketReasonState extends State<WicketReason> {
                                                       .surfaceColor),
                                               const SizedBox(width: 8),
                                               Text('Confirm',
-                                                  style: MyTextStyle(context)
-                                                      .bodyLarge
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
                                                       .copyWith(
                                                         color: LightThemeColors
                                                             .surfaceColor,

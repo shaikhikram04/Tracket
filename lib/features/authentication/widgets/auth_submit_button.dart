@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class AuthSubmitButton extends StatelessWidget {
   const AuthSubmitButton({
@@ -28,7 +27,8 @@ class AuthSubmitButton extends StatelessWidget {
       backgroundColor: primaryColor,
       foregroundColor: LightThemeColors.surfaceColor,
       borderRadius: 10,
-      textStyle: MyTextStyle(context).cardTitle.copyWith(color: onPrimary),
+      textStyle:
+          Theme.of(context).textTheme.titleMedium!.copyWith(color: onPrimary),
     );
   }
 }

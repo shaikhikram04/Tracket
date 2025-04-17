@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/players/widgets/squad_player_tile.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchSquad extends StatelessWidget {
   final String title;
@@ -48,7 +47,7 @@ class MatchSquad extends StatelessWidget {
       children: [
         Text(
           title,
-          style: MyTextStyle(context).cardTitle.copyWith(
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: titleSize,
               ),

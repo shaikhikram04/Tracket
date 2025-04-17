@@ -9,7 +9,6 @@ import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class RequestCard extends StatelessWidget {
   const RequestCard({
@@ -152,15 +151,17 @@ class RequestCard extends StatelessWidget {
   TextSpan _buildBoldTextSpan(String text, BuildContext context) {
     return TextSpan(
       text: text,
-      style:
-          MyTextStyle(context).bodyLarge.copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(context)
+          .textTheme
+          .bodyLarge!
+          .copyWith(fontWeight: FontWeight.bold),
     );
   }
 
   TextSpan _buildTextSpan(String text, BuildContext context) {
     return TextSpan(
       text: text,
-      style: MyTextStyle(context).bodyLarge,
+      style: Theme.of(context).textTheme.bodyLarge,
     );
   }
 
@@ -183,7 +184,7 @@ class RequestCard extends StatelessWidget {
             onCancelRequest();
           }
         },
-        textStyle: MyTextStyle(context).mediumButtonText.copyWith(
+        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: StatusColors.error,
             ),
         backgroundColor: LightThemeColors.surfaceColor,
@@ -210,14 +211,14 @@ class RequestCard extends StatelessWidget {
 
           if (isRequestSuccess) {
             return Text('This request has been accept',
-                style: MyTextStyle(context).bodyLarge);
+                style: Theme.of(context).textTheme.bodyLarge);
           }
 
           return Row(
             children: [
               Text(
                 THelperFunction.timeAgo(request.createdAt.toDate()),
-                style: MyTextStyle(context).bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const Spacer(),
               CustomButton.primary(
@@ -225,8 +226,9 @@ class RequestCard extends StatelessWidget {
                 isLoading: isRequestInProgress,
                 backgroundColor: primaryColor,
                 onPressed: () => onAcceptRequest(ref),
-                textStyle: MyTextStyle(context)
-                    .mediumButtonText
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
                     .copyWith(color: onPrimary, letterSpacing: 1),
                 size: ButtonSize.small,
               ),
@@ -234,7 +236,7 @@ class RequestCard extends StatelessWidget {
               CustomButton.secondary(
                 text: 'Reject',
                 onPressed: onRejectRequest,
-                textStyle: MyTextStyle(context).buttonText.copyWith(
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: StatusColors.error,
                     ),
                 backgroundColor: LightThemeColors.surfaceColor,

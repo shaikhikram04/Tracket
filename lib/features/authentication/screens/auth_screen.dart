@@ -12,7 +12,6 @@ import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/devices/devices_utility.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 //* Authentication screen that provides tabs for Player and User authentication
 class AuthScreen extends ConsumerStatefulWidget {
@@ -148,7 +147,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         controller: _tabController,
         dividerColor: Colors.transparent,
         indicatorSize: TabBarIndicatorSize.tab,
-        labelStyle: MyTextStyle(context).titleMedium.copyWith(
+        labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),
         indicator: BoxDecoration(

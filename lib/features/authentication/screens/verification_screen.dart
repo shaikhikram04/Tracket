@@ -6,7 +6,6 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 //* Screen that shows the email verification progress
 //* Displays a step indicator with three stages: email sent, verified, and logged in
@@ -64,7 +63,7 @@ class VerificationScreen extends ConsumerWidget {
                     ),
                     Text(
                       'Authentication',
-                      style: MyTextStyle(context).titleLarge.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w800,
                             color: primaryVariant,
                           ),
@@ -112,10 +111,11 @@ class VerificationScreen extends ConsumerWidget {
                       Expanded(
                         child: Text(
                           VerificationStepData.getMessage(currentStep, email),
-                          style: MyTextStyle(context).bodyMedium.copyWith(
-                                color: LightThemeColors.secondaryText,
-                                height: 1.5,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: LightThemeColors.secondaryText,
+                                    height: 1.5,
+                                  ),
                         ),
                       ),
                     ],
@@ -140,9 +140,12 @@ class VerificationScreen extends ConsumerWidget {
                         ),
                         Text(
                           'Resend Verification Email',
-                          style: MyTextStyle(context).titleSmall.copyWith(
-                              color: LightThemeColors.surfaceColor,
-                              fontWeight: FontWeight.w400),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  color: LightThemeColors.surfaceColor,
+                                  fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),

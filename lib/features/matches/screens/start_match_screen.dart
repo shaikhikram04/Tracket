@@ -2,14 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class StartMatchScreen extends ConsumerStatefulWidget {
   // final Match match;
@@ -132,9 +131,10 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                       Expanded(
                         child: Text(
                           match!.team1.teamName,
-                          style: MyTextStyle(context).titleLarge.copyWith(
-                                color: secondaryColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: secondaryColor,
+                                  ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -142,18 +142,20 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'VS',
-                          style: MyTextStyle(context).bodyMedium.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: LightThemeColors.secondaryText,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: LightThemeColors.secondaryText,
+                                  ),
                         ),
                       ),
                       Expanded(
                         child: Text(
                           match.team2.teamName,
-                          style: MyTextStyle(context).titleLarge.copyWith(
-                                color: StatusColors.warning,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: StatusColors.warning,
+                                  ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -162,7 +164,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                   const SizedBox(height: 30),
                   Text(
                     'Time for Toss!',
-                    style: MyTextStyle(context).titleMedium.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.grey.shade700,
                         ),
                   ),
@@ -216,9 +218,10 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                       onPressed: _startToss,
                       text: 'Toss Coin',
                       backgroundColor: grassGreen,
-                      textStyle: MyTextStyle(context).buttonText.copyWith(
-                            color: LightThemeColors.surfaceColor,
-                          ),
+                      textStyle:
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: LightThemeColors.surfaceColor,
+                              ),
                     ),
                 ],
               ),
@@ -229,14 +232,14 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                   children: [
                     Text(
                       '🏆 $tossWinner won the toss!',
-                      style: MyTextStyle(context).titleLarge.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: grassGreen,
                           ),
                     ),
                     const SizedBox(height: 20),
                     Text(
                       'Choose your decision:',
-                      style: MyTextStyle(context).bodyLarge.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: LightThemeColors.secondaryText,
                           ),
                     ),
@@ -275,17 +278,18 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                   children: [
                     Text(
                       '$battingTeam will bat first',
-                      style: MyTextStyle(context).titleLarge.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: LightThemeColors.batsmanColor,
                           ),
                     ),
                     const SizedBox(height: 30),
                     CustomButton.primary(
                       text: 'Next',
-                      textStyle: MyTextStyle(context).titleLarge.copyWith(
-                            fontSize: 20,
-                            color: LightThemeColors.surfaceColor,
-                          ),
+                      textStyle:
+                          Theme.of(context).textTheme.titleLarge!.copyWith(
+                                fontSize: 20,
+                                color: LightThemeColors.surfaceColor,
+                              ),
                       icon: const Icon(
                         Icons.play_circle_filled,
                         size: 30,
@@ -311,7 +315,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
       text: label,
       icon: Icon(icon, color: LightThemeColors.surfaceColor),
       onPressed: onPressed,
-      textStyle: MyTextStyle(context).buttonText.copyWith(
+      textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: LightThemeColors.surfaceColor,
           ),
       borderRadius: 20,

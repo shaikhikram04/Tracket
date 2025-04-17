@@ -9,7 +9,6 @@ import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_containers.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -94,11 +93,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     const SizedBox(height: TSizes.verticalSpacingXl),
                     Text(
                       'Forget Password?',
-                      style: MyTextStyle(context).headlineMedium.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: grassGreen,
-                            letterSpacing: 0.5,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: grassGreen,
+                                letterSpacing: 0.5,
+                              ),
                     ),
                     const SizedBox(height: TSizes.verticalSpacingMd),
                     AppContainers.classicContainer(
@@ -117,7 +117,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               _isResetEmailSend
                                   ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
                                   : 'Enter your registered email address. We\'ll send you a link to reset your password.',
-                              style: MyTextStyle(context).cardSubtitle,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
                           const SizedBox(height: TSizes.verticalSpacingXl),
@@ -135,7 +135,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ),
                       label: Text(
                         'Back to Login',
-                        style: MyTextStyle(context).buttonText.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: grassGreen,
                             ),
                       ),
@@ -183,7 +183,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             onPressed: _onEditEmail,
             child: Text(
               'Edit email',
-              style: MyTextStyle(context).mediumButtonText.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: grassGreen,
                   ),
             ),

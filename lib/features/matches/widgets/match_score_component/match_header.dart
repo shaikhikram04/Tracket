@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/common/widgets/highlighted_label.dart';
 
 class MatchHeader extends StatelessWidget {
   const MatchHeader({
@@ -38,7 +37,7 @@ class MatchHeader extends StatelessWidget {
 
     return Text(
       formattedDate,
-      style: MyTextStyle(context).bodyMedium.copyWith(
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).brightness == Brightness.light
                 ? LightThemeColors.secondaryText
                 : DarkThemeColors.secondaryText,
@@ -57,7 +56,7 @@ class MatchHeader extends StatelessWidget {
       color: StatusColors.liveMatch.withValues(alpha: 0.15),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       borderRadius: BorderRadius.circular(8),
-      textStyle: MyTextStyle(context).bodyMedium.copyWith(
+      textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.w600,
             color: StatusColors.liveMatch,
             letterSpacing: 0.5,
@@ -87,7 +86,7 @@ class MatchHeader extends StatelessWidget {
       color: statusColor.withValues(alpha: 0.15),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       borderRadius: BorderRadius.circular(8),
-      textStyle: MyTextStyle(context).bodyMedium.copyWith(
+      textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.w500,
             color: statusColor,
             letterSpacing: 0.5,

@@ -5,55 +5,54 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tracket/features/authentication/screens/auth_screen.dart';
 import 'package:tracket/screens/home.dart';
-import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/theme/theme.dart';
 
 import 'firebase_options.dart';
 
-ThemeData lightMode = ThemeData(
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.light,
-    surface: LightThemeColors.backgroundColor,
-    seedColor: primaryColor,
-  ),
-  cardColor: LightThemeColors.surfaceColor,
-  scaffoldBackgroundColor: LightThemeColors.backgroundColor,
-  appBarTheme: const AppBarTheme(
-    shadowColor: LightThemeColors.primaryText,
-  ),
-  textTheme: GoogleFonts.rubikTextTheme().copyWith(
-    titleLarge:
-        GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
-    titleMedium: GoogleFonts.rubik().copyWith(
-      fontWeight: FontWeight.w900,
-      fontSize: 17,
-    ),
-  ),
-);
+// ThemeData lightMode = ThemeData(
+//   colorScheme: ColorScheme.fromSeed(
+//     brightness: Brightness.light,
+//     surface: LightThemeColors.backgroundColor,
+//     seedColor: primaryColor,
+//   ),
+//   cardColor: LightThemeColors.surfaceColor,
+//   scaffoldBackgroundColor: LightThemeColors.backgroundColor,
+//   appBarTheme: const AppBarTheme(
+//     shadowColor: LightThemeColors.primaryText,
+//   ),
+//   textTheme: GoogleFonts.rubikTextTheme().copyWith(
+//     titleLarge:
+//         GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
+//     titleMedium: GoogleFonts.rubik().copyWith(
+//       fontWeight: FontWeight.w900,
+//       fontSize: 17,
+//     ),
+//   ),
+// );
 
-ThemeData darkMode = ThemeData(
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.dark,
-    surface: DarkThemeColors.backgroundColor,
-    seedColor: primaryColor,
-  ),
-  cardColor: DarkThemeColors.surfaceColor,
-  scaffoldBackgroundColor: DarkThemeColors.backgroundColor,
-  appBarTheme: const AppBarTheme(
-    shadowColor: DarkThemeColors.primaryText,
-  ),
-  textTheme: GoogleFonts.rubikTextTheme().copyWith(
-    titleLarge:
-        GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
-    titleMedium: GoogleFonts.rubik().copyWith(
-      fontWeight: FontWeight.w900,
-      fontSize: 17,
-    ),
-  ),
-);
+// ThemeData darkMode = ThemeData(
+//   colorScheme: ColorScheme.fromSeed(
+//     brightness: Brightness.dark,
+//     surface: DarkThemeColors.backgroundColor,
+//     seedColor: primaryColor,
+//   ),
+//   cardColor: DarkThemeColors.surfaceColor,
+//   scaffoldBackgroundColor: DarkThemeColors.backgroundColor,
+//   appBarTheme: const AppBarTheme(
+//     shadowColor: DarkThemeColors.primaryText,
+//   ),
+//   textTheme: GoogleFonts.rubikTextTheme().copyWith(
+//     titleLarge:
+//         GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
+//     titleMedium: GoogleFonts.rubik().copyWith(
+//       fontWeight: FontWeight.w900,
+//       fontSize: 17,
+//     ),
+//   ),
+// );
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -117,12 +116,12 @@ class Tracket extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: lightMode,
+      themeMode: ThemeMode.system,
+      theme: TracketTheme.lightTheme,
+      darkTheme: TracketTheme.darkTheme,
       title: 'Tracket',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      darkTheme: darkMode,
-      themeMode: ThemeMode.light,
       home: currUser == null || !currUser.emailVerified
           ? const AuthScreen()
           : const HomeScreen(),

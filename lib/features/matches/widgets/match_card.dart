@@ -13,7 +13,6 @@ import 'package:tracket/features/matches/widgets/match_teams_row.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchCard extends ConsumerWidget {
   const MatchCard({
@@ -94,10 +93,11 @@ class MatchCard extends ConsumerWidget {
                   _match.status == MatchStatus.live
                       ? HighlightedLabel(
                           text: 'LIVE',
-                          textStyle: MyTextStyle(context).bodyMedium.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: StatusColors.liveMatch,
-                              ),
+                          textStyle:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: StatusColors.liveMatch,
+                                  ),
                           color: StatusColors.liveMatch.withValues(alpha: 0.2),
                         )
                       : Text(
@@ -207,8 +207,9 @@ class MatchCard extends ConsumerWidget {
                   onPressed: () => onStart(context, ref, match, currentUserId),
                   backgroundColor: primaryVariant,
                   size: ButtonSize.medium,
-                  textStyle: MyTextStyle(context)
-                      .mediumButtonText
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
                       .copyWith(color: onPrimary),
                 ),
               ],

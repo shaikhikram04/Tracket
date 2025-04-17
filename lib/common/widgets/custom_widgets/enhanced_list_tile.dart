@@ -3,7 +3,6 @@ import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class EnhancedListTile extends StatelessWidget {
   const EnhancedListTile({
@@ -46,7 +45,7 @@ class EnhancedListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textStyle = MyTextStyle(context);
+
     return Card(
       elevation: isSelected ? TSizes.cardElevation : 0,
       margin: TPadding.paddingSm,
@@ -55,7 +54,7 @@ class EnhancedListTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(TSizes.radiusSm),
             side: BorderSide(
               color: isSelected
-                  ? theme.colorScheme.primary.withValues(alpha: 0.5)
+                  ? theme.primaryColor.withValues(alpha: 0.5)
                   : Colors.transparent,
             ),
           ),
@@ -85,7 +84,7 @@ class EnhancedListTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: textStyle.bodyLarge.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                         maxLines: titleMaxLines,
@@ -94,7 +93,7 @@ class EnhancedListTile extends StatelessWidget {
                       const SizedBox(height: TSizes.xs),
                       Text(
                         subtitle,
-                        style: textStyle.bodyMedium.copyWith(
+                        style: theme.textTheme.bodyMedium!.copyWith(
                           color: theme.textTheme.bodyMedium?.color
                               ?.withValues(alpha: 0.7),
                         ),

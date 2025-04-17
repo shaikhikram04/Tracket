@@ -7,7 +7,6 @@ import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/authentication/screens/verification_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 //? Helper functions for the Tracket application
 class THelperFunction {
@@ -42,8 +41,6 @@ class THelperFunction {
   }) {
     ScaffoldMessenger.of(context).clearSnackBars();
 
-    final textStyle =
-        MyTextStyle(context).titleMedium.copyWith(color: Colors.white);
     final snackBar = SnackBar(
       backgroundColor: primaryColor,
       behavior: SnackBarBehavior.floating,
@@ -54,7 +51,7 @@ class THelperFunction {
         children: [
           const Icon(Icons.check_circle, color: Colors.white),
           const SizedBox(width: 12),
-          Expanded(child: Text(content, style: textStyle)),
+          Expanded(child: Text(content)),
         ],
       ),
     );
@@ -71,7 +68,7 @@ class THelperFunction {
     ScaffoldMessenger.of(context).clearSnackBars();
 
     final textStyle =
-        MyTextStyle(context).titleMedium.copyWith(color: Colors.white);
+        Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white);
     final snackBar = SnackBar(
       backgroundColor: Colors.red.shade700,
       behavior: SnackBarBehavior.floating,
@@ -100,7 +97,7 @@ class THelperFunction {
     ScaffoldMessenger.of(context).clearSnackBars();
 
     final textStyle =
-        MyTextStyle(context).titleMedium.copyWith(color: onPrimary);
+        Theme.of(context).textTheme.titleMedium!.copyWith(color: onPrimary);
     final snackBar = SnackBar(
       backgroundColor: primaryColor,
       behavior: SnackBarBehavior.floating,
@@ -141,7 +138,7 @@ class THelperFunction {
     showDialog(
       context: context,
       builder: (_) {
-        final textStyle = MyTextStyle(context);
+        final textStyle = Theme.of(context).textTheme;
 
         return Dialog(
           shape:
@@ -168,7 +165,7 @@ class THelperFunction {
                     const SizedBox(height: 10),
                     Text(
                       title,
-                      style: textStyle.titleMedium.copyWith(
+                      style: textStyle.titleMedium!.copyWith(
                         color: iconColor,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
@@ -181,8 +178,8 @@ class THelperFunction {
                 padding: const EdgeInsets.all(16),
                 child: Text(
                   errorMessage,
-                  style:
-                      textStyle.bodyLarge.copyWith(fontWeight: FontWeight.w500),
+                  style: textStyle.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -204,7 +201,7 @@ class THelperFunction {
                   ),
                   child: Text(
                     'OK',
-                    style: textStyle.bodyLarge.copyWith(
+                    style: textStyle.bodyLarge!.copyWith(
                       fontWeight: FontWeight.w600,
                       color: primaryColor,
                     ),
@@ -302,7 +299,7 @@ class THelperFunction {
   static Text getTitleText(String title, BuildContext context) {
     return Text(
       title,
-      style: MyTextStyle(context).titleLarge,
+      style: Theme.of(context).textTheme.titleLarge,
     );
   }
 
@@ -361,7 +358,7 @@ class THelperFunction {
                   const SizedBox(height: 16),
                   Text(
                     message,
-                    style: MyTextStyle(context).bodyLarge.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: LightThemeColors.primaryText,
                           fontWeight: FontWeight.w500,
                         ),

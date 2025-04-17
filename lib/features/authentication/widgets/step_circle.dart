@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class StepCircle extends StatelessWidget {
   const StepCircle({
@@ -30,9 +29,7 @@ class StepCircle extends StatelessWidget {
       child: Center(
         child: Text(
           step.toString(),
-          style: MyTextStyle(context)
-              .bodyLarge
-              .copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: isActive
                     ? LightThemeColors.surfaceColor
                     : LightThemeColors.primaryText,

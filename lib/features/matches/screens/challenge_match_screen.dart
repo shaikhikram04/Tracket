@@ -18,7 +18,6 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 
 class ChallengeMatchScreen extends StatefulWidget {
@@ -476,7 +475,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
             text: 'Challenge Match',
             onPressed: _challengeMatch,
             isLoading: isChallenging,
-            textStyle: MyTextStyle(context).buttonText,
+            textStyle: Theme.of(context).textTheme.bodyLarge,
             backgroundColor: grassGreen,
             foregroundColor: LightThemeColors.surfaceColor,
           ),

@@ -8,7 +8,6 @@ import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class ChallengeCard extends StatelessWidget {
   const ChallengeCard({
@@ -122,15 +121,17 @@ class ChallengeCard extends StatelessWidget {
   TextSpan _buildBoldTextSpan(String text, BuildContext context) {
     return TextSpan(
       text: text,
-      style:
-          MyTextStyle(context).bodyLarge.copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(context)
+          .textTheme
+          .bodyLarge!
+          .copyWith(fontWeight: FontWeight.bold),
     );
   }
 
   TextSpan _buildTextSpan(String text, BuildContext context) {
     return TextSpan(
       text: text,
-      style: MyTextStyle(context).bodyLarge,
+      style: Theme.of(context).textTheme.bodyLarge,
     );
   }
 
@@ -151,7 +152,7 @@ class ChallengeCard extends StatelessWidget {
             onCancelChallenge();
           }
         },
-        textStyle: MyTextStyle(context).mediumButtonText.copyWith(
+        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: StatusColors.error,
             ),
         backgroundColor: LightThemeColors.surfaceColor,
@@ -178,20 +179,20 @@ class ChallengeCard extends StatelessWidget {
 
           if (isRequestSuccess) {
             return Text('This challenge has been accept',
-                style: MyTextStyle(context).bodyLarge);
+                style: Theme.of(context).textTheme.bodyLarge);
           }
 
           return Row(
             children: [
               Text(
                 THelperFunction.timeAgo(request.createdAt.toDate()),
-                style: MyTextStyle(context).bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const Spacer(),
               CustomButton.secondary(
                 onPressed: onRejectChallenge,
                 text: 'Reject',
-                textStyle: MyTextStyle(context).mediumButtonText.copyWith(
+                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: StatusColors.error,
                     ),
                 backgroundColor: LightThemeColors.surfaceColor,
@@ -201,8 +202,9 @@ class ChallengeCard extends StatelessWidget {
               const SizedBox(width: 10),
               CustomButton.primary(
                 text: 'Accept',
-                textStyle: MyTextStyle(context)
-                    .mediumButtonText
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
                     .copyWith(color: onPrimary, letterSpacing: 1),
                 isLoading: isRequestInProgress,
                 backgroundColor: primaryColor,

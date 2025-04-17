@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
+import 'package:tracket/common/widgets/stats_data.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/screens/challenge_match_screen.dart';
@@ -18,9 +20,6 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/common/widgets/stats_data.dart';
 
 class TeamProfileScreen extends ConsumerStatefulWidget {
   const TeamProfileScreen({
@@ -245,8 +244,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       children: [
                                         TextSpan(
                                           text: teamState.team.name,
-                                          style: MyTextStyle(context)
-                                              .titleLarge
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
                                               .copyWith(
                                                 color: LightThemeColors
                                                     .surfaceColor,
@@ -255,8 +255,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         TextSpan(
                                           text:
                                               '  (${teamState.team.shortName})',
-                                          style: MyTextStyle(context)
-                                              .titleMedium
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
                                               .copyWith(
                                                 color: LightThemeColors
                                                     .backgroundColor,
@@ -267,8 +268,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   ),
                                   Text(
                                     teamState.team.description,
-                                    style: MyTextStyle(context)
-                                        .bodyMedium
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
                                         .copyWith(
                                           color: DarkThemeColors.primaryText,
                                         ),
@@ -317,8 +319,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       backgroundColor:
                                           LightThemeColors.surfaceColor,
                                       borderColor: primaryVariant,
-                                      textStyle: MyTextStyle(context)
-                                          .mediumButtonText
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
                                           .copyWith(color: primaryColor),
                                     )
                                   : CustomButton.primary(
@@ -327,8 +330,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                           teamState.team.id, player.id, true),
                                       text: 'Follow',
                                       backgroundColor: primaryVariant,
-                                      textStyle: MyTextStyle(context)
-                                          .mediumButtonText
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
                                           .copyWith(color: onPrimary),
                                     ),
                             ),
@@ -352,8 +356,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         ),
                                         text: 'Challenge',
                                         backgroundColor: primaryVariant,
-                                        textStyle: MyTextStyle(context)
-                                            .mediumButtonText
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
                                             .copyWith(color: onPrimary),
                                       )
                                     : CustomButton.secondary(
@@ -361,8 +366,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                         onPressed: null,
                                         backgroundColor:
                                             LightThemeColors.surfaceColor,
-                                        textStyle: MyTextStyle(context)
-                                            .mediumButtonText
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
                                             .copyWith(color: onPrimary),
                                       ),
                               ),

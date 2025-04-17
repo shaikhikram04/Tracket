@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/widgets/team_column.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchTeamsRow extends StatelessWidget {
   const MatchTeamsRow({
@@ -77,7 +76,7 @@ class MatchTeamsRow extends StatelessWidget {
           TeamColumn(
             teamName: team.teamName,
             teamLogo: team.logoUrl,
-            textStyle: MyTextStyle(context).bodyLarge.copyWith(
+            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
@@ -103,7 +102,7 @@ class MatchTeamsRow extends StatelessWidget {
           if (!isInningStarted && isMatchStarted)
             Text(
               'Yet to bat',
-              style: MyTextStyle(context).bodyLarge.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor,
                   ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/teams/screens/team_edit_screen.dart';
 import 'package:tracket/features/teams/screens/team_settings_screen.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class TeamOptions extends StatelessWidget {
   const TeamOptions({
@@ -47,7 +46,7 @@ class TeamOptions extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'Team Options',
-                style: MyTextStyle(context).headlineSmall.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
@@ -73,7 +72,8 @@ class TeamOptions extends StatelessWidget {
                   subtitle: 'Manage team configuration and permissions',
                   onTap: () {
                     Navigator.of(context).pop();
-                    THelperFunction.pushScreen(context, const TeamSettingsScreen());
+                    THelperFunction.pushScreen(
+                        context, const TeamSettingsScreen());
                   },
                 ),
               ],

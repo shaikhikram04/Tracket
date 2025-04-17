@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
+import 'package:tracket/common/widgets/stats_data.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/services/players_services.dart';
 import 'package:tracket/features/players/widgets/achievements.dart';
@@ -8,8 +9,6 @@ import 'package:tracket/features/players/widgets/batting_stats.dart';
 import 'package:tracket/features/players/widgets/bowling_stats.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/common/widgets/stats_data.dart';
 
 class PlayerProfileScreen extends StatefulWidget {
   const PlayerProfileScreen({
@@ -47,7 +46,8 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
       setState(() => _playerData = player);
     } catch (error) {
       if (mounted) {
-        THelperFunction.showSnackBar('Error fetching player data: $error', context);
+        THelperFunction.showSnackBar(
+            'Error fetching player data: $error', context);
       }
     } finally {
       setState(() => _isLoading = false);
@@ -107,15 +107,19 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             children: [
                               TextSpan(
                                 text: _playerData.name,
-                                style: MyTextStyle(context).titleLarge.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
                                       color: onPrimary,
                                     ),
                               ),
                               TextSpan(
                                 text:
                                     '  (${_playerData.playerCricketDetails!.cricketRole.description})',
-                                style: MyTextStyle(context)
-                                    .titleMedium
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
                                     .copyWith(
                                       color: LightThemeColors.backgroundColor,
                                     ),
@@ -126,8 +130,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                         const SizedBox(height: 8),
                         Text(
                           _playerData.playerCricketDetails!.detailedCricketRole,
-                          style: MyTextStyle(context)
-                              .bodyLarge
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
                               .copyWith(color: onPrimary),
                           textAlign: TextAlign.center,
                         ),
@@ -201,7 +206,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                         children: [
                           TabBar(
                             labelColor: primaryColor,
-                            labelStyle: MyTextStyle(context).titleMedium,
+                            labelStyle: Theme.of(context).textTheme.titleMedium,
                             unselectedLabelColor: Colors.grey,
                             indicatorColor: Colors.green,
                             indicatorSize: TabBarIndicatorSize.tab,

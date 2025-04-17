@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyTextButton extends StatelessWidget {
   const MyTextButton({
@@ -18,9 +17,8 @@ class MyTextButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: MyTextStyle(context).bodyLarge.copyWith(
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               decoration: isUnderlined ? TextDecoration.underline : null,
-              color: Colors.black,
             ),
       ),
     );

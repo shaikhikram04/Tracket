@@ -13,7 +13,6 @@ import 'package:tracket/features/matches/screens/operator_side_scoring_screen/wi
 import 'package:tracket/features/matches/services/matches_services.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class SelectionPlaceholder extends ConsumerStatefulWidget {
   const SelectionPlaceholder({super.key});
@@ -228,7 +227,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
             CustomButton.primary(
               onPressed: () => _onTap(context, ref, completionState),
               text: _getButtonText(completionState),
-              textStyle: MyTextStyle(context).buttonText,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
               borderRadius: 15,
               height: 50,
               width: 300,

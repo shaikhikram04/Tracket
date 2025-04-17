@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class TossVenueSection extends StatelessWidget {
   const TossVenueSection({super.key, required this.match});
@@ -80,13 +79,13 @@ class TossVenueSection extends StatelessWidget {
       children: [
         Icon(
           Icons.sports_cricket,
-          color: theme.colorScheme.primary.withValues(alpha:0.7),
+          color: theme.colorScheme.primary.withValues(alpha: 0.7),
           size: 18,
         ),
         const SizedBox(width: 8),
         Text(
           'Toss: ',
-          style: MyTextStyle(context).bodyLarge.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w500,
               ),
@@ -95,7 +94,7 @@ class TossVenueSection extends StatelessWidget {
           'Awaiting toss',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontStyle: FontStyle.italic,
-            color: theme.colorScheme.onSurface.withValues(alpha:0.7),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
           ),
         ),
       ],
@@ -126,13 +125,13 @@ class TossVenueSection extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: labelColor.withValues(alpha:0.7),
+          color: labelColor.withValues(alpha: 0.7),
           size: 18,
         ),
         const SizedBox(width: 8),
         Text(
           '$label: ',
-          style: MyTextStyle(context).bodyLarge.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: labelColor,
                 fontWeight: FontWeight.w500,
               ),

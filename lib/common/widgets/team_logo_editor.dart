@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class TeamLogoEditor extends StatelessWidget {
   const TeamLogoEditor({
@@ -88,7 +87,7 @@ class TeamLogoEditor extends StatelessWidget {
               children: [
                 Text(
                   'Team Logo',
-                  style: MyTextStyle(context).titleMedium.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: grassGreen,
                       ),
@@ -96,7 +95,7 @@ class TeamLogoEditor extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Upload a team logo here',
-                  style: MyTextStyle(context).bodyMedium.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: LightThemeColors.secondaryText,
                       ),
                 ),
@@ -117,7 +116,7 @@ class TeamLogoEditor extends StatelessWidget {
                   icon: const Icon(Icons.edit),
                   label: Text(
                     'Change Logo',
-                    style: MyTextStyle(context).bodyLarge.copyWith(
+                    style:Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
                   ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -51,7 +50,7 @@ class MyTextField extends StatelessWidget {
       obscuringCharacter: '*',
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       autocorrect: false,
-      style: MyTextStyle(context).bodyLarge,
+      style: Theme.of(context).textTheme.bodyLarge,
       maxLines: maxLines,
       minLines: minLines,
       autovalidateMode: autovalidateMode,
@@ -65,7 +64,7 @@ class MyTextField extends StatelessWidget {
                 ),
               )
             : null,
-        hintStyle: MyTextStyle(context).bodyLarge.copyWith(
+        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: fillColor != null
                   ? LightThemeColors.tertiaryText
                   : primaryColor.withValues(alpha: 0.7),

@@ -9,7 +9,6 @@ import 'package:tracket/features/matches/screens/operator_side_scoring_screen/bl
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class ScoringControls extends ConsumerWidget {
   const ScoringControls({
@@ -276,10 +275,11 @@ class ScoringControls extends ConsumerWidget {
                           makeUnBlur();
                         },
                         text: 'WICKET',
-                        textStyle: MyTextStyle(context).buttonText.copyWith(
-                              letterSpacing: 1.2,
-                              fontSize: 18,
-                            ),
+                        textStyle:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  letterSpacing: 1.2,
+                                  fontSize: 18,
+                                ),
                         icon: const Icon(
                           Icons.sports_baseball,
                           color: LightThemeColors.surfaceColor,

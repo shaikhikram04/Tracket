@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/features/matches/widgets/team_column.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 
 class TeamSection extends StatelessWidget {
   const TeamSection({
@@ -33,8 +32,9 @@ class TeamSection extends StatelessWidget {
               TeamColumn(teamName: team1Name, teamLogo: team1Logo),
               Text(
                 vsText,
-                style: MyTextStyle(context)
-                    .bodyLarge
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               TeamColumn(teamName: team2Name, teamLogo: team2Logo),

@@ -15,7 +15,6 @@ import 'package:tracket/features/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class MatchPlayersSelectionScreen extends ConsumerStatefulWidget {
   const MatchPlayersSelectionScreen({
@@ -185,7 +184,10 @@ class _MatchPlayersSelectionScreenState
                           child: Center(
                             child: Text(
                               'Select Openers',
-                              style: MyTextStyle(context).bodyLarge.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: grassGreen,
                                   ),
@@ -231,9 +233,12 @@ class _MatchPlayersSelectionScreenState
                           child: Center(
                             child: Text(
                               'Select Opening bowler',
-                              style: MyTextStyle(context).bodyLarge.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: darkGrassGreen),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: darkGrassGreen),
                             ),
                           ),
                         ),
@@ -263,7 +268,7 @@ class _MatchPlayersSelectionScreenState
               backgroundColor: grassGreen,
               borderRadius: 15,
               isLoading: isStarting,
-              textStyle: MyTextStyle(context).titleMedium.copyWith(
+              textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w600,
                     color: LightThemeColors.surfaceColor,
                   ),

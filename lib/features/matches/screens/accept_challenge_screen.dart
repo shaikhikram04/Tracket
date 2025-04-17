@@ -16,7 +16,6 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class AcceptChallengeScreen extends StatefulWidget {
   const AcceptChallengeScreen({
@@ -321,7 +320,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 onPressed: () => Navigator.of(context).pop(),
                 text: 'Reject',
                 backgroundColor: LightThemeColors.backgroundColor,
-                textStyle: MyTextStyle(context).buttonText.copyWith(
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: StatusColors.error,
                     ),
                 borderColor: StatusColors.error,
@@ -337,7 +336,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
                 text: 'Accept',
                 backgroundColor: const Color.fromARGB(255, 43, 114, 45),
                 isLoading: _isAccepting,
-                textStyle: MyTextStyle(context).buttonText,
+                textStyle: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
           ),
@@ -355,8 +354,9 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           Expanded(
             child: Text(
               title,
-              style: MyTextStyle(context)
-                  .bodyLarge
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
           ),
@@ -364,7 +364,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           Expanded(
             child: Text(
               value,
-              style: MyTextStyle(context).bodyLarge.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.bold,
                   color: const Color.fromARGB(255, 50, 124, 53)),
             ),

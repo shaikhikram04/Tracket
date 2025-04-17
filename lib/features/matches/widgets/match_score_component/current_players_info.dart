@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
 class CurrentPlayersInfo extends StatelessWidget {
   CurrentPlayersInfo({
@@ -33,7 +32,7 @@ class CurrentPlayersInfo extends StatelessWidget {
       children: [
         Text(
           'Batting',
-          style: MyTextStyle(context).bodyMedium.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.grey[600],
               ),
         ),
@@ -61,14 +60,14 @@ class CurrentPlayersInfo extends StatelessWidget {
       children: [
         Text(
           'Bowling',
-          style: MyTextStyle(context).bodyMedium.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.grey[600],
               ),
         ),
         const SizedBox(height: 4),
         Text(
           '${bowler.playerName}   ${bowler.runsGiven}/${bowler.wickets} (${bowler.oversDisplay})',
-          style: MyTextStyle(context).bodyLarge,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ],
     );
@@ -82,13 +81,13 @@ class CurrentPlayersInfo extends StatelessWidget {
           flex: 2,
           child: Text(
             name,
-            style: MyTextStyle(context).bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
         Expanded(
           child: Text(
             '$runs ($balls)',
-            style: MyTextStyle(context).bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ],

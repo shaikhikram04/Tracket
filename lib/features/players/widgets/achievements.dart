@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/utility_classes/my_text_style.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
+import 'package:tracket/utils/constants/colors.dart';
 
 class Achievements extends StatelessWidget {
   const Achievements({super.key, required this.achievements});
@@ -13,12 +12,12 @@ class Achievements extends StatelessWidget {
     Widget content = Column(children: [
       Text(
         'No Achievements Yet',
-        style: MyTextStyle(context).headlineSmall,
+        style: Theme.of(context).textTheme.headlineSmall,
       ),
       Text(
         'Complete tasks and challenges to earn your first achievement badge!',
         textAlign: TextAlign.center,
-        style: MyTextStyle(context).emphasisHigh,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
       const SizedBox(height: 25),
       ElevatedButton(
@@ -30,7 +29,7 @@ class Achievements extends StatelessWidget {
             )),
         child: Text(
           'View Available Achievements',
-          style: MyTextStyle(context).bodyMedium.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: LightThemeColors.surfaceColor,
               ),
         ),
@@ -43,7 +42,7 @@ class Achievements extends StatelessWidget {
           achievements.length,
           (index) => HighlightedLabel(
             text: achievements[index],
-            textStyle: MyTextStyle(context).bodyMedium.copyWith(
+            textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                   color: Colors.deepOrange.shade900,
                 ),
