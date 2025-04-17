@@ -9,6 +9,8 @@ import 'package:tracket/features/authentication/widgets/auth_submit_button.dart'
 import 'package:tracket/features/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
@@ -59,31 +61,31 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
     List<Widget> signUpField = [
       MyDropdownMenu(
         options: THelperFunction.enumToString(CricketRole.values),
-        label: 'Select Cricket Role',
+        label: TTextStrings.selectCricketRole,
         onSelect: _onSelectRole,
       ),
-      const SizedBox(height: 30),
+      const SizedBox(height: TSizes.defaultSpace),
       MyDropdownMenu(
         options: THelperFunction.enumToString(Position.values),
-        label: 'Select Batting Position',
+        label: TTextStrings.selectBattingPosition,
         onSelect: _onSelectBattingPosition,
       ),
-      const SizedBox(height: 30),
+      const SizedBox(height: TSizes.defaultSpace),
       MyDropdownMenu(
         options: playerAuthState.shouldBall
             ? THelperFunction.enumToString(BowlingStyle.values.sublist(1))
             : THelperFunction.enumToString(BowlingStyle.values),
-        label: 'Select Bowling Style',
+        label: TTextStrings.selectBowlingStyle,
         onSelect: _onSelectBowlingStyle,
       ),
-      const SizedBox(height: 30),
+      const SizedBox(height: TSizes.defaultSpace),
       if (playerAuthState.isBowler)
         MyDropdownMenu(
           options: THelperFunction.enumToString(Position.values),
-          label: 'Select Bowling Arm',
+          label: TTextStrings.selectBowlingArm,
           onSelect: _onSelectBowlingArm,
         ),
-      if (playerAuthState.isBowler) const SizedBox(height: 30),
+      if (playerAuthState.isBowler) const SizedBox(height: TSizes.defaultSpace),
     ];
 
     return AuthForm(
@@ -91,46 +93,46 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       child: Column(
         children: [
           Text(
-            playerAuthState.isLogin ? 'Login as Player' : 'Signup as Player',
-            semanticsLabel: playerAuthState.isLogin
-                ? 'Login form for players'
-                : 'Signup form for players',
+            playerAuthState.isLogin
+                ? TTextStrings.loginAsPlayer
+                : TTextStrings.signupAsPlayer,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
                 .copyWith(fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.defaultSpace),
           if (!playerAuthState.isLogin)
             MyTextField(
               isLogin: playerAuthState.isLogin,
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
                   .updateField(playerName: value),
-              hintText: 'Player Name',
-              validator: (value) =>
-                  ValidationServices.nameValidator(value, 'Player name'),
+              hintText: TTextStrings.playerName,
+              validator: (value) => ValidationServices.nameValidator(
+                  value, TTextStrings.playerName),
               fillColor: LightThemeColors.backgroundColor,
               prefixIcon: AppIconData.person,
             ),
-          if (!playerAuthState.isLogin) const SizedBox(height: 30),
+          if (!playerAuthState.isLogin)
+            const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
             isLogin: playerAuthState.isLogin,
             onSave: (value) =>
                 ref.read(playerAuthProvider.notifier).updateField(email: value),
-            hintText: 'Email',
+            hintText: TTextStrings.email,
             validator: ValidationServices.emailValidator,
             prefixIcon: AppIconData.email,
             fillColor: LightThemeColors.backgroundColor,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
             onSave: (value) => ref
                 .read(playerAuthProvider.notifier)
                 .updateField(password: value),
             validator: (value) => ValidationServices.passwordValidator(
                 value, playerAuthState.isLogin),
-            hintText: 'Password',
+            hintText: TTextStrings.password,
             isPasswordHidden: playerAuthState.isPasswordHidden,
             changeVisibility:
                 ref.read(playerAuthProvider.notifier).togglePasswordVisibility,
@@ -138,14 +140,14 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             fillColor: LightThemeColors.backgroundColor,
             prefixIcon: AppIconData.lock,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.defaultSpace),
           if (!playerAuthState.isLogin) ...signUpField,
           AuthSubmitButton(
             isLoading: playerAuthState.isLoading,
             onSubmit: () => _onSubmit(playerAuthState.isLogin),
             isLogin: playerAuthState.isLogin,
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: TSizes.spaceBtwItems),
           AuthenticationToggle(
             isLogin: playerAuthState.isLogin,
             toggleAuth: _togglePlayerAuth,

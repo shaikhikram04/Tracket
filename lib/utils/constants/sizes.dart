@@ -50,14 +50,8 @@ class TSizes {
   static const double borderRadiusXl = 15.0;
   static const double borderRadiusXxl = 18.0;
 
-
   //* Divider height
   static const double dividerHeight = 1.0;
-
-  //* Product item dimensions
-  static const double productImageSize = 120.0;
-  static const double productImageRadius = 16.0;
-  static const double productItemHeight = 160.0;
 
   //* Input Field
   static const double inputFieldRadius = 12.0;
@@ -76,8 +70,9 @@ class TSizes {
   static const double cardElevationXl = 7.0;
   static const double cardElevation = 2.0;
 
-  //* Image carousel height
-  static const double imageCarouselHeight = 200.0;
+  //* app logo height
+  static const double appLogoHeightMax = 200.0;
+  static const double appLogoHeightMin = 100.0;
 
   //* Loading indicator size
   static const double loadingIndicatorSize = 36.0;
@@ -97,6 +92,13 @@ class TSizes {
   //* shadow radius
   static const shadowRadiusSm = 7.0;
 
+  //* blur radius
+  static const blurRadiusSm = 4.0;
+  static const blurRadiusMd = 8.0;
+  static const blurRadiusLg = 12.0;
+  static const blurRadiusXl = 16.0;
+  static const blurRadiusXxl = 20.0;
+
   //* Circle avatar size
   static const double circleAvatarXs = 16.0;
   static const double circleAvatarSm = 30.0;
@@ -107,7 +109,7 @@ class TSizes {
   static const double userLoginErrorHeight = 433;
   static const double userSignupFormHeight = 483;
   static const double userSignupErrorHeight = 535;
- 
+
   //* player authentication form sizes
   static const double playerLoginFormHeight = 397;
   static const double playerLoginErrorHeight = 433;

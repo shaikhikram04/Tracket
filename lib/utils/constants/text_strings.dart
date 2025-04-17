@@ -15,6 +15,8 @@ class TTextStrings {
       'Team has reached its maximum capacity.';
   static const String unexpectedError =
       'An unexpected error occurred. Please try again later.';
+  static const String somethingWentWrong =
+      'Something went wrong. Please try again later.';
 
   //* logging errors
   static const String emailUsedByUser =
@@ -33,5 +35,18 @@ class TTextStrings {
   static const String email = 'Email';
   static const String password = 'Password';
   static const String logout = 'Logout';
+  static const String selectCricketRole = 'Select Cricket Role';
+  static const String selectBattingPosition = 'Select Batting Position';
+  static const String selectBowlingStyle = 'Select Bowling Style';
+  static const String selectBowlingArm = 'Select Bowling Arm';
+  static const String loginAsPlayer = 'Login as Player';
+  static const String signupAsPlayer = 'Signup as Player';
+  static const String playerName = 'Player Name';
+
+  //* Authentication roles
+  static const String user = 'User';
+  static const String player = 'Player';
+
+
 
 }

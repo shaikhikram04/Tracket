@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/devices/devices_utility.dart';
 
 class MyDropdownMenu extends StatelessWidget {
   const MyDropdownMenu({
@@ -38,7 +39,7 @@ class MyDropdownMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = TDeviceUtils.getScreenWidth(context);
     final defaultWidth = width ?? screenWidth * 0.8;
 
     return Column(
@@ -60,7 +61,7 @@ class MyDropdownMenu extends StatelessWidget {
               : Text(
                   label,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                   ),
                 ),
           leadingIcon: leadingIcon != null
@@ -78,54 +79,54 @@ class MyDropdownMenu extends StatelessWidget {
           ),
           hintText: hintText,
           errorText: errorText,
-          textStyle: textStyle ?? theme.textTheme.bodyLarge,
-          menuStyle: MenuStyle(
-            backgroundColor: WidgetStatePropertyAll(
-              theme.colorScheme.surface,
-            ),
-            elevation: const WidgetStatePropertyAll(4),
-            shadowColor: WidgetStatePropertyAll(
-              Colors.black.withValues(alpha: 0.1),
-            ),
-            surfaceTintColor: WidgetStatePropertyAll(
-              theme.colorScheme.surfaceTint,
-            ),
-            padding: const WidgetStatePropertyAll(
-              TPadding.vPaddingSm,
-            ),
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            filled: true,
-            fillColor: enabled
-                ? theme.colorScheme.surface
-                : theme.colorScheme.onSurface.withValues(alpha: 0.04),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-              borderSide: BorderSide(
-                color: theme.colorScheme.outline,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-              borderSide: BorderSide(
-                color: theme.colorScheme.outline.withValues(alpha: 0.5),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 2,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-              borderSide: BorderSide(
-                color: theme.colorScheme.error,
-              ),
-            ),
-            contentPadding: TPadding.paddingMd,
-          ),
+          // textStyle: textStyle ?? theme.textTheme.bodyLarge,
+          // menuStyle: MenuStyle(
+          //   backgroundColor: WidgetStatePropertyAll(
+          //     theme.colorScheme.surface,
+          //   ),
+          //   elevation: const WidgetStatePropertyAll(4),
+          //   shadowColor: WidgetStatePropertyAll(
+          //     Colors.black.withValues(alpha: 0.1),
+          //   ),
+          //   surfaceTintColor: WidgetStatePropertyAll(
+          //     theme.colorScheme.surfaceTint,
+          //   ),
+          //   padding: const WidgetStatePropertyAll(
+          //     TPadding.vPaddingSm,
+          //   ),
+          // ),
+          // inputDecorationTheme: InputDecorationTheme(
+          //   filled: true,
+          //   fillColor: enabled
+          //       ? theme.colorScheme.surface
+          //       : theme.colorScheme.onSurface.withValues(alpha: 0.04),
+          //   border: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
+          //     borderSide: BorderSide(
+          //       color: theme.colorScheme.outline,
+          //     ),
+          //   ),
+          //   enabledBorder: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
+          //     borderSide: BorderSide(
+          //       color: theme.colorScheme.outline.withValues(alpha: 0.5),
+          //     ),
+          //   ),
+          //   focusedBorder: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
+          //     borderSide: BorderSide(
+          //       color: theme.colorScheme.primary,
+          //       width: 2,
+          //     ),
+          //   ),
+          //   errorBorder: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
+          //     borderSide: BorderSide(
+          //       color: theme.colorScheme.error,
+          //     ),
+          //   ),
+          //   contentPadding: TPadding.paddingMd,
+          // ),
           dropdownMenuEntries: options
               .map((option) => DropdownMenuEntry<String>(
                     value: option,

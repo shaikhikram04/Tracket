@@ -10,6 +10,7 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/durations.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/devices/devices_utility.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
@@ -51,8 +52,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
     } catch (e) {
       if (mounted) {
-        THelperFunction.showSnackBar(
-            'Something went wrong. Please try again.', context);
+        THelperFunction.showSnackBar(TTextStrings.somethingWentWrong, context);
       }
     } finally {
       if (mounted) {
@@ -110,13 +110,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         boxShadow: [
           BoxShadow(
             color: primaryColor.withValues(alpha: 0.15),
-            blurRadius: 24,
+            blurRadius: TSizes.blurRadiusXl,
             offset: const Offset(0, 8),
             spreadRadius: 2,
           ),
           BoxShadow(
             color: primaryLight.withValues(alpha: 0.08),
-            blurRadius: 16,
+            blurRadius: TSizes.blurRadiusLg,
             offset: const Offset(0, 4),
             spreadRadius: 1,
           ),
@@ -184,8 +184,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           },
         ),
         tabs: const [
-          Tab(child: Text('Player')),
-          Tab(child: Text('User')),
+          Tab(child: Text(TTextStrings.player)),
+          Tab(child: Text(TTextStrings.user)),
         ],
       ),
     );
@@ -205,11 +205,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       child: SizedBox(
         height: height,
         child: _isChangingTab
-            ? const Center(
-                child: CircularLoadingIndicator(
+            ? const CircularLoadingIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(primaryMedium),
-                strokeWidth: 3,
-              ))
+                strokeWidth: TSizes.loadingStrokeWidthMd,
+              )
             : Container(
                 decoration: BoxDecoration(
                   color: isDark
