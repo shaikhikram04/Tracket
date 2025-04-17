@@ -74,7 +74,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     final safeAreaHeight = TDeviceUtils.getSafeAreaHeight(context);
 
     return Scaffold(
-      backgroundColor: LightThemeColors.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
@@ -99,10 +98,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Widget _buildAuthContainer(double height) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return AnimatedContainer(
       duration: AppDuration.tabAnimationDuration,
       decoration: BoxDecoration(
-        color: LightThemeColors.surfaceColor,
+        color: isDark
+            ? DarkThemeColors.surfaceColor
+            : LightThemeColors.surfaceColor,
         borderRadius: BorderRadius.circular(TSizes.radiusMd),
         boxShadow: [
           BoxShadow(
@@ -129,14 +132,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Widget _buildTabs() {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            LightThemeColors.cardColor,
-            LightThemeColors.cardColor.withValues(alpha: 0.8),
+            isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
+            isDark
+                ? DarkThemeColors.cardColor.withValues(alpha: 0.8)
+                : LightThemeColors.cardColor.withValues(alpha: 0.8),
           ],
         ),
         borderRadius: const BorderRadius.vertical(
@@ -161,7 +168,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ),
           borderRadius: _getTabBorderRadius(),
         ),
-        labelColor: LightThemeColors.surfaceColor,
+        labelColor: isDark
+            ? DarkThemeColors.surfaceColor
+            : LightThemeColors.surfaceColor,
         unselectedLabelColor: LightThemeColors.secondaryText,
         overlayColor: WidgetStateColor.resolveWith(
           (Set<WidgetState> states) {
@@ -190,6 +199,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Widget _buildAuthContent(double height) {
+    final isDark = THelperFunction.isDarkMode(context);
     return AnimatedSwitcher(
       duration: AppDuration.tabAnimationDuration,
       child: SizedBox(
@@ -201,9 +211,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                 strokeWidth: 3,
               ))
             : Container(
-                decoration: const BoxDecoration(
-                  color: LightThemeColors.surfaceColor,
-                  borderRadius: BorderRadius.vertical(
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? DarkThemeColors.surfaceColor
+                      : LightThemeColors.surfaceColor,
+                  borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(TSizes.radiusMd),
                   ),
                 ),
