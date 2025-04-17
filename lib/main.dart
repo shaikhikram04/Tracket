@@ -116,7 +116,7 @@ class Tracket extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       theme: TracketTheme.lightTheme,
       darkTheme: TracketTheme.darkTheme,
       title: 'Tracket',

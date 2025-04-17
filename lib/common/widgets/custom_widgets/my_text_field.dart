@@ -50,7 +50,7 @@ class MyTextField extends StatelessWidget {
       obscuringCharacter: '*',
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
       autocorrect: false,
-      style: Theme.of(context).textTheme.bodyLarge,
+      // style: Theme.of(context).textTheme.bodyLarge,
       maxLines: maxLines,
       minLines: minLines,
       autovalidateMode: autovalidateMode,
@@ -64,25 +64,10 @@ class MyTextField extends StatelessWidget {
                 ),
               )
             : null,
-        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: fillColor != null
-                  ? LightThemeColors.tertiaryText
-                  : primaryColor.withValues(alpha: 0.7),
-            ),
         labelText: label,
-        fillColor: fillColor,
-        filled: fillColor != null,
-        errorMaxLines: 2,
-        prefixIcon:
-            prefixIcon != null ? Icon(prefixIcon, color: primaryColor) : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: primaryColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(color: primaryColor, width: 2),
-        ),
+        // fillColor: fillColor,
+        // filled: fillColor != null,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
       ),
       maxLength: maxLength,
       onSaved: onSave,

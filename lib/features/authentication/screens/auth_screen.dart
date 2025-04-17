@@ -168,8 +168,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ),
           borderRadius: _getTabBorderRadius(),
         ),
-        labelColor:
-            isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
+        labelColor: onPrimary,
         unselectedLabelColor: isDark
             ? DarkThemeColors.secondaryText
             : LightThemeColors.secondaryText,
