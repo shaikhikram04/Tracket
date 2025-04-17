@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 
 enum HighlightSize {
   small, // Compact size
@@ -53,11 +54,11 @@ class HighlightedLabel extends StatelessWidget {
   BorderRadius get _defaultBorderRadius {
     switch (size) {
       case HighlightSize.small:
-        return BorderRadius.circular(12);
+        return BorderRadius.circular(TSizes.borderRadiusLg);
       case HighlightSize.medium:
-        return BorderRadius.circular(15);
+        return BorderRadius.circular(TSizes.borderRadiusXl);
       case HighlightSize.large:
-        return BorderRadius.circular(18);
+        return BorderRadius.circular(TSizes.borderRadiusXxl);
     }
   }
 
@@ -72,10 +73,10 @@ class HighlightedLabel extends StatelessWidget {
     final defaultStyle = TextStyle(
       color: color,
       fontSize: size == HighlightSize.small
-          ? 12
+          ? TSizes.fontSizeXs
           : size == HighlightSize.medium
-              ? 14
-              : 16,
+              ? TSizes.fontSizeSm
+              : TSizes.fontSizeMd,
       fontWeight: FontWeight.w500,
     );
 

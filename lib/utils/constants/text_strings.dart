@@ -8,6 +8,7 @@ class TTextStrings {
   static const String offeredButton = 'Offered';
   static const String requestButton = 'Request';
   static const String requestedButton = 'Requested';
+  static const String viewProfileButton = 'View Profile';
 
   //* Error messages
   static const String teamCapacityError =
@@ -31,5 +32,6 @@ class TTextStrings {
   //* login and signup
   static const String email = 'Email';
   static const String password = 'Password';
-  
+  static const String logout = 'Logout';
+
 }

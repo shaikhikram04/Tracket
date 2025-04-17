@@ -13,6 +13,7 @@ class TSizes {
   static const double iconLg = 32.0;
 
   //* Font sizes
+  static const double fontSizeXs = 12.0;
   static const double fontSizeSm = 14.0;
   static const double fontSizeMd = 16.0;
   static const double fontSizeLg = 18.0;
@@ -46,6 +47,9 @@ class TSizes {
   static const double borderRadiusSm = 4.0;
   static const double borderRadiusMd = 8.0;
   static const double borderRadiusLg = 12.0;
+  static const double borderRadiusXl = 15.0;
+  static const double borderRadiusXxl = 18.0;
+
 
   //* Divider height
   static const double dividerHeight = 1.0;

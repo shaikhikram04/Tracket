@@ -10,6 +10,8 @@ class TPadding {
 
   //* all padding
   static const sm = EdgeInsets.all(12);
+  static const md = EdgeInsets.all(16);
+  static const lg = EdgeInsets.all(20);
   static const xl = EdgeInsets.all(24);
 
   //* dialog padding

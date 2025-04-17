@@ -6,6 +6,9 @@ import 'package:tracket/features/authentication/services/firebase_auth_methods.d
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/my_text_style.dart';
 
@@ -42,7 +45,7 @@ class MainDrawer extends ConsumerWidget {
       child: Column(
         children: [
           DrawerHeader(
-            padding: const EdgeInsets.all(20),
+            padding: TPadding.lg,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -96,7 +99,7 @@ class MainDrawer extends ConsumerWidget {
                         player: player,
                       )),
                   child: Text(
-                    'View Profile',
+                    TTextStrings.viewProfileButton,
                     style: MyTextStyle(context).bodyLarge.copyWith(
                           color: onPrimary,
                           fontStyle: FontStyle.italic,
@@ -113,11 +116,11 @@ class MainDrawer extends ConsumerWidget {
             tileColor: const Color.fromARGB(255, 221, 237, 221),
             leading: const Icon(
               Icons.logout,
-              size: 26,
+              size: TSizes.iconMd,
               color: Colors.red,
             ),
             title: Text(
-              'Logout',
+              TTextStrings.logout,
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
