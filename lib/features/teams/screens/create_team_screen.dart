@@ -64,7 +64,8 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       }
     } catch (e) {
       if (mounted) {
-        THelperFunction.showSnackBar('Failed to pick image: ${e.toString()}', context);
+        THelperFunction.showSnackBar(
+            'Failed to pick image: ${e.toString()}', context);
       }
     }
   }
@@ -88,7 +89,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           isExist: false,
           isProfile: false,
         );
-        if (logoUrl  != null) {
+        if (logoUrl != null) {
           _teamFormData.logoUrl = logoUrl;
         } else {
           setState(() => _imageError = 'Failed to upload logo image');
@@ -230,41 +231,30 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
               _buildSectionTitle('Team Information'),
               const SizedBox(height: 20),
               MyTextField(
-                isLogin: false,
                 onSave: (value) => _teamFormData.name = value,
                 label: 'Team Name',
-                borderRadius: 12,
-                fillColor: Colors.white,
                 validator: (value) =>
                     ValidationServices.nameValidator(value, 'Team Name'),
                 autovalidateMode: _autoValidate
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.group,
-                primaryColor: grassGreen,
               ),
               const SizedBox(height: TeamConstants.defaultSpacing),
               MyTextField(
-                isLogin: false,
                 onSave: (value) => _teamFormData.shortName = value,
                 label: 'Team Short Name',
-                borderRadius: 12,
-                fillColor: Colors.white,
                 validator: ValidationServices.teamShortNameValidator,
                 maxLength: TeamConstants.maxShortNameLength,
                 autovalidateMode: _autoValidate
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.short_text,
-                primaryColor: grassGreen,
               ),
               const SizedBox(height: 20),
               MyTextField(
-                isLogin: false,
                 onSave: (value) => _teamFormData.description = value,
                 label: 'Team Description',
-                borderRadius: 12,
-                fillColor: Colors.white,
                 validator: (value) => value?.isEmpty ?? true
                     ? 'Please add a team description'
                     : null,
@@ -275,7 +265,6 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.description,
-                primaryColor: grassGreen,
               ),
               const SizedBox(height: 30),
               _buildAdvancedSettings(),

@@ -5,7 +5,7 @@ class TTextFieldTheme {
   const TTextFieldTheme._();
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
-    errorMaxLines: 3,
+    errorMaxLines: 2,
     prefixIconColor: Colors.grey,
     suffixIconColor: Colors.grey,
     labelStyle: TTextTheme.lightTextTheme.bodyMedium,
@@ -36,7 +36,7 @@ class TTextFieldTheme {
   );
 
   static InputDecorationTheme darkInputDecorationTheme = InputDecorationTheme(
-    errorMaxLines: 3,
+    errorMaxLines: 2,
     prefixIconColor: Colors.grey,
     suffixIconColor: Colors.grey,
     labelStyle: TTextTheme.darkTextTheme.bodyMedium!.copyWith(

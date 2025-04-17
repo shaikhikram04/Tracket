@@ -105,14 +105,14 @@ class TSizes {
   static const double circleAvatarMd = 40.0;
 
   //* user authentication form sizes
-  static const double userLoginFormHeight = 397;
-  static const double userLoginErrorHeight = 433;
+  static const double userLoginFormHeight = 353; //397
+  static const double userLoginErrorHeight = 399;
   static const double userSignupFormHeight = 483;
   static const double userSignupErrorHeight = 535;
 
   //* player authentication form sizes
-  static const double playerLoginFormHeight = 397;
-  static const double playerLoginErrorHeight = 433;
-  static const double playerSignupFormHeight = 733;
-  static const double playerSignupErrorHeight = 793;
+  static const double playerLoginFormHeight = 353;
+  static const double playerLoginErrorHeight = 399;
+  static const double playerSignupFormHeight = 661;
+  static const double playerSignupErrorHeight = 730;
 }

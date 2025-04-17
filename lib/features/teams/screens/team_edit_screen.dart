@@ -242,7 +242,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           initialText: _teamState.team.name,
                           onSave: (value) => _teamName = value,
                           label: 'Team Name',
-                          borderRadius: 12,
                           validator: (value) =>
                               ValidationServices.nameValidator(
                                   value, 'Team Name'),
@@ -252,7 +251,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           initialText: _teamState.team.shortName,
                           onSave: (value) => _teamShortName = value,
                           label: 'Team Short Name',
-                          borderRadius: 12,
                           validator: ValidationServices.teamShortNameValidator,
                         ),
                         const SizedBox(height: 16),
@@ -260,7 +258,6 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           initialText: _teamState.team.description,
                           onSave: (value) => _teamDescription = value,
                           label: 'Description',
-                          borderRadius: 12,
                           maxLength: 100,
                           maxLines: 3,
                           minLines: 2,

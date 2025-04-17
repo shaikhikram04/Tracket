@@ -166,8 +166,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         onSave: (value) => _email = value,
         hintText: 'Enter your email',
         prefixIcon: AppIconData.email,
-        borderRadius: TSizes.radiusSm,
-        fillColor: LightThemeColors.surfaceColor,
         validator: ValidationServices.emailValidator,
       ),
       const SizedBox(height: TSizes.verticalSpacingXl)

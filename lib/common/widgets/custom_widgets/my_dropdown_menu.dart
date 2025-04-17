@@ -15,7 +15,6 @@ class MyDropdownMenu extends StatelessWidget {
     this.leadingIcon,
     this.width,
     this.enabled = true,
-    this.textStyle,
     this.menuMaxHeight,
     this.enableFilter = false,
     this.errorText,
@@ -31,11 +30,12 @@ class MyDropdownMenu extends StatelessWidget {
   final Icon? leadingIcon;
   final double? width;
   final bool enabled;
-  final TextStyle? textStyle;
+  
   final double? menuMaxHeight;
   final bool enableFilter;
   final String? errorText;
   final bool requestFocusOnTap;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -79,54 +79,6 @@ class MyDropdownMenu extends StatelessWidget {
           ),
           hintText: hintText,
           errorText: errorText,
-          // textStyle: textStyle ?? theme.textTheme.bodyLarge,
-          // menuStyle: MenuStyle(
-          //   backgroundColor: WidgetStatePropertyAll(
-          //     theme.colorScheme.surface,
-          //   ),
-          //   elevation: const WidgetStatePropertyAll(4),
-          //   shadowColor: WidgetStatePropertyAll(
-          //     Colors.black.withValues(alpha: 0.1),
-          //   ),
-          //   surfaceTintColor: WidgetStatePropertyAll(
-          //     theme.colorScheme.surfaceTint,
-          //   ),
-          //   padding: const WidgetStatePropertyAll(
-          //     TPadding.vPaddingSm,
-          //   ),
-          // ),
-          // inputDecorationTheme: InputDecorationTheme(
-          //   filled: true,
-          //   fillColor: enabled
-          //       ? theme.colorScheme.surface
-          //       : theme.colorScheme.onSurface.withValues(alpha: 0.04),
-          //   border: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-          //     borderSide: BorderSide(
-          //       color: theme.colorScheme.outline,
-          //     ),
-          //   ),
-          //   enabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-          //     borderSide: BorderSide(
-          //       color: theme.colorScheme.outline.withValues(alpha: 0.5),
-          //     ),
-          //   ),
-          //   focusedBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-          //     borderSide: BorderSide(
-          //       color: theme.colorScheme.primary,
-          //       width: 2,
-          //     ),
-          //   ),
-          //   errorBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-          //     borderSide: BorderSide(
-          //       color: theme.colorScheme.error,
-          //     ),
-          //   ),
-          //   contentPadding: TPadding.paddingMd,
-          // ),
           dropdownMenuEntries: options
               .map((option) => DropdownMenuEntry<String>(
                     value: option,

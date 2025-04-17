@@ -457,7 +457,6 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           _venue.value = value;
         },
         label: 'Venue',
-        borderRadius: 15,
         validator: (value) => ValidationServices.nameValidator(value, 'Venue'),
       ),
     );

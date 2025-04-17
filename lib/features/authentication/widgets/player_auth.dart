@@ -8,7 +8,6 @@ import 'package:tracket/features/authentication/widgets/auth_form.dart';
 import 'package:tracket/features/authentication/widgets/auth_submit_button.dart';
 import 'package:tracket/features/authentication/widgets/authentication_toggle.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
-import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
@@ -104,26 +103,22 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
           const SizedBox(height: TSizes.defaultSpace),
           if (!playerAuthState.isLogin)
             MyTextField(
-              isLogin: playerAuthState.isLogin,
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
                   .updateField(playerName: value),
               hintText: TTextStrings.playerName,
               validator: (value) => ValidationServices.nameValidator(
                   value, TTextStrings.playerName),
-              fillColor: LightThemeColors.backgroundColor,
               prefixIcon: AppIconData.person,
             ),
           if (!playerAuthState.isLogin)
             const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
-            isLogin: playerAuthState.isLogin,
             onSave: (value) =>
                 ref.read(playerAuthProvider.notifier).updateField(email: value),
             hintText: TTextStrings.email,
             validator: ValidationServices.emailValidator,
             prefixIcon: AppIconData.email,
-            fillColor: LightThemeColors.backgroundColor,
           ),
           const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
@@ -136,8 +131,6 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             isPasswordHidden: playerAuthState.isPasswordHidden,
             changeVisibility:
                 ref.read(playerAuthProvider.notifier).togglePasswordVisibility,
-            isLogin: playerAuthState.isLogin,
-            fillColor: LightThemeColors.backgroundColor,
             prefixIcon: AppIconData.lock,
           ),
           const SizedBox(height: TSizes.defaultSpace),
