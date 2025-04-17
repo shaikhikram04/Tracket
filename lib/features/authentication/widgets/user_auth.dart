@@ -5,6 +5,8 @@ import 'package:tracket/features/authentication/providers/auth_state_provider.da
 import 'package:tracket/features/authentication/widgets/auth_form.dart';
 import 'package:tracket/features/authentication/widgets/auth_submit_button.dart';
 import 'package:tracket/features/authentication/widgets/authentication_toggle.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 
@@ -42,16 +44,15 @@ class _UserAuthState extends ConsumerState<UserAuth> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            userAuthState.isLogin ? 'Login as User' : 'Signup as user',
-            semanticsLabel: userAuthState.isLogin
-                ? 'Login form for users'
-                : 'Signup form for users',
+            userAuthState.isLogin
+                ? TTextStrings.loginAsUser
+                : TTextStrings.signupAsUser,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
                 .copyWith(fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.defaultSpace),
           if (!userAuthState.isLogin)
             MyTextField(
               onSave: (value) => ref
@@ -61,7 +62,8 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               validator: ValidationServices.usernameValidator,
               prefixIcon: AppIconData.person,
             ),
-          if (!userAuthState.isLogin) const SizedBox(height: 30),
+          if (!userAuthState.isLogin)
+            const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
             onSave: (value) =>
                 ref.read(playerAuthProvider.notifier).updateField(email: value),
@@ -69,7 +71,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             validator: ValidationServices.emailValidator,
             prefixIcon: AppIconData.email,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
             onSave: (value) => ref
                 .read(playerAuthProvider.notifier)
@@ -82,12 +84,12 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                 value, userAuthState.isLogin),
             prefixIcon: AppIconData.lock,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.defaultSpace),
           AuthSubmitButton(
               isLoading: userAuthState.isLoading,
               onSubmit: () => _onSubmit(userAuthState.isLogin),
               isLogin: userAuthState.isLogin),
-          const SizedBox(height: 15),
+          const SizedBox(height: TSizes.spaceBtwItems),
           AuthenticationToggle(
             isLogin: userAuthState.isLogin,
             toggleAuth: _toggleUser,

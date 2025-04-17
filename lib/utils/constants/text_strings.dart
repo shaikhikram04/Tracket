@@ -41,6 +41,8 @@ class TTextStrings {
   static const String selectBowlingArm = 'Select Bowling Arm';
   static const String loginAsPlayer = 'Login as Player';
   static const String signupAsPlayer = 'Signup as Player';
+  static const String loginAsUser = 'Login as User';
+  static const String signupAsUser = 'Signup as User';
   static const String playerName = 'Player Name';
 
   //* Authentication roles
