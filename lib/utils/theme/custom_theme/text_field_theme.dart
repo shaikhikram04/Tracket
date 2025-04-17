@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/theme/custom_theme/text_theme.dart';
 
-class ITextFieldTheme {
-  const ITextFieldTheme._();
+class TTextFieldTheme {
+  const TTextFieldTheme._();
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,

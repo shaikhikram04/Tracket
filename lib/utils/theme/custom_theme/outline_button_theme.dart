@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/theme/custom_theme/text_theme.dart';
 
-class IOutlinedButtonTheme {
-  const IOutlinedButtonTheme._();
+class TOutlinedButtonTheme {
+  const TOutlinedButtonTheme._();
 
   static final lightOutlinedButtonTheme = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
