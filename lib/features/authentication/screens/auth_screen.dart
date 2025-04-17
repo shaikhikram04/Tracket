@@ -168,10 +168,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ),
           borderRadius: _getTabBorderRadius(),
         ),
-        labelColor: isDark
-            ? DarkThemeColors.surfaceColor
-            : LightThemeColors.surfaceColor,
-        unselectedLabelColor: LightThemeColors.secondaryText,
+        labelColor:
+            isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
+        unselectedLabelColor: isDark
+            ? DarkThemeColors.secondaryText
+            : LightThemeColors.secondaryText,
         overlayColor: WidgetStateColor.resolveWith(
           (Set<WidgetState> states) {
             if (states.contains(WidgetState.hovered)) {
