@@ -87,7 +87,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                             decoration: BoxDecoration(
                               color: grassGreen,
                               borderRadius:
-                                  BorderRadius.circular(TSizes.radiusSm),
+                                  BorderRadius.circular(TSizes.borderRadiusLg),
                             ),
                             child: Text(
                               selectedPlayerPosition.toString(),

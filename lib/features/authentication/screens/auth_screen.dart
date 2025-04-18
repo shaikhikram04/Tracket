@@ -106,7 +106,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         color: isDark
             ? DarkThemeColors.surfaceColor
             : LightThemeColors.surfaceColor,
-        borderRadius: BorderRadius.circular(TSizes.radiusMd),
+        borderRadius: BorderRadius.circular(TSizes.borderRadiusXl),
         boxShadow: [
           BoxShadow(
             color: primaryColor.withValues(alpha: 0.15),
@@ -147,7 +147,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
           ],
         ),
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(TSizes.radiusMd),
+          top: Radius.circular(TSizes.borderRadiusXl),
         ),
       ),
       child: TabBar(
@@ -193,7 +193,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   BorderRadius _getTabBorderRadius() {
     return const BorderRadius.vertical(
-      top: Radius.circular(TSizes.radiusMd),
+      top: Radius.circular(TSizes.borderRadiusXl),
       bottom: Radius.circular(0),
     );
   }
@@ -215,7 +215,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                       ? DarkThemeColors.surfaceColor
                       : LightThemeColors.surfaceColor,
                   borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(TSizes.radiusMd),
+                    bottom: Radius.circular(TSizes.borderRadiusXl),
                   ),
                 ),
                 child: TabBarView(

@@ -25,6 +25,7 @@ class TSizes {
   static const double buttonMinElevation = 2.0;
   static const double buttonMinWidth = 95.0;
   static const double buttonMinHeight = 35.0;
+  static const double buttonHeight = 45.0;
 
   //* Loading Indicator sizes
   static const double loadingIndicatorSm = 20.0;
@@ -84,10 +85,10 @@ class TSizes {
   static const verticalSpacingMd = 12.0;
   static const verticalSpacingXl = 24.0;
 
-  //* radius
-  static const radiusSm = 12.0;
-  static const radiusMs = 15.0;
-  static const radiusMd = 20.0;
+  // //* radius
+  // static const radiusSm = 12.0;
+  // static const radiusMs = 15.0;
+  // static const radiusMd = 20.0;
 
   //* shadow radius
   static const shadowRadiusSm = 7.0;

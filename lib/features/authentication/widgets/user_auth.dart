@@ -58,7 +58,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
               onSave: (value) => ref
                   .read(playerAuthProvider.notifier)
                   .updateField(playerName: value),
-              hintText: 'Username',
+              hintText: TTextStrings.username,
               validator: ValidationServices.usernameValidator,
               prefixIcon: AppIconData.person,
             ),
@@ -67,7 +67,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
           MyTextField(
             onSave: (value) =>
                 ref.read(playerAuthProvider.notifier).updateField(email: value),
-            hintText: 'Email',
+            hintText: TTextStrings.email,
             validator: ValidationServices.emailValidator,
             prefixIcon: AppIconData.email,
           ),
@@ -76,7 +76,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             onSave: (value) => ref
                 .read(playerAuthProvider.notifier)
                 .updateField(password: value),
-            hintText: 'Password',
+            hintText: TTextStrings.password,
             isPasswordHidden: userAuthState.isPasswordHidden,
             changeVisibility:
                 ref.read(playerAuthProvider.notifier).togglePasswordVisibility,

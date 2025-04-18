@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class AuthSubmitButton extends StatelessWidget {
@@ -18,9 +20,9 @@ class AuthSubmitButton extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return CustomButton.primary(
       width: width * 0.8,
-      height: 45,
+      height: TSizes.buttonHeight,
       onPressed: onSubmit,
-      text: isLogin ? 'Login' : 'Sign Up',
+      text: isLogin ? TTextStrings.login : TTextStrings.signup,
       isLoading: isLoading,
     );
   }

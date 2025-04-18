@@ -51,7 +51,7 @@ class EnhancedListTile extends StatelessWidget {
       margin: TPadding.paddingSm,
       shape: shape ??
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(TSizes.radiusSm),
+            borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
             side: BorderSide(
               color: isSelected
                   ? theme.primaryColor.withValues(alpha: 0.5)
@@ -60,10 +60,10 @@ class EnhancedListTile extends StatelessWidget {
           ),
       child: Material(
         color: backgroundColor ?? primaryColor.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(TSizes.radiusSm),
+        borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(TSizes.radiusSm),
+          borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
           highlightColor:
               highlightColor ?? theme.highlightColor.withValues(alpha: 0.1),
           splashColor: rippleColor ?? theme.splashColor.withValues(alpha: 0.1),

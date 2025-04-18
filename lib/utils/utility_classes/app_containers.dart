@@ -10,8 +10,8 @@ class AppContainers {
     required BuildContext context,
     EdgeInsetsGeometry margin = TPadding.hPaddingXl,
     EdgeInsetsGeometry padding = TPadding.xl,
-    double radius = TSizes.radiusMd,
-    double blurRadius = TSizes.radiusMd,
+    double radius = TSizes.borderRadiusXxl,
+    double blurRadius = TSizes.blurRadiusXl,
   }) {
     final isDark = THelperFunction.isDarkMode(context);
 

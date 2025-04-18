@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 
 class AuthForm extends StatelessWidget {
   const AuthForm({
@@ -15,7 +16,7 @@ class AuthForm extends StatelessWidget {
     return Form(
       key: formKey,
       child: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(TSizes.borderRadiusXxl),
         child: child,
       ),
     );

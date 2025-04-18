@@ -124,7 +124,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             alpha: isDark ? 0.4 : 0.1,
                           ),
                           borderRadius: BorderRadius.circular(
-                            TSizes.radiusSm,
+                            TSizes.borderRadiusLg,
                           ),
                         ),
                         child: Text(

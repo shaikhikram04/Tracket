@@ -49,12 +49,16 @@ class TTextStrings {
   //! login and signup
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String username = 'Username';
   static const String forgetPassword = 'Forget Password?';
+  static const String wantToSignup = 'Sign Up?';
+  static const String wantToLogin = 'Login?';
   static const String resetPassword = 'Reset Password';
   static const String resendEmail = 'Resend Email';
   static const String resetEmailSent = 'Reset Email Sent';
   static const String logout = 'Logout';
   static const String login = 'Login';
+  static const String signup = 'Sign Up';
   static const String enterEmail = 'Enter your email';
   static const String editEmail = 'Edit email';
   static const String selectCricketRole = 'Select Cricket Role';

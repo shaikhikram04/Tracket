@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/features/authentication/screens/forget_password.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class AuthenticationToggle extends StatelessWidget {
@@ -23,13 +24,13 @@ class AuthenticationToggle extends StatelessWidget {
       children: [
         if (isLogin)
           MyTextButton(
-            text: 'Forget password?',
+            text: TTextStrings.forgetPassword,
             onPressed: onForgetPassword,
             isUnderlined: true,
           ),
         const Spacer(),
         MyTextButton(
-          text: isLogin ? 'Sign Up?' : 'Login?',
+          text: isLogin ? TTextStrings.wantToSignup : TTextStrings.wantToLogin,
           onPressed: toggleAuth,
         ),
       ],

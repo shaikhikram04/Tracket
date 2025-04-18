@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class StepLabel extends StatelessWidget {
@@ -12,8 +13,6 @@ class StepLabel extends StatelessWidget {
   final bool isActive;
   final String label;
 
-  static const double _labelFontSize = 12.0;
-
   @override
   Widget build(BuildContext context) {
     final isDark = THelperFunction.isDarkMode(context);
@@ -25,7 +24,7 @@ class StepLabel extends StatelessWidget {
       label,
       style: TextStyle(
         color: isActive ? activeColor : inactiveColor,
-        fontSize: _labelFontSize,
+        fontSize: TSizes.fontSizeXs,
       ),
     );
   }
