@@ -4,6 +4,9 @@ import 'package:tracket/features/authentication/models/verification_steps_data.d
 import 'package:tracket/features/authentication/widgets/progress_step_indicator.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
+import 'package:tracket/utils/devices/devices_utility.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 
@@ -20,7 +23,10 @@ class VerificationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int currentStep = 0; // ref.watch(verificationStepProvider);
-    final double width = MediaQuery.of(context).size.width;
+    final double width = TDeviceUtils.getScreenWidth(context);
+
+    final isDark = THelperFunction.isDarkMode(context);
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) async {
@@ -29,11 +35,10 @@ class VerificationScreen extends ConsumerWidget {
         //* Consider adding a confirmation dialog
         final wantToStay = await THelperFunction.showConfirmationDialog(
           context,
-          title: 'Confirm Exit',
-          message:
-              'Leaving now will cancel the verification process. Are you sure?',
-          cancelText: 'Leave',
-          confirmText: 'Stay',
+          title: TTextStrings.confirmExit,
+          message: TTextStrings.confirmExitMessage,
+          cancelText: TTextStrings.leaveButton,
+          confirmText: TTextStrings.stayButton,
         );
         if (wantToStay) {
           // Handle the case when the user wants to stay
@@ -42,7 +47,8 @@ class VerificationScreen extends ConsumerWidget {
         }
       },
       child: Dialog(
-        backgroundColor: Colors.white,
+        backgroundColor:
+            isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
         child: SizedBox(
           width: width * 0.97,
           child: Padding(
@@ -51,45 +57,45 @@ class VerificationScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: 5),
+                const SizedBox(height: TSizes.xs),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 8,
+                  spacing: TSizes.sm,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.lock_outline,
-                      color: primaryVariant,
-                      size: 25,
+                      color: isDark ? primaryLight : primaryVariant,
+                      size: TSizes.iconMd,
                     ),
                     Text(
-                      'Authentication',
+                      TTextStrings.authentication,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: primaryVariant,
+                            color: isDark ? primaryLight : primaryVariant,
                           ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: TSizes.defaultSpace),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ProgressStepIndicator(
                       step: 1,
                       currentStep: currentStep,
-                      label: 'Send Email',
+                      label: TTextStrings.sendEmail,
                     ),
                     _buildProgressLine(isActive: currentStep > 1),
                     ProgressStepIndicator(
                       step: 2,
                       currentStep: currentStep,
-                      label: 'Verixfied',
+                      label: TTextStrings.verified,
                     ),
                     _buildProgressLine(isActive: currentStep > 2),
                     ProgressStepIndicator(
                       step: 3,
                       currentStep: currentStep,
-                      label: 'Login',
+                      label: TTextStrings.login,
                     ),
                   ],
                 ),
@@ -97,11 +103,11 @@ class VerificationScreen extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: primaryColor.withValues(alpha: 0.1),
+                    color: primaryColor.withValues(alpha: isDark ? 0.2 : 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 10,
                     children: [
                       Icon(
@@ -113,7 +119,6 @@ class VerificationScreen extends ConsumerWidget {
                           VerificationStepData.getMessage(currentStep, email),
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: LightThemeColors.secondaryText,
                                     height: 1.5,
                                   ),
                         ),
@@ -127,7 +132,7 @@ class VerificationScreen extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: primaryVariant,
+                      color: isDark ? primaryLight : primaryVariant,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
@@ -139,13 +144,12 @@ class VerificationScreen extends ConsumerWidget {
                           color: LightThemeColors.surfaceColor,
                         ),
                         Text(
-                          'Resend Verification Email',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(
-                                  color: LightThemeColors.surfaceColor,
-                                  fontWeight: FontWeight.w400),
+                          TTextStrings.resendVerificationEmail,
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    color: LightThemeColors.surfaceColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                         ),
                       ],
                     ),

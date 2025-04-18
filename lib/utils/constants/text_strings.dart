@@ -9,6 +9,8 @@ class TTextStrings {
   static const String requestButton = 'Request';
   static const String requestedButton = 'Requested';
   static const String viewProfileButton = 'View Profile';
+  static const String leaveButton = 'Leave';
+  static const String stayButton = 'Stay';
 
   //* Error messages
   static const String teamCapacityError =
@@ -39,6 +41,7 @@ class TTextStrings {
   static const String resendEmail = 'Resend Email';
   static const String resetEmailSent = 'Reset Email Sent';
   static const String logout = 'Logout';
+  static const String login = 'Login';
   static const String enterEmail = 'Enter your email';
   static const String editEmail = 'Edit email';
   static const String selectCricketRole = 'Select Cricket Role';
@@ -55,6 +58,14 @@ class TTextStrings {
   static const String resetPasswordMessage =
       'Enter your registered email address. We\'ll send you a link to reset your password.';
   static const String backToLogin = 'Back to Login';
+  static const String confirmExit = 'Confirm Exit';
+  static const String confirmExitMessage =
+      'Leaving now will cancel the verification process. Are you sure?';
+  static const String authentication = 'Authentication';
+  static const String sendEmail = 'Send Email';
+  static const String verified = 'Verified';
+  static const String resendVerificationEmail =
+      'Resend Verification Email';
 
   //* Authentication roles
   static const String user = 'User';

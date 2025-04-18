@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class StepLabel extends StatelessWidget {
   const StepLabel({
@@ -15,10 +16,15 @@ class StepLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+    final activeColor = isDark ? primaryLight : primaryColor;
+    final inactiveColor =
+        isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText;
+
     return Text(
       label,
       style: TextStyle(
-        color: isActive ? primaryColor : Colors.grey.shade600,
+        color: isActive ? activeColor : inactiveColor,
         fontSize: _labelFontSize,
       ),
     );
