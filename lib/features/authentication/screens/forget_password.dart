@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_containers.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
@@ -41,13 +43,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
     try {
       setState(() => _isSendingEmail = true);
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => const CircularLoadingIndicator(
+                color: primaryColor,
+                strokeWidth: 3.0,
+              ));
       _formKey.currentState!.save();
 
       final result = await FirebaseAuthMethods().resetPassword(_email!);
 
       if (!mounted) return;
 
-      if (result == 'success') {
+      if (result == TTextStrings.success) {
         setState(() {
           _isResetEmailSend = true;
         });
@@ -56,9 +65,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       }
     } catch (e) {
       if (!mounted) return;
-      THelperFunction.showSnackBar('An error occurred: $e', context);
+      THelperFunction.showSnackBar(
+          '${TTextStrings.unexpectedError} $e', context);
     } finally {
       setState(() => _isSendingEmail = false);
+      Navigator.pop(context);
     }
   }
 
@@ -79,83 +90,74 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const AppLogo(),
-                    const SizedBox(height: TSizes.verticalSpacingXl),
-                    Text(
-                      'Forget Password?',
-                      style:
-                          Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: grassGreen,
-                                letterSpacing: 0.5,
-                              ),
-                    ),
-                    const SizedBox(height: TSizes.verticalSpacingMd),
-                    AppContainers.classicContainer(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: TSizes.verticalSpacingMd,
-                        children: [
-                          Container(
-                            padding: TPadding.sm,
-                            decoration: BoxDecoration(
-                              color: primaryColor.withValues(alpha: 0.1),
-                              borderRadius:
-                                  BorderRadius.circular(TSizes.radiusSm),
-                            ),
-                            child: Text(
-                              _isResetEmailSend
-                                  ? 'Reset email link has been sent to ${_email!.trim()}. Please check your inbox!'
-                                  : 'Enter your registered email address. We\'ll send you a link to reset your password.',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                          const SizedBox(height: TSizes.verticalSpacingXl),
-                          if (!_isResetEmailSend) ..._buildEmailForm(),
-                          _buildActionButtons(),
-                        ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const AppLogo(),
+                const SizedBox(height: TSizes.verticalSpacingXl),
+                Text(
+                  TTextStrings.forgetPassword,
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? lightGrassGreen : grassGreen,
+                        letterSpacing: 0.5,
                       ),
-                    ),
-                    const SizedBox(height: TSizes.verticalSpacingXl),
-                    TextButton.icon(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: grassGreen,
-                      ),
-                      label: Text(
-                        'Back to Login',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: grassGreen,
-                            ),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
+                const SizedBox(height: TSizes.verticalSpacingMd),
+                AppContainers.classicContainer(
+                  context: context,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: TSizes.verticalSpacingMd,
+                    children: [
+                      Container(
+                        padding: TPadding.sm,
+                        decoration: BoxDecoration(
+                          color: primaryColor.withValues(
+                            alpha: isDark ? 0.4 : 0.1,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            TSizes.radiusSm,
+                          ),
+                        ),
+                        child: Text(
+                          _isResetEmailSend
+                              ? TTextStrings.resetEmailSentMsg(_email!)
+                              : TTextStrings.resetPasswordMessage,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      const SizedBox(height: TSizes.verticalSpacingXl),
+                      if (!_isResetEmailSend) ..._buildEmailForm(),
+                      _buildActionButtons(isDark),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: TSizes.verticalSpacingXl),
+                TextButton.icon(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: isDark ? lightGrassGreen : grassGreen,
+                  ),
+                  label: Text(
+                    TTextStrings.backToLogin,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: isDark ? lightGrassGreen : grassGreen,
+                        ),
+                  ),
+                ),
+              ],
             ),
           ),
-          if (_isSendingEmail)
-            Container(
-              color: LightThemeColors.primaryText.withValues(alpha: 0.3),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                  strokeWidth: 3,
-                ),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
@@ -164,7 +166,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     return [
       MyTextField(
         onSave: (value) => _email = value,
-        hintText: 'Enter your email',
+        hintText: TTextStrings.enterEmail,
         prefixIcon: AppIconData.email,
         validator: ValidationServices.emailValidator,
       ),
@@ -172,7 +174,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     ];
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -180,18 +182,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           TextButton(
             onPressed: _onEditEmail,
             child: Text(
-              'Edit email',
+              TTextStrings.editEmail,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: grassGreen,
+                    color: isDark ? lightGrassGreen : grassGreen,
                   ),
             ),
           ),
         const Spacer(),
         CustomButton.primary(
           onPressed: _isSendingEmail ? null : _sendResetEmail,
-          text: _isResetEmailSend ? 'Resend Email' : 'Send Reset Link',
+          text: _isResetEmailSend
+              ? TTextStrings.resendEmail
+              : TTextStrings.resetPassword,
           backgroundColor: primaryColor,
-          borderRadius: 12,
+          borderRadius: TSizes.borderRadiusLg,
         ),
       ],
     );

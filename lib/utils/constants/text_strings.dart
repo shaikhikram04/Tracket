@@ -34,7 +34,13 @@ class TTextStrings {
   //* login and signup
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String forgetPassword = 'Forget Password?';
+  static const String resetPassword = 'Reset Password';
+  static const String resendEmail = 'Resend Email';
+  static const String resetEmailSent = 'Reset Email Sent';
   static const String logout = 'Logout';
+  static const String enterEmail = 'Enter your email';
+  static const String editEmail = 'Edit email';
   static const String selectCricketRole = 'Select Cricket Role';
   static const String selectBattingPosition = 'Select Batting Position';
   static const String selectBowlingStyle = 'Select Bowling Style';
@@ -44,11 +50,16 @@ class TTextStrings {
   static const String loginAsUser = 'Login as User';
   static const String signupAsUser = 'Signup as User';
   static const String playerName = 'Player Name';
+  static String resetEmailSentMsg(String email) =>
+      'Reset email link has been sent to ${email.trim()}. Please check your inbox!';
+  static const String resetPasswordMessage =
+      'Enter your registered email address. We\'ll send you a link to reset your password.';
+  static const String backToLogin = 'Back to Login';
 
   //* Authentication roles
   static const String user = 'User';
   static const String player = 'Player';
 
-
-
+  //* success messages
+  static const String success = 'success';
 }

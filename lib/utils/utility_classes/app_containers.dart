@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class AppContainers {
   static Container classicContainer({
     required Widget child,
+    required BuildContext context,
     EdgeInsetsGeometry margin = TPadding.hPaddingXl,
-    EdgeInsetsGeometry padding = TPadding .xl,
+    EdgeInsetsGeometry padding = TPadding.xl,
     double radius = TSizes.radiusMd,
     double blurRadius = TSizes.radiusMd,
-    Color color = Colors.white,
-    Color shadowColor = primaryColor,
   }) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Container(
       margin: margin,
       decoration: BoxDecoration(
-        color: color,
+        color: isDark
+            ? DarkThemeColors.surfaceColor
+            : LightThemeColors.surfaceColor,
         borderRadius: BorderRadius.circular(radius),
         boxShadow: [
           BoxShadow(
-            color: shadowColor.withValues(alpha: 0.15),
+            color: primaryColor.withValues(alpha: 0.15),
             blurRadius: blurRadius,
             offset: const Offset(0, 8),
           ),
