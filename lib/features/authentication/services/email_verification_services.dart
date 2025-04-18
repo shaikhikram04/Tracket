@@ -10,6 +10,7 @@ import 'package:tracket/features/authentication/providers/verification_step.dart
 import 'package:tracket/features/authentication/services/player_auth_services.dart';
 import 'package:tracket/features/authentication/services/user_auth_services.dart';
 import 'package:tracket/screens/home.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class EmailVerificationService {
@@ -36,7 +37,7 @@ class EmailVerificationService {
     await Future.delayed(const Duration(seconds: 1));
 
     try {
-      if (verificationData.role == 'user') {
+      if (verificationData.role == TTextStrings.userRole) {
         await UserAuthService.signupUser(
           userId: verificationData.user.uid,
           username: verificationData.username,
@@ -104,7 +105,7 @@ class EmailVerificationService {
       if (!isCompleted) {
         verificationTimer?.cancel();
         if (!data.context.mounted) return;
-        _onError('Verification timeout', data.context, data.user);
+        _onError(TTextStrings.verificationTimeout, data.context, data.user);
       }
     });
   }

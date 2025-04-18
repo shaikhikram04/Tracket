@@ -1,5 +1,5 @@
 class TTextStrings {
-  //* Button text
+  //! Button text
   static const String addButton = 'Add';
   static const String addedButton = 'Added';
   static const String joinButton = 'Join';
@@ -12,7 +12,7 @@ class TTextStrings {
   static const String leaveButton = 'Leave';
   static const String stayButton = 'Stay';
 
-  //* Error messages
+  //! Error messages
   static const String teamCapacityError =
       'Team has reached its maximum capacity.';
   static const String unexpectedError =
@@ -20,21 +20,33 @@ class TTextStrings {
   static const String somethingWentWrong =
       'Something went wrong. Please try again later.';
   static const String error = 'Error';
+  static const String wrongEmailOrPassword =
+      'Wrong email or password. Please try again.';
 
-  //* logging errors
+  //! logging errors
   static const String emailUsedByUser =
       'This email is already in use. Try another email or login as a user.';
   static const String emailUsedByPlayer =
       'This email is already in use. Try another email or login as a player.';
+  static const String verificationTimeout = 'Verification timeout';
+  static const String noAuthenticationUser = 'No authenticated user found';
+  static const String userNotFound = 'User not found';
+  static const String userNotFoundMessage =
+      'No user found with the provided email. Sign-up first!';
 
-  //* match formats
+  //! match formats
   static const String over5 = '5 overs';
   static const String over10 = '10 overs';
   static const String over20 = '20 overs';
   static const String over50 = '50 overs';
   static const String test = 'Test';
+  static const String over5Key = 'over5';
+  static const String over10Key = 'over10';
+  static const String over20Key = 'over20';
+  static const String over50Key = 'over50';
+  static const String testKey = 'test';
 
-  //* login and signup
+  //! login and signup
   static const String email = 'Email';
   static const String password = 'Password';
   static const String forgetPassword = 'Forget Password?';
@@ -67,7 +79,7 @@ class TTextStrings {
   static const String verified = 'Verified';
   static const String resendVerificationEmail = 'Resend Verification Email';
 
-  //* verification messages
+  //! verification messages
   static const String waitForEmailVerification = 'Wait for email verification';
   static const String emailVerificationSuccessfully =
       'Verification email successfully!';
@@ -75,10 +87,20 @@ class TTextStrings {
   static const String emailVerificationFailed =
       'Email verification failed. Please try again.';
 
-  //* Authentication roles
+  //! Authentication roles
   static const String user = 'User';
   static const String player = 'Player';
+  static const String userRole = 'user';
+  static const String playerRole = 'player';
 
-  //* success messages
+  //! success messages
   static const String success = 'success';
+
+  //! FirebaseAuth & custom error code
+  static const String emailAlreadyInUse = 'email-already-in-use';
+  static const String emailUsedByUserCode = 'Email-is-already-in-use-as-user';
+  static const String emailUsedByPlayerCode =
+      'Email-is-already-in-use-as-player';
+  static const String userNotFoundCode = 'user-not-found';
+  static const String invalidCredentialCode = 'invalid-credential';
 }

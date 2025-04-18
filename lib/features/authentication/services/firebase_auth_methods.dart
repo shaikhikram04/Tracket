@@ -9,6 +9,7 @@ import 'package:tracket/features/authentication/services/auth_service.dart';
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/screens/home.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
@@ -22,7 +23,7 @@ class FirebaseAuthMethods extends AuthService {
   User get currentUser {
     final user = _auth.currentUser;
     if (user == null) {
-      throw StateError('No authenticated user found');
+      throw StateError(TTextStrings.noAuthenticationUser);
     }
     return user;
   }
@@ -44,17 +45,17 @@ class FirebaseAuthMethods extends AuthService {
       user = userCred.user;
       await user?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
+      if (e.code == TTextStrings.emailAlreadyInUse) {
         final role = await FirebaseAuthMethods.getUserRole(email);
 
         String code;
         String message;
-        if (role == 'user') {
-          code = 'Email-is-already-in-use-as-user';
-          message = 'Try another email or login as user with this email.';
+        if (role == TTextStrings.userRole) {
+          code = TTextStrings.emailUsedByUserCode;
+          message = TTextStrings.emailUsedByUser;
         } else {
-          code = 'Email-is-already-in-use-as-player';
-          message = 'Try another email or login as player with this email.';
+          code = TTextStrings.emailUsedByPlayerCode;
+          message = TTextStrings.emailUsedByPlayer;
         }
 
         throw FirebaseAuthException(
@@ -80,7 +81,7 @@ class FirebaseAuthMethods extends AuthService {
     final snap = await getUserSnap;
 
     QuerySnapshot? playerTeamsSnap;
-    if (snap.data()!['role'] == 'player') {
+    if (snap.data()!['role'] == TTextStrings.playerRole) {
       playerTeamsSnap = await _firestore
           .collection(FirestoreCollections.players)
           .doc(currentUserId)
@@ -93,14 +94,16 @@ class FirebaseAuthMethods extends AuthService {
   }
 
   @override
-  Future<void>  login({
+  Future<void> login({
     required String email,
     required String password,
     required BuildContext context,
     required Ref ref,
     required String expectedRole,
   }) async {
-    final oponentRole = expectedRole == 'user' ? 'player' : 'user';
+    final opponentRole = expectedRole == TTextStrings.userRole
+        ? TTextStrings.playerRole
+        : TTextStrings.userRole;
     try {
       final userCred = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -124,7 +127,7 @@ class FirebaseAuthMethods extends AuthService {
       final role = await getUserRole(email);
 
       if (role != expectedRole) {
-        throw FirebaseAuthException(code: 'email-used-by-$oponentRole');
+        throw FirebaseAuthException(code: 'email-used-by-$opponentRole');
       }
 
       if (context.mounted) {
@@ -135,19 +138,19 @@ class FirebaseAuthMethods extends AuthService {
       }
     } on FirebaseAuthException catch (error) {
       if (!context.mounted) return;
-      if (error.code == 'user-not-found') {
+      if (error.code == TTextStrings.userNotFound) {
         THelperFunction.showAlertDialog(
           context,
-          'User not found',
-          'No user found with the provided email. Sign-up first!',
+          TTextStrings.userNotFound,
+          TTextStrings.userNotFoundMessage,
         );
-      } else if (error.code == 'invalid-credential') {
-        THelperFunction.showSnackBar('Wrong email or password', context);
+      } else if (error.code == TTextStrings.invalidCredentialCode) {
+        THelperFunction.showSnackBar(TTextStrings.wrongEmailOrPassword, context);
         rethrow;
-      } else if (error.code == 'email-used-by-$oponentRole') {
+      } else if (error.code == 'email-used-by-$opponentRole') {
         _auth.signOut();
         THelperFunction.showSnackBar(
-          'This email is used as a $oponentRole. Please login as a $oponentRole!',
+          'This email is used as a $opponentRole. Please login as a $opponentRole!',
           context,
         );
       }
@@ -162,7 +165,7 @@ class FirebaseAuthMethods extends AuthService {
     String result;
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      result = 'success';
+      result = TTextStrings.success;
     } catch (error) {
       result = error.toString();
     }

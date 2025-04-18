@@ -6,6 +6,7 @@ import 'package:tracket/features/players/models/bowling_stats.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/features/players/models/player_stats.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 class PlayerAuthService {
@@ -51,7 +52,7 @@ class PlayerAuthService {
         email: data.email,
         createdAt: Timestamp.now(),
         id: data.playerId,
-        role: 'player',
+        role: TTextStrings.playerRole,
         profileImageUrl: data.imageUrl,
         following: [],
         followingTeams: [],
@@ -69,26 +70,26 @@ class PlayerAuthService {
           playerDocRef.collection(FirestoreCollections.stats);
 
       await playerStatsCollectionRef
-          .doc("over5")
+          .doc(TTextStrings.over5Key)
           .set(playerCricketDetail.allFormatStats.over5.toJson);
 
       await playerStatsCollectionRef
-          .doc("over10")
+          .doc(TTextStrings.over10Key)
           .set(playerCricketDetail.allFormatStats.over10.toJson);
 
       await playerStatsCollectionRef
-          .doc("over20")
+          .doc(TTextStrings.over20Key)
           .set(playerCricketDetail.allFormatStats.over20.toJson);
 
       await playerStatsCollectionRef
-          .doc("over50")
+          .doc(TTextStrings.over50Key)
           .set(playerCricketDetail.allFormatStats.over50.toJson);
 
       await playerStatsCollectionRef
-          .doc("test")
+          .doc(TTextStrings.testKey)
           .set(playerCricketDetail.allFormatStats.test.toJson);
 
-      return 'success';
+      return TTextStrings.success;
     } catch (e) {
       return e.toString();
     }

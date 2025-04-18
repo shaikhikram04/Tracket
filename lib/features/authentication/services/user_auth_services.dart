@@ -1,6 +1,7 @@
 // User-specific authentication
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/players/models/player.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 class UserAuthService {
@@ -16,7 +17,7 @@ class UserAuthService {
       final user = Player.user(
         email: email,
         name: username,
-        role: 'user',
+        role: TTextStrings.userRole,
         createdAt: Timestamp.now(),
         id: userId,
         profileImageUrl: imageUrl,
@@ -29,7 +30,7 @@ class UserAuthService {
           .collection(FirestoreCollections.players)
           .doc(userId)
           .set(user.toJsonForUser);
-      return 'success';
+      return TTextStrings.success;
     } catch (e) {
       return e.toString();
     }
