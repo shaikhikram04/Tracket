@@ -19,6 +19,7 @@ class TTextStrings {
       'An unexpected error occurred. Please try again later.';
   static const String somethingWentWrong =
       'Something went wrong. Please try again later.';
+  static const String error = 'Error';
 
   //* logging errors
   static const String emailUsedByUser =
@@ -64,8 +65,15 @@ class TTextStrings {
   static const String authentication = 'Authentication';
   static const String sendEmail = 'Send Email';
   static const String verified = 'Verified';
-  static const String resendVerificationEmail =
-      'Resend Verification Email';
+  static const String resendVerificationEmail = 'Resend Verification Email';
+
+  //* verification messages
+  static const String waitForEmailVerification = 'Wait for email verification';
+  static const String emailVerificationSuccessfully =
+      'Verification email successfully!';
+  static const String loginSuccessfully = 'Login successfully!';
+  static const String emailVerificationFailed =
+      'Email verification failed. Please try again.';
 
   //* Authentication roles
   static const String user = 'User';

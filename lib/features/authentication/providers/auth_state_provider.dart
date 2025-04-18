@@ -9,6 +9,7 @@ import 'package:tracket/features/authentication/providers/verification_step.dart
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
@@ -198,14 +199,14 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     if (error is FirebaseAuthException) {
       THelperFunction.showAlertDialog(
         context,
-        'Error',
+        TTextStrings.error,
         THelperFunction.getErrorMessage(error.code),
       );
     } else {
       THelperFunction.showAlertDialog(
         context,
-        'Error',
-        'An unexpected error occurred. Please try again.',
+        TTextStrings.error,
+        TTextStrings.unexpectedError,
       );
     }
   }

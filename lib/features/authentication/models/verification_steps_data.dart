@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 
 class VerificationStepData {
   static const int sendEmail = 1;
@@ -8,15 +9,15 @@ class VerificationStepData {
   static String getMessage(int step, String email) {
     switch (step) {
       case 0:
-        return 'Wait for email verification';
+        return TTextStrings.waitForEmailVerification;
       case sendEmail:
-        return 'Verification email sent to $email! Please check your inbox.';
+        return TTextStrings.resetEmailSentMsg(email);
       case verified:
-        return 'Verification email successfully!';
+        return TTextStrings.emailVerificationSuccessfully;
       case login:
-        return 'Login successful!';
+        return TTextStrings.loginSuccessfully;
       default:
-        return 'Verification failed. Please try again';
+        return TTextStrings.emailVerificationFailed;
     }
   }
 
