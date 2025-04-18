@@ -12,6 +12,7 @@ class TPadding {
   static const vPaddingXl = EdgeInsets.symmetric(vertical: 20);
 
   //* all padding
+  static const xs = EdgeInsets.all(8);
   static const sm = EdgeInsets.all(12);
   static const md = EdgeInsets.all(16);
   static const lg = EdgeInsets.all(20);

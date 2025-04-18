@@ -18,8 +18,6 @@ class VerificationScreen extends ConsumerWidget {
   //* Email address to which verification email is sent
   final String email;
 
-  static const double _lineHeight = 2.0;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int currentStep = 0; // ref.watch(verificationStepProvider);
@@ -99,7 +97,7 @@ class VerificationScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: TSizes.defaultSpace),
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -126,14 +124,14 @@ class VerificationScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: TSizes.spaceBtwItems),
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: TPadding.xs,
                     decoration: BoxDecoration(
                       color: isDark ? primaryLight : primaryVariant,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(TSizes.buttonRadius),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +166,7 @@ class VerificationScreen extends ConsumerWidget {
   }) {
     return Expanded(
       child: Container(
-        height: _lineHeight,
+        height: TSizes.dividerHeight,
         color: isActive ? primaryColor : Colors.grey[350],
       ),
     );
