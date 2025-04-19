@@ -11,6 +11,7 @@ class TTextStrings {
   static const String viewProfileButton = 'View Profile';
   static const String leaveButton = 'Leave';
   static const String stayButton = 'Stay';
+  static const String gotItButton = 'Got it';
 
   static const String joinTeam = 'Join Team';
   static const String createTeam = 'Create Team';
@@ -98,8 +99,7 @@ class TTextStrings {
   static const String error = 'Error';
   static const String wrongEmailOrPassword =
       'Wrong email or password. Please try again.';
-  static const String loadingPlayerDataError =
-      'Error on loading player data :';
+  static const String loadingPlayerDataError = 'Error on loading player data :';
 
   //! -------------------- Authentication Errors --------------------
   static const String emailUsedByUser =
@@ -135,20 +135,14 @@ class TTextStrings {
       'Join or create a team to get started. Explore teams and connect with players.';
 
   //! -------------------- Team Error --------------------
-  static const String failedToUpdateTeam =
-      'Failed to update team :';
-  static const String failedToUpdateTeamField =
-      'Failed to update team field :';
-  static const String teamPlayerNotFound =
-      'Player not found in team';
-  static const String failedToDeletePlayer =
-      'Failed to delete player:';
+  static const String failedToUpdateTeam = 'Failed to update team :';
+  static const String failedToUpdateTeamField = 'Failed to update team field :';
+  static const String teamPlayerNotFound = 'Player not found in team';
+  static const String failedToDeletePlayer = 'Failed to delete player:';
   static const String teamHasReachedMaxCapacity =
       'Team has reached maximum capacity';
-  static const String playerAlreadyInTeam =
-      'Player already exists in team';
-  static const String failedToAddPlayer =
-      'Failed to add player:';
+  static const String playerAlreadyInTeam = 'Player already exists in team';
+  static const String failedToAddPlayer = 'Failed to add player:';
   static const String failedToUpdatePlayerRole =
       'Failed to update player role:';
   static const String capacityCannotBeReduce =
@@ -157,8 +151,22 @@ class TTextStrings {
       'Team capacity cannot be less than 1';
   static const String failedToUpdateTeamCapacity =
       'Failed to update team capacity:';
-  
+
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
   static const String admin = 'admin';
+
+  //! -------------------- Admin --------------------
+  static const String addAdmin = 'Add Admin';
+  static const String addAdminMessage =
+      'Select players to grant admin privileges';
+  static const String noAvailablePlayers =
+      'No available players to add as admin';
+  static const String noAvailablePlayersMessage =
+      'All players are already administrators';
+  static const String adminPrivileges = 'Admin Privileges';
+
+  static const String manageTeamSettings = 'Manage team settings and details';
+  static const String manageTeamMembers = 'Add or remove team members';
+  static const String manageTeamMatches = 'Create and Manage team matches and schedules';
 }

@@ -4,6 +4,9 @@ import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/widgets/player_list_view.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 
@@ -20,46 +23,39 @@ class AddAdmin extends StatelessWidget {
           ? DarkThemeColors.backgroundColor
           : LightThemeColors.backgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Add Admin',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: onPrimary,
-          ),
-        ),
+        title: const Text(TTextStrings.addAdmin),
         backgroundColor: primaryColor,
         foregroundColor: onPrimary,
-        elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.help_outline, color: onPrimary),
             onPressed: () => _showAdminInfoDialog(context, isDark),
           ),
+          const SizedBox(width: TSizes.spaceBtwItems),
         ],
       ),
       body: Column(
         children: [
           // Info Banner
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: TPadding.md,
             color: primaryLight.withValues(alpha: 0.1),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.admin_panel_settings,
-                  color: primaryColor,
-                  size: 24,
+                  color: isDark ? primaryLight : primaryColor,
+                  size: TSizes.iconMd,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: TSizes.md),
                 Expanded(
                   child: Text(
-                    'Select players to grant admin privileges',
-                    style: TextStyle(
-                      color: isDark
-                          ? DarkThemeColors.primaryText
-                          : LightThemeColors.primaryText,
-                      fontSize: 14,
-                    ),
+                    TTextStrings.addAdminMessage,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: isDark
+                              ? DarkThemeColors.primaryText
+                              : LightThemeColors.primaryText,
+                        ),
                   ),
                 ),
               ],
@@ -74,8 +70,8 @@ class AddAdmin extends StatelessWidget {
               team: team,
               emptyStateWidget: const NoDataFound(
                 iconData: AppIconData.groupOff,
-                title: 'No Available Players',
-                message: 'All players are already administrators',
+                title: TTextStrings.noAvailablePlayers,
+                message: TTextStrings.noAvailablePlayersMessage,
               ),
             ),
           ),
@@ -88,7 +84,9 @@ class AddAdmin extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Admin Privileges'),
+        title: const Text(
+          TTextStrings.adminPrivileges,
+        ),
         backgroundColor: isDark
             ? DarkThemeColors.surfaceColor
             : LightThemeColors.surfaceColor,
@@ -97,20 +95,23 @@ class AddAdmin extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildPrivilegeItem(
+              context,
               Icons.edit,
-              'Manage team settings and details',
+              TTextStrings.manageTeamSettings,
               isDark,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TSizes.sm),
             _buildPrivilegeItem(
+              context,
               Icons.person_add,
-              'Add or remove team members',
+              TTextStrings.manageTeamMembers,
               isDark,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TSizes.sm),
             _buildPrivilegeItem(
+              context,
               Icons.event,
-              'Create and manage matches',
+              TTextStrings.manageTeamMatches,
               isDark,
             ),
           ],
@@ -119,10 +120,10 @@ class AddAdmin extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Got it',
-              style: TextStyle(
-                color: isDark ? primaryLight : primaryColor,
-              ),
+              TTextStrings.gotItButton,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: isDark ? primaryLight : primaryColor,
+                  ),
             ),
           ),
         ],
@@ -130,23 +131,24 @@ class AddAdmin extends StatelessWidget {
     );
   }
 
-  Widget _buildPrivilegeItem(IconData icon, String text, bool isDark) {
+  Widget _buildPrivilegeItem(
+      BuildContext context, IconData icon, String text, bool isDark) {
     return Row(
       children: [
         Icon(
           icon,
-          size: 20,
+          size: TSizes.iconMd,
           color: isDark ? primaryLight : primaryColor,
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: TSizes.md),
         Expanded(
           child: Text(
             text,
-            style: TextStyle(
-              color: isDark
-                  ? DarkThemeColors.secondaryText
-                  : LightThemeColors.secondaryText,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: isDark
+                      ? DarkThemeColors.primaryText
+                      : LightThemeColors.primaryText,
+                ),
           ),
         ),
       ],

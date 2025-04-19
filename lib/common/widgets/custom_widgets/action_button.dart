@@ -190,10 +190,10 @@ class ActionButton extends StatelessWidget {
                   )
                 : Text(
                     _getButtonText(isAdded),
-                    style: TextStyle(
-                      color: isAdded ? Colors.black87 : onPrimary,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: isAdded ? Colors.black : onPrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
           ),
         );
