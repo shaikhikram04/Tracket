@@ -127,13 +127,15 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     }
   }
 
-  Widget _buildTeamLogoSection(double height) {
+  Widget _buildTeamLogoSection(double height, bool isDark) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: grassGreen.withValues(alpha: 0.2),
+            color: isDark
+                ? lightGrassGreen.withValues(alpha: 0.2)
+                : grassGreen.withValues(alpha: 0.2),
             blurRadius: 10,
             spreadRadius: 2,
           ),
@@ -147,7 +149,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: grassGreen.withValues(alpha: 0.3),
+                    color: isDark
+                        ? lightGrassGreen.withValues(alpha: 0.3)
+                        : grassGreen.withValues(alpha: 0.3),
                     width: 3,
                   ),
                 ),
@@ -166,18 +170,19 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: grassGreen.withValues(alpha: 0.3),
+                        color: isDark
+                            ? lightGrassGreen.withValues(alpha: 0.3)
+                            : grassGreen.withValues(alpha: 0.3),
                         blurRadius: 5,
                         spreadRadius: 1,
                       ),
                     ],
                   ),
                   child: CircleAvatar(
-                    backgroundColor: grassGreen,
+                    backgroundColor: isDark ? lightGrassGreen : grassGreen,
                     radius: 18,
                     child: IconButton(
-                      icon:
-                          const Icon(Icons.edit, size: 18, color: Colors.white),
+                      icon: const Icon(Icons.edit, size: 18, color: onPrimary),
                       onPressed: _editLogo,
                     ),
                   ),
@@ -206,11 +211,12 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     );
   }
 
-  Widget _buildTeamInfoCard() {
+  Widget _buildTeamInfoCard(bool isDark) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: LightThemeColors.surfaceColor,
+      color:
+          isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -218,8 +224,10 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.white,
-              LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
+              isDark ? Colors.black : Colors.white,
+              isDark
+                  ? DarkThemeColors.secondaryBackground.withValues(alpha: 0.5)
+                  : LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
             ],
           ),
         ),
@@ -228,7 +236,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionTitle('Team Information'),
+              _buildSectionTitle('Team Information', isDark),
               const SizedBox(height: 20),
               MyTextField(
                 onSave: (value) => _teamFormData.name = value,
@@ -267,9 +275,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 prefixIcon: Icons.description,
               ),
               const SizedBox(height: 30),
-              _buildAdvancedSettings(),
+              _buildAdvancedSettings(isDark),
               const SizedBox(height: 30),
-              _buildSubmitButton(),
+              _buildSubmitButton(isDark),
             ],
           ),
         ),
@@ -277,40 +285,48 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: grassGreen.withValues(alpha: 0.1),
+        color: isDark
+            ? lightGrassGreen.withValues(alpha: 0.1)
+            : grassGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: grassGreen.withValues(alpha: 0.2),
+          color: isDark
+              ? lightGrassGreen.withValues(alpha: 0.2)
+              : grassGreen.withValues(alpha: 0.2),
         ),
       ),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: grassGreen,
+          color: isDark ? lightGrassGreen : grassGreen,
         ),
       ),
     );
   }
 
-  Widget _buildAdvancedSettings() {
+  Widget _buildAdvancedSettings(bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('Advanced Settings'),
+        _buildSectionTitle('Advanced Settings', isDark),
         const SizedBox(height: 20),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
+            color: isDark
+                ? DarkThemeColors.secondaryBackground.withValues(alpha: 0.5)
+                : LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: grassGreen.withValues(alpha: 0.2),
+              color: isDark
+                  ? lightGrassGreen.withValues(alpha: 0.2)
+                  : grassGreen.withValues(alpha: 0.2),
             ),
           ),
           child: Column(
@@ -323,7 +339,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 ),
                 value: _isPrivate,
                 onChanged: (value) => setState(() => _isPrivate = value),
-                activeColor: grassGreen,
+                activeColor: isDark ? lightGrassGreen : grassGreen,
                 contentPadding: EdgeInsets.zero,
               ),
               const SizedBox(height: 16),
@@ -331,9 +347,10 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 children: [
                   const Icon(Icons.people, color: grassGreen),
                   const SizedBox(width: 12),
-                  const Text(
+                  Text(
                     'Maximum Players:',
-                    style: TextStyle(color: grassGreen),
+                    style:
+                        TextStyle(color: isDark ? lightGrassGreen : grassGreen),
                   ),
                   const SizedBox(width: 16),
                   Container(
@@ -342,7 +359,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: grassGreen.withValues(alpha: 0.3),
+                        color: isDark
+                            ? lightGrassGreen.withValues(alpha: 0.3)
+                            : grassGreen.withValues(alpha: 0.3),
                       ),
                     ),
                     child: DropdownButton<int>(
@@ -372,23 +391,30 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     );
   }
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(bool isDark) {
     return Center(
       child: _isLoading
-          ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(grassGreen),
+          ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                isDark ? lightGrassGreen : grassGreen,
+              ),
             )
           : Container(
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                gradient: const LinearGradient(
-                  colors: [grassGreen, darkGrassGreen],
+                gradient: LinearGradient(
+                  colors: [
+                    isDark ? lightGrassGreen : grassGreen,
+                    isDark ? primaryLight : darkGrassGreen,
+                  ],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: grassGreen.withValues(alpha: 0.3),
+                    color: isDark
+                        ? lightGrassGreen.withValues(alpha: 0.3)
+                        : grassGreen.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -408,7 +434,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: onPrimary,
                   ),
                 ),
               ),
@@ -420,10 +446,12 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Scaffold(
-      backgroundColor: LightThemeColors.secondaryBackground,
       appBar: AppBar(
-        foregroundColor: LightThemeColors.surfaceColor,
+        foregroundColor: onPrimary,
+        backgroundColor: grassGreen,
         title: const Text(
           'Create Team',
           style: TextStyle(
@@ -431,9 +459,6 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             color: Colors.white,
           ),
         ),
-        elevation: 0,
-        backgroundColor: grassGreen,
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -443,9 +468,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              _buildTeamLogoSection(height),
+              _buildTeamLogoSection(height, isDark),
               const SizedBox(height: TeamConstants.defaultSpacing),
-              _buildTeamInfoCard(),
+              _buildTeamInfoCard(isDark),
               const SizedBox(height: 30),
             ],
           ),

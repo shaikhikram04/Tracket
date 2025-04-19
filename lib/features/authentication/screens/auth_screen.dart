@@ -76,7 +76,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: safeAreaHeight),
             child: Padding(
