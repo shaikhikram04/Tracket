@@ -127,4 +127,10 @@ class TTextStrings {
   static const String teams = 'Teams';
   static const String matches = 'Matches';
   static const String tournaments = 'Tournaments';
+
+  //! -------------------- Teams --------------------
+  static const String teamLoading = 'Loading your teams...';
+  static const String noTeam = 'No Team Found Yet';
+  static const String noTeamMessage =
+      'Join or create a team to get started. Explore teams and connect with players.';
 }
