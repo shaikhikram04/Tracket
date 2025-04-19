@@ -40,7 +40,8 @@ class TSizes {
   static const double appBarHeight = 56.0;
 
   //* Image Sizes
-  static const double imageThumbSize = 80.0;
+  static const double imageThumbSizeMd = 80.0;
+  static const double imageThumbSizeLg = 100.0;
 
   //* Default spacing between sections
   static const double defaultSpace = 24.0;

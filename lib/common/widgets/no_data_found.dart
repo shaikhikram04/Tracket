@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class NoDataFound extends StatelessWidget {
@@ -30,12 +31,12 @@ class NoDataFound extends StatelessWidget {
           children: [
             Icon(
               iconData,
-              size: 100,
+              size: TSizes.imageThumbSizeLg,
               color: isDark
                   ? DarkThemeColors.secondaryText
                   : LightThemeColors.secondaryText,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: TSizes.spaceBtwItems),
             Text(
               title,
               style: TextStyle(
@@ -46,7 +47,7 @@ class NoDataFound extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: TSizes.spaceBtwItems),
             Text(
               message,
               style: TextStyle(
@@ -56,14 +57,14 @@ class NoDataFound extends StatelessWidget {
                       : LightThemeColors.secondaryText),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: TSizes.spaceBtwSections),
             if (isPointingButton)
               ZoomIn(
                 child: RotatedBox(
                   quarterTurns: rotation,
                   child: Icon(
                     Icons.arrow_outward,
-                    size: 50,
+                    size: TSizes.iconXxl,
                     color: isDark ? primaryLight : Colors.green.shade400,
                   ),
                 ),
