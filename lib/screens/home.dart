@@ -77,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        foregroundColor: LightThemeColors.surfaceColor,
+        foregroundColor: onPrimary,
         elevation: 0,
         title: Text(
           title,
@@ -117,25 +117,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex % 3,
           onTap: _selectItem,
-          // selectedLabelStyle: const TextStyle(
-          //   fontWeight: FontWeight.w800,
-          //   color: primaryColor,
-          // ),
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.groups),
               label: 'Teams',
-              // backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_cricket),
               label: 'Matches',
-              // backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart),
               label: 'Tournaments',
-              // backgroundColor: Colors.white,
             ),
           ],
         ),

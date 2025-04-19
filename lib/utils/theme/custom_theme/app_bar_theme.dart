@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/theme/custom_theme/text_theme.dart';
 
@@ -11,7 +12,7 @@ class TAppBarTheme {
     scrolledUnderElevation: 0,
     backgroundColor: Colors.transparent,
     foregroundColor: Colors.transparent,
-    iconTheme: const IconThemeData(color: Colors.black, size: TSizes.iconMd),
+    iconTheme: const IconThemeData(color: onPrimary, size: TSizes.iconMd),
     titleTextStyle: TTextTheme.lightTextTheme.headlineSmall,
     actionsIconTheme:
         const IconThemeData(color: Colors.black, size: TSizes.iconMd),
@@ -23,7 +24,7 @@ class TAppBarTheme {
     scrolledUnderElevation: 0,
     backgroundColor: Colors.transparent,
     foregroundColor: Colors.transparent,
-    iconTheme: const IconThemeData(color: Colors.black, size: 24),
+    iconTheme: const IconThemeData(color: onPrimary, size: 24),
     titleTextStyle: TTextTheme.darkTextTheme.headlineSmall,
     actionsIconTheme: const IconThemeData(color: Colors.white, size: 24),
   );
