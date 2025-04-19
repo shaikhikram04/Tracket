@@ -5,6 +5,7 @@ import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
 import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 
 class PlayerListTile extends StatelessWidget {
   const PlayerListTile({
@@ -59,7 +60,7 @@ class PlayerListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: TPadding.paddingXs,
       child: Material(
         type: MaterialType.transparency,
         child: EnhancedListTile(

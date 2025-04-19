@@ -4,6 +4,7 @@ import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/players/widgets/player_list_tile.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 
 class PlayerListView extends StatelessWidget {
   const PlayerListView({
@@ -26,7 +27,7 @@ class PlayerListView extends StatelessWidget {
 
     return ListView.builder(
       itemCount: players.length,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: TPadding.vPaddingSm,
       itemBuilder: (context, index) {
         final player = players[index];
         return PlayerListTile(
