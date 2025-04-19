@@ -133,6 +133,30 @@ class TTextStrings {
   static const String noTeam = 'No Team Found Yet';
   static const String noTeamMessage =
       'Join or create a team to get started. Explore teams and connect with players.';
+
+  //! -------------------- Team Error --------------------
+  static const String failedToUpdateTeam =
+      'Failed to update team :';
+  static const String failedToUpdateTeamField =
+      'Failed to update team field :';
+  static const String teamPlayerNotFound =
+      'Player not found in team';
+  static const String failedToDeletePlayer =
+      'Failed to delete player:';
+  static const String teamHasReachedMaxCapacity =
+      'Team has reached maximum capacity';
+  static const String playerAlreadyInTeam =
+      'Player already exists in team';
+  static const String failedToAddPlayer =
+      'Failed to add player:';
+  static const String failedToUpdatePlayerRole =
+      'Failed to update player role:';
+  static const String capacityCannotBeReduce =
+      'Team capacity cannot be reduce below current team size';
+  static const String capacityCannotBeLessThanOne =
+      'Team capacity cannot be less than 1';
+  static const String failedToUpdateTeamCapacity =
+      'Failed to update team capacity:';
   
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';

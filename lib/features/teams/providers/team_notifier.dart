@@ -3,6 +3,7 @@ import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/team_state.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 
 class TeamNotifier extends StateNotifier<TeamState> {
   TeamNotifier()
@@ -31,7 +32,7 @@ class TeamNotifier extends StateNotifier<TeamState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to update team: ${e.toString()}',
+        error: '${TTextStrings.failedToUpdateTeam} ${e.toString()}',
       );
     }
   }
@@ -70,14 +71,14 @@ class TeamNotifier extends StateNotifier<TeamState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to update team field: ${e.toString()}',
+        error: '${TTextStrings.failedToUpdateTeamField} ${e.toString()}',
       );
     }
   }
 
   Future<void> deletePlayer(String playerId) async {
     if (!state.team.playerIds.contains(playerId)) {
-      state = state.copyWith(error: 'Player not found in team');
+      state = state.copyWith(error: TTextStrings.teamPlayerNotFound);
       return;
     }
 
@@ -97,19 +98,19 @@ class TeamNotifier extends StateNotifier<TeamState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to delete player: ${e.toString()}',
+        error: '${TTextStrings.failedToDeletePlayer} ${e.toString()}',
       );
     }
   }
 
   Future<void> addPlayer(PlayerDetails player) async {
     if (!state.canAddMorePlayers) {
-      state = state.copyWith(error: 'Team has reached maximum capacity');
+      state = state.copyWith(error: TTextStrings.teamCapacityError);
       return;
     }
 
     if (state.team.playerIds.contains(player.id)) {
-      state = state.copyWith(error: 'Player already exists in team');
+      state = state.copyWith(error: TTextStrings.playerAlreadyInTeam);
       return;
     }
 
@@ -123,7 +124,7 @@ class TeamNotifier extends StateNotifier<TeamState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to add player: ${e.toString()}',
+        error: '${TTextStrings.failedToAddPlayer} ${e.toString()}',
       );
     }
   }
@@ -133,7 +134,7 @@ class TeamNotifier extends StateNotifier<TeamState> {
         state.team.playersList.indexWhere((player) => player.id == playerId);
 
     if (playerIndex == -1) {
-      state = state.copyWith(error: 'Player not found in team');
+      state = state.copyWith(error: TTextStrings.teamPlayerNotFound);
       return;
     }
 
@@ -148,14 +149,15 @@ class TeamNotifier extends StateNotifier<TeamState> {
         id: player.id,
         imageUrl: player.imageUrl,
         name: player.name,
-        role: role, longCricketRole: player.longCricketRole,
+        role: role,
+        longCricketRole: player.longCricketRole,
       );
 
       await updateField(playersList: updatedPlayersList);
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: 'Failed to update player role: ${e.toString()}',
+        error: '${TTextStrings.failedToUpdatePlayerRole} ${e.toString()}',
       );
     }
   }
@@ -165,13 +167,13 @@ class TeamNotifier extends StateNotifier<TeamState> {
 
     if (newCapacity < state.team.playersList.length) {
       state = state.copyWith(
-        error: 'Cannot reduce capacity below current team size',
+        error: TTextStrings.capacityCannotBeReduce,
       );
       return;
     }
 
     if (newCapacity < 1) {
-      state = state.copyWith(error: 'Team capacity cannot be less than 1');
+      state = state.copyWith(error: TTextStrings.capacityCannotBeLessThanOne);
       return;
     }
 
@@ -179,7 +181,7 @@ class TeamNotifier extends StateNotifier<TeamState> {
       await updateField(maxPlayersCapacity: newCapacity);
     } catch (e) {
       state = state.copyWith(
-        error: 'Failed to update team capacity: ${e.toString()}',
+        error: '${TTextStrings.failedToUpdateTeamCapacity} ${e.toString()}',
       );
     }
   }
