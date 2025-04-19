@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/widgets/player_list_view.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class AddAdmin extends StatelessWidget {
   const AddAdmin({super.key, required this.team});
@@ -13,10 +14,11 @@ class AddAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? LightThemeColors.backgroundColor
-          : DarkThemeColors.backgroundColor,
+      backgroundColor: isDark
+          ? DarkThemeColors.backgroundColor
+          : LightThemeColors.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Add Admin',
@@ -31,7 +33,7 @@ class AddAdmin extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.help_outline, color: onPrimary),
-            onPressed: () => _showAdminInfoDialog(context),
+            onPressed: () => _showAdminInfoDialog(context, isDark),
           ),
         ],
       ),
@@ -40,7 +42,7 @@ class AddAdmin extends StatelessWidget {
           // Info Banner
           Container(
             padding: const EdgeInsets.all(16),
-            color: primaryLight.withValues(alpha:0.1),
+            color: primaryLight.withValues(alpha: 0.1),
             child: Row(
               children: [
                 const Icon(
@@ -53,9 +55,9 @@ class AddAdmin extends StatelessWidget {
                   child: Text(
                     'Select players to grant admin privileges',
                     style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? LightThemeColors.secondaryText
-                          : DarkThemeColors.secondaryText,
+                      color: isDark
+                          ? DarkThemeColors.primaryText
+                          : LightThemeColors.primaryText,
                       fontSize: 14,
                     ),
                   ),
@@ -82,34 +84,34 @@ class AddAdmin extends StatelessWidget {
     );
   }
 
-  void _showAdminInfoDialog(BuildContext context) {
+  void _showAdminInfoDialog(BuildContext context, bool isDark) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Admin Privileges'),
-        backgroundColor: Theme.of(context).brightness == Brightness.light
-            ? LightThemeColors.surfaceColor
-            : DarkThemeColors.surfaceColor,
+        backgroundColor: isDark
+            ? DarkThemeColors.surfaceColor
+            : LightThemeColors.surfaceColor,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildPrivilegeItem(
-              context,
               Icons.edit,
               'Manage team settings and details',
+              isDark,
             ),
             const SizedBox(height: 8),
             _buildPrivilegeItem(
-              context,
               Icons.person_add,
               'Add or remove team members',
+              isDark,
             ),
             const SizedBox(height: 8),
             _buildPrivilegeItem(
-              context,
               Icons.event,
               'Create and manage matches',
+              isDark,
             ),
           ],
         ),
@@ -119,9 +121,7 @@ class AddAdmin extends StatelessWidget {
             child: Text(
               'Got it',
               style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? primaryColor
-                    : primaryLight,
+                color: isDark ? primaryLight : primaryColor,
               ),
             ),
           ),
@@ -130,24 +130,22 @@ class AddAdmin extends StatelessWidget {
     );
   }
 
-  Widget _buildPrivilegeItem(BuildContext context, IconData icon, String text) {
+  Widget _buildPrivilegeItem(IconData icon, String text, bool isDark) {
     return Row(
       children: [
         Icon(
           icon,
           size: 20,
-          color: Theme.of(context).brightness == Brightness.light
-              ? primaryColor
-              : primaryLight,
+          color: isDark ? primaryLight : primaryColor,
         ),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
             text,
             style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? LightThemeColors.secondaryText
-                  : DarkThemeColors.secondaryText,
+              color: isDark
+                  ? DarkThemeColors.secondaryText
+                  : LightThemeColors.secondaryText,
             ),
           ),
         ),

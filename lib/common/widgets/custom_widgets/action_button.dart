@@ -168,7 +168,7 @@ class ActionButton extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: isAdded
-                  ? LightThemeColors.secondaryBackground
+                  ? InteractiveColors.buttonDisabled
                   : InteractiveColors.buttonEnabled,
               foregroundColor: Colors.black87,
               shape: RoundedRectangleBorder(
@@ -186,12 +186,12 @@ class ActionButton extends StatelessWidget {
                     dimension: loadingSize,
                     strokeWidth: loadingStrokeWidth,
                     valueColor:
-                        const AlwaysStoppedAnimation<Color>(Colors.black54),
+                        const AlwaysStoppedAnimation<Color>(Colors.black87),
                   )
                 : Text(
                     _getButtonText(isAdded),
                     style: TextStyle(
-                      color: isAdded ? Colors.black54 : onPrimary,
+                      color: isAdded ? Colors.black87 : onPrimary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

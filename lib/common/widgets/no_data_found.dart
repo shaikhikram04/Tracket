@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class NoDataFound extends StatelessWidget {
   const NoDataFound({
@@ -19,6 +21,8 @@ class NoDataFound extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Center(
       child: Container(
         child: Column(
@@ -27,18 +31,29 @@ class NoDataFound extends StatelessWidget {
             Icon(
               iconData,
               size: 100,
-              color: Colors.grey.shade400,
+              color: isDark
+                  ? DarkThemeColors.secondaryText
+                  : LightThemeColors.secondaryText,
             ),
             const SizedBox(height: 20),
             Text(
               title,
-              style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
+              style: TextStyle(
+                fontSize: 18,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.primaryText,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             Text(
               message,
-              style: TextStyle(fontSize: 16, color: Colors.grey.shade500),
+              style: TextStyle(
+                  fontSize: 16,
+                  color: isDark
+                      ? DarkThemeColors.secondaryText
+                      : LightThemeColors.secondaryText),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
@@ -49,7 +64,7 @@ class NoDataFound extends StatelessWidget {
                   child: Icon(
                     Icons.arrow_outward,
                     size: 50,
-                    color: Colors.green.shade400,
+                    color: isDark ? primaryLight : Colors.green.shade400,
                   ),
                 ),
               ),
