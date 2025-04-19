@@ -94,6 +94,8 @@ class TTextStrings {
   static const String error = 'Error';
   static const String wrongEmailOrPassword =
       'Wrong email or password. Please try again.';
+  static const String loadingPlayerDataError =
+      'Error on loading player data :';
 
   //! -------------------- Authentication Errors --------------------
   static const String emailUsedByUser =
@@ -116,4 +118,9 @@ class TTextStrings {
       'Email-is-already-in-use-as-player';
   static const String userNotFoundCode = 'user-not-found';
   static const String invalidCredentialCode = 'invalid-credential';
+
+  //! -------------------- Home Navigation --------------------
+  static const String teams = 'Teams';
+  static const String matches = 'Matches';
+  static const String tournaments = 'Tournaments';
 }

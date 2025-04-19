@@ -9,6 +9,8 @@ import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/screens/teams_screen.dart';
 import 'package:tracket/screens/tournament_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -40,7 +42,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading player data: $error')),
+          SnackBar(
+              content: Text('${TTextStrings.loadingPlayerDataError} $error')),
         );
       }
     } finally {
@@ -64,9 +67,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ];
 
   final List<String> _titles = [
-    'Teams',
-    'Matches',
-    'Tournaments',
+    TTextStrings.teams,
+    TTextStrings.matches,
+    TTextStrings.tournaments,
   ];
 
   @override
@@ -78,11 +81,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         foregroundColor: onPrimary,
-        elevation: 0,
         title: Text(
           title,
           style: const TextStyle(
-            color: Colors.white,
+            color: onPrimary,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
           ),
@@ -90,13 +92,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
-            color: Colors.white,
-            iconSize: 30,
+            color: onPrimary,
+            iconSize: TSizes.iconAppBar,
             onPressed: () {
               THelperFunction.pushScreen(context, const NotificationsScreen());
             },
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: TSizes.sm),
         ],
       ),
       drawer: isTeamsScreen ? const MainDrawer() : null,
@@ -109,7 +111,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 10,
+              blurRadius: TSizes.blurRadiusMd,
               spreadRadius: 2,
             ),
           ],
@@ -120,15 +122,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.groups),
-              label: 'Teams',
+              label: TTextStrings.teams,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_cricket),
-              label: 'Matches',
+              label: TTextStrings.matches,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart),
-              label: 'Tournaments',
+              label: TTextStrings.tournaments,
             ),
           ],
         ),
