@@ -12,6 +12,7 @@ class TTextStrings {
   static const String leaveButton = 'Leave';
   static const String stayButton = 'Stay';
   static const String gotItButton = 'Got it';
+  static const String retryButton = 'Retry';
 
   static const String joinTeam = 'Join Team';
   static const String createTeam = 'Create Team';
@@ -133,6 +134,8 @@ class TTextStrings {
   static const String noTeam = 'No Team Found Yet';
   static const String noTeamMessage =
       'Join or create a team to get started. Explore teams and connect with players.';
+  static const String searchPlayers = 'Search players...';
+  static const String addPlayer = 'Add Player';
 
   //! -------------------- Team Error --------------------
   static const String failedToUpdateTeam = 'Failed to update team :';
@@ -151,6 +154,12 @@ class TTextStrings {
       'Team capacity cannot be less than 1';
   static const String failedToUpdateTeamCapacity =
       'Failed to update team capacity:';
+  static const String failedToLoadPlayers = 'Failed to load players. Please try again.';
+  static const String noPlayersFoundMatchingSearch =
+      'No players found matching your search';
+  static const String noPlayersFound = 'No players found';
+  static const String noPlayersFoundMessage =
+      'No players found in the team. Please add players to the team.';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
@@ -169,4 +178,6 @@ class TTextStrings {
   static const String manageTeamSettings = 'Manage team settings and details';
   static const String manageTeamMembers = 'Add or remove team members';
   static const String manageTeamMatches = 'Create and Manage team matches and schedules';
+
+  
 }

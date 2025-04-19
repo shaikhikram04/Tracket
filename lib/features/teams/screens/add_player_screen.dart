@@ -9,6 +9,9 @@ import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -59,7 +62,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection(FirestoreCollections.players)
-          .where('role', isEqualTo: 'player')
+          .where('role', isEqualTo: TTextStrings.playerRole)
           .get();
 
       setState(() {
@@ -68,7 +71,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Failed to load players. Please try again.';
+        _error = TTextStrings.failedToLoadPlayers;
         _isLoading = false;
       });
     }
@@ -96,15 +99,12 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
-          hintText: 'Search players...',
+          hintText: TTextStrings.searchPlayers,
           prefixIcon: const Icon(Icons.search),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(TSizes.inputFieldRadius),
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 12,
-          ),
+          contentPadding: TPadding.paddingMd,
         ),
         onChanged: (value) => setState(() => _searchQuery = value),
       ),
@@ -116,14 +116,14 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
 
     if (filteredPlayers.isEmpty && _searchQuery.isNotEmpty) {
       return const Center(
-        child: Text('No players found matching your search'),
+        child: Text(TTextStrings.noPlayersFoundMatchingSearch),
       );
     }
 
     return ListView.builder(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: TSizes.lg),
       itemCount: filteredPlayers.length,
       itemBuilder: (context, index) {
         final player = Player.fromSeed(
@@ -180,11 +180,11 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_error ?? 'Something went wrong'),
-          const SizedBox(height: 16),
+          Text(_error ?? TTextStrings.somethingWentWrong),
+          const SizedBox(height: TSizes.spaceBtwItems),
           ElevatedButton(
             onPressed: _loadPlayers,
-            child: const Text('Retry'),
+            child: const Text(TTextStrings.retryButton),
           ),
         ],
       ),
@@ -195,8 +195,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Player'),
-        elevation: 0,
+        title: const Text(TTextStrings.addPlayer),
       ),
       body: RefreshIndicator(
         onRefresh: _loadPlayers,
@@ -210,8 +209,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                       ? _buildErrorWidget()
                       : _players == null || _players!.isEmpty
                           ? const NoDataFound(
-                              title: 'No players found',
-                              message: 'Wait for players to join',
+                              title: TTextStrings.noPlayersFound,
+                              message: TTextStrings.noPlayersFoundMessage,
                               iconData: AppIconData.groupOff,
                             )
                           : _buildPlayerList(),
@@ -242,12 +241,13 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: TPadding.paddingXs,
       child: EnhancedListTile(
         imageUrl: player.profileImageUrl,
         title: player.name,
         subtitle: player.playerCricketDetails!.cricketRole.name,
-        onTap: () => THelperFunction.pushScreen(context, PlayerProfileScreen(player: player)),
+        onTap: () => THelperFunction.pushScreen(
+            context, PlayerProfileScreen(player: player)),
         isPlayer: true,
         trailing: ActionButton(
           idsList: playersId,
