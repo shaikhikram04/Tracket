@@ -116,32 +116,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex % 3,
-          type: BottomNavigationBarType.shifting,
-          backgroundColor: Colors.white,
-          elevation: 10,
           onTap: _selectItem,
-          selectedItemColor: primaryColor,
-          unselectedItemColor: Colors.grey.shade500,
-          selectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.w800,
-            color: primaryColor,
-          ),
-          showSelectedLabels: true,
+          // selectedLabelStyle: const TextStyle(
+          //   fontWeight: FontWeight.w800,
+          //   color: primaryColor,
+          // ),
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.groups),
               label: 'Teams',
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_cricket),
               label: 'Matches',
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart),
               label: 'Tournaments',
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
             ),
           ],
         ),

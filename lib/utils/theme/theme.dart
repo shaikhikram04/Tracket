@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/theme/custom_theme/app_bar_theme.dart';
+import 'package:tracket/utils/theme/custom_theme/bottom_navigation_bar_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/bottom_sheet_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/chip_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/elevated_button_theme.dart';
@@ -24,6 +25,8 @@ class TracketTheme {
     appBarTheme: TAppBarTheme.lightAppBarTheme,
     bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
     outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
+    bottomNavigationBarTheme:
+        TBottomNavigationBarTheme.lightBottomNavigationBarTheme,
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -39,5 +42,7 @@ class TracketTheme {
     appBarTheme: TAppBarTheme.darkAppBarTheme,
     bottomSheetTheme: TBottomSheetTheme.darkBottomSheetTheme,
     outlinedButtonTheme: TOutlinedButtonTheme.darkOutlinedButtonTheme,
+    bottomNavigationBarTheme:
+        TBottomNavigationBarTheme.darkBottomNavigationBarTheme,
   );
 }

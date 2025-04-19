@@ -35,7 +35,7 @@ class TTextTheme {
       fontWeight: FontWeight.w400,
     ),
     bodyLarge: const TextStyle().copyWith(
-      fontSize: 14,
+      fontSize: 16,
       color: Colors.black,
       fontWeight: FontWeight.w500,
     ),

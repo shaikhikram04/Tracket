@@ -1,5 +1,5 @@
 class TTextStrings {
-  //! Button text
+  //! -------------------- Buttons --------------------
   static const String addButton = 'Add';
   static const String addedButton = 'Added';
   static const String joinButton = 'Join';
@@ -12,9 +12,81 @@ class TTextStrings {
   static const String leaveButton = 'Leave';
   static const String stayButton = 'Stay';
 
-  //! Error messages
+  //! -------------------- Match Formats --------------------
+  static const String over5 = '5 overs';
+  static const String over10 = '10 overs';
+  static const String over20 = '20 overs';
+  static const String over50 = '50 overs';
+  static const String test = 'Test';
+
+  static const String over5Key = 'over5';
+  static const String over10Key = 'over10';
+  static const String over20Key = 'over20';
+  static const String over50Key = 'over50';
+  static const String testKey = 'test';
+
+  //! -------------------- Authentication --------------------
+  static const String email = 'Email';
+  static const String password = 'Password';
+  static const String username = 'Username';
+  static const String playerName = 'Player Name';
+
+  static const String forgetPassword = 'Forget Password?';
+  static const String wantToSignup = 'Sign Up?';
+  static const String wantToLogin = 'Login?';
+
+  static const String login = 'Login';
+  static const String signup = 'Sign Up';
+  static const String logout = 'Logout';
+
+  static const String enterEmail = 'Enter your email';
+  static const String editEmail = 'Edit email';
+  static const String resetPassword = 'Reset Password';
+  static const String resendEmail = 'Resend Email';
+  static const String resetEmailSent = 'Reset Email Sent';
+  static const String resetPasswordMessage =
+      'Enter your registered email address. We\'ll send you a link to reset your password.';
+  static const String backToLogin = 'Back to Login';
+  static const String authentication = 'Authentication';
+  static const String sendEmail = 'Send Email';
+  static const String verified = 'Verified';
+  static const String resendVerificationEmail = 'Resend Verification Email';
+
+  static String resetEmailSentMsg(String email) =>
+      'A password reset link has been sent to ${email.trim()}. Please check your inbox!';
+
+  //! -------------------- Role Selection --------------------
+  static const String selectCricketRole = 'Select Cricket Role';
+  static const String selectBattingPosition = 'Select Batting Position';
+  static const String selectBowlingStyle = 'Select Bowling Style';
+  static const String selectBowlingArm = 'Select Bowling Arm';
+
+  static const String loginAsPlayer = 'Login as Player';
+  static const String signupAsPlayer = 'Signup as Player';
+  static const String loginAsUser = 'Login as User';
+  static const String signupAsUser = 'Signup as User';
+
+  //! -------------------- Verification Messages --------------------
+  static const String waitForEmailVerification = 'Wait for email verification';
+  static const String emailVerificationSuccessfully =
+      'Verification email sent successfully!';
+  static const String emailVerificationFailed =
+      'Email verification failed. Please try again.';
+  static const String loginSuccessfully = 'Login successful!';
+
+  static const String confirmExit = 'Confirm Exit';
+  static const String confirmExitMessage =
+      'Leaving now will cancel the verification process. Are you sure?';
+
+  //! -------------------- Roles --------------------
+  static const String user = 'User';
+  static const String player = 'Player';
+  static const String userRole = 'user';
+  static const String playerRole = 'player';
+
+  //! -------------------- Error Messages --------------------
   static const String teamCapacityError =
-      'Team has reached its maximum capacity.';
+      'The team has reached its maximum capacity.';
   static const String unexpectedError =
       'An unexpected error occurred. Please try again later.';
   static const String somethingWentWrong =
@@ -23,84 +95,21 @@ class TTextStrings {
   static const String wrongEmailOrPassword =
       'Wrong email or password. Please try again.';
 
-  //! logging errors
+  //! -------------------- Authentication Errors --------------------
   static const String emailUsedByUser =
-      'This email is already in use. Try another email or login as a user.';
+      'This email is already in use. Try another email or log in as a user.';
   static const String emailUsedByPlayer =
-      'This email is already in use. Try another email or login as a player.';
-  static const String verificationTimeout = 'Verification timeout';
-  static const String noAuthenticationUser = 'No authenticated user found';
-  static const String userNotFound = 'User not found';
+      'This email is already in use. Try another email or log in as a player.';
+  static const String verificationTimeout = 'Verification timed out.';
+  static const String noAuthenticationUser = 'No authenticated user found.';
+  static const String userNotFound = 'User not found.';
   static const String userNotFoundMessage =
-      'No user found with the provided email. Sign-up first!';
+      'No user found with the provided email. Please sign up first.';
 
-  //! match formats
-  static const String over5 = '5 overs';
-  static const String over10 = '10 overs';
-  static const String over20 = '20 overs';
-  static const String over50 = '50 overs';
-  static const String test = 'Test';
-  static const String over5Key = 'over5';
-  static const String over10Key = 'over10';
-  static const String over20Key = 'over20';
-  static const String over50Key = 'over50';
-  static const String testKey = 'test';
-
-  //! login and signup
-  static const String email = 'Email';
-  static const String password = 'Password';
-  static const String username = 'Username';
-  static const String forgetPassword = 'Forget Password?';
-  static const String wantToSignup = 'Sign Up?';
-  static const String wantToLogin = 'Login?';
-  static const String resetPassword = 'Reset Password';
-  static const String resendEmail = 'Resend Email';
-  static const String resetEmailSent = 'Reset Email Sent';
-  static const String logout = 'Logout';
-  static const String login = 'Login';
-  static const String signup = 'Sign Up';
-  static const String enterEmail = 'Enter your email';
-  static const String editEmail = 'Edit email';
-  static const String selectCricketRole = 'Select Cricket Role';
-  static const String selectBattingPosition = 'Select Batting Position';
-  static const String selectBowlingStyle = 'Select Bowling Style';
-  static const String selectBowlingArm = 'Select Bowling Arm';
-  static const String loginAsPlayer = 'Login as Player';
-  static const String signupAsPlayer = 'Signup as Player';
-  static const String loginAsUser = 'Login as User';
-  static const String signupAsUser = 'Signup as User';
-  static const String playerName = 'Player Name';
-  static String resetEmailSentMsg(String email) =>
-      'Reset email link has been sent to ${email.trim()}. Please check your inbox!';
-  static const String resetPasswordMessage =
-      'Enter your registered email address. We\'ll send you a link to reset your password.';
-  static const String backToLogin = 'Back to Login';
-  static const String confirmExit = 'Confirm Exit';
-  static const String confirmExitMessage =
-      'Leaving now will cancel the verification process. Are you sure?';
-  static const String authentication = 'Authentication';
-  static const String sendEmail = 'Send Email';
-  static const String verified = 'Verified';
-  static const String resendVerificationEmail = 'Resend Verification Email';
-
-  //! verification messages
-  static const String waitForEmailVerification = 'Wait for email verification';
-  static const String emailVerificationSuccessfully =
-      'Verification email successfully!';
-  static const String loginSuccessfully = 'Login successfully!';
-  static const String emailVerificationFailed =
-      'Email verification failed. Please try again.';
-
-  //! Authentication roles
-  static const String user = 'User';
-  static const String player = 'Player';
-  static const String userRole = 'user';
-  static const String playerRole = 'player';
-
-  //! success messages
+  //! -------------------- Success Messages --------------------
   static const String success = 'success';
 
-  //! FirebaseAuth & custom error code
+  //! -------------------- Firebase Auth Error Codes --------------------
   static const String emailAlreadyInUse = 'email-already-in-use';
   static const String emailUsedByUserCode = 'Email-is-already-in-use-as-user';
   static const String emailUsedByPlayerCode =

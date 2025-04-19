@@ -37,6 +37,7 @@ class ImageCircleAvatar extends StatelessWidget {
       ),
       child: CircleAvatar(
         radius: radius,
+        backgroundColor: Colors.green.shade200,
         backgroundImage: image != null
             ? MemoryImage(image!)
             : url.isEmpty

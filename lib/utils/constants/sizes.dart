@@ -70,6 +70,7 @@ class TSizes {
   static const double cardElevationLg = 5.0;
   static const double cardElevationXl = 7.0;
   static const double cardElevation = 2.0;
+  static const double cardElevationXxl = 10.0;
 
   //* app logo height
   static const double appLogoHeightMax = 200.0;
@@ -84,11 +85,6 @@ class TSizes {
   //* vertical spacing
   static const verticalSpacingMd = 12.0;
   static const verticalSpacingXl = 24.0;
-
-  // //* radius
-  // static const radiusSm = 12.0;
-  // static const radiusMs = 15.0;
-  // static const radiusMd = 20.0;
 
   //* shadow radius
   static const shadowRadiusSm = 7.0;
