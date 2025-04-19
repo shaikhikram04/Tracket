@@ -12,6 +12,7 @@ import 'package:tracket/features/teams/screens/explore_teams.dart';
 import 'package:tracket/features/teams/screens/join_team_screen.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -21,17 +22,15 @@ class TeamsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     final player = ref.watch(playerProvider);
     final playerTeamsId = [
       ...player.playerTeamsId,
       '',
     ]; // Create new list with empty string
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? DarkThemeColors.backgroundColor
-          : LightThemeColors.backgroundColor,
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(FirestoreCollections.teams)
@@ -56,11 +55,12 @@ class TeamsScreen extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: _buildSpeedDial(context, player),
+      floatingActionButton: _buildSpeedDial(context, player, isDark: isDark),
     );
   }
 
-  Widget _buildSpeedDial(BuildContext context, dynamic player) {
+  Widget _buildSpeedDial(BuildContext context, dynamic player,
+      {required bool isDark}) {
     return SpeedDial(
       backgroundColor: primaryColor,
       foregroundColor: onPrimary,
@@ -69,27 +69,25 @@ class TeamsScreen extends ConsumerWidget {
       overlayColor: Colors.black,
       animationDuration: const Duration(milliseconds: 280),
       animationCurve: Curves.easeInOut,
-      spacing: 12,
       renderOverlay: true,
-      tooltip: 'Team Actions',
       children: [
         _buildSpeedDialChild(
           icon: Icons.group_add,
-          label: 'Join Team',
-          description: 'Join an existing team',
+          label: TTextStrings.joinTeam,
           onTap: () => _navigateToScreen(context, JoinTeamScreen(player)),
+          isDark: isDark,
         ),
         _buildSpeedDialChild(
           icon: Icons.create,
-          label: 'Create Team',
-          description: 'Create a new team',
+          label: TTextStrings.createTeam,
           onTap: () => _navigateToScreen(context, const CreateTeamScreen()),
+          isDark: isDark,
         ),
         _buildSpeedDialChild(
           icon: Icons.explore,
-          label: 'Explore Teams',
-          description: 'Discover new teams',
+          label: TTextStrings.exploreTeams,
           onTap: () => _navigateToScreen(context, const ExploreTeams()),
+          isDark: isDark,
         ),
       ],
     );
@@ -98,15 +96,17 @@ class TeamsScreen extends ConsumerWidget {
   SpeedDialChild _buildSpeedDialChild({
     required IconData icon,
     required String label,
-    required String description,
     required VoidCallback onTap,
+    required bool isDark,
   }) {
     return SpeedDialChild(
-      child: Icon(icon, color: darkGrassGreen),
-      backgroundColor: onPrimary,
+      child: Icon(icon, color: isDark ? lightGrassGreen : darkGrassGreen),
+      backgroundColor:
+          isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
       label: label,
       labelStyle: const TextStyle(fontWeight: FontWeight.w500),
-      labelBackgroundColor: onPrimary,
+      labelBackgroundColor:
+          isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
       onTap: onTap,
     );
   }

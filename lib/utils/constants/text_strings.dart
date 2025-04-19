@@ -12,6 +12,10 @@ class TTextStrings {
   static const String leaveButton = 'Leave';
   static const String stayButton = 'Stay';
 
+  static const String joinTeam = 'Join Team';
+  static const String createTeam = 'Create Team';
+  static const String exploreTeams = 'Explore Teams';
+
   //! -------------------- Match Formats --------------------
   static const String over5 = '5 overs';
   static const String over10 = '10 overs';
