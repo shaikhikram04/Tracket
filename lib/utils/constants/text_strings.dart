@@ -133,4 +133,8 @@ class TTextStrings {
   static const String noTeam = 'No Team Found Yet';
   static const String noTeamMessage =
       'Join or create a team to get started. Explore teams and connect with players.';
+  
+  //! -------------------- Team Role --------------------
+  static const String owner = 'owner';
+  static const String admin = 'admin';
 }

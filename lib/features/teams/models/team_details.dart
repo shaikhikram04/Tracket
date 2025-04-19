@@ -1,4 +1,5 @@
 import 'package:tracket/features/teams/models/team_role.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 
 class TeamDetails {
   TeamDetails({
@@ -27,11 +28,11 @@ class TeamDetails {
 
   static TeamRole getTeamRole(String teamRole) {
     switch (teamRole) {
-      case 'owner':
+      case TTextStrings.owner:
         return TeamRole.owner;
-      case 'admin':
+      case TTextStrings.admin:
         return TeamRole.admin;
-      case 'player':
+      case TTextStrings.playerRole:
         return TeamRole.player;
       default:
         return TeamRole.none;
