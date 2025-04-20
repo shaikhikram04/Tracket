@@ -82,11 +82,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
               padding: TPadding.hPaddingMd,
               child: Column(
                 children: [
-                  const SizedBox(height: TSizes.verticalSpacingXl),
+                  const SizedBox(height: TSizes.verticalSpacingMd),
                   const AppLogo(),
-                  const SizedBox(height: TSizes.verticalSpacingXl),
+                  const SizedBox(height: TSizes.verticalSpacingMd),
                   _buildAuthContainer(tabBarViewHeight),
-                  const SizedBox(height: TSizes.verticalSpacingXl),
+                  const SizedBox(height: TSizes.verticalSpacingMd),
                 ],
               ),
             ),
@@ -153,7 +153,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         controller: _tabController,
         dividerColor: Colors.transparent,
         indicatorSize: TabBarIndicatorSize.tab,
-        labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+        labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),
         indicator: BoxDecoration(

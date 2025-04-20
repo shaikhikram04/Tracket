@@ -17,7 +17,7 @@ class MyTextButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               decoration: isUnderlined ? TextDecoration.underline : null,
             ),
       ),
