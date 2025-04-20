@@ -10,6 +10,7 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/utils/team_constants.dart';
 import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/validation_services.dart';
 
@@ -179,7 +180,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     ],
                   ),
                   child: CircleAvatar(
-                    backgroundColor: isDark ? lightGrassGreen : grassGreen,
+                    backgroundColor: isDark ? primaryLight : grassGreen,
                     radius: 18,
                     child: IconButton(
                       icon: const Icon(Icons.edit, size: 18, color: onPrimary),
@@ -333,9 +334,12 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             children: [
               SwitchListTile(
                 title: const Text('Private Team'),
-                subtitle: const Text(
+                subtitle: Text(
                   'Only invited players can join',
-                  style: TextStyle(color: LightThemeColors.secondaryText),
+                  style: TextStyle(
+                      color: isDark
+                          ? DarkThemeColors.secondaryText
+                          : LightThemeColors.secondaryText),
                 ),
                 value: _isPrivate,
                 onChanged: (value) => setState(() => _isPrivate = value),
@@ -345,18 +349,24 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Icon(Icons.people, color: grassGreen),
+                  Icon(Icons.people,
+                      color: isDark ? lightGrassGreen : grassGreen),
                   const SizedBox(width: 12),
-                  Text(
-                    'Maximum Players:',
-                    style:
-                        TextStyle(color: isDark ? lightGrassGreen : grassGreen),
+                  Expanded(
+                    child: Text(
+                      'Maximum Players',
+                      style: TextStyle(
+                          color: isDark ? lightGrassGreen : grassGreen),
+                    ),
                   ),
+                  const Text(' : '),
                   const SizedBox(width: 16),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDark
+                          ? DarkThemeColors.surfaceColor
+                          : LightThemeColors.surfaceColor,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: isDark
@@ -429,12 +439,12 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Create Team',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: onPrimary,
+                    color: isDark ? DarkThemeColors.cardColor : onPrimary,
                   ),
                 ),
               ),
@@ -467,11 +477,11 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           key: _formKey,
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: TSizes.defaultSpace),
               _buildTeamLogoSection(height, isDark),
-              const SizedBox(height: TeamConstants.defaultSpacing),
+              const SizedBox(height: TSizes.defaultSpace),
               _buildTeamInfoCard(isDark),
-              const SizedBox(height: 30),
+              const SizedBox(height: TSizes.defaultSpace),
             ],
           ),
         ),

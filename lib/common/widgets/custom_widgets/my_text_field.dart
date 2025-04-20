@@ -44,9 +44,7 @@ class MyTextField extends StatelessWidget {
       maxLines: maxLines,
       minLines: minLines,
       autovalidateMode: autovalidateMode,
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            fontSize: 16,
-          ),
+      style: Theme.of(context).textTheme.bodyLarge,
       decoration: InputDecoration(
         hintText: hintText,
         suffixIcon: isPassword

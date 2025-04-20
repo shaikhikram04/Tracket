@@ -17,7 +17,7 @@ class TElevatedButtonTheme {
         borderRadius: BorderRadius.circular(12),
       ),
       side: const BorderSide(color: primaryColor),
-      padding: const EdgeInsets.symmetric(vertical: 18),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       textStyle: TTextTheme.lightTextTheme.titleMedium,
     ),
   );
@@ -34,7 +34,7 @@ class TElevatedButtonTheme {
         borderRadius: BorderRadius.circular(12),
       ),
       side: const BorderSide(color: primaryColor),
-      padding: const EdgeInsets.symmetric(vertical: 18),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       textStyle: TTextTheme.darkTextTheme.titleMedium,
     ),
   );

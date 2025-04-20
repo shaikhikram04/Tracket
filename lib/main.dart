@@ -12,48 +12,6 @@ import 'package:tracket/utils/theme/theme.dart';
 
 import 'firebase_options.dart';
 
-// ThemeData lightMode = ThemeData(
-//   colorScheme: ColorScheme.fromSeed(
-//     brightness: Brightness.light,
-//     surface: LightThemeColors.backgroundColor,
-//     seedColor: primaryColor,
-//   ),
-//   cardColor: LightThemeColors.surfaceColor,
-//   scaffoldBackgroundColor: LightThemeColors.backgroundColor,
-//   appBarTheme: const AppBarTheme(
-//     shadowColor: LightThemeColors.primaryText,
-//   ),
-//   textTheme: GoogleFonts.rubikTextTheme().copyWith(
-//     titleLarge:
-//         GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
-//     titleMedium: GoogleFonts.rubik().copyWith(
-//       fontWeight: FontWeight.w900,
-//       fontSize: 17,
-//     ),
-//   ),
-// );
-
-// ThemeData darkMode = ThemeData(
-//   colorScheme: ColorScheme.fromSeed(
-//     brightness: Brightness.dark,
-//     surface: DarkThemeColors.backgroundColor,
-//     seedColor: primaryColor,
-//   ),
-//   cardColor: DarkThemeColors.surfaceColor,
-//   scaffoldBackgroundColor: DarkThemeColors.backgroundColor,
-//   appBarTheme: const AppBarTheme(
-//     shadowColor: DarkThemeColors.primaryText,
-//   ),
-//   textTheme: GoogleFonts.rubikTextTheme().copyWith(
-//     titleLarge:
-//         GoogleFonts.rubik().copyWith(fontWeight: FontWeight.bold, fontSize: 26),
-//     titleMedium: GoogleFonts.rubik().copyWith(
-//       fontWeight: FontWeight.w900,
-//       fontSize: 17,
-//     ),
-//   ),
-// );
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -73,7 +31,7 @@ Future<void> main() async {
         ? DevicePreview(
             backgroundColor: Colors.grey,
             enabled: true,
-            defaultDevice: Devices.ios.iPhone13ProMax,
+            defaultDevice: Devices.android.onePlus8Pro,
             isToolbarVisible: true,
             availableLocales: const [Locale('en', 'US')],
             tools: const [
