@@ -10,9 +10,11 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/utils/team_constants.dart';
 import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
-import 'package:tracket/utils/utility_classes/validation_services.dart';
+import 'package:tracket/utils/validator/validator.dart';
 
 class CreateTeamScreen extends ConsumerStatefulWidget {
   const CreateTeamScreen({super.key});
@@ -66,7 +68,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     } catch (e) {
       if (mounted) {
         THelperFunction.showSnackBar(
-            'Failed to pick image: ${e.toString()}', context);
+            '${TTextStrings.failedToPickImage} ${e.toString()}', context);
       }
     }
   }
@@ -93,7 +95,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         if (logoUrl != null) {
           _teamFormData.logoUrl = logoUrl;
         } else {
-          setState(() => _imageError = 'Failed to upload logo image');
+          setState(() => _imageError = TTextStrings.failedToUploadLogo);
           return;
         }
       }
@@ -115,14 +117,15 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
 
       if (!mounted) return;
 
-      if (result == 'success') {
+      if (result == TTextStrings.success) {
         Navigator.of(context).pop();
-        THelperFunction.showSnackBar('Team Created Successfully', context);
+        THelperFunction.showSnackBar(TTextStrings.teamCreated, context);
       } else {
-        THelperFunction.showSnackBar('Failed to create team: $result', context);
+        THelperFunction.showSnackBar(
+            '${TTextStrings.failedToCreateTeam} $result', context);
       }
     } catch (e) {
-      THelperFunction.showSnackBar('An unexpected error occurred', context);
+      THelperFunction.showSnackBar(TTextStrings.unexpectedError, context);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -137,7 +140,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             color: isDark
                 ? lightGrassGreen.withValues(alpha: 0.2)
                 : grassGreen.withValues(alpha: 0.2),
-            blurRadius: 10,
+            blurRadius: TSizes.blurRadiusMd,
             spreadRadius: 2,
           ),
         ],
@@ -181,9 +184,10 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                   ),
                   child: CircleAvatar(
                     backgroundColor: isDark ? primaryLight : grassGreen,
-                    radius: 18,
+                    radius: TSizes.circleAvatarXs,
                     child: IconButton(
-                      icon: const Icon(Icons.edit, size: 18, color: onPrimary),
+                      icon: const Icon(Icons.edit,
+                          size: TSizes.iconXsSm, color: onPrimary),
                       onPressed: _editLogo,
                     ),
                   ),
@@ -193,17 +197,17 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           ),
           if (_imageError != null)
             Padding(
-              padding: const EdgeInsets.only(top: 12),
+              padding: const EdgeInsets.only(top: TSizes.md),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: TPadding.paddingSm,
                 decoration: BoxDecoration(
                   color: Colors.red.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
                 ),
                 child: Text(
                   _imageError!,
-                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                  style: const TextStyle(
+                      color: Colors.red, fontSize: TSizes.fontSizeXs),
                 ),
               ),
             ),
@@ -214,13 +218,14 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
 
   Widget _buildTeamInfoCard(bool isDark) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: TSizes.cardElevationLg,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(TSizes.borderRadiusXxl)),
       color:
           isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(TSizes.borderRadiusXxl),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -233,17 +238,17 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: TPadding.xl,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionTitle('Team Information', isDark),
-              const SizedBox(height: 20),
+              _buildSectionTitle(TTextStrings.teamInfo, isDark),
+              const SizedBox(height: TSizes.spaceBtwItems),
               MyTextField(
                 onSave: (value) => _teamFormData.name = value,
-                label: 'Team Name',
+                label: TTextStrings.teamName,
                 validator: (value) =>
-                    ValidationServices.nameValidator(value, 'Team Name'),
+                    TValidator.nameValidator(value, TTextStrings.teamName),
                 autovalidateMode: _autoValidate
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
@@ -252,21 +257,19 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
               const SizedBox(height: TeamConstants.defaultSpacing),
               MyTextField(
                 onSave: (value) => _teamFormData.shortName = value,
-                label: 'Team Short Name',
-                validator: ValidationServices.teamShortNameValidator,
+                label: TTextStrings.teamShortName,
+                validator: TValidator.teamShortNameValidator,
                 maxLength: TeamConstants.maxShortNameLength,
                 autovalidateMode: _autoValidate
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.short_text,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: TSizes.spaceBtwItems),
               MyTextField(
                 onSave: (value) => _teamFormData.description = value,
-                label: 'Team Description',
-                validator: (value) => value?.isEmpty ?? true
-                    ? 'Please add a team description'
-                    : null,
+                label: TTextStrings.teamDescription,
+                validator: TValidator.descriptionValidator,
                 maxLength: TeamConstants.maxTeamDescriptionLength,
                 maxLines: 3,
                 minLines: 2,
@@ -275,9 +278,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     : AutovalidateMode.disabled,
                 prefixIcon: Icons.description,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: TSizes.defaultSpace),
               _buildAdvancedSettings(isDark),
-              const SizedBox(height: 30),
+              const SizedBox(height: TSizes.defaultSpace),
               _buildSubmitButton(isDark),
             ],
           ),
@@ -288,7 +291,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
 
   Widget _buildSectionTitle(String title, bool isDark) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: TPadding.paddingMd,
       decoration: BoxDecoration(
         color: isDark
             ? lightGrassGreen.withValues(alpha: 0.1)
@@ -303,7 +306,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 18,
+          fontSize: TSizes.fontSizeLg,
           fontWeight: FontWeight.bold,
           color: isDark ? lightGrassGreen : grassGreen,
         ),
@@ -315,15 +318,15 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('Advanced Settings', isDark),
-        const SizedBox(height: 20),
+        _buildSectionTitle(TTextStrings.advancedSettings, isDark),
+        const SizedBox(height: TSizes.spaceBtwItems),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: TPadding.md,
           decoration: BoxDecoration(
             color: isDark
                 ? DarkThemeColors.secondaryBackground.withValues(alpha: 0.5)
                 : LightThemeColors.secondaryBackground.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(TSizes.borderRadiusXl),
             border: Border.all(
               color: isDark
                   ? lightGrassGreen.withValues(alpha: 0.2)
@@ -333,9 +336,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
           child: Column(
             children: [
               SwitchListTile(
-                title: const Text('Private Team'),
+                title: const Text(TTextStrings.privateTeam),
                 subtitle: Text(
-                  'Only invited players can join',
+                  TTextStrings.privateTeamMessage,
                   style: TextStyle(
                       color: isDark
                           ? DarkThemeColors.secondaryText
@@ -346,28 +349,29 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 activeColor: isDark ? lightGrassGreen : grassGreen,
                 contentPadding: EdgeInsets.zero,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: TSizes.spaceBtwItems),
               Row(
                 children: [
                   Icon(Icons.people,
                       color: isDark ? lightGrassGreen : grassGreen),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: TSizes.md),
                   Expanded(
                     child: Text(
-                      'Maximum Players',
+                      TTextStrings.maxTeamCapacity,
                       style: TextStyle(
                           color: isDark ? lightGrassGreen : grassGreen),
                     ),
                   ),
                   const Text(' : '),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: TSizes.lg),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: TPadding.hPaddingSm,
                     decoration: BoxDecoration(
                       color: isDark
                           ? DarkThemeColors.surfaceColor
                           : LightThemeColors.surfaceColor,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius:
+                          BorderRadius.circular(TSizes.borderRadiusMd),
                       border: Border.all(
                         color: isDark
                             ? lightGrassGreen.withValues(alpha: 0.3)
@@ -377,7 +381,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     child: DropdownButton<int>(
                       value: _teamFormData.maxPlayers ??
                           TeamConstants.defaultMaxPlayers,
-                      menuMaxHeight: 400,
+                      menuMaxHeight: TSizes.menuHeightMax,
                       items: List.generate(
                         TeamConstants.maxTeamSize -
                             TeamConstants.minTeamSize +
@@ -411,9 +415,9 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
             )
           : Container(
               width: double.infinity,
-              height: 50,
+              height: TSizes.buttonHeight,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(TSizes.borderRadiusXl),
                 gradient: LinearGradient(
                   colors: [
                     isDark ? lightGrassGreen : grassGreen,
@@ -425,7 +429,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                     color: isDark
                         ? lightGrassGreen.withValues(alpha: 0.3)
                         : grassGreen.withValues(alpha: 0.3),
-                    blurRadius: 8,
+                    blurRadius: TSizes.blurRadiusMd,
                     offset: const Offset(0, 4),
                   ),
                 ],
@@ -436,13 +440,13 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(TSizes.borderRadiusXl),
                   ),
                 ),
                 child: Text(
-                  'Create Team',
+                  TTextStrings.createTeam,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: TSizes.fontSizeMd,
                     fontWeight: FontWeight.bold,
                     color: isDark ? DarkThemeColors.cardColor : onPrimary,
                   ),
@@ -463,7 +467,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
         foregroundColor: onPrimary,
         backgroundColor: grassGreen,
         title: const Text(
-          'Create Team',
+          TTextStrings.createTeam,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,

@@ -7,11 +7,11 @@ class TSizes {
   static const double xl = 20.0;
   static const double xxl = 24.0;
   static const double xxl2 = 32.0;
-  
 
   //* Icon sizes
   static const double iconXs = 12.0;
   static const double iconSm = 16.0;
+  static const double iconXsSm = 18.0;
   static const double iconMd = 24.0;
   static const double iconLg = 32.0;
   static const double iconXl = 40.0;
@@ -106,9 +106,12 @@ class TSizes {
   static const blurRadiusXxl = 20.0;
 
   //* Circle avatar size
-  static const double circleAvatarXs = 16.0;
+  static const double circleAvatarXs = 18.0;
   static const double circleAvatarSm = 30.0;
   static const double circleAvatarMd = 40.0;
+
+  //* Menu height
+  static const double menuHeightMax = 400.0;
 
   //* user authentication form sizes
   static const double userLoginFormHeight = 353;

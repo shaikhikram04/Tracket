@@ -101,6 +101,8 @@ class TTextStrings {
   static const String wrongEmailOrPassword =
       'Wrong email or password. Please try again.';
   static const String loadingPlayerDataError = 'Error on loading player data :';
+  static const String failedToPickImage = 'Failed to pick image:';
+  static const String failedToUploadLogo = 'Failed to upload logo:';
 
   //! -------------------- Authentication Errors --------------------
   static const String emailUsedByUser =
@@ -115,6 +117,7 @@ class TTextStrings {
 
   //! -------------------- Success Messages --------------------
   static const String success = 'success';
+  static const String teamCreated = 'Team created successfully!';
 
   //! -------------------- Firebase Auth Error Codes --------------------
   static const String emailAlreadyInUse = 'email-already-in-use';
@@ -136,6 +139,15 @@ class TTextStrings {
       'Join or create a team to get started. Explore teams and connect with players.';
   static const String searchPlayers = 'Search players...';
   static const String addPlayer = 'Add Player';
+  static const String teamInfo = 'Team Information';
+  static const String teamName = 'Team Name';
+  static const String teamShortName = 'Team Short Name';
+  static const String teamDescription = 'Team Description';
+  static const String privateTeam = 'Private Team';
+  static const String privateTeamMessage =
+      'Only invited players can join this team.';
+  static const String advancedSettings = 'Advanced Settings';
+  static const String maxTeamCapacity = 'Max Team Capacity';
 
   //! -------------------- Team Error --------------------
   static const String failedToUpdateTeam = 'Failed to update team :';
@@ -160,6 +172,7 @@ class TTextStrings {
   static const String noPlayersFound = 'No players found';
   static const String noPlayersFoundMessage =
       'No players found in the team. Please add players to the team.';
+  static const String failedToCreateTeam = 'Failed to create team:';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
