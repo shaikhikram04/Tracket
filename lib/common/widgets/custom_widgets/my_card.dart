@@ -15,7 +15,7 @@ class MyCard extends StatelessWidget {
       color: LightThemeColors.surfaceColor,
       elevation: TSizes.cardElevationXl,
       child: Padding(
-        padding: TPadding.cardPaddingSm,
+        padding: TPadding.cardPaddingLg,
         child: child,
       ),
     );

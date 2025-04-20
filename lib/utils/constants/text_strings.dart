@@ -145,13 +145,18 @@ class TTextStrings {
   static const String teamShortName = 'Team Short Name';
   static const String teamDescription = 'Team Description';
   static const String privateTeam = 'Private Team';
+  static const String privateTeams = 'Private Teams';
   static const String privateTeamMessage =
       'Only invited players can join this team.';
   static const String advancedSettings = 'Advanced Settings';
   static const String maxTeamCapacity = 'Max Team Capacity';
   static const String exploreTeam = 'Explore Teams';
   static const String followersKey = 'followers';
+  static const String hasCapacity = 'Has Capacity';
+  static const String full = 'Full';
 
+  static const String private = 'Private';
+  static const String public = 'Public';
 
   //! -------------------- Team Error --------------------
   static const String failedToUpdateTeam = 'Failed to update team :';
@@ -170,7 +175,8 @@ class TTextStrings {
       'Team capacity cannot be less than 1';
   static const String failedToUpdateTeamCapacity =
       'Failed to update team capacity:';
-  static const String failedToLoadPlayers = 'Failed to load players. Please try again.';
+  static const String failedToLoadPlayers =
+      'Failed to load players. Please try again.';
   static const String noPlayersFoundMatchingSearch =
       'No players found matching your search';
   static const String noPlayersFound = 'No players found';
@@ -178,10 +184,12 @@ class TTextStrings {
       'No players found in the team. Please add players to the team.';
   static const String failedToCreateTeam = 'Failed to create team:';
   static const String noTeamAvailable = 'No Teams Available';
-  static const String noTeamAvailableMessage =
-      'Be the first to create a team!';
-  static const String noTeamFoundMatchingSearch =
-      'No teams found, matching';
+  static const String noTeamAvailableMessage = 'Be the first to create a team!';
+  static const String noTeamAvailableJoinMessage =
+      'All teams are already joined or no teams exist yet.';
+  static const String noTeamFoundMatchingSearch = 'No teams found, matching';
+  static const String noTeamFoundMatchingSearch2 =
+      'No teams found matching your criteria.';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
@@ -199,7 +207,6 @@ class TTextStrings {
 
   static const String manageTeamSettings = 'Manage team settings and details';
   static const String manageTeamMembers = 'Add or remove team members';
-  static const String manageTeamMatches = 'Create and Manage team matches and schedules';
-
-  
+  static const String manageTeamMatches =
+      'Create and Manage team matches and schedules';
 }

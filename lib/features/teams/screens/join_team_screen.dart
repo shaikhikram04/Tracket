@@ -10,6 +10,9 @@ import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -44,7 +47,6 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
@@ -52,18 +54,18 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
         elevation: 0,
         backgroundColor: grassGreen,
         foregroundColor: onPrimary,
-        title: const Text('Join Team'),
+        title: const Text(TTextStrings.joinTeam),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(120),
+          preferredSize: const Size.fromHeight(TSizes.appBarHeight * 2),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: TPadding.xs,
                 child: TextField(
                   controller: _searchController,
                   onChanged: (value) => setState(() => _searchQuery = value),
                   decoration: InputDecoration(
-                    hintText: 'Search teams...',
+                    hintText: TTextStrings.searchTeams,
                     filled: true,
                     fillColor: isDark
                         ? DarkThemeColors.surfaceColor
@@ -71,7 +73,8 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     prefixIcon: Icon(Icons.search,
                         color: isDark ? lightGrassGreen : grassGreen),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius:
+                          BorderRadius.circular(TSizes.borderRadiusLg),
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -79,12 +82,12 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: TPadding.hPaddingXs,
                 child: Row(
                   children: [
                     FilterChip(
                       selected: _isPrivateOnly,
-                      label: const Text('Private Teams'),
+                      label: const Text(TTextStrings.privateTeams),
                       onSelected: (value) =>
                           setState(() => _isPrivateOnly = value),
                       backgroundColor: isDark
@@ -92,10 +95,10 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                           : LightThemeColors.surfaceColor,
                       selectedColor: primaryMedium,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: TSizes.sm),
                     FilterChip(
                       selected: _hasCapacityOnly,
-                      label: const Text('Has Capacity'),
+                      label: const Text(TTextStrings.hasCapacity),
                       onSelected: (value) =>
                           setState(() => _hasCapacityOnly = value),
                       backgroundColor: isDark
@@ -126,8 +129,8 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
             return const NoDataFound(
-              title: 'No Teams Available',
-              message: 'All teams are already joined or no teams exist yet.',
+              title: TTextStrings.noTeamAvailable,
+              message: TTextStrings.noTeamAvailableJoinMessage,
               iconData: AppIconData.groupOff,
             );
           }
@@ -154,29 +157,15 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
           }).toList();
 
           if (filteredTeams.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.search_off,
-                    size: 64,
-                    color: isDark
-                        ? DarkThemeColors.secondaryText
-                        : LightThemeColors.secondaryText,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No teams found matching your criteria',
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ],
-              ),
+            return const NoDataFound(
+              title: TTextStrings.noTeamFoundMatchingSearch2,
+              message: '',
+              iconData: Icons.search_off,
             );
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: TPadding.xs,
             itemCount: filteredTeams.length,
             itemBuilder: (context, index) {
               return buildTeamCard(
@@ -208,10 +197,10 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
     );
 
     return Card(
-      elevation: 2,
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+      elevation: TSizes.cardElevation,
+      margin: TPadding.cardPaddingXs,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
       ),
       child: Column(
         children: [
@@ -225,7 +214,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             isPlayer: false,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: TPadding.xs,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -233,31 +222,35 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                   children: [
                     Icon(
                       team.isPrivate ? Icons.lock : Icons.lock_open,
-                      size: 16,
+                      size: TSizes.sm,
                       color: isDark
                           ? DarkThemeColors.secondaryText
                           : LightThemeColors.secondaryText,
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: TSizes.xs),
                     Text(
-                      team.isPrivate ? 'Private' : 'Public',
+                      team.isPrivate
+                          ? TTextStrings.private
+                          : TTextStrings.public,
                       style: TextStyle(
                         color: isDark
                             ? DarkThemeColors.secondaryText
                             : LightThemeColors.secondaryText,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: TSizes.md),
                     Icon(
                       team.hasCapacity ? Icons.people : Icons.group_off,
-                      size: 16,
+                      size: TSizes.lg,
                       color: isDark
                           ? DarkThemeColors.secondaryText
                           : LightThemeColors.secondaryText,
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: TSizes.xs),
                     Text(
-                      team.hasCapacity ? 'Has Capacity' : 'Full',
+                      team.hasCapacity
+                          ? TTextStrings.hasCapacity
+                          : TTextStrings.full,
                       style: TextStyle(
                         color: isDark
                             ? DarkThemeColors.secondaryText
