@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TeamLogoEditor extends StatelessWidget {
   const TeamLogoEditor({
@@ -18,10 +19,12 @@ class TeamLogoEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? Colors.black : Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -39,14 +42,14 @@ class TeamLogoEditor extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: grassGreen,
+                    color: isDark ? lightGrassGreen : grassGreen,
                     width: 2,
                   ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: Colors.black12,
                       blurRadius: 8,
-                      offset: const Offset(0, 2),
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
@@ -63,17 +66,21 @@ class TeamLogoEditor extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: grassGreen,
+                    color: isDark ? lightGrassGreen : grassGreen,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: LightThemeColors.surfaceColor,
+                      color: isDark
+                          ? DarkThemeColors.surfaceColor
+                          : LightThemeColors.surfaceColor,
                       width: 2,
                     ),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.camera_alt,
                     size: 16,
-                    color: LightThemeColors.surfaceColor,
+                    color: isDark
+                        ? DarkThemeColors.surfaceColor
+                        : LightThemeColors.surfaceColor,
                   ),
                 ),
               ),
@@ -89,37 +96,37 @@ class TeamLogoEditor extends StatelessWidget {
                   'Team Logo',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: grassGreen,
+                        color: isDark ? lightGrassGreen : grassGreen,
                       ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Upload a team logo here',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: LightThemeColors.secondaryText,
+                        color: isDark
+                            ? DarkThemeColors.secondaryText
+                            : LightThemeColors.secondaryText,
                       ),
                 ),
                 const SizedBox(height: 8),
                 TextButton.icon(
                   onPressed: () => onImageChanged(image),
                   style: TextButton.styleFrom(
-                    foregroundColor: grassGreen,
-                    backgroundColor: LightThemeColors.surfaceColor,
+                    foregroundColor: isDark ? lightGrassGreen : grassGreen,
+                    backgroundColor: isDark
+                        ? DarkThemeColors.surfaceColor
+                        : LightThemeColors.surfaceColor,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+                      horizontal: 12,
+                      vertical: 6,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   icon: const Icon(Icons.edit),
-                  label: Text(
-                    'Change Logo',
-                    style:Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
+                  label: Text('Change Logo',
+                      style: Theme.of(context).textTheme.labelLarge),
                 ),
               ],
             ),

@@ -159,6 +159,8 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return PopScope(
       canPop: !_hasUnsavedChanges && !_checkForChanges(),
       onPopInvokedWithResult: (didPop, result) async {
@@ -181,15 +183,11 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0,
           backgroundColor: grassGreen,
-          foregroundColor: LightThemeColors.surfaceColor,
+          foregroundColor: onPrimary,
           title: const Text(
             'Edit Team',
-            style: TextStyle(
-              color: LightThemeColors.surfaceColor,
-              fontWeight: FontWeight.bold,
-            ),
+           
           ),
           actions: [
             if (_isSaving)
@@ -197,7 +195,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 padding: EdgeInsets.all(12.0),
                 child: CircularLoadingIndicator(
                   dimension: 24,
-                  color: LightThemeColors.surfaceColor,
+                  color: onPrimary
                 ),
               )
             else
@@ -205,8 +203,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                 onPressed: _saveChanges,
                 icon: const Icon(Icons.save_rounded),
                 iconSize: 28,
-                color: LightThemeColors.surfaceColor,
-                tooltip: 'Save Changes',
+                color: onPrimary,
               ),
             const SizedBox(width: 12),
           ],
@@ -227,7 +224,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         Text(
                           'Primary Information',
                           style: theme.textTheme.titleLarge?.copyWith(
-                            color: darkGrassGreen,
+                            color: isDark ? lightGrassGreen : darkGrassGreen,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -243,8 +240,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           onSave: (value) => _teamName = value,
                           label: 'Team Name',
                           validator: (value) =>
-                              TValidator.nameValidator(
-                                  value, 'Team Name'),
+                              TValidator.nameValidator(value, 'Team Name'),
                         ),
                         const SizedBox(height: 16),
                         MyTextField(
@@ -308,7 +304,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         Text(
                           'Team Roles',
                           style: theme.textTheme.titleLarge?.copyWith(
-                            color: darkGrassGreen,
+                            color: isDark ? lightGrassGreen : darkGrassGreen,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -349,10 +345,12 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         onPressed: _saveChanges,
                         text: 'Save Changes',
                         isLoading: _isSaving,
-                        backgroundColor: grassGreen,
+                        backgroundColor: isDark ? lightGrassGreen : grassGreen,
                         borderRadius: 10,
                         textStyle: theme.textTheme.titleMedium?.copyWith(
-                          color: LightThemeColors.surfaceColor,
+                          color: isDark
+                              ? DarkThemeColors.surfaceColor
+                              : LightThemeColors.surfaceColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
