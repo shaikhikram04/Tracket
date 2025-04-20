@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class ExploreTeams extends StatefulWidget {
   const ExploreTeams({super.key});
@@ -27,12 +27,13 @@ class _ExploreTeamsState extends State<ExploreTeams> {
 
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: grassGreen,
-        foregroundColor: LightThemeColors.surfaceColor,
+        foregroundColor: onPrimary,
         title: const Text(
           'Explore Teams',
           style: TextStyle(
@@ -50,8 +51,11 @@ class _ExploreTeamsState extends State<ExploreTeams> {
               decoration: InputDecoration(
                 hintText: 'Search teams...',
                 filled: true,
-                fillColor: LightThemeColors.surfaceColor,
-                prefixIcon: const Icon(Icons.search, color: grassGreen),
+                fillColor: isDark
+                    ? DarkThemeColors.surfaceColor
+                    : LightThemeColors.surfaceColor,
+                prefixIcon: Icon(Icons.search,
+                    color: isDark ? lightGrassGreen : grassGreen),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
@@ -69,9 +73,9 @@ class _ExploreTeamsState extends State<ExploreTeams> {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: grassGreen,
+                color: isDark ? lightGrassGreen : grassGreen,
               ),
             );
           }
@@ -97,7 +101,7 @@ class _ExploreTeamsState extends State<ExploreTeams> {
             return const NoDataFound(
               title: 'No Teams Available',
               message: 'Be the first to create a team!',
-                iconData: AppIconData.groupOff,
+              iconData: AppIconData.groupOff,
             );
           }
 
@@ -112,22 +116,10 @@ class _ExploreTeamsState extends State<ExploreTeams> {
           }).toList();
 
           if (filteredTeams.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.search_off,
-                    size: 64,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No teams found matching "$_searchQuery"',
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ],
-              ),
+            return NoDataFound(
+              title: 'No teams found matching "$_searchQuery"',
+              message: '',
+              iconData: Icons.search_off,
             );
           }
 
