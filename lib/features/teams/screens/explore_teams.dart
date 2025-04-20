@@ -4,6 +4,9 @@ import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -35,21 +38,21 @@ class _ExploreTeamsState extends State<ExploreTeams> {
         backgroundColor: grassGreen,
         foregroundColor: onPrimary,
         title: const Text(
-          'Explore Teams',
+          TTextStrings.exploreTeams,
           style: TextStyle(
             color: LightThemeColors.surfaceColor,
             fontWeight: FontWeight.bold,
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(TSizes.appBarHeight),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: TPadding.xs,
             child: TextField(
               controller: _searchController,
               onChanged: (value) => setState(() => _searchQuery = value),
               decoration: InputDecoration(
-                hintText: 'Search teams...',
+                hintText: TTextStrings.searchTeams,
                 filled: true,
                 fillColor: isDark
                     ? DarkThemeColors.surfaceColor
@@ -57,10 +60,10 @@ class _ExploreTeamsState extends State<ExploreTeams> {
                 prefixIcon: Icon(Icons.search,
                     color: isDark ? lightGrassGreen : grassGreen),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
                   borderSide: BorderSide.none,
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                contentPadding: TPadding.hPaddingMd,
               ),
             ),
           ),
@@ -69,7 +72,7 @@ class _ExploreTeamsState extends State<ExploreTeams> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(FirestoreCollections.teams)
-            .orderBy('followers', descending: true)
+            .orderBy(TTextStrings.followersKey, descending: true)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -85,10 +88,10 @@ class _ExploreTeamsState extends State<ExploreTeams> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const Icon(Icons.error_outline, size: TSizes.xxl, color: Colors.red),
                   const SizedBox(height: 16),
                   Text(
-                    'Error: ${snapshot.error}',
+                    '${TTextStrings.error} ${snapshot.error}',
                     style: theme.textTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),
@@ -99,8 +102,8 @@ class _ExploreTeamsState extends State<ExploreTeams> {
 
           if (!snapshot.hasData || snapshot.data!.size == 0) {
             return const NoDataFound(
-              title: 'No Teams Available',
-              message: 'Be the first to create a team!',
+              title: TTextStrings.noTeamAvailable,
+              message: TTextStrings.noTeamAvailableMessage,
               iconData: AppIconData.groupOff,
             );
           }
@@ -117,14 +120,14 @@ class _ExploreTeamsState extends State<ExploreTeams> {
 
           if (filteredTeams.isEmpty) {
             return NoDataFound(
-              title: 'No teams found matching "$_searchQuery"',
+              title: '${TTextStrings.noTeamFoundMatchingSearch} "$_searchQuery"',
               message: '',
               iconData: Icons.search_off,
             );
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: TPadding.xs,
             itemCount: filteredTeams.length,
             itemBuilder: (BuildContext context, int index) {
               final teamData =
@@ -134,10 +137,10 @@ class _ExploreTeamsState extends State<ExploreTeams> {
                 imageUrl: teamData['logoUrl'],
                 title: teamData['teamName'],
                 subtitle:
-                    '${teamData['shortName']} • ${(teamData['followers'] as List<dynamic>).length} followers',
+                    '${teamData['shortName']} • ${(teamData['followers'] as List<dynamic>).length} ${TTextStrings.followersKey}',
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
-                  size: 16,
+                  size: TSizes.iconSm,
                   color: grassGreen,
                 ),
                 onTap: () => THelperFunction.pushScreen(

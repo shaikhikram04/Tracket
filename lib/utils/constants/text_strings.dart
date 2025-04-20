@@ -138,6 +138,7 @@ class TTextStrings {
   static const String noTeamMessage =
       'Join or create a team to get started. Explore teams and connect with players.';
   static const String searchPlayers = 'Search players...';
+  static const String searchTeams = 'Search teams...';
   static const String addPlayer = 'Add Player';
   static const String teamInfo = 'Team Information';
   static const String teamName = 'Team Name';
@@ -148,6 +149,9 @@ class TTextStrings {
       'Only invited players can join this team.';
   static const String advancedSettings = 'Advanced Settings';
   static const String maxTeamCapacity = 'Max Team Capacity';
+  static const String exploreTeam = 'Explore Teams';
+  static const String followersKey = 'followers';
+
 
   //! -------------------- Team Error --------------------
   static const String failedToUpdateTeam = 'Failed to update team :';
@@ -173,6 +177,11 @@ class TTextStrings {
   static const String noPlayersFoundMessage =
       'No players found in the team. Please add players to the team.';
   static const String failedToCreateTeam = 'Failed to create team:';
+  static const String noTeamAvailable = 'No Teams Available';
+  static const String noTeamAvailableMessage =
+      'Be the first to create a team!';
+  static const String noTeamFoundMatchingSearch =
+      'No teams found, matching';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
