@@ -88,7 +88,8 @@ class _ExploreTeamsState extends State<ExploreTeams> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.error_outline, size: TSizes.xxl, color: Colors.red),
+                  const Icon(Icons.error_outline,
+                      size: TSizes.xxl, color: Colors.red),
                   const SizedBox(height: 16),
                   Text(
                     '${TTextStrings.error} ${snapshot.error}',
@@ -120,7 +121,8 @@ class _ExploreTeamsState extends State<ExploreTeams> {
 
           if (filteredTeams.isEmpty) {
             return NoDataFound(
-              title: '${TTextStrings.noTeamFoundMatchingSearch} "$_searchQuery"',
+              title:
+                  '${TTextStrings.noTeamFoundMatchingSearch} "$_searchQuery"',
               message: '',
               iconData: Icons.search_off,
             );

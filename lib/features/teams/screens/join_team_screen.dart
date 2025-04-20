@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
+import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team.dart';
@@ -10,9 +13,6 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
-import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class JoinTeamScreen extends StatefulWidget {
   const JoinTeamScreen(this.player, {super.key});
@@ -45,19 +45,14 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: grassGreen,
-        foregroundColor: LightThemeColors.surfaceColor,
-        title: const Text(
-          'Join Team',
-          style: TextStyle(
-            color: LightThemeColors.surfaceColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        foregroundColor: onPrimary,
+        title: const Text('Join Team'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(120),
           child: Column(
@@ -70,8 +65,11 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                   decoration: InputDecoration(
                     hintText: 'Search teams...',
                     filled: true,
-                    fillColor: LightThemeColors.surfaceColor,
-                    prefixIcon: const Icon(Icons.search, color: grassGreen),
+                    fillColor: isDark
+                        ? DarkThemeColors.surfaceColor
+                        : LightThemeColors.surfaceColor,
+                    prefixIcon: Icon(Icons.search,
+                        color: isDark ? lightGrassGreen : grassGreen),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -89,7 +87,9 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                       label: const Text('Private Teams'),
                       onSelected: (value) =>
                           setState(() => _isPrivateOnly = value),
-                      backgroundColor: LightThemeColors.surfaceColor,
+                      backgroundColor: isDark
+                          ? DarkThemeColors.surfaceColor
+                          : LightThemeColors.surfaceColor,
                       selectedColor: primaryMedium,
                     ),
                     const SizedBox(width: 8),
@@ -98,7 +98,9 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                       label: const Text('Has Capacity'),
                       onSelected: (value) =>
                           setState(() => _hasCapacityOnly = value),
-                      backgroundColor: LightThemeColors.surfaceColor,
+                      backgroundColor: isDark
+                          ? DarkThemeColors.surfaceColor
+                          : LightThemeColors.surfaceColor,
                       selectedColor: primaryMedium,
                     ),
                   ],
@@ -115,9 +117,9 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: grassGreen,
+                color: isDark ? lightGrassGreen : grassGreen,
               ),
             );
           }
@@ -126,7 +128,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             return const NoDataFound(
               title: 'No Teams Available',
               message: 'All teams are already joined or no teams exist yet.',
-                iconData: AppIconData.groupOff,
+              iconData: AppIconData.groupOff,
             );
           }
 
@@ -156,8 +158,13 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.search_off,
-                      size: 64, color: LightThemeColors.secondaryText),
+                  Icon(
+                    Icons.search_off,
+                    size: 64,
+                    color: isDark
+                        ? DarkThemeColors.secondaryText
+                        : LightThemeColors.secondaryText,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'No teams found matching your criteria',
@@ -173,7 +180,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             itemCount: filteredTeams.length,
             itemBuilder: (context, index) {
               return buildTeamCard(
-                  filteredTeams[index].data() as Map<String, dynamic>);
+                  filteredTeams[index].data() as Map<String, dynamic>, isDark);
             },
           );
         },
@@ -181,7 +188,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
     );
   }
 
-  Widget buildTeamCard(Map<String, dynamic> teamData) {
+  Widget buildTeamCard(Map<String, dynamic> teamData, bool isDark) {
     final team = Team.fromJson(teamData, null);
     final teamInfo = TeamDetails(
       id: team.id,
@@ -212,8 +219,8 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             imageUrl: team.logoUrl,
             title: team.name,
             subtitle: team.shortName,
-            onTap: () =>
-                THelperFunction.pushScreen(context, TeamProfileScreen(teamData: teamData)),
+            onTap: () => THelperFunction.pushScreen(
+                context, TeamProfileScreen(teamData: teamData)),
             trailing: null,
             isPlayer: false,
           ),
@@ -227,23 +234,35 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     Icon(
                       team.isPrivate ? Icons.lock : Icons.lock_open,
                       size: 16,
-                      color: LightThemeColors.secondaryText,
+                      color: isDark
+                          ? DarkThemeColors.secondaryText
+                          : LightThemeColors.secondaryText,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       team.isPrivate ? 'Private' : 'Public',
-                      style: const TextStyle(color: LightThemeColors.secondaryText),
+                      style: TextStyle(
+                        color: isDark
+                            ? DarkThemeColors.secondaryText
+                            : LightThemeColors.secondaryText,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Icon(
                       team.hasCapacity ? Icons.people : Icons.group_off,
                       size: 16,
-                      color: LightThemeColors.secondaryText,
+                      color: isDark
+                          ? DarkThemeColors.secondaryText
+                          : LightThemeColors.secondaryText,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       team.hasCapacity ? 'Has Capacity' : 'Full',
-                      style: const TextStyle(color: LightThemeColors.secondaryText),
+                      style: TextStyle(
+                        color: isDark
+                            ? DarkThemeColors.secondaryText
+                            : LightThemeColors.secondaryText,
+                      ),
                     ),
                   ],
                 ),
