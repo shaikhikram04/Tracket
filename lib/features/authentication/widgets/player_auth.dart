@@ -12,7 +12,7 @@ import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/utils/utility_classes/validation_services.dart';
+import 'package:tracket/utils/validator/validator.dart';
 
 class PlayerAuth extends ConsumerStatefulWidget {
   const PlayerAuth({super.key});
@@ -107,7 +107,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
                   .read(playerAuthProvider.notifier)
                   .updateField(playerName: value),
               hintText: TTextStrings.playerName,
-              validator: (value) => ValidationServices.nameValidator(
+              validator: (value) => TValidator.nameValidator(
                   value, TTextStrings.playerName),
               prefixIcon: AppIconData.person,
             ),
@@ -117,7 +117,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             onSave: (value) =>
                 ref.read(playerAuthProvider.notifier).updateField(email: value),
             hintText: TTextStrings.email,
-            validator: ValidationServices.emailValidator,
+            validator: TValidator.emailValidator,
             prefixIcon: AppIconData.email,
           ),
           const SizedBox(height: TSizes.defaultSpace),
@@ -125,7 +125,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             onSave: (value) => ref
                 .read(playerAuthProvider.notifier)
                 .updateField(password: value),
-            validator: (value) => ValidationServices.passwordValidator(
+            validator: (value) => TValidator.passwordValidator(
                 value, playerAuthState.isLogin),
             hintText: TTextStrings.password,
             isPasswordHidden: playerAuthState.isPasswordHidden,

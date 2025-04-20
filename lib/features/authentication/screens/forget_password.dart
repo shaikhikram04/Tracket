@@ -11,7 +11,7 @@ import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_containers.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/validation_services.dart';
+import 'package:tracket/utils/validator/validator.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({
@@ -168,7 +168,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         onSave: (value) => _email = value,
         hintText: TTextStrings.enterEmail,
         prefixIcon: AppIconData.email,
-        validator: ValidationServices.emailValidator,
+        validator: TValidator.emailValidator,
       ),
       const SizedBox(height: TSizes.verticalSpacingXl)
     ];

@@ -344,7 +344,7 @@ class THelperFunction {
       context: context,
       builder: (_) {
         return Dialog(
-          backgroundColor: Colors.white.withOpacity(0.9),
+          backgroundColor: Colors.white.withValues(alpha:  0.9),
           elevation: 0,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

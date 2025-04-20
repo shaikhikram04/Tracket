@@ -17,7 +17,7 @@ import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/validation_services.dart';
+import 'package:tracket/utils/validator/validator.dart';
 
 class TeamEditScreen extends ConsumerStatefulWidget {
   const TeamEditScreen({super.key});
@@ -243,7 +243,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           onSave: (value) => _teamName = value,
                           label: 'Team Name',
                           validator: (value) =>
-                              ValidationServices.nameValidator(
+                              TValidator.nameValidator(
                                   value, 'Team Name'),
                         ),
                         const SizedBox(height: 16),
@@ -251,7 +251,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           initialText: _teamState.team.shortName,
                           onSave: (value) => _teamShortName = value,
                           label: 'Team Short Name',
-                          validator: ValidationServices.teamShortNameValidator,
+                          validator: TValidator.teamShortNameValidator,
                         ),
                         const SizedBox(height: 16),
                         MyTextField(

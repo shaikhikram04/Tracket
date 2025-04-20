@@ -8,7 +8,7 @@ import 'package:tracket/features/authentication/widgets/authentication_toggle.da
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/utils/utility_classes/validation_services.dart';
+import 'package:tracket/utils/validator/validator.dart';
 
 class UserAuth extends ConsumerStatefulWidget {
   const UserAuth({super.key});
@@ -59,7 +59,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
                   .read(playerAuthProvider.notifier)
                   .updateField(playerName: value),
               hintText: TTextStrings.username,
-              validator: ValidationServices.usernameValidator,
+              validator: TValidator.usernameValidator,
               prefixIcon: AppIconData.person,
             ),
           if (!userAuthState.isLogin)
@@ -68,7 +68,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             onSave: (value) =>
                 ref.read(playerAuthProvider.notifier).updateField(email: value),
             hintText: TTextStrings.email,
-            validator: ValidationServices.emailValidator,
+            validator: TValidator.emailValidator,
             prefixIcon: AppIconData.email,
           ),
           const SizedBox(height: TSizes.defaultSpace),
@@ -80,7 +80,7 @@ class _UserAuthState extends ConsumerState<UserAuth> {
             isPasswordHidden: userAuthState.isPasswordHidden,
             changeVisibility:
                 ref.read(playerAuthProvider.notifier).togglePasswordVisibility,
-            validator: (value) => ValidationServices.passwordValidator(
+            validator: (value) => TValidator.passwordValidator(
                 value, userAuthState.isLogin),
             prefixIcon: AppIconData.lock,
           ),

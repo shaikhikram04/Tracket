@@ -18,7 +18,7 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
-import 'package:tracket/utils/utility_classes/validation_services.dart';
+import 'package:tracket/utils/validator/validator.dart';
 
 class ChallengeMatchScreen extends StatefulWidget {
   const ChallengeMatchScreen({
@@ -457,7 +457,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           _venue.value = value;
         },
         label: 'Venue',
-        validator: (value) => ValidationServices.nameValidator(value, 'Venue'),
+        validator: (value) => TValidator.nameValidator(value, 'Venue'),
       ),
     );
   }
