@@ -4,6 +4,7 @@ import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TeamListTile extends StatelessWidget {
   const TeamListTile({
@@ -18,7 +19,7 @@ class TeamListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = THelperFunction.isDarkMode(context);
 
     return ListTile(
       onTap: onTap,
