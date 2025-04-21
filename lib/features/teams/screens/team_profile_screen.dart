@@ -375,8 +375,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             .textTheme
                                             .bodyMedium!
                                             .copyWith(
-                                                color: LightThemeColors
-                                                    .surfaceColor),
+                                              color:
+                                                  LightThemeColors.surfaceColor,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       )
                                     : CustomButton.secondary(
                                         text: TTextStrings.challenged,

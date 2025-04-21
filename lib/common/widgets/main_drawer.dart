@@ -19,6 +19,8 @@ class MainDrawer extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final player = ref.watch(playerProvider);
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     Future<void> logoutUser() async {
       try {
         await FirebaseAuthMethods().logout();
@@ -39,7 +41,9 @@ class MainDrawer extends ConsumerWidget {
     }
 
     return Drawer(
-      backgroundColor: LightThemeColors.backgroundColor,
+      backgroundColor: isDark
+          ? DarkThemeColors.backgroundColor
+          : LightThemeColors.backgroundColor,
       width: width * 0.75,
       child: Column(
         children: [
@@ -112,7 +116,7 @@ class MainDrawer extends ConsumerWidget {
             ),
           ),
           ListTile(
-            tileColor: const Color.fromARGB(255, 221, 237, 221),
+            tileColor: primaryColor.withValues(alpha: 0.1),
             leading: const Icon(
               Icons.logout,
               size: TSizes.iconMd,
