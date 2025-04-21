@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TeamSelectionDialog extends StatelessWidget {
@@ -16,11 +19,11 @@ class TeamSelectionDialog extends StatelessWidget {
       child: SizedBox(
         height: height * 0.4,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: TPadding.md,
           child: Column(
             children: [
-              THelperFunction.getTitleText('Select a team', context),
-              const SizedBox(height: 10),
+              THelperFunction.getTitleText(TTextStrings.selectTeam, context),
+              const SizedBox(height: TSizes.sm),
               Expanded(
                 child: ListView.builder(
                   itemCount: teamList.length,
@@ -34,25 +37,25 @@ class TeamSelectionDialog extends StatelessWidget {
                           : () {
                               THelperFunction.showAlertDialog(
                                 context,
-                                'Already Challenged',
-                                'This team has already challenged the current team.',
+                                TTextStrings.alreadyChallenged,
+                                TTextStrings.alreadyChallengedDesc,
                               );
                             },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        padding: TPadding.vPaddingXxs,
                         color: canChallenge
                             ? Colors.transparent
                             : Colors.grey.shade200,
                         child: Row(
                           children: [
                             ImageCircleAvatar(
-                                url: team.logoUrl, isTeam: true, radius: 28),
-                            const SizedBox(width: 10),
+                                url: team.logoUrl, isTeam: true, radius: TSizes.circleAvatarSm),
+                            const SizedBox(width: TSizes.sm),
                             Expanded(
                                 child: Text(team.name,
                                     style:
                                         Theme.of(context).textTheme.bodyLarge)),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: TSizes.sm),
                             Text(team.shortName,
                                 style: Theme.of(context).textTheme.bodyMedium),
                           ],
@@ -65,7 +68,7 @@ class TeamSelectionDialog extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: MyTextButton(
-                    text: 'Cancel',
+                    text: TTextStrings.cancelButton,
                     onPressed: () => Navigator.of(context).pop(null)),
               )
             ],

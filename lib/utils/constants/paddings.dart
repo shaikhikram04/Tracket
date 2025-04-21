@@ -10,6 +10,8 @@ class TPadding {
   static const hPaddingXl = EdgeInsets.symmetric(horizontal: 24);
 
   //* vertical padding
+  static const vPaddingXxs = EdgeInsets.symmetric(vertical: 2);
+  static const vPaddingXs = EdgeInsets.symmetric(vertical: 4);
   static const vPaddingSm = EdgeInsets.symmetric(vertical: 8);
   static const vPaddingMd = EdgeInsets.symmetric(vertical: 12);
   static const vPaddingLg = EdgeInsets.symmetric(vertical: 16);

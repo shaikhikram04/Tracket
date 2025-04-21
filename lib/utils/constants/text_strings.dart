@@ -285,4 +285,12 @@ class TTextStrings {
   static const String manageTeamMembers = 'Add or remove team members';
   static const String manageTeamMatches =
       'Create and Manage team matches and schedules';
+
+  //! -------------------- Challenge Match --------------------
+  static const String selectTeam = 'Select a Team';
+
+  //! -------------------- Challenge Match Error --------------------
+  static const String alreadyChallenged = 'Already Challenged';
+  static const String alreadyChallengedDesc =
+      'This team has already challenged the current team.';
 }
