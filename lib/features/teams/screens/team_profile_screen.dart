@@ -391,16 +391,17 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Team Stats section
+
+                  //! Team Stats section
                   MyCard(
                     child: Column(
                       children: [
                         Text(
                           'Team Statistics',
                           style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
                                     fontSize: 23,
-                                    color: primaryColor,
+                                    color: isDark ? primaryLight : primaryColor,
                                   ),
                         ),
                         const SizedBox(height: 17),
@@ -410,12 +411,12 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             StatsData(
                               number: teamState.team.over20.matchesPlayed,
                               label: 'Matches',
-                              numColor: primaryColor,
+                              numColor: isDark ? primaryLight : primaryColor,
                             ),
                             StatsData(
                               number: teamState.team.over20.wins,
                               label: 'Wins',
-                              numColor: primaryColor,
+                              numColor: isDark ? primaryLight : primaryColor,
                             ),
                             StatsData(
                               number: teamState.team.over20.losses,
