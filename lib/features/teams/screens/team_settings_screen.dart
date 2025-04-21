@@ -13,6 +13,8 @@ import 'package:tracket/features/teams/screens/add_admin.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class TeamSettingsScreen extends ConsumerWidget {
@@ -21,12 +23,9 @@ class TeamSettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final teamState = ref.watch(teamProvider);
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? DarkThemeColors.backgroundColor
-          : LightThemeColors.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Team Settings',
@@ -36,20 +35,16 @@ class TeamSettingsScreen extends ConsumerWidget {
           ),
         ),
         backgroundColor: primaryColor,
-        foregroundColor: onPrimary,
-        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwItems),
           child: Column(
+            spacing: TSizes.spaceBtwItems,
             children: [
               _buildAdminsSection(context, ref, teamState),
-              const SizedBox(height: 16),
               _buildRequestsSection(context, teamState),
-              const SizedBox(height: 16),
               _buildPrivacySection(context, ref, teamState),
-              const SizedBox(height: 16),
               _buildDangerZone(context, teamState),
             ],
           ),
@@ -60,6 +55,7 @@ class TeamSettingsScreen extends ConsumerWidget {
 
   Widget _buildAdminsSection(
       BuildContext context, WidgetRef ref, TeamState teamState) {
+    final isDark = THelperFunction.isDarkMode(context);
     return _SectionCard(
       title: 'Team Administrators',
       titleIcon: Icons.admin_panel_settings,
@@ -73,7 +69,8 @@ class TeamSettingsScreen extends ConsumerWidget {
             ),
           );
         },
-        icon: const Icon(Icons.person_add, color: primaryColor),
+        icon:
+            Icon(Icons.person_add, color: isDark ? primaryLight : primaryColor),
       ),
       child: Column(
         children: [
@@ -184,7 +181,7 @@ class TeamSettingsScreen extends ConsumerWidget {
                   Text(
                     'This action cannot be undone.',
                     style: TextStyle(
-                      color: StatusColors.error.withValues(alpha: 0.8),
+                      color: StatusColors.error.withValues(alpha: 0.9),
                       fontSize: 12,
                     ),
                   ),
@@ -195,7 +192,8 @@ class TeamSettingsScreen extends ConsumerWidget {
               onPressed: () =>
                   _showDeleteTeamDialog(context, teamState.team.id),
               text: 'Delete',
-              textStyle: const TextStyle(color: StatusColors.error),
+              textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: StatusColors.error, fontWeight: FontWeight.w600),
               backgroundColor: InteractiveColors.buttonDisabledSecondary,
               borderColor: StatusColors.error,
               size: ButtonSize.small,
@@ -215,7 +213,6 @@ class TeamSettingsScreen extends ConsumerWidget {
               ? 'Team is now private. New members require approval.'
               : 'Team is now public. Anyone can join directly.',
         ),
-        backgroundColor: primaryColor,
       ),
     );
 
@@ -288,8 +285,13 @@ class TeamSettingsScreen extends ConsumerWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: StatusColors.error,
               foregroundColor: onPrimary,
+              side: const BorderSide(color: StatusColors.error),
             ),
-            child: const Text('Delete'),
+            child: Text('Delete',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(color: onPrimary)),
           ),
         ],
       ),
@@ -316,15 +318,18 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = THelperFunction.isDarkMode(context);
+
+    final bgColor = isDarkMode
+        ? DarkThemeColors.surfaceColor
+        : LightThemeColors.surfaceColor;
+
+    final fgColor = isDarkMode ? primaryLight : primaryColor;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: backgroundColor ??
-            (isDarkMode
-                ? DarkThemeColors.surfaceColor
-                : LightThemeColors.surfaceColor),
+        color: backgroundColor ?? bgColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -343,7 +348,7 @@ class _SectionCard extends StatelessWidget {
               children: [
                 Icon(
                   titleIcon,
-                  color: titleColor ?? primaryColor,
+                  color: titleColor ?? fgColor,
                   size: 24,
                 ),
                 const SizedBox(width: 12),
@@ -384,6 +389,10 @@ class _AdminListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = THelperFunction.isDarkMode(context);
+
+    final pColor = isDarkMode ? primaryLight : primaryColor;
+
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
@@ -400,7 +409,7 @@ class _AdminListTile extends StatelessWidget {
       subtitle: Text(
         admin.role.name,
         style: TextStyle(
-          color: admin.role == TeamRole.owner ? primaryColor : null,
+          color: admin.role == TeamRole.owner ? pColor : null,
         ),
       ),
       trailing: onRemove != null
@@ -437,7 +446,7 @@ class _RequestTile extends StatelessWidget {
 
     return ListTile(
       onTap: onTap,
-      leading: Icon(icon, color: primaryColor),
+      leading: Icon(icon, color: isDarkMode ? primaryLight : primaryColor),
       title: Text(
         title,
         style: TextStyle(
@@ -452,13 +461,13 @@ class _RequestTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: primaryLight.withValues(alpha: 0.2),
+              color: primaryColor.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               count.toString(),
-              style: const TextStyle(
-                color: primaryColor,
+              style: TextStyle(
+                color: isDarkMode ? primaryLight : primaryVariant,
                 fontWeight: FontWeight.bold,
               ),
             ),
