@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/features/teams/utils/team_constants.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class CapacitySelector extends StatelessWidget {
@@ -9,8 +12,8 @@ class CapacitySelector extends StatelessWidget {
     required this.onIncrement,
     required this.onDecrement,
     required this.label,
-    this.minCapacity = 0,
-    this.maxCapacity = 30,
+    this.minCapacity = TeamConstants.minTeamSize,
+    this.maxCapacity = TeamConstants.maxTeamSize,
     this.textStyle, // Light green background
   });
 
@@ -30,19 +33,19 @@ class CapacitySelector extends StatelessWidget {
     final isDark = THelperFunction.isDarkMode(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: TPadding.paddingXs,
       decoration: BoxDecoration(
         color: isDark
             ? DarkThemeColors.secondaryBackground
             : LightThemeColors.secondaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
         border: Border.all(color: primaryColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '$label:',
+            '$label :',
             style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
                 ?.copyWith(
               fontWeight: FontWeight.w600,
@@ -56,8 +59,8 @@ class CapacitySelector extends StatelessWidget {
             primaryColor: isDark ? primaryLight : primaryColor,
           ),
           Container(
-            constraints: const BoxConstraints(minWidth: 48),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            constraints: const BoxConstraints(minWidth: TSizes.xxl4),
+            padding: TPadding.hPaddingSm,
             child: Text(
               capacity.toString(),
               style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
@@ -96,16 +99,16 @@ class _CapacityButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onPressed,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: TPadding.xs,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 200),
             opacity: onPressed != null ? 1.0 : 0.5,
             child: Icon(
               icon,
               color: primaryColor,
-              size: 24,
+              size: TSizes.iconMd,
             ),
           ),
         ),
