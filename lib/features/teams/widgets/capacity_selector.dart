@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class CapacitySelector extends StatelessWidget {
   const CapacitySelector({
@@ -8,11 +9,8 @@ class CapacitySelector extends StatelessWidget {
     required this.onIncrement,
     required this.onDecrement,
     required this.label,
-    this.labelColor,
     this.minCapacity = 0,
     this.maxCapacity = 30,
-    this.primaryColor = grassGreen, // Dark green default
-    this.backgroundColor = LightThemeColors.surfaceColor,
     this.textStyle, // Light green background
   });
 
@@ -20,11 +18,8 @@ class CapacitySelector extends StatelessWidget {
   final void Function() onIncrement;
   final void Function() onDecrement;
   final String label;
-  final Color? labelColor;
   final int minCapacity;
   final int maxCapacity;
-  final Color primaryColor;
-  final Color backgroundColor;
   final TextStyle? textStyle;
 
   @override
@@ -32,10 +27,14 @@ class CapacitySelector extends StatelessWidget {
     final bool canDecrement = capacity > minCapacity;
     final bool canIncrement = capacity < maxCapacity;
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: isDark
+            ? DarkThemeColors.secondaryBackground
+            : LightThemeColors.secondaryBackground,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: primaryColor.withValues(alpha: 0.2)),
       ),
@@ -47,14 +46,14 @@ class CapacitySelector extends StatelessWidget {
             style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
                 ?.copyWith(
               fontWeight: FontWeight.w600,
-              color: labelColor ?? primaryColor,
+              color: isDark ? primaryLight : primaryColor,
             ),
           ),
           const Spacer(),
           _CapacityButton(
             icon: Icons.remove_rounded,
             onPressed: canDecrement ? onDecrement : null,
-            primaryColor: primaryColor,
+            primaryColor: isDark ? primaryLight : primaryColor,
           ),
           Container(
             constraints: const BoxConstraints(minWidth: 48),
@@ -64,7 +63,7 @@ class CapacitySelector extends StatelessWidget {
               style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
                   ?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: primaryColor,
+                color: isDark ? primaryLight : primaryColor,
               ),
               textAlign: TextAlign.center,
             ),
@@ -72,7 +71,7 @@ class CapacitySelector extends StatelessWidget {
           _CapacityButton(
             icon: Icons.add_rounded,
             onPressed: canIncrement ? onIncrement : null,
-            primaryColor: primaryColor,
+            primaryColor: isDark ? primaryLight : primaryColor,
           ),
         ],
       ),

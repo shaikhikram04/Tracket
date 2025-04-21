@@ -278,7 +278,6 @@ class _WicketReasonState extends State<WicketReason> {
                                         }
                                       },
                                       label: 'Runs completed',
-                                      labelColor: grassGreen,
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
