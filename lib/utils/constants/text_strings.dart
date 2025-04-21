@@ -290,6 +290,7 @@ class TTextStrings {
 
   //! -------------------- Challenge Match --------------------
   static const String selectTeam = 'Select a Team';
+  static const String vs = 'v/s';
 
   //! -------------------- Challenge Match Error --------------------
   static const String alreadyChallenged = 'Already Challenged';

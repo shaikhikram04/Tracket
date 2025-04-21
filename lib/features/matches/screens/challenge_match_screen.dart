@@ -230,6 +230,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Challenge Match'),
@@ -241,7 +243,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                 child: Column(
                   children: [
                     _buildTeamsSection(),
-                    _buildMatchDetailsCard(),
+                    _buildMatchDetailsCard(isDark),
                     _buildSquadSelection(),
                     _buildRolesSection(),
                     _buildScheduleAndVenue(),
@@ -273,24 +275,24 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     );
   }
 
-  Widget _buildMatchDetailsCard() {
+  Widget _buildMatchDetailsCard(bool isDark) {
     return MyCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           THelperFunction.getTitleText('Match Details', context),
-          const SizedBox(height: 7),
-          _buildPlayerCountSection(),
+          const SizedBox(height: 12),
+          _buildPlayerCountSection(isDark),
           _buildMatchFormatDropdown(),
           const SizedBox(height: 10),
           _buildMatchTypeDropdown(),
-          _buildSpectatorToggle(),
+          _buildSpectatorToggle(isDark),
         ],
       ),
     );
   }
 
-  Widget _buildPlayerCountSection() {
+  Widget _buildPlayerCountSection(bool isDark) {
     return ValueListenableBuilder<double>(
       valueListenable: _noOfPlayers,
       builder: (context, value, _) => Column(
@@ -307,8 +309,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                 TextSpan(
                   text: value.toInt().toString(),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: grassGreen,
+                        fontWeight: FontWeight.w700,
+                        color: isDark ? lightGrassGreen : darkGrassGreen,
                       ),
                 ),
               ],
@@ -361,17 +363,18 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     );
   }
 
-  Widget _buildSpectatorToggle() {
+  Widget _buildSpectatorToggle(bool isDark) {
     return ValueListenableBuilder(
       valueListenable: _allowSpectators,
       builder: (context, value, _) => SwitchListTile(
         value: value,
         title: Text(
           'Allow Spectators',
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(color: Colors.black, fontSize: 17),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
+              fontSize: 17),
         ),
         subtitle: const Text(
           'Any one can see this match',
@@ -394,8 +397,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         wicketkeeperId: _wicketkeeperId.value,
         isPlayerCanAdd: true,
         onAddPlayer: onAddPlayer,
-        titleSize: 25,
-        iconSize: 30,
+        titleSize: 18,
+        iconSize: 24,
       ),
     );
   }

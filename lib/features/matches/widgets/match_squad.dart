@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/players/widgets/squad_player_tile.dart';
+import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class MatchSquad extends StatelessWidget {
   final String title;
@@ -28,6 +30,8 @@ class MatchSquad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -43,6 +47,7 @@ class MatchSquad extends StatelessWidget {
     double? iconSize,
     required VoidCallback? onAddPressed,
   }) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Row(
       children: [
         Text(
@@ -57,7 +62,12 @@ class MatchSquad extends StatelessWidget {
           IconButton(
             onPressed: onAddPressed,
             iconSize: iconSize,
-            icon: const Icon(Icons.group_add),
+            icon: Icon(
+              Icons.group_add,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
+            ),
           )
       ],
     );
@@ -96,6 +106,7 @@ class MatchSquad extends StatelessWidget {
 
   Widget _buildEmptyState(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -106,13 +117,13 @@ class MatchSquad extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                color: primaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.people_outline,
                 size: 48,
-                color: theme.colorScheme.primary,
+                color: isDark ? lightGrassGreen : darkGrassGreen,
               ),
             ),
             const SizedBox(height: 16),
@@ -136,11 +147,18 @@ class MatchSquad extends StatelessWidget {
               const SizedBox(height: 24),
               ElevatedButton.icon(
                 onPressed: onAddPlayer,
-                icon: const Icon(Icons.add_circle_outline),
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: isDark
+                      ? DarkThemeColors.surfaceColor
+                      : LightThemeColors.surfaceColor,
+                ),
                 label: const Text('Select Players'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
+                  backgroundColor: isDark ? lightGrassGreen : darkGrassGreen,
+                  foregroundColor: isDark
+                      ? DarkThemeColors.surfaceColor
+                      : LightThemeColors.surfaceColor,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(

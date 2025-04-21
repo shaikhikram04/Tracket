@@ -299,7 +299,7 @@ class THelperFunction {
   static Text getTitleText(String title, BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.titleLarge,
+      style: Theme.of(context).textTheme.headlineSmall,
     );
   }
 
