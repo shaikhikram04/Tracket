@@ -185,6 +185,8 @@ class TTextStrings {
   static const String wins = 'Wins';
   static const String losses = 'Losses';
   static const String ties = 'Ties';
+  static const String makeTeamPrivate = 'Make Team Private';
+  static const String makeTeamPublicDescription = 'When your team is private, only admins can add new members.';
 
   static const String private = 'Private';
   static const String public = 'Public';

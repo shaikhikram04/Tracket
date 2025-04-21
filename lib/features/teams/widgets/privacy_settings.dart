@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PrivacySettings extends StatefulWidget {
@@ -30,19 +33,19 @@ class _PrivacySettingsState extends State<PrivacySettings> {
     final isDark = THelperFunction.isDarkMode(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(bottom: 16),
+      padding: TPadding.hPaddingXs.copyWith(bottom: TSizes.lg),
       child: SwitchListTile(
         value: isSwitchedOn,
         title: Text(
-          'Make team private',
+          TTextStrings.makeTeamPrivate,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: isDark
                   ? DarkThemeColors.primaryText
                   : LightThemeColors.primaryText,
-              fontSize: 17),
+              fontSize: TSizes.fontSizeLg),
         ),
         subtitle: const Text(
-          'When your team is private, only admins can add new members.',
+          TTextStrings.makeTeamPublicDescription,
         ),
         activeColor: InteractiveColors.focused,
         onChanged: (value) {
