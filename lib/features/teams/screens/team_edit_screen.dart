@@ -187,16 +187,13 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           foregroundColor: onPrimary,
           title: const Text(
             'Edit Team',
-           
           ),
           actions: [
             if (_isSaving)
               const Padding(
                 padding: EdgeInsets.all(12.0),
-                child: CircularLoadingIndicator(
-                  dimension: 24,
-                  color: onPrimary
-                ),
+                child:
+                    CircularLoadingIndicator(dimension: 24, color: onPrimary),
               )
             else
               IconButton(

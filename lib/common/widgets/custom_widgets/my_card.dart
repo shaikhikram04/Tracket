@@ -15,8 +15,7 @@ class MyCard extends StatelessWidget {
 
     return Card(
       margin: TPadding.paddingLg,
-      color:
-          isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
+      color: isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
       elevation: TSizes.cardElevationXl,
       child: Padding(
         padding: TPadding.cardPaddingLg,

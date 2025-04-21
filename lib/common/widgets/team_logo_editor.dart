@@ -27,7 +27,7 @@ class TeamLogoEditor extends StatelessWidget {
     return Container(
       padding: TPadding.md,
       decoration: BoxDecoration(
-        color: isDark ? Colors.black : Colors.white,
+        color: isDark ? DarkThemeColors.secondaryBackground : LightThemeColors.secondaryBackground,
         borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
         boxShadow: [
           BoxShadow(
@@ -115,19 +115,30 @@ class TeamLogoEditor extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () => onImageChanged(image),
                   style: TextButton.styleFrom(
-                    foregroundColor: isDark ? lightGrassGreen : grassGreen,
-                    backgroundColor: isDark
+                    foregroundColor: isDark
                         ? DarkThemeColors.surfaceColor
                         : LightThemeColors.surfaceColor,
+                    backgroundColor: isDark ? lightGrassGreen : grassGreen,
                     padding: TPadding.paddingXs,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(TSizes.borderRadiusMd),
                     ),
                   ),
-                  icon: const Icon(Icons.edit),
+                  icon: Icon(
+                    Icons.edit,
+                    color: isDark
+                        ? DarkThemeColors.surfaceColor
+                        : LightThemeColors.surfaceColor,
+                    size: TSizes.iconSm,
+                  ),
                   label: Text(TTextStrings.changeLogo,
-                      style: Theme.of(context).textTheme.labelLarge),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: isDark
+                                ? DarkThemeColors.surfaceColor
+                                : LightThemeColors.surfaceColor,
+                            fontWeight: FontWeight.w600,
+                          )),
                 ),
               ],
             ),
