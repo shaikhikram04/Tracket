@@ -294,8 +294,26 @@ class TTextStrings {
   static const String alreadyChallengedDesc =
       'This team has already challenged the current team.';
 
+  //! -------------------- Matches --------------------
+  static const String noResult = 'No Result';
+  static const String matchTied = 'Match Tied';
+  static const String runs = 'runs';
+  static const String wickets = 'wickets';
+
+  //! -------------------- Match Error --------------------
+  static const String cantAddMaidenOver =
+      'Cannot add maiden over: current over is incomplete';
+  static const String inValidDeliveryParameter =
+      'Invalid delivery parameter.';
+  static const String tossNotDone =
+      'Toss details must be set before initializing innings';
+  static const String inningsNotStarted =
+      'First innings must be completed before starting second innings';
+
   //! -------------------- Tournaments --------------------
   static const String noTournaments = 'No Tournaments Scheduled';
   static const String noTournamentsMessage =
       'Please check back later for updates.';
+
+  
 }

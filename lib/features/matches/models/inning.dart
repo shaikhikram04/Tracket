@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/models/bowling_score.dart';
 import 'package:tracket/features/matches/models/extras.dart';
 import 'package:tracket/features/matches/models/fall_of_wickets.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 
 // Enum for innings status
 enum InningsStatus { notStarted, inProgress, declared, allOut, completed }
@@ -97,7 +98,7 @@ class Inning {
     String? dismissalInfo,
   }) {
     if (!_isValidDelivery(isWide: isWide, isNoBall: isNoBall, runs: runs)) {
-      throw ArgumentError('Invalid delivery parameters');
+      throw ArgumentError(TTextStrings.inValidDeliveryParameter);
     }
 
     final newExtras = extras.addExtras(

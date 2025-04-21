@@ -1,3 +1,5 @@
+import 'package:tracket/utils/constants/text_strings.dart';
+
 class BowlingScore {
   final String uuid;
   final String playerName;
@@ -86,7 +88,7 @@ class BowlingScore {
 
   BowlingScore addMaidenOver() {
     if (!isValidOver) {
-      throw ArgumentError('Cannot add maiden over: current over is incomplete');
+      throw ArgumentError(TTextStrings.cantAddMaidenOver);
     }
     return copyWith(
       maidenOvers: maidenOvers + 1,

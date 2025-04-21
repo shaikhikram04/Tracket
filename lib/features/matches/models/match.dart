@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/models/inning.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/models/team_score.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:uuid/uuid.dart';
 
 enum TossDecision { batting, fielding }
@@ -99,13 +100,13 @@ class Match {
           winningTeamId == team1.teamId ? team1.teamName : team2.teamName;
 
       final wayToWin =
-          '$winningMargin ${winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets'}';
+          '$winningMargin ${winningMethod == WinningMethod.byRuns ? TTextStrings.runs : TTextStrings.wickets}';
 
       return '$winningTeamName won by $wayToWin';
     } else if (winningMethod == WinningMethod.noResult) {
-      return 'No Result';
+      return TTextStrings.noResult;
     } else if (winningMethod == WinningMethod.tied) {
-      return 'Match Tied';
+      return TTextStrings.matchTied;
     } else {
       return '';
     }
@@ -178,7 +179,7 @@ class Match {
     required String bowlerId,
   }) {
     if (tossDecision == null || isTeam1WonToss == null) {
-      throw StateError('Toss details must be set before initializing innings');
+      throw StateError(TTextStrings.tossNotDone);
     }
 
     final inning1 = Inning.initialize(
@@ -196,8 +197,7 @@ class Match {
     required String bowlerId,
   }) {
     if (currentInningNumber == null) {
-      throw StateError(
-          'First innings must be completed before starting second innings');
+      throw StateError(TTextStrings.inningsNotStarted);
     }
 
     final inning2 = Inning.initialize(
@@ -334,7 +334,6 @@ class Match {
       team2Score: TeamScore.fromMap(map['team2Score']),
     );
   }
-
 
   Match copyWith({
     List<BallOutcome?>? currentOverRuns,
