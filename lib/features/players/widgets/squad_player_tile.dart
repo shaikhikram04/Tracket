@@ -31,13 +31,18 @@ class SquadPlayerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Card(
       elevation: 0,
-      color: Theme.of(context).colorScheme.surface,
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+      color: isDark
+          ? DarkThemeColors.secondaryBackground
+          : LightThemeColors.secondaryBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+          color: Colors.grey.withValues(alpha: 0.2),
         ),
       ),
       child: InkWell(
@@ -115,6 +120,7 @@ class _PlayerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +128,7 @@ class _PlayerInfo extends StatelessWidget {
       children: [
         Text(
           playerName,
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: theme.textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
           overflow: TextOverflow.ellipsis,
@@ -136,26 +142,27 @@ class _PlayerInfo extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         if (isCaptain || isWicketKeeper) const SizedBox(height: 8),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 200),
-          child: Row(
-            children: [
-              if (isCaptain) ...[
-                const _RoleLabel(
-                  label: 'Captain',
-                  color: LightThemeColors.batsmanColor,
-                  icon: Icons.star_rounded,
-                ),
-                if (isWicketKeeper) const SizedBox(width: 8),
-              ],
-              if (isWicketKeeper)
-                const _RoleLabel(
-                  label: 'Wicketkeeper',
-                  color: LightThemeColors.wicketKeeperColor,
-                  icon: Icons.sports_cricket_rounded,
-                ),
+        Row(
+          children: [
+            if (isCaptain) ...[
+              _RoleLabel(
+                label: 'Captain',
+                color: isDark
+                    ? DarkThemeColors.batsmanColor
+                    : LightThemeColors.batsmanColor,
+                icon: Icons.star_rounded,
+              ),
+              if (isWicketKeeper) const SizedBox(width: 8),
             ],
-          ),
+            if (isWicketKeeper)
+              _RoleLabel(
+                label: 'Wicketkeeper',
+                color: isDark
+                    ? DarkThemeColors.wicketKeeperColor
+                    : LightThemeColors.wicketKeeperColor,
+                icon: Icons.sports_cricket_rounded,
+              ),
+          ],
         ),
       ],
     );

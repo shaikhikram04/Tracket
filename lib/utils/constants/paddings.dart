@@ -38,5 +38,6 @@ class TPadding {
 
   //* card padding
   static const cardPaddingXs = EdgeInsets.symmetric(vertical: 6, horizontal: 4);
-  static const cardPaddingLg = EdgeInsets.symmetric(vertical: 25, horizontal: 20);
+  static const cardPaddingLg =
+      EdgeInsets.symmetric(vertical: 25, horizontal: 18);
 }

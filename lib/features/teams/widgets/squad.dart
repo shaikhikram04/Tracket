@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/players/widgets/squad_player_tile.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/screens/add_player_screen.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class Squad extends ConsumerWidget {
   const Squad({
@@ -85,6 +86,8 @@ class _SquadHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: 8),
       decoration: BoxDecoration(
@@ -101,7 +104,7 @@ class _SquadHeader extends StatelessWidget {
             'Squad',
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: theme.primaryColor,
+              color: isDark ? lightGrassGreen : darkGrassGreen,
             ),
           ),
           const Spacer(),
@@ -119,33 +122,31 @@ class _AddPlayerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Material(
       color: Colors.transparent,
-      child: Tooltip(
-        message: 'Add Player',
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(50),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.group_add_rounded,
-                  size: 28,
-                  color: Theme.of(context).primaryColor,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Add',
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-              ],
-            ),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(50),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.group_add_rounded,
+                size: 28,
+                color: isDark ? lightGrassGreen : darkGrassGreen,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Add',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isDark ? lightGrassGreen : darkGrassGreen,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
           ),
         ),
       ),
