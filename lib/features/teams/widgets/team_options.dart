@@ -14,79 +14,56 @@ class TeamOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = THelperFunction.isDarkMode(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 8, 15, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Bottom sheet drag handle
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                decoration: BoxDecoration(
-                  color: theme.dividerColor,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Team Options',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 20),
-              _buildOptionTile(
-                context: context,
-                icon: Icons.edit_rounded,
-                iconColor: Colors.blue.shade400,
-                title: 'Edit Team Details',
-                subtitle: 'Modify team information and preferences',
-                onTap: () {
-                  Navigator.of(context).pop();
-                  THelperFunction.pushScreen(context, const TeamEditScreen());
-                },
-              ),
-              if (isOwner) ...[
-                const SizedBox(height: 8),
-                _buildOptionTile(
-                  context: context,
-                  icon: Icons.settings_rounded,
-                  iconColor: Colors.green.shade400,
-                  title: 'Team Settings',
-                  subtitle: 'Manage team configuration and permissions',
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    THelperFunction.pushScreen(
-                        context, const TeamSettingsScreen());
-                  },
-                ),
-              ],
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 8, 15, 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Team Options',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 20),
+            _buildOptionTile(
+              context: context,
+              icon: Icons.edit_rounded,
+              iconColor: Colors.blue.shade400,
+              title: 'Edit Team Details',
+              subtitle: 'Modify team information and preferences',
+              onTap: () {
+                Navigator.of(context).pop();
+                THelperFunction.pushScreen(context, const TeamEditScreen());
+              },
+            ),
+            if (isOwner) ...[
               const SizedBox(height: 8),
               _buildOptionTile(
                 context: context,
-                icon: Icons.close_rounded,
-                iconColor: Colors.red.shade400,
-                title: 'Close',
-                onTap: () => Navigator.of(context).pop(),
+                icon: Icons.settings_rounded,
+                iconColor: Colors.green.shade400,
+                title: 'Team Settings',
+                subtitle: 'Manage team configuration and permissions',
+                onTap: () {
+                  Navigator.of(context).pop();
+                  THelperFunction.pushScreen(
+                      context, const TeamSettingsScreen());
+                },
               ),
             ],
-          ),
+            const SizedBox(height: 8),
+            _buildOptionTile(
+              context: context,
+              icon: Icons.close_rounded,
+              iconColor: Colors.red.shade400,
+              title: 'Close',
+              onTap: () => Navigator.of(context).pop(),
+            ),
+          ],
         ),
       ),
     );
