@@ -370,21 +370,24 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                           ),
                                         ),
                                         text: TTextStrings.challengeButton,
-                                        backgroundColor: primaryVariant,
+                                        backgroundColor: darkGrassGreen,
                                         textStyle: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
-                                            .copyWith(color: onPrimary),
+                                            .copyWith(
+                                                color: LightThemeColors
+                                                    .surfaceColor),
                                       )
                                     : CustomButton.secondary(
                                         text: TTextStrings.challenged,
                                         onPressed: null,
                                         backgroundColor:
                                             LightThemeColors.surfaceColor,
+                                        borderColor: darkGrassGreen,
                                         textStyle: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
-                                            .copyWith(color: onPrimary),
+                                            .copyWith(color: darkGrassGreen),
                                       ),
                               ),
                             if (!isChallengeVisible)

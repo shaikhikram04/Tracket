@@ -22,13 +22,8 @@ class TeamSelectionDialog extends StatelessWidget {
               THelperFunction.getTitleText('Select a team', context),
               const SizedBox(height: 10),
               Expanded(
-                child: GridView.builder(
+                child: ListView.builder(
                   itemCount: teamList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 2,
-                  ),
                   itemBuilder: (context, index) {
                     final playerTeam = teamList[index];
                     final canChallenge = playerTeam['canChallenge'] as bool;
@@ -43,17 +38,23 @@ class TeamSelectionDialog extends StatelessWidget {
                                 'This team has already challenged the current team.',
                               );
                             },
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        color: canChallenge
+                            ? Colors.transparent
+                            : Colors.grey.shade200,
+                        child: Row(
                           children: [
-                            Opacity(
-                              opacity: canChallenge ? 1 : 0.4,
-                              child: ImageCircleAvatar(
-                                  url: team.logoUrl, isTeam: true, radius: 35),
-                            ),
-                            Text(team.name),
-                            Text(team.shortName),
+                            ImageCircleAvatar(
+                                url: team.logoUrl, isTeam: true, radius: 28),
+                            const SizedBox(width: 10),
+                            Expanded(
+                                child: Text(team.name,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge)),
+                            const SizedBox(width: 8),
+                            Text(team.shortName,
+                                style: Theme.of(context).textTheme.bodyMedium),
                           ],
                         ),
                       ),
