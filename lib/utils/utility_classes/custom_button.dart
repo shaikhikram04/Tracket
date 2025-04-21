@@ -16,6 +16,7 @@ class CustomButton extends StatelessWidget {
     this.borderRadius,
     this.icon,
     this.iconPosition = IconPosition.start,
+    this.isPrimary = true,
   });
 
   // Factory constructors for different button variants
@@ -67,29 +68,22 @@ class CustomButton extends StatelessWidget {
     IconPosition iconPosition = IconPosition.start,
     TextStyle? textStyle,
   }) {
-    return SizedBox(
+    return CustomButton._(
+      onPressed: isLoading ? null : onPressed,
+      variant: ButtonVariant.secondary,
+      isLoading: isLoading,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      borderColor: borderColor,
+      size: size,
       width: width,
       height: height,
-      child: OutlinedButton(
-        onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          elevation: onPressed == null ? 0 : null,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          side: BorderSide(
-            color: borderColor ?? Colors.black,
-            width: 1.5,
-          ),
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-        ),
-        child: _ButtonChild(
-          isLoading: isLoading,
-          icon: icon,
-          iconPosition: iconPosition,
-          foregroundColor: foregroundColor ?? Colors.black,
-          child: Text(text, style: textStyle),
-        ),
-      ),
+      borderRadius: borderRadius,
+      elevation: elevation,
+      icon: icon,
+      iconPosition: iconPosition,
+      isPrimary: false,
+      child: Text(text, style: textStyle),
     );
   }
 
@@ -107,6 +101,7 @@ class CustomButton extends StatelessWidget {
   final double? borderRadius;
   final Widget? icon;
   final IconPosition iconPosition;
+  final bool isPrimary;
 
   @override
   Widget build(BuildContext context) {
@@ -117,21 +112,43 @@ class CustomButton extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          elevation: onPressed == null ? 0 : null,
-          padding: sizes.padding,
-          minimumSize: Size(sizes.minWidth, sizes.minHeight),
-        ),
-        child: _ButtonChild(
-          isLoading: isLoading,
-          icon: icon,
-          iconPosition: iconPosition,
-          foregroundColor: colors.foreground,
-          child: child,
-        ),
-      ),
+      child: isPrimary
+          ? ElevatedButton(
+              onPressed: isLoading ? null : onPressed,
+              style: ElevatedButton.styleFrom(
+                elevation: onPressed == null ? 0 : null,
+                padding: sizes.padding,
+                minimumSize: Size(sizes.minWidth, sizes.minHeight),
+              ),
+              child: _ButtonChild(
+                isLoading: isLoading,
+                icon: icon,
+                iconPosition: iconPosition,
+                foregroundColor: colors.foreground,
+                child: child,
+              ),
+            )
+          : OutlinedButton(
+              onPressed: onPressed,
+              style: OutlinedButton.styleFrom(
+                elevation: onPressed == null ? 0 : null,
+                padding: sizes.padding,
+                minimumSize: Size(sizes.minWidth, sizes.minHeight),
+                side: BorderSide(
+                  color: borderColor ?? Colors.black,
+                  width: 1.5,
+                ),
+                backgroundColor: backgroundColor,
+                foregroundColor: foregroundColor,
+              ),
+              child: _ButtonChild(
+                isLoading: isLoading,
+                icon: icon,
+                iconPosition: iconPosition,
+                foregroundColor: foregroundColor ?? Colors.black,
+                child: child,
+              ),
+            ),
     );
   }
 

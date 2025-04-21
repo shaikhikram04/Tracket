@@ -74,7 +74,6 @@ class TeamSettingsScreen extends ConsumerWidget {
           );
         },
         icon: const Icon(Icons.person_add, color: primaryColor),
-        tooltip: 'Add New Admin',
       ),
       child: Column(
         children: [
@@ -255,8 +254,13 @@ class TeamSettingsScreen extends ConsumerWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: StatusColors.error,
               foregroundColor: onPrimary,
+              side: const BorderSide(color: StatusColors.error),
             ),
-            child: const Text('Remove'),
+            child: Text('Remove',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(color: onPrimary)),
           ),
         ],
       ),
@@ -343,18 +347,19 @@ class _SectionCard extends StatelessWidget {
                   size: 24,
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: titleColor ??
-                        (isDarkMode
-                            ? DarkThemeColors.primaryText
-                            : LightThemeColors.primaryText),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: titleColor ??
+                          (isDarkMode
+                              ? DarkThemeColors.primaryText
+                              : LightThemeColors.primaryText),
+                    ),
                   ),
                 ),
-                const Spacer(),
                 if (action != null) action!,
               ],
             ),
@@ -402,7 +407,8 @@ class _AdminListTile extends StatelessWidget {
           ? CustomButton.secondary(
               onPressed: onRemove!,
               text: 'Remove',
-              textStyle: const TextStyle(color: StatusColors.error),
+              textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: StatusColors.error, fontWeight: FontWeight.w600),
               backgroundColor: LightThemeColors.surfaceColor,
               borderColor: StatusColors.error,
               size: ButtonSize.small,
