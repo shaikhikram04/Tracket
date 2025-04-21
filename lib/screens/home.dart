@@ -75,7 +75,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     String title = _titles[_selectedIndex % 3];
-    bool isTeamsScreen = _selectedIndex == 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           const SizedBox(width: TSizes.sm),
         ],
       ),
-      drawer: isTeamsScreen ? const MainDrawer() : null,
+      drawer: const MainDrawer(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,

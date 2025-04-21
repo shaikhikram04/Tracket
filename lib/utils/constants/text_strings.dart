@@ -293,4 +293,9 @@ class TTextStrings {
   static const String alreadyChallenged = 'Already Challenged';
   static const String alreadyChallengedDesc =
       'This team has already challenged the current team.';
+
+  //! -------------------- Tournaments --------------------
+  static const String noTournaments = 'No Tournaments Scheduled';
+  static const String noTournamentsMessage =
+      'Please check back later for updates.';
 }
