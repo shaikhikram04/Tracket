@@ -44,4 +44,10 @@ class TPadding {
 
   static const profileHeader =
       EdgeInsets.symmetric(vertical: 10, horizontal: 15);
+
+  //* list tile padding
+  static const listTilePadding =
+      EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+  static const listTilePaddingSm =
+      EdgeInsets.symmetric(horizontal: 16, vertical: 4);
 }

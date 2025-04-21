@@ -21,6 +21,7 @@ class TTextStrings {
   static const String deleteButton = 'Delete';
   static const String cancelButton = 'Cancel';
   static const String removeButton = 'Remove';
+  static const String closeButton = 'Close';
 
   static const String joinTeam = 'Join Team';
   static const String createTeam = 'Create Team';
@@ -178,6 +179,9 @@ class TTextStrings {
   static const String discardChangesMessage =
       'You have unsaved changes. Are you sure you want to discard them?';
   static const String editTeam = 'Edit Team';
+  static const String editTeamDetails = 'Edit Team Details';
+  static const String editTeamDetailsDescription =
+      'Modify team information and preferences.';
   static const String primaryInformation = 'Primary Information';
   static const String teamCapacity = 'Team Capacity';
   static const String teamRoles = 'Team Roles';
@@ -195,6 +199,8 @@ class TTextStrings {
   static const String makeTeamPublicMessage =
       'Team is now public. Anyone can join without approval.';
   static const String teamSettings = 'Team Settings';
+  static const String teamSettingsDescription =
+      'Manage team configuration and permissions.';
   static const String teamAdministrators = 'Team Administrators';
   static const String requestAndChallengeManagement =
       'Request and Challenge Management';
@@ -259,6 +265,7 @@ class TTextStrings {
       'Unable to fetch team data. Please try again later.';
   static const String failedToDeleteTeamMessage =
       'Failed to delete team. Please try again later.';
+  static const String teamOptions = 'Team Options';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';

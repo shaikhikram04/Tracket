@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/teams/screens/team_edit_screen.dart';
 import 'package:tracket/features/teams/screens/team_settings_screen.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TeamOptions extends StatelessWidget {
@@ -13,8 +16,6 @@ class TeamOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = THelperFunction.isDarkMode(context);
 
     return SafeArea(
       child: Padding(
@@ -23,31 +24,31 @@ class TeamOptions extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Team Options',
+              TTextStrings.teamOptions,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: TSizes.xl),
             _buildOptionTile(
               context: context,
               icon: Icons.edit_rounded,
               iconColor: Colors.blue.shade400,
-              title: 'Edit Team Details',
-              subtitle: 'Modify team information and preferences',
+              title: TTextStrings.editTeamDetails,
+              subtitle: TTextStrings.editTeamDetailsDescription,
               onTap: () {
                 Navigator.of(context).pop();
                 THelperFunction.pushScreen(context, const TeamEditScreen());
               },
             ),
             if (isOwner) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: TSizes.sm),
               _buildOptionTile(
                 context: context,
                 icon: Icons.settings_rounded,
                 iconColor: Colors.green.shade400,
-                title: 'Team Settings',
-                subtitle: 'Manage team configuration and permissions',
+                title: TTextStrings.teamSettings,
+                subtitle: TTextStrings.teamSettingsDescription,
                 onTap: () {
                   Navigator.of(context).pop();
                   THelperFunction.pushScreen(
@@ -60,7 +61,7 @@ class TeamOptions extends StatelessWidget {
               context: context,
               icon: Icons.close_rounded,
               iconColor: Colors.red.shade400,
-              title: 'Close',
+              title: TTextStrings.closeButton,
               onTap: () => Navigator.of(context).pop(),
             ),
           ],
@@ -78,13 +79,13 @@ class TeamOptions extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      contentPadding: TPadding.listTilePaddingSm,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(TSizes.borderRadiusLg)),
       leading: Container(
-        padding: const EdgeInsets.all(8),
+        padding: TPadding.xs,
         decoration: BoxDecoration(
           color: iconColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
         ),
         child: Icon(icon, color: iconColor),
       ),
