@@ -345,9 +345,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                         backgroundColor: isDark ? lightGrassGreen : grassGreen,
                         borderRadius: 10,
                         textStyle: theme.textTheme.titleMedium?.copyWith(
-                          color: isDark
-                              ? DarkThemeColors.surfaceColor
-                              : LightThemeColors.surfaceColor,
+                          color: onPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
