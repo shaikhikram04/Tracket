@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/devices/devices_utility.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class MyDropdownMenu extends StatelessWidget {
   const MyDropdownMenu({
@@ -30,7 +32,7 @@ class MyDropdownMenu extends StatelessWidget {
   final Icon? leadingIcon;
   final double? width;
   final bool enabled;
-  
+
   final double? menuMaxHeight;
   final bool enableFilter;
   final String? errorText;
@@ -41,6 +43,8 @@ class MyDropdownMenu extends StatelessWidget {
     final theme = Theme.of(context);
     final screenWidth = TDeviceUtils.getScreenWidth(context);
     final defaultWidth = width ?? screenWidth * 0.8;
+
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,21 +65,27 @@ class MyDropdownMenu extends StatelessWidget {
               : Text(
                   label,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                    color: isDark
+                        ? DarkThemeColors.primaryText
+                        : LightThemeColors.primaryText,
                   ),
                 ),
           leadingIcon: leadingIcon != null
               ? Icon(
                   leadingIcon!.icon,
-                  color: theme.colorScheme.primary,
-                  size: TSizes.iconMd,
+                  color: isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
+                  size: TSizes.iconXsSm,
                 )
               : null,
           trailingIcon: Icon(
             Icons.arrow_drop_down,
             color: enabled
-                ? theme.colorScheme.primary
-                : theme.colorScheme.onSurface.withValues(alpha: 0.38),
+                ? isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.primaryText
+                : isDark
+                    ? DarkThemeColors.tertiaryText
+                    : LightThemeColors.tertiaryText,
           ),
           hintText: hintText,
           errorText: errorText,
@@ -84,8 +94,12 @@ class MyDropdownMenu extends StatelessWidget {
                     value: option,
                     label: option.toUpperCase(),
                     style: MenuItemButton.styleFrom(
-                      foregroundColor: theme.colorScheme.onSurface,
-                      backgroundColor: Colors.transparent,
+                      foregroundColor: isDark
+                          ? DarkThemeColors.primaryText
+                          : LightThemeColors.primaryText,
+                      backgroundColor: isDark
+                          ? DarkThemeColors.secondaryBackground
+                          : LightThemeColors.secondaryBackground,
                       padding: TPadding.paddingMd,
                     ),
                   ))
@@ -97,8 +111,8 @@ class MyDropdownMenu extends StatelessWidget {
             padding: const EdgeInsets.only(left: TSizes.spaceBtwItems),
             child: Text(
               errorText!,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.error,
+              style: theme.textTheme.bodySmall!.copyWith(
+                color: InteractiveColors.inputError,
               ),
             ),
           ),
