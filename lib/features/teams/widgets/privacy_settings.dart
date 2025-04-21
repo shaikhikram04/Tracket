@@ -45,7 +45,7 @@ class _PrivacySettingsState extends State<PrivacySettings> {
               fontSize: TSizes.fontSizeLg),
         ),
         subtitle: const Text(
-          TTextStrings.makeTeamPublicDescription,
+          TTextStrings.makeTeamPrivateDescription,
         ),
         activeColor: InteractiveColors.focused,
         onChanged: (value) {

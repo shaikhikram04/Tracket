@@ -18,6 +18,9 @@ class TTextStrings {
   static const String changeLogo = 'Change Logo';
   static const String discardButton = 'Discard';
   static const String saveChangesButton = 'Save Changes';
+  static const String deleteButton = 'Delete';
+  static const String cancelButton = 'Cancel';
+  static const String removeButton = 'Remove';
 
   static const String joinTeam = 'Join Team';
   static const String createTeam = 'Create Team';
@@ -26,7 +29,6 @@ class TTextStrings {
   static const String followButton = 'Follow';
   static const String unfollowButton = 'Unfollow';
   static const String challengeButton = 'Challenge';
-
 
   //! -------------------- Match Formats --------------------
   static const String over5 = '5 overs';
@@ -186,7 +188,25 @@ class TTextStrings {
   static const String losses = 'Losses';
   static const String ties = 'Ties';
   static const String makeTeamPrivate = 'Make Team Private';
-  static const String makeTeamPublicDescription = 'When your team is private, only admins can add new members.';
+  static const String makeTeamPrivateDescription =
+      'When your team is private, only admins can add new members.';
+  static const String makeTeamPrivateMessage =
+      'Team is now private. New members require approval.';
+  static const String makeTeamPublicMessage =
+      'Team is now public. Anyone can join without approval.';
+  static const String teamSettings = 'Team Settings';
+  static const String teamAdministrators = 'Team Administrators';
+  static const String requestAndChallengeManagement =
+      'Request and Challenge Management';
+  static const String requests = 'Requests';
+  static const String challenges = 'Challenges';
+  static const String privacySettings = 'Privacy Settings';
+  static const String dangerZone = 'Danger Zone';
+  static const String deleteTeam = 'Delete Team';
+  static const String deleteTeamDescription = 'This action cannot be undone.';
+  static const String removeAdmin = 'Remove Admin';
+  static const String deleteTeamMessage =
+      'This action cannot be undone. All team data, including matches and statistics, will be permanently deleted.';
 
   static const String private = 'Private';
   static const String public = 'Public';

@@ -13,7 +13,9 @@ import 'package:tracket/features/teams/screens/add_admin.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/widgets/privacy_settings.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -23,12 +25,11 @@ class TeamSettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final teamState = ref.watch(teamProvider);
-    final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Team Settings',
+          TTextStrings.teamSettings,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: onPrimary,
@@ -57,7 +58,7 @@ class TeamSettingsScreen extends ConsumerWidget {
       BuildContext context, WidgetRef ref, TeamState teamState) {
     final isDark = THelperFunction.isDarkMode(context);
     return _SectionCard(
-      title: 'Team Administrators',
+      title: TTextStrings.teamAdministrators,
       titleIcon: Icons.admin_panel_settings,
       action: IconButton(
         onPressed: () {
@@ -104,13 +105,13 @@ class TeamSettingsScreen extends ConsumerWidget {
 
   Widget _buildRequestsSection(BuildContext context, TeamState teamState) {
     return _SectionCard(
-      title: 'Request & Challenge Management',
+      title: TTextStrings.requestAndChallengeManagement,
       titleIcon: Icons.manage_accounts_outlined,
       child: Column(
         children: [
           _RequestTile(
             icon: Icons.group_add_rounded,
-            title: 'Requests',
+            title: TTextStrings.requests,
             count: teamState.team.requestStatus.pendingRequest,
             onTap: () => Navigator.push(
               context,
@@ -119,10 +120,10 @@ class TeamSettingsScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const Divider(height: 1),
+          const Divider(height: TSizes.dividerHeight),
           _RequestTile(
             icon: Icons.sports_cricket,
-            title: 'Challenges',
+            title: TTextStrings.challenges,
             count: teamState.team.requestStatus.sendRequest,
             onTap: () => Navigator.push(
               context,
@@ -140,7 +141,7 @@ class TeamSettingsScreen extends ConsumerWidget {
   Widget _buildPrivacySection(
       BuildContext context, WidgetRef ref, TeamState teamState) {
     return _SectionCard(
-      title: 'Privacy Settings',
+      title: TTextStrings.privacySettings,
       titleIcon: Icons.security,
       child: PrivacySettings(
         isTeamPrivate: teamState.team.isPrivate,
@@ -156,33 +157,33 @@ class TeamSettingsScreen extends ConsumerWidget {
 
   Widget _buildDangerZone(BuildContext context, TeamState teamState) {
     return _SectionCard(
-      title: 'Danger Zone',
+      title: TTextStrings.dangerZone,
       titleIcon: Icons.warning,
       backgroundColor: StatusColors.error.withValues(alpha: 0.1),
       titleColor: StatusColors.error,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: TPadding.md,
         child: Row(
           children: [
             const Icon(Icons.delete_forever, color: StatusColors.error),
-            const SizedBox(width: 16),
+            const SizedBox(width: TSizes.lg),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Delete Team',
+                    TTextStrings.deleteTeam,
                     style: TextStyle(
                       color: StatusColors.error,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: TSizes.xs),
                   Text(
-                    'This action cannot be undone.',
+                    TTextStrings.deleteTeamDescription,
                     style: TextStyle(
                       color: StatusColors.error.withValues(alpha: 0.9),
-                      fontSize: 12,
+                      fontSize: TSizes.fontSizeXs,
                     ),
                   ),
                 ],
@@ -191,7 +192,7 @@ class TeamSettingsScreen extends ConsumerWidget {
             CustomButton.secondary(
               onPressed: () =>
                   _showDeleteTeamDialog(context, teamState.team.id),
-              text: 'Delete',
+              text: TTextStrings.deleteButton,
               textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: StatusColors.error, fontWeight: FontWeight.w600),
               backgroundColor: InteractiveColors.buttonDisabledSecondary,
@@ -210,8 +211,8 @@ class TeamSettingsScreen extends ConsumerWidget {
       SnackBar(
         content: Text(
           newValue
-              ? 'Team is now private. New members require approval.'
-              : 'Team is now public. Anyone can join directly.',
+              ? TTextStrings.makeTeamPrivateMessage
+              : TTextStrings.makeTeamPublicMessage,
         ),
       ),
     );
@@ -229,13 +230,13 @@ class TeamSettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Remove Admin'),
+        title: const Text(TTextStrings.removeAdmin),
         content:
             Text('Are you sure you want to remove $adminName as an admin?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(TTextStrings.cancelButton),
           ),
           ElevatedButton(
             onPressed: () {
@@ -253,7 +254,7 @@ class TeamSettingsScreen extends ConsumerWidget {
               foregroundColor: onPrimary,
               side: const BorderSide(color: StatusColors.error),
             ),
-            child: Text('Remove',
+            child: Text(TTextStrings.removeButton,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge!
@@ -268,14 +269,12 @@ class TeamSettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Team'),
-        content: const Text(
-          'This action cannot be undone. All team data, including matches and statistics, will be permanently deleted.',
-        ),
+        title: const Text(TTextStrings.deleteTeam),
+        content: const Text(TTextStrings.deleteTeamMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(TTextStrings.cancelButton),
           ),
           ElevatedButton(
             onPressed: () {
@@ -287,7 +286,7 @@ class TeamSettingsScreen extends ConsumerWidget {
               foregroundColor: onPrimary,
               side: const BorderSide(color: StatusColors.error),
             ),
-            child: Text('Delete',
+            child: Text(TTextStrings.deleteButton,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge!
@@ -327,14 +326,14 @@ class _SectionCard extends StatelessWidget {
     final fgColor = isDarkMode ? primaryLight : primaryColor;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: TPadding.hPaddingMd,
       decoration: BoxDecoration(
         color: backgroundColor ?? bgColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
+            blurRadius: TSizes.blurRadiusMd,
             offset: const Offset(0, 2),
           ),
         ],
@@ -343,7 +342,7 @@ class _SectionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: TPadding.md,
             child: Row(
               children: [
                 Icon(
@@ -351,12 +350,12 @@ class _SectionCard extends StatelessWidget {
                   color: titleColor ?? fgColor,
                   size: 24,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: TSizes.md),
                 Expanded(
                   child: Text(
                     title,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: TSizes.fontSizeLg,
                       fontWeight: FontWeight.bold,
                       color: titleColor ??
                           (isDarkMode
@@ -399,7 +398,7 @@ class _AdminListTile extends StatelessWidget {
       leading: ImageCircleAvatar(
         url: admin.imageUrl,
         isTeam: false,
-        radius: 24,
+        radius: TSizes.circleAvatarXsLg,
         hasBorder: false,
       ),
       title: Text(
@@ -415,7 +414,7 @@ class _AdminListTile extends StatelessWidget {
       trailing: onRemove != null
           ? CustomButton.secondary(
               onPressed: onRemove!,
-              text: 'Remove',
+              text: TTextStrings.removeButton,
               textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: StatusColors.error, fontWeight: FontWeight.w600),
               backgroundColor: LightThemeColors.surfaceColor,
@@ -459,10 +458,10 @@ class _RequestTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: TPadding.paddingSm,
             decoration: BoxDecoration(
               color: primaryColor.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
             ),
             child: Text(
               count.toString(),
@@ -472,8 +471,8 @@ class _RequestTile extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
-          const Icon(Icons.arrow_forward_ios, size: 16),
+          const SizedBox(width: TSizes.sm),
+          const Icon(Icons.arrow_forward_ios, size: TSizes.sm),
         ],
       ),
     );
