@@ -63,7 +63,7 @@ class _LoadingState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CircularProgressIndicator(color: primaryColor),
-          const SizedBox(height: 16),
+          const SizedBox(height: TSizes.spaceBtwItems),
           Text(
             TTextStrings.teamLoading,
             style: TextStyle(

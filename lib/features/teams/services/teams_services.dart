@@ -8,6 +8,7 @@ import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
@@ -66,11 +67,11 @@ class TeamsServices {
           .doc(team.id)
           .collection(FirestoreCollections.stats);
 
-      await teamStatsCollectionRef.doc('over5').set(team.over5.toJson());
-      await teamStatsCollectionRef.doc('over10').set(team.over10.toJson());
-      await teamStatsCollectionRef.doc('over20').set(team.over20.toJson());
-      await teamStatsCollectionRef.doc('over50').set(team.over50.toJson());
-      await teamStatsCollectionRef.doc('test').set(team.test.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over5Key).set(team.over5.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over10Key).set(team.over10.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over20Key).set(team.over20.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over50Key).set(team.over50.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.testKey).set(team.test.toJson());
 
       final playerInfo = PlayerDetails(
           cricketRole: adminCricketRole,
@@ -103,7 +104,7 @@ class TeamsServices {
           .set(teamInfo.toMap);
 
       ref.read(playerProvider.notifier).addTeam(teamInfo);
-      result = 'success';
+      result = TTextStrings.success;
     } catch (e) {
       result = e.toString();
     }
@@ -160,7 +161,7 @@ class TeamsServices {
     } catch (e) {
       if (context.mounted) {
         THelperFunction.showSnackBar(
-            'Failed to delete player. Please try again later.', context);
+            TTextStrings.failedToDeletePlayerMessage, context);
       }
     }
   }
@@ -203,7 +204,7 @@ class TeamsServices {
     } catch (error) {
       if (context.mounted) {
         THelperFunction.showSnackBar(
-            'Failed to add player. Please try again later.', context);
+            TTextStrings.failedToAddPlayerMessage, context);
       }
     }
   }
@@ -237,7 +238,7 @@ class TeamsServices {
           .update(updatedFields);
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar('Failed to update team. Please try again later.', context);
+        THelperFunction.showSnackBar(TTextStrings.failedToUpdateTeamMessage, context);
       }
     }
   }
@@ -255,7 +256,7 @@ class TeamsServices {
     } catch (e) {
       if (context.mounted) {
         THelperFunction.showSnackBar(
-            'Failed to update team privacy. Please try again later.', context);
+            TTextStrings.failedToUpdateTeamPrivacyMessage, context);
       }
     }
   }
@@ -273,7 +274,7 @@ class TeamsServices {
       teamPlayers = teamPlayerSnap.docs;
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar('Unable to fetch Team data', context);
+        THelperFunction.showSnackBar(TTextStrings.unableToFetchTeamData, context);
       }
     }
 
@@ -288,7 +289,7 @@ class TeamsServices {
           .delete();
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar('Failed to delete team, please try again!', context);
+        THelperFunction.showSnackBar(TTextStrings.failedToDeleteTeamMessage, context);
       }
     }
   }

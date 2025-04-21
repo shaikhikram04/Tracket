@@ -213,13 +213,19 @@ class TTextStrings {
 
   //! -------------------- Team Error --------------------
   static const String failedToUpdateTeam = 'Failed to update team :';
+  static const String failedToUpdateTeamMessage =
+      'Failed to update team. Please try again later.';
   static const String failedToUpdateTeamField = 'Failed to update team field :';
   static const String teamPlayerNotFound = 'Player not found in team';
   static const String failedToDeletePlayer = 'Failed to delete player:';
+  static const String failedToDeletePlayerMessage =
+      'Failed to delete player. Please try again later.';
   static const String teamHasReachedMaxCapacity =
       'Team has reached maximum capacity';
   static const String playerAlreadyInTeam = 'Player already exists in team';
   static const String failedToAddPlayer = 'Failed to add player:';
+  static const String failedToAddPlayerMessage =
+      'Failed to add player. Please try again later.';
   static const String failedToUpdatePlayerRole =
       'Failed to update player role:';
   static const String capacityCannotBeReduce =
@@ -228,6 +234,8 @@ class TTextStrings {
       'Team capacity cannot be less than 1';
   static const String failedToUpdateTeamCapacity =
       'Failed to update team capacity:';
+  static const String failedToUpdateTeamPrivacyMessage =
+      'Failed to update team privacy. Please try again later.';
   static const String failedToLoadPlayers =
       'Failed to load players. Please try again.';
   static const String noPlayersFoundMatchingSearch =
@@ -247,6 +255,10 @@ class TTextStrings {
       'Maximum team capacity is ${TeamConstants.maxTeamSize} players.';
   static const String minTeamCapacityReached =
       'Minimum team capacity is ${TeamConstants.minTeamSize} players.';
+  static const String unableToFetchTeamData =
+      'Unable to fetch team data. Please try again later.';
+  static const String failedToDeleteTeamMessage =
+      'Failed to delete team. Please try again later.';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
