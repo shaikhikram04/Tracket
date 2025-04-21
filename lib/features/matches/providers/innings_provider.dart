@@ -11,6 +11,7 @@ import 'package:tracket/features/matches/providers/current_over_runs_provider.da
 import 'package:tracket/features/matches/providers/extras_provider.dart';
 import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 
 class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   InningsStateNotifier(this.ref) : super([null, null]);
@@ -204,7 +205,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
           .firstWhere((player) => player.playerId == wkId)
           .playerName;
     } catch (e) {
-      return 'Unknown';
+      return TTextStrings.unknown;
     }
   }
 

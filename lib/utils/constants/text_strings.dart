@@ -128,6 +128,8 @@ class TTextStrings {
   static const String userNotFoundMessage =
       'No user found with the provided email. Please sign up first.';
 
+  static const String unknown = 'Unknown';
+
   //! -------------------- Success Messages --------------------
   static const String success = 'success';
   static const String teamCreated = 'Team created successfully!';
