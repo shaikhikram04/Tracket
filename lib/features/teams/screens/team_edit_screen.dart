@@ -11,10 +11,13 @@ import 'package:tracket/common/widgets/team_logo_editor.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/providers/team_state.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/features/teams/utils/team_constants.dart';
 import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/features/teams/widgets/squad.dart';
 import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
@@ -170,10 +173,10 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         if (_checkForChanges()) {
           final isDiscard = await THelperFunction.showConfirmationDialog(
             context,
-            title: 'Discard Changes?',
+            title: TTextStrings.discardChanges,
             message:
-                'You have unsaved changes. Are you sure you want to discard them?',
-            confirmText: 'Discard',
+                TTextStrings.discardChangesMessage,
+            confirmText: TTextStrings.discardButton,
           );
           if (isDiscard) {
             Navigator.of(context).pop();
@@ -186,29 +189,32 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         appBar: AppBar(
           backgroundColor: grassGreen,
           foregroundColor: onPrimary,
-          title: const Text(
-            'Edit Team',
+          title:  const Text(
+            TTextStrings.editTeam,
+            style: TextStyle(
+              color: onPrimary,
+            ),
           ),
           actions: [
             if (_isSaving)
               const Padding(
-                padding: EdgeInsets.all(12.0),
+                padding: TPadding.sm,
                 child:
-                    CircularLoadingIndicator(dimension: 24, color: onPrimary),
+                    CircularLoadingIndicator(dimension: TSizes.xxl, color: onPrimary),
               )
             else
               IconButton(
                 onPressed: _saveChanges,
                 icon: const Icon(Icons.save_rounded),
-                iconSize: 28,
+                iconSize: TSizes.iconAppBar,
                 color: onPrimary,
               ),
-            const SizedBox(width: 12),
+            const SizedBox(width: TSizes.md),
           ],
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: TPadding.vPaddingLg,
             child: Form(
               key: _formKey,
               onChanged: () => setState(() => _hasUnsavedChanges = true),
@@ -220,72 +226,72 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Primary Information',
+                          TTextStrings.primaryInformation,
                           style: theme.textTheme.titleLarge?.copyWith(
                             color: isDark ? lightGrassGreen : darkGrassGreen,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: TSizes.xl),
                         TeamLogoEditor(
                           logoUrl: _teamState.team.logoUrl,
                           image: _image,
                           onImageChanged: _editLogo,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: TSizes.xl),
                         MyTextField(
                           initialText: _teamState.team.name,
                           onSave: (value) => _teamName = value,
-                          label: 'Team Name',
+                          label: TTextStrings.teamName,
                           validator: (value) =>
-                              TValidator.nameValidator(value, 'Team Name'),
+                              TValidator.nameValidator(value, TTextStrings.teamName),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: TSizes.spaceBtwItems),
                         MyTextField(
                           initialText: _teamState.team.shortName,
                           onSave: (value) => _teamShortName = value,
-                          label: 'Team Short Name',
+                          label: TTextStrings.teamShortName,
                           validator: TValidator.teamShortNameValidator,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: TSizes.spaceBtwItems),
                         MyTextField(
                           initialText: _teamState.team.description,
                           onSave: (value) => _teamDescription = value,
-                          label: 'Description',
-                          maxLength: 100,
+                          label: TTextStrings.teamDescription,
+                          maxLength: TeamConstants.maxTeamDescriptionLength,
                           maxLines: 3,
                           minLines: 2,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: TSizes.spaceBtwItems),
                         CapacitySelector(
                           capacity: _maxPlayersCapacity,
                           onIncrement: () {
-                            if (_maxPlayersCapacity < 30) {
+                            if (_maxPlayersCapacity < TeamConstants.maxTeamSize) {
                               setState(() {
                                 _maxPlayersCapacity++;
                                 _hasUnsavedChanges = true;
                               });
                             } else {
                               THelperFunction.showSnackBar(
-                                'Maximum team capacity is 30 players',
+                                TTextStrings.maxTeamCapacityReached,
                                 context,
                               );
                             }
                           },
                           onDecrement: () {
-                            if (_maxPlayersCapacity > 11) {
+                            if (_maxPlayersCapacity > TeamConstants.minTeamSize) {
                               setState(() {
                                 _maxPlayersCapacity--;
                                 _hasUnsavedChanges = true;
                               });
                             } else {
                               THelperFunction.showSnackBar(
-                                'Minimum team capacity is 11 players',
+                                TTextStrings.minTeamCapacityReached,
                                 context,
                               );
                             }
                           },
-                          label: 'Team Capacity',
+                          label: TTextStrings.teamCapacity,
                         ),
                       ],
                     ),
@@ -300,16 +306,16 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Team Roles',
+                          TTextStrings.teamRoles,
                           style: theme.textTheme.titleLarge?.copyWith(
                             color: isDark ? lightGrassGreen : darkGrassGreen,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: TSizes.xl),
                         MyDropdownMenu(
                           options: _playerNames,
-                          label: 'Team Captain',
+                          label: TTextStrings.teamCapacity,
                           initialSelection: _captain,
                           onSelect: (value) => setState(() {
                             _captain = value;
@@ -317,10 +323,10 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           }),
                           leadingIcon: const Icon(Icons.star_outline),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: TSizes.spaceBtwItems),
                         MyDropdownMenu(
                           options: _playerNames,
-                          label: 'Wicketkeeper',
+                          label: TTextStrings.teamWicketkeeper,
                           initialSelection: _wicketkeeper,
                           onSelect: (value) => setState(() {
                             _wicketkeeper = value;
@@ -331,20 +337,20 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: TSizes.sm),
 
                   // Save Button
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: TPadding.hPaddingLg,
                     child: SizedBox(
                       width: size.width,
-                      height: 50,
+                      height: TSizes.buttonHeight,
                       child: CustomButton.primary(
                         onPressed: _saveChanges,
-                        text: 'Save Changes',
+                        text: TTextStrings.saveChangesButton,
                         isLoading: _isSaving,
                         backgroundColor: isDark ? lightGrassGreen : grassGreen,
-                        borderRadius: 10,
+                        borderRadius: TSizes.borderRadiusLg,
                         textStyle: theme.textTheme.titleMedium?.copyWith(
                           color: onPrimary,
                           fontWeight: FontWeight.bold,
@@ -352,7 +358,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: TSizes.spaceBtwItems),
                 ],
               ),
             ),

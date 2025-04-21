@@ -1,3 +1,5 @@
+import 'package:tracket/features/teams/utils/team_constants.dart';
+
 class TTextStrings {
   //! -------------------- Buttons --------------------
   static const String addButton = 'Add';
@@ -14,6 +16,8 @@ class TTextStrings {
   static const String gotItButton = 'Got it';
   static const String retryButton = 'Retry';
   static const String changeLogo = 'Change Logo';
+  static const String discardButton = 'Discard';
+  static const String saveChangesButton = 'Save Changes';
 
   static const String joinTeam = 'Join Team';
   static const String createTeam = 'Create Team';
@@ -158,6 +162,15 @@ class TTextStrings {
   static const String full = 'Full';
   static const String teamLogo = 'Team Logo';
   static const String teamLogoMessage = 'Upload a Team Logo here.';
+  static const String discardChanges = 'Discard Changes?';
+  static const String discardChangesMessage =
+      'You have unsaved changes. Are you sure you want to discard them?';
+  static const String editTeam = 'Edit Team';
+  static const String primaryInformation = 'Primary Information';
+  static const String teamCapacity = 'Team Capacity';
+  static const String teamRoles = 'Team Roles';
+  static const String teamCaptain = 'Team Captain';
+  static const String teamWicketkeeper = 'Wicketkeeper';
 
   static const String private = 'Private';
   static const String public = 'Public';
@@ -194,6 +207,10 @@ class TTextStrings {
   static const String noTeamFoundMatchingSearch = 'No teams found, matching';
   static const String noTeamFoundMatchingSearch2 =
       'No teams found matching your criteria.';
+  static const String maxTeamCapacityReached =
+      'Maximum team capacity is ${TeamConstants.maxTeamSize} players.';
+  static const String minTeamCapacityReached =
+      'Minimum team capacity is ${TeamConstants.minTeamSize} players.';
 
   //! -------------------- Team Role --------------------
   static const String owner = 'owner';
