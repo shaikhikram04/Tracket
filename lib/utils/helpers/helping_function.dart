@@ -344,7 +344,7 @@ class THelperFunction {
       context: context,
       builder: (_) {
         return Dialog(
-          backgroundColor: Colors.white.withValues(alpha:  0.9),
+          backgroundColor: Colors.white.withValues(alpha: 0.9),
           elevation: 0,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -451,10 +451,15 @@ class THelperFunction {
     String confirmText = 'Confirm',
     String cancelText = 'Cancel',
   }) async {
+    final isDark = isDarkMode(context);
+
     final result = await showDialog<bool>(
       context: context,
       builder: (ctx) {
         return AlertDialog(
+          backgroundColor: isDark
+              ? DarkThemeColors.secondaryBackground
+              : LightThemeColors.secondaryBackground,
           title: Text(title),
           content: Text(message),
           shape:
@@ -462,18 +467,22 @@ class THelperFunction {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(false),
-              child:
-                  Text(cancelText, style: TextStyle(color: Colors.grey[700])),
+              child: Text(cancelText,
+                  style: TextStyle(
+                      color: isDark
+                          ? DarkThemeColors.primaryText
+                          : LightThemeColors.primaryText)),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(ctx).pop(true),
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                foregroundColor: onPrimary,
+                padding: const EdgeInsets.all(0),
+                backgroundColor: InteractiveColors.inputError,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
-              child: Text(confirmText),
+              child: Text(confirmText,
+                  style: Theme.of(context).textTheme.bodyMedium),
             ),
           ],
         );

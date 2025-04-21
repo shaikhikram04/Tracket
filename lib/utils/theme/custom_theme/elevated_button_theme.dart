@@ -27,14 +27,14 @@ class TElevatedButtonTheme {
     style: ElevatedButton.styleFrom(
       elevation: 6,
       backgroundColor: primaryColor,
-      foregroundColor: LightThemeColors.surfaceColor,
+      foregroundColor: onPrimary,
       disabledBackgroundColor: Colors.grey,
       disabledForegroundColor: Colors.grey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       side: const BorderSide(color: primaryColor),
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       textStyle: TTextTheme.darkTextTheme.titleMedium,
     ),
   );

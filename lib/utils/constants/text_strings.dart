@@ -119,6 +119,7 @@ class TTextStrings {
   //! -------------------- Success Messages --------------------
   static const String success = 'success';
   static const String teamCreated = 'Team created successfully!';
+  static const String teamUpdated = 'Team updated successfully!';
 
   //! -------------------- Firebase Auth Error Codes --------------------
   static const String emailAlreadyInUse = 'email-already-in-use';

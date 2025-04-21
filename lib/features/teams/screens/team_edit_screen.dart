@@ -15,6 +15,7 @@ import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/features/teams/widgets/squad.dart';
 import 'package:tracket/utils/cloud_storage/supabase_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/validator/validator.dart';
@@ -32,7 +33,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
   // State variables
   Uint8List? _image;
-  int _maxPlayersCapacity = 11;
+  late int _maxPlayersCapacity ;
   String? _teamName;
   String? _teamShortName;
   String? _teamDescription;
@@ -81,7 +82,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      THelperFunction.showSnackBar('Failed to pick an image: $e', context);
+      THelperFunction.showSnackBar('${TTextStrings.failedToPickImage} $e', context);
     }
   }
 
@@ -132,12 +133,12 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           );
 
       if (mounted) {
-        THelperFunction.showSnackBar('Team updated successfully!', context);
+        THelperFunction.showSnackBar(TTextStrings.teamUpdated, context);
         Navigator.of(context).pop();
       }
     } catch (e) {
       if (!mounted) return;
-      THelperFunction.showSnackBar('Failed to update Team: $e', context);
+      THelperFunction.showSnackBar('${TTextStrings.failedToUpdateTeam} $e', context);
     } finally {
       setState(() => _isSaving = false);
     }
