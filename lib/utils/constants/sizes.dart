@@ -26,6 +26,8 @@ class TSizes {
   static const double fontSizeSm = 14.0;
   static const double fontSizeMd = 16.0;
   static const double fontSizeLg = 18.0;
+  static const double fontSizeXl = 20.0;
+  static const double fontSizeXxl = 22.0;
 
   //* Button sized
   static const double buttonRadius = 12.0;

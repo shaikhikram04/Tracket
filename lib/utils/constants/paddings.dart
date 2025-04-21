@@ -41,4 +41,7 @@ class TPadding {
   static const cardPaddingXs = EdgeInsets.symmetric(vertical: 6, horizontal: 4);
   static const cardPaddingLg =
       EdgeInsets.symmetric(vertical: 25, horizontal: 18);
+
+  static const profileHeader =
+      EdgeInsets.symmetric(vertical: 10, horizontal: 15);
 }

@@ -23,6 +23,11 @@ class TTextStrings {
   static const String createTeam = 'Create Team';
   static const String exploreTeams = 'Explore Teams';
 
+  static const String followButton = 'Follow';
+  static const String unfollowButton = 'Unfollow';
+  static const String challengeButton = 'Challenge';
+
+
   //! -------------------- Match Formats --------------------
   static const String over5 = '5 overs';
   static const String over10 = '10 overs';
@@ -150,6 +155,7 @@ class TTextStrings {
   static const String teamName = 'Team Name';
   static const String teamShortName = 'Team Short Name';
   static const String teamDescription = 'Team Description';
+  static const String teamDetails = 'Team Details';
   static const String privateTeam = 'Private Team';
   static const String privateTeams = 'Private Teams';
   static const String privateTeamMessage =
@@ -157,7 +163,11 @@ class TTextStrings {
   static const String advancedSettings = 'Advanced Settings';
   static const String maxTeamCapacity = 'Max Team Capacity';
   static const String exploreTeam = 'Explore Teams';
+  static const String followers = 'Followers';
+  static const String ranking = 'Ranking';
+  static const String achievements = 'Achievements';
   static const String followersKey = 'followers';
+  static const String challenged = 'Challenged';
   static const String hasCapacity = 'Has Capacity';
   static const String full = 'Full';
   static const String teamLogo = 'Team Logo';
@@ -171,6 +181,10 @@ class TTextStrings {
   static const String teamRoles = 'Team Roles';
   static const String teamCaptain = 'Team Captain';
   static const String teamWicketkeeper = 'Wicketkeeper';
+  static const String teamStatistics = 'Team Statistics';
+  static const String wins = 'Wins';
+  static const String losses = 'Losses';
+  static const String ties = 'Ties';
 
   static const String private = 'Private';
   static const String public = 'Public';

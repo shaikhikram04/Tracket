@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/common/widgets/stats_data.dart';
@@ -17,6 +18,9 @@ import 'package:tracket/features/teams/widgets/squad.dart';
 import 'package:tracket/features/teams/widgets/team_options.dart';
 import 'package:tracket/features/teams/widgets/team_selection_dialog.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/paddings.dart';
+import 'package:tracket/utils/constants/sizes.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -174,7 +178,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Team Details',
+          TTextStrings.teamDetails,
           style: TextStyle(color: onPrimary),
         ),
         backgroundColor: primaryColor,
@@ -187,8 +191,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                     showModalBottomSheet(
                       context: context,
                       shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(TSizes.borderRadiusXxl)),
                       ),
                       builder: (context) => TeamOptions(
                         isOwner: teamState.team.createdBy ==
@@ -196,16 +200,15 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.more_vert, color: onPrimary, size: 28),
+                  icon: const Icon(Icons.more_vert,
+                      color: onPrimary, size: TSizes.iconAppBar),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: TSizes.sm),
               ]
             : null,
-        centerTitle: false,
-        elevation: 0,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: primaryColor))
+          ? const CircularLoadingIndicator()
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,23 +226,22 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                     ),
                     width: width,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 15),
+                    padding: TPadding.profileHeader,
                     child: Column(
-                      spacing: 10,
+                      spacing: TSizes.sm,
                       children: [
                         Row(
-                          spacing: 15,
+                          spacing: TSizes.spaceBtwItems,
                           children: [
                             ImageCircleAvatar(
                               url: teamState.team.logoUrl,
                               isTeam: true,
-                              radius: 50,
+                              radius: TSizes.circleAvatarLg,
                             ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 8,
+                                spacing: TSizes.sm,
                                 children: [
                                   Text.rich(
                                     TextSpan(
@@ -251,6 +253,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                               .titleLarge!
                                               .copyWith(
                                                 color: onPrimary,
+                                                fontSize: TSizes.fontSizeXl,
+                                                letterSpacing: 0.7,
                                               ),
                                         ),
                                         TextSpan(
@@ -286,7 +290,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           children: [
                             StatsData(
                               number: teamState.team.followers.length,
-                              label: 'Followers',
+                              label: TTextStrings.followers,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
                               labelStyle:
@@ -294,7 +298,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             ),
                             StatsData(
                               number: teamState.team.rank,
-                              label: 'Ranking',
+                              label: TTextStrings.ranking,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
                               labelStyle:
@@ -302,7 +306,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                             ),
                             StatsData(
                               number: teamState.team.over20.matchesPlayed,
-                              label: 'Achievements',
+                              label: TTextStrings.achievements,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
                               labelStyle:
@@ -311,7 +315,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                           ],
                         ),
                         Row(
-                          spacing: 10,
+                          spacing: TSizes.sm,
                           children: [
                             if (!isChallengeVisible)
                               const Expanded(child: SizedBox()),
@@ -322,7 +326,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       isLoading: isFollowing,
                                       onPressed: () => _followTeam(
                                           teamState.team.id, player.id, false),
-                                      text: 'Unfollow',
+                                      text: TTextStrings.unfollowButton,
                                       backgroundColor:
                                           LightThemeColors.surfaceColor,
                                       borderColor: darkGrassGreen,
@@ -337,7 +341,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       isLoading: isFollowing,
                                       onPressed: () => _followTeam(
                                           teamState.team.id, player.id, true),
-                                      text: 'Follow',
+                                      text: TTextStrings.followButton,
                                       backgroundColor: darkGrassGreen,
                                       textStyle: Theme.of(context)
                                           .textTheme
@@ -365,7 +369,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                                 teamState.team.wicketkeeperId,
                                           ),
                                         ),
-                                        text: 'Challenge',
+                                        text: TTextStrings.challengeButton,
                                         backgroundColor: primaryVariant,
                                         textStyle: Theme.of(context)
                                             .textTheme
@@ -373,7 +377,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             .copyWith(color: onPrimary),
                                       )
                                     : CustomButton.secondary(
-                                        text: 'Challenged',
+                                        text: TTextStrings.challenged,
                                         onPressed: null,
                                         backgroundColor:
                                             LightThemeColors.surfaceColor,
@@ -390,42 +394,43 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: TSizes.xl),
 
                   //! Team Stats section
                   MyCard(
                     child: Column(
                       children: [
                         Text(
-                          'Team Statistics',
+                          TTextStrings.teamStatistics,
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontSize: 23,
+                                    fontSize: TSizes.fontSizeXxl,
                                     color: isDark ? primaryLight : primaryColor,
                                   ),
                         ),
-                        const SizedBox(height: 17),
+                        const SizedBox(height: TSizes.spaceBtwItems),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             StatsData(
                               number: teamState.team.over20.matchesPlayed,
-                              label: 'Matches',
-                              numColor: isDark ? primaryLight : primaryColor,
+                              label: TTextStrings.matches,
+                              numColor:
+                                  isDark ? secondaryLight : secondaryColor,
                             ),
                             StatsData(
                               number: teamState.team.over20.wins,
-                              label: 'Wins',
+                              label: TTextStrings.wins,
                               numColor: isDark ? primaryLight : primaryColor,
                             ),
                             StatsData(
                               number: teamState.team.over20.losses,
-                              label: 'Losses',
+                              label: TTextStrings.losses,
                               numColor: Colors.red[700]!,
                             ),
                             StatsData(
                               number: teamState.team.over20.tie,
-                              label: 'Ties',
+                              label: TTextStrings.ties,
                               numColor: Colors.orange[800]!,
                             ),
                           ],
@@ -433,10 +438,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: TSizes.spaceBtwItems),
                   // Players Detail section
                   const MyCard(child: Squad(isEdit: false)),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: TSizes.spaceBtwSections),
                 ],
               ),
             ),
