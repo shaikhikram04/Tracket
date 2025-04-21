@@ -69,18 +69,20 @@ class MainDrawer extends ConsumerWidget {
                       radius: width * 0.085,
                       hasBorder: false,
                     ),
-                    const SizedBox(width: 18),
+                    const SizedBox(width: TSizes.lg),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            player.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(color: LightThemeColors.surfaceColor),
+                          Flexible(
+                            child: Text(
+                              player.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(color: LightThemeColors.surfaceColor),
+                            ),
                           ),
                           Text(
                             player.role,
@@ -94,7 +96,7 @@ class MainDrawer extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: TSizes.sm),
                 InkWell(
                   onTap: () => THelperFunction.pushScreen(
                       context,
@@ -117,17 +119,15 @@ class MainDrawer extends ConsumerWidget {
           ),
           ListTile(
             tileColor: primaryColor.withValues(alpha: 0.1),
-            leading: const Icon(
+            leading: Icon(
               Icons.logout,
               size: TSizes.iconMd,
-              color: Colors.red,
+              color: isDark ? Colors.red : Colors.redAccent.shade400,
             ),
             title: Text(
               TTextStrings.logout,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Colors.red),
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: isDark ? Colors.red : Colors.redAccent.shade400),
             ),
             onTap: logoutUser,
           ),
