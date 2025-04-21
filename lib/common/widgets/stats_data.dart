@@ -65,7 +65,7 @@ class StatsData extends StatelessWidget {
             style: labelStyle?.copyWith(color: labelColor) ??
                 defaultLabelStyle.copyWith(
                   color: labelColor ??
-                      theme.textTheme.bodyLarge?.color?.withValues(alpha: 0.7),
+                      theme.textTheme.titleSmall?.color?.withValues(alpha: 0.7),
                 ),
             textAlign: TextAlign.center,
           ),

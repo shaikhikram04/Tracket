@@ -169,14 +169,16 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final canChallenge =
         _playerTeamsAsAdmin.any((team) => team['canChallenge']);
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Team Details',
-          style: TextStyle(color: LightThemeColors.surfaceColor),
+          style: TextStyle(color: onPrimary),
         ),
         backgroundColor: primaryColor,
-        foregroundColor: LightThemeColors.surfaceColor,
+        foregroundColor: onPrimary,
         shape: Border.all(color: primaryColor, width: 0),
         actions: isAdmin
             ? [
@@ -194,9 +196,9 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.more_vert,
-                      color: LightThemeColors.surfaceColor, size: 30),
+                  icon: const Icon(Icons.more_vert, color: onPrimary, size: 28),
                 ),
+                const SizedBox(width: 8),
               ]
             : null,
         centerTitle: false,
@@ -248,8 +250,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                               .textTheme
                                               .titleLarge!
                                               .copyWith(
-                                                color: LightThemeColors
-                                                    .surfaceColor,
+                                                color: onPrimary,
                                               ),
                                         ),
                                         TextSpan(
@@ -288,18 +289,24 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               label: 'Followers',
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
+                              labelStyle:
+                                  Theme.of(context).textTheme.titleMedium,
                             ),
                             StatsData(
                               number: teamState.team.rank,
                               label: 'Ranking',
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
+                              labelStyle:
+                                  Theme.of(context).textTheme.titleMedium,
                             ),
                             StatsData(
                               number: teamState.team.over20.matchesPlayed,
                               label: 'Achievements',
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
+                              labelStyle:
+                                  Theme.of(context).textTheme.titleMedium,
                             ),
                           ],
                         ),
@@ -318,22 +325,26 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       text: 'Unfollow',
                                       backgroundColor:
                                           LightThemeColors.surfaceColor,
-                                      borderColor: primaryVariant,
+                                      borderColor: darkGrassGreen,
                                       textStyle: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(color: primaryColor),
+                                          .copyWith(
+                                              color: darkGrassGreen,
+                                              fontWeight: FontWeight.w600),
                                     )
                                   : CustomButton.primary(
                                       isLoading: isFollowing,
                                       onPressed: () => _followTeam(
                                           teamState.team.id, player.id, true),
                                       text: 'Follow',
-                                      backgroundColor: primaryVariant,
+                                      backgroundColor: darkGrassGreen,
                                       textStyle: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(color: onPrimary),
+                                          .copyWith(
+                                              color: onPrimary,
+                                              fontWeight: FontWeight.w600),
                                     ),
                             ),
                             if (isChallengeVisible)

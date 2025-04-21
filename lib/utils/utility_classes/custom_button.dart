@@ -67,21 +67,29 @@ class CustomButton extends StatelessWidget {
     IconPosition iconPosition = IconPosition.start,
     TextStyle? textStyle,
   }) {
-    return CustomButton._(
-      onPressed: onPressed,
-      variant: ButtonVariant.secondary,
-      isLoading: isLoading,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      borderColor: borderColor,
-      size: size,
+    return SizedBox(
       width: width,
       height: height,
-      elevation: elevation,
-      borderRadius: borderRadius,
-      icon: icon,
-      iconPosition: iconPosition,
-      child: Text(text, style: textStyle),
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          elevation: onPressed == null ? 0 : null,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          side: BorderSide(
+            color: borderColor ?? Colors.black,
+            width: 1.5,
+          ),
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+        ),
+        child: _ButtonChild(
+          isLoading: isLoading,
+          icon: icon,
+          iconPosition: iconPosition,
+          foregroundColor: foregroundColor ?? Colors.black,
+          child: Text(text, style: textStyle),
+        ),
+      ),
     );
   }
 
