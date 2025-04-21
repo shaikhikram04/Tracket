@@ -109,6 +109,7 @@ class TSizes {
   static const double circleAvatarXs = 18.0;
   static const double circleAvatarSm = 30.0;
   static const double circleAvatarMd = 40.0;
+  static const double circleAvatarLg = 50.0;
 
   //* Menu height
   static const double menuHeightMax = 400.0;

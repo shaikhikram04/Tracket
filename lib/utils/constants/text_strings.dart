@@ -13,6 +13,7 @@ class TTextStrings {
   static const String stayButton = 'Stay';
   static const String gotItButton = 'Got it';
   static const String retryButton = 'Retry';
+  static const String changeLogo = 'Change Logo';
 
   static const String joinTeam = 'Join Team';
   static const String createTeam = 'Create Team';
@@ -154,6 +155,8 @@ class TTextStrings {
   static const String followersKey = 'followers';
   static const String hasCapacity = 'Has Capacity';
   static const String full = 'Full';
+  static const String teamLogo = 'Team Logo';
+  static const String teamLogoMessage = 'Upload a Team Logo here.';
 
   static const String private = 'Private';
   static const String public = 'Public';
