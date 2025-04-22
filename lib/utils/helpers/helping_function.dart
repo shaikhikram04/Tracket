@@ -303,6 +303,11 @@ class THelperFunction {
     );
   }
 
+  static String makeFirstLetterUpperCase(String text) {
+    if (text.isEmpty) return '';
+    return text[0].toUpperCase() + text.substring(1);
+  }
+
   /// Navigates to a new screen
   static void pushScreen(BuildContext context, Widget screen) {
     Navigator.of(context).push(

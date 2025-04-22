@@ -20,17 +20,21 @@ class TeamColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: spacing,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ImageCircleAvatar(
           url: teamLogo,
           isTeam: true,
           radius: avatarRadius,
         ),
+        SizedBox(height: spacing),
         Text(
           teamName,
           textAlign: TextAlign.center,
           style: textStyle,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );

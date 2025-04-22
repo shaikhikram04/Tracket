@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 // Tab data model for type safety and easy management
 class MatchTabData {
@@ -67,6 +68,7 @@ class _CricketMatchTabsState extends State<CricketMatchTabs> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Container(
       height: 56,
       decoration: BoxDecoration(
@@ -86,14 +88,14 @@ class _CricketMatchTabsState extends State<CricketMatchTabs> {
         child: Row(
           children: List.generate(
             widget.tabs.length,
-            (index) => _buildTab(index),
+            (index) => _buildTab(index, isDark),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTab(int index) {
+  Widget _buildTab(int index, bool isDark) {
     final tab = widget.tabs[index];
     final isSelected = widget.selectedIndex == index;
 
@@ -136,7 +138,7 @@ class _CricketMatchTabsState extends State<CricketMatchTabs> {
               Text(
                 tab.label,
                 style: TextStyle(
-                  color: _getTabTextColor(isSelected, tab.isLive),
+                  color: _getTabTextColor(isSelected, tab.isLive, isDark),
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   fontSize: 14,
                 ),
@@ -202,10 +204,12 @@ class _CricketMatchTabsState extends State<CricketMatchTabs> {
     return Colors.grey.withValues(alpha: 0.3);
   }
 
-  Color _getTabTextColor(bool isSelected, bool isLive) {
+  Color _getTabTextColor(bool isSelected, bool isLive, bool isDark) {
     if (isLive && isSelected) return StatusColors.liveMatch;
-    if (isSelected) return primaryColor;
-    return Colors.grey[600]!;
+    if (isSelected) return isDark ? primaryLight : primaryColor;
+    return isDark
+        ? DarkThemeColors.secondaryText
+        : LightThemeColors.secondaryText;
   }
 
   Color _getCounterBackgroundColor(bool isSelected, bool isLive) {

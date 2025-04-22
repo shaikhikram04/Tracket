@@ -62,6 +62,8 @@ class MatchCard extends ConsumerWidget {
     Match _match = match;
     final String currentUserId = FirebaseAuthMethods().currentUserId;
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return GestureDetector(
       onTap: () => THelperFunction.pushScreen(
           context,
@@ -75,7 +77,7 @@ class MatchCard extends ConsumerWidget {
           side: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        color: LightThemeColors.surfaceColor,
+        color: isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -84,11 +86,14 @@ class MatchCard extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    match.matchType.name,
-                    style: const TextStyle(
-                      color: LightThemeColors.primaryText,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    THelperFunction.makeFirstLetterUpperCase(
+                        match.matchType.name),
+                    style: TextStyle(
+                        color: isDark
+                            ? DarkThemeColors.primaryText
+                            : LightThemeColors.primaryText,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.8),
                   ),
                   _match.status == MatchStatus.live
                       ? HighlightedLabel(
@@ -103,7 +108,9 @@ class MatchCard extends ConsumerWidget {
                       : Text(
                           DateFormat.MMMEd().format(_match.schedule),
                           style: TextStyle(
-                            color: Colors.grey[700],
+                            color: isDark
+                                ? DarkThemeColors.primaryText
+                                : LightThemeColors.primaryText,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
