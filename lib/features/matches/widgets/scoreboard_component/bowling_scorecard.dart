@@ -130,6 +130,13 @@ class _BowlingColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = THelperFunction.isDarkMode(context);
 
+    final oddBgColor = isDark
+        ? lightPitchBrown.withValues(alpha: 0.3)
+        : lightPitchBrown.withValues(alpha: 0.1);
+
+    final evenBgColor =
+        isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor;
+
     return SizedBox(
       width: 140,
       child: Column(
@@ -140,7 +147,9 @@ class _BowlingColumn extends StatelessWidget {
             width: double.infinity,
             height: 40,
             alignment: Alignment.centerLeft,
-            color: lightPitchBrown.withValues(alpha: 0.3),
+            color: isDark
+                ? lightPitchBrown.withValues(alpha: 0.5)
+                : lightPitchBrown.withValues(alpha: 0.3),
             child: Text(
               'BOWLERS',
               style: TextStyle(
@@ -152,16 +161,18 @@ class _BowlingColumn extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(
-              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
+          Divider(
+              height: 1,
+              thickness: 1,
+              color: isDark
+                  ? DarkThemeColors.dividerColor
+                  : LightThemeColors.dividerColor),
           ...List.generate(
             bowlingScores.length,
             (index) {
               final bowler = bowlingScores[index];
               final isCurrentBowler = bowler.remainingBalls != 0;
-              final backgroundColor = index % 2 == 0
-                  ? LightThemeColors.surfaceColor
-                  : lightPitchBrown.withValues(alpha: 0.1);
+              final backgroundColor = index % 2 == 0 ? evenBgColor : oddBgColor;
               return Container(
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.centerLeft,
@@ -169,10 +180,14 @@ class _BowlingColumn extends StatelessWidget {
                 height: 50,
                 child: Text(
                   bowler.playerName,
+                  maxLines: 1,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 14,
+                    overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.bold,
-                    color: LightThemeColors.primaryText,
+                    color: isDark
+                        ? DarkThemeColors.primaryText
+                        : LightThemeColors.primaryText,
                     fontStyle:
                         isCurrentBowler ? FontStyle.italic : FontStyle.normal,
                   ),
