@@ -12,7 +12,7 @@ class StatColumn extends StatelessWidget {
     required this.title,
     required this.values,
     required this.width,
-    this.height = 60,
+    this.height = 65,
   });
 
   @override

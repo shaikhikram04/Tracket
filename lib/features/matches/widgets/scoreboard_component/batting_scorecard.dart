@@ -115,23 +115,19 @@ class BattingScorecard extends StatelessWidget {
           : lightPitchBrown.withValues(alpha: 0.15),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
-        spacing: 8,
+        spacing: 10,
         children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              'Extras',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: isDark
-                    ? DarkThemeColors.primaryText
-                    : LightThemeColors.primaryText,
-              ),
+          Text(
+            'Extras',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
             ),
           ),
           Expanded(
-            flex: 8,
             child: Text(
               '${extras.total} (${extras.displayString})',
               style: TextStyle(
@@ -283,8 +279,8 @@ class _ScrollableStatsSection extends StatelessWidget {
     final statConfigs = [
       _StatConfig('R', (b) => b.runs, 45),
       _StatConfig('B', (b) => b.ballsFaced, 45),
-      _StatConfig("4s", (b) => b.fours, 40),
-      _StatConfig("6s", (b) => b.sixes, 40),
+      _StatConfig("4s", (b) => b.fours, 45),
+      _StatConfig("6s", (b) => b.sixes, 45),
       _StatConfig('S/R', (b) => b.strikeRate, 70,
           formatValue: (num? value) => value?.toStringAsFixed(1)),
     ];
@@ -376,7 +372,7 @@ class _BattingColumn extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.centerLeft,
                 color: backgroundColor,
-                height: 60,
+                height: 65,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -136,7 +136,6 @@ class _InningScoreboardState extends State<InningScoreboard> {
               ),
               BowlingScorecard(
                 bowlerStats: inningData.bowlingStats,
-                isDarkMode: false,
               ),
             ],
           );

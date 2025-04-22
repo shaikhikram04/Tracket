@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
 import 'package:tracket/features/matches/widgets/scoreboard_component/stat_column.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class BowlingScorecard extends StatelessWidget {
   final List<BowlingScore> bowlerStats;
-  final bool isDarkMode;
 
   const BowlingScorecard({
     super.key,
     required this.bowlerStats,
-    required this.isDarkMode,
   });
 
   @override
@@ -18,11 +17,14 @@ class BowlingScorecard extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Card(
       elevation: 2,
-      color:
-          isDarkMode ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
-      margin: const EdgeInsets.all(8.0),
+      color: isDark
+          ? DarkThemeColors.secondaryBackground
+          : LightThemeColors.secondaryBackground,
+      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +37,9 @@ class BowlingScorecard extends StatelessWidget {
               'Bowling Statistics',
               style: textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: isDarkMode ? DarkThemeColors.primaryText : primaryColor,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.primaryText,
               ),
             ),
           ),
@@ -124,8 +128,10 @@ class _BowlingColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return SizedBox(
-      width: 160,
+      width: 140,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -135,12 +141,14 @@ class _BowlingColumn extends StatelessWidget {
             height: 40,
             alignment: Alignment.centerLeft,
             color: lightPitchBrown.withValues(alpha: 0.3),
-            child: const Text(
+            child: Text(
               'BOWLERS',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: LightThemeColors.secondaryText,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.secondaryText,
               ),
             ),
           ),
