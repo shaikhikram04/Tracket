@@ -167,6 +167,7 @@ class ChallengeCard extends StatelessWidget {
     BuildContext context,
     NotificationModel request,
   ) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Consumer(
@@ -207,7 +208,7 @@ class ChallengeCard extends StatelessWidget {
                     .bodyMedium!
                     .copyWith(color: onPrimary, letterSpacing: 1),
                 isLoading: isRequestInProgress,
-                backgroundColor: primaryColor,
+                backgroundColor: isDark ? primaryLight : primaryColor,
                 onPressed: () => _navigateToAcceptChallenge(context),
                 size: ButtonSize.small,
               ),
