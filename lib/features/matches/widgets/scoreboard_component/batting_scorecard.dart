@@ -5,6 +5,7 @@ import 'package:tracket/features/matches/models/fall_of_wickets.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/scoreboard_component/stat_column.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class BattingScorecard extends StatelessWidget {
   final String teamName;
@@ -36,7 +37,7 @@ class BattingScorecard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         side: const BorderSide(color: grassGreen, width: 1.5),
       ),
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -80,19 +81,22 @@ class BattingScorecard extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: 8,
         children: [
-          Text(
-            teamName,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: LightThemeColors.surfaceColor,
+          Flexible(
+            child: Text(
+              teamName,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: LightThemeColors.surfaceColor,
+              ),
             ),
           ),
           Text(
             '$totalScore/$wickets$oversText',
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
               color: LightThemeColors.surfaceColor,
             ),
@@ -257,10 +261,10 @@ class _ScrollableStatsSection extends StatelessWidget {
 
   List<Widget> _buildStatColumns(BuildContext context) {
     final statConfigs = [
-      _StatConfig('R', (b) => b.runs, 55),
-      _StatConfig('B', (b) => b.ballsFaced, 55),
-      _StatConfig("4s", (b) => b.fours, 45),
-      _StatConfig("6s", (b) => b.sixes, 45),
+      _StatConfig('R', (b) => b.runs, 45),
+      _StatConfig('B', (b) => b.ballsFaced, 45),
+      _StatConfig("4s", (b) => b.fours, 40),
+      _StatConfig("6s", (b) => b.sixes, 40),
       _StatConfig('S/R', (b) => b.strikeRate, 70,
           formatValue: (num? value) => value?.toStringAsFixed(1)),
     ];
@@ -301,8 +305,17 @@ class _BattingColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
+    final oddBgColor = isDark
+        ? lightPitchBrown.withValues(alpha: 0.3)
+        : lightPitchBrown.withValues(alpha: 0.1);
+
+    final evenBgColor =
+        isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor;
+
     return SizedBox(
-      width: 160,
+      width: 140,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -311,26 +324,34 @@ class _BattingColumn extends StatelessWidget {
             width: double.infinity,
             height: 40,
             alignment: Alignment.centerLeft,
-            color: lightPitchBrown.withValues(alpha: 0.3),
-            child: const Text(
+            color: isDark
+                ? lightPitchBrown.withValues(alpha: 0.5)
+                : lightPitchBrown.withValues(alpha: 0.3),
+            child: Text(
               'BATSMEN',
-              style: const TextStyle(
-                fontSize: 13,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: LightThemeColors.secondaryText,
+                overflow: TextOverflow.ellipsis,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.secondaryText,
               ),
             ),
           ),
-          const Divider(
-              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
+          Divider(
+              height: 1,
+              thickness: 1,
+              color: isDark
+                  ? DarkThemeColors.dividerColor
+                  : LightThemeColors.dividerColor),
           ...Iterable.generate(
             battingScores.length,
             (index) {
               final batsman = battingScores[index];
               final isNotOut = !batsman.isOut;
-              final backgroundColor = index % 2 == 0
-                  ? LightThemeColors.surfaceColor
-                  : lightPitchBrown.withValues(alpha: 0.1);
+              final backgroundColor = index % 2 == 0 ? evenBgColor : oddBgColor;
               return Container(
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.centerLeft,
@@ -341,10 +362,14 @@ class _BattingColumn extends StatelessWidget {
                     children: [
                       Text(
                         batsman.playerName,
+                        maxLines: 1,
                         style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: LightThemeColors.primaryText,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          overflow: TextOverflow.ellipsis,
+                          color: isDark
+                              ? DarkThemeColors.primaryText
+                              : LightThemeColors.primaryText,
                           fontStyle:
                               isNotOut ? FontStyle.italic : FontStyle.normal,
                         ),
@@ -356,7 +381,9 @@ class _BattingColumn extends StatelessWidget {
                           fontSize: 12,
                           color: isNotOut
                               ? primaryLight
-                              : LightThemeColors.secondaryText,
+                              : isDark
+                                  ? DarkThemeColors.secondaryText
+                                  : LightThemeColors.secondaryText,
                         ),
                       ),
                     ]),

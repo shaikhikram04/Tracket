@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class StatColumn extends StatelessWidget {
   final String title;
@@ -16,33 +17,48 @@ class StatColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
+    final oddBgColor = isDark
+        ? lightPitchBrown.withValues(alpha: 0.3)
+        : lightPitchBrown.withValues(alpha: 0.1);
+
+    final evenBgColor =
+        isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor;
+
     return SizedBox(
       width: width,
       child: Column(
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            color: lightPitchBrown.withValues(alpha: 0.3),
+            color: isDark
+                ? lightPitchBrown.withValues(alpha: 0.5)
+                : lightPitchBrown.withValues(alpha: 0.3),
             width: double.infinity,
             height: 40,
             alignment: Alignment.center,
             child: Text(
               title,
-              style: const TextStyle(
-                fontSize: 13,
+              style: TextStyle(
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: LightThemeColors.secondaryText,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.primaryText,
               ),
             ),
           ),
-          const Divider(
-              height: 1, thickness: 1, color: LightThemeColors.dividerColor),
+          Divider(
+              height: 1,
+              thickness: 1,
+              color: isDark
+                  ? DarkThemeColors.dividerColor
+                  : LightThemeColors.dividerColor),
           ...List.generate(values.length, (index) {
             final val = values[index];
 
-            final backgroundColor = index % 2 == 0
-                ? LightThemeColors.surfaceColor
-                : lightPitchBrown.withValues(alpha: 0.1);
+            final backgroundColor = index % 2 == 0 ? evenBgColor : oddBgColor;
             return Container(
               padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
@@ -50,10 +66,12 @@ class StatColumn extends StatelessWidget {
               height: height,
               child: Text(
                 val,
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.normal,
-                  color: LightThemeColors.primaryText,
+                  color: isDark
+                      ? DarkThemeColors.primaryText
+                      : LightThemeColors.primaryText,
                 ),
               ),
             );

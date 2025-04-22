@@ -47,6 +47,7 @@ class DarkThemeColors {
   static const backgroundColor = Color(0xFF1A1C19);
   static const surfaceColor = Color(0xFF2A2C29);
   static const cardColor = Color(0xFF323631);
+  static const dividerColor = Color(0xFF4B4D4A);
   static const secondaryBackground = Color(0xFF242623);
 
   // Text colors
