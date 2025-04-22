@@ -40,7 +40,7 @@ class CaptainAndWicketkeeperDropdown extends StatelessWidget {
               }
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           MyDropdownMenu(
             options: playersName,
             label: 'Change Wicketkeeper',

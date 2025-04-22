@@ -246,7 +246,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                     _buildMatchDetailsCard(isDark),
                     _buildSquadSelection(),
                     _buildRolesSection(),
-                    _buildScheduleAndVenue(),
+                    _buildScheduleAndVenue(isDark),
                     _buildChallengeButton(),
                     const SizedBox(height: 15),
                   ],
@@ -284,8 +284,9 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
           const SizedBox(height: 12),
           _buildPlayerCountSection(isDark),
           _buildMatchFormatDropdown(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
           _buildMatchTypeDropdown(),
+          const SizedBox(height: 16),
           _buildSpectatorToggle(isDark),
         ],
       ),
@@ -326,7 +327,6 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                   divisions: _playersDivisions,
                   value: value,
                   label: value.toInt().toString(),
-
                   onChanged: (newValue) => _noOfPlayers.value = newValue,
                 ),
               ),
@@ -375,7 +375,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
               color: isDark
                   ? DarkThemeColors.primaryText
                   : LightThemeColors.primaryText,
-              fontSize: 17),
+              fontSize: 15),
         ),
         subtitle: const Text(
           'Any one can see this match',
@@ -404,27 +404,28 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     );
   }
 
-  Widget _buildScheduleAndVenue() {
+  Widget _buildScheduleAndVenue(bool isDark) {
     return MyCard(
       child: Column(
         spacing: 20,
         children: [
           THelperFunction.getTitleText('Schedule & Venue Detail', context),
-          _buildScheduleRow(),
+          _buildScheduleRow(isDark),
           _buildVenueForm(),
         ],
       ),
     );
   }
 
-  Widget _buildScheduleRow() {
+  Widget _buildScheduleRow(bool isDark) {
     return Row(
       children: [
-        _getScheduleContainer(DateFormat.yMMMd().format(_matchDate.value)),
+        _getScheduleContainer(
+            DateFormat.yMMMd().format(_matchDate.value), isDark),
         const SizedBox(width: 10),
         _getScheduleContainer(
-          MaterialLocalizations.of(context).formatTimeOfDay(_matchTime.value),
-        ),
+            MaterialLocalizations.of(context).formatTimeOfDay(_matchTime.value),
+            isDark),
         IconButton(
           onPressed: () async {
             final initialDate = DateTime.now().add(const Duration(minutes: 5));
@@ -487,16 +488,21 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     );
   }
 
-  Widget _getScheduleContainer(String scheduleText) {
+  Widget _getScheduleContainer(String scheduleText, bool isDark) {
     return Expanded(
       child: Container(
         height: 40,
+        padding: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: LightThemeColors.primaryText),
+          border: Border.all(
+              width: 1,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Align(
-          alignment: const Alignment(-0.8, 0),
+          alignment: Alignment.centerLeft,
           child: Text(scheduleText),
         ),
       ),
