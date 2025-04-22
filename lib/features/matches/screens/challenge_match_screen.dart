@@ -183,6 +183,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     if (!_formKey.currentState!.validate()) {
       return false;
     }
+
     return true;
   }
 
@@ -341,7 +342,14 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                   divisions: _playersDivisions,
                   value: value,
                   label: value.toInt().toString(),
-                  onChanged: (newValue) => _noOfPlayers.value = newValue,
+                  onChanged: (newValue) {
+                    _noOfPlayers.value = newValue;
+                    if (newValue.toInt() != _selectedPlayers.value.length &&
+                        _selectedPlayers.value.isNotEmpty) {
+                      _selectedPlayers.value = [];
+                      setState(() {});
+                    }
+                  },
                 ),
               ),
               Text(_maxPlayers.toInt().toString()),
@@ -506,7 +514,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
     return Expanded(
       child: Container(
         height: 40,
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 6),
         decoration: BoxDecoration(
           border: Border.all(
               width: 1,
