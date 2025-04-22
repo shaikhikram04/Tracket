@@ -199,6 +199,7 @@ class RequestCard extends StatelessWidget {
     bool isPlayer,
     NotificationModel request,
   ) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Consumer(
@@ -221,18 +222,6 @@ class RequestCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const Spacer(),
-              CustomButton.primary(
-                text: 'Accept',
-                isLoading: isRequestInProgress,
-                backgroundColor: primaryColor,
-                onPressed: () => onAcceptRequest(ref),
-                textStyle: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: onPrimary, letterSpacing: 1),
-                size: ButtonSize.small,
-              ),
-              const SizedBox(width: 10),
               CustomButton.secondary(
                 text: 'Reject',
                 onPressed: onRejectRequest,
@@ -241,6 +230,18 @@ class RequestCard extends StatelessWidget {
                     ),
                 backgroundColor: LightThemeColors.surfaceColor,
                 borderColor: StatusColors.error,
+                size: ButtonSize.small,
+              ),
+              const SizedBox(width: 10),
+              CustomButton.primary(
+                text: 'Accept',
+                isLoading: isRequestInProgress,
+                backgroundColor: isDark ? primaryLight : primaryColor,
+                onPressed: () => onAcceptRequest(ref),
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: onPrimary, letterSpacing: 1),
                 size: ButtonSize.small,
               ),
             ],
