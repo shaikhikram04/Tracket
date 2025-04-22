@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TossVenueSection extends StatelessWidget {
   const TossVenueSection({super.key, required this.match});
@@ -9,12 +10,15 @@ class TossVenueSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
+      color: isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -121,7 +125,7 @@ class TossVenueSection extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
           icon,
