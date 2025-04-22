@@ -34,7 +34,7 @@ class MatchStatusCard extends StatelessWidget {
           const SizedBox(height: 16),
           MatchTeamsRow(
             match: match,
-            versusBgColor: primaryLight.withValues(alpha: 0.2),
+            versusBgColor: Colors.grey.shade200,
           ),
           if (match.status == MatchStatus.live) ...[
             const SizedBox(height: 10),
