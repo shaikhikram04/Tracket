@@ -295,15 +295,28 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
     return ValueListenableBuilder<List<MatchPlayerInfo>>(
       valueListenable: _selectedPlayers,
       builder: (context, players, _) {
+        final playersName =
+            players.map((player) => player.playerName.toUpperCase()).toList();
         return CaptainAndWicketkeeperDropdown(
-            playersName: players
-                .map((player) => player.playerName.toUpperCase())
-                .toList(),
-            captainController: _captainController,
-            captainId: _captainId,
-            selectedPlayers: _selectedPlayers,
-            wicketkeeperController: _wicketkeeperController,
-            wicketkeeperId: _wicketkeeperId);
+          playersName: playersName,
+          captainController: _captainController,
+          selectedPlayers: _selectedPlayers,
+          wicketkeeperController: _wicketkeeperController,
+          onSelectCaptain: (String? name) {
+            if (name == null) return;
+            final index = playersName.indexOf(name);
+            _captainId.value = players[index].playerId;
+            _captainController.text = name;
+            setState(() {});
+          },
+          onSelectWicketkeeper: (String? name) {
+            if (name == null) return;
+            final index = playersName.indexOf(name);
+            _wicketkeeperId.value = players[index].playerId;
+            _wicketkeeperController.text = name;
+            setState(() {});
+          },
+        );
       },
     );
   }

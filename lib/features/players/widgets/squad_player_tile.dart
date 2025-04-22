@@ -142,9 +142,11 @@ class _PlayerInfo extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         if (isCaptain || isWicketKeeper) const SizedBox(height: 8),
-        Row(
+        Wrap(
+          spacing: 8,
+          runSpacing: 2,
           children: [
-            if (isCaptain) ...[
+            if (isCaptain)
               _RoleLabel(
                 label: 'Captain',
                 color: isDark
@@ -152,8 +154,6 @@ class _PlayerInfo extends StatelessWidget {
                     : LightThemeColors.batsmanColor,
                 icon: Icons.star_rounded,
               ),
-              if (isWicketKeeper) const SizedBox(width: 8),
-            ],
             if (isWicketKeeper)
               _RoleLabel(
                 label: 'Wicketkeeper',

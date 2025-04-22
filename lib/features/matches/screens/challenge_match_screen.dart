@@ -257,13 +257,27 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   }
 
   Widget _buildRolesSection() {
+    final playerNames = getPlayerNames(_selectedPlayers);
     return CaptainAndWicketkeeperDropdown(
-        playersName: getPlayerNames(_selectedPlayers),
-        captainController: _captainController,
-        captainId: _captainId,
-        selectedPlayers: _selectedPlayers,
-        wicketkeeperController: _wicketkeeperController,
-        wicketkeeperId: _wicketkeeperId);
+      playersName: playerNames,
+      captainController: _captainController,
+      selectedPlayers: _selectedPlayers,
+      wicketkeeperController: _wicketkeeperController,
+      onSelectCaptain: (name) {
+        if (name == null) return;
+        final index = playerNames.indexOf(name);
+        _captainId.value = _selectedPlayers.value[index].playerId;
+        _captainController.text = name.toUpperCase();
+        setState(() {});
+      },
+      onSelectWicketkeeper: (name) {
+        if (name == null) return;
+        final index = playerNames.indexOf(name);
+        _wicketkeeperId.value = _selectedPlayers.value[index].playerId;
+        _wicketkeeperController.text = name.toUpperCase();
+        setState(() {});
+      },
+    );
   }
 
   Widget _buildTeamsSection() {

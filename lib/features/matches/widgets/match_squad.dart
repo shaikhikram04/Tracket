@@ -30,7 +30,6 @@ class MatchSquad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = THelperFunction.isDarkMode(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

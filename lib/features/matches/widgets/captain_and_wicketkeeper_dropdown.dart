@@ -9,18 +9,18 @@ class CaptainAndWicketkeeperDropdown extends StatelessWidget {
     super.key,
     required this.playersName,
     required this.captainController,
-    required this.captainId,
     required this.selectedPlayers,
     required this.wicketkeeperController,
-    required this.wicketkeeperId,
+    required this.onSelectCaptain,
+    required this.onSelectWicketkeeper,
   });
 
   final List<String> playersName;
   final TextEditingController captainController;
-  final ValueNotifier<String> captainId;
   final ValueNotifier<List<MatchPlayerInfo>> selectedPlayers;
   final TextEditingController wicketkeeperController;
-  final ValueNotifier<String> wicketkeeperId;
+  final void Function(String? id) onSelectCaptain;
+  final void Function(String? id) onSelectWicketkeeper;
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +33,14 @@ class CaptainAndWicketkeeperDropdown extends StatelessWidget {
             options: playersName,
             label: 'Change Captaincy',
             controller: captainController,
-            onSelect: (value) {
-              if (value != null) {
-                final index = playersName.indexOf(value);
-                captainId.value = selectedPlayers.value[index].playerId;
-              }
-            },
+            onSelect:onSelectCaptain
           ),
           const SizedBox(height: 16),
           MyDropdownMenu(
             options: playersName,
             label: 'Change Wicketkeeper',
             controller: wicketkeeperController,
-            onSelect: (value) {
-              if (value != null) {
-                final index = playersName.indexOf(value);
-                wicketkeeperId.value = selectedPlayers.value[index].playerId;
-              }
-            },
+            onSelect: onSelectWicketkeeper,
           ),
         ],
       ),
