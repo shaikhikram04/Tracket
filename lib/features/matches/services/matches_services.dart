@@ -97,43 +97,6 @@ class MatchesServices {
     } catch (e) {
       print(e);
     }
-
-    try {
-      final notification = NotificationModel.challenge(
-        notificationId: _uuid.v4(),
-        from: challengerTeam.teamId,
-        to: challengedTeam.teamId,
-        createdAt: Timestamp.now(),
-        status: NotificationStatus.pending,
-        read: false,
-        challengeMatch: challengeMatch,
-      );
-
-      await _firestore
-          .collection(FirestoreCollections.notification)
-          .doc(notification.notificationId)
-          .set(notification.toMap);
-
-      final challengerPlayerCollectionRef = _firestore
-          .collection(FirestoreCollections.notification)
-          .doc(notification.notificationId)
-          .collection(FirestoreCollections.challengerPlayers);
-
-      for (final player in challengerPlayers) {
-        await challengerPlayerCollectionRef
-            .doc(player.playerId)
-            .set(player.toMap);
-      }
-
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(challengerTeam.teamId)
-          .update({
-        'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   static Future<List<MatchPlayerInfo>> getChallengeMatchTeamPlayers({
