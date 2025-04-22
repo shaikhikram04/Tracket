@@ -98,20 +98,25 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
               _BadgedIcon(
                 icon: config.icon,
                 badge: config.badge,
-                isSelected: tabController.index == tabConfigs.indexOf(config),
+                isSelected: tabController.index ==
+                    tabConfigs.lastIndexWhere((tab) => tab.text == config.text),
                 theme: theme,
               ),
               const SizedBox(width: 8.0),
             ],
             // Tab text
-            Text(
-              config.text,
-              style: theme.textTheme.labelLarge?.copyWith(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: tabController.index == tabConfigs.indexOf(config)
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withValues(alpha: 0.7),
+            Flexible(
+              child: Text(
+                config.text,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: tabController.index ==
+                          tabConfigs
+                              .lastIndexWhere((tab) => tab.text == config.text)
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                ),
               ),
             ),
           ],

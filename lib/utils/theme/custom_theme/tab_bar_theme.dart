@@ -38,11 +38,11 @@ class TTabBarTheme {
       ),
     ),
     labelStyle: TextStyle(
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: FontWeight.w600,
     ),
     unselectedLabelStyle: TextStyle(
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: FontWeight.w400,
     ),
     labelPadding: EdgeInsets.symmetric(

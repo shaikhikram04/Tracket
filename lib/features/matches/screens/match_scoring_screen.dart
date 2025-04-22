@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/widgets/match_score_component/match_sta
 import 'package:tracket/features/matches/widgets/match_score_component/toss_venue_section.dart';
 import 'package:tracket/features/matches/widgets/scoreboard_component/match_scoreboard.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class MatchScoringScreen extends StatelessWidget {
   const MatchScoringScreen({super.key, required this.match});
@@ -44,6 +45,7 @@ class MatchScoringScreen extends StatelessWidget {
 
   Widget _buildScoreboardSection(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -51,6 +53,7 @@ class MatchScoringScreen extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
+      color: isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
