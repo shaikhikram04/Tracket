@@ -301,7 +301,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
             TextSpan(
               children: [
                 TextSpan(
-                  text: 'Number of players: ',
+                  text: 'Number of players :  ',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -326,6 +326,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                   divisions: _playersDivisions,
                   value: value,
                   label: value.toInt().toString(),
+
                   onChanged: (newValue) => _noOfPlayers.value = newValue,
                 ),
               ),

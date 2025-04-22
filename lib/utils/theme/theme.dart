@@ -6,6 +6,7 @@ import 'package:tracket/utils/theme/custom_theme/bottom_sheet_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/chip_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/elevated_button_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/outline_button_theme.dart';
+import 'package:tracket/utils/theme/custom_theme/slider_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/text_field_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/text_theme.dart';
 
@@ -27,6 +28,7 @@ class TracketTheme {
     outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
     bottomNavigationBarTheme:
         TBottomNavigationBarTheme.lightBottomNavigationBarTheme,
+    sliderTheme: TSliderTheme.lightSliderTheme
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -44,5 +46,6 @@ class TracketTheme {
     outlinedButtonTheme: TOutlinedButtonTheme.darkOutlinedButtonTheme,
     bottomNavigationBarTheme:
         TBottomNavigationBarTheme.darkBottomNavigationBarTheme,
+    sliderTheme: TSliderTheme.darkSliderTheme,
   );
 }
