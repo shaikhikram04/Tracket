@@ -184,7 +184,7 @@ class RequestCard extends StatelessWidget {
             onCancelRequest();
           }
         },
-        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+        textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
               color: StatusColors.error,
             ),
         backgroundColor: LightThemeColors.surfaceColor,
@@ -219,13 +219,13 @@ class RequestCard extends StatelessWidget {
             children: [
               Text(
                 THelperFunction.timeAgo(request.createdAt.toDate()),
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               const Spacer(),
               CustomButton.secondary(
                 text: 'Reject',
                 onPressed: onRejectRequest,
-                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
                       color: StatusColors.error,
                     ),
                 backgroundColor: LightThemeColors.surfaceColor,
@@ -240,7 +240,7 @@ class RequestCard extends StatelessWidget {
                 onPressed: () => onAcceptRequest(ref),
                 textStyle: Theme.of(context)
                     .textTheme
-                    .bodyMedium!
+                    .labelLarge!
                     .copyWith(color: onPrimary, letterSpacing: 1),
                 size: ButtonSize.small,
               ),

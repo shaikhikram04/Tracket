@@ -152,7 +152,7 @@ class ChallengeCard extends StatelessWidget {
             onCancelChallenge();
           }
         },
-        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+        textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
               color: StatusColors.error,
             ),
         backgroundColor: LightThemeColors.surfaceColor,
@@ -187,13 +187,13 @@ class ChallengeCard extends StatelessWidget {
             children: [
               Text(
                 THelperFunction.timeAgo(request.createdAt.toDate()),
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               const Spacer(),
               CustomButton.secondary(
                 onPressed: onRejectChallenge,
                 text: 'Reject',
-                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
                       color: StatusColors.error,
                     ),
                 backgroundColor: LightThemeColors.surfaceColor,
@@ -205,7 +205,7 @@ class ChallengeCard extends StatelessWidget {
                 text: 'Accept',
                 textStyle: Theme.of(context)
                     .textTheme
-                    .bodyMedium!
+                    .labelLarge!
                     .copyWith(color: onPrimary, letterSpacing: 1),
                 isLoading: isRequestInProgress,
                 backgroundColor: isDark ? primaryLight : primaryColor,

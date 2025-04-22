@@ -39,6 +39,7 @@ class MatchScoringScreen extends StatelessWidget {
         _buildScoreboardSection(context),
         const SizedBox(height: 8),
         TossVenueSection(match: match),
+        const SizedBox(height: 8),
       ],
     );
   }
