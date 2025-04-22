@@ -5,6 +5,7 @@ import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class SquadSelectionSheet extends StatefulWidget {
   final List<MatchPlayerInfo> playerList;
@@ -46,6 +47,8 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return BaseSelectionSheet(
       title: 'Select Match Squad',
       instructions:

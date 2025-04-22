@@ -158,6 +158,8 @@ class _MatchPlayersSelectionScreenState
   @override
   Widget build(BuildContext context) {
     final match = ref.watch(matchStateProvider)!;
+    final isDark = THelperFunction.isDarkMode(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Players'),

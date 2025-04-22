@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/theme/custom_theme/text_theme.dart';
 
 class TOutlinedButtonTheme {
@@ -8,7 +9,7 @@ class TOutlinedButtonTheme {
     style: OutlinedButton.styleFrom(
       elevation: 0,
       foregroundColor: Colors.black,
-      side: const BorderSide(color: Colors.blue),
+      side: const BorderSide(color: primaryColor, width: 2),
       textStyle: TTextTheme.lightTextTheme.titleLarge,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -19,7 +20,7 @@ class TOutlinedButtonTheme {
     style: OutlinedButton.styleFrom(
         elevation: 0,
         foregroundColor: Colors.white,
-        side: const BorderSide(color: Colors.blueAccent),
+        side: const BorderSide(color: primaryLight, width: 2),
         textStyle: TTextTheme.darkTextTheme.titleLarge,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class BaseSelectionSheet extends StatelessWidget {
   final String title;
@@ -23,11 +24,15 @@ class BaseSelectionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: isDark
+            ? DarkThemeColors.secondaryBackground
+            : LightThemeColors.secondaryBackground,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         children: [
@@ -56,7 +61,9 @@ class BaseSelectionSheet extends StatelessWidget {
                   instructions,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.grey[600],
+                    color: isDark
+                        ? DarkThemeColors.secondaryText
+                        : LightThemeColors.secondaryText,
                   ),
                 ),
               ],
@@ -78,6 +85,11 @@ class BaseSelectionSheet extends StatelessWidget {
                       onPressed: onCancel,
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
+                        side: BorderSide(
+                          color: isDark
+                              ? DarkThemeColors.primaryText
+                              : LightThemeColors.primaryText,
+                        ),
                       ),
                       child: const Text('Cancel'),
                     ),
@@ -87,12 +99,15 @@ class BaseSelectionSheet extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: confirmEnabled ? onConfirm : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: grassGreen,
+                      backgroundColor: isDark ? lightGrassGreen : grassGreen,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Confirm',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: isDark
+                              ? DarkThemeColors.surfaceColor
+                              : LightThemeColors.surfaceColor),
                     ),
                   ),
                 ),
