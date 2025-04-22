@@ -14,28 +14,39 @@ class TracketTheme {
   const TracketTheme._();
 
   static ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    fontFamily: 'Rubik',
-    brightness: Brightness.light,
-    primaryColor: primaryColor,
-    scaffoldBackgroundColor: LightThemeColors.backgroundColor,
-    textTheme: TTextTheme.lightTextTheme,
-    elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
-    chipTheme: TChipTheme.lightChipTheme,
-    inputDecorationTheme: TTextFieldTheme.lightInputDecorationTheme,
-    appBarTheme: TAppBarTheme.lightAppBarTheme,
-    bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
-    outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
-    bottomNavigationBarTheme:
-        TBottomNavigationBarTheme.lightBottomNavigationBarTheme,
-    sliderTheme: TSliderTheme.lightSliderTheme
-  );
+      useMaterial3: true,
+      fontFamily: 'Rubik',
+      brightness: Brightness.light,
+      primaryColor: primaryColor,
+      colorScheme: const ColorScheme.light(
+        primary: primaryColor,
+        secondary: secondaryColor,
+        tertiary: grassGreen,
+        error: Colors.red,
+      ),
+      scaffoldBackgroundColor: LightThemeColors.backgroundColor,
+      textTheme: TTextTheme.lightTextTheme,
+      elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
+      chipTheme: TChipTheme.lightChipTheme,
+      inputDecorationTheme: TTextFieldTheme.lightInputDecorationTheme,
+      appBarTheme: TAppBarTheme.lightAppBarTheme,
+      bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
+      outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
+      bottomNavigationBarTheme:
+          TBottomNavigationBarTheme.lightBottomNavigationBarTheme,
+      sliderTheme: TSliderTheme.lightSliderTheme);
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     fontFamily: 'Rubik',
     brightness: Brightness.dark,
     primaryColor: primaryColor,
+    colorScheme: const ColorScheme.dark(
+      primary: primaryLight,
+      secondary: secondaryLight,
+      tertiary: lightGrassGreen,
+      error: Colors.redAccent,
+    ),
     scaffoldBackgroundColor: DarkThemeColors.backgroundColor,
     textTheme: TTextTheme.darkTextTheme,
     elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme,
