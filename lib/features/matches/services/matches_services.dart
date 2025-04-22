@@ -721,6 +721,7 @@ class MatchesServices {
     }
   }
 
+  /// Updates player statistics after match completion
   static Future<void> addMatchStatsToCorrespondingPlayers({
     required MatchFormat matchFormat,
     required List<MatchPlayerInfo> team1Players,
@@ -730,191 +731,287 @@ class MatchesServices {
     required List<BattingScore> inning2BattingStats,
     required List<BowlingScore> inning2BowlingStats,
   }) async {
-    final playersCollectionRef =
-        _firestore.collection(FirestoreCollections.players);
+    try {
+      final allPlayersId = [
+        ...team1Players.map((player) => player.playerId),
+        ...team2Players.map((player) => player.playerId),
+      ];
 
-    final allPlayersId = [
-      ...team1Players.map((player) => player.playerId),
-      ...team2Players.map((player) => player.playerId),
-    ];
+      // Exit early if there are no players to update
+      if (allPlayersId.isEmpty) return;
 
-    final querySnapshot = await playersCollectionRef
-        .where('playerId', whereIn: allPlayersId)
-        .get();
+      final allBattingStats = [...inning1BattingStats, ...inning2BattingStats];
+      final allBowlingStats = [...inning1BowlingStats, ...inning2BowlingStats];
 
-    final allBattingStats = inning1BattingStats + inning2BattingStats;
+      // Create a batch for all updates
+      final batch = _firestore.batch();
 
-    final allBowlingStats = inning1BowlingStats + inning2BowlingStats;
-
-    final batch = _firestore.batch();
-
-    //* updating players stats
-    for (final playerDoc in querySnapshot.docs) {
-      final playerId = playerDoc.id;
-
-      final playerStats = await _firestore
+      // Get all player documents in a single query
+      final querySnapshot = await _firestore
           .collection(FirestoreCollections.players)
-          .doc(playerId)
-          .collection(FirestoreCollections.stats)
-          .doc(matchFormat.name)
+          .where('playerId', whereIn: allPlayersId)
           .get();
 
-      //* batting
-      final BattingScore? playerMatchBattingStat = allBattingStats.firstWhere(
-          (playerStat) => playerStat.uuid == playerId,
-          orElse: null);
+      // Create a map for faster lookup
+      final Map<String, DocumentSnapshot> playerDocsMap = {
+        for (var doc in querySnapshot.docs) doc.id: doc
+      };
 
-      final highestScore = playerStats.data()!['battingStats.highestScore'];
-      final needToUpdateHighScore = playerMatchBattingStat?.runs == null
-          ? false
-          : playerMatchBattingStat!.runs >= highestScore;
+      // Get all player stats in a more efficient way
+      final Map<String, DocumentSnapshot> playerStatsMap = {};
+      final List<Future<void>> statsFutures = [];
 
-      if (playerMatchBattingStat != null)
-        batch.update(
-          playersCollectionRef
-              .doc(playerId)
-              .collection(FirestoreCollections.stats)
-              .doc(matchFormat.name),
-          {
-            'battingStats.ballFaced':
-                FieldValue.increment(playerMatchBattingStat.ballsFaced),
-            if (playerMatchBattingStat.runs >= 50 &&
-                playerMatchBattingStat.runs < 100)
-              'battingStats.fifties': FieldValue.increment(1),
-            'battingStats.four':
-                FieldValue.increment(playerMatchBattingStat.fours),
-            if (needToUpdateHighScore) 'battingStats.highestScore': FieldValue,
-            if (playerMatchBattingStat.runs >= 100 &&
-                playerMatchBattingStat.runs < 200)
-              'battingStats.hundreds': FieldValue.increment(1),
-            'battingStats.innings': FieldValue.increment(1),
-            if (playerMatchBattingStat.isOut)
-              'battingStats.outCount': FieldValue.increment(1),
-            'battingStats.six':
-                FieldValue.increment(playerMatchBattingStat.sixes),
-            'battingStats.totalRuns':
-                FieldValue.increment(playerMatchBattingStat.runs),
-          },
-        );
-
-      //* Bowling
-      final BowlingScore? playerMatchBowlingStat = allBowlingStats.firstWhere(
-        (playerStats) => playerStats.uuid == playerId,
-        orElse: null,
-      );
-
-      final Map<String, dynamic> bestBowlingFigure =
-          playerStats.data()!['bowlingStats.bestBallingFigure'];
-
-      bool needToUpdateBestBowling = false;
-
-      if (playerMatchBowlingStat != null) {
-        if (playerMatchBowlingStat.wickets > bestBowlingFigure['wicket']) {
-          needToUpdateBestBowling = true;
-        } else if (playerMatchBowlingStat.wickets >=
-                bestBowlingFigure['wicket'] &&
-            (playerMatchBowlingStat.runsGiven < bestBowlingFigure['runGiven'] ||
-                playerMatchBowlingStat.balls <
-                    bestBowlingFigure['ballDelivered'])) {
-          needToUpdateBestBowling = true;
-        }
-      }
-
-      if (playerMatchBowlingStat != null) {
-        final BowlingFigure newBowlingFigure = BowlingFigure(
-          runGiven: playerMatchBowlingStat.runsGiven,
-          ballDelivered: playerMatchBowlingStat.balls,
-          wicket: playerMatchBowlingStat.wickets,
-        );
-        batch.update(
-          playersCollectionRef
-              .doc(playerId)
-              .collection(FirestoreCollections.stats)
-              .doc(matchFormat.name),
-          {
-            'bowlingStats.ballDelivered':
-                FieldValue.increment(playerMatchBowlingStat.balls),
-            'bowlingStats.maiden':
-                FieldValue.increment(playerMatchBowlingStat.maidenOvers),
-            'bowlingStats.runGiven':
-                FieldValue.increment(playerMatchBowlingStat.runsGiven),
-            'bowlingStats.wicket':
-                FieldValue.increment(playerMatchBowlingStat.wickets),
-            if (needToUpdateBestBowling)
-              'bowlingStats.bestBallingFigure': newBowlingFigure.toJson,
-          },
-        );
-      }
-
-      batch.update(
-        playersCollectionRef
+      for (final playerId in playerDocsMap.keys) {
+        statsFutures.add(_firestore
+            .collection(FirestoreCollections.players)
             .doc(playerId)
             .collection(FirestoreCollections.stats)
-            .doc(matchFormat.name),
-        {
-          'matches': FieldValue.increment(1),
-        },
-      );
+            .doc(matchFormat.name)
+            .get()
+            .then((snapshot) {
+          if (snapshot.exists) {
+            playerStatsMap[playerId] = snapshot;
+          }
+        }));
+      }
 
+      // Wait for all stats queries to complete
+      await Future.wait(statsFutures);
+
+      // Process batting stats
+      _processBattingStats(
+          batch: batch,
+          allBattingStats: allBattingStats,
+          playerStatsMap: playerStatsMap,
+          matchFormat: matchFormat);
+
+      // Process bowling stats
+      _processBowlingStats(
+          batch: batch,
+          allBowlingStats: allBowlingStats,
+          playerStatsMap: playerStatsMap,
+          matchFormat: matchFormat);
+
+      // Update match count for all players
+      for (final playerId in playerDocsMap.keys) {
+        batch.update(
+          _firestore
+              .collection(FirestoreCollections.players)
+              .doc(playerId)
+              .collection(FirestoreCollections.stats)
+              .doc(matchFormat.name),
+          {'matches': FieldValue.increment(1)},
+        );
+      }
+
+      // Commit all updates in one batch
       await batch.commit();
+    } catch (e) {
+      debugPrint('Error updating player stats: ${e.toString()}');
+      // Consider implementing proper error handling/retry mechanism here
     }
   }
 
+  /// Process and update batting statistics for all players
+  static void _processBattingStats({
+    required WriteBatch batch,
+    required List<BattingScore> allBattingStats,
+    required Map<String, DocumentSnapshot> playerStatsMap,
+    required MatchFormat matchFormat,
+  }) {
+    for (final battingStat in allBattingStats) {
+      final playerId = battingStat.uuid;
+      final playerStats = playerStatsMap[playerId];
+
+      if (playerStats == null || !playerStats.exists) continue;
+
+      final data = playerStats.data() as Map<String, dynamic>;
+      final highestScore = data['battingStats.highestScore'] ?? 0;
+      final needToUpdateHighScore = battingStat.runs > highestScore;
+
+      final Map<String, dynamic> updates = {
+        'battingStats.ballFaced': FieldValue.increment(battingStat.ballsFaced),
+        'battingStats.four': FieldValue.increment(battingStat.fours),
+        'battingStats.six': FieldValue.increment(battingStat.sixes),
+        'battingStats.innings': FieldValue.increment(1),
+        'battingStats.totalRuns': FieldValue.increment(battingStat.runs),
+      };
+
+      if (battingStat.isOut) {
+        updates['battingStats.outCount'] = FieldValue.increment(1);
+      }
+
+      if (needToUpdateHighScore) {
+        updates['battingStats.highestScore'] = battingStat.runs;
+      }
+
+      if (battingStat.runs >= 50 && battingStat.runs < 100) {
+        updates['battingStats.fifties'] = FieldValue.increment(1);
+      } else if (battingStat.runs >= 100 && battingStat.runs < 200) {
+        updates['battingStats.hundreds'] = FieldValue.increment(1);
+      }
+
+      batch.update(
+        _firestore
+            .collection(FirestoreCollections.players)
+            .doc(playerId)
+            .collection(FirestoreCollections.stats)
+            .doc(matchFormat.name),
+        updates,
+      );
+    }
+  }
+
+  /// Process and update bowling statistics for all players
+  static void _processBowlingStats({
+    required WriteBatch batch,
+    required List<BowlingScore> allBowlingStats,
+    required Map<String, DocumentSnapshot> playerStatsMap,
+    required MatchFormat matchFormat,
+  }) {
+    for (final bowlingStat in allBowlingStats) {
+      final playerId = bowlingStat.uuid;
+      final playerStats = playerStatsMap[playerId];
+
+      if (playerStats == null || !playerStats.exists) continue;
+
+      final data = playerStats.data() as Map<String, dynamic>;
+      final Map<String, dynamic> bestBowlingFigure =
+          data['bowlingStats.bestBallingFigure'] ??
+              {'wicket': 0, 'runGiven': 0, 'ballDelivered': 0};
+
+      bool needToUpdateBestBowling = _shouldUpdateBestBowling(
+        currentWickets: bowlingStat.wickets,
+        currentRuns: bowlingStat.runsGiven,
+        currentBalls: bowlingStat.balls,
+        bestFigure: bestBowlingFigure,
+      );
+
+      final Map<String, dynamic> updates = {
+        'bowlingStats.ballDelivered': FieldValue.increment(bowlingStat.balls),
+        'bowlingStats.maiden': FieldValue.increment(bowlingStat.maidenOvers),
+        'bowlingStats.runGiven': FieldValue.increment(bowlingStat.runsGiven),
+        'bowlingStats.wicket': FieldValue.increment(bowlingStat.wickets),
+      };
+
+      if (needToUpdateBestBowling) {
+        updates['bowlingStats.bestBallingFigure'] = BowlingFigure(
+          runGiven: bowlingStat.runsGiven,
+          ballDelivered: bowlingStat.balls,
+          wicket: bowlingStat.wickets,
+        ).toJson;
+      }
+
+      batch.update(
+        _firestore
+            .collection(FirestoreCollections.players)
+            .doc(playerId)
+            .collection(FirestoreCollections.stats)
+            .doc(matchFormat.name),
+        updates,
+      );
+    }
+  }
+
+  /// Determines if current bowling figure is better than previous best
+  static bool _shouldUpdateBestBowling({
+    required int currentWickets,
+    required int currentRuns,
+    required int currentBalls,
+    required Map<String, dynamic> bestFigure,
+  }) {
+    final bestWickets = bestFigure['wicket'] ?? 0;
+    final bestRuns = bestFigure['runGiven'] ?? 0;
+    final bestBalls = bestFigure['ballDelivered'] ?? 0;
+
+    // More wickets is always better
+    if (currentWickets > bestWickets) return true;
+
+    // Same wickets, but fewer runs or fewer balls is better
+    if (currentWickets == bestWickets) {
+      if (currentRuns < bestRuns) return true;
+      if (currentRuns == bestRuns && currentBalls < bestBalls) return true;
+    }
+
+    return false;
+  }
+
+  /// Updates team statistics after match completion
   static Future<void> updateTeamStatsAfterMatchCompletion({
     required String team1Id,
     required String team2Id,
     required MatchFormat matchFormat,
     required bool isTeam1Won,
   }) async {
-    final batch = _firestore.batch();
+    try {
+      final batch = _firestore.batch();
 
-    //* Updating team 1 stats
-    _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(team1Id)
-        .collection(FirestoreCollections.stats)
-        .doc(matchFormat.name)
-        .get()
-        .then((team1Stats) {
-      batch.update(
+      // Get both team stats documents in parallel
+      final teamStatsRefs = await Future.wait([
         _firestore
             .collection(FirestoreCollections.teams)
             .doc(team1Id)
             .collection(FirestoreCollections.stats)
-            .doc(matchFormat.name),
-        {
-          'matches': FieldValue.increment(1),
-          if (isTeam1Won) 'wins': FieldValue.increment(1),
-          if (!isTeam1Won) 'losses': FieldValue.increment(1),
-        },
-      );
-    });
-
-    //* Updating team 2 stats
-    _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(team2Id)
-        .collection(FirestoreCollections.stats)
-        .doc(matchFormat.name)
-        .get()
-        .then((team2Stats) {
-      batch.update(
+            .doc(matchFormat.name)
+            .get(),
         _firestore
             .collection(FirestoreCollections.teams)
             .doc(team2Id)
             .collection(FirestoreCollections.stats)
-            .doc(matchFormat.name),
-        {
-          'matches': FieldValue.increment(1),
-          if (!isTeam1Won) 'wins': FieldValue.increment(1),
-          if (isTeam1Won) 'losses': FieldValue.increment(1),
-        },
-      );
-    });
-    try {
+            .doc(matchFormat.name)
+            .get(),
+      ]);
+
+      // Team 1 updates
+      if (teamStatsRefs[0].exists) {
+        batch.update(
+          teamStatsRefs[0].reference,
+          {
+            'matches': FieldValue.increment(1),
+            'wins':
+                isTeam1Won ? FieldValue.increment(1) : FieldValue.increment(0),
+            'losses':
+                !isTeam1Won ? FieldValue.increment(1) : FieldValue.increment(0),
+          },
+        );
+      } else {
+        batch.set(
+          teamStatsRefs[0].reference,
+          {
+            'matches': 1,
+            'wins': isTeam1Won ? 1 : 0,
+            'losses': !isTeam1Won ? 1 : 0,
+          },
+        );
+      }
+
+      // Team 2 updates
+      if (teamStatsRefs[1].exists) {
+        batch.update(
+          teamStatsRefs[1].reference,
+          {
+            'matches': FieldValue.increment(1),
+            'wins':
+                !isTeam1Won ? FieldValue.increment(1) : FieldValue.increment(0),
+            'losses':
+                isTeam1Won ? FieldValue.increment(1) : FieldValue.increment(0),
+          },
+        );
+      } else {
+        batch.set(
+          teamStatsRefs[1].reference,
+          {
+            'matches': 1,
+            'wins': !isTeam1Won ? 1 : 0,
+            'losses': isTeam1Won ? 1 : 0,
+          },
+        );
+      }
+
       await batch.commit();
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('Error updating team stats: ${e.toString()}');
+      // Consider implementing proper error handling/retry mechanism here
     }
   }
 }
