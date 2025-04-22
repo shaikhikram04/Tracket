@@ -105,9 +105,11 @@ class BaseSelectionSheet extends StatelessWidget {
                     child: Text(
                       'Confirm',
                       style: TextStyle(
-                          color: isDark
-                              ? DarkThemeColors.surfaceColor
-                              : LightThemeColors.surfaceColor),
+                        color: isDark
+                            ? DarkThemeColors.surfaceColor
+                            : LightThemeColors.surfaceColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),

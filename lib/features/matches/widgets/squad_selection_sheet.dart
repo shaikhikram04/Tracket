@@ -61,10 +61,13 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
           final isSelected = _selectedPlayers.contains(player);
           final selectedPlayerPosition = _selectedPlayers.indexOf(player) + 1;
 
+          final cardColor =
+              isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor;
+
           return Card(
             elevation: isSelected ? 4 : 1,
             margin: const EdgeInsets.symmetric(vertical: 4),
-            color: isSelected ? Colors.green[100] : Colors.white,
+            color: isSelected ? primaryColor.withValues(alpha: 0.3) : cardColor,
             child: InkWell(
               onTap: () {
                 setState(() {
@@ -100,9 +103,11 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                                   .copyWith(color: onPrimary),
                             ),
                           )
-                        : const Icon(
+                        : Icon(
                             Icons.person_outline,
-                            color: Colors.grey,
+                            color: isDark
+                                ? DarkThemeColors.secondaryText
+                                : LightThemeColors.secondaryText,
                           ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -123,7 +128,9 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                                 : player.longCricketRole,
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[600],
+                              color: isDark
+                                  ? DarkThemeColors.secondaryText
+                                  : LightThemeColors.secondaryText,
                             ),
                           ),
                         ],
