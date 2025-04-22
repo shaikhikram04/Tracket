@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
+import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class Achievements extends StatelessWidget {
   const Achievements({super.key, required this.achievements});
@@ -9,31 +12,24 @@ class Achievements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     Widget content = Column(children: [
       Text(
         'No Achievements Yet',
         style: Theme.of(context).textTheme.headlineSmall,
       ),
+      const SizedBox(height: 10),
       Text(
         'Complete tasks and challenges to earn your first achievement badge!',
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyLarge,
       ),
       const SizedBox(height: 25),
-      ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            )),
-        child: Text(
-          'View Available Achievements',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: LightThemeColors.surfaceColor,
-              ),
-        ),
-      ),
+      CustomButton.primary(
+          onPressed: () {},
+          text: 'View Available Achievements',
+          size: ButtonSize.large),
     ]);
 
     if (achievements.isNotEmpty) {
@@ -52,26 +48,19 @@ class Achievements extends StatelessWidget {
       );
     }
 
-    return Card(
-      color: LightThemeColors.surfaceColor,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      elevation: 7,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Achievements',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: 23),
-            ),
-            const SizedBox(height: 20),
-            content,
-          ],
-        ),
+    return MyCard(
+      child: Column(
+        children: [
+          Text(
+            'Achievements',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontSize: 22,
+                  color: isDark ? primaryLight : primaryColor,
+                ),
+          ),
+          const SizedBox(height: 20),
+          content,
+        ],
       ),
     );
   }

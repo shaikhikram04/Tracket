@@ -142,7 +142,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   //! Player Stats
                   MyCard(
                     child: Column(
@@ -187,7 +187,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
                   // Tabs for Detailed Stats
                   MyCard(
@@ -236,13 +236,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   // Achievements Section
                   Achievements(
                     achievements:
                         _playerData.playerCricketDetails!.achievements,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
