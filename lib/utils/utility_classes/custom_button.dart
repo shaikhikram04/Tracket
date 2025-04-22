@@ -83,7 +83,7 @@ class CustomButton extends StatelessWidget {
       icon: icon,
       iconPosition: iconPosition,
       isPrimary: false,
-      child: Text(text, style: textStyle),
+      child: Text(text, textAlign: TextAlign.center, style: textStyle),
     );
   }
 

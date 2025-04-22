@@ -218,7 +218,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             ],
                           ),
                           SizedBox(
-                            height: 271,
+                            height: 285,
                             child: TabBarView(
                               children: [
                                 BattingStats(

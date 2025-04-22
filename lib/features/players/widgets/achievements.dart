@@ -17,19 +17,24 @@ class Achievements extends StatelessWidget {
     Widget content = Column(children: [
       Text(
         'No Achievements Yet',
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       const SizedBox(height: 10),
       Text(
         'Complete tasks and challenges to earn your first achievement badge!',
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.bodyLarge,
+        style: Theme.of(context).textTheme.bodySmall,
       ),
       const SizedBox(height: 25),
       CustomButton.primary(
-          onPressed: () {},
-          text: 'View Available Achievements',
-          size: ButtonSize.large),
+        onPressed: () {},
+        text: 'View Available Achievements',
+        size: ButtonSize.medium,
+        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+      ),
     ]);
 
     if (achievements.isNotEmpty) {

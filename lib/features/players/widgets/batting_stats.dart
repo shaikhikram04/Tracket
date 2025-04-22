@@ -9,9 +9,10 @@ class BattingStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notOut = playerStats.battingStats.innings! - playerStats.battingStats.outCount!;
+    final notOut =
+        playerStats.battingStats.innings! - playerStats.battingStats.outCount!;
     return Column(
-      spacing: 15,
+      spacing: 12,
       children: [
         const SizedBox(height: 2),
         StatRow(stats: [
@@ -20,9 +21,18 @@ class BattingStats extends StatelessWidget {
           {'number': playerStats.battingStats.totalRuns, 'label': 'Runs'},
         ]),
         StatRow(stats: [
-          {'number': playerStats.battingStats.strikeRate, 'label': 'Strike Rate'},
-          {'number': playerStats.battingStats.battingAverage, 'label': 'Average'},
-          {'number': playerStats.battingStats.highestScore, 'label': 'Highest Score'},
+          {
+            'number': playerStats.battingStats.strikeRate,
+            'label': 'Strike Rate'
+          },
+          {
+            'number': playerStats.battingStats.battingAverage,
+            'label': 'Average'
+          },
+          {
+            'number': playerStats.battingStats.highestScore,
+            'label': 'Highest Score'
+          },
         ]),
         StatRow(stats: [
           {'number': playerStats.battingStats.hundreds, 'label': 'Hundreds'},

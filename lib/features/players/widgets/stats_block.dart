@@ -24,8 +24,11 @@ class StatsBlock extends StatelessWidget {
           ),
           Text(
             label,
+            textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 14, color: isDark ? Colors.white54 : Colors.black54),
+              fontSize: 14,
+              color: isDark ? Colors.white54 : Colors.black54,
+            ),
           ),
         ],
       ),
