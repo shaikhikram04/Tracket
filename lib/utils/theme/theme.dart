@@ -7,6 +7,7 @@ import 'package:tracket/utils/theme/custom_theme/chip_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/elevated_button_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/outline_button_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/slider_theme.dart';
+import 'package:tracket/utils/theme/custom_theme/tab_bar_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/text_field_theme.dart';
 import 'package:tracket/utils/theme/custom_theme/text_theme.dart';
 
@@ -14,27 +15,29 @@ class TracketTheme {
   const TracketTheme._();
 
   static ThemeData lightTheme = ThemeData(
-      useMaterial3: true,
-      fontFamily: 'Rubik',
-      brightness: Brightness.light,
-      primaryColor: primaryColor,
-      colorScheme: const ColorScheme.light(
-        primary: primaryColor,
-        secondary: secondaryColor,
-        tertiary: grassGreen,
-        error: Colors.red,
-      ),
-      scaffoldBackgroundColor: LightThemeColors.backgroundColor,
-      textTheme: TTextTheme.lightTextTheme,
-      elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
-      chipTheme: TChipTheme.lightChipTheme,
-      inputDecorationTheme: TTextFieldTheme.lightInputDecorationTheme,
-      appBarTheme: TAppBarTheme.lightAppBarTheme,
-      bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
-      outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
-      bottomNavigationBarTheme:
-          TBottomNavigationBarTheme.lightBottomNavigationBarTheme,
-      sliderTheme: TSliderTheme.lightSliderTheme);
+    useMaterial3: true,
+    fontFamily: 'Rubik',
+    brightness: Brightness.light,
+    primaryColor: primaryColor,
+    colorScheme: const ColorScheme.light(
+      primary: primaryColor,
+      secondary: secondaryColor,
+      tertiary: grassGreen,
+      error: Colors.red,
+    ),
+    scaffoldBackgroundColor: LightThemeColors.backgroundColor,
+    textTheme: TTextTheme.lightTextTheme,
+    elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
+    chipTheme: TChipTheme.lightChipTheme,
+    inputDecorationTheme: TTextFieldTheme.lightInputDecorationTheme,
+    appBarTheme: TAppBarTheme.lightAppBarTheme,
+    bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
+    outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
+    bottomNavigationBarTheme:
+        TBottomNavigationBarTheme.lightBottomNavigationBarTheme,
+    sliderTheme: TSliderTheme.lightSliderTheme,
+    tabBarTheme: TTabBarTheme.light,
+  );
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
@@ -58,5 +61,6 @@ class TracketTheme {
     bottomNavigationBarTheme:
         TBottomNavigationBarTheme.darkBottomNavigationBarTheme,
     sliderTheme: TSliderTheme.darkSliderTheme,
+    tabBarTheme: TTabBarTheme.dark,
   );
 }

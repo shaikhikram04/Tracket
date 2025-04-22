@@ -4,13 +4,8 @@ import 'package:tracket/features/notifications/tab_components/notification_tab_c
 mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
   late final TabController tabController;
   List<NotificationTabConfig> get tabConfigs;
-  int get initialTabIndex => 0;
-  double get tabHeight => 46.0;
-  EdgeInsets get tabPadding =>
-      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0);
-  Duration get animationDuration => const Duration(milliseconds: 250);
-
-  bool get isScrollable => false;
+  double get _tabHeight => 46.0;
+  Duration get _animationDuration => const Duration(milliseconds: 250);
 
   void initTabController(int length, {int initialIndex = 0}) {
     tabController = TabController(
@@ -37,55 +32,28 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
   }
 
   PreferredSizeWidget buildTabBar({
-    Color? indicatorColor,
-    Color? labelColor,
-    Color? unselectedLabelColor,
     TabBarIndicatorSize indicatorSize = TabBarIndicatorSize.label,
     double indicatorWeight = 3.0,
-    TextStyle? labelStyle,
-    TextStyle? unselectedLabelStyle,
-    EdgeInsets? labelPadding,
-    Decoration? indicator,
-    bool? enableFeedback,
   }) {
     return PreferredSize(
-        preferredSize: Size.fromHeight(tabHeight),
+        preferredSize: Size.fromHeight(_tabHeight),
         child: Builder(builder: (context) {
           final theme = Theme.of(context);
 
           // Use provided colors or fallback to theme colors
-          final _indicatorColor = indicatorColor ?? theme.colorScheme.primary;
-          final _labelColor = labelColor ?? theme.colorScheme.primary;
-          final _unselectedLabelColor = unselectedLabelColor ??
-              theme.colorScheme.onSurface.withValues(alpha: 0.7);
-          final _labelStyle = labelStyle ??
-              theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              );
-          final _unselectedLabelStyle =
-              unselectedLabelStyle ?? theme.textTheme.titleSmall;
+
           return Container(
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
                   color: theme.dividerColor.withValues(alpha: 0.3),
-                  width: 1.0,
+                  width: 0.5,
                 ),
               ),
             ),
             child: TabBar(
               controller: tabController,
-              isScrollable: isScrollable,
-              indicatorColor: _indicatorColor,
-              indicatorWeight: indicatorWeight,
-              indicatorSize: indicatorSize,
-              indicator: indicator,
-              labelColor: _labelColor,
-              unselectedLabelColor: _unselectedLabelColor,
-              labelStyle: _labelStyle,
-              unselectedLabelStyle: _unselectedLabelStyle,
-              labelPadding: labelPadding ?? tabPadding,
-              enableFeedback: enableFeedback ?? true,
+              enableFeedback: true,
               splashBorderRadius: BorderRadius.circular(8.0),
               tabs: _buildTabs(context),
             ),
@@ -121,7 +89,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
 
     return tabConfigs.map((config) {
       return Tab(
-        height: tabHeight,
+        height: _tabHeight,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -136,7 +104,16 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
               const SizedBox(width: 8.0),
             ],
             // Tab text
-            Text(config.text),
+            Text(
+              config.text,
+              style: theme.textTheme.labelLarge?.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: tabController.index == tabConfigs.indexOf(config)
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.7),
+              ),
+            ),
           ],
         ),
       );
@@ -151,7 +128,7 @@ mixin TabControllerMixin<T extends StatefulWidget> on State<T> {
     if (index >= 0 && index < tabConfigs.length) {
       tabController.animateTo(
         index,
-        duration: duration ?? animationDuration,
+        duration: duration ?? _animationDuration,
         curve: Curves.easeInOut,
       );
     }
