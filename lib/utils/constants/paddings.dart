@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 class TPadding {
   const TPadding._();
   //* horizontal padding
+  static const hPaddingXxs = EdgeInsets.symmetric(horizontal: 2);
+  static const hPaddingXxsSm = EdgeInsets.symmetric(horizontal: 4);
   static const hPaddingXs = EdgeInsets.symmetric(horizontal: 8);
   static const hPaddingSm = EdgeInsets.symmetric(horizontal: 12);
   static const hPaddingMd = EdgeInsets.symmetric(horizontal: 16);

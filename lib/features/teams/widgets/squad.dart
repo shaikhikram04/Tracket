@@ -102,7 +102,7 @@ class _SquadHeader extends StatelessWidget {
         children: [
           Text(
             'Squad',
-            style: theme.textTheme.headlineSmall?.copyWith(
+            style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
               color: isDark ? lightGrassGreen : darkGrassGreen,
             ),

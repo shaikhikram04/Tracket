@@ -46,8 +46,8 @@ class CapacitySelector extends StatelessWidget {
         children: [
           Text(
             '$label :',
-            style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
-                ?.copyWith(
+            style:
+                (textStyle ?? Theme.of(context).textTheme.bodyLarge)?.copyWith(
               fontWeight: FontWeight.w600,
               color: isDark ? primaryLight : primaryColor,
             ),
@@ -60,7 +60,6 @@ class CapacitySelector extends StatelessWidget {
           ),
           Container(
             constraints: const BoxConstraints(minWidth: TSizes.xxl4),
-            padding: TPadding.hPaddingSm,
             child: Text(
               capacity.toString(),
               style: (textStyle ?? Theme.of(context).textTheme.titleMedium)
