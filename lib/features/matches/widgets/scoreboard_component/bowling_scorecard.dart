@@ -184,7 +184,7 @@ class _BowlingColumn extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     overflow: TextOverflow.ellipsis,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     color: isDark
                         ? DarkThemeColors.primaryText
                         : LightThemeColors.primaryText,

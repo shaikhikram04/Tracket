@@ -381,7 +381,7 @@ class _BattingColumn extends StatelessWidget {
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w500,
                           overflow: TextOverflow.ellipsis,
                           color: isDark
                               ? DarkThemeColors.primaryText

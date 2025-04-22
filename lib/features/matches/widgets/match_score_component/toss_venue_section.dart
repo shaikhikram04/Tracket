@@ -26,9 +26,9 @@ class TossVenueSection extends StatelessWidget {
           children: [
             _buildSectionHeader(context),
             const SizedBox(height: 12),
-            _buildTossInfo(context, primaryColor),
+            _buildTossInfo(context, isDark ? primaryLight : primaryColor),
             const SizedBox(height: 8),
-            _buildVenueInfo(context, primaryColor),
+            _buildVenueInfo(context, isDark ? primaryLight : primaryColor),
           ],
         ),
       ),
@@ -129,7 +129,7 @@ class TossVenueSection extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: labelColor.withValues(alpha: 0.7),
+          color: labelColor,
           size: 18,
         ),
         const SizedBox(width: 8),
