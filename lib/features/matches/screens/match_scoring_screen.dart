@@ -15,14 +15,8 @@ class MatchScoringScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final isDarkMode = theme.brightness == Brightness.dark;
 
-    // Use theme-based colors with fallback to your defined colors
-    final backgroundColor = isDarkMode
-        ? DarkThemeColors.surfaceColor
-        : LightThemeColors.surfaceColor;
-
     return Scaffold(
       appBar: _buildAppBar(context),
-      backgroundColor: backgroundColor,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class MatchHeader extends StatelessWidget {
   const MatchHeader({
@@ -39,8 +40,8 @@ class MatchHeader extends StatelessWidget {
       formattedDate,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).brightness == Brightness.light
-                ? LightThemeColors.secondaryText
-                : DarkThemeColors.secondaryText,
+                ? LightThemeColors.primaryText
+                : DarkThemeColors.primaryText,
             fontWeight: FontWeight.w500,
           ),
     );
@@ -68,13 +69,15 @@ class MatchHeader extends StatelessWidget {
     late final Color statusColor;
     late final String statusText;
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     switch (status) {
       case MatchStatus.scheduled:
         statusColor = StatusColors.upcoming;
         statusText = 'UPCOMING';
         break;
       case MatchStatus.completed:
-        statusColor = StatusColors.completed;
+        statusColor = isDark ? StatusColors.completedDark : StatusColors.completed;
         statusText = 'COMPLETED';
         break;
       default:

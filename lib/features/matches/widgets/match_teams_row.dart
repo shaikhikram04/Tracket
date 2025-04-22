@@ -60,7 +60,8 @@ class MatchTeamsRow extends StatelessWidget {
             context,
             team: match.team2,
             isMatchStarted: match.status == MatchStatus.live ||
-                match.status == MatchStatus.completed,
+                match.status == MatchStatus.completed ||
+                match.status == MatchStatus.abandoned,
             isInningStarted: match.inning2Score != null,
             runs: match.inning2Score?.runs,
             wickets: match.inning2Score?.wickets,
@@ -120,7 +121,7 @@ class MatchTeamsRow extends StatelessWidget {
             'Yet to bat',
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+                  color: isDark ? primaryLight : primaryColor,
                 ),
           ),
       ],

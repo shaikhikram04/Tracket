@@ -207,7 +207,7 @@ class MatchCard extends ConsumerWidget {
                 // ),
               ],
               if (canShowStartButton(match, currentUserId)) ...[
-                const SizedBox(height: 10),
+                const SizedBox(height: 16),
                 CustomButton.primary(
                   text: match.startBy == null ? 'Start Match' : 'Resume Match',
                   borderRadius: 16,
@@ -220,9 +220,14 @@ class MatchCard extends ConsumerWidget {
                       .copyWith(color: onPrimary),
                 ),
               ],
-              if (match.isCompleted) Text(match.matchCompleteStatement()),
-              if (match.status == MatchStatus.abandoned)
+              if (match.isCompleted) ...[
+                const SizedBox(height: 16),
+                Text(match.matchCompleteStatement())
+              ],
+              if (match.status == MatchStatus.abandoned) ...[
+                const SizedBox(height: 16),
                 const Text('Match Abandoned'),
+              ]
             ],
           ),
         ),

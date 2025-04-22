@@ -67,6 +67,8 @@ class StatusColors {
   static const liveMatch = Color(0xFF4CAF50);
   static const upcoming = Color(0xFF2196F3);
   static const completed = Color(0xFF757575);
+  static const completedDark =  Color(0xFFD7D1D1);
+  static const abandoned = Color(0xFF9E9E9E);
 
   // Performance indicators
   static const success = Color(0xFF43A047);
