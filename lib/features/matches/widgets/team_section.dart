@@ -26,11 +26,15 @@ class TeamSection extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          THelperFunction.getTitleText(TTextStrings.teams , context),
+          THelperFunction.getTitleText(TTextStrings.teams, context),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TeamColumn(teamName: team1Name, teamLogo: team1Logo),
+              TeamColumn(
+                teamName: team1Name,
+                teamLogo: team1Logo,
+                textStyle: Theme.of(context).textTheme.bodyLarge,
+              ),
               Text(
                 vsText,
                 style: Theme.of(context)
@@ -38,7 +42,11 @@ class TeamSection extends StatelessWidget {
                     .bodyLarge!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
-              TeamColumn(teamName: team2Name, teamLogo: team2Logo),
+              TeamColumn(
+                teamName: team2Name,
+                teamLogo: team2Logo,
+                textStyle: Theme.of(context).textTheme.bodyLarge,
+              ),
             ],
           ),
         ],
