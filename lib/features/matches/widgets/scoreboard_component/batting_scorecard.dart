@@ -31,6 +31,7 @@ class BattingScorecard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
@@ -47,19 +48,19 @@ class BattingScorecard extends StatelessWidget {
           _ScrollableStatsSection(battingScore: battingScores),
           const Divider(
               height: 1, thickness: 1, color: LightThemeColors.dividerColor),
-          _buildExtrasRow(),
+          _buildExtrasRow(isDark),
           const Divider(
               height: 1, thickness: 1, color: LightThemeColors.dividerColor),
-          _buildTotalRow(),
+          _buildTotalRow(isDark),
           if (allPlayers.length > battingScores.length) ...[
             const Divider(
                 height: 1, thickness: 1, color: LightThemeColors.dividerColor),
-            _buildYetToBatRow(),
+            _buildYetToBatRow(isDark),
           ],
           if (fallOfWickets.isNotEmpty) ...[
             const Divider(
                 height: 1, thickness: 1, color: LightThemeColors.dividerColor),
-            _buildFallOfWicketsRow(),
+            _buildFallOfWicketsRow(isDark),
           ],
         ],
       ),
@@ -107,20 +108,25 @@ class BattingScorecard extends StatelessWidget {
   }
 
   /// Builds the extras row showing byes, leg byes, wides, no balls, and penalties
-  Widget _buildExtrasRow() {
+  Widget _buildExtrasRow(bool isDark) {
     return Container(
-      color: lightPitchBrown.withValues(alpha: 0.15),
+      color: isDark
+          ? lightPitchBrown.withValues(alpha: 0.3)
+          : lightPitchBrown.withValues(alpha: 0.15),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
+        spacing: 8,
         children: [
-          const Expanded(
+          Expanded(
             flex: 2,
             child: Text(
               'Extras',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: LightThemeColors.primaryText,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.primaryText,
               ),
             ),
           ),
@@ -128,9 +134,11 @@ class BattingScorecard extends StatelessWidget {
             flex: 8,
             child: Text(
               '${extras.total} (${extras.displayString})',
-              style: const TextStyle(
-                fontSize: 13,
-                color: LightThemeColors.secondaryText,
+              style: TextStyle(
+                fontSize: 12,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.secondaryText,
               ),
             ),
           ),
@@ -140,22 +148,26 @@ class BattingScorecard extends StatelessWidget {
   }
 
   /// Builds the total score row
-  Widget _buildTotalRow() {
+  Widget _buildTotalRow(bool isDark) {
     String oversText = ' in ${overs} overs';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      color: primaryVariant.withValues(alpha: 0.15),
+      color: isDark
+          ? primaryLight.withValues(alpha: 0.15)
+          : primaryVariant.withValues(alpha: 0.15),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             flex: 2,
             child: Text(
               'Total',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: LightThemeColors.primaryText,
+                color: isDark
+                    ? DarkThemeColors.primaryText
+                    : LightThemeColors.primaryText,
               ),
             ),
           ),
@@ -163,10 +175,10 @@ class BattingScorecard extends StatelessWidget {
             flex: 8,
             child: Text(
               '$totalScore for $wickets$oversText',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: grassGreen,
+                color: isDark ? lightGrassGreen : grassGreen,
               ),
             ),
           ),
@@ -175,7 +187,7 @@ class BattingScorecard extends StatelessWidget {
     );
   }
 
-  Widget _buildYetToBatRow() {
+  Widget _buildYetToBatRow(bool isDark) {
     final yetToBat = allPlayers
         .where((player) => !battingScores.any((b) => b.uuid == player.playerId))
         .map((player) => player.playerName)
@@ -186,20 +198,24 @@ class BattingScorecard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Yet to Bat',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: LightThemeColors.primaryText,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             yetToBat,
-            style: const TextStyle(
-              fontSize: 13,
-              color: LightThemeColors.secondaryText,
+            style: TextStyle(
+              fontSize: 12,
+              color: isDark
+                  ? DarkThemeColors.secondaryText
+                  : LightThemeColors.secondaryText,
               height: 1.4,
             ),
           ),
@@ -209,26 +225,30 @@ class BattingScorecard extends StatelessWidget {
   }
 
   /// Builds the fall of wickets row
-  Widget _buildFallOfWicketsRow() {
+  Widget _buildFallOfWicketsRow(bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Fall of Wickets',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: LightThemeColors.primaryText,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             FallOfWicket.formatWicketsList(fallOfWickets),
-            style: const TextStyle(
-              fontSize: 13,
-              color: LightThemeColors.secondaryText,
+            style: TextStyle(
+              fontSize: 12,
+              color: isDark
+                  ? DarkThemeColors.secondaryText
+                  : LightThemeColors.secondaryText,
               height: 1.4,
             ),
           ),
