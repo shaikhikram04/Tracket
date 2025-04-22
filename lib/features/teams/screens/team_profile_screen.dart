@@ -293,24 +293,21 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               label: TTextStrings.followers,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
-                              labelStyle:
-                                  Theme.of(context).textTheme.titleMedium,
+                              labelStyle: Theme.of(context).textTheme.bodyLarge,
                             ),
                             StatsData(
                               number: teamState.team.rank,
                               label: TTextStrings.ranking,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
-                              labelStyle:
-                                  Theme.of(context).textTheme.titleMedium,
+                              labelStyle: Theme.of(context).textTheme.bodyLarge,
                             ),
                             StatsData(
                               number: teamState.team.over20.matchesPlayed,
                               label: TTextStrings.achievements,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
-                              labelStyle:
-                                  Theme.of(context).textTheme.titleMedium,
+                              labelStyle: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ],
                         ),

@@ -77,11 +77,11 @@ class StatsData extends StatelessWidget {
   EdgeInsets _getPadding() {
     switch (size) {
       case StatsDataSize.small:
-        return const EdgeInsets.all(8);
+        return const EdgeInsets.all(4);
       case StatsDataSize.medium:
-        return const EdgeInsets.all(12);
+        return const EdgeInsets.all(8);
       case StatsDataSize.large:
-        return const EdgeInsets.all(16);
+        return const EdgeInsets.all(12);
     }
   }
 
