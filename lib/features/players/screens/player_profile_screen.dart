@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
+import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/common/widgets/stats_data.dart';
 import 'package:tracket/features/players/models/player.dart';
@@ -57,6 +58,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -142,81 +144,81 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                   ),
                   const SizedBox(height: 20),
                   //! Player Stats
-                  Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    color: LightThemeColors.surfaceColor,
-                    elevation: 7,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 25, horizontal: 30),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Player Statistics',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(fontSize: 23),
-                          ),
-                          const SizedBox(height: 17),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              StatsData(
-                                number: _playerData.playerCricketDetails!
-                                    .allFormatStats.over50.matches!,
-                                label: 'Matches',
-                                numColor:
-                                    const Color.fromARGB(255, 29, 130, 212),
-                              ),
-                              StatsData(
-                                number: _playerData
-                                    .playerCricketDetails!
-                                    .allFormatStats
-                                    .over50
-                                    .battingStats
-                                    .totalRuns,
-                                label: 'Runs',
-                                numColor:
-                                    const Color.fromARGB(255, 39, 141, 42),
-                              ),
-                              StatsData(
-                                number: _playerData.playerCricketDetails!
-                                    .allFormatStats.over50.bowlingStats!.wicket,
-                                label: 'Wickets',
-                                numColor: Colors.red,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                  MyCard(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Player Statistics',
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontSize: 22,
+                                    color: isDark ? primaryLight : primaryColor,
+                                  ),
+                        ),
+                        const SizedBox(height: 17),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            StatsData(
+                              number: _playerData.playerCricketDetails!
+                                  .allFormatStats.over50.matches!,
+                              label: 'Matches',
+                              numColor:
+                                  isDark ? secondaryLight : secondaryColor,
+                              labelStyle: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            StatsData(
+                              number: _playerData.playerCricketDetails!
+                                  .allFormatStats.over50.battingStats.totalRuns,
+                              label: 'Runs',
+                              numColor: isDark ? primaryLight : primaryColor,
+                              labelStyle: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            StatsData(
+                              number: _playerData.playerCricketDetails!
+                                  .allFormatStats.over50.bowlingStats!.wicket,
+                              label: 'Wickets',
+                              numColor: isDark ? Colors.redAccent : Colors.red,
+                              labelStyle: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
 
                   const SizedBox(height: 20),
 
                   // Tabs for Detailed Stats
-                  Card(
-                    color: LightThemeColors.surfaceColor,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    elevation: 7,
+                  MyCard(
                     child: DefaultTabController(
                       length: 2,
                       child: Column(
                         children: [
                           TabBar(
-                            labelColor: primaryColor,
-                            labelStyle: Theme.of(context).textTheme.titleMedium,
-                            unselectedLabelColor: Colors.grey,
-                            indicatorColor: Colors.green,
+                            labelColor: isDark ? primaryLight : primaryColor,
+                            labelStyle: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(fontWeight: FontWeight.w600),
+                            unselectedLabelColor: isDark
+                                ? DarkThemeColors.secondaryText
+                                : LightThemeColors.secondaryText,
                             indicatorSize: TabBarIndicatorSize.tab,
+                            indicator: BoxDecoration(
+                              color: isDark
+                                  ? primaryLight.withValues(alpha: 0.2)
+                                  : primaryColor.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            indicatorWeight: 3,
                             tabs: const [
                               Tab(text: 'Batting'),
                               Tab(text: 'Bowling'),
                             ],
                           ),
                           SizedBox(
-                            height: 270,
+                            height: 271,
                             child: TabBarView(
                               children: [
                                 BattingStats(

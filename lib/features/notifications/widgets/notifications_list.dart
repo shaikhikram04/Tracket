@@ -100,7 +100,7 @@ class _NotificationsListState extends State<NotificationsList> {
           );
         }
 
-        return Container();
+        return const SizedBox();
       },
     );
   }

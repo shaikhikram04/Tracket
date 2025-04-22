@@ -81,7 +81,8 @@ class MainDrawer extends ConsumerWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
-                                  .copyWith(color: LightThemeColors.surfaceColor),
+                                  .copyWith(
+                                      color: LightThemeColors.surfaceColor),
                             ),
                           ),
                           Text(
@@ -98,11 +99,14 @@ class MainDrawer extends ConsumerWidget {
                 ),
                 const SizedBox(height: TSizes.sm),
                 InkWell(
-                  onTap: () => THelperFunction.pushScreen(
-                      context,
-                      PlayerProfileScreen(
-                        player: player,
-                      )),
+                  onTap: () {
+                    Navigator.pop(context);
+                    THelperFunction.pushScreen(
+                        context,
+                        PlayerProfileScreen(
+                          player: player,
+                        ));
+                  },
                   child: Text(
                     TTextStrings.viewProfileButton,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
