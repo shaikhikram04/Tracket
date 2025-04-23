@@ -4,6 +4,7 @@ import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/matches/models/ball_outcome.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/current_over_indicator.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 class CurrentOverFetcher extends StatelessWidget {
@@ -16,6 +17,7 @@ class CurrentOverFetcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection(FirestoreCollections.matches)
@@ -46,7 +48,9 @@ class CurrentOverFetcher extends StatelessWidget {
           isBlur: false,
           remainingBalls: remainingBalls,
           showShadow: false,
-          bgColor: LightThemeColors.surfaceColor.withValues(alpha: 0.9),
+          bgColor: isDark
+              ? DarkThemeColors.surfaceColor.withValues(alpha: 0.9)
+              : LightThemeColors.surfaceColor.withValues(alpha: 0.9),
         );
       },
     );

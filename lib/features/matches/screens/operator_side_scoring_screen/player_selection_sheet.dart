@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 enum SelectionType { batsman, bowler }
 
@@ -63,22 +64,32 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
         widget.playingPlayer == player.playerId;
   }
 
-  Color getCardBackgroundColor(MatchPlayerInfo player) {
+  Color getCardBackgroundColor(MatchPlayerInfo player, bool isDark) {
     if (widget.nonAvailablePlayers.contains(player.playerId)) {
       if (widget.type == SelectionType.batsman)
-        return const Color(0xFFFFF1F0); // Light red background for out players
+        return isDark
+            ? Colors.red.withValues(alpha: 0.15)
+            : const Color(0xFFFFF1F0); // Light red background for out players
 
-      return const Color.fromARGB(
-          255, 230, 255, 255); // Light orange background for previous bowler
+      return isDark
+          ? Colors.blue.withValues(alpha: 0.15)
+          : const Color(
+              0xFFE6FFFF); // Light orange background for previous bowler
     } else if (widget.playingPlayer == player.playerId) {
       if (widget.type == SelectionType.batsman)
-        return const Color(0xFFF0F5FF); // Light blue background for playing players
+        return isDark
+            ? Colors.indigoAccent.withValues(alpha: 0.15)
+            : const Color(0xFFF0F5FF);
 
-      return const Color(0xFFFFF7E6); // Light orange background for previous bowler
+      return isDark
+          ? Colors.orangeAccent.withValues(alpha: 0.15)
+          : const Color(0xFFFFF7E6);
     } else if (_selectedPlayer == player) {
-      return const Color(0xFFF6FFED); // Light green background for selected player
+      return isDark
+          ? Colors.lightGreenAccent.withValues(alpha: 0.15)
+          : const Color(0xFFF6FFED);
     }
-    return Colors.white;
+    return isDark ? Colors.black : Colors.white;
   }
 
   Color getIconColor(MatchPlayerInfo player) {
@@ -126,6 +137,8 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return BaseSelectionSheet(
       showCancelButton: false,
       title: widget.type == SelectionType.batsman
@@ -160,7 +173,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                   width: _selectedPlayer == player ? 2 : 1,
                 ),
               ),
-              color: getCardBackgroundColor(player),
+              color: getCardBackgroundColor(player, isDark),
               child: InkWell(
                 onTap: isDisabled
                     ? null
@@ -182,7 +195,9 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                           shape: BoxShape.circle,
                           color: isDisabled
                               ? Colors.grey.withValues(alpha: 0.1)
-                              : Colors.white,
+                              : isDark
+                                  ? DarkThemeColors.cardColor
+                                  : Colors.white,
                           border: Border.all(
                             color: isDisabled
                                 ? Colors.grey.withValues(alpha: 0.2)
@@ -205,14 +220,22 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  player.playerName,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: isDisabled
-                                        ? Colors.grey[600]
-                                        : Colors.black87,
+                                Flexible(
+                                  child: Text(
+                                    player.playerName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: isDisabled
+                                              ? Colors.grey[600]
+                                              : isDark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                        ),
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -235,7 +258,7 @@ class _PlayerSelectionSheetState extends State<PlayerSelectionSheet> {
                                   child: Text(
                                     getPlayerStatus(player, index),
                                     style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 10,
                                       color: isDisabled
                                           ? Colors.grey[600]
                                           : Colors.grey[800],
