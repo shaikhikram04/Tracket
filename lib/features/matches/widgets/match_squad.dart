@@ -30,7 +30,6 @@ class MatchSquad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -83,8 +82,11 @@ class MatchSquad extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemCount: players.length,
-        separatorBuilder: (context, index) =>
-            const Divider(height: 1, indent: 70),
+        separatorBuilder: (context, index) => const Divider(
+          height: 0.5,
+          indent: 15,
+          endIndent: 15,
+        ),
         itemBuilder: (context, index) {
           final player = players[index];
           return SquadPlayerTile(

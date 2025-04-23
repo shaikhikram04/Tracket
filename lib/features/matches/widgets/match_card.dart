@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match.dart';
-import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/match_scoring_screen.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
 import 'package:tracket/features/matches/screens/start_match_screen.dart';
@@ -14,7 +12,7 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
-class MatchCard extends ConsumerWidget {
+class MatchCard extends StatelessWidget {
   const MatchCard({
     super.key,
     required this.match,
@@ -23,16 +21,11 @@ class MatchCard extends ConsumerWidget {
   final Match match;
 
   Future<void> onStart(
-      BuildContext context, WidgetRef ref, Match match, String startBy) async {
-    final matchStartBy = ref.read(matchStateProvider)!.startBy;
-    if (matchStartBy == null) {
-      await MatchesServices.setMatchStartBy(
-        startBy: startBy,
-        matchId: match.id,
-      );
-    }
-
-    ref.read(matchStateProvider.notifier).setMatch(match);
+      BuildContext context, Match match, String startBy) async {
+    await MatchesServices.setMatchStartBy(
+      startBy: startBy,
+      matchId: match.id,
+    );
 
     THelperFunction.pushScreen(
       context,
@@ -58,7 +51,7 @@ class MatchCard extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     Match _match = match;
     final String currentUserId = FirebaseAuthMethods().currentUserId;
 
@@ -119,101 +112,104 @@ class MatchCard extends ConsumerWidget {
               const SizedBox(height: 16),
               MatchTeamsRow(match: match, versusBgColor: Colors.grey[200]!),
               if (_match.status == MatchStatus.scheduled) ...[
+                const SizedBox(height: 16),
                 Text(
                   'Starts at ${DateFormat('hh:mm a').format(_match.schedule)}',
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: isDark
+                        ? DarkThemeColors.primaryText
+                        : LightThemeColors.primaryText,
                     fontSize: 14,
                   ),
                 ),
+                const SizedBox(height: 4),
               ],
-              if (_match.status == MatchStatus.live) ...[
-                const SizedBox(height: 16),
-                Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
-                const SizedBox(height: 16),
-                // Current Players
+              // if (_match.status == MatchStatus.live) ...[
+              //   const SizedBox(height: 16),
+              //   Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
+              //   const SizedBox(height: 16),
+              // Current Players
 
-                // Row(
-                //   children: [
-                //     // Batsmen
-                //     Expanded(
-                //       flex: 1,
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           _buildStatsSubtitle(context, 'Batsmen'),
-                //           const SizedBox(height: 4),
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.start,
-                //             children: [
-                //               _buildMatchPlayerText(
-                //                 context,
-                //                 _match.currentBatsmen![0].playerName,
-                //               ),
-                //               const SizedBox(width: 8),
-                //               Text(
-                //                 '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
-                //                 style: TextStyle(
-                //                   color: Theme.of(context).primaryColor,
-                //                   fontWeight: FontWeight.w500,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.start,
-                //             children: [
-                //               _buildMatchPlayerText(
-                //                 context,
-                //                 _match.currentBatsmen![1].playerName,
-                //               ),
-                //               const SizedBox(width: 8),
-                //               Text(
-                //                 '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
-                //                 style: TextStyle(
-                //                   color: Theme.of(context).primaryColor,
-                //                   fontWeight: FontWeight.w500,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //     ),
+              // Row(
+              //   children: [
+              //     // Batsmen
+              //     Expanded(
+              //       flex: 1,
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           _buildStatsSubtitle(context, 'Batsmen'),
+              //           const SizedBox(height: 4),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             children: [
+              //               _buildMatchPlayerText(
+              //                 context,
+              //                 _match.currentBatsmen![0].playerName,
+              //               ),
+              //               const SizedBox(width: 8),
+              //               Text(
+              //                 '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
+              //                 style: TextStyle(
+              //                   color: Theme.of(context).primaryColor,
+              //                   fontWeight: FontWeight.w500,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             children: [
+              //               _buildMatchPlayerText(
+              //                 context,
+              //                 _match.currentBatsmen![1].playerName,
+              //               ),
+              //               const SizedBox(width: 8),
+              //               Text(
+              //                 '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
+              //                 style: TextStyle(
+              //                   color: Theme.of(context).primaryColor,
+              //                   fontWeight: FontWeight.w500,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
 
-                //     // Bowler
-                //     Expanded(
-                //       flex: 1,
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.end,
-                //         children: [
-                //           _buildStatsSubtitle(context, 'Bowler'),
-                //           const SizedBox(height: 4),
-                //           _buildMatchPlayerText(
-                //             context,
-                //             _match.currentBowlers!.playerName,
-                //           ),
-                //           Text(
-                //             '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
-                //             style: TextStyle(
-                //               color: Theme.of(context).primaryColor,
-                //               fontWeight: FontWeight.w500,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              ],
+              //     // Bowler
+              //     Expanded(
+              //       flex: 1,
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.end,
+              //         children: [
+              //           _buildStatsSubtitle(context, 'Bowler'),
+              //           const SizedBox(height: 4),
+              //           _buildMatchPlayerText(
+              //             context,
+              //             _match.currentBowlers!.playerName,
+              //           ),
+              //           Text(
+              //             '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
+              //             style: TextStyle(
+              //               color: Theme.of(context).primaryColor,
+              //               fontWeight: FontWeight.w500,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // ],
               if (canShowStartButton(match, currentUserId)) ...[
                 const SizedBox(height: 16),
                 CustomButton.primary(
                   text: match.startBy == null ? 'Start Match' : 'Resume Match',
                   borderRadius: 16,
-                  onPressed: () => onStart(context, ref, match, currentUserId),
+                  onPressed: () => onStart(context, match, currentUserId),
                   backgroundColor: primaryVariant,
-                  size: ButtonSize.medium,
                   textStyle: Theme.of(context)
                       .textTheme
                       .bodyMedium!

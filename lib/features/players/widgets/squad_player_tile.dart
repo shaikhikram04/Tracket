@@ -136,7 +136,7 @@ class _PlayerInfo extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           cricketRole,
-          style: theme.textTheme.bodyMedium?.copyWith(
+          style: theme.textTheme.labelLarge?.copyWith(
             color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
           ),
           overflow: TextOverflow.ellipsis,
