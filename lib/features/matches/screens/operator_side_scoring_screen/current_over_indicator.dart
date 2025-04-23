@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/features/matches/models/ball_outcome.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class CurrentOverIndicator extends StatelessWidget {
   final List<BallOutcome?> balls;
@@ -22,8 +23,9 @@ class CurrentOverIndicator extends StatelessWidget {
   });
 
   // Get ball color based on outcome
-  Color _getBallColor(BallOutcome? ballOutcome) {
-    if (ballOutcome == null) return Colors.grey.shade200;
+  Color _getBallColor(BallOutcome? ballOutcome, bool isDark) {
+    if (ballOutcome == null)
+      return isDark ? Colors.grey.shade600 : Colors.grey.shade200;
 
     if (ballOutcome.isWicket) return InteractiveColors.inputError;
 
@@ -48,13 +50,13 @@ class CurrentOverIndicator extends StatelessWidget {
 
     Color shadowColor;
     if (ballOutcome.isWicket) {
-      shadowColor = InteractiveColors.inputError.withValues(alpha:0.3);
+      shadowColor = InteractiveColors.inputError.withValues(alpha: 0.3);
     } else if (ballOutcome.runs == 4) {
-      shadowColor = Colors.blue.withValues(alpha:0.3);
+      shadowColor = Colors.blue.withValues(alpha: 0.3);
     } else if (ballOutcome.runs == 6) {
-      shadowColor = Colors.purple.withValues(alpha:0.3);
+      shadowColor = Colors.purple.withValues(alpha: 0.3);
     } else {
-      shadowColor = grassGreen.withValues(alpha:0.3);
+      shadowColor = grassGreen.withValues(alpha: 0.3);
     }
 
     return [
@@ -68,6 +70,7 @@ class CurrentOverIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return ClipRRect(
       child: Stack(
         fit: StackFit.passthrough,
@@ -96,11 +99,11 @@ class CurrentOverIndicator extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: grassGreen,
+                    color: isDark ? lightGrassGreen : grassGreen,
                   ),
                 ),
                 const SizedBox(height: 10),
-                _buildBallsRow(),
+                _buildBallsRow(isDark),
               ],
             ),
           ),
@@ -110,7 +113,7 @@ class CurrentOverIndicator extends StatelessWidget {
     );
   }
 
-  Widget _buildBallsRow() {
+  Widget _buildBallsRow(bool isDark) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
@@ -118,21 +121,21 @@ class CurrentOverIndicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           balls.length + remainingBalls,
-          (index) =>
-              _buildBallIndicator(index < balls.length ? balls[index] : null),
+          (index) => _buildBallIndicator(
+              index < balls.length ? balls[index] : null, isDark),
         ),
       ),
     );
   }
 
-  Widget _buildBallIndicator(BallOutcome? ballValue) {
+  Widget _buildBallIndicator(BallOutcome? ballValue, bool isDark) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
       width: 45,
       height: 45,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _getBallColor(ballValue),
+        color: _getBallColor(ballValue, isDark),
         boxShadow: _getBallShadow(ballValue),
       ),
       child: Center(

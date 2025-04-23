@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PlayerStatsSection extends StatelessWidget {
   final BattingScore batsman1;
@@ -22,6 +23,8 @@ class PlayerStatsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return ClipRRect(
       child: Stack(
         fit: StackFit.passthrough,
@@ -32,12 +35,12 @@ class PlayerStatsSection extends StatelessWidget {
               children: [
                 const SizedBox(height: 2),
                 _buildPlayerCard(
-                  strikerPosition == batsman1.battingPosition,
-                  batsman1.playerName,
-                  batsman1.displayScore,
-                  'SR: ${batsman1.strikeRate.toStringAsFixed(2)}',
-                  batsman1.isOut,
-                ),
+                    strikerPosition == batsman1.battingPosition,
+                    batsman1.playerName,
+                    batsman1.displayScore,
+                    'SR: ${batsman1.strikeRate.toStringAsFixed(2)}',
+                    batsman1.isOut,
+                    isDark),
                 const SizedBox(height: 10),
                 _buildPlayerCard(
                   strikerPosition == batsman2.battingPosition,
@@ -45,6 +48,7 @@ class PlayerStatsSection extends StatelessWidget {
                   batsman2.displayScore,
                   'SR: ${batsman2.strikeRate.toStringAsFixed(2)}',
                   batsman2.isOut,
+                  isDark,
                 ),
                 const SizedBox(height: 15),
                 _buildBowlerCard(
@@ -67,11 +71,16 @@ class PlayerStatsSection extends StatelessWidget {
     String score,
     String strikeRate,
     bool isOut,
+    bool isDark,
   ) {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: isOut ? StatusColors.error.withValues(alpha: 0.2) : Colors.white,
+        color: isOut
+            ? StatusColors.error.withValues(alpha: 0.2)
+            : isDark
+                ? Colors.black
+                : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isStriker
@@ -103,7 +112,10 @@ class PlayerStatsSection extends StatelessWidget {
                 name,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: LightThemeColors.primaryText,
+                  fontSize: 13,
+                  color: isDark
+                      ? DarkThemeColors.primaryText
+                      : LightThemeColors.primaryText,
                 ),
               ),
             ],
@@ -114,7 +126,8 @@ class PlayerStatsSection extends StatelessWidget {
                 score,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: grassGreen,
+                  fontSize: 13,
+                  color: isDark ? lightGrassGreen : grassGreen,
                 ),
               ),
               const SizedBox(width: 10),
@@ -122,7 +135,9 @@ class PlayerStatsSection extends StatelessWidget {
                 strikeRate,
                 style: GoogleFonts.poppins(
                   fontSize: 12,
-                  color: Colors.grey.shade600,
+                  color: isDark
+                      ? DarkThemeColors.secondaryText
+                      : LightThemeColors.secondaryText,
                 ),
               ),
             ],

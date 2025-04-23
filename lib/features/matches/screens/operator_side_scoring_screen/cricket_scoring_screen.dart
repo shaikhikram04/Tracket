@@ -93,12 +93,12 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         ref.watch(inningsStateProvider.notifier).currentBatsmen;
     final completionState = ref.watch(additionalMatchProvider);
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Scaffold(
-      backgroundColor: LightThemeColors.surfaceColor,
       appBar: AppBar(
         backgroundColor: grassGreen,
         foregroundColor: onPrimary,
-        elevation: 0,
         title: Text(
           'Live Scoring',
           style: GoogleFonts.poppins(
@@ -140,7 +140,9 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
                         .remainingBalls,
                     margin: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20),
-                    bgColor: LightThemeColors.surfaceColor,
+                    bgColor: isDark
+                        ? DarkThemeColors.surfaceColor
+                        : LightThemeColors.surfaceColor,
                   ),
 
                   // Player Stats Section with cards

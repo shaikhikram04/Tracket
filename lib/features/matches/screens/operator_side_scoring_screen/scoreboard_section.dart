@@ -93,8 +93,8 @@ class ScoreboardSection extends StatelessWidget {
 
                       // VS badge
                       Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
                           color: Colors.black.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
@@ -162,7 +162,7 @@ class ScoreboardSection extends StatelessWidget {
                               Text(
                                 '${currentInning?.runs ?? 0}',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 42,
+                                  fontSize: 35,
                                   fontWeight: FontWeight.bold,
                                   color: LightThemeColors.surfaceColor,
                                 ),
@@ -170,7 +170,7 @@ class ScoreboardSection extends StatelessWidget {
                               Text(
                                 '/${currentInning?.wickets ?? 0}',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 30,
+                                  fontSize: 28,
                                   fontWeight: FontWeight.w600,
                                   color: LightThemeColors.surfaceColor
                                       .withValues(alpha: 0.85),
@@ -202,7 +202,7 @@ class ScoreboardSection extends StatelessWidget {
                                 Text(
                                   '${currentInning?.oversDisplay ?? '0.0'}/${totalOvers}',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: LightThemeColors.surfaceColor
                                         .withValues(alpha: 0.9),
@@ -227,7 +227,8 @@ class ScoreboardSection extends StatelessWidget {
 
               // Match info strip
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.15),
                   borderRadius: const BorderRadius.only(
@@ -289,7 +290,7 @@ class ScoreboardSection extends StatelessWidget {
               child: Text(
                 teamName,
                 style: GoogleFonts.poppins(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: isBatting ? FontWeight.w700 : FontWeight.w500,
                   color: LightThemeColors.surfaceColor,
                 ),
@@ -353,7 +354,7 @@ class ScoreboardSection extends StatelessWidget {
           Text(
             '$target',
             style: GoogleFonts.poppins(
-              fontSize: 26,
+              fontSize: 21,
               fontWeight: FontWeight.bold,
               color: LightThemeColors.surfaceColor,
             ),
