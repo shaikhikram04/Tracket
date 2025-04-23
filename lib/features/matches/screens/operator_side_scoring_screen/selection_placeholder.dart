@@ -11,6 +11,7 @@ import 'package:tracket/features/matches/screens/operator_side_scoring_screen/lo
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/player_selection_sheet.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/winner_display.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -179,6 +180,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
   @override
   Widget build(BuildContext context) {
     final completionState = ref.watch(additionalMatchProvider);
+    final isDark = THelperFunction.isDarkMode(context);
 
     if (completionState.isMatchCompleted) {
       final matchState = ref.read(matchStateProvider)!;
@@ -211,7 +213,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
             Text(
               _getTitle(completionState),
               style: GoogleFonts.poppins(
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -219,7 +221,10 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
             Text(
               _getSubtitle(completionState),
               style: GoogleFonts.poppins(
-                fontSize: 16,
+                fontSize: 14,
+                color: isDark
+                    ? DarkThemeColors.secondaryText
+                    : LightThemeColors.secondaryText,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -227,7 +232,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
             CustomButton.primary(
               onPressed: () => _onTap(context, ref, completionState),
               text: _getButtonText(completionState),
-              textStyle: Theme.of(context).textTheme.bodyLarge,
+              textStyle: Theme.of(context).textTheme.titleLarge,
               borderRadius: 15,
               height: 50,
               width: 300,

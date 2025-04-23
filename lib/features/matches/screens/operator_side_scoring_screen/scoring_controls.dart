@@ -8,7 +8,6 @@ import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class ScoringControls extends ConsumerWidget {
@@ -27,8 +26,6 @@ class ScoringControls extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final extras = ref.watch(extrasProvider);
     final matchState = ref.watch(matchStateProvider);
-
-    final isDark = THelperFunction.isDarkMode(context);
 
     return ClipRRect(
       child: Stack(
