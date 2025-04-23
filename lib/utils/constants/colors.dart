@@ -22,6 +22,7 @@ const boundaryRope = Color(0xFFE57373); // Boundary rope inspired
 
 //* Light Mode Colors
 class LightThemeColors {
+  const LightThemeColors._();
   // Background hierarchy
   static const backgroundColor = Color(0xFFF5F7F5); // Subtle green tint
   static const surfaceColor = Color(0xFFFFFFFF);
@@ -69,7 +70,7 @@ class StatusColors {
   static const liveMatch = Color(0xFF4CAF50);
   static const upcoming = Color(0xFF2196F3);
   static const completed = Color(0xFF757575);
-  static const completedDark =  Color(0xFFD7D1D1);
+  static const completedDark = Color(0xFFD7D1D1);
   static const abandoned = Color(0xFF9E9E9E);
 
   // Performance indicators

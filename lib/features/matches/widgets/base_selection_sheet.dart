@@ -49,22 +49,15 @@ class BaseSelectionSheet extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Text(title, style: Theme.of(context).textTheme.headlineSmall),
                 const SizedBox(height: 8),
                 Text(
                   instructions,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: isDark
-                        ? DarkThemeColors.secondaryText
-                        : LightThemeColors.secondaryText,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: isDark
+                            ? DarkThemeColors.secondaryText
+                            : LightThemeColors.secondaryText,
+                      ),
                 ),
               ],
             ),

@@ -13,6 +13,7 @@ import 'package:tracket/features/matches/widgets/opening_batsman_sheet.dart';
 import 'package:tracket/features/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/features/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -141,7 +142,11 @@ class _MatchPlayersSelectionScreenState
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      showDragHandle: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.vertical(top: Radius.circular(TSizes.borderRadiusXxl)),
+      ),
       builder: (context) {
         return OpeningBowlerSheet(
           availablePlayers: players,
@@ -159,10 +164,11 @@ class _MatchPlayersSelectionScreenState
   Widget build(BuildContext context) {
     final match = ref.watch(matchStateProvider)!;
     final isDark = THelperFunction.isDarkMode(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Players'),
+        iconTheme: IconThemeData(color: isDark ? onPrimary : Colors.black),
       ),
       body: Column(
         children: [
@@ -180,7 +186,8 @@ class _MatchPlayersSelectionScreenState
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
-                            color: primaryLight.withValues(alpha: 0.1),
+                            color: primaryLight.withValues(
+                                alpha: isDark ? 0.2 : 0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -191,7 +198,9 @@ class _MatchPlayersSelectionScreenState
                                   .bodyLarge!
                                   .copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: grassGreen,
+                                    color: isDark
+                                        ? lightGrassGreen
+                                        : darkGrassGreen,
                                   ),
                             ),
                           ),
@@ -229,7 +238,8 @@ class _MatchPlayersSelectionScreenState
                         child: Container(
                           height: 100,
                           decoration: BoxDecoration(
-                            color: primaryLight.withValues(alpha: 0.1),
+                            color: primaryLight.withValues(
+                                alpha: isDark ? 0.2 : 0.1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -240,7 +250,9 @@ class _MatchPlayersSelectionScreenState
                                   .bodyLarge!
                                   .copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: darkGrassGreen),
+                                      color: isDark
+                                          ? lightGrassGreen
+                                          : darkGrassGreen),
                             ),
                           ),
                         ),
@@ -267,12 +279,14 @@ class _MatchPlayersSelectionScreenState
                   ? () => _onStart(match.getBattingTeamPlayers())
                   : null,
               text: 'Start Match',
-              backgroundColor: grassGreen,
+              backgroundColor: isDark ? lightGrassGreen : grassGreen,
               borderRadius: 15,
               isLoading: isStarting,
               textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: LightThemeColors.surfaceColor,
+                    color: isDark
+                        ? DarkThemeColors.surfaceColor
+                        : LightThemeColors.surfaceColor,
                   ),
             ),
           ),
