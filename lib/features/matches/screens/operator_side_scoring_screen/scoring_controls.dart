@@ -8,6 +8,7 @@ import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/wicket_reason.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class ScoringControls extends ConsumerWidget {
@@ -27,6 +28,8 @@ class ScoringControls extends ConsumerWidget {
     final extras = ref.watch(extrasProvider);
     final matchState = ref.watch(matchStateProvider);
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return ClipRRect(
       child: Stack(
         children: [
@@ -42,7 +45,7 @@ class ScoringControls extends ConsumerWidget {
                     return Expanded(
                       child: Container(
                         margin: const EdgeInsets.all(5),
-                        height: 55,
+                        height: 48,
                         child: ElevatedButton(
                           onPressed: () {
                             ref.read(inningsStateProvider.notifier).addDelivery(
@@ -64,7 +67,7 @@ class ScoringControls extends ConsumerWidget {
                           child: Text(
                             '$runs',
                             style: GoogleFonts.poppins(
-                              fontSize: 24,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: LightThemeColors.surfaceColor,
                             ),
@@ -83,7 +86,7 @@ class ScoringControls extends ConsumerWidget {
                           children: [
                             Container(
                               margin: const EdgeInsets.all(5),
-                              height: 55,
+                              height: 48,
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
@@ -110,7 +113,7 @@ class ScoringControls extends ConsumerWidget {
                                 child: Text(
                                   '$runs',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 24,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: LightThemeColors.surfaceColor,
                                   ),
@@ -134,7 +137,7 @@ class ScoringControls extends ConsumerWidget {
                 // Extras Wrap
                 Wrap(
                   spacing: 10,
-                  runSpacing: 10,
+                  runSpacing: 2,
                   children: ['Wide', 'No Ball', 'Leg Bye', 'Bye'].map((extra) {
                     // Determine if this button should appear blurred based on current extras.
                     bool shouldBlur = false;
@@ -203,15 +206,16 @@ class ScoringControls extends ConsumerWidget {
                                 backgroundColor: Colors.amberAccent,
                                 elevation: 2,
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 12),
+                                    horizontal: 20, vertical: 10),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
                               child: Text(
                                 extra,
                                 style: GoogleFonts.poppins(
-                                  color: LightThemeColors.primaryText,
+                                  color: DarkThemeColors.surfaceColor,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -276,9 +280,8 @@ class ScoringControls extends ConsumerWidget {
                         },
                         text: 'WICKET',
                         textStyle:
-                            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            Theme.of(context).textTheme.titleLarge!.copyWith(
                                   letterSpacing: 1.2,
-                                  fontSize: 18,
                                 ),
                         icon: const Icon(
                           Icons.sports_baseball,
@@ -286,7 +289,7 @@ class ScoringControls extends ConsumerWidget {
                         ),
                         backgroundColor: StatusColors.error,
                         borderRadius: 15,
-                        height: 50,
+                        height: 45,
                         width: double.infinity,
                       ),
                       if (extras.isBye || extras.isLegBye) const BlurOverlay(),
