@@ -42,8 +42,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
     );
   }
 
-  void setMatch(Match match) {
-    state = match;
+  void setMatch(Match match, String startedBy) {
+    state = match.copyWith(startedBy: startedBy);
   }
 
   //* updates team score

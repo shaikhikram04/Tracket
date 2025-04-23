@@ -351,6 +351,7 @@ class Match {
     int? currentInningNumber,
     TeamScore? team1Score,
     TeamScore? team2Score,
+    String? startedBy,
   }) {
     return Match(
       id: id,
@@ -377,6 +378,7 @@ class Match {
       updatedAt: Timestamp.now(),
       team1Score: team1Score ?? this.team1Score,
       team2Score: team2Score ?? this.team2Score,
+      startBy: startedBy ?? this.startBy,
     );
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match.dart';
+import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/match_scoring_screen.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/cricket_scoring_screen.dart';
 import 'package:tracket/features/matches/screens/start_match_screen.dart';
@@ -12,7 +14,7 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
-class MatchCard extends StatelessWidget {
+class MatchCard extends ConsumerWidget {
   const MatchCard({
     super.key,
     required this.match,
@@ -21,18 +23,24 @@ class MatchCard extends StatelessWidget {
   final Match match;
 
   Future<void> onStart(
-      BuildContext context, Match match, String startBy) async {
-    await MatchesServices.setMatchStartBy(
-      startBy: startBy,
-      matchId: match.id,
-    );
+      BuildContext context, WidgetRef ref, Match match, String startBy) async {
+    try {
+      await MatchesServices.setMatchStartBy(
+        startBy: startBy,
+        matchId: match.id,
+      );
 
-    THelperFunction.pushScreen(
-      context,
-      match.currentInningNumber == null
-          ? const StartMatchScreen()
-          : const CricketScoringScreen(),
-    );
+      ref.read(matchStateProvider.notifier).setMatch(match, startBy);
+
+      await THelperFunction.pushScreen(
+        context,
+        match.currentInningNumber == null
+            ? const StartMatchScreen()
+            : const CricketScoringScreen(),
+      );
+    } catch (e) {
+      THelperFunction.showErrorSnackBar('Failed to start a match: $e', context);
+    }
   }
 
   bool canShowStartButton(Match match, String userId) {
@@ -51,7 +59,7 @@ class MatchCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Match _match = match;
     final String currentUserId = FirebaseAuthMethods().currentUserId;
 
@@ -208,7 +216,7 @@ class MatchCard extends StatelessWidget {
                 CustomButton.primary(
                   text: match.startBy == null ? 'Start Match' : 'Resume Match',
                   borderRadius: 16,
-                  onPressed: () => onStart(context, match, currentUserId),
+                  onPressed: () => onStart(context, ref, match, currentUserId),
                   backgroundColor: primaryVariant,
                   textStyle: Theme.of(context)
                       .textTheme

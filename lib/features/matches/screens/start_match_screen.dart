@@ -31,6 +31,13 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
   late Animation<double> _flipAnimation;
   late Animation<double> _scaleAnimation;
 
+  // Add a ScrollController
+  final ScrollController _scrollController = ScrollController();
+
+  // Add GlobalKeys for sections we want to scroll to
+  final GlobalKey _tossResultKey = GlobalKey();
+  final GlobalKey _battingTeamKey = GlobalKey();
+
   void _onStartMatch(Match match) {
     bool isTeam1WonToss = tossWinner == match.team1.teamName;
     TossDecision decision = isTeam1WonToss
@@ -89,6 +96,33 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
               ? match!.team1.teamName
               : match!.team2.teamName;
         });
+
+        // Scroll to toss result after animation completes
+        _scrollToWidget(_tossResultKey);
+      }
+    });
+  }
+
+  // Method to scroll to a specific widget using a GlobalKey
+  void _scrollToWidget(GlobalKey key) {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.hasClients && key.currentContext != null) {
+        final RenderObject? renderObject =
+            key.currentContext?.findRenderObject();
+        if (renderObject is RenderBox) {
+          final position = renderObject.localToGlobal(Offset.zero);
+          final scrollPosition = position.dy;
+
+          // Calculate scroll position relative to the viewport
+          final scrollOffset =
+              scrollPosition - 100; // Add some padding at the top
+
+          _scrollController.animateTo(
+            scrollOffset,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeOut,
+          );
+        }
       }
     });
   }
@@ -106,6 +140,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose(); // Dispose the ScrollController
     super.dispose();
   }
 
@@ -113,12 +148,19 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
   Widget build(BuildContext context) {
     final match = ref.watch(matchStateProvider);
 
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Start Match'),
+        iconTheme: IconThemeData(
+          color: isDark ? onPrimary : Colors.black,
+        ),
       ),
       body: SingleChildScrollView(
+        controller: _scrollController, // Assign the ScrollController
         padding: const EdgeInsets.symmetric(vertical: 20),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -145,7 +187,9 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: LightThemeColors.secondaryText,
+                                    color: isDark
+                                        ? DarkThemeColors.secondaryText
+                                        : LightThemeColors.secondaryText,
                                   ),
                         ),
                       ),
@@ -164,15 +208,17 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                   const SizedBox(height: 30),
                   Text(
                     'Time for Toss!',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Colors.grey.shade700,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: isDark
+                              ? DarkThemeColors.primaryText
+                              : LightThemeColors.primaryText,
                         ),
                   ),
                   const SizedBox(height: 30),
                   // Enhanced coin flip animation
                   Transform.scale(
                     scale: _scaleAnimation.value,
-                    child: Container(
+                    child: SizedBox(
                       height: 150,
                       width: 150,
                       child: Transform(
@@ -228,19 +274,22 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
             ),
             if (tossWinner != null)
               MyCard(
+                key: _tossResultKey, // Assign key for scrolling
                 child: Column(
                   children: [
                     Text(
                       '🏆 $tossWinner won the toss!',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: grassGreen,
+                            color: isDark ? lightGrassGreen : grassGreen,
                           ),
                     ),
                     const SizedBox(height: 20),
                     Text(
                       'Choose your decision:',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: LightThemeColors.secondaryText,
+                            color: isDark
+                                ? DarkThemeColors.secondaryText
+                                : LightThemeColors.secondaryText,
                           ),
                     ),
                     const SizedBox(height: 20),
@@ -254,6 +303,8 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                             setState(() {
                               battingTeam = tossWinner;
                             });
+                            // Scroll to batting decision after selection
+                            _scrollToWidget(_battingTeamKey);
                           },
                         ),
                         _buildDecisionButton(
@@ -265,6 +316,8 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                                   ? match.team2.teamName
                                   : match.team1.teamName;
                             });
+                            // Scroll to batting decision after selection
+                            _scrollToWidget(_battingTeamKey);
                           },
                         ),
                       ],
@@ -274,6 +327,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
               ),
             if (battingTeam != null)
               MyCard(
+                key: _battingTeamKey, // Assign key for scrolling
                 child: Column(
                   children: [
                     Text(

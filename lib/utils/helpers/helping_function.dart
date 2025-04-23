@@ -309,8 +309,8 @@ class THelperFunction {
   }
 
   /// Navigates to a new screen
-  static void pushScreen(BuildContext context, Widget screen) {
-    Navigator.of(context).push(
+  static Future<void> pushScreen(BuildContext context, Widget screen) async {
+    await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => screen),
     );
   }
