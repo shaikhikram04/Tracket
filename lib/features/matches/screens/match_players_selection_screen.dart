@@ -13,7 +13,6 @@ import 'package:tracket/features/matches/widgets/opening_batsman_sheet.dart';
 import 'package:tracket/features/matches/widgets/opening_bowler_sheet.dart';
 import 'package:tracket/features/players/widgets/squad_player_tile.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -124,7 +123,7 @@ class _MatchPlayersSelectionScreenState
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      showDragHandle: false,
       builder: (context) {
         return OpeningBatsmenSheet(
           availablePlayers: players,
@@ -143,10 +142,6 @@ class _MatchPlayersSelectionScreenState
       context: context,
       isScrollControlled: true,
       showDragHandle: false,
-      shape: const RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.vertical(top: Radius.circular(TSizes.borderRadiusXxl)),
-      ),
       builder: (context) {
         return OpeningBowlerSheet(
           availablePlayers: players,

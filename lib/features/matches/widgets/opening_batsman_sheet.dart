@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/base_selection_sheet.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
 class OpeningBatsmenSheet extends StatefulWidget {
   final List<MatchPlayerInfo> availablePlayers;
@@ -23,6 +24,8 @@ class _OpeningBatsmenSheetState extends State<OpeningBatsmenSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return BaseSelectionSheet(
       title: 'Select Striker and Non-Striker',
       instructions: 'Choose the two opening batsmen',
@@ -46,7 +49,13 @@ class _OpeningBatsmenSheetState extends State<OpeningBatsmenSheet> {
           return Card(
             elevation: isSelected ? 4 : 1,
             margin: const EdgeInsets.symmetric(vertical: 4),
-            color: isSelected ? Colors.green[100] : Colors.white,
+            color: isSelected
+                ? isDark
+                    ? Colors.green[400]
+                    : Colors.green[100]
+                : isDark
+                    ? DarkThemeColors.cardColor
+                    : LightThemeColors.cardColor,
             child: InkWell(
               onTap: () {
                 setState(() {
@@ -80,29 +89,23 @@ class _OpeningBatsmenSheetState extends State<OpeningBatsmenSheet> {
                         children: [
                           Text(
                             player.playerName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           Text(
                             player.longCricketRole,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],
                       ),
                     ),
                     if (isSelected)
-                      Text(
-                        isStriker ? 'Striker' : 'Non-Striker',
-                        style: const TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text(isStriker ? 'Striker' : 'Non-Striker',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(
+                                  color: grassGreen,
+                                  fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
