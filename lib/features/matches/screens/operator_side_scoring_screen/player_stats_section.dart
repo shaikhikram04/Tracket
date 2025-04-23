@@ -55,6 +55,7 @@ class PlayerStatsSection extends StatelessWidget {
                   bowler.playerName,
                   bowler.detailedFigures,
                   'Econ: ${bowler.economy.toStringAsFixed(2)}',
+                  isDark,
                 ),
               ],
             ),
@@ -147,11 +148,14 @@ class PlayerStatsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildBowlerCard(String name, String figures, String economy) {
+  Widget _buildBowlerCard(
+      String name, String figures, String economy, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: grassGreen.withValues(alpha: 0.1),
+        color: isDark
+            ? lightGrassGreen.withValues(alpha: 0.2)
+            : grassGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -161,7 +165,7 @@ class PlayerStatsSection extends StatelessWidget {
             name,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
-              color: grassGreen,
+              color: isDark ? lightGrassGreen : grassGreen,
             ),
           ),
           Row(
@@ -170,7 +174,7 @@ class PlayerStatsSection extends StatelessWidget {
                 figures,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.w600,
-                  color: grassGreen,
+                  color: isDark ? lightGrassGreen : grassGreen,
                 ),
               ),
               const SizedBox(width: 10),
@@ -178,7 +182,9 @@ class PlayerStatsSection extends StatelessWidget {
                 economy,
                 style: GoogleFonts.poppins(
                   fontSize: 12,
-                  color: Colors.grey.shade600,
+                  color: isDark
+                      ? DarkThemeColors.secondaryText
+                      : LightThemeColors.secondaryText,
                 ),
               ),
             ],
