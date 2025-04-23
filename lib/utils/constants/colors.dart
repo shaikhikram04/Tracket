@@ -43,6 +43,7 @@ class LightThemeColors {
 
 //* Dark Mode Colors
 class DarkThemeColors {
+  const DarkThemeColors._();
   // Background hierarchy
   static const backgroundColor = Color(0xFF1A1C19);
   static const surfaceColor = Color(0xFF2A2C29);

@@ -30,10 +30,12 @@ class TeamSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TeamColumn(
-                teamName: team1Name,
-                teamLogo: team1Logo,
-                textStyle: Theme.of(context).textTheme.bodyLarge,
+              Flexible(
+                child: TeamColumn(
+                  teamName: team1Name,
+                  teamLogo: team1Logo,
+                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
               Text(
                 vsText,
@@ -42,10 +44,12 @@ class TeamSection extends StatelessWidget {
                     .bodyLarge!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
-              TeamColumn(
-                teamName: team2Name,
-                teamLogo: team2Logo,
-                textStyle: Theme.of(context).textTheme.bodyLarge,
+              Flexible(
+                child: TeamColumn(
+                  teamName: team2Name,
+                  teamLogo: team2Logo,
+                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ],
           ),

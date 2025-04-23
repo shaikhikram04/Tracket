@@ -76,14 +76,18 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
         isChallenger: true,
       );
 
+      if (!mounted) return;
       _challenge.setChallengerPlayers(challengerTeamPlayers);
 
       if (widget.isSender) {
-        _challengedTeamPlayers.value =
+        final challengedPlayers =
             await MatchesServices.getChallengeMatchTeamPlayers(
           challengeId: widget.challengeId,
           isChallenger: false,
         );
+
+        if (!mounted) return;
+        _challengedTeamPlayers.value = challengedPlayers;
       } else {
         if (!mounted) return;
         final teamId = widget.challenge.challengedTeam.teamId;
@@ -113,6 +117,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       playersList: _challengedTeamPlayers.value,
       noOfPlayersCanBeSelected: widget.challenge.noOfPlayers,
       onSubmit: (List<MatchPlayerInfo> selectedPlayers) {
+        if (!mounted) return;
         _updatePlayerRoles(selectedPlayers);
         Navigator.of(context).pop();
       },
@@ -120,6 +125,8 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   }
 
   void _updatePlayerRoles(List<MatchPlayerInfo> players) {
+    if (players.isEmpty) return;
+
     final captain = _captainController.text;
     final wicketkeeper = _wicketkeeperController.text;
 
@@ -157,6 +164,8 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       return;
     }
 
+    if (!mounted) return;
+
     setState(() {
       _isAccepting = true;
     });
@@ -176,15 +185,28 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       );
       widget.onAccepted();
 
+      // Store this in a variable to show after navigation
+      const successMessage = 'Challenge Accepted';
+
       if (!mounted) return;
+
       Navigator.of(context).pop();
-      THelperFunction.showSnackBar('Challenge Accepted', context);
+
+      // We're using a slight delay to ensure the snackbar appears in the parent screen
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (context.mounted) {
+          THelperFunction.showSnackBar(successMessage, context);
+        }
+      });
     } catch (e) {
       _handleError(e);
     } finally {
-      setState(() {
-        _isAccepting = false;
-      });
+      if (mounted) {
+        // Check if widget is still mounted before setState
+        setState(() {
+          _isAccepting = false;
+        });
+      }
     }
   }
 
@@ -237,6 +259,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       child: Column(
         children: [
           THelperFunction.getTitleText('Match Details', context),
+          const SizedBox(height: 8),
           ...details
               .map((detail) => _matchDetailRow(detail[0], detail[1], context)),
         ],
@@ -252,11 +275,9 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
             valueListenable: _selectedPlayers,
             builder: (context, players, _) => MatchSquad(
               players: _challenge.challengerPlayers,
-              captainId: _captainId.value,
-              wicketkeeperId: _wicketkeeperId.value,
+              captainId: _challenge.challengerTeam.captainId,
+              wicketkeeperId: _challenge.challengerTeam.wicketkeeperId,
               title: widget.isSender ? 'Your Squad' : 'Challenger Squad',
-              titleSize: 25,
-              iconSize: 30,
             ),
           ),
         ),
@@ -273,8 +294,6 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               isPlayerCanAdd: !widget.isSender,
               onAddPlayer: _onAddPlayer,
               title: widget.isSender ? 'Opponent Squad' : 'Your Squad',
-              titleSize: 25,
-              iconSize: 30,
             ),
           ),
         ),
@@ -305,16 +324,18 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
           onSelectCaptain: (String? name) {
             if (name == null) return;
             final index = playersName.indexOf(name);
-            _captainId.value = players[index].playerId;
-            _captainController.text = name;
-            setState(() {});
+            if (index >= 0 && index < players.length) {
+              _captainId.value = players[index].playerId;
+              _captainController.text = name;
+            }
           },
           onSelectWicketkeeper: (String? name) {
             if (name == null) return;
             final index = playersName.indexOf(name);
-            _wicketkeeperId.value = players[index].playerId;
-            _wicketkeeperController.text = name;
-            setState(() {});
+            if (index >= 0 && index < players.length) {
+              _wicketkeeperId.value = players[index].playerId;
+              _wicketkeeperController.text = name;
+            }
           },
         );
       },
@@ -327,30 +348,26 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
       child: Row(
         children: [
           Expanded(
-            child: SizedBox(
-              height: 50,
-              child: CustomButton.secondary(
-                onPressed: () => Navigator.of(context).pop(),
-                text: 'Reject',
-                backgroundColor: LightThemeColors.backgroundColor,
-                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: StatusColors.error,
-                    ),
-                borderColor: StatusColors.error,
-              ),
+            child: CustomButton.secondary(
+              height: 45,
+              onPressed: () => Navigator.of(context).pop(),
+              text: 'Reject',
+              backgroundColor: LightThemeColors.backgroundColor,
+              textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: StatusColors.error,
+                  ),
+              borderColor: StatusColors.error,
             ),
           ),
           const SizedBox(width: 20),
           Expanded(
-            child: SizedBox(
-              height: 50,
-              child: CustomButton.primary(
-                onPressed: _acceptChallenge,
-                text: 'Accept',
-                backgroundColor: const Color.fromARGB(255, 43, 114, 45),
-                isLoading: _isAccepting,
-                textStyle: Theme.of(context).textTheme.bodyLarge,
-              ),
+            child: CustomButton.primary(
+              height: 45,
+              onPressed: _acceptChallenge,
+              text: 'Accept',
+              backgroundColor: const Color.fromARGB(255, 43, 114, 45),
+              isLoading: _isAccepting,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
         ],
@@ -359,8 +376,10 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
   }
 
   Widget _matchDetailRow(String title, String value, BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -369,17 +388,18 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
               title,
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold),
+                  .bodyMedium!
+                  .copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           const Text('   :   '),
           Expanded(
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 50, 124, 53)),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: isDark ? lightGrassGreen : darkGrassGreen,
+                  ),
             ),
           )
         ],

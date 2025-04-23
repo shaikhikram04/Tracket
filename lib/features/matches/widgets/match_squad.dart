@@ -24,7 +24,7 @@ class MatchSquad extends StatelessWidget {
     this.isLongCricketRole = false,
     this.isPlayerCanAdd = false,
     this.titleSize = 16,
-    this.iconSize = 20,
+    this.iconSize = 26,
     this.onAddPlayer,
   }) : super(key: key);
 
