@@ -27,7 +27,9 @@ class TeamLogoEditor extends StatelessWidget {
     return Container(
       padding: TPadding.md,
       decoration: BoxDecoration(
-        color: isDark ? DarkThemeColors.secondaryBackground : LightThemeColors.secondaryBackground,
+        color: isDark
+            ? DarkThemeColors.secondaryBackground
+            : LightThemeColors.secondaryBackground,
         borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
         boxShadow: [
           BoxShadow(

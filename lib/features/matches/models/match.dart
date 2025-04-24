@@ -122,9 +122,28 @@ class Match {
     }
   }
 
+  MatchTeamInfo? get battingTeamBeforeInnStart {
+    if (currentInningNumber == null && isTeam1WonToss == null) return null;
+
+    if (currentInningNumber == null && isTeam1WonToss != null) {
+      return _getTossWinnerTeam(TossDecision.batting);
+    } else {
+      return _getTossWinnerTeam(TossDecision.fielding);
+    }
+  }
+
   MatchTeamInfo? get bowlingTeam {
     if (currentInningNumber == null && isTeam1WonToss == null) return null;
     if (currentInningNumber == 1 && isTeam1WonToss != null) {
+      return _getTossWinnerTeam(TossDecision.fielding);
+    } else {
+      return _getTossWinnerTeam(TossDecision.batting);
+    }
+  }
+
+  MatchTeamInfo? get bowlingTeamBeforeInnStart {
+    if (currentInningNumber == null && isTeam1WonToss == null) return null;
+    if (currentInningNumber == null && isTeam1WonToss != null) {
       return _getTossWinnerTeam(TossDecision.fielding);
     } else {
       return _getTossWinnerTeam(TossDecision.batting);
@@ -169,9 +188,19 @@ class Match {
     return battingTeam!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
+  List<MatchPlayerInfo> getBattingTeamPlayersBeforeInnStart() {
+    if (battingTeam == null) return [];
+    return battingTeamBeforeInnStart!.teamId == team1.teamId ? team1Players : team2Players;
+  }
+
   List<MatchPlayerInfo> getBowlingTeamPlayers() {
     if (bowlingTeam == null) return [];
     return bowlingTeam!.teamId == team1.teamId ? team1Players : team2Players;
+  }
+
+  List<MatchPlayerInfo> getBowlingTeamPlayersBeforeInnStar() {
+    if (bowlingTeam == null) return [];
+    return bowlingTeamBeforeInnStart!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
   // Match initialization methods

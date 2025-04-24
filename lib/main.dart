@@ -21,7 +21,7 @@ Future<void> main() async {
 
   await dotenv.load();
 
-  await Supabase.initialize(
+  await Supabase.initialize(  
     url: dotenv.get('SUPABASE_URL'),
     anonKey: dotenv.get('SUPABASE_ANON_KEY'),
   );
@@ -74,7 +74,7 @@ class Tracket extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       theme: TracketTheme.lightTheme,
       darkTheme: TracketTheme.darkTheme,
       title: 'Tracket',

@@ -161,6 +161,7 @@ class _WicketReasonState extends State<WicketReason> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = THelperFunction.isDarkMode(context);
     return Stack(
       children: [
         // Semi-transparent background
@@ -179,7 +180,9 @@ class _WicketReasonState extends State<WicketReason> {
               builder: (context, constraints) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: LightThemeColors.backgroundColor,
+                    color: isDark
+                        ? DarkThemeColors.secondaryBackground
+                        : LightThemeColors.secondaryBackground,
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(20)),
                     boxShadow: [
@@ -198,7 +201,9 @@ class _WicketReasonState extends State<WicketReason> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: Colors.grey.withValues(alpha: 0.3),
+                          color: isDark
+                              ? Colors.grey.withValues(alpha: 0.6)
+                              : Colors.grey.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -217,7 +222,9 @@ class _WicketReasonState extends State<WicketReason> {
                                         .textTheme
                                         .titleMedium!
                                         .copyWith(
-                                          color: grassGreen,
+                                          color: isDark
+                                              ? lightGrassGreen
+                                              : grassGreen,
                                           fontWeight: FontWeight.w800,
                                         ),
                                   ),
@@ -249,10 +256,12 @@ class _WicketReasonState extends State<WicketReason> {
                                                   .textTheme
                                                   .bodyLarge!
                                                   .copyWith(
-                                                    color:
-                                                        _selectedIndex == index
-                                                            ? LightThemeColors
-                                                                .surfaceColor
+                                                    color: _selectedIndex ==
+                                                            index
+                                                        ? LightThemeColors
+                                                            .surfaceColor
+                                                        : isDark
+                                                            ? lightGrassGreen
                                                             : grassGreen,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -278,6 +287,17 @@ class _WicketReasonState extends State<WicketReason> {
                                         }
                                       },
                                       label: 'Runs completed',
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark
+                                                ? lightGrassGreen
+                                                : grassGreen,
+                                          ),
+                                      maxCapacity: 3,
+                                      minCapacity: 0,
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
@@ -287,7 +307,9 @@ class _WicketReasonState extends State<WicketReason> {
                                           .bodyLarge!
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: grassGreen,
+                                            color: isDark
+                                                ? lightGrassGreen
+                                                : grassGreen,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
@@ -316,7 +338,9 @@ class _WicketReasonState extends State<WicketReason> {
                                           .bodyLarge!
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: grassGreen,
+                                            color: isDark
+                                                ? lightGrassGreen
+                                                : grassGreen,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
@@ -347,7 +371,9 @@ class _WicketReasonState extends State<WicketReason> {
                                           .bodyLarge!
                                           .copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: grassGreen,
+                                            color: isDark
+                                                ? lightGrassGreen
+                                                : grassGreen,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
@@ -364,77 +390,83 @@ class _WicketReasonState extends State<WicketReason> {
                                   ],
                                   const SizedBox(height: 24),
                                   // Action buttons
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(null),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: LightThemeColors
-                                                .backgroundColor,
-                                            foregroundColor: grassGreen,
-                                            side: const BorderSide(
-                                                color: grassGreen),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 16),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(Icons.clear,
+                                  SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(null),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: LightThemeColors
+                                                  .backgroundColor,
+                                              foregroundColor: grassGreen,
+                                              side: const BorderSide(
                                                   color: grassGreen),
-                                              const SizedBox(width: 8),
-                                              Text('Cancel',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                        color: grassGreen,
-                                                      )),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: _onConfirm,
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: grassGreen,
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 16),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.clear,
+                                                    color: grassGreen),
+                                                const SizedBox(width: 8),
+                                                Text('Cancel',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          color: grassGreen,
+                                                        )),
+                                              ],
                                             ),
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(Icons.check,
-                                                  color: LightThemeColors
-                                                      .surfaceColor),
-                                              const SizedBox(width: 8),
-                                              Text('Confirm',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                        color: LightThemeColors
-                                                            .surfaceColor,
-                                                      )),
-                                            ],
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: _onConfirm,
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: grassGreen,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.check,
+                                                    color: LightThemeColors
+                                                        .surfaceColor),
+                                                const SizedBox(width: 8),
+                                                Text('Confirm',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          color:
+                                                              LightThemeColors
+                                                                  .surfaceColor,
+                                                        )),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ]),
                               ),

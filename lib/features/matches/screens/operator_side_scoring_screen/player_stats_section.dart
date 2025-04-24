@@ -104,22 +104,29 @@ class PlayerStatsSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              if (isStriker)
-                const Icon(Icons.sports_cricket, color: grassGreen, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                name,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
-                  color: isDark
-                      ? DarkThemeColors.primaryText
-                      : LightThemeColors.primaryText,
+          Expanded(
+            child: Row(
+              children: [
+                if (isStriker)
+                  Icon(Icons.sports_cricket,
+                      color: isDark ? lightGrassGreen : grassGreen, size: 20),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: isDark
+                          ? DarkThemeColors.primaryText
+                          : LightThemeColors.primaryText,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Row(
             children: [

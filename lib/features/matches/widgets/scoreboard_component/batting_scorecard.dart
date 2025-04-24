@@ -369,12 +369,14 @@ class _BattingColumn extends StatelessWidget {
               final isNotOut = !batsman.isOut;
               final backgroundColor = index % 2 == 0 ? evenBgColor : oddBgColor;
               return Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 2, bottom: 2),
                 alignment: Alignment.centerLeft,
                 color: backgroundColor,
                 height: 65,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         batsman.playerName,
@@ -390,11 +392,13 @@ class _BattingColumn extends StatelessWidget {
                               isNotOut ? FontStyle.italic : FontStyle.normal,
                         ),
                       ),
-                      const SizedBox(height: 2),
                       Text(
                         isNotOut ? 'Not Out' : batsman.dismissalInfo,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: isNotOut ? 10 : 8,
+                          letterSpacing: 0.1,
                           color: isNotOut
                               ? primaryLight
                               : isDark
