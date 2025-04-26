@@ -253,17 +253,22 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       ballType = BallType.legBye;
     }
 
-    final currentInningBallCount = extras.isWide || extras.isNoBall
-        ? currentInnings!.balls
-        : currentInnings!.balls + 1;
+    final currentOverLastBall = ref.read(currentOverRunsProvider).isNotEmpty
+        ? ref.read(currentOverRunsProvider).last.ballNumber
+        : 0;
+
+    final currentOverBallCount = extras.isWide || extras.isNoBall
+        ? currentOverLastBall
+        : currentOverLastBall + 1;
 
     final ballOutcome = BallOutcome(
       type: ballType,
       runs: runs,
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
-      ballNumber:
-          currentInningBallCount % 6 == 0 ? 6 : currentInningBallCount % 6,
+      ballNumber: currentOverBallCount % 6 == 0 && currentOverBallCount > 0
+          ? 6
+          : currentOverBallCount % 6,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
       isBoundary: isFour || isSix,
@@ -271,7 +276,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
 
-    final bool isOverCompleted = ballOutcome.remainingBalls == 0;
+    final bool isOverCompleted =
+        ref.read(currentOverRunsProvider.notifier).isOverCompleted();
 
     //* Calculate the total team runs for this delivery.
     //* - For a wide: 1 (penalty) + any additional runs (from running).
@@ -296,6 +302,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     final isAllOut =
         currentInnings!.wickets + (isWicket ? 1 : 0) == (noOfPlayers - 1);
+
+    final currentInningBallCount = currentInnings!.balls + currentOverBallCount;
 
     final isInningCompleted =
         (target != null && currentInnings!.runs + totalTeamRuns >= target!) ||
@@ -354,7 +362,9 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         ? matchState.team1Score!
         : matchState.team2Score!;
     final updatedTeamScore = teamScore.addDelevery(
-        runs: runs, isAddBall: extras.shouldAddRunsToTeam, isWicket: isWicket);
+        runs: totalTeamRuns,
+        isAddBall: extras.shouldAddRunsToTeam,
+        isWicket: isWicket);
 
     ref.read(matchStateProvider.notifier).updateTeamScore(updatedTeamScore);
 

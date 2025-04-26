@@ -27,13 +27,13 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
   bool _isMatchEnding = false;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    final matchCondition = ref.read(additionalMatchProvider);
+    // final matchCondition = ref.read(additionalMatchProvider);
 
-    if (matchCondition.isMatchCompleted) {
-      await _endMatch(context, ref);
-    }
+    // if (matchCondition.isMatchCompleted) {
+    //   _endMatch(context, ref);
+    // }
   }
 
   void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
@@ -170,6 +170,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
   }
 
   String _getButtonText(AdditionalMatchState completionState) {
+    if (completionState.isMatchCompleted) return 'End Match';
     if (completionState.isInningsCompleted)
       return 'Start 2nd Inning';
     else if (completionState.isWicketDown)
@@ -245,15 +246,14 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
               ),
             ),
             const SizedBox(height: 20),
-            if (!completionState.isMatchCompleted)
-              CustomButton.primary(
-                onPressed: () => _onTap(context, ref, completionState),
-                text: _getButtonText(completionState),
-                textStyle: Theme.of(context).textTheme.titleLarge,
-                borderRadius: 15,
-                height: 50,
-                width: 300,
-              ),
+            CustomButton.primary(
+              onPressed: () => _onTap(context, ref, completionState),
+              text: _getButtonText(completionState),
+              textStyle: Theme.of(context).textTheme.titleLarge,
+              borderRadius: 15,
+              height: 50,
+              width: 300,
+            ),
           ],
         ),
       );

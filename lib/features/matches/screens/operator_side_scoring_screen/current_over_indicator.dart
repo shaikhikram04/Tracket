@@ -116,6 +116,7 @@ class CurrentOverIndicator extends StatelessWidget {
   Widget _buildBallsRow(bool isDark) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      
       physics: const BouncingScrollPhysics(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

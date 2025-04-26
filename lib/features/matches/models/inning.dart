@@ -55,8 +55,6 @@ class Inning {
     return (runs * 6.0) / balls;
   }
 
-  
-
   bool get isInningsCompleted =>
       status == InningsStatus.allOut ||
       status == InningsStatus.declared ||
@@ -144,7 +142,10 @@ class Inning {
       isWicket: reasonOfOut == ReasonOfOut.runOut ? false : isWicket,
     );
 
-    if ((runs.isOdd && !isOverCompleted) || (isOverCompleted && runs.isEven)) {
+    final runsExcludeExtras = isNoBall || isWide ? runs - 1 : runs;
+
+    if ((runsExcludeExtras.isOdd && !isOverCompleted) ||
+        (isOverCompleted && runsExcludeExtras.isEven)) {
       newStrikerPosition = nonStrikerPosition;
       newNonStrikerPosition = strikerPosition;
     }
@@ -322,7 +323,7 @@ class Inning {
     return bowlingStats.map((player) {
       if (player.uuid == currentBowlerId) {
         return player.addBall(
-          runs: player.runsGiven + runsForBowler,
+          runs: runsForBowler,
           isWide: isWide,
           isNoBall: isNoBall,
           isWicket: isWicket,
