@@ -169,7 +169,9 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     WidgetRef ref,
     AdditionalMatchState completionState,
   ) {
-    if (completionState.isInningsCompleted)
+    if (completionState.isMatchCompleted)
+      _endMatch(context, ref);
+    else if (completionState.isInningsCompleted)
       _startNextInning(context, ref);
     else if (completionState.isWicketDown)
       _showNextBatsmanSelection(context, ref);

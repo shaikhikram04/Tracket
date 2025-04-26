@@ -34,7 +34,7 @@ class RequestsFetcher extends ConsumerWidget {
           .collection(FirestoreCollections.notification)
           .where(field, whereIn: ids)
           .where('type',
-              whereIn: ['teamJoinRequest', 'addPlayerRequest']).get(),
+              whereIn: ['teamJoinRequest', 'addPlayerRequest']).orderBy('createdAt', descending: true).get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularLoadingIndicator();
