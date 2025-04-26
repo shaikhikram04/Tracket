@@ -24,13 +24,15 @@ class SelectionPlaceholder extends ConsumerStatefulWidget {
 }
 
 class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
+  bool _isMatchEnding = false;
+
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     final matchCondition = ref.read(additionalMatchProvider);
 
     if (matchCondition.isMatchCompleted) {
-      _endMatch(context, ref);
+      await _endMatch(context, ref);
     }
   }
 
@@ -111,30 +113,42 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     final matchFormat = matchState.matchFormat;
     final isTeam1Won = matchState.winningTeamId == matchState.team1.teamId;
 
-    //* showing circular progress indicator
-    await THelperFunction.showLoadingDialog(
-      context,
-      message: 'Finishing match...',
-    );
+    setState(() {
+      _isMatchEnding = true;
+    });
 
-    await MatchesServices.updateTeamStatsAfterMatchCompletion(
-      team1Id: team1Id,
-      team2Id: team2Id,
-      matchFormat: matchFormat,
-      isTeam1Won: isTeam1Won,
-    );
+    try {
+      //* showing circular progress indicator
+      await THelperFunction.showLoadingDialog(
+        context,
+        message: 'Finishing match...',
+      );
 
-    await MatchesServices.addMatchStatsToCorrespondingPlayers(
-      matchFormat: matchFormat,
-      team1Players: team1Players,
-      team2Players: team2Players,
-      inning1BattingStats: inning1BattingStats,
-      inning1BowlingStats: inning1BowlingStats,
-      inning2BattingStats: inning2BattingStats,
-      inning2BowlingStats: inning2BowlingStats,
-    );
+      await MatchesServices.updateTeamStatsAfterMatchCompletion(
+        team1Id: team1Id,
+        team2Id: team2Id,
+        matchFormat: matchFormat,
+        isTeam1Won: isTeam1Won,
+      );
 
-    Navigator.of(context).pop(); // Close the loading dialog
+      await MatchesServices.addMatchStatsToCorrespondingPlayers(
+        matchFormat: matchFormat,
+        team1Players: team1Players,
+        team2Players: team2Players,
+        inning1BattingStats: inning1BattingStats,
+        inning1BowlingStats: inning1BowlingStats,
+        inning2BattingStats: inning2BattingStats,
+        inning2BowlingStats: inning2BowlingStats,
+      );
+    } catch (e) {
+      THelperFunction.showErrorSnackBar(
+          'Failed to add score in stats.', context);
+    } finally {
+      Navigator.of(context).pop(); // Close the loading dialog
+      setState(() {
+        _isMatchEnding = false;
+      });
+    }
   }
 
   String _getTitle(AdditionalMatchState completionState) {
@@ -231,14 +245,15 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
               ),
             ),
             const SizedBox(height: 20),
-            CustomButton.primary(
-              onPressed: () => _onTap(context, ref, completionState),
-              text: _getButtonText(completionState),
-              textStyle: Theme.of(context).textTheme.titleLarge,
-              borderRadius: 15,
-              height: 50,
-              width: 300,
-            ),
+            if (!completionState.isMatchCompleted)
+              CustomButton.primary(
+                onPressed: () => _onTap(context, ref, completionState),
+                text: _getButtonText(completionState),
+                textStyle: Theme.of(context).textTheme.titleLarge,
+                borderRadius: 15,
+                height: 50,
+                width: 300,
+              ),
           ],
         ),
       );
