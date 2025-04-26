@@ -219,19 +219,23 @@ class THelperFunction {
   /// Shows a basic alert dialog
   static void showAlertDialog(
       BuildContext context, String title, String message) {
+    final isDark = isDarkMode(context);
+
     showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(
           title: Text(title),
-          backgroundColor: Colors.white,
+          backgroundColor: isDark ? Colors.black : Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK', style: TextStyle(color: primaryColor)),
+              child: Text('OK',
+                  style:
+                      TextStyle(color: isDark ? primaryLight : primaryColor)),
             ),
           ],
         );
@@ -455,6 +459,7 @@ class THelperFunction {
     required String message,
     String confirmText = 'Confirm',
     String cancelText = 'Cancel',
+    Color confirmButtonBgColor = InteractiveColors.inputError,
   }) async {
     final isDark = isDarkMode(context);
 
@@ -482,7 +487,7 @@ class THelperFunction {
               onPressed: () => Navigator.of(ctx).pop(true),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(0),
-                backgroundColor: InteractiveColors.inputError,
+                backgroundColor: confirmButtonBgColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),

@@ -62,10 +62,11 @@ class EmailVerificationService {
     }
   }
 
-  static void _onError(String error, BuildContext context, User user) {
+  static Future<void> _onError(
+      String error, BuildContext context, User user) async {
     Navigator.of(context).pop();
     THelperFunction.showSnackBar(error, context);
-    user.delete();
+    await user.delete();
   }
 
   static Future<void> checkEmailVerification({
@@ -101,7 +102,7 @@ class EmailVerificationService {
     });
 
     // Set verification timeout
-    Future.delayed(_verificationTimeout, () {
+    await Future.delayed(_verificationTimeout, () {
       if (!isCompleted) {
         verificationTimer?.cancel();
         if (!data.context.mounted) return;

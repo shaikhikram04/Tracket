@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/features/authentication/models/verification_steps_data.dart';
+import 'package:tracket/features/authentication/providers/verification_step.dart';
 import 'package:tracket/features/authentication/widgets/progress_step_indicator.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
@@ -20,7 +21,7 @@ class VerificationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int currentStep = 0; // ref.watch(verificationStepProvider);
+    int currentStep = ref.watch(verificationStepProvider);
     final double width = TDeviceUtils.getScreenWidth(context);
 
     final isDark = THelperFunction.isDarkMode(context);
@@ -37,6 +38,7 @@ class VerificationScreen extends ConsumerWidget {
           message: TTextStrings.confirmExitMessage,
           cancelText: TTextStrings.leaveButton,
           confirmText: TTextStrings.stayButton,
+          confirmButtonBgColor: primaryColor,
         );
         if (wantToStay) {
           // Handle the case when the user wants to stay
@@ -141,13 +143,15 @@ class VerificationScreen extends ConsumerWidget {
                           AppIconData.email,
                           color: LightThemeColors.surfaceColor,
                         ),
-                        Text(
-                          TTextStrings.resendVerificationEmail,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: LightThemeColors.surfaceColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                        Flexible(
+                          child: Text(
+                            TTextStrings.resendVerificationEmail,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: LightThemeColors.surfaceColor,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                          ),
                         ),
                       ],
                     ),

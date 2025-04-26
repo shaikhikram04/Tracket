@@ -159,7 +159,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
       if (!context.mounted) return;
       _handleError(context, e);
     } finally {
-      state = state.copyWith(isLoading: false);
+        state = state.copyWith(isLoading: false);
     }
   }
 
@@ -202,6 +202,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
         TTextStrings.error,
         THelperFunction.getErrorMessage(error.code),
       );
+      
     } else {
       THelperFunction.showAlertDialog(
         context,
