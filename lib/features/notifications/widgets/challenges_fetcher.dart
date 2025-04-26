@@ -36,7 +36,6 @@ class ChallengesFetcher extends ConsumerWidget {
           .where(field, whereIn: ids)
           .where('type', whereIn: ['matchChallenge'])
           .where('status', isEqualTo: 'pending')
-          .orderBy('createdAt', descending: true)
           .get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

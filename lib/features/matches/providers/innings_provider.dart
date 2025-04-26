@@ -303,7 +303,8 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     final isAllOut =
         currentInnings!.wickets + (isWicket ? 1 : 0) == (noOfPlayers - 1);
 
-    final currentInningBallCount = currentInnings!.balls + currentOverBallCount;
+    final currentInningBallCount =
+        currentInnings!.balls + (extras.isWide || extras.isNoBall ? 0 : 1);
 
     final isInningCompleted =
         (target != null && currentInnings!.runs + totalTeamRuns >= target!) ||

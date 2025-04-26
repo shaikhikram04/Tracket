@@ -352,11 +352,7 @@ class THelperFunction {
       barrierDismissible: false,
       context: context,
       builder: (_) {
-        return Dialog(
-          backgroundColor: Colors.white.withValues(alpha: 0.9),
-          elevation: 0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
             child: Column(

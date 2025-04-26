@@ -24,16 +24,14 @@ class SelectionPlaceholder extends ConsumerStatefulWidget {
 }
 
 class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
-  bool _isMatchEnding = false;
-
   @override
   void initState() {
     super.initState();
-    // final matchCondition = ref.read(additionalMatchProvider);
+    final matchCondition = ref.read(additionalMatchProvider);
 
-    // if (matchCondition.isMatchCompleted) {
-    //   _endMatch(context, ref);
-    // }
+    if (matchCondition.isMatchCompleted) {
+      _endMatch(context, ref);
+    }
   }
 
   void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
@@ -113,13 +111,9 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     final matchFormat = matchState.matchFormat;
     final isTeam1Won = matchState.winningTeamId == matchState.team1.teamId;
 
-    setState(() {
-      _isMatchEnding = true;
-    });
-
     try {
       //* showing circular progress indicator
-      await THelperFunction.showLoadingDialog(
+      THelperFunction.showLoadingDialog(
         context,
         message: 'Finishing match...',
       );
@@ -145,9 +139,6 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
           'Failed to add score in stats.', context);
     } finally {
       Navigator.of(context).pop(); // Close the loading dialog
-      setState(() {
-        _isMatchEnding = false;
-      });
     }
   }
 
