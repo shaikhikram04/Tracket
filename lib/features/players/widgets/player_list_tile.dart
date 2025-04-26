@@ -4,7 +4,7 @@ import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
-import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
+import 'package:tracket/common/widgets/list_view/enhanced_list_tile.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 
 class PlayerListTile extends StatelessWidget {
@@ -15,11 +15,8 @@ class PlayerListTile extends StatelessWidget {
     required this.onTap,
     required this.isPrivate,
     required this.buttonType,
-    this.isSelected = false,
     this.showRoleIcon = true,
-    this.contentPadding,
     this.backgroundColor,
-    this.onLongPress,
     this.avatarRadius = 30,
     this.buttonMinWidth = 95,
   });
@@ -27,11 +24,8 @@ class PlayerListTile extends StatelessWidget {
   final PlayerDetails player;
   final Team team;
   final VoidCallback onTap;
-  final VoidCallback? onLongPress;
   final bool isPrivate;
-  final bool isSelected;
   final bool showRoleIcon;
-  final EdgeInsetsGeometry? contentPadding;
   final Color? backgroundColor;
   final double avatarRadius;
   final double buttonMinWidth;
@@ -67,11 +61,8 @@ class PlayerListTile extends StatelessWidget {
           imageUrl: player.imageUrl,
           title: player.name,
           onTap: onTap,
-          onLongPress: onLongPress,
           isPlayer: true,
-          isSelected: isSelected,
           avatarRadius: avatarRadius,
-          contentPadding: contentPadding,
           backgroundColor: backgroundColor,
           trailing: _buildActionButton(),
           subtitle: player.cricketRole.name,

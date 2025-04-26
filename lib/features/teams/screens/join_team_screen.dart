@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
-import 'package:tracket/common/widgets/custom_widgets/enhanced_list_tile.dart';
+import 'package:tracket/common/widgets/list_view/enhanced_list_tile.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/models/player_details.dart';
