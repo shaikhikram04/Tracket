@@ -78,7 +78,7 @@ class THelperFunction {
       content: Row(
         children: [
           const Icon(Icons.error_outline, color: Colors.white),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           Expanded(child: Text(content, style: textStyle)),
         ],
       ),

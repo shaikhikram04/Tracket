@@ -12,14 +12,17 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
+/// Enum defining the different types of actions this button can perform
 enum ActionButtonType {
   addPlayer,
   joinTeam,
   addAdmin,
 }
 
-class ActionButton extends StatelessWidget {
+/// A customizable action button for team and player management operations
+class ActionButton extends ConsumerWidget {
   const ActionButton({
     super.key,
     required this.idsList,
@@ -49,65 +52,70 @@ class ActionButton extends StatelessWidget {
   final double loadingSize;
   final double loadingStrokeWidth;
 
+  /// Returns the relevant ID based on the button type
   String get currentId =>
       buttonType == ActionButtonType.joinTeam ? teamInfo.id : playerInfo.id;
 
+  /// Determines whether the button is disabled due to capacity constraints
+  bool _isDisabledDueToCapacity() {
+    return !isTeamHasCapacity &&
+        (buttonType == ActionButtonType.addPlayer ||
+            buttonType == ActionButtonType.joinTeam);
+  }
+
+  /// Gets the appropriate button text based on state and button type
   String _getButtonText(bool isAdded) {
     final isOffer = buttonType == ActionButtonType.addPlayer ||
         buttonType == ActionButtonType.addAdmin;
-    final baseText = isOffer ? TTextStrings.addButton : TTextStrings.joinButton;
-    final pastText =
-        isOffer ? TTextStrings.addedButton : TTextStrings.joinedButton;
 
-    if (!isPrivate) return isAdded ? pastText : baseText;
+    if (!isPrivate) {
+      return isAdded
+          ? (isOffer ? TTextStrings.addedButton : TTextStrings.joinedButton)
+          : (isOffer ? TTextStrings.addButton : TTextStrings.joinButton);
+    }
 
-    final privateText =
-        isOffer ? TTextStrings.offerButton : TTextStrings.requestButton;
-    final privatePastText =
-        isOffer ? TTextStrings.offeredButton : TTextStrings.requestedButton;
-    return isAdded ? privatePastText : privateText;
+    return isAdded
+        ? (isOffer ? TTextStrings.offeredButton : TTextStrings.requestedButton)
+        : (isOffer ? TTextStrings.offerButton : TTextStrings.requestButton);
   }
 
-  void _updateRequestStatus(String playerId, bool isAdding, WidgetRef ref) {
+  /// Updates the request status in the provider
+  void _updateRequestStatus(String id, bool isAdding, WidgetRef ref) {
     final notifier = ref.read(requestProvider.notifier);
     isAdding
-        ? notifier.addRequestInProgress(playerId)
-        : notifier.markRequestSuccess(playerId);
+        ? notifier.addRequestInProgress(id)
+        : notifier.markRequestSuccess(id);
   }
 
+  /// Handles the button press action
   Future<void> _handlePress(WidgetRef ref, BuildContext context) async {
-    if (!isTeamHasCapacity &&
-        (buttonType == ActionButtonType.addPlayer ||
-            buttonType == ActionButtonType.joinTeam)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            TTextStrings.teamCapacityError,
-            style: TextStyle(color: Colors.white),
-          ),
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ),
+    // Check team capacity first
+    if (_isDisabledDueToCapacity()) {
+      THelperFunction.showErrorSnackBar(
+        TTextStrings.teamCapacityError,
+        context,
+        duration: const Duration(seconds: 2),
       );
       return;
     }
 
+    // Show loading state
     _updateRequestStatus(currentId, true, ref);
+
     try {
       await _processAction(ref, context);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: ${e.toString()}'),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-        ),
+      THelperFunction.showErrorSnackBar(
+        'Error: ${e.toString()}',
+        context,
+        duration: const Duration(seconds: 2),
       );
     } finally {
       _updateRequestStatus(currentId, false, ref);
     }
   }
 
+  /// Process the appropriate action based on button type
   Future<void> _processAction(WidgetRef ref, BuildContext context) async {
     final requestServices = RequestsServices();
 
@@ -151,53 +159,47 @@ class ActionButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final requestStatus = ref.watch(requestProvider);
-        final isRequestInProgress =
-            requestStatus.requestInProgress.contains(currentId);
-        final isRequestSuccess =
-            requestStatus.requestSuccess.contains(currentId);
-        final isAdded = (idsList.contains(currentId) &&
-                buttonType != ActionButtonType.addAdmin) ||
-            isRequestSuccess;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final requestStatus = ref.watch(requestProvider);
+    final isRequestInProgress =
+        requestStatus.requestInProgress.contains(currentId);
+    final isRequestSuccess = requestStatus.requestSuccess.contains(currentId);
+    final isAdded = (idsList.contains(currentId) &&
+            buttonType != ActionButtonType.addAdmin) ||
+        isRequestSuccess;
 
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isAdded
-                  ? InteractiveColors.buttonDisabled
-                  : InteractiveColors.buttonEnabled,
-              foregroundColor: Colors.black87,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              minimumSize: Size(minWidth, height),
-              elevation: isAdded ? 0 : TSizes.buttonMinElevation,
-              padding: TPadding.buttonPaddingSm,
-            ),
-            onPressed: (isAdded || isRequestInProgress)
-                ? null
-                : () => _handlePress(ref, context),
-            child: isRequestInProgress
-                ? CircularLoadingIndicator(
-                    dimension: loadingSize,
-                    strokeWidth: loadingStrokeWidth,
-                    valueColor:
-                        const AlwaysStoppedAnimation<Color>(Colors.black87),
-                  )
-                : Text(
-                    _getButtonText(isAdded),
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: isAdded ? Colors.black : onPrimary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
+    final isDisabled = isAdded || isRequestInProgress;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isAdded
+              ? InteractiveColors.buttonDisabled
+              : InteractiveColors.buttonEnabled,
+          foregroundColor: Colors.black87,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
-        );
-      },
+          minimumSize: Size(minWidth, height),
+          elevation: isAdded ? 0 : TSizes.buttonMinElevation,
+          padding: TPadding.buttonPaddingSm,
+        ),
+        onPressed: isDisabled ? null : () => _handlePress(ref, context),
+        child: isRequestInProgress
+            ? CircularLoadingIndicator(
+                dimension: loadingSize,
+                strokeWidth: loadingStrokeWidth,
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.black87),
+              )
+            : Text(
+                _getButtonText(isAdded),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: isAdded ? Colors.black : onPrimary,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+      ),
     );
   }
 }
