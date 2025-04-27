@@ -9,7 +9,7 @@ import 'package:tracket/features/authentication/models/verification_data.dart';
 import 'package:tracket/features/authentication/providers/verification_step.dart';
 import 'package:tracket/features/authentication/services/player_auth_services.dart';
 import 'package:tracket/features/authentication/services/user_auth_services.dart';
-import 'package:tracket/screens/home.dart';
+import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 

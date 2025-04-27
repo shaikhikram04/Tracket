@@ -8,7 +8,7 @@ import 'package:tracket/features/authentication/models/verification_data.dart';
 import 'package:tracket/features/authentication/services/auth_service.dart';
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
 import 'package:tracket/features/players/models/player.dart';
-import 'package:tracket/screens/home.dart';
+import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';

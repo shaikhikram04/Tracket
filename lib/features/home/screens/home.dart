@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
-import 'package:tracket/common/widgets/main_drawer.dart';
+import 'package:tracket/features/home/drawer/main_drawer.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/screens/matches_screen.dart';
 import 'package:tracket/features/notifications/screens/notifications_screen.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/screens/teams_screen.dart';
-import 'package:tracket/screens/tournament_screen.dart';
+import 'package:tracket/features/tournaments/tournament_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
