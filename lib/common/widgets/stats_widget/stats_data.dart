@@ -55,7 +55,6 @@ class StatsData extends StatelessWidget {
             labelStyle: labelStyle,
             labelColor: labelColor,
             defaultLabelStyle: defaultLabelStyle,
-            theme: theme,
           ),
         ],
       ),

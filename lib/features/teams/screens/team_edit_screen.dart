@@ -7,7 +7,7 @@ import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
-import 'package:tracket/common/widgets/team_logo_editor.dart';
+import 'package:tracket/common/widgets/logo_editor/team_logo_editor.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/providers/team_state.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
