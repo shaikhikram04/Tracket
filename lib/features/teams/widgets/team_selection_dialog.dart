@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/common/widgets/buttons/my_text_button.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
 import 'package:tracket/utils/constants/colors.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/text_strings.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -32,8 +33,8 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isEmail = hintText == "Email";
-    final isPassword = hintText == 'Password';
+    final isEmail = hintText == TTextStrings.email;
+    final isPassword = hintText == TTextStrings.password;
 
     return TextFormField(
       initialValue: initialText,

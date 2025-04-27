@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/common/widgets/custom_widgets/action_button.dart';
+import 'package:tracket/common/widgets/buttons/action_button.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/widgets/player_list_view.dart';
 import 'package:tracket/features/teams/models/team.dart';

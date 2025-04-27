@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/common/widgets/custom_widgets/my_text_button.dart';
+import 'package:tracket/common/widgets/buttons/my_text_button.dart';
 import 'package:tracket/features/authentication/screens/forget_password.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
