@@ -40,7 +40,7 @@ class NoDataFound extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: TSizes.fontSizeLg,
                 color: isDark
                     ? DarkThemeColors.primaryText
                     : LightThemeColors.primaryText,
