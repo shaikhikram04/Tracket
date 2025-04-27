@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 
 class CircularLoadingIndicator extends StatelessWidget {
@@ -19,7 +20,7 @@ class CircularLoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: TPadding.xxs,
         child: SizedBox.square(
           dimension: dimension,
           child: CircularProgressIndicator(

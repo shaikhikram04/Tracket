@@ -54,4 +54,12 @@ class TPadding {
       EdgeInsets.symmetric(horizontal: 16, vertical: 8);
   static const listTilePaddingSm =
       EdgeInsets.symmetric(horizontal: 16, vertical: 4);
+
+  //* highlighted label Padding
+  static const highlightedLabelSm =
+      const EdgeInsets.symmetric(horizontal: 8, vertical: 2);
+  static const highlightedLabelMd =
+      const EdgeInsets.symmetric(horizontal: 12, vertical: 4);
+  static const highlightedLabelLg =
+      const EdgeInsets.symmetric(horizontal: 16, vertical: 6);
 }

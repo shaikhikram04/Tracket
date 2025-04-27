@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 
 enum HighlightSize {
@@ -43,11 +44,11 @@ class HighlightedLabel extends StatelessWidget {
   EdgeInsetsGeometry get _defaultPadding {
     switch (size) {
       case HighlightSize.small:
-        return const EdgeInsets.symmetric(horizontal: 8, vertical: 2);
+        return TPadding.highlightedLabelSm;
       case HighlightSize.medium:
-        return const EdgeInsets.symmetric(horizontal: 12, vertical: 4);
+        return TPadding.highlightedLabelMd;
       case HighlightSize.large:
-        return const EdgeInsets.symmetric(horizontal: 16, vertical: 6);
+        return TPadding.highlightedLabelLg;
     }
   }
 
