@@ -347,11 +347,17 @@ class THelperFunction {
   static Future<void> showLoadingDialog(
     BuildContext context, {
     String? message,
+    Function(BuildContext)? contextCallback,
   }) async {
     await showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) {
+      builder: (dialogContext) {
+        // Pass back this context to the caller if they provided a callback
+        if (contextCallback != null) {
+          contextCallback(dialogContext);
+        }
+        
         return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),

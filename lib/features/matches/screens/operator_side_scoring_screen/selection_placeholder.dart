@@ -111,11 +111,17 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     final matchFormat = matchState.matchFormat;
     final isTeam1Won = matchState.winningTeamId == matchState.team1.teamId;
 
+    // Create a BuildContext reference for the dialog
+    BuildContext? dialogContext;
+
     try {
       //* showing circular progress indicator
       THelperFunction.showLoadingDialog(
         context,
         message: 'Finishing match...',
+        contextCallback: (ctx) {
+          dialogContext = ctx;
+        },
       );
 
       await MatchesServices.updateTeamStatsAfterMatchCompletion(
@@ -138,7 +144,9 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
       THelperFunction.showErrorSnackBar(
           'Failed to add score in stats.', context);
     } finally {
-      Navigator.of(context).pop(); // Close the loading dialog
+      if (dialogContext != null) {
+        Navigator.of(dialogContext!).pop();
+      }
     }
   }
 
