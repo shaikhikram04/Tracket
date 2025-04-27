@@ -289,8 +289,11 @@ class TTextStrings {
       'Create and Manage team matches and schedules';
 
   //! -------------------- Challenge Match --------------------
-  static const String selectTeam = 'Select a Team';
   static const String vs = 'v/s';
+  static const String selectTeam = "Select Your Team";
+  static const String selectTeamSubtitle =
+      "Choose the team you want to challenge with";
+
 
   //! -------------------- Challenge Match Error --------------------
   static const String alreadyChallenged = 'Already Challenged';

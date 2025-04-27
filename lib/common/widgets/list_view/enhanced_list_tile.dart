@@ -61,14 +61,12 @@ class EnhancedListTile extends StatelessWidget {
         backgroundColor: backgroundColor,
         onTap: onTap,
         children: [
-          Hero(
-              tag: _heroTag,
-              child: TileHeroAvatar(
-                imageUrl: imageUrl,
-                isTeam: !isPlayer,
-                avatarRadius: avatarRadius,
-                heroTag: _heroTag,
-              )),
+          TileHeroAvatar(
+            imageUrl: imageUrl,
+            isTeam: !isPlayer,
+            avatarRadius: avatarRadius,
+            heroTag: _heroTag,
+          ),
           const SizedBox(width: TSizes.spaceBtwItems),
           TileTitleSubtitle(title: title, subTitle: subtitle),
           if (trailing != null) ...[
