@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
-import 'package:tracket/features/authentication/widgets/player_auth.dart';
-import 'package:tracket/features/authentication/widgets/user_auth.dart';
+import 'package:tracket/features/authentication/widgets/auth_widgets/player_auth.dart';
+import 'package:tracket/features/authentication/widgets/auth_widgets/user_auth.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/durations.dart';
 import 'package:tracket/utils/constants/sizes.dart';

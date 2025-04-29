@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/common/screens/safe_area_scrollable_screen.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
+import 'package:tracket/common/widgets/text/title_text.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/constants/colors.dart';
@@ -101,14 +102,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           children: [
             const AppLogo(),
             const SizedBox(height: TSizes.verticalSpacingXl),
-            Text(
-              TTextStrings.forgetPassword,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? lightGrassGreen : grassGreen,
-                    letterSpacing: 0.5,
-                  ),
-            ),
+            TitleText(context).titleText1,
             const SizedBox(height: TSizes.verticalSpacingMd),
             AppContainers.classicContainer(
               context: context,
