@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Message {
-  const Message(
+class ChatMessage {
+  const ChatMessage(
       {required this.messageId,
       required this.sender,
       required this.receiver,
       required this.message,
       required this.mediaUrl,
-      required this.timestamp});
+      required this.timestamp,
+      });
 
   final String messageId;
   final String sender;
@@ -25,14 +26,15 @@ class Message {
         'timestamp': timestamp,
       };
 
-  static Message fromMap(Map<String, dynamic> messageMap) {
-    return Message(
+  static ChatMessage fromMap(Map<String, dynamic> messageMap) {
+    return ChatMessage(
       messageId: messageMap['messageId'],
       sender: messageMap['sender'],
       receiver: messageMap['receiver'],
       message: messageMap['message'],
       mediaUrl: messageMap['mediaUrl'],
       timestamp: messageMap['timestamp'],
+      
     );
   }
 }

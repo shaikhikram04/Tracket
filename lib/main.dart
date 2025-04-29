@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tracket/features/authentication/screens/auth_screen.dart';
-import 'package:tracket/features/home/screens/home.dart';
+import 'package:tracket/features/chat/screens/chat_screen.dart';
 import 'package:tracket/utils/theme/theme.dart';
 
 import 'firebase_options.dart';
@@ -80,29 +79,13 @@ class Tracket extends StatelessWidget {
       title: 'Tracket',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      home: currUser == null || !currUser.emailVerified
-          ? const AuthScreen()
-          : const HomeScreen(),
+      // home: currUser == null || !currUser.emailVerified
+      //     ? const AuthScreen()
+      //     : const HomeScreen(),
 
-      // home: const Scaffold(
-      //   body: SafeArea(
-      //     child: Column(
-      //       children: [
-      //         WinningStatusWidget(
-      //           winningTeam: "Mumbai Indians",
-      //           winningMargin: "Won by 5 wickets",
-      //           animationPath: "assets/animations/trophy.json",
-      //         ),
-      //         SizedBox(height: 50),
-      //         LossStatusWidget(
-      //           losingTeam: "Chennai Super Kings",
-      //           losingMargin: "Lost by 10 runs",
-      //           animationPath: "assets/animations/sad_face.json",
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
+      home: const Scaffold(
+        body: ChatScreen(),
+      ),
     );
   }
 }
