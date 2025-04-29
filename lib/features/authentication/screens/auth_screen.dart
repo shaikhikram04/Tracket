@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/screens/safe_area_scrollable_screen.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/features/authentication/widgets/auth_widgets/auth_body.dart';
 import 'package:tracket/utils/constants/paddings.dart';
@@ -13,23 +14,19 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final safeAreaHeight = TDeviceUtils.getSafeAreaHeight(context);
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: safeAreaHeight),
-            child: const Padding(
-              padding: TPadding.hPaddingMd,
-              child: Column(
-                children: [
-                  SizedBox(height: TSizes.verticalSpacingMd),
-                  AppLogo(),
-                  SizedBox(height: TSizes.verticalSpacingMd),
-                  AuthBody(),
-                  SizedBox(height: TSizes.verticalSpacingMd),
-                ],
-              ),
-            ),
+    return SafeAreaScrollableScreen(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: safeAreaHeight),
+        child: const Padding(
+          padding: TPadding.hPaddingMd,
+          child: Column(
+            children: [
+              SizedBox(height: TSizes.verticalSpacingMd),
+              AppLogo(),
+              SizedBox(height: TSizes.verticalSpacingMd),
+              AuthBody(),
+              SizedBox(height: TSizes.verticalSpacingMd),
+            ],
           ),
         ),
       ),

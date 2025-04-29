@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/screens/safe_area_scrollable_screen.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
@@ -92,71 +93,67 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Widget build(BuildContext context) {
     final isDark = THelperFunction.isDarkMode(context);
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const AppLogo(),
-                const SizedBox(height: TSizes.verticalSpacingXl),
-                Text(
-                  TTextStrings.forgetPassword,
-                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: isDark ? lightGrassGreen : grassGreen,
-                        letterSpacing: 0.5,
-                      ),
-                ),
-                const SizedBox(height: TSizes.verticalSpacingMd),
-                AppContainers.classicContainer(
-                  context: context,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: TSizes.verticalSpacingMd,
-                    children: [
-                      Container(
-                        padding: TPadding.sm,
-                        decoration: BoxDecoration(
-                          color: primaryColor.withValues(
-                            alpha: isDark ? 0.4 : 0.1,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            TSizes.borderRadiusLg,
-                          ),
-                        ),
-                        child: Text(
-                          _isResetEmailSend
-                              ? TTextStrings.resetEmailSentMsg(_email!)
-                              : TTextStrings.resetPasswordMessage,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                      const SizedBox(height: TSizes.verticalSpacingXl),
-                      if (!_isResetEmailSend) ..._buildEmailForm(),
-                      _buildActionButtons(isDark),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: TSizes.verticalSpacingXl),
-                TextButton.icon(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(
-                    Icons.arrow_back,
+    return SafeAreaScrollableScreen(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const AppLogo(),
+            const SizedBox(height: TSizes.verticalSpacingXl),
+            Text(
+              TTextStrings.forgetPassword,
+              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
                     color: isDark ? lightGrassGreen : grassGreen,
+                    letterSpacing: 0.5,
                   ),
-                  label: Text(
-                    TTextStrings.backToLogin,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: isDark ? lightGrassGreen : grassGreen,
-                        ),
-                  ),
-                ),
-              ],
             ),
-          ),
+            const SizedBox(height: TSizes.verticalSpacingMd),
+            AppContainers.classicContainer(
+              context: context,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: TSizes.verticalSpacingMd,
+                children: [
+                  Container(
+                    padding: TPadding.sm,
+                    decoration: BoxDecoration(
+                      color: primaryColor.withValues(
+                        alpha: isDark ? 0.4 : 0.1,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        TSizes.borderRadiusLg,
+                      ),
+                    ),
+                    child: Text(
+                      _isResetEmailSend
+                          ? TTextStrings.resetEmailSentMsg(_email!)
+                          : TTextStrings.resetPasswordMessage,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(height: TSizes.verticalSpacingXl),
+                  if (!_isResetEmailSend) ..._buildEmailForm(),
+                  _buildActionButtons(isDark),
+                ],
+              ),
+            ),
+            const SizedBox(height: TSizes.verticalSpacingXl),
+            TextButton.icon(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Icon(
+                Icons.arrow_back,
+                color: isDark ? lightGrassGreen : grassGreen,
+              ),
+              label: Text(
+                TTextStrings.backToLogin,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: isDark ? lightGrassGreen : grassGreen,
+                    ),
+              ),
+            ),
+          ],
         ),
       ),
     );
