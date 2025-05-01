@@ -121,14 +121,14 @@ class TSizes {
   static const double menuHeightMax = 400.0;
 
   //* user authentication form sizes
-  static const double userLoginFormHeight = 353;
-  static const double userLoginErrorHeight = 399;
-  static const double userSignupFormHeight = 430;
-  static const double userSignupErrorHeight = 499;
+  static const double userLoginFormHeight = 330;
+  static const double userLoginErrorHeight = 370;
+  static const double userSignupFormHeight = 400;
+  static const double userSignupErrorHeight = 460;
 
   //* player authentication form sizes
-  static const double playerLoginFormHeight = 353;
-  static const double playerLoginErrorHeight = 399;
-  static const double playerSignupFormHeight = 661;
-  static const double playerSignupErrorHeight = 730;
+  static const double playerLoginFormHeight = 330;
+  static const double playerLoginErrorHeight = 370;
+  static const double playerSignupFormHeight = 632;
+  static const double playerSignupErrorHeight = 692;
 }

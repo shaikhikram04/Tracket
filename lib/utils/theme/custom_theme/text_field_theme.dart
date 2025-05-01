@@ -48,6 +48,7 @@ class TTextFieldTheme {
     errorStyle: const TextStyle().copyWith(
       fontWeight: FontWeight.normal,
       color: Colors.red,
+      fontSize: 12,
     ),
     floatingLabelStyle: const TextStyle().copyWith(
       color: Colors.white.withValues(alpha: 0.8),

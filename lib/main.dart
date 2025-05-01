@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tracket/features/chat/screens/chat_screen.dart';
+import 'package:tracket/features/authentication/screens/auth_screen.dart';
+import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/utils/theme/theme.dart';
 
 import 'firebase_options.dart';
@@ -79,13 +80,13 @@ class Tracket extends StatelessWidget {
       title: 'Tracket',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      // home: currUser == null || !currUser.emailVerified
-      //     ? const AuthScreen()
-      //     : const HomeScreen(),
+      home: currUser == null || !currUser.emailVerified
+          ? const AuthScreen()
+          : const HomeScreen(),
 
-      home: const Scaffold(
-        body: ChatScreen(),
-      ),
+      // home: const Scaffold(
+      //   body: ChatScreen(),
+      // ),
     );
   }
 }
