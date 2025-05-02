@@ -114,7 +114,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         context,
       );
 
-      _challengerTeam = Team.fromJson(teamData, teamPlayers);
+      _challengerTeam = Team.fromJson(teamData, teamPlayers, null);
     } catch (e) {
       if (!mounted) return;
       _handleError('Failed to load team data', e);

@@ -138,7 +138,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
           final teams = snapshot.data!.docs;
           final filteredTeams = teams.where((team) {
             final teamData = team.data() as Map<String, dynamic>;
-            final teamObj = Team.fromJson(teamData, null);
+            final teamObj = Team.fromJson(teamData, null, null);
 
             bool matchesSearch = teamObj.name
                     .toLowerCase()
@@ -178,7 +178,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
   }
 
   Widget buildTeamCard(Map<String, dynamic> teamData, bool isDark) {
-    final team = Team.fromJson(teamData, null);
+    final team = Team.fromJson(teamData, null, null);
     final teamInfo = TeamDetails(
       id: team.id,
       logoUrl: team.logoUrl,

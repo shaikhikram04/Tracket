@@ -21,4 +21,16 @@ class TeamAllFormatStats {
       over20.matchesPlayed +
       over50.matchesPlayed +
       test.matchesPlayed;
+
+  static TeamAllFormatStats fromJson(Map<String, dynamic>? json)  {
+    if (json == null) return const TeamAllFormatStats();
+
+    return TeamAllFormatStats(
+      over5: TeamStats.fromJson(json['over5']),
+      over10: TeamStats.fromJson(json['over10']),
+      over20: TeamStats.fromJson(json['over20']),
+      over50: TeamStats.fromJson(json['over50']),
+      test: TeamStats.fromJson(json['test']),
+    );
+  }
 }

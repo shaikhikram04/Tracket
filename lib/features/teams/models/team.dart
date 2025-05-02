@@ -46,13 +46,14 @@ class Team {
     List<String>? playerIds,
     List<String>? requestedPlayers,
     List<String>? challengedTeams,
-    this.teamAllFormatStats = const TeamAllFormatStats(),
+    TeamAllFormatStats? teamAllFormatStats,
   })  : achievements = achievements ?? const [],
         followers = followers ?? const [],
         requestStatus = requestStatus ?? const TeamRequestStatus(),
         playerIds = playerIds ?? const [],
         requestedPlayers = requestedPlayers ?? const [],
-        challengedTeams = challengedTeams ?? const [];
+        challengedTeams = challengedTeams ?? const [],
+        teamAllFormatStats = teamAllFormatStats ?? const TeamAllFormatStats();
 
   List<PlayerDetails> get admins =>
       playersList.where((player) => player.role != TeamRole.player).toList();
@@ -94,6 +95,7 @@ class Team {
   factory Team.fromJson(
     Map<String, dynamic> json,
     List<QueryDocumentSnapshot>? teamPlayers,
+    Map<String, dynamic>? teamAllFormatStats,
   ) {
     return Team(
       id: json['id'],
@@ -114,6 +116,7 @@ class Team {
       playerIds: List<String>.from(json['playersIds'] ?? []),
       requestedPlayers: List<String>.from(json['requestedPlayers'] ?? []),
       challengedTeams: List<String>.from(json['challengedTeams'] ?? []),
+      teamAllFormatStats: TeamAllFormatStats.fromJson(teamAllFormatStats),
     );
   }
 

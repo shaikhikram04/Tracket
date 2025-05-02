@@ -67,7 +67,24 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           widget.teamData!['id'],
           context,
         );
-        final teamObject = Team.fromJson(widget.teamData!, teamPlayer);
+
+        final teamAllStatsSnap = await FirebaseFirestore.instance
+            .collection(FirestoreCollections.teams)
+            .doc(widget.teamData!['id'])
+            .collection(FirestoreCollections.stats)
+            .get();
+
+        final teamAllStatsDoc = teamAllStatsSnap.docs;
+        final teamAllFormatStats = <String, dynamic>{};
+        for (final stats in teamAllStatsDoc) {
+          teamAllFormatStats.addAll({stats.id: stats.data()});
+        }
+
+        final teamObject = Team.fromJson(
+          widget.teamData!,
+          teamPlayer,
+          teamAllFormatStats
+        );
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       } else {
         final team = await FirebaseFirestore.instance
@@ -77,9 +94,21 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
 
         if (!mounted) return;
 
+        final teamAllStatsSnap = await FirebaseFirestore.instance
+            .collection(FirestoreCollections.teams)
+            .doc(widget.teamId)
+            .collection(FirestoreCollections.stats)
+            .get();
+
+        final teamAllStatsDoc = teamAllStatsSnap.docs;
+        final teamAllFormatStats = <String, dynamic>{};
+        for (final stats in teamAllStatsDoc) {
+          teamAllFormatStats.addAll({stats.id: stats.data()});
+        }
+
         final teamPlayer =
             await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
-        final teamObject = Team.fromJson(team.data()!, teamPlayer);
+        final teamObject = Team.fromJson(team.data()!, teamPlayer, teamAllFormatStats);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       }
 
@@ -337,7 +366,8 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               labelStyle: Theme.of(context).textTheme.bodyLarge,
                             ),
                             StatsData(
-                              number: teamState.team.teamAllFormatStats.totalMatchPlayed,
+                              number: teamState
+                                  .team.teamAllFormatStats.totalMatchPlayed,
                               label: TTextStrings.achievements,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
