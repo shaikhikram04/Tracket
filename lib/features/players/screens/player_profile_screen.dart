@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
-import 'package:tracket/common/widgets/stats_widget/stats_data.dart';
+import 'package:tracket/common/widgets/stats_widget/stat_basic_card.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/services/players_services.dart';
 import 'package:tracket/features/players/widgets/achievements.dart';
@@ -14,11 +14,9 @@ import 'package:tracket/utils/helpers/helping_function.dart';
 class PlayerProfileScreen extends StatefulWidget {
   const PlayerProfileScreen({
     super.key,
-    this.player,
     this.playerId,
   });
 
-  final Player? player;
   final String? playerId;
 
   @override
@@ -31,11 +29,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
 
   @override
   void initState() {
-    if (widget.player != null) {
-      _playerData = widget.player!;
-    } else {
-      _loadPlayerData();
-    }
+    _loadPlayerData();
 
     super.initState();
   }
@@ -144,48 +138,49 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                   ),
                   const SizedBox(height: 16),
                   //! Player Stats
-                  MyCard(
-                    child: Column(
-                      children: [
-                        Text(
-                          'Player Statistics',
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontSize: 22,
-                                    color: isDark ? primaryLight : primaryColor,
-                                  ),
-                        ),
-                        const SizedBox(height: 17),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            StatsData(
-                              number: _playerData.playerCricketDetails!
-                                  .allFormatStats.over50.matches!,
-                              label: 'Matches',
-                              numColor:
-                                  isDark ? secondaryLight : secondaryColor,
-                              labelStyle: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            StatsData(
-                              number: _playerData.playerCricketDetails!
-                                  .allFormatStats.over50.battingStats.totalRuns,
-                              label: 'Runs',
-                              numColor: isDark ? primaryLight : primaryColor,
-                              labelStyle: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            StatsData(
-                              number: _playerData.playerCricketDetails!
-                                  .allFormatStats.over50.bowlingStats!.wicket,
-                              label: 'Wickets',
-                              numColor: isDark ? Colors.redAccent : Colors.red,
-                              labelStyle: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  PlayerStatsCard(playerData: _playerData),
+                  // MyCard(
+                  //   child: Column(
+                  //     children: [
+                  //       Text(
+                  //         'Player Statistics',
+                  //         style:
+                  //             Theme.of(context).textTheme.titleLarge!.copyWith(
+                  //                   fontSize: 22,
+                  //                   color: isDark ? primaryLight : primaryColor,
+                  //                 ),
+                  //       ),
+                  //       const SizedBox(height: 17),
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         children: [
+                  //           StatsData(
+                  //             number: _playerData.playerCricketDetails!
+                  //                 .allFormatStats.over50.matches!,
+                  //             label: 'Matches',
+                  //             numColor:
+                  //                 isDark ? secondaryLight : secondaryColor,
+                  //             labelStyle: Theme.of(context).textTheme.bodyLarge,
+                  //           ),
+                  //           StatsData(
+                  //             number: _playerData.playerCricketDetails!
+                  //                 .allFormatStats.over50.battingStats.totalRuns,
+                  //             label: 'Runs',
+                  //             numColor: isDark ? primaryLight : primaryColor,
+                  //             labelStyle: Theme.of(context).textTheme.bodyLarge,
+                  //           ),
+                  //           StatsData(
+                  //             number: _playerData.playerCricketDetails!
+                  //                 .allFormatStats.over50.bowlingStats!.wicket,
+                  //             label: 'Wickets',
+                  //             numColor: isDark ? Colors.redAccent : Colors.red,
+                  //             labelStyle: Theme.of(context).textTheme.bodyLarge,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 
                   const SizedBox(height: 16),
 

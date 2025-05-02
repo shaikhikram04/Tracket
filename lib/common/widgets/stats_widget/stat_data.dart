@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/common/widgets/stats_widget/start_label.dart';
+import 'package:tracket/common/widgets/stats_widget/stat_label.dart';
 import 'package:tracket/common/widgets/stats_widget/stat_number.dart';
 
 class StatsData extends StatelessWidget {

@@ -129,6 +129,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         final player = Player.fromSeed(
           filteredPlayers[index].data() as Map<String, dynamic>,
           null,
+          null,
         );
         return _buildPlayerTile(player);
       },
@@ -161,7 +162,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
       subtitle: player.playerCricketDetails!.cricketRole.name,
       onTap: () => THelperFunction.pushScreen(
         context,
-        PlayerProfileScreen(player: player),
+        PlayerProfileScreen(playerId: player.id),
       ),
       isPlayer: true,
       trailing: ActionButton(
@@ -247,7 +248,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         title: player.name,
         subtitle: player.playerCricketDetails!.cricketRole.name,
         onTap: () => THelperFunction.pushScreen(
-            context, PlayerProfileScreen(player: player)),
+            context, PlayerProfileScreen(playerId: player.id)),
         isPlayer: true,
         trailing: ActionButton(
           idsList: playersId,

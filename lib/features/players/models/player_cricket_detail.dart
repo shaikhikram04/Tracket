@@ -60,7 +60,10 @@ class PlayerCricketDetails {
       };
 
   factory PlayerCricketDetails.fromMap(
-      Map<String, dynamic> map, List<QueryDocumentSnapshot>? playerTeams) {
+    Map<String, dynamic> map,
+    List<QueryDocumentSnapshot>? playerTeams,
+    Map<String, dynamic>? allFormatStats,
+  ) {
     return PlayerCricketDetails(
       cricketRole: getCricketRole(map['cricketRole']),
       battingPosition: getPosition(map['battingPosition'])!,
@@ -70,7 +73,7 @@ class PlayerCricketDetails {
       achievements: map['achievements'],
       requestedTeams: map['requestedTeams'],
       teams: playerTeamsToList(playerTeams) ?? [],
-      allFormatStats: const AllFormatStats(),
+      allFormatStats: AllFormatStats.fromJson(allFormatStats),
     );
   }
 

@@ -25,7 +25,20 @@ class PlayersServices {
         .collection(FirestoreCollections.playerTeams)
         .get();
 
-    player = Player.fromSeed(fetchedData.data()!, playerTeams.docs);
+    final allFormatStatsSnap = await _firestore
+        .collection(FirestoreCollections.players)
+        .doc(playerId)
+        .collection(FirestoreCollections.stats)
+        .get();
+
+    final allFormatStatsDoc = allFormatStatsSnap.docs;
+    final allFormatStats = <String, dynamic>{};
+    for (final stats in allFormatStatsDoc) {
+      allFormatStats.addAll({stats.id: stats.data()});
+    }
+
+    player =
+        Player.fromSeed(fetchedData.data()!, playerTeams.docs, allFormatStats);
 
     return player;
   }
@@ -55,7 +68,8 @@ class PlayersServices {
       ref.read(playerProvider.notifier).updateTeamRole(teamId, newRole);
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar('Failed to add admin. Please try again later.', context);
+        THelperFunction.showSnackBar(
+            'Failed to add admin. Please try again later.', context);
       }
     }
   }

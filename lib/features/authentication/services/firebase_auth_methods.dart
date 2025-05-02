@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/features/authentication/models/verification_data.dart';
 import 'package:tracket/features/authentication/services/auth_service.dart';
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
-import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/home/screens/home.dart';
+import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -87,7 +87,21 @@ class FirebaseAuthMethods extends AuthService {
           .doc(currentUserId)
           .collection(FirestoreCollections.playerTeams)
           .get();
-      return Player.fromSeed(snap.data()!, playerTeamsSnap.docs);
+
+      final allFormatStatsSnap = await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(currentUserId)
+          .collection(FirestoreCollections.stats)
+          .get();
+
+      final allFormatStatsDoc = allFormatStatsSnap.docs;
+      final allFormatStats = <String, dynamic>{};
+      for (final stats in allFormatStatsDoc) {
+        allFormatStats.addAll({stats.id: stats.data()});
+      }
+
+      return Player.fromSeed(
+          snap.data()!, playerTeamsSnap.docs, allFormatStats);
     } else {
       return Player.fromSeedForUser(snap.data()!);
     }
@@ -145,7 +159,8 @@ class FirebaseAuthMethods extends AuthService {
           TTextStrings.userNotFoundMessage,
         );
       } else if (error.code == TTextStrings.invalidCredentialCode) {
-        THelperFunction.showSnackBar(TTextStrings.wrongEmailOrPassword, context);
+        THelperFunction.showSnackBar(
+            TTextStrings.wrongEmailOrPassword, context);
         rethrow;
       } else if (error.code == 'email-used-by-$opponentRole') {
         _auth.signOut();

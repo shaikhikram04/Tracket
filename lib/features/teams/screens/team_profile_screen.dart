@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
-import 'package:tracket/common/widgets/stats_widget/stats_data.dart';
+import 'package:tracket/common/widgets/stats_widget/stat_data.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/screens/challenge_match_screen.dart';

@@ -15,7 +15,9 @@ class AllFormatStats {
     this.test = const PlayerStats(),
   });
 
-  factory AllFormatStats.fromJson(Map<String, dynamic> json) {
+  factory AllFormatStats.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const AllFormatStats();
+
     return AllFormatStats(
       over5: PlayerStats.fromMap(json['over5']),
       over10: PlayerStats.fromMap(json['over10']),

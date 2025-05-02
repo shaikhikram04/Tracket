@@ -21,7 +21,7 @@ class DrawerViewProfile extends StatelessWidget {
         THelperFunction.pushScreen(
             context,
             PlayerProfileScreen(
-              player: player,
+              playerId: player.id,
             ));
       },
       child: Text(
