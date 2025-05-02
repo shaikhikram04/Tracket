@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
+import 'package:tracket/common/widgets/stats_widget/stat_basic_card.dart';
 import 'package:tracket/common/widgets/stats_widget/stat_data.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
@@ -160,6 +161,41 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     }
   }
 
+  Map<String, Map<String, int>> _getStatsForFormat(Team teamData) {
+    return {
+      'T5': {
+        'matches': teamData.over5.matchesPlayed,
+        'wins': teamData.over5.wins,
+        'losses': teamData.over5.losses,
+        'ties': teamData.over5.tie,
+      },
+      'T10': {
+        'matches': teamData.over10.matchesPlayed,
+        'wins': teamData.over10.wins,
+        'losses': teamData.over10.losses,
+        'ties': teamData.over10.tie,
+      },
+      'T20': {
+        'matches': teamData.over20.matchesPlayed,
+        'wins': teamData.over20.wins,
+        'losses': teamData.over20.losses,
+        'ties': teamData.over20.tie,
+      },
+      'ODI': {
+        'matches': teamData.over50.matchesPlayed,
+        'wins': teamData.over50.wins,
+        'losses': teamData.over50.losses,
+        'ties': teamData.over50.tie,
+      },
+      'Test': {
+        'matches': teamData.test.matchesPlayed,
+        'wins': teamData.test.wins,
+        'losses': teamData.test.losses,
+        'ties': teamData.test.tie,
+      },
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -172,8 +208,6 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final isChallengeVisible = _playerTeamsAsAdmin.isNotEmpty;
     final canChallenge =
         _playerTeamsAsAdmin.any((team) => team['canChallenge']);
-
-    final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -399,47 +433,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                   const SizedBox(height: TSizes.xl),
 
                   //! Team Stats section
-                  MyCard(
-                    child: Column(
-                      children: [
-                        Text(
-                          TTextStrings.teamStatistics,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontSize: TSizes.fontSizeXxl,
-                                    color: isDark ? primaryLight : primaryColor,
-                                  ),
-                        ),
-                        const SizedBox(height: TSizes.spaceBtwItems),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            StatsData(
-                              number: teamState.team.over20.matchesPlayed,
-                              label: TTextStrings.matches,
-                              numColor:
-                                  isDark ? secondaryLight : secondaryColor,
-                            ),
-                            StatsData(
-                              number: teamState.team.over20.wins,
-                              label: TTextStrings.wins,
-                              numColor: isDark ? primaryLight : primaryColor,
-                            ),
-                            StatsData(
-                              number: teamState.team.over20.losses,
-                              label: TTextStrings.losses,
-                              numColor: Colors.red[700]!,
-                            ),
-                            StatsData(
-                              number: teamState.team.over20.tie,
-                              label: TTextStrings.ties,
-                              numColor: Colors.orange[800]!,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  StatBasicCard(statsData: _getStatsForFormat(teamState.team)),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   // Players Detail section
                   const MyCard(child: Squad(isEdit: false)),

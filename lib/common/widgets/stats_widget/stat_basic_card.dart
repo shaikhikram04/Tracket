@@ -1,82 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
-import 'package:tracket/features/players/models/player.dart';
+import 'package:tracket/common/widgets/stats_widget/stat_data.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/helpers/helping_function.dart';
 
-class PlayerStatsCard extends StatefulWidget {
-  final Player playerData;
+class StatBasicCard extends StatefulWidget {
+  final Map<String, Map<String, int>> statsData;
 
-  const PlayerStatsCard({
+  const StatBasicCard({
     Key? key,
-    required this.playerData,
+    required this.statsData,
   }) : super(key: key);
 
   @override
-  State<PlayerStatsCard> createState() => _PlayerStatsCardState();
+  State<StatBasicCard> createState() => _PlayerStatBasicCard();
 }
 
-class _PlayerStatsCardState extends State<PlayerStatsCard> {
+class _PlayerStatBasicCard extends State<StatBasicCard> {
   // Selected format index (default to ODI/50 overs)
   int _selectedFormatIndex = 2;
 
   // Available formats
   final List<String> _formats = ['T5', 'T10', 'T20', 'ODI', 'Test'];
 
-  // Get stats based on the selected format
-  Map<String, dynamic> _getStatsForFormat() {
-    final cricketDetails = widget.playerData.playerCricketDetails!;
-    final format = _formats[_selectedFormatIndex];
+  final _statsColorLight = <Color>[
+    secondaryLight,
+    primaryLight,
+    Colors.redAccent,
+    Colors.orangeAccent,
+  ];
 
-    switch (format) {
-      case 'T5':
-        return {
-          'matches': cricketDetails.allFormatStats.over5.matches ?? 0,
-          'runs': cricketDetails.allFormatStats.over5.battingStats.totalRuns,
-          'wickets':
-              cricketDetails.allFormatStats.over5.bowlingStats?.wicket ?? 0,
-        };
-      case 'T10':
-        return {
-          'matches': cricketDetails.allFormatStats.over10.matches ?? 0,
-          'runs': cricketDetails.allFormatStats.over10.battingStats.totalRuns,
-          'wickets':
-              cricketDetails.allFormatStats.over10.bowlingStats?.wicket ?? 0,
-        };
-      case 'T20':
-        return {
-          'matches': cricketDetails.allFormatStats.over20.matches ?? 0,
-          'runs': cricketDetails.allFormatStats.over20.battingStats.totalRuns,
-          'wickets':
-              cricketDetails.allFormatStats.over20.bowlingStats?.wicket ?? 0,
-        };
-      case 'ODI':
-        return {
-          'matches': cricketDetails.allFormatStats.over50.matches ?? 0,
-          'runs': cricketDetails.allFormatStats.over50.battingStats.totalRuns,
-          'wickets':
-              cricketDetails.allFormatStats.over50.bowlingStats?.wicket ?? 0,
-        };
-      case 'Test':
-        return {
-          'matches': cricketDetails.allFormatStats.test.matches ?? 0,
-          'runs': cricketDetails.allFormatStats.test.battingStats.totalRuns,
-          'wickets':
-              cricketDetails.allFormatStats.test.bowlingStats?.wicket ?? 0,
-        };
+  final _statsColorDark = <Color>[
+    secondaryColor,
+    primaryColor,
+    Colors.red,
+    Colors.orange,
+  ];
+
+  Color _getStatsColor(String key, bool isDark) {
+    switch (key) {
+      case "matches":
+        return isDark ? _statsColorDark[0] : _statsColorLight[0];
+      case "wins":
+      case "runs":
+        return isDark ? _statsColorDark[1] : _statsColorLight[1];
+      case "losses":
+      case "wickets":
+        return isDark ? _statsColorDark[2] : _statsColorLight[2];
+      case "ties":
+        return isDark ? _statsColorDark[3] : _statsColorLight[3];
+
       default:
-        return {
-          'matches': cricketDetails.allFormatStats.over50.matches ?? 0,
-          'runs': cricketDetails.allFormatStats.over50.battingStats.totalRuns,
-          'wickets':
-              cricketDetails.allFormatStats.over50.bowlingStats?.wicket ?? 0,
-        };
+        return isDark ? _statsColorDark[1] : _statsColorLight[1];
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final stats = _getStatsForFormat();
+    final selectedStats = widget.statsData[_formats[_selectedFormatIndex]];
 
     return MyCard(
       child: Column(
@@ -141,24 +123,13 @@ class _PlayerStatsCardState extends State<PlayerStatsCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StatsData(
-                number: stats['matches'],
-                label: 'Matches',
-                numColor: isDark ? secondaryLight : secondaryColor,
-                labelStyle: Theme.of(context).textTheme.bodyLarge,
-              ),
-              StatsData(
-                number: stats['runs'],
-                label: 'Runs',
-                numColor: isDark ? primaryLight : primaryColor,
-                labelStyle: Theme.of(context).textTheme.bodyLarge,
-              ),
-              StatsData(
-                number: stats['wickets'],
-                label: 'Wickets',
-                numColor: isDark ? Colors.redAccent : Colors.red,
-                labelStyle: Theme.of(context).textTheme.bodyLarge,
-              ),
+              for (final stats in selectedStats!.entries)
+                StatsData(
+                  number: stats.value,
+                  label: THelperFunction.makeFirstLetterUpperCase(stats.key),
+                  numColor: _getStatsColor(stats.key, isDark),
+                  labelStyle: Theme.of(context).textTheme.bodyLarge,
+                ),
             ],
           ),
 
@@ -195,42 +166,5 @@ class _PlayerStatsCardState extends State<PlayerStatsCard> {
       default:
         return '50 Overs Format';
     }
-  }
-}
-
-// Existing StatsData widget
-class StatsData extends StatelessWidget {
-  final int number;
-  final String label;
-  final Color numColor;
-  final TextStyle? labelStyle;
-
-  const StatsData({
-    Key? key,
-    required this.number,
-    required this.label,
-    required this.numColor,
-    this.labelStyle,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          number.toString(),
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: numColor,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: labelStyle ?? Theme.of(context).textTheme.bodyMedium,
-        ),
-      ],
-    );
   }
 }

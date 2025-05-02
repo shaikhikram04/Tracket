@@ -49,6 +49,42 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
     }
   }
 
+  Map<String, Map<String, int>> _getStatsForFormat() {
+    final cricketDetails = _playerData.playerCricketDetails!;
+
+    return {
+      'T5': {
+        'matches': cricketDetails.allFormatStats.over5.matches ?? 0,
+        'runs': cricketDetails.allFormatStats.over5.battingStats.totalRuns,
+        'wickets':
+            cricketDetails.allFormatStats.over5.bowlingStats?.wicket ?? 0,
+      },
+      'T10': {
+        'matches': cricketDetails.allFormatStats.over10.matches ?? 0,
+        'runs': cricketDetails.allFormatStats.over10.battingStats.totalRuns,
+        'wickets':
+            cricketDetails.allFormatStats.over10.bowlingStats?.wicket ?? 0,
+      },
+      'T20': {
+        'matches': cricketDetails.allFormatStats.over20.matches ?? 0,
+        'runs': cricketDetails.allFormatStats.over20.battingStats.totalRuns,
+        'wickets':
+            cricketDetails.allFormatStats.over20.bowlingStats?.wicket ?? 0,
+      },
+      'ODI': {
+        'matches': cricketDetails.allFormatStats.over50.matches ?? 0,
+        'runs': cricketDetails.allFormatStats.over50.battingStats.totalRuns,
+        'wickets':
+            cricketDetails.allFormatStats.over50.bowlingStats?.wicket ?? 0,
+      },
+      'Test': {
+        'matches': cricketDetails.allFormatStats.test.matches ?? 0,
+        'runs': cricketDetails.allFormatStats.test.battingStats.totalRuns,
+        'wickets': cricketDetails.allFormatStats.test.bowlingStats?.wicket ?? 0,
+      },
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -105,7 +141,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                                 text: _playerData.name,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .titleLarge!
+                                    .headlineSmall!
                                     .copyWith(
                                       color: onPrimary,
                                     ),
@@ -138,49 +174,9 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                   ),
                   const SizedBox(height: 16),
                   //! Player Stats
-                  PlayerStatsCard(playerData: _playerData),
-                  // MyCard(
-                  //   child: Column(
-                  //     children: [
-                  //       Text(
-                  //         'Player Statistics',
-                  //         style:
-                  //             Theme.of(context).textTheme.titleLarge!.copyWith(
-                  //                   fontSize: 22,
-                  //                   color: isDark ? primaryLight : primaryColor,
-                  //                 ),
-                  //       ),
-                  //       const SizedBox(height: 17),
-                  //       Row(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         children: [
-                  //           StatsData(
-                  //             number: _playerData.playerCricketDetails!
-                  //                 .allFormatStats.over50.matches!,
-                  //             label: 'Matches',
-                  //             numColor:
-                  //                 isDark ? secondaryLight : secondaryColor,
-                  //             labelStyle: Theme.of(context).textTheme.bodyLarge,
-                  //           ),
-                  //           StatsData(
-                  //             number: _playerData.playerCricketDetails!
-                  //                 .allFormatStats.over50.battingStats.totalRuns,
-                  //             label: 'Runs',
-                  //             numColor: isDark ? primaryLight : primaryColor,
-                  //             labelStyle: Theme.of(context).textTheme.bodyLarge,
-                  //           ),
-                  //           StatsData(
-                  //             number: _playerData.playerCricketDetails!
-                  //                 .allFormatStats.over50.bowlingStats!.wicket,
-                  //             label: 'Wickets',
-                  //             numColor: isDark ? Colors.redAccent : Colors.red,
-                  //             labelStyle: Theme.of(context).textTheme.bodyLarge,
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  StatBasicCard(
+                    statsData: _getStatsForFormat(),
+                  ),
 
                   const SizedBox(height: 16),
 
