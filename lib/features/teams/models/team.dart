@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/players/models/player_details.dart';
+import 'package:tracket/features/teams/models/team_all_format_stats.dart';
 import 'package:tracket/features/teams/models/team_request_status.dart';
 import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/models/team_stats.dart';
@@ -13,11 +14,7 @@ class Team {
   final List<PlayerDetails> playersList;
   final String captainId;
   final String wicketkeeperId;
-  final TeamStats over5;
-  final TeamStats over10;
-  final TeamStats over20;
-  final TeamStats over50;
-  final TeamStats test;
+  final TeamAllFormatStats teamAllFormatStats;
   final int rank;
   final List<dynamic> achievements;
   final List<String> followers;
@@ -38,10 +35,6 @@ class Team {
     required this.createdBy,
     this.captainId = '',
     this.wicketkeeperId = '',
-    TeamStats? over5,
-    TeamStats? over10,
-    TeamStats? over20,
-    TeamStats? over50,
     TeamStats? test,
     this.rank = -1,
     List<dynamic>? achievements,
@@ -53,12 +46,8 @@ class Team {
     List<String>? playerIds,
     List<String>? requestedPlayers,
     List<String>? challengedTeams,
-  })  : over5 = over5 ?? const TeamStats(),
-        over10 = over10 ?? const TeamStats(),
-        over20 = over20 ?? const TeamStats(),
-        over50 = over50 ?? const TeamStats(),
-        test = test ?? const TeamStats(),
-        achievements = achievements ?? const [],
+    this.teamAllFormatStats = const TeamAllFormatStats(),
+  })  : achievements = achievements ?? const [],
         followers = followers ?? const [],
         requestStatus = requestStatus ?? const TeamRequestStatus(),
         playerIds = playerIds ?? const [],

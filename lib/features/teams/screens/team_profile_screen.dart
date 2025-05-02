@@ -164,34 +164,34 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
   Map<String, Map<String, int>> _getStatsForFormat(Team teamData) {
     return {
       'T5': {
-        'matches': teamData.over5.matchesPlayed,
-        'wins': teamData.over5.wins,
-        'losses': teamData.over5.losses,
-        'ties': teamData.over5.tie,
+        'matches': teamData.teamAllFormatStats.over5.matchesPlayed,
+        'wins': teamData.teamAllFormatStats.over5.wins,
+        'losses': teamData.teamAllFormatStats.over5.losses,
+        'ties': teamData.teamAllFormatStats.over5.tie,
       },
       'T10': {
-        'matches': teamData.over10.matchesPlayed,
-        'wins': teamData.over10.wins,
-        'losses': teamData.over10.losses,
-        'ties': teamData.over10.tie,
+        'matches': teamData.teamAllFormatStats.over10.matchesPlayed,
+        'wins': teamData.teamAllFormatStats.over10.wins,
+        'losses': teamData.teamAllFormatStats.over10.losses,
+        'ties': teamData.teamAllFormatStats.over10.tie,
       },
       'T20': {
-        'matches': teamData.over20.matchesPlayed,
-        'wins': teamData.over20.wins,
-        'losses': teamData.over20.losses,
-        'ties': teamData.over20.tie,
+        'matches': teamData.teamAllFormatStats.over20.matchesPlayed,
+        'wins': teamData.teamAllFormatStats.over20.wins,
+        'losses': teamData.teamAllFormatStats.over20.losses,
+        'ties': teamData.teamAllFormatStats.over20.tie,
       },
       'ODI': {
-        'matches': teamData.over50.matchesPlayed,
-        'wins': teamData.over50.wins,
-        'losses': teamData.over50.losses,
-        'ties': teamData.over50.tie,
+        'matches': teamData.teamAllFormatStats.over50.matchesPlayed,
+        'wins': teamData.teamAllFormatStats.over50.wins,
+        'losses': teamData.teamAllFormatStats.over50.losses,
+        'ties': teamData.teamAllFormatStats.over50.tie,
       },
       'Test': {
-        'matches': teamData.test.matchesPlayed,
-        'wins': teamData.test.wins,
-        'losses': teamData.test.losses,
-        'ties': teamData.test.tie,
+        'matches': teamData.teamAllFormatStats.test.matchesPlayed,
+        'wins': teamData.teamAllFormatStats.test.wins,
+        'losses': teamData.teamAllFormatStats.test.losses,
+        'ties': teamData.teamAllFormatStats.test.tie,
       },
     };
   }
@@ -337,7 +337,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               labelStyle: Theme.of(context).textTheme.bodyLarge,
                             ),
                             StatsData(
-                              number: teamState.team.over20.matchesPlayed,
+                              number: teamState.team.teamAllFormatStats.totalMatchPlayed,
                               label: TTextStrings.achievements,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
