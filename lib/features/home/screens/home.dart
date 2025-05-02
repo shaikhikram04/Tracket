@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
-import 'package:tracket/features/home/drawer/main_drawer.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/features/home/drawer/main_drawer.dart';
 import 'package:tracket/features/matches/screens/matches_screen.dart';
 import 'package:tracket/features/notifications/screens/notifications_screen.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
@@ -89,13 +89,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            color: onPrimary,
-            iconSize: TSizes.iconAppBar,
-            onPressed: () {
-              THelperFunction.pushScreen(context, const NotificationsScreen());
-            },
+          Stack(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.notifications),
+                color: onPrimary,
+                iconSize: TSizes.iconAppBar,
+                onPressed: () {
+                  THelperFunction.pushScreen(
+                      context, const NotificationsScreen());
+                },
+              ),
+              // const Positioned(
+              //   top: 10,
+              //   right: 10,
+              //   child: CircleAvatar(
+              //     backgroundColor: Colors.redAccent,
+              //     radius: 5,
+              //   ),
+              // ),
+            ],
           ),
           const SizedBox(width: TSizes.sm),
         ],

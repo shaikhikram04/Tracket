@@ -40,18 +40,18 @@ class _PlayerStatBasicCard extends State<StatBasicCard> {
   Color _getStatsColor(String key, bool isDark) {
     switch (key) {
       case "matches":
-        return isDark ? _statsColorDark[0] : _statsColorLight[0];
+        return !isDark ? _statsColorDark[0] : _statsColorLight[0];
       case "wins":
       case "runs":
-        return isDark ? _statsColorDark[1] : _statsColorLight[1];
+        return !isDark ? _statsColorDark[1] : _statsColorLight[1];
       case "losses":
       case "wickets":
-        return isDark ? _statsColorDark[2] : _statsColorLight[2];
+        return !isDark ? _statsColorDark[2] : _statsColorLight[2];
       case "ties":
-        return isDark ? _statsColorDark[3] : _statsColorLight[3];
+        return !isDark ? _statsColorDark[3] : _statsColorLight[3];
 
       default:
-        return isDark ? _statsColorDark[1] : _statsColorLight[1];
+        return !isDark ? _statsColorDark[1] : _statsColorLight[1];
     }
   }
 

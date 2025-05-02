@@ -416,9 +416,12 @@ class _AdminListTile extends StatelessWidget {
               onPressed: onRemove!,
               text: TTextStrings.removeButton,
               textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: StatusColors.error, fontWeight: FontWeight.w600),
-              backgroundColor: LightThemeColors.surfaceColor,
-              borderColor: StatusColors.error,
+                  color: isDarkMode ? Colors.redAccent : Colors.red,
+                  fontWeight: FontWeight.w600),
+              backgroundColor: isDarkMode
+                  ? DarkThemeColors.dividerColor
+                  : LightThemeColors.dividerColor,
+              borderColor: isDarkMode ? Colors.redAccent : Colors.red,
               size: ButtonSize.small,
             )
           : null,

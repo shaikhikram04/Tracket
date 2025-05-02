@@ -29,7 +29,7 @@ Future<void> main() async {
   runApp(
     kIsWeb
         ? DevicePreview(
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.black,
             enabled: true,
             defaultDevice: Devices.android.onePlus8Pro,
             isToolbarVisible: true,
