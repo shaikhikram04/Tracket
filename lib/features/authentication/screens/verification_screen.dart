@@ -36,9 +36,9 @@ class VerificationScreen extends ConsumerWidget {
           context,
           title: TTextStrings.confirmExit,
           message: TTextStrings.confirmExitMessage,
-          cancelText: TTextStrings.leaveButton,
-          confirmText: TTextStrings.stayButton,
-          confirmButtonBgColor: primaryColor,
+          cancelText: TTextStrings.stayButton,
+          confirmText: TTextStrings.leaveButton,
+          confirmButtonBgColor: InteractiveColors.inputError,
         );
         if (wantToStay) {
           // Handle the case when the user wants to stay
