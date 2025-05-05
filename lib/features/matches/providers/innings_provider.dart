@@ -336,25 +336,26 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     WinningMethod? winningMethod = null;
     int? winningMargin = null;
     if (isMatchCompleted) {
-      ref.read(additionalMatchProvider.notifier).setIsMatchCompleted(true);
-      final iscurrentBattingTeamWin = currentInnings!.runs > state.first!.runs;
-      winningTeamId = iscurrentBattingTeamWin
-          ? currentInnings!.battingTeam.teamId
-          : state.first!.battingTeam.teamId;
-
-      winningMethod = iscurrentBattingTeamWin
-          ? WinningMethod.byWickets
-          : WinningMethod.byRuns;
-
-      winningMargin = iscurrentBattingTeamWin
-          ? noOfPlayers - currentInnings!.wickets - 1
-          : state.first!.runs - currentInnings!.runs;
+      if (currentInnings!.runs > state.first!.runs) {
+        winningTeamId = currentInnings!.battingTeam.teamId;
+        winningMethod = WinningMethod.byWickets;
+        winningMargin = noOfPlayers - currentInnings!.wickets - 1;
+      } else if (currentInnings!.runs < state.first!.runs) {
+        winningTeamId = currentInnings!.bowlingTeam.teamId;
+        winningMethod = WinningMethod.byRuns;
+        winningMargin = state.first!.runs - currentInnings!.runs;
+      } else {
+        winningMethod = WinningMethod.tied;
+        winningMargin = 0;
+      }
 
       ref.read(matchStateProvider.notifier).endMatch(
             winningTeamId: winningTeamId,
             method: winningMethod,
             margin: winningMargin,
           );
+          
+      ref.read(additionalMatchProvider.notifier).setIsMatchCompleted(true);
     } else if (isInningCompleted) {
       ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
     }

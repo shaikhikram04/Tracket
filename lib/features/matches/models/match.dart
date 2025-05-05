@@ -190,7 +190,9 @@ class Match {
 
   List<MatchPlayerInfo> getBattingTeamPlayersBeforeInnStart() {
     if (battingTeam == null) return [];
-    return battingTeamBeforeInnStart!.teamId == team1.teamId ? team1Players : team2Players;
+    return battingTeamBeforeInnStart!.teamId == team1.teamId
+        ? team1Players
+        : team2Players;
   }
 
   List<MatchPlayerInfo> getBowlingTeamPlayers() {
@@ -200,7 +202,9 @@ class Match {
 
   List<MatchPlayerInfo> getBowlingTeamPlayersBeforeInnStar() {
     if (bowlingTeam == null) return [];
-    return bowlingTeamBeforeInnStart!.teamId == team1.teamId ? team1Players : team2Players;
+    return bowlingTeamBeforeInnStart!.teamId == team1.teamId
+        ? team1Players
+        : team2Players;
   }
 
   // Match initialization methods
@@ -230,8 +234,8 @@ class Match {
     }
 
     final inning2 = Inning.initialize(
-      battingTeam: bowlingTeam!,
-      bowlingTeam: battingTeam!,
+      battingTeam: battingTeam!,
+      bowlingTeam: bowlingTeam!,
       strikerPosition: 1,
       nonStrikerPosition: 2,
       currentBowlerId: bowlerId,
@@ -248,7 +252,7 @@ class Match {
   }
 
   Match setMatchResult({
-    required String winningTeamId,
+    required String? winningTeamId,
     required WinningMethod method,
     required int margin,
   }) {

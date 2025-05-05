@@ -92,13 +92,13 @@ class MatchStateNotifier extends StateNotifier<Match?> {
 
   // Match completion
   void endMatch({
-    required String winningTeamId,
+    required String? winningTeamId,
     required WinningMethod method,
     required int margin,
   }) {
     if (state == null) return;
 
-    state!.setMatchResult(
+    state = state!.setMatchResult(
       winningTeamId: winningTeamId,
       method: method,
       margin: margin,

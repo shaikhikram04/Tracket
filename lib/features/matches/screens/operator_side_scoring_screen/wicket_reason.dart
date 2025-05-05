@@ -350,13 +350,7 @@ class _WicketReasonState extends State<WicketReason> {
                                           .map((e) => e.playerName)
                                           .toList(),
                                       onSelect: (value) => setState(
-                                        () {
-                                          int index = widget.fielders
-                                              .indexWhere(
-                                                  (e) => e.playerName == value);
-                                          _runOutBy =
-                                              widget.fielders[index].playerId;
-                                        },
+                                        () => _runOutBy = value,
                                       ),
                                       leadingIcon:
                                           const Icon(Icons.person_outline),
