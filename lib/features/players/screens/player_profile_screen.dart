@@ -4,6 +4,7 @@ import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/common/widgets/stats_widget/stat_basic_card.dart';
 import 'package:tracket/features/players/models/player.dart';
+import 'package:tracket/features/players/models/player_stats.dart';
 import 'package:tracket/features/players/services/players_services.dart';
 import 'package:tracket/features/players/widgets/achievements.dart';
 import 'package:tracket/features/players/widgets/batting_stats.dart';
@@ -26,6 +27,10 @@ class PlayerProfileScreen extends StatefulWidget {
 class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
   late Player _playerData;
   bool _isLoading = false;
+  // Selected format index (default to ODI/50 overs)
+  int _selectedFormatIndex = 2;
+
+  final List<String> _formats = ['T5', 'T10', 'T20', 'ODI', 'Test'];
 
   @override
   void initState() {
@@ -83,6 +88,23 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         'wickets': cricketDetails.allFormatStats.test.bowlingStats?.wicket ?? 0,
       },
     };
+  }
+
+  PlayerStats _getCurrentPlayerStats() {
+    switch (_selectedFormatIndex) {
+      case 0:
+        return _playerData.playerCricketDetails!.allFormatStats.over5;
+      case 1:
+        return _playerData.playerCricketDetails!.allFormatStats.over10;
+      case 2:
+        return _playerData.playerCricketDetails!.allFormatStats.over20;
+      case 3:
+        return _playerData.playerCricketDetails!.allFormatStats.over50;
+      case 4:
+        return _playerData.playerCricketDetails!.allFormatStats.test;
+      default:
+        return _playerData.playerCricketDetails!.allFormatStats.over20;
+    }
   }
 
   @override
@@ -186,6 +208,60 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                       length: 2,
                       child: Column(
                         children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(_formats.length, (index) {
+                                final isSelected =
+                                    _selectedFormatIndex == index;
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      right:
+                                          index < _formats.length - 1 ? 8 : 0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedFormatIndex = index;
+                                      });
+                                    },
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? (isDark
+                                                ? primaryColor
+                                                : primaryLight)
+                                            : (isDark
+                                                ? Colors.grey[800]
+                                                : Colors.grey[200]),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        _formats[index],
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? (isDark
+                                                  ? Colors.black
+                                                  : Colors.white)
+                                              : (isDark
+                                                  ? Colors.white70
+                                                  : Colors.black87),
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
                           TabBar(
                             labelColor: isDark ? primaryLight : primaryColor,
                             labelStyle: Theme.of(context)
@@ -213,12 +289,10 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
                             child: TabBarView(
                               children: [
                                 BattingStats(
-                                  playerStats: _playerData.playerCricketDetails!
-                                      .allFormatStats.over50,
+                                  playerStats: _getCurrentPlayerStats(),
                                 ),
                                 BowlingStats(
-                                  playerStats: _playerData.playerCricketDetails!
-                                      .allFormatStats.over50,
+                                  playerStats: _getCurrentPlayerStats(),
                                 ),
                               ],
                             ),

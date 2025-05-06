@@ -26,20 +26,20 @@ class BowlingStats {
     this.maiden = 0,
   }) : bestBallingFigure = null;
 
-  double get bowlingAverage {
+  String get bowlingAverage {
     if (wicket == 0) {
-      return 0;
+      return '0';
     }
 
-    return runGiven / wicket;
+    return (runGiven / wicket).toStringAsFixed(2);
   }
 
-  double get economyRate {
+  String get economyRate {
     if (ballDelivered == 0) {
-      return 0;
+      return '0';
     }
 
-    return runGiven / ballDelivered;
+    return (runGiven / ballDelivered).toStringAsFixed(2);
   }
 
   Map<String, dynamic> get toJson => {

@@ -64,12 +64,14 @@ class _PlayerStatBasicCard extends State<StatBasicCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Player Statistics',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontSize: 22,
-                  color: isDark ? primaryLight : primaryColor,
-                ),
+          Center(
+            child: Text(
+              'Player Statistics',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 22,
+                    color: isDark ? primaryLight : primaryColor,
+                  ),
+            ),
           ),
           const SizedBox(height: 16),
 
