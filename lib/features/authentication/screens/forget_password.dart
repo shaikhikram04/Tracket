@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/screens/safe_area_scrollable_screen.dart';
-import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/common/widgets/text/background_text.dart';
 import 'package:tracket/common/widgets/text/title_text.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
+import 'package:tracket/features/authentication/widgets/back_to_login_button.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -26,59 +26,43 @@ class ForgetPassword extends StatefulWidget {
 
 //* Screen that handles the password reset flow
 class _ForgetPasswordState extends State<ForgetPassword> {
+  final _formKey = GlobalKey<FormState>();
   String? _email;
-  late GlobalKey<FormState> _formKey;
-  late bool _isResetEmailSend;
-  late bool _isSendingEmail;
-
-  @override
-  void initState() {
-    super.initState();
-    _formKey = GlobalKey<FormState>();
-    _isResetEmailSend = false;
-    _isSendingEmail = false;
-  }
+  bool _isResetEmailSent = false;
+  bool _isSendingEmail = false;
 
   //* Validates email format and sends password reset link
   Future<void> _sendResetEmail() async {
-    if (!_formKey.currentState!.validate()) return;
+    final form = _formKey.currentState;
+    if (form == null || !form.validate()) return;
+
+    form.save();
+    setState(() => _isSendingEmail = true);
+    THelperFunction.showLoadingDialog(context);
 
     try {
-      setState(() => _isSendingEmail = true);
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (_) => const CircularLoadingIndicator(
-                color: primaryColor,
-                strokeWidth: 3.0,
-              ));
-      _formKey.currentState!.save();
-
       final result = await FirebaseAuthMethods().resetPassword(_email!);
 
       if (!mounted) return;
 
       if (result == TTextStrings.success) {
-        setState(() {
-          _isResetEmailSend = true;
-        });
+        setState(() => _isResetEmailSent = true);
       } else {
-        THelperFunction.showSnackBar(result, context);
+        THelperFunction.showSuccessSnackBar(result, context);
       }
     } catch (e) {
-      if (!mounted) return;
-      THelperFunction.showSnackBar('${TTextStrings.unexpectedError} $e', context);
+      if (mounted) {
+        THelperFunction.showErrorSnackBar('${TTextStrings.unexpectedError} $e', context);
+      }
     } finally {
-      setState(() => _isSendingEmail = false);
-      Navigator.pop(context);
+      if (mounted) {
+        setState(() => _isSendingEmail = false);
+        Navigator.pop(context); // Dismiss loading dialog
+      }
     }
   }
 
-  void _onEditEmail() {
-    setState(() {
-      _isResetEmailSend = false;
-    });
-  }
+  void _onEditEmail() => setState(() => _isResetEmailSent = false);
 
   @override
   void dispose() {
@@ -98,11 +82,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          spacing: TSizes.defaultSpace,
           children: [
             const AppLogo(),
-            const SizedBox(height: TSizes.verticalSpacingXl),
             TitleText(context).titleText1,
-            const SizedBox(height: TSizes.verticalSpacingMd),
             AppContainers.classicContainer(
               context: context,
               child: Column(
@@ -111,28 +94,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 children: [
                   BackgroundText(
                     text:
-                        _isResetEmailSend ? TTextStrings.resetEmailSentMsg(_email!) : TTextStrings.resetPasswordMessage,
+                        _isResetEmailSent ? TTextStrings.resetEmailSentMsg(_email!) : TTextStrings.resetPasswordMessage,
                   ),
                   const SizedBox(height: TSizes.verticalSpacingXl),
-                  if (!_isResetEmailSend) ..._buildEmailForm(),
+                  if (!_isResetEmailSent) ..._buildEmailForm(),
                   _buildActionButtons(isDark),
                 ],
               ),
             ),
-            const SizedBox(height: TSizes.verticalSpacingXl),
-            TextButton.icon(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(
-                Icons.arrow_back,
-                color: isDark ? lightGrassGreen : grassGreen,
-              ),
-              label: Text(
-                TTextStrings.backToLogin,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: isDark ? lightGrassGreen : grassGreen,
-                    ),
-              ),
-            ),
+            const BackToLoginButton(),
           ],
         ),
       ),
@@ -155,7 +125,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        if (_isResetEmailSend)
+        if (_isResetEmailSent)
           TextButton(
             onPressed: _onEditEmail,
             child: Text(
@@ -168,8 +138,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         const Spacer(),
         CustomButton.primary(
           onPressed: _isSendingEmail ? null : _sendResetEmail,
-          text: _isResetEmailSend ? TTextStrings.resendEmail : TTextStrings.resetPassword,
-          backgroundColor: primaryColor,
+          text: _isResetEmailSent ? TTextStrings.resendEmail : TTextStrings.resetPassword,
+          backgroundColor: isDark ? primaryLight : primaryColor,
           borderRadius: TSizes.borderRadiusLg,
         ),
       ],
