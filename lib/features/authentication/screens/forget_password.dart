@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tracket/common/screens/safe_area_scrollable_screen.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
+import 'package:tracket/common/widgets/text/background_text.dart';
 import 'package:tracket/common/widgets/text/title_text.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/constants/colors.dart';
-import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
@@ -67,8 +67,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       }
     } catch (e) {
       if (!mounted) return;
-      THelperFunction.showSnackBar(
-          '${TTextStrings.unexpectedError} $e', context);
+      THelperFunction.showSnackBar('${TTextStrings.unexpectedError} $e', context);
     } finally {
       setState(() => _isSendingEmail = false);
       Navigator.pop(context);
@@ -110,22 +109,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: TSizes.verticalSpacingMd,
                 children: [
-                  Container(
-                    padding: TPadding.sm,
-                    decoration: BoxDecoration(
-                      color: primaryColor.withValues(
-                        alpha: isDark ? 0.4 : 0.1,
-                      ),
-                      borderRadius: BorderRadius.circular(
-                        TSizes.borderRadiusLg,
-                      ),
-                    ),
-                    child: Text(
-                      _isResetEmailSend
-                          ? TTextStrings.resetEmailSentMsg(_email!)
-                          : TTextStrings.resetPasswordMessage,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
+                  BackgroundText(
+                    text:
+                        _isResetEmailSend ? TTextStrings.resetEmailSentMsg(_email!) : TTextStrings.resetPasswordMessage,
                   ),
                   const SizedBox(height: TSizes.verticalSpacingXl),
                   if (!_isResetEmailSend) ..._buildEmailForm(),
@@ -182,9 +168,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         const Spacer(),
         CustomButton.primary(
           onPressed: _isSendingEmail ? null : _sendResetEmail,
-          text: _isResetEmailSend
-              ? TTextStrings.resendEmail
-              : TTextStrings.resetPassword,
+          text: _isResetEmailSend ? TTextStrings.resendEmail : TTextStrings.resetPassword,
           backgroundColor: primaryColor,
           borderRadius: TSizes.borderRadiusLg,
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/common/widgets/text/background_text.dart';
 import 'package:tracket/features/authentication/models/verification_steps_data.dart';
 import 'package:tracket/features/authentication/providers/verification_step.dart';
 import 'package:tracket/features/authentication/widgets/progress_step_indicator.dart';
@@ -47,8 +48,7 @@ class VerificationScreen extends ConsumerWidget {
         }
       },
       child: Dialog(
-        backgroundColor:
-            isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
+        backgroundColor: isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor,
         child: SizedBox(
           width: width * 0.97,
           child: Padding(
@@ -100,31 +100,10 @@ class VerificationScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: TSizes.defaultSpace),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: primaryColor.withValues(alpha: isDark ? 0.2 : 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 10,
-                    children: [
-                      Icon(
-                        VerificationStepData.getIconForStep(currentStep),
-                        color: currentStep != 0 ? primaryColor : null,
-                      ),
-                      Expanded(
-                        child: Text(
-                          VerificationStepData.getMessage(currentStep, email),
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    height: 1.5,
-                                  ),
-                        ),
-                      ),
-                    ],
-                  ),
+                BackgroundText(
+                  text: VerificationStepData.getMessage(currentStep, email),
+                  icon: VerificationStepData.getIconForStep(currentStep),
+                  iconColor: currentStep != 0 ? primaryColor : null,
                 ),
                 const SizedBox(height: TSizes.spaceBtwItems),
                 GestureDetector(
@@ -146,11 +125,10 @@ class VerificationScreen extends ConsumerWidget {
                         Flexible(
                           child: Text(
                             TTextStrings.resendVerificationEmail,
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      color: LightThemeColors.surfaceColor,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: LightThemeColors.surfaceColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
                           ),
                         ),
                       ],
