@@ -217,11 +217,11 @@ class THelperFunction {
   }
 
   /// Shows a basic alert dialog
-  static void showAlertDialog(
-      BuildContext context, String title, String message) {
+  static Future<void> showAlertDialog(
+      BuildContext context, String title, String message) async {
     final isDark = isDarkMode(context);
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(

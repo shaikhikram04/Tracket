@@ -15,9 +15,13 @@ import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseAuthMethods extends AuthService {
-  static final _auth = FirebaseAuth.instance;
-  static final _firestore = FirebaseFirestore.instance;
-  static const uuid = Uuid();
+  // Static instances
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static const Uuid uuid = Uuid();
+
+  // Error message constants
+  static const String _invalidRoleError = 'This email is used as a %s. Please login as a %s!';
 
   @override
   User get currentUser {
@@ -28,28 +32,37 @@ class FirebaseAuthMethods extends AuthService {
     return user;
   }
 
+  /// Gets the current user's ID
   @override
   String get currentUserId => currentUser.uid;
 
+  //* Sends a verification email to a new user
+  ///
+  /// Returns the created [User] if successful, or throws an exception
   @override
   Future<User?> sendVerificationEmail(
     String email,
     String password,
   ) async {
-    User? user;
     try {
       final userCred = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      user = userCred.user;
-      await user?.sendEmailVerification();
+
+      final user = userCred.user;
+      if (user == null) {
+        throw StateError('Failed to create user account');
+      }
+
+      await user.sendEmailVerification();
+      return user;
     } on FirebaseAuthException catch (e) {
       if (e.code == TTextStrings.emailAlreadyInUse) {
-        final role = await FirebaseAuthMethods.getUserRole(email);
+        final role = await getUserRole(email);
 
-        String code;
-        String message;
+        final String code;
+        final String message;
         if (role == TTextStrings.userRole) {
           code = TTextStrings.emailUsedByUserCode;
           message = TTextStrings.emailUsedByUser;
@@ -63,31 +76,60 @@ class FirebaseAuthMethods extends AuthService {
           message: message,
         );
       }
+      // Re-throw other Firebase exceptions
+      rethrow;
+    } catch (e) {
+      // Re-throw general exceptions
+      rethrow;
     }
-
-    return user;
   }
 
+  /// Fetches the current user's document snapshot from Firestore
   Future<DocumentSnapshot<Map<String, dynamic>>> get getUserSnap async {
-    var snap = await _firestore
-        .collection(FirestoreCollections.players)
-        .doc(currentUserId)
-        .get();
+    try {
+      final snap = await _firestore.collection(FirestoreCollections.players).doc(currentUserId).get();
 
-    return snap;
+      if (!snap.exists) {
+        throw StateError('User document does not exist');
+      }
+
+      return snap;
+    } catch (e) {
+      rethrow;
+    }
   }
 
+  /// Gets detailed player information for the current user
   Future<Player> get getUserDetail async {
-    final snap = await getUserSnap;
+    try {
+      final snap = await getUserSnap;
+      final userData = snap.data();
 
-    QuerySnapshot? playerTeamsSnap;
-    if (snap.data()!['role'] == TTextStrings.playerRole) {
-      playerTeamsSnap = await _firestore
+      if (userData == null) {
+        throw StateError('User data is null');
+      }
+
+      if (userData['role'] == TTextStrings.playerRole) {
+        return await _getPlayerDetails(userData);
+      } else {
+        return Player.fromSeedForUser(userData);
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Helper method to fetch player-specific details
+  Future<Player> _getPlayerDetails(Map<String, dynamic> userData) async {
+    try {
+      // Get player teams
+      final playerTeamsSnap = await _firestore
           .collection(FirestoreCollections.players)
           .doc(currentUserId)
           .collection(FirestoreCollections.playerTeams)
           .get();
 
+      // Get all format statistics
       final allFormatStatsSnap = await _firestore
           .collection(FirestoreCollections.players)
           .doc(currentUserId)
@@ -96,17 +138,20 @@ class FirebaseAuthMethods extends AuthService {
 
       final allFormatStatsDoc = allFormatStatsSnap.docs;
       final allFormatStats = <String, dynamic>{};
+
       for (final stats in allFormatStatsDoc) {
         allFormatStats.addAll({stats.id: stats.data()});
       }
 
-      return Player.fromSeed(
-          snap.data()!, playerTeamsSnap.docs, allFormatStats);
-    } else {
-      return Player.fromSeedForUser(snap.data()!);
+      return Player.fromSeed(userData, playerTeamsSnap.docs, allFormatStats);
+    } catch (e) {
+      rethrow;
     }
   }
 
+  /// Handles user login
+  ///
+  /// Manages email verification and role-specific validation
   @override
   Future<void> login({
     required String email,
@@ -115,42 +160,39 @@ class FirebaseAuthMethods extends AuthService {
     required Ref ref,
     required String expectedRole,
   }) async {
-    final opponentRole = expectedRole == TTextStrings.userRole
-        ? TTextStrings.playerRole
-        : TTextStrings.userRole;
+    if (!context.mounted) return;
+
     try {
       final userCred = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if (!userCred.user!.emailVerified && context.mounted) {
-        THelperFunction.showVerificationDialog(context, email);
-        final verificationData = VerificationData(
-          user: userCred.user!,
-          username: '',
-          ref: ref,
-          context: context,
-          role: expectedRole,
-          imageUrl: '',
-        );
-        EmailVerificationService.checkEmailVerification(data: verificationData);
+      final user = userCred.user;
+      if (user == null) {
+        throw StateError('Login succeeded but user is null');
+      }
+
+      // Handle non-verified email
+      if (!user.emailVerified) {
+        if (!context.mounted) return;
+
+        await _handleUnverifiedUser(context, ref, email, user, expectedRole);
         return;
       }
 
-      final role = await getUserRole(email);
+      // Verify user has the expected role
+      await _verifyUserRole(email, expectedRole, context);
 
-      if (role != expectedRole) {
-        throw FirebaseAuthException(code: 'email-used-by-$opponentRole');
-      }
-
+      // Navigate to home screen
       if (context.mounted) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
           (route) => false,
         );
       }
     } on FirebaseAuthException catch (error) {
+      final opponentRole = expectedRole == TTextStrings.userRole ? TTextStrings.playerRole : TTextStrings.userRole;
       if (!context.mounted) return;
       if (error.code == TTextStrings.userNotFound) {
         THelperFunction.showAlertDialog(
@@ -159,8 +201,7 @@ class FirebaseAuthMethods extends AuthService {
           TTextStrings.userNotFoundMessage,
         );
       } else if (error.code == TTextStrings.invalidCredentialCode) {
-        THelperFunction.showSnackBar(
-            TTextStrings.wrongEmailOrPassword, context);
+        THelperFunction.showSnackBar(TTextStrings.wrongEmailOrPassword, context);
         rethrow;
       } else if (error.code == 'email-used-by-$opponentRole') {
         _auth.signOut();
@@ -175,29 +216,76 @@ class FirebaseAuthMethods extends AuthService {
     }
   }
 
+  /// Handles unverified user login flow
+  Future<void> _handleUnverifiedUser(
+      BuildContext context, Ref ref, String email, User user, String expectedRole) async {
+    if (!context.mounted) return;
+
+    THelperFunction.showVerificationDialog(context, email);
+
+    final verificationData = VerificationData(
+      user: user,
+      username: '',
+      ref: ref,
+      context: context,
+      role: expectedRole,
+      imageUrl: '',
+    );
+
+    await EmailVerificationService.checkEmailVerification(data: verificationData);
+  }
+
+  /// Verifies that the user has the expected role
+  Future<void> _verifyUserRole(String email, String expectedRole, BuildContext context) async {
+    final role = await getUserRole(email);
+
+    if (role != expectedRole) {
+      final opponentRole = expectedRole == TTextStrings.userRole ? TTextStrings.playerRole : TTextStrings.userRole;
+
+      await _auth.signOut();
+
+      if (!context.mounted) return;
+
+      THelperFunction.showSnackBar(
+        _invalidRoleError.replaceAll('%s', opponentRole),
+        context,
+      );
+
+      throw FirebaseAuthException(code: 'email-used-by-$opponentRole');
+    }
+  }
+
+  /// Sends a password reset email
   @override
   Future<String> resetPassword(String email) async {
-    String result;
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      result = TTextStrings.success;
+      return TTextStrings.success;
+    } on FirebaseAuthException catch (e) {
+      return e.message ?? e.code;
     } catch (error) {
-      result = error.toString();
+      return error.toString();
     }
-
-    return result;
   }
 
+  /// Gets the role associated with an email address
   static Future<String> getUserRole(String email) async {
-    final userSnap = await _firestore
-        .collection(FirestoreCollections.players)
-        .where('email', isEqualTo: email)
-        .limit(1)
-        .get();
+    try {
+      final userSnap =
+          await _firestore.collection(FirestoreCollections.players).where('email', isEqualTo: email).limit(1).get();
 
-    return userSnap.docs.first.data()['role'] as String;
+      if (userSnap.docs.isEmpty) {
+        throw StateError('User with email $email not found');
+      }
+
+      return userSnap.docs.first.data()['role'] as String;
+    } catch (e) {
+      rethrow;
+    }
   }
 
+
+   /// Logs out the current user
   @override
   Future<void> logout() async {
     try {
