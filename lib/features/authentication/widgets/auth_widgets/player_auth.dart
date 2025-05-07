@@ -4,9 +4,9 @@ import 'package:tracket/common/widgets/custom_widgets/my_dropdown_menu.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_text_field.dart';
 import 'package:tracket/features/authentication/models/player_auth_state.dart';
 import 'package:tracket/features/authentication/providers/auth_state_provider.dart';
-import 'package:tracket/features/authentication/widgets/auth_form.dart';
-import 'package:tracket/features/authentication/widgets/auth_submit_button.dart';
-import 'package:tracket/features/authentication/widgets/authentication_toggle.dart';
+import 'package:tracket/features/authentication/widgets/auth_widgets/auth_form.dart';
+import 'package:tracket/features/authentication/widgets/auth_widgets/auth_submit_button.dart';
+import 'package:tracket/features/authentication/widgets/auth_widgets/authentication_toggle.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -92,45 +92,31 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
       child: Column(
         children: [
           Text(
-            playerAuthState.isLogin
-                ? TTextStrings.loginAsPlayer
-                : TTextStrings.signupAsPlayer,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(fontWeight: FontWeight.w700),
+            playerAuthState.isLogin ? TTextStrings.loginAsPlayer : TTextStrings.signupAsPlayer,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: TSizes.defaultSpace),
           if (!playerAuthState.isLogin)
             MyTextField(
-              onSave: (value) => ref
-                  .read(playerAuthProvider.notifier)
-                  .updateField(playerName: value),
+              onSave: (value) => ref.read(playerAuthProvider.notifier).updateField(playerName: value),
               hintText: TTextStrings.playerName,
-              validator: (value) => TValidator.nameValidator(
-                  value, TTextStrings.playerName),
+              validator: (value) => TValidator.nameValidator(value, TTextStrings.playerName),
               prefixIcon: AppIconData.person,
             ),
-          if (!playerAuthState.isLogin)
-            const SizedBox(height: TSizes.defaultSpace),
+          if (!playerAuthState.isLogin) const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
-            onSave: (value) =>
-                ref.read(playerAuthProvider.notifier).updateField(email: value),
+            onSave: (value) => ref.read(playerAuthProvider.notifier).updateField(email: value),
             hintText: TTextStrings.email,
             validator: TValidator.emailValidator,
             prefixIcon: AppIconData.email,
           ),
           const SizedBox(height: TSizes.defaultSpace),
           MyTextField(
-            onSave: (value) => ref
-                .read(playerAuthProvider.notifier)
-                .updateField(password: value),
-            validator: (value) => TValidator.passwordValidator(
-                value, playerAuthState.isLogin),
+            onSave: (value) => ref.read(playerAuthProvider.notifier).updateField(password: value),
+            validator: (value) => TValidator.passwordValidator(value, playerAuthState.isLogin),
             hintText: TTextStrings.password,
             isPasswordHidden: playerAuthState.isPasswordHidden,
-            changeVisibility:
-                ref.read(playerAuthProvider.notifier).togglePasswordVisibility,
+            changeVisibility: ref.read(playerAuthProvider.notifier).togglePasswordVisibility,
             prefixIcon: AppIconData.lock,
           ),
           const SizedBox(height: TSizes.defaultSpace),
@@ -141,10 +127,7 @@ class _PlayerAuthState extends ConsumerState<PlayerAuth> {
             isLogin: playerAuthState.isLogin,
           ),
           const SizedBox(height: TSizes.spaceBtwItems),
-          AuthenticationToggle(
-            isLogin: playerAuthState.isLogin,
-            toggleAuth: _togglePlayerAuth,
-          ),
+          AuthenticationToggle(isLogin: playerAuthState.isLogin, toggleAuth: _togglePlayerAuth),
         ],
       ),
     );

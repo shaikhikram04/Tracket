@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/features/authentication/widgets/step_circle.dart';
-import 'package:tracket/features/authentication/widgets/step_label.dart';
+import 'package:tracket/features/authentication/widgets/verification_widgets/step_circle.dart';
+import 'package:tracket/features/authentication/widgets/verification_widgets/step_label.dart';
 
 class ProgressStepIndicator extends StatelessWidget {
   final int step;
