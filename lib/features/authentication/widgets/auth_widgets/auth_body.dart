@@ -17,10 +17,12 @@ class AuthBody extends ConsumerStatefulWidget {
   ConsumerState<AuthBody> createState() => _AuthBodyState();
 }
 
-class _AuthBodyState extends ConsumerState<AuthBody>
-    with SingleTickerProviderStateMixin {
+class _AuthBodyState extends ConsumerState<AuthBody> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   bool _isChangingTab = false;
+
+  // Declare cancellable future to handle tab change
+  Future<void>? _tabChangeFuture;
 
   @override
   void initState() {
@@ -35,19 +37,27 @@ class _AuthBodyState extends ConsumerState<AuthBody>
   }
 
   Future<void> _handleTabChange(int index) async {
+    // Prevent multiple simultaneous tab changes
     if (_isChangingTab) return;
 
     setState(() => _isChangingTab = true);
 
     try {
-      await Future.delayed(AppDuration.tabAnimationDuration);
+      // Cancel any previous tab change operation
+      _tabChangeFuture?.ignore();
+
+      // Create new tab change operation
+      _tabChangeFuture = Future.delayed(AppDuration.tabAnimationDuration);
+      await _tabChangeFuture;
+
       if (!mounted) return;
 
+      // Reset auth state and update screen size
       ref.read(playerAuthProvider.notifier).reset();
       ref.read(authScreenSizeProvider.notifier).changeSizeByIndex(index);
     } catch (e) {
       if (mounted) {
-        THelperFunction.showSnackBar(TTextStrings.somethingWentWrong, context);
+        THelperFunction.showErrorSnackBar(TTextStrings.somethingWentWrong, context);
       }
     } finally {
       if (mounted) {
@@ -58,6 +68,8 @@ class _AuthBodyState extends ConsumerState<AuthBody>
 
   @override
   void dispose() {
+    // Cancel any pending operations
+    _tabChangeFuture?.ignore();
     _tabController.removeListener(_handleTabAnimation);
     _tabController.dispose();
     super.dispose();
@@ -71,24 +83,9 @@ class _AuthBodyState extends ConsumerState<AuthBody>
     return AnimatedContainer(
       duration: AppDuration.tabAnimationDuration,
       decoration: BoxDecoration(
-        color: isDark
-            ? DarkThemeColors.surfaceColor
-            : LightThemeColors.surfaceColor,
+        color: isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
         borderRadius: BorderRadius.circular(TSizes.borderRadiusXl),
-        boxShadow: [
-          BoxShadow(
-            color: primaryColor.withValues(alpha: 0.15),
-            blurRadius: TSizes.blurRadiusXl,
-            offset: const Offset(0, 8),
-            spreadRadius: 2,
-          ),
-          BoxShadow(
-            color: primaryLight.withValues(alpha: 0.08),
-            blurRadius: TSizes.blurRadiusLg,
-            offset: const Offset(0, 4),
-            spreadRadius: 1,
-          ),
-        ],
+        boxShadow: _buildBoxShadow(),
       ),
       child: Column(
         children: [
@@ -101,5 +98,22 @@ class _AuthBodyState extends ConsumerState<AuthBody>
         ],
       ),
     );
+  }
+
+  List<BoxShadow> _buildBoxShadow() {
+    return [
+      BoxShadow(
+        color: primaryColor.withValues(alpha: 0.15),
+        blurRadius: TSizes.blurRadiusXl,
+        offset: const Offset(0, 8),
+        spreadRadius: 2,
+      ),
+      BoxShadow(
+        color: primaryLight.withValues(alpha: 0.08),
+        blurRadius: TSizes.blurRadiusLg,
+        offset: const Offset(0, 4),
+        spreadRadius: 1,
+      ),
+    ];
   }
 }
