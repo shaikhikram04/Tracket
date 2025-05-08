@@ -21,15 +21,9 @@ class ProgressStepIndicator extends StatelessWidget {
     final isActive = currentStep >= step;
     return Column(
       children: [
-        StepCircle(
-          step: step,
-          isActive: isActive,
-        ),
+        StepCircle(step: step, isActive: isActive),
         const SizedBox(height: _spacing),
-        StepLabel(
-          label: label,
-          isActive: isActive,
-        ),
+        StepLabel(label: label, isActive: isActive),
       ],
     );
   }

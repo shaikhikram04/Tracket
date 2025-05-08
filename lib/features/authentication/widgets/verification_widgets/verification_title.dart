@@ -15,17 +15,13 @@ class VerificationTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: TSizes.sm,
       children: [
-        Icon(
-          Icons.lock_outline,
-          color: isDark ? primaryLight : primaryVariant,
-          size: TSizes.iconMd,
-        ),
+        Icon(Icons.lock_outline, color: isDark ? primaryLight : primaryVariant, size: TSizes.iconMd),
         Text(
           TTextStrings.authentication,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.w800,
-                color: isDark ? primaryLight : primaryVariant,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: FontWeight.w800, color: isDark ? primaryLight : primaryVariant),
         ),
       ],
     );

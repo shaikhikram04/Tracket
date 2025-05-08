@@ -12,15 +12,10 @@ class BackToLoginButton extends StatelessWidget {
 
     return TextButton.icon(
       onPressed: () => Navigator.of(context).pop(),
-      icon: Icon(
-        Icons.arrow_back,
-        color: isDark ? lightGrassGreen : grassGreen,
-      ),
+      icon: Icon(Icons.arrow_back, color: isDark ? lightGrassGreen : grassGreen),
       label: Text(
         TTextStrings.backToLogin,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: isDark ? lightGrassGreen : grassGreen,
-            ),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: isDark ? lightGrassGreen : grassGreen),
       ),
     );
   }

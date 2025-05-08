@@ -34,12 +34,8 @@ class AuthTabViewForm extends StatelessWidget {
               )
             : Container(
                 decoration: BoxDecoration(
-                  color: isDark
-                      ? DarkThemeColors.surfaceColor
-                      : LightThemeColors.surfaceColor,
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(TSizes.borderRadiusXl),
-                  ),
+                  color: isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(TSizes.borderRadiusXl)),
                 ),
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),

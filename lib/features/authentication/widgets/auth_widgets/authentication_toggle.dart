@@ -22,17 +22,9 @@ class AuthenticationToggle extends StatelessWidget {
 
     return Row(
       children: [
-        if (isLogin)
-          MyTextButton(
-            text: TTextStrings.forgetPassword,
-            onPressed: onForgetPassword,
-            isUnderlined: true,
-          ),
+        if (isLogin) MyTextButton(text: TTextStrings.forgetPassword, onPressed: onForgetPassword, isUnderlined: true),
         const Spacer(),
-        MyTextButton(
-          text: isLogin ? TTextStrings.wantToSignup : TTextStrings.wantToLogin,
-          onPressed: toggleAuth,
-        ),
+        MyTextButton(text: isLogin ? TTextStrings.wantToSignup : TTextStrings.wantToLogin, onPressed: toggleAuth),
       ],
     );
   }

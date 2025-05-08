@@ -21,18 +21,13 @@ class StepCircle extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isActive ? Colors.green : Colors.grey.shade300,
-        border: Border.all(
-          color: isActive ? Colors.green : Colors.grey.shade300,
-          width: 2,
-        ),
+        border: Border.all(color: isActive ? Colors.green : Colors.grey.shade300, width: 2),
       ),
       child: Center(
         child: Text(
           step.toString(),
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: isActive
-                    ? LightThemeColors.surfaceColor
-                    : LightThemeColors.primaryText,
+                color: isActive ? LightThemeColors.surfaceColor : LightThemeColors.primaryText,
               ),
         ),
       ),

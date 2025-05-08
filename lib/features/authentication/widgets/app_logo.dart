@@ -20,8 +20,7 @@ class AppLogo extends StatelessWidget {
         isDark ? TImages.appLogoDark : TImages.appLogo,
         height: height * 0.25 > _maxLogoHeight ? _maxLogoHeight : height * 0.25,
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.error, size: TSizes.appLogoHeightMin),
+        errorBuilder: (context, error, stackTrace) => const Icon(Icons.error, size: TSizes.appLogoHeightMin),
       ),
     );
   }

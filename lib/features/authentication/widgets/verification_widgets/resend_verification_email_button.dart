@@ -27,10 +27,7 @@ class ResendVerificationEmailButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 10,
           children: [
-            const Icon(
-              AppIconData.email,
-              color: LightThemeColors.surfaceColor,
-            ),
+            const Icon(AppIconData.email, color: LightThemeColors.surfaceColor),
             Flexible(
               child: Text(
                 TTextStrings.resendVerificationEmail,

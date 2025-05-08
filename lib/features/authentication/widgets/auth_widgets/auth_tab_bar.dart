@@ -25,32 +25,23 @@ class AuthTabBar extends StatelessWidget {
                 : LightThemeColors.cardColor.withValues(alpha: 0.8),
           ],
         ),
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(TSizes.borderRadiusXl),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(TSizes.borderRadiusXl)),
       ),
       child: TabBar(
         controller: tabController,
         dividerColor: Colors.transparent,
         indicatorSize: TabBarIndicatorSize.tab,
-        labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+        labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
         indicator: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              primaryColor,
-              primaryMedium,
-            ],
+            colors: [primaryColor, primaryMedium],
           ),
           borderRadius: _getTabBorderRadius(),
         ),
         labelColor: onPrimary,
-        unselectedLabelColor: isDark
-            ? DarkThemeColors.secondaryText
-            : LightThemeColors.secondaryText,
+        unselectedLabelColor: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
         overlayColor: WidgetStateColor.resolveWith(
           (Set<WidgetState> states) {
             if (states.contains(WidgetState.hovered)) {

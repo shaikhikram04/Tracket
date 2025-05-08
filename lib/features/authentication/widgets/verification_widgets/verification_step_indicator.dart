@@ -12,12 +12,7 @@ class VerificationStepIndicator extends StatelessWidget {
   Widget _buildProgressLine({
     required bool isActive,
   }) {
-    return Expanded(
-      child: Container(
-        height: TSizes.dividerHeight,
-        color: isActive ? primaryColor : Colors.grey[350],
-      ),
-    );
+    return Expanded(child: Container(height: TSizes.dividerHeight, color: isActive ? primaryColor : Colors.grey[350]));
   }
 
   @override
@@ -25,23 +20,11 @@ class VerificationStepIndicator extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ProgressStepIndicator(
-          step: 1,
-          currentStep: currentStep,
-          label: TTextStrings.sendEmail,
-        ),
+        ProgressStepIndicator(step: 1, currentStep: currentStep, label: TTextStrings.sendEmail),
         _buildProgressLine(isActive: currentStep > 1),
-        ProgressStepIndicator(
-          step: 2,
-          currentStep: currentStep,
-          label: TTextStrings.verified,
-        ),
+        ProgressStepIndicator(step: 2, currentStep: currentStep, label: TTextStrings.verified),
         _buildProgressLine(isActive: currentStep > 2),
-        ProgressStepIndicator(
-          step: 3,
-          currentStep: currentStep,
-          label: TTextStrings.login,
-        ),
+        ProgressStepIndicator(step: 3, currentStep: currentStep, label: TTextStrings.login),
       ],
     );
   }

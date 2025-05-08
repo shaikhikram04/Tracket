@@ -17,15 +17,8 @@ class StepLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = THelperFunction.isDarkMode(context);
     final activeColor = isDark ? primaryLight : primaryColor;
-    final inactiveColor =
-        isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText;
+    final inactiveColor = isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText;
 
-    return Text(
-      label,
-      style: TextStyle(
-        color: isActive ? activeColor : inactiveColor,
-        fontSize: TSizes.fontSizeXs,
-      ),
-    );
+    return Text(label, style: TextStyle(color: isActive ? activeColor : inactiveColor, fontSize: TSizes.fontSizeXs));
   }
 }
