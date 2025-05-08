@@ -58,8 +58,7 @@ Future<void> main() async {
               Devices.ios.iPhone13Mini,
               Devices.ios.iPhoneSE,
             ],
-            builder: (BuildContext context) =>
-                const ProviderScope(child: Tracket()),
+            builder: (BuildContext context) => const ProviderScope(child: Tracket()),
           )
         : const ProviderScope(child: Tracket()),
   );
@@ -80,9 +79,7 @@ class Tracket extends StatelessWidget {
       title: 'Tracket',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      home: currUser == null || !currUser.emailVerified
-          ? const AuthScreen()
-          : const HomeScreen(),
+      home: currUser == null || !currUser.emailVerified ? const AuthScreen() : const HomeScreen(),
 
       // home: const Scaffold(
       //   body: ChatScreen(),

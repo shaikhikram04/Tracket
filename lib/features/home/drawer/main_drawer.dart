@@ -19,9 +19,7 @@ class MainDrawer extends ConsumerWidget {
       if (!context.mounted) return;
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => const AuthScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const AuthScreen()),
         (route) => false,
       );
     } catch (e) {
@@ -39,9 +37,7 @@ class MainDrawer extends ConsumerWidget {
     final isDark = THelperFunction.isDarkMode(context);
 
     return Drawer(
-      backgroundColor: isDark
-          ? DarkThemeColors.backgroundColor
-          : LightThemeColors.backgroundColor,
+      backgroundColor: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
       width: width * 0.75,
       child: Column(
         children: [

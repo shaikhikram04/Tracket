@@ -28,18 +28,12 @@ class DrawerTile extends StatelessWidget {
       leading: Icon(
         Icons.logout,
         size: TSizes.iconMd,
-        color: leadingIconColor ??
-            (isDark
-                ? DarkThemeColors.primaryText
-                : LightThemeColors.primaryText),
+        color: leadingIconColor ?? (isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText),
       ),
       title: Text(
         TTextStrings.logout,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: textColor ??
-                  (isDark
-                      ? DarkThemeColors.primaryText
-                      : LightThemeColors.primaryText),
+              color: textColor ?? (isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText),
             ),
       ),
       onTap: onTap,
