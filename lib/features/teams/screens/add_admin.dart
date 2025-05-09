@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/common/widgets/buttons/action_button.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/players/widgets/player_list_view.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -19,9 +19,7 @@ class AddAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = THelperFunction.isDarkMode(context);
     return Scaffold(
-      backgroundColor: isDark
-          ? DarkThemeColors.backgroundColor
-          : LightThemeColors.backgroundColor,
+      backgroundColor: isDark ? DarkThemeColors.backgroundColor : LightThemeColors.backgroundColor,
       appBar: AppBar(
         title: const Text(TTextStrings.addAdmin),
         backgroundColor: primaryColor,
@@ -52,9 +50,7 @@ class AddAdmin extends StatelessWidget {
                   child: Text(
                     TTextStrings.addAdminMessage,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: isDark
-                              ? DarkThemeColors.primaryText
-                              : LightThemeColors.primaryText,
+                          color: isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
                         ),
                   ),
                 ),
@@ -87,9 +83,7 @@ class AddAdmin extends StatelessWidget {
         title: const Text(
           TTextStrings.adminPrivileges,
         ),
-        backgroundColor: isDark
-            ? DarkThemeColors.surfaceColor
-            : LightThemeColors.surfaceColor,
+        backgroundColor: isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,8 +125,7 @@ class AddAdmin extends StatelessWidget {
     );
   }
 
-  Widget _buildPrivilegeItem(
-      BuildContext context, IconData icon, String text, bool isDark) {
+  Widget _buildPrivilegeItem(BuildContext context, IconData icon, String text, bool isDark) {
     return Row(
       children: [
         Icon(
@@ -145,9 +138,7 @@ class AddAdmin extends StatelessWidget {
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: isDark
-                      ? DarkThemeColors.primaryText
-                      : LightThemeColors.primaryText,
+                  color: isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
                 ),
           ),
         ),

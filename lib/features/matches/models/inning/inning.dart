@@ -5,9 +5,8 @@ import 'package:tracket/features/matches/models/extras.dart';
 import 'package:tracket/features/matches/models/fall_of_wickets.dart';
 import 'package:tracket/features/matches/models/inning/delivery_processor.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
-
-// Enum for innings status
-enum InningsStatus { notStarted, inProgress, declared, allOut, completed }
+import 'package:tracket/utils/constants/enums.dart';
+import 'package:tracket/utils/helpers/inning_stats_calculator.dart';
 
 class Inning {
   final MatchTeamInfo battingTeam;
@@ -50,8 +49,7 @@ class Inning {
   String get oversDisplay => '$completedOvers.$remainingBalls';
 
   double get runRate {
-    if (balls == 0) return 0.0;
-    return (runs * 6.0) / balls;
+    return InningStatsCalculator(this).getCurrentRunRate();
   }
 
   bool get isInningsCompleted =>
@@ -126,7 +124,6 @@ class Inning {
 
   // Partnership calculation
   List<int> getCurrentPartnership() {
-
     //! Not right logic : need to correct
     if (battingStats.isEmpty) return [0, 0];
 

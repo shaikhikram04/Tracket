@@ -1,15 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/matches/models/batting_score.dart';
-
-/// Defines the types of balls that can be bowled in cricket.
-enum BallType {
-  valid,
-  wide,
-  noBall,
-  bye,
-  legBye,
-  // dead
-}
+import 'package:tracket/utils/constants/enums.dart';
 
 /// Represents the outcome of a single ball in a cricket match.
 class BallOutcome {

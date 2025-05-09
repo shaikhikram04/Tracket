@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/base_selection_sheet.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
@@ -51,8 +51,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
 
     return BaseSelectionSheet(
       title: 'Select Match Squad',
-      instructions:
-          'Choose the ${widget.noOfPlayerCanBeSelected} players for a match',
+      instructions: 'Choose the ${widget.noOfPlayerCanBeSelected} players for a match',
       content: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: widget.playerList.length,
@@ -61,8 +60,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
           final isSelected = _selectedPlayers.contains(player);
           final selectedPlayerPosition = _selectedPlayers.indexOf(player) + 1;
 
-          final cardColor =
-              isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor;
+          final cardColor = isDark ? DarkThemeColors.cardColor : LightThemeColors.cardColor;
 
           return Card(
             elevation: isSelected ? 4 : 1,
@@ -74,8 +72,7 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                   if (isSelected) {
                     _selectedPlayers.remove(player);
                   } else {
-                    if (_selectedPlayers.length >=
-                        widget.noOfPlayerCanBeSelected) return;
+                    if (_selectedPlayers.length >= widget.noOfPlayerCanBeSelected) return;
                     _selectedPlayers.add(player);
                   }
                 });
@@ -92,22 +89,16 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                             ),
                             decoration: BoxDecoration(
                               color: grassGreen,
-                              borderRadius:
-                                  BorderRadius.circular(TSizes.borderRadiusLg),
+                              borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
                             ),
                             child: Text(
                               selectedPlayerPosition.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(color: onPrimary),
+                              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: onPrimary),
                             ),
                           )
                         : Icon(
                             Icons.person_outline,
-                            color: isDark
-                                ? DarkThemeColors.secondaryText
-                                : LightThemeColors.secondaryText,
+                            color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                           ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -123,14 +114,11 @@ class _SquadSelectionSheetState extends State<SquadSelectionSheet> {
                           ),
                           Text(
                             player.cricketRole == CricketRole.bowler
-                                ? AppFormatter.formatBowlerSubTitle(
-                                    player.longCricketRole)
+                                ? AppFormatter.formatBowlerSubTitle(player.longCricketRole)
                                 : player.longCricketRole,
                             style: TextStyle(
                               fontSize: 14,
-                              color: isDark
-                                  ? DarkThemeColors.secondaryText
-                                  : LightThemeColors.secondaryText,
+                              color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                             ),
                           ),
                         ],

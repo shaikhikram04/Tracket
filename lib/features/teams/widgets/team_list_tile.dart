@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
@@ -34,9 +34,7 @@ class TeamListTile extends StatelessWidget {
         teamData['teamName'],
         style: TextStyle(
           fontWeight: FontWeight.w600,
-          color: isDarkMode
-              ? DarkThemeColors.primaryText
-              : LightThemeColors.primaryText,
+          color: isDarkMode ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
         ),
       ),
       subtitle: Column(
@@ -45,9 +43,7 @@ class TeamListTile extends StatelessWidget {
           Text(
             teamData['shortName'],
             style: TextStyle(
-              color: isDarkMode
-                  ? DarkThemeColors.secondaryText
-                  : LightThemeColors.secondaryText,
+              color: isDarkMode ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
             ),
           ),
           if (teamRole != TeamRole.player) ...[

@@ -1,14 +1,4 @@
-enum ReasonOfOut {
-  bowled('Bowled'),
-  lbw('LBW'),
-  stumped('Stumped'),
-  hitWicket('Hit Wicket'),
-  caught('Caught'),
-  runOut('Run Out');
-
-  const ReasonOfOut(this.description);
-  final String description;
-}
+import 'package:tracket/utils/constants/enums.dart';
 
 class BattingScore {
   final String uuid;

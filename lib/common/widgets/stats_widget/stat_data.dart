@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/stats_widget/stat_label.dart';
 import 'package:tracket/common/widgets/stats_widget/stat_number.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class StatsData extends StatelessWidget {
   const StatsData({
@@ -45,8 +46,7 @@ class StatsData extends StatelessWidget {
           StatNumber(
             number: number,
             style: numberStyle?.copyWith(color: numColor) ??
-                defaultNumberStyle.copyWith(
-                    color: numColor ?? theme.colorScheme.primary),
+                defaultNumberStyle.copyWith(color: numColor ?? theme.colorScheme.primary),
             prefix: numberPrefix,
             suffix: numberSuffix,
           ),
@@ -121,10 +121,4 @@ class StatsData extends StatelessWidget {
         return theme.textTheme.titleMedium!;
     }
   }
-}
-
-enum StatsDataSize {
-  small,
-  medium,
-  large,
 }

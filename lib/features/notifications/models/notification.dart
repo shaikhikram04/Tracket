@@ -3,23 +3,7 @@ import 'package:tracket/features/notifications/models/challenge_match.dart';
 import 'package:tracket/features/notifications/models/follow_data.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-
-enum NotificationType {
-  follow,
-  teamJoinRequest, //* player request to join team
-  offerPlayerRequest, //* team offer player to join team
-  matchChallenge,
-}
-
-enum NotificationStatus {
-  pending,
-  accept,
-  reject;
-
-  bool get isPending => this == NotificationStatus.pending;
-  bool get isAccepted => this == NotificationStatus.accept;
-  bool get isReject => this == NotificationStatus.reject;
-}
+import 'package:tracket/utils/constants/enums.dart';
 
 class NotificationModel {
   const NotificationModel({
@@ -154,8 +138,7 @@ class NotificationModel {
       orElse: () => NotificationStatus.pending,
     );
 
-    if (type == NotificationType.offerPlayerRequest ||
-        type == NotificationType.teamJoinRequest) {
+    if (type == NotificationType.offerPlayerRequest || type == NotificationType.teamJoinRequest) {
       return NotificationModel.request(
         notificationId: map['notificationId'],
         from: map['from'],
@@ -208,7 +191,5 @@ class NotificationModel {
 
   bool get isFollow => type == NotificationType.follow;
   bool get isChallenge => type == NotificationType.matchChallenge;
-  bool get isRequest =>
-      type == NotificationType.offerPlayerRequest ||
-      type == NotificationType.teamJoinRequest;
+  bool get isRequest => type == NotificationType.offerPlayerRequest || type == NotificationType.teamJoinRequest;
 }

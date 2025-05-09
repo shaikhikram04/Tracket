@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/notifications/models/notification_result.dart';
 import 'package:tracket/features/players/services/players_services.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
 class NotificationServices {
@@ -16,9 +16,7 @@ class NotificationServices {
     required String? challengedTeamId,
   }) async {
     final batch = _firestore.batch();
-    final docRef = _firestore
-        .collection(FirestoreCollections.notification)
-        .doc(notificationId);
+    final docRef = _firestore.collection(FirestoreCollections.notification).doc(notificationId);
 
     try {
       await _handleSpecificNotificationDeletion(
@@ -81,8 +79,7 @@ class NotificationServices {
     required String teamId,
     required String challengedTeamId,
   }) async {
-    final challengerPlayersSnapshot =
-        await docRef.collection(FirestoreCollections.challengerPlayers).get();
+    final challengerPlayersSnapshot = await docRef.collection(FirestoreCollections.challengerPlayers).get();
 
     for (final doc in challengerPlayersSnapshot.docs) {
       batch.delete(doc.reference);
@@ -99,11 +96,6 @@ class NotificationServices {
     String notificationId,
     NotificationStatus status,
   ) async {
-    await _firestore
-        .collection(FirestoreCollections.notification)
-        .doc(notificationId)
-        .update({'status': status.name});
+    await _firestore.collection(FirestoreCollections.notification).doc(notificationId).update({'status': status.name});
   }
-
-  
 }

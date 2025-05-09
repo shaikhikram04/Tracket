@@ -6,6 +6,7 @@ import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/providers/extras_provider.dart';
 import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class WicketReason extends StatefulWidget {
@@ -79,8 +80,7 @@ class _WicketReasonState extends State<WicketReason> {
       _selectedIndex = index;
       _reasonOfOut = _reasons[index];
       // Adjust sheet size based on selected reason
-      if (_reasonOfOut == ReasonOfOut.runOut ||
-          _reasonOfOut == ReasonOfOut.caught) {
+      if (_reasonOfOut == ReasonOfOut.runOut || _reasonOfOut == ReasonOfOut.caught) {
         _sheetSize = 0.85;
       } else {
         _sheetSize = 0.65;
@@ -128,8 +128,7 @@ class _WicketReasonState extends State<WicketReason> {
 
     Map<String, dynamic> data = {
       'reasonOfOut': _reasonOfOut,
-      'runsCompleted':
-          _reasonOfOut == ReasonOfOut.runOut ? _runsCompleted : null,
+      'runsCompleted': _reasonOfOut == ReasonOfOut.runOut ? _runsCompleted : null,
       'runOutBatsman': _runOutBatsmanPosition,
       'runOutBy': _runOutBy,
       'caughtBy': _caughtBy,
@@ -139,9 +138,7 @@ class _WicketReasonState extends State<WicketReason> {
   }
 
   String _getDismissalInfo() {
-    final suffixInfo = _reasonOfOut == ReasonOfOut.runOut
-        ? ''
-        : 'b ${widget.bowler.playerName}';
+    final suffixInfo = _reasonOfOut == ReasonOfOut.runOut ? '' : 'b ${widget.bowler.playerName}';
     var prefixInfo = '';
 
     if (_reasonOfOut == ReasonOfOut.caught) {
@@ -180,11 +177,8 @@ class _WicketReasonState extends State<WicketReason> {
               builder: (context, constraints) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: isDark
-                        ? DarkThemeColors.secondaryBackground
-                        : LightThemeColors.secondaryBackground,
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(20)),
+                    color: isDark ? DarkThemeColors.secondaryBackground : LightThemeColors.secondaryBackground,
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.1),
@@ -201,9 +195,7 @@ class _WicketReasonState extends State<WicketReason> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? Colors.grey.withValues(alpha: 0.6)
-                              : Colors.grey.withValues(alpha: 0.3),
+                          color: isDark ? Colors.grey.withValues(alpha: 0.6) : Colors.grey.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -212,19 +204,13 @@ class _WicketReasonState extends State<WicketReason> {
                           controller: scrollController,
                           slivers: [
                             SliverPadding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(40, 10, 40, 30),
+                              padding: const EdgeInsets.fromLTRB(40, 10, 40, 30),
                               sliver: SliverList(
                                 delegate: SliverChildListDelegate([
                                   Text(
                                     'How was the batsman dismissed?',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          color: isDark
-                                              ? lightGrassGreen
-                                              : grassGreen,
+                                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                          color: isDark ? lightGrassGreen : grassGreen,
                                           fontWeight: FontWeight.w800,
                                         ),
                                   ),
@@ -232,34 +218,25 @@ class _WicketReasonState extends State<WicketReason> {
                                   // Dismissal options
                                   ...List.generate(_reasons.length, (index) {
                                     return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: InkWell(
                                         onTap: () => _onReasonSelected(index),
                                         borderRadius: BorderRadius.circular(10),
                                         child: Container(
                                           height: 50,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
                                           decoration: BoxDecoration(
                                             color: _selectedIndex == index
                                                 ? primaryMedium
-                                                : primaryMedium.withValues(
-                                                    alpha: 0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                                : primaryMedium.withValues(alpha: 0.2),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                           child: Center(
                                             child: Text(
                                               _reasons[index].description,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge!
-                                                  .copyWith(
-                                                    color: _selectedIndex ==
-                                                            index
-                                                        ? LightThemeColors
-                                                            .surfaceColor
+                                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                    color: _selectedIndex == index
+                                                        ? LightThemeColors.surfaceColor
                                                         : isDark
                                                             ? lightGrassGreen
                                                             : grassGreen,
@@ -287,14 +264,9 @@ class _WicketReasonState extends State<WicketReason> {
                                         }
                                       },
                                       label: 'Runs completed',
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
+                                      textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: isDark
-                                                ? lightGrassGreen
-                                                : grassGreen,
+                                            color: isDark ? lightGrassGreen : grassGreen,
                                           ),
                                       maxCapacity: 3,
                                       minCapacity: 0,
@@ -302,84 +274,56 @@ class _WicketReasonState extends State<WicketReason> {
                                     const SizedBox(height: 16),
                                     Text(
                                       'Run out batsman:',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: isDark
-                                                ? lightGrassGreen
-                                                : grassGreen,
+                                            color: isDark ? lightGrassGreen : grassGreen,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
                                     MyDropdownMenu(
                                       hintText: 'Select batsman',
-                                      options: widget.strikers
-                                          .map((e) => e.playerName)
-                                          .toList(),
+                                      options: widget.strikers.map((e) => e.playerName).toList(),
                                       onSelect: (value) => setState(
                                         () {
-                                          int index = widget.strikers
-                                              .indexWhere(
-                                                  (e) => e.playerName == value);
-                                          _runOutBatsmanPosition = widget
-                                              .strikers[index].battingPosition;
+                                          int index = widget.strikers.indexWhere((e) => e.playerName == value);
+                                          _runOutBatsmanPosition = widget.strikers[index].battingPosition;
                                         },
                                       ),
-                                      leadingIcon:
-                                          const Icon(Icons.person_outline),
+                                      leadingIcon: const Icon(Icons.person_outline),
                                     ),
                                     const SizedBox(height: 16),
                                     Text(
                                       'Run out by:',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: isDark
-                                                ? lightGrassGreen
-                                                : grassGreen,
+                                            color: isDark ? lightGrassGreen : grassGreen,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
                                     MyDropdownMenu(
                                       hintText: 'Select fielder',
-                                      options: widget.fielders
-                                          .map((e) => e.playerName)
-                                          .toList(),
+                                      options: widget.fielders.map((e) => e.playerName).toList(),
                                       onSelect: (value) => setState(
                                         () => _runOutBy = value,
                                       ),
-                                      leadingIcon:
-                                          const Icon(Icons.person_outline),
+                                      leadingIcon: const Icon(Icons.person_outline),
                                     ),
                                   ],
                                   if (_reasonOfOut == ReasonOfOut.caught) ...[
                                     const SizedBox(height: 16),
                                     Text(
                                       'Caught by:',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: isDark
-                                                ? lightGrassGreen
-                                                : grassGreen,
+                                            color: isDark ? lightGrassGreen : grassGreen,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
                                     MyDropdownMenu(
                                       hintText: 'Select fielder',
-                                      options: widget.fielders
-                                          .map((e) => e.playerName)
-                                          .toList(),
-                                      onSelect: (value) =>
-                                          setState(() => _caughtBy = value),
-                                      leadingIcon:
-                                          const Icon(Icons.person_outline),
+                                      options: widget.fielders.map((e) => e.playerName).toList(),
+                                      onSelect: (value) => setState(() => _caughtBy = value),
+                                      leadingIcon: const Icon(Icons.person_outline),
                                     ),
                                   ],
                                   const SizedBox(height: 24),
@@ -390,34 +334,23 @@ class _WicketReasonState extends State<WicketReason> {
                                       children: [
                                         Expanded(
                                           child: ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.of(context).pop(null),
+                                            onPressed: () => Navigator.of(context).pop(null),
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: LightThemeColors
-                                                  .backgroundColor,
+                                              backgroundColor: LightThemeColors.backgroundColor,
                                               foregroundColor: grassGreen,
-                                              side: const BorderSide(
-                                                  color: grassGreen),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12),
+                                              side: const BorderSide(color: grassGreen),
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
                                             ),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                const Icon(Icons.clear,
-                                                    color: grassGreen),
+                                                const Icon(Icons.clear, color: grassGreen),
                                                 const SizedBox(width: 8),
                                                 Text('Cancel',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .copyWith(
+                                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                           color: grassGreen,
                                                         )),
                                               ],
@@ -430,30 +363,19 @@ class _WicketReasonState extends State<WicketReason> {
                                             onPressed: _onConfirm,
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: grassGreen,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12),
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
                                             ),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                const Icon(Icons.check,
-                                                    color: LightThemeColors
-                                                        .surfaceColor),
+                                                const Icon(Icons.check, color: LightThemeColors.surfaceColor),
                                                 const SizedBox(width: 8),
                                                 Text('Confirm',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .copyWith(
-                                                          color:
-                                                              LightThemeColors
-                                                                  .surfaceColor,
+                                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                          color: LightThemeColors.surfaceColor,
                                                         )),
                                               ],
                                             ),

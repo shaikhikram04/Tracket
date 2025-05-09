@@ -6,6 +6,7 @@ import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/notifications/services/notification_services.dart';
 import 'package:tracket/features/notifications/widgets/challenge_card.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 
@@ -61,8 +62,7 @@ class _ChallengesListState extends State<ChallengesList> {
             challengerTeamId: challengeData['from'],
             challengedTeamId: challengeData['to'],
           ),
-          onRejectChallenge: () =>
-              _rejectChallenge(context, index, challengeData),
+          onRejectChallenge: () => _rejectChallenge(context, index, challengeData),
           onAccepted: () => _onAccepted(index),
         );
       },
@@ -88,8 +88,7 @@ class _ChallengesListState extends State<ChallengesList> {
         challengeList.removeAt(index);
       });
     } else {
-      THelperFunction.showSnackBar(
-          'Failed to cancel challenge! : ${result.error}', context);
+      THelperFunction.showSnackBar('Failed to cancel challenge! : ${result.error}', context);
     }
   }
 
@@ -108,8 +107,7 @@ class _ChallengesListState extends State<ChallengesList> {
 
     bool isUndo = false;
 
-    THelperFunction.showSnackBar('Challenge rejected', context, isUndo: true,
-        onUndo: () {
+    THelperFunction.showSnackBar('Challenge rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
         challengeList.insert(index, challengeData);
@@ -128,8 +126,7 @@ class _ChallengesListState extends State<ChallengesList> {
           );
           activeTimers.remove(index); // Clean up the timer reference
         } catch (e) {
-          THelperFunction.showSnackBar(
-              'Failed to reject challenge : ${e}', context);
+          THelperFunction.showSnackBar('Failed to reject challenge : ${e}', context);
         }
       }
     });

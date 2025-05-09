@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/models/team_stats.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -17,10 +16,7 @@ class TeamsServices {
   static final _firestore = FirebaseFirestore.instance;
 
   static Future<Map<String, dynamic>> getTeamData(String teamId) async {
-    final teamSnap = await _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(teamId)
-        .get();
+    final teamSnap = await _firestore.collection(FirestoreCollections.teams).doc(teamId).get();
 
     return teamSnap.data()!;
   }
@@ -58,33 +54,18 @@ class TeamsServices {
         description: description,
         isPrivate: isPrivate,
       );
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(team.id)
-          .set(team.toJson());
+      await _firestore.collection(FirestoreCollections.teams).doc(team.id).set(team.toJson());
 
-      final teamStatsCollectionRef = _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(team.id)
-          .collection(FirestoreCollections.stats);
+      final teamStatsCollectionRef =
+          _firestore.collection(FirestoreCollections.teams).doc(team.id).collection(FirestoreCollections.stats);
 
       final initialStats = const TeamStats();
 
-      await teamStatsCollectionRef
-          .doc(TTextStrings.over5Key)
-          .set(initialStats.toJson());
-      await teamStatsCollectionRef
-          .doc(TTextStrings.over10Key)
-          .set(initialStats.toJson());
-      await teamStatsCollectionRef
-          .doc(TTextStrings.over20Key)
-          .set(initialStats.toJson());
-      await teamStatsCollectionRef
-          .doc(TTextStrings.over50Key)
-          .set(initialStats.toJson());
-      await teamStatsCollectionRef
-          .doc(TTextStrings.testKey)
-          .set(initialStats.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over5Key).set(initialStats.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over10Key).set(initialStats.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over20Key).set(initialStats.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.over50Key).set(initialStats.toJson());
+      await teamStatsCollectionRef.doc(TTextStrings.testKey).set(initialStats.toJson());
 
       final playerInfo = PlayerDetails(
           cricketRole: adminCricketRole,
@@ -140,24 +121,15 @@ class TeamsServices {
           .doc(playerId)
           .delete();
       ref.read(teamProvider.notifier).deletePlayer(playerId);
-      _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamState.team.id)
-          .update({
+      _firestore.collection(FirestoreCollections.teams).doc(teamState.team.id).update({
         'playersIds': FieldValue.arrayRemove([playerId]),
       });
       if (teamState.team.captainId == playerId) {
-        await _firestore
-            .collection(FirestoreCollections.teams)
-            .doc(teamState.team.id)
-            .update({'captainId': ''});
+        await _firestore.collection(FirestoreCollections.teams).doc(teamState.team.id).update({'captainId': ''});
         ref.read(teamProvider.notifier).updateField(captainId: '');
       }
       if (teamState.team.wicketkeeperId == playerId) {
-        await _firestore
-            .collection(FirestoreCollections.teams)
-            .doc(teamState.team.id)
-            .update({'wicketkeeperId': ''});
+        await _firestore.collection(FirestoreCollections.teams).doc(teamState.team.id).update({'wicketkeeperId': ''});
         ref.read(teamProvider.notifier).updateField(wicketkeeperId: '');
       }
 
@@ -173,8 +145,7 @@ class TeamsServices {
       }
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            TTextStrings.failedToDeletePlayerMessage, context);
+        THelperFunction.showSnackBar(TTextStrings.failedToDeletePlayerMessage, context);
       }
     }
   }
@@ -196,10 +167,7 @@ class TeamsServices {
 
       //* Update team's player list in state
       ref.read(teamProvider.notifier).addPlayer(playerInfo);
-      _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamInfo.id)
-          .update({
+      _firestore.collection(FirestoreCollections.teams).doc(teamInfo.id).update({
         'playersIds': FieldValue.arrayUnion([playerInfo.id]),
       });
 
@@ -216,8 +184,7 @@ class TeamsServices {
       }
     } catch (error) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            TTextStrings.failedToAddPlayerMessage, context);
+        THelperFunction.showSnackBar(TTextStrings.failedToAddPlayerMessage, context);
       }
     }
   }
@@ -245,14 +212,10 @@ class TeamsServices {
     if (logoUrl != null) updatedFields['logoUrl'] = logoUrl;
 
     try {
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamId)
-          .update(updatedFields);
+      await _firestore.collection(FirestoreCollections.teams).doc(teamId).update(updatedFields);
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            TTextStrings.failedToUpdateTeamMessage, context);
+        THelperFunction.showSnackBar(TTextStrings.failedToUpdateTeamMessage, context);
       }
     }
   }
@@ -263,20 +226,15 @@ class TeamsServices {
     required bool isPrivate,
   }) async {
     try {
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamId)
-          .update({'isPrivate': isPrivate});
+      await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({'isPrivate': isPrivate});
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            TTextStrings.failedToUpdateTeamPrivacyMessage, context);
+        THelperFunction.showSnackBar(TTextStrings.failedToUpdateTeamPrivacyMessage, context);
       }
     }
   }
 
-  static Future<List<QueryDocumentSnapshot<Object?>>> getTeamPlayersFromId(
-      String teamId, BuildContext context) async {
+  static Future<List<QueryDocumentSnapshot<Object?>>> getTeamPlayersFromId(String teamId, BuildContext context) async {
     List<QueryDocumentSnapshot<Object?>> teamPlayers = [];
     try {
       final teamPlayerSnap = await _firestore
@@ -288,8 +246,7 @@ class TeamsServices {
       teamPlayers = teamPlayerSnap.docs;
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            TTextStrings.unableToFetchTeamData, context);
+        THelperFunction.showSnackBar(TTextStrings.unableToFetchTeamData, context);
       }
     }
 
@@ -298,28 +255,19 @@ class TeamsServices {
 
   static void deleteTeam(BuildContext context, String teamId) async {
     try {
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamId)
-          .delete();
+      await _firestore.collection(FirestoreCollections.teams).doc(teamId).delete();
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            TTextStrings.failedToDeleteTeamMessage, context);
+        THelperFunction.showSnackBar(TTextStrings.failedToDeleteTeamMessage, context);
       }
     }
   }
 
-  static Future<void> followTeam(String teamId, String playerId, bool isFollow,
-      WidgetRef ref, BuildContext context) async {
+  static Future<void> followTeam(
+      String teamId, String playerId, bool isFollow, WidgetRef ref, BuildContext context) async {
     try {
-      await _firestore
-          .collection(FirestoreCollections.teams)
-          .doc(teamId)
-          .update({
-        'followers': isFollow
-            ? FieldValue.arrayUnion([playerId])
-            : FieldValue.arrayRemove([playerId])
+      await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
+        'followers': isFollow ? FieldValue.arrayUnion([playerId]) : FieldValue.arrayRemove([playerId])
       });
 
       final followers = ref.read(teamProvider).team.followers;
@@ -327,20 +275,13 @@ class TeamsServices {
 
       ref.read(teamProvider.notifier).updateField(followers: followers);
 
-      await _firestore
-          .collection(FirestoreCollections.players)
-          .doc(playerId)
-          .update({
-        'followingTeams': isFollow
-            ? FieldValue.arrayUnion([teamId])
-            : FieldValue.arrayRemove([teamId])
+      await _firestore.collection(FirestoreCollections.players).doc(playerId).update({
+        'followingTeams': isFollow ? FieldValue.arrayUnion([teamId]) : FieldValue.arrayRemove([teamId])
       });
       final followingTeam = ref.read(playerProvider).followingTeams;
       isFollow ? followingTeam.add(teamId) : followingTeam.remove(teamId);
 
-      ref
-          .read(playerProvider.notifier)
-          .updateField(followingTeams: followingTeam);
+      ref.read(playerProvider.notifier).updateField(followingTeams: followingTeam);
     } catch (e) {
       if (context.mounted) {
         THelperFunction.showSnackBar(e.toString(), context);
@@ -354,9 +295,7 @@ class TeamsServices {
     required bool isAdding,
   }) async {
     await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
-      'requestedPlayers': isAdding
-          ? FieldValue.arrayUnion([playerId])
-          : FieldValue.arrayRemove([playerId])
+      'requestedPlayers': isAdding ? FieldValue.arrayUnion([playerId]) : FieldValue.arrayRemove([playerId])
     });
   }
 
@@ -366,17 +305,13 @@ class TeamsServices {
     required bool isAdding,
   }) async {
     await _firestore.collection(FirestoreCollections.teams).doc(teamId).update({
-      'challengedTeams': isAdding
-          ? FieldValue.arrayUnion([challengedTeamId])
-          : FieldValue.arrayRemove([challengedTeamId])
+      'challengedTeams':
+          isAdding ? FieldValue.arrayUnion([challengedTeamId]) : FieldValue.arrayRemove([challengedTeamId])
     });
   }
 
   static Future<List> getTeamChallengedList(String teamId) async {
-    final teamChallengedSnap = await _firestore
-        .collection(FirestoreCollections.teams)
-        .doc(teamId)
-        .get();
+    final teamChallengedSnap = await _firestore.collection(FirestoreCollections.teams).doc(teamId).get();
 
     return teamChallengedSnap.data()!['challengedTeams'];
   }

@@ -1,4 +1,4 @@
-import 'package:tracket/features/teams/models/team_role.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 
 class TeamDetails {

@@ -27,6 +27,7 @@ class InningStatsCalculator {
 
   /// Get current partnership details
   Map<String, dynamic> getCurrentPartnershipDetails() {
+    //! Incorrect : need to correct later
     // Get current batsmen at crease
     final currentBatsmen = inning.battingStats
         .where((player) =>

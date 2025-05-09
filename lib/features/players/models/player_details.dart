@@ -1,6 +1,6 @@
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class PlayerDetails {
   PlayerDetails({
@@ -19,10 +19,8 @@ class PlayerDetails {
   final TeamRole role;
   final String longCricketRole;
 
-  static PlayerDetails fromMap(Map<String, dynamic> playerDetail) =>
-      PlayerDetails(
-        cricketRole:
-            PlayerCricketDetails.getCricketRole(playerDetail['cricketRole']),
+  static PlayerDetails fromMap(Map<String, dynamic> playerDetail) => PlayerDetails(
+        cricketRole: PlayerCricketDetails.getCricketRole(playerDetail['cricketRole']),
         id: playerDetail['id'],
         imageUrl: playerDetail['imageUrl'],
         name: playerDetail['name'],

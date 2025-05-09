@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tracket/features/matches/models/ball_outcome.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class CurrentOverIndicator extends StatelessWidget {
@@ -24,16 +25,14 @@ class CurrentOverIndicator extends StatelessWidget {
 
   // Get ball color based on outcome
   Color _getBallColor(BallOutcome? ballOutcome, bool isDark) {
-    if (ballOutcome == null)
-      return isDark ? Colors.grey.shade600 : Colors.grey.shade200;
+    if (ballOutcome == null) return isDark ? Colors.grey.shade600 : Colors.grey.shade200;
 
     if (ballOutcome.isWicket) return InteractiveColors.inputError;
 
     // Extras (wides, no-balls, etc.)
     if (ballOutcome.type == BallType.wide) return Colors.amber;
     if (ballOutcome.type == BallType.noBall) return Colors.orange;
-    if (ballOutcome.type == BallType.bye || ballOutcome.type == BallType.legBye)
-      return Colors.teal;
+    if (ballOutcome.type == BallType.bye || ballOutcome.type == BallType.legBye) return Colors.teal;
     // return Colors.deepOrange; // Other extras
 
     // Check if it's a boundary (4 or 6 runs)
@@ -116,14 +115,12 @@ class CurrentOverIndicator extends StatelessWidget {
   Widget _buildBallsRow(bool isDark) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      
       physics: const BouncingScrollPhysics(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           balls.length + remainingBalls,
-          (index) => _buildBallIndicator(
-              index < balls.length ? balls[index] : null, isDark),
+          (index) => _buildBallIndicator(index < balls.length ? balls[index] : null, isDark),
         ),
       ),
     );

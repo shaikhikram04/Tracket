@@ -10,7 +10,7 @@ import 'package:tracket/features/authentication/providers/verification_step.dart
 import 'package:tracket/features/authentication/services/player_auth_services.dart';
 import 'package:tracket/features/authentication/services/user_auth_services.dart';
 import 'package:tracket/features/home/screens/home.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
@@ -18,7 +18,6 @@ class EmailVerificationService {
   // Configuration constants
   static const Duration _verificationTimeout = Duration(minutes: 3);
   static const Duration _checkInterval = Duration(seconds: 3);
-
 
   /// Handles successful verification flow
   static Future<void> _onSuccess(Ref ref, BuildContext context) async {

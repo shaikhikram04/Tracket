@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/common/widgets/buttons/action_button.dart';
+import 'package:tracket/common/widgets/list_view/enhanced_list_tile.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
-import 'package:tracket/common/widgets/buttons/action_button.dart';
-import 'package:tracket/common/widgets/list_view/enhanced_list_tile.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 
 class PlayerListTile extends StatelessWidget {
@@ -43,7 +43,7 @@ class PlayerListTile extends StatelessWidget {
     return ActionButton(
       idsList: team.playerIds,
       isPrivate: isPrivate,
-      buttonType: buttonType ,
+      buttonType: buttonType,
       playerInfo: player,
       teamInfo: _teamInfo,
       isTeamHasCapacity: team.hasCapacity,

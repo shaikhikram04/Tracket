@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
 
@@ -14,10 +14,7 @@ class PlayersServices {
   static Future<Player> getPlayerFromId(String playerId) async {
     Player player;
 
-    final fetchedData = await _firestore
-        .collection(FirestoreCollections.players)
-        .doc(playerId)
-        .get();
+    final fetchedData = await _firestore.collection(FirestoreCollections.players).doc(playerId).get();
 
     final playerTeams = await _firestore
         .collection(FirestoreCollections.players)
@@ -37,8 +34,7 @@ class PlayersServices {
       allFormatStats.addAll({stats.id: stats.data()});
     }
 
-    player =
-        Player.fromSeed(fetchedData.data()!, playerTeams.docs, allFormatStats);
+    player = Player.fromSeed(fetchedData.data()!, playerTeams.docs, allFormatStats);
 
     return player;
   }
@@ -68,8 +64,7 @@ class PlayersServices {
       ref.read(playerProvider.notifier).updateTeamRole(teamId, newRole);
     } catch (e) {
       if (context.mounted) {
-        THelperFunction.showSnackBar(
-            'Failed to add admin. Please try again later.', context);
+        THelperFunction.showSnackBar('Failed to add admin. Please try again later.', context);
       }
     }
   }
@@ -79,13 +74,8 @@ class PlayersServices {
     required String teamId,
     required bool isAdding,
   }) async {
-    await _firestore
-        .collection(FirestoreCollections.players)
-        .doc(playerId)
-        .update({
-      'requestedTeam': isAdding
-          ? FieldValue.arrayUnion([teamId])
-          : FieldValue.arrayRemove([teamId])
+    await _firestore.collection(FirestoreCollections.players).doc(playerId).update({
+      'requestedTeam': isAdding ? FieldValue.arrayUnion([teamId]) : FieldValue.arrayRemove([teamId])
     });
   }
 }

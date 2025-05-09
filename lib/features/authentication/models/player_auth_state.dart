@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class PlayerAuthState {
   final GlobalKey<FormState> formKey;
@@ -30,9 +30,7 @@ class PlayerAuthState {
     this.isLoading = false,
   });
 
-  bool get shouldBall =>
-      cricketRole == CricketRole.allRounder ||
-      cricketRole == CricketRole.bowler;
+  bool get shouldBall => cricketRole == CricketRole.allRounder || cricketRole == CricketRole.bowler;
 
   PlayerAuthState copyWith({
     GlobalKey<FormState>? formKey,

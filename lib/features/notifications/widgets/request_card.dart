@@ -7,6 +7,7 @@ import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -31,9 +32,8 @@ class RequestCard extends StatelessWidget {
     bool isPlayer,
     NotificationModel request,
   ) {
-    final profileScreen = isPlayer
-        ? PlayerProfileScreen(playerId: request.from)
-        : TeamProfileScreen.fromId(teamId: request.to);
+    final profileScreen =
+        isPlayer ? PlayerProfileScreen(playerId: request.from) : TeamProfileScreen.fromId(teamId: request.to);
     THelperFunction.pushScreen(context, profileScreen);
   }
 
@@ -92,12 +92,10 @@ class RequestCard extends StatelessWidget {
       child: Column(
         children: [
           InkWell(
-            onTap: () =>
-                _navigateToProfile(context, requestMap['isPlayer'], request),
+            onTap: () => _navigateToProfile(context, requestMap['isPlayer'], request),
             child: Row(
               children: [
-                _buildProfileImage(
-                    requestMap['isPlayer'], requestMap['imageUrl']),
+                _buildProfileImage(requestMap['isPlayer'], requestMap['imageUrl']),
                 const SizedBox(width: 10),
                 _buildRequestDetails(
                   context,
@@ -151,10 +149,7 @@ class RequestCard extends StatelessWidget {
   TextSpan _buildBoldTextSpan(String text, BuildContext context) {
     return TextSpan(
       text: text,
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge!
-          .copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
     );
   }
 
@@ -205,14 +200,11 @@ class RequestCard extends StatelessWidget {
       child: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final requestStatus = ref.watch(requestProvider);
-          final isRequestInProgress =
-              requestStatus.requestInProgress.contains(request.notificationId);
-          final isRequestSuccess =
-              requestStatus.requestSuccess.contains(request.notificationId);
+          final isRequestInProgress = requestStatus.requestInProgress.contains(request.notificationId);
+          final isRequestSuccess = requestStatus.requestSuccess.contains(request.notificationId);
 
           if (isRequestSuccess) {
-            return Text('This request has been accept',
-                style: Theme.of(context).textTheme.bodyLarge);
+            return Text('This request has been accept', style: Theme.of(context).textTheme.bodyLarge);
           }
 
           return Row(
@@ -238,10 +230,7 @@ class RequestCard extends StatelessWidget {
                 isLoading: isRequestInProgress,
                 backgroundColor: isDark ? primaryLight : primaryColor,
                 onPressed: () => onAcceptRequest(ref),
-                textStyle: Theme.of(context)
-                    .textTheme
-                    .labelLarge!
-                    .copyWith(color: onPrimary, letterSpacing: 1),
+                textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: onPrimary, letterSpacing: 1),
                 size: ButtonSize.small,
               ),
             ],

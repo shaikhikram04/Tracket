@@ -8,7 +8,7 @@ import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -48,8 +48,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     super.dispose();
   }
 
-  List<String> get playersId =>
-      widget.team.playersList.map((player) => player.id).toList();
+  List<String> get playersId => widget.team.playersList.map((player) => player.id).toList();
 
   Future<void> _loadPlayers() async {
     if (_isLoading) return;
@@ -85,10 +84,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     return _players!.where((doc) {
       final data = doc.data() as Map<String, dynamic>;
       final name = data['playerName']?.toString().toLowerCase() ?? '';
-      final role = data['playerCricketDetails']?['cricketRole']
-              ?.toString()
-              .toLowerCase() ??
-          '';
+      final role = data['playerCricketDetails']?['cricketRole']?.toString().toLowerCase() ?? '';
       return name.contains(query) || role.contains(query);
     }).toList();
   }
@@ -247,8 +243,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         imageUrl: player.profileImageUrl,
         title: player.name,
         subtitle: player.playerCricketDetails!.cricketRole.name,
-        onTap: () => THelperFunction.pushScreen(
-            context, PlayerProfileScreen(playerId: player.id)),
+        onTap: () => THelperFunction.pushScreen(context, PlayerProfileScreen(playerId: player.id)),
         isPlayer: true,
         trailing: ActionButton(
           idsList: playersId,

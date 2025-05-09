@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TossVenueSection extends StatelessWidget {
@@ -61,11 +62,9 @@ class TossVenueSection extends StatelessWidget {
       return _buildNoTossInfo(context);
     }
 
-    final tossWinner =
-        match.isTeam1WonToss! ? match.team1.teamName : match.team2.teamName;
+    final tossWinner = match.isTeam1WonToss! ? match.team1.teamName : match.team2.teamName;
 
-    final decision =
-        match.tossDecision! == TossDecision.batting ? 'bat' : 'bowl';
+    final decision = match.tossDecision! == TossDecision.batting ? 'bat' : 'bowl';
 
     return _buildInfoRow(
       context: context,

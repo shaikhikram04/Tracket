@@ -7,6 +7,7 @@ import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/screens/match_players_selection_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -22,8 +23,7 @@ class StartMatchScreen extends ConsumerStatefulWidget {
   ConsumerState<StartMatchScreen> createState() => _StartMatchScreenState();
 }
 
-class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
-    with SingleTickerProviderStateMixin {
+class _StartMatchScreenState extends ConsumerState<StartMatchScreen> with SingleTickerProviderStateMixin {
   String? tossWinner;
   String? battingTeam;
   bool isCoinRotating = false;
@@ -47,9 +47,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
         : battingTeam == match.team1.teamName
             ? TossDecision.fielding
             : TossDecision.batting;
-    ref
-        .read(matchStateProvider.notifier)
-        .setTossResult(isTeam1Won: isTeam1WonToss, decision: decision);
+    ref.read(matchStateProvider.notifier).setTossResult(isTeam1Won: isTeam1WonToss, decision: decision);
     THelperFunction.pushScreen(context, const MatchPlayersSelectionScreen());
   }
 
@@ -92,9 +90,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
       if (status == AnimationStatus.completed) {
         setState(() {
           isCoinRotating = false;
-          tossWinner = Random().nextBool()
-              ? match!.team1.teamName
-              : match!.team2.teamName;
+          tossWinner = Random().nextBool() ? match!.team1.teamName : match!.team2.teamName;
         });
 
         // Scroll to toss result after animation completes
@@ -107,15 +103,13 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
   void _scrollToWidget(GlobalKey key) {
     Future.delayed(const Duration(milliseconds: 300), () {
       if (_scrollController.hasClients && key.currentContext != null) {
-        final RenderObject? renderObject =
-            key.currentContext?.findRenderObject();
+        final RenderObject? renderObject = key.currentContext?.findRenderObject();
         if (renderObject is RenderBox) {
           final position = renderObject.localToGlobal(Offset.zero);
           final scrollPosition = position.dy;
 
           // Calculate scroll position relative to the viewport
-          final scrollOffset =
-              scrollPosition - 100; // Add some padding at the top
+          final scrollOffset = scrollPosition - 100; // Add some padding at the top
 
           _scrollController.animateTo(
             scrollOffset,
@@ -173,10 +167,9 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                       Expanded(
                         child: Text(
                           match!.team1.teamName,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: secondaryColor,
-                                  ),
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: secondaryColor,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -184,22 +177,18 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'VS',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: isDark
-                                        ? DarkThemeColors.secondaryText
-                                        : LightThemeColors.secondaryText,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
+                              ),
                         ),
                       ),
                       Expanded(
                         child: Text(
                           match.team2.teamName,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: StatusColors.warning,
-                                  ),
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: StatusColors.warning,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -209,9 +198,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                   Text(
                     'Time for Toss!',
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: isDark
-                              ? DarkThemeColors.primaryText
-                              : LightThemeColors.primaryText,
+                          color: isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText,
                         ),
                   ),
                   const SizedBox(height: 30),
@@ -240,8 +227,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: LightThemeColors.primaryText
-                                    .withValues(alpha: 0.3),
+                                color: LightThemeColors.primaryText.withValues(alpha: 0.3),
                                 blurRadius: 15,
                                 offset: const Offset(0, 8),
                               ),
@@ -264,10 +250,9 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                       onPressed: _startToss,
                       text: 'Toss Coin',
                       backgroundColor: grassGreen,
-                      textStyle:
-                          Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                color: LightThemeColors.surfaceColor,
-                              ),
+                      textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: LightThemeColors.surfaceColor,
+                          ),
                     ),
                 ],
               ),
@@ -287,9 +272,7 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                     Text(
                       'Choose your decision:',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: isDark
-                                ? DarkThemeColors.secondaryText
-                                : LightThemeColors.secondaryText,
+                            color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                           ),
                     ),
                     const SizedBox(height: 20),
@@ -312,9 +295,8 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                           label: 'Bowl',
                           onPressed: () {
                             setState(() {
-                              battingTeam = tossWinner == match.team1.teamName
-                                  ? match.team2.teamName
-                                  : match.team1.teamName;
+                              battingTeam =
+                                  tossWinner == match.team1.teamName ? match.team2.teamName : match.team1.teamName;
                             });
                             // Scroll to batting decision after selection
                             _scrollToWidget(_battingTeamKey);
@@ -339,11 +321,10 @@ class _StartMatchScreenState extends ConsumerState<StartMatchScreen>
                     const SizedBox(height: 30),
                     CustomButton.primary(
                       text: 'Next',
-                      textStyle:
-                          Theme.of(context).textTheme.titleLarge!.copyWith(
-                                fontSize: 20,
-                                color: LightThemeColors.surfaceColor,
-                              ),
+                      textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 20,
+                            color: LightThemeColors.surfaceColor,
+                          ),
                       icon: const Icon(
                         Icons.play_circle_filled,
                         size: 30,

@@ -7,7 +7,7 @@ import 'package:tracket/features/authentication/providers/auth_state_provider.da
 import 'package:tracket/features/authentication/widgets/auth_widgets/auth_form.dart';
 import 'package:tracket/features/authentication/widgets/auth_widgets/auth_submit_button.dart';
 import 'package:tracket/features/authentication/widgets/auth_widgets/authentication_toggle.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';

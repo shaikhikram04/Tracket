@@ -10,6 +10,7 @@ import 'package:tracket/features/notifications/widgets/challenge_card.dart';
 import 'package:tracket/features/notifications/widgets/request_card.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -51,21 +52,16 @@ class _NotificationsListState extends State<NotificationsList> {
   @override
   Widget build(BuildContext context) {
     if (notificationList.isEmpty) {
-      return const NoDataFound(
-          title: 'No notification found',
-          message: '',
-          iconData: AppIconData.notificationOff);
+      return const NoDataFound(title: 'No notification found', message: '', iconData: AppIconData.notificationOff);
     }
     return ListView.builder(
       itemCount: notificationList.length,
       itemBuilder: (context, index) {
         final notificationData = notificationList[index];
         final notification = NotificationModel.fromMap(notificationData.data());
-        final isRequest =
-            notification.type == NotificationType.teamJoinRequest ||
-                notification.type == NotificationType.offerPlayerRequest;
-        final isChallenge =
-            notification.type == NotificationType.matchChallenge;
+        final isRequest = notification.type == NotificationType.teamJoinRequest ||
+            notification.type == NotificationType.offerPlayerRequest;
+        final isChallenge = notification.type == NotificationType.matchChallenge;
 
         final isPlayerRequest = _isRequestFromPlayer(notification.type);
 
@@ -75,8 +71,7 @@ class _NotificationsListState extends State<NotificationsList> {
             request: notification,
             isSent: false,
             onCancelRequest: () {},
-            onAcceptRequest: (WidgetRef ref) =>
-                _acceptRequest(notification, index, isPlayerRequest, ref),
+            onAcceptRequest: (WidgetRef ref) => _acceptRequest(notification, index, isPlayerRequest, ref),
             onRejectRequest: () => _rejectNotification(
               context,
               index: index,
@@ -124,12 +119,9 @@ class _NotificationsListState extends State<NotificationsList> {
     try {
       //* Check if the team is full before adding a player
       if (!isPlayer) {
-        final teamDocRef = FirebaseFirestore.instance
-            .collection(FirestoreCollections.teams)
-            .doc(request.to);
+        final teamDocRef = FirebaseFirestore.instance.collection(FirestoreCollections.teams).doc(request.to);
 
-        final teamPlayers =
-            await teamDocRef.collection(FirestoreCollections.teamPlayers).get();
+        final teamPlayers = await teamDocRef.collection(FirestoreCollections.teamPlayers).get();
 
         final teamData = await teamDocRef.get();
 
@@ -194,8 +186,7 @@ class _NotificationsListState extends State<NotificationsList> {
 
     bool isUndo = false;
 
-    THelperFunction.showSnackBar('Request rejected', context, isUndo: true,
-        onUndo: () {
+    THelperFunction.showSnackBar('Request rejected', context, isUndo: true, onUndo: () {
       isUndo = true;
       setState(() {
         notificationList.insert(index, notificationData);

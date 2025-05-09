@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class PlayerColumn extends StatelessWidget {
   const PlayerColumn({

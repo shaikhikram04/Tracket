@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
-
-enum HighlightSize {
-  small, // Compact size
-  medium, // Default size
-  large // Larger size
-}
 
 class HighlightedLabel extends StatelessWidget {
   const HighlightedLabel({

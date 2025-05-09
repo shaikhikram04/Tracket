@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/base_selection_sheet.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
@@ -44,8 +44,7 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
         itemBuilder: (context, index) {
           final player = widget.availablePlayers[index];
           final isSelected = selectedBowler == player;
-          final canBowl = player.cricketRole == CricketRole.bowler ||
-              player.cricketRole == CricketRole.allRounder;
+          final canBowl = player.cricketRole == CricketRole.bowler || player.cricketRole == CricketRole.allRounder;
 
           if (!canBowl) return const SizedBox.shrink();
 
@@ -83,11 +82,9 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(player.playerName,
-                              style: Theme.of(context).textTheme.bodyLarge),
+                          Text(player.playerName, style: Theme.of(context).textTheme.bodyLarge),
                           Text(
-                            AppFormatter.formatBowlerSubTitle(
-                                player.longCricketRole),
+                            AppFormatter.formatBowlerSubTitle(player.longCricketRole),
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],

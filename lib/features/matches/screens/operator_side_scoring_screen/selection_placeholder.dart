@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/providers/additional_match_provider.dart';
 import 'package:tracket/features/matches/providers/current_over_runs_provider.dart';
 import 'package:tracket/features/matches/providers/innings_provider.dart';
@@ -12,6 +11,7 @@ import 'package:tracket/features/matches/screens/operator_side_scoring_screen/pl
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/winner_display.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/custom_button.dart';
 
@@ -19,8 +19,7 @@ class SelectionPlaceholder extends ConsumerStatefulWidget {
   const SelectionPlaceholder({super.key});
 
   @override
-  ConsumerState<SelectionPlaceholder> createState() =>
-      _SelectionPlaceholderState();
+  ConsumerState<SelectionPlaceholder> createState() => _SelectionPlaceholderState();
 }
 
 class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
@@ -48,20 +47,15 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
         ref.read(currentOverRunsProvider.notifier).clear();
 
-        await MatchesServices.deleteBallsCollection(
-            ref.read(matchStateProvider)!.id);
+        await MatchesServices.deleteBallsCollection(ref.read(matchStateProvider)!.id);
       },
       nonAvailablePlayers: [],
-      playingPlayerId: ref
-          .watch(inningsStateProvider.notifier)
-          .currentInnings!
-          .currentBowlerId,
+      playingPlayerId: ref.watch(inningsStateProvider.notifier).currentInnings!.currentBowlerId,
     );
   }
 
   void _showNextBatsmanSelection(BuildContext context, WidgetRef ref) {
-    final battingStats =
-        ref.read(inningsStateProvider.notifier).currentInnings!.battingStats;
+    final battingStats = ref.read(inningsStateProvider.notifier).currentInnings!.battingStats;
 
     final nonAvailablePlayersId = <String>[];
     String playingPlayer = '';
@@ -88,8 +82,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
 
   void _startNextInning(BuildContext context, WidgetRef ref) {
     // Handle the next inning
-    THelperFunction.pushScreen(
-        context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
+    THelperFunction.pushScreen(context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
   Future<void> _endMatch(BuildContext context, WidgetRef ref) async {
@@ -141,8 +134,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
         inning2BowlingStats: inning2BowlingStats,
       );
     } catch (e) {
-      THelperFunction.showErrorSnackBar(
-          'Failed to add score in stats.', context);
+      THelperFunction.showErrorSnackBar('Failed to add score in stats.', context);
     } finally {
       if (dialogContext != null) {
         Navigator.of(dialogContext!).pop();
@@ -189,8 +181,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
       _startNextInning(context, ref);
     else if (completionState.isWicketDown)
       _showNextBatsmanSelection(context, ref);
-    else if (completionState.isOverCompleted)
-      _showNextBowlerSelection(context, ref);
+    else if (completionState.isOverCompleted) _showNextBowlerSelection(context, ref);
   }
 
   @override
@@ -203,11 +194,9 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
 
       final operatorId = matchState.startBy;
       final winningTeamPlayers = matchState.winningTeamPlayers;
-      final isOperatorTeamWin =
-          winningTeamPlayers.any((player) => player.playerId == operatorId);
+      final isOperatorTeamWin = winningTeamPlayers.any((player) => player.playerId == operatorId);
 
-      final marginSuffix =
-          matchState.winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets';
+      final marginSuffix = matchState.winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets';
       final String marginText = '${matchState.winningMargin} $marginSuffix';
 
       return isOperatorTeamWin
@@ -238,9 +227,7 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
               _getSubtitle(completionState),
               style: GoogleFonts.poppins(
                 fontSize: 14,
-                color: isDark
-                    ? DarkThemeColors.secondaryText
-                    : LightThemeColors.secondaryText,
+                color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                 fontWeight: FontWeight.w500,
               ),
             ),

@@ -36,7 +36,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
   // State variables
   Uint8List? _image;
-  late int _maxPlayersCapacity ;
+  late int _maxPlayersCapacity;
   String? _teamName;
   String? _teamShortName;
   String? _teamDescription;
@@ -71,8 +71,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     }
   }
 
-  List<String> get _playerNames =>
-      _teamState.team.playersList.map((player) => player.name).toList();
+  List<String> get _playerNames => _teamState.team.playersList.map((player) => player.name).toList();
 
   Future<void> _editLogo(Uint8List? image) async {
     try {
@@ -91,8 +90,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
 
   String? _getPlayerId(String? playerName) {
     if (playerName == null) return null;
-    final player = _teamState.team.playersList
-        .firstWhere((player) => player.name == playerName);
+    final player = _teamState.team.playersList.firstWhere((player) => player.name == playerName);
     return player.id;
   }
 
@@ -174,8 +172,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
           final isDiscard = await THelperFunction.showConfirmationDialog(
             context,
             title: TTextStrings.discardChanges,
-            message:
-                TTextStrings.discardChangesMessage,
+            message: TTextStrings.discardChangesMessage,
             confirmText: TTextStrings.discardButton,
           );
           if (isDiscard) {
@@ -189,7 +186,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         appBar: AppBar(
           backgroundColor: grassGreen,
           foregroundColor: onPrimary,
-          title:  const Text(
+          title: const Text(
             TTextStrings.editTeam,
             style: TextStyle(
               color: onPrimary,
@@ -199,8 +196,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             if (_isSaving)
               const Padding(
                 padding: TPadding.sm,
-                child:
-                    CircularLoadingIndicator(dimension: TSizes.xxl, color: onPrimary),
+                child: CircularLoadingIndicator(dimension: TSizes.xxl, color: onPrimary),
               )
             else
               IconButton(
@@ -243,8 +239,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
                           initialText: _teamState.team.name,
                           onSave: (value) => _teamName = value,
                           label: TTextStrings.teamName,
-                          validator: (value) =>
-                              TValidator.nameValidator(value, TTextStrings.teamName),
+                          validator: (value) => TValidator.nameValidator(value, TTextStrings.teamName),
                         ),
                         const SizedBox(height: TSizes.spaceBtwItems),
                         MyTextField(

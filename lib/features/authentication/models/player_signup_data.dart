@@ -1,5 +1,5 @@
 // Data class for player signup
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class PlayerSignupData {
   final String playerId;

@@ -7,9 +7,9 @@ import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/screens/team_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -32,12 +32,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
   bool _isPrivateOnly = false;
   bool _hasCapacityOnly = false;
 
-  List<String> get playerTeamsId => [
-        '',
-        ...widget.player.playerCricketDetails!.teams
-            .map((team) => team.id)
-            .toList()
-      ];
+  List<String> get playerTeamsId => ['', ...widget.player.playerCricketDetails!.teams.map((team) => team.id).toList()];
 
   @override
   void dispose() {
@@ -67,14 +62,10 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                   decoration: InputDecoration(
                     hintText: TTextStrings.searchTeams,
                     filled: true,
-                    fillColor: isDark
-                        ? DarkThemeColors.surfaceColor
-                        : LightThemeColors.surfaceColor,
-                    prefixIcon: Icon(Icons.search,
-                        color: isDark ? lightGrassGreen : grassGreen),
+                    fillColor: isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
+                    prefixIcon: Icon(Icons.search, color: isDark ? lightGrassGreen : grassGreen),
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(TSizes.borderRadiusLg),
+                      borderRadius: BorderRadius.circular(TSizes.borderRadiusLg),
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -88,22 +79,16 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     FilterChip(
                       selected: _isPrivateOnly,
                       label: const Text(TTextStrings.privateTeams),
-                      onSelected: (value) =>
-                          setState(() => _isPrivateOnly = value),
-                      backgroundColor: isDark
-                          ? DarkThemeColors.surfaceColor
-                          : LightThemeColors.surfaceColor,
+                      onSelected: (value) => setState(() => _isPrivateOnly = value),
+                      backgroundColor: isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
                       selectedColor: primaryMedium,
                     ),
                     const SizedBox(width: TSizes.sm),
                     FilterChip(
                       selected: _hasCapacityOnly,
                       label: const Text(TTextStrings.hasCapacity),
-                      onSelected: (value) =>
-                          setState(() => _hasCapacityOnly = value),
-                      backgroundColor: isDark
-                          ? DarkThemeColors.surfaceColor
-                          : LightThemeColors.surfaceColor,
+                      onSelected: (value) => setState(() => _hasCapacityOnly = value),
+                      backgroundColor: isDark ? DarkThemeColors.surfaceColor : LightThemeColors.surfaceColor,
                       selectedColor: primaryMedium,
                     ),
                   ],
@@ -140,18 +125,12 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             final teamData = team.data() as Map<String, dynamic>;
             final teamObj = Team.fromJson(teamData, null, null);
 
-            bool matchesSearch = teamObj.name
-                    .toLowerCase()
-                    .contains(_searchQuery.toLowerCase()) ||
-                teamObj.shortName
-                    .toLowerCase()
-                    .contains(_searchQuery.toLowerCase());
+            bool matchesSearch = teamObj.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+                teamObj.shortName.toLowerCase().contains(_searchQuery.toLowerCase());
 
             bool matchesFilters = true;
-            if (_isPrivateOnly)
-              matchesFilters = matchesFilters && teamObj.isPrivate;
-            if (_hasCapacityOnly)
-              matchesFilters = matchesFilters && teamObj.hasCapacity;
+            if (_isPrivateOnly) matchesFilters = matchesFilters && teamObj.isPrivate;
+            if (_hasCapacityOnly) matchesFilters = matchesFilters && teamObj.hasCapacity;
 
             return matchesSearch && matchesFilters;
           }).toList();
@@ -168,8 +147,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             padding: TPadding.xs,
             itemCount: filteredTeams.length,
             itemBuilder: (context, index) {
-              return buildTeamCard(
-                  filteredTeams[index].data() as Map<String, dynamic>, isDark);
+              return buildTeamCard(filteredTeams[index].data() as Map<String, dynamic>, isDark);
             },
           );
         },
@@ -208,8 +186,7 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
             imageUrl: team.logoUrl,
             title: team.name,
             subtitle: team.shortName,
-            onTap: () => THelperFunction.pushScreen(
-                context, TeamProfileScreen(teamData: teamData)),
+            onTap: () => THelperFunction.pushScreen(context, TeamProfileScreen(teamData: teamData)),
             trailing: null,
             isPlayer: false,
           ),
@@ -223,38 +200,26 @@ class _JoinTeamScreenState extends State<JoinTeamScreen> {
                     Icon(
                       team.isPrivate ? Icons.lock : Icons.lock_open,
                       size: TSizes.sm,
-                      color: isDark
-                          ? DarkThemeColors.secondaryText
-                          : LightThemeColors.secondaryText,
+                      color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                     ),
                     const SizedBox(width: TSizes.xs),
                     Text(
-                      team.isPrivate
-                          ? TTextStrings.private
-                          : TTextStrings.public,
+                      team.isPrivate ? TTextStrings.private : TTextStrings.public,
                       style: TextStyle(
-                        color: isDark
-                            ? DarkThemeColors.secondaryText
-                            : LightThemeColors.secondaryText,
+                        color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                       ),
                     ),
                     const SizedBox(width: TSizes.md),
                     Icon(
                       team.hasCapacity ? Icons.people : Icons.group_off,
                       size: TSizes.lg,
-                      color: isDark
-                          ? DarkThemeColors.secondaryText
-                          : LightThemeColors.secondaryText,
+                      color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                     ),
                     const SizedBox(width: TSizes.xs),
                     Text(
-                      team.hasCapacity
-                          ? TTextStrings.hasCapacity
-                          : TTextStrings.full,
+                      team.hasCapacity ? TTextStrings.hasCapacity : TTextStrings.full,
                       style: TextStyle(
-                        color: isDark
-                            ? DarkThemeColors.secondaryText
-                            : LightThemeColors.secondaryText,
+                        color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
                       ),
                     ),
                   ],

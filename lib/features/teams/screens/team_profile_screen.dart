@@ -12,13 +12,13 @@ import 'package:tracket/features/matches/screens/challenge_match_screen.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/widgets/squad.dart';
 import 'package:tracket/features/teams/widgets/team_options.dart';
 import 'package:tracket/features/teams/widgets/team_selection_dialog.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -80,17 +80,10 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           teamAllFormatStats.addAll({stats.id: stats.data()});
         }
 
-        final teamObject = Team.fromJson(
-          widget.teamData!,
-          teamPlayer,
-          teamAllFormatStats
-        );
+        final teamObject = Team.fromJson(widget.teamData!, teamPlayer, teamAllFormatStats);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       } else {
-        final team = await FirebaseFirestore.instance
-            .collection(FirestoreCollections.teams)
-            .doc(widget.teamId)
-            .get();
+        final team = await FirebaseFirestore.instance.collection(FirestoreCollections.teams).doc(widget.teamId).get();
 
         if (!mounted) return;
 
@@ -106,8 +99,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           teamAllFormatStats.addAll({stats.id: stats.data()});
         }
 
-        final teamPlayer =
-            await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
+        final teamPlayer = await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
         final teamObject = Team.fromJson(team.data()!, teamPlayer, teamAllFormatStats);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
       }
@@ -118,13 +110,11 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
       //* check if player is not the member of a team
       if (!teamState.team.playerIds.contains(player.id)) {
         //* get players teams as admin
-        final playerTeamListAsAdmin = player.playerCricketDetails!.teams
-            .where((team) => team.role != TeamRole.player)
-            .toList();
+        final playerTeamListAsAdmin =
+            player.playerCricketDetails!.teams.where((team) => team.role != TeamRole.player).toList();
 
         for (final team in playerTeamListAsAdmin) {
-          List teamChallengedList =
-              await TeamsServices.getTeamChallengedList(team.id);
+          List teamChallengedList = await TeamsServices.getTeamChallengedList(team.id);
 
           bool canChallenge = !teamChallengedList.contains(teamState.team.id);
 
@@ -235,8 +225,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     final isAdmin = teamState.team.admins.any((admin) => admin.id == player.id);
 
     final isChallengeVisible = _playerTeamsAsAdmin.isNotEmpty;
-    final canChallenge =
-        _playerTeamsAsAdmin.any((team) => team['canChallenge']);
+    final canChallenge = _playerTeamsAsAdmin.any((team) => team['canChallenge']);
 
     return Scaffold(
       appBar: AppBar(
@@ -254,17 +243,14 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                     showModalBottomSheet(
                       context: context,
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(TSizes.borderRadiusXxl)),
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(TSizes.borderRadiusXxl)),
                       ),
                       builder: (context) => TeamOptions(
-                        isOwner: teamState.team.createdBy ==
-                            FirebaseAuthMethods().currentUserId,
+                        isOwner: teamState.team.createdBy == FirebaseAuthMethods().currentUserId,
                       ),
                     );
                   },
-                  icon: const Icon(Icons.more_vert,
-                      color: onPrimary, size: TSizes.iconAppBar),
+                  icon: const Icon(Icons.more_vert, color: onPrimary, size: TSizes.iconAppBar),
                 ),
                 const SizedBox(width: TSizes.sm),
               ]
@@ -311,24 +297,16 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                       children: [
                                         TextSpan(
                                           text: teamState.team.name,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(
+                                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                                 color: onPrimary,
                                                 fontSize: TSizes.fontSizeXl,
                                                 letterSpacing: 0.7,
                                               ),
                                         ),
                                         TextSpan(
-                                          text:
-                                              '  (${teamState.team.shortName})',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium!
-                                              .copyWith(
-                                                color: LightThemeColors
-                                                    .backgroundColor,
+                                          text: '  (${teamState.team.shortName})',
+                                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                                color: LightThemeColors.backgroundColor,
                                               ),
                                         )
                                       ],
@@ -336,10 +314,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                   ),
                                   Text(
                                     teamState.team.description,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           color: DarkThemeColors.primaryText,
                                         ),
                                   ),
@@ -366,8 +341,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               labelStyle: Theme.of(context).textTheme.bodyLarge,
                             ),
                             StatsData(
-                              number: teamState
-                                  .team.teamAllFormatStats.totalMatchPlayed,
+                              number: teamState.team.teamAllFormatStats.totalMatchPlayed,
                               label: TTextStrings.achievements,
                               labelColor: DarkThemeColors.primaryText,
                               numColor: LightThemeColors.surfaceColor,
@@ -378,38 +352,30 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                         Row(
                           spacing: TSizes.sm,
                           children: [
-                            if (!isChallengeVisible)
-                              const Expanded(child: SizedBox()),
+                            if (!isChallengeVisible) const Expanded(child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: isFollowed
                                   ? CustomButton.secondary(
                                       isLoading: isFollowing,
-                                      onPressed: () => _followTeam(
-                                          teamState.team.id, player.id, false),
+                                      onPressed: () => _followTeam(teamState.team.id, player.id, false),
                                       text: TTextStrings.unfollowButton,
-                                      backgroundColor:
-                                          LightThemeColors.surfaceColor,
+                                      backgroundColor: LightThemeColors.surfaceColor,
                                       borderColor: darkGrassGreen,
                                       textStyle: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(
-                                              color: darkGrassGreen,
-                                              fontWeight: FontWeight.w600),
+                                          .copyWith(color: darkGrassGreen, fontWeight: FontWeight.w600),
                                     )
                                   : CustomButton.primary(
                                       isLoading: isFollowing,
-                                      onPressed: () => _followTeam(
-                                          teamState.team.id, player.id, true),
+                                      onPressed: () => _followTeam(teamState.team.id, player.id, true),
                                       text: TTextStrings.followButton,
                                       backgroundColor: darkGrassGreen,
                                       textStyle: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
-                                          .copyWith(
-                                              color: onPrimary,
-                                              fontWeight: FontWeight.w600),
+                                          .copyWith(color: onPrimary, fontWeight: FontWeight.w600),
                                     ),
                             ),
                             if (isChallengeVisible)
@@ -426,35 +392,26 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                             teamName: teamState.team.name,
                                             shortName: teamState.team.shortName,
                                             captainId: teamState.team.captainId,
-                                            wicketkeeperId:
-                                                teamState.team.wicketkeeperId,
+                                            wicketkeeperId: teamState.team.wicketkeeperId,
                                           ),
                                         ),
                                         text: TTextStrings.challengeButton,
                                         backgroundColor: darkGrassGreen,
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              color:
-                                                  LightThemeColors.surfaceColor,
+                                        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                              color: LightThemeColors.surfaceColor,
                                               fontWeight: FontWeight.w600,
                                             ),
                                       )
                                     : CustomButton.secondary(
                                         text: TTextStrings.challenged,
                                         onPressed: null,
-                                        backgroundColor:
-                                            LightThemeColors.surfaceColor,
+                                        backgroundColor: LightThemeColors.surfaceColor,
                                         borderColor: darkGrassGreen,
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(color: darkGrassGreen),
+                                        textStyle:
+                                            Theme.of(context).textTheme.bodyMedium!.copyWith(color: darkGrassGreen),
                                       ),
                               ),
-                            if (!isChallengeVisible)
-                              const Expanded(child: SizedBox()),
+                            if (!isChallengeVisible) const Expanded(child: SizedBox()),
                           ],
                         )
                       ],

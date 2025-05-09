@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracket/common/widgets/highlighted_label.dart';
-import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class MatchHeader extends StatelessWidget {
@@ -33,8 +33,7 @@ class MatchHeader extends StatelessWidget {
   }
 
   Widget _buildDate(BuildContext context) {
-    final formattedDate =
-        (dateFormat ?? DateFormat.yMMMMd()).format(createdAt.toDate());
+    final formattedDate = (dateFormat ?? DateFormat.yMMMMd()).format(createdAt.toDate());
 
     return Text(
       formattedDate,

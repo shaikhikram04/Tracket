@@ -1,12 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/sizes.dart';
 
-enum AuthScreenType {
-  userLogin,
-  userSignup,
-  playerLogin,
-  playerSignup,
-}
+
 
 //* Manages the size state of authentication screens
 class AuthScreenSizeNotifier extends StateNotifier<double> {

@@ -3,6 +3,7 @@ import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/widgets/team_column.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class MatchTeamsRow extends StatelessWidget {

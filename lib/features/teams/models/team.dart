@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team_all_format_stats.dart';
 import 'package:tracket/features/teams/models/team_request_status.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/models/team_stats.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class Team {
   final String id;
@@ -55,21 +55,15 @@ class Team {
         challengedTeams = challengedTeams ?? const [],
         teamAllFormatStats = teamAllFormatStats ?? const TeamAllFormatStats();
 
-  List<PlayerDetails> get admins =>
-      playersList.where((player) => player.role != TeamRole.player).toList();
+  List<PlayerDetails> get admins => playersList.where((player) => player.role != TeamRole.player).toList();
 
-  List<PlayerDetails> get nonAdmins =>
-      playersList.where((player) => player.role == TeamRole.player).toList();
+  List<PlayerDetails> get nonAdmins => playersList.where((player) => player.role == TeamRole.player).toList();
 
   bool get hasCapacity => playersList.length < maxPlayersCapacity;
 
-  static List<PlayerDetails> _parseTeamPlayers(
-      List<QueryDocumentSnapshot>? players) {
+  static List<PlayerDetails> _parseTeamPlayers(List<QueryDocumentSnapshot>? players) {
     if (players == null) return [];
-    return players
-        .map((player) =>
-            PlayerDetails.fromMap(player.data() as Map<String, dynamic>))
-        .toList();
+    return players.map((player) => PlayerDetails.fromMap(player.data() as Map<String, dynamic>)).toList();
   }
 
   Map<String, dynamic> toJson() => {

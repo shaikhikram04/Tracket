@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/widgets/match_score_component/current_o
 import 'package:tracket/features/matches/widgets/match_score_component/match_header.dart';
 import 'package:tracket/features/matches/widgets/match_teams_row.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class MatchStatusCard extends StatelessWidget {
   const MatchStatusCard({
@@ -22,9 +23,7 @@ class MatchStatusCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: isLightMode
-            ? LightThemeColors.cardColor
-            : DarkThemeColors.cardColor,
+        color: isLightMode ? LightThemeColors.cardColor : DarkThemeColors.cardColor,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(

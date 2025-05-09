@@ -4,6 +4,7 @@ import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/models/team_score.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class MatchStateNotifier extends StateNotifier<Match?> {
   MatchStateNotifier(super.state, this.ref);
@@ -58,8 +59,7 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   }
 
   //* Sets the toss result and decision.
-  void setTossResult(
-      {required bool isTeam1Won, required TossDecision decision}) {
+  void setTossResult({required bool isTeam1Won, required TossDecision decision}) {
     if (state == null) return;
 
     state = state!.setTossDecision(decision, isTeam1Won);

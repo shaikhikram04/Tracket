@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class TeamsScoreSection extends StatelessWidget {
   const TeamsScoreSection({
@@ -28,14 +29,10 @@ class TeamsScoreSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isLightMode
-            ? LightThemeColors.surfaceColor
-            : DarkThemeColors.surfaceColor,
+        color: isLightMode ? LightThemeColors.surfaceColor : DarkThemeColors.surfaceColor,
         border: Border(
           bottom: BorderSide(
-            color: isLightMode
-                ? grassGreen.withValues(alpha: 0.1)
-                : darkGrassGreen.withValues(alpha: 0.2),
+            color: isLightMode ? grassGreen.withValues(alpha: 0.1) : darkGrassGreen.withValues(alpha: 0.2),
           ),
         ),
       ),
@@ -70,9 +67,7 @@ class TeamsScoreSection extends StatelessWidget {
               // Team Logo
               CircleAvatar(
                 radius: 20,
-                backgroundColor: isLightMode
-                    ? LightThemeColors.cardColor
-                    : DarkThemeColors.cardColor,
+                backgroundColor: isLightMode ? LightThemeColors.cardColor : DarkThemeColors.cardColor,
                 backgroundImage: NetworkImage(team.logoUrl),
               ),
               const SizedBox(width: 12),
@@ -97,9 +92,7 @@ class TeamsScoreSection extends StatelessWidget {
                       Text(
                         'RR: ${innings?.runRate.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: isLightMode
-                                  ? LightThemeColors.tertiaryText
-                                  : DarkThemeColors.tertiaryText,
+                              color: isLightMode ? LightThemeColors.tertiaryText : DarkThemeColors.tertiaryText,
                             ),
                       ),
                   ],
@@ -107,10 +100,7 @@ class TeamsScoreSection extends StatelessWidget {
               ),
 
               // Score Section
-              if (innings != null)
-                _buildScoreSection(context, innings)
-              else
-                _buildYetToBat(context),
+              if (innings != null) _buildScoreSection(context, innings) else _buildYetToBat(context),
             ],
           ),
         ),
@@ -150,17 +140,13 @@ class TeamsScoreSection extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: isLightMode
-                    ? LightThemeColors.cardColor
-                    : DarkThemeColors.cardColor,
+                color: isLightMode ? LightThemeColors.cardColor : DarkThemeColors.cardColor,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
                 '${innings.oversDisplay} ov',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: isLightMode
-                          ? LightThemeColors.secondaryText
-                          : DarkThemeColors.secondaryText,
+                      color: isLightMode ? LightThemeColors.secondaryText : DarkThemeColors.secondaryText,
                     ),
               ),
             ),
@@ -176,17 +162,13 @@ class TeamsScoreSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isLightMode
-            ? LightThemeColors.cardColor
-            : DarkThemeColors.cardColor,
+        color: isLightMode ? LightThemeColors.cardColor : DarkThemeColors.cardColor,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         'Yet to bat',
         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: isLightMode
-                  ? LightThemeColors.secondaryText
-                  : DarkThemeColors.secondaryText,
+              color: isLightMode ? LightThemeColors.secondaryText : DarkThemeColors.secondaryText,
             ),
       ),
     );
@@ -211,8 +193,7 @@ class TeamsScoreSection extends StatelessWidget {
   }
 
   Widget _buildMatchStatus(BuildContext context) {
-    if (inning2 == null || inning1?.status != InningsStatus.completed)
-      return const SizedBox.shrink();
+    if (inning2 == null || inning1?.status != InningsStatus.completed) return const SizedBox.shrink();
 
     final isLightMode = Theme.of(context).brightness == Brightness.light;
     final requiredRuns = (inning1!.runs + 1) - (inning2?.runs ?? 0);
@@ -222,9 +203,7 @@ class TeamsScoreSection extends StatelessWidget {
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
-        color: isLightMode
-            ? LightThemeColors.cardColor
-            : DarkThemeColors.cardColor,
+        color: isLightMode ? LightThemeColors.cardColor : DarkThemeColors.cardColor,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: primaryColor.withValues(alpha: 0.1),

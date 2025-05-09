@@ -9,14 +9,14 @@ import 'package:tracket/features/authentication/providers/verification_step.dart
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
   final Ref ref;
 
-  PlayerAuthNotifier(this.ref)
-      : super(PlayerAuthState(formKey: GlobalKey<FormState>()));
+  PlayerAuthNotifier(this.ref) : super(PlayerAuthState(formKey: GlobalKey<FormState>()));
 
   void reset() {
     state = PlayerAuthState(formKey: GlobalKey<FormState>());
@@ -26,13 +26,10 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     if (role == null) return;
 
     final newRole = PlayerCricketDetails.getCricketRole(role);
-    final shouldBeBowler =
-        newRole == CricketRole.bowler || newRole == CricketRole.allRounder;
+    final shouldBeBowler = newRole == CricketRole.bowler || newRole == CricketRole.allRounder;
 
     if (shouldBeBowler != state.isBowler) {
-      ref
-          .read(authScreenSizeProvider.notifier)
-          .incrementSize(shouldBeBowler ? 86 : -86);
+      ref.read(authScreenSizeProvider.notifier).incrementSize(shouldBeBowler ? 86 : -86);
     }
 
     state = state.copyWith(
@@ -67,12 +64,8 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
     String? password,
   }) {
     state = state.copyWith(
-      bowlingArm: arm != null
-          ? PlayerCricketDetails.getPosition(arm)
-          : state.bowlingArm,
-      battingPosition: position != null
-          ? PlayerCricketDetails.getPosition(position)
-          : state.battingPosition,
+      bowlingArm: arm != null ? PlayerCricketDetails.getPosition(arm) : state.bowlingArm,
+      battingPosition: position != null ? PlayerCricketDetails.getPosition(position) : state.battingPosition,
       playerName: playerName ?? state.playerName,
       email: email ?? state.email,
       password: password ?? state.password,
@@ -95,9 +88,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
 
   void togglePlayerAuth() {
     ref.read(authScreenSizeProvider.notifier).changeScreen(
-          state.isLogin
-              ? AuthScreenType.playerSignup
-              : AuthScreenType.playerLogin,
+          state.isLogin ? AuthScreenType.playerSignup : AuthScreenType.playerLogin,
         );
 
     final isLogin = state.isLogin;
@@ -159,7 +150,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
       if (!context.mounted) return;
       _handleError(context, e);
     } finally {
-        state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -173,20 +164,16 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
   }
 
   bool _validateDropdowns(BuildContext context) {
-    if (!_isDropdownSelected(
-        state.cricketRole?.name, 'Cricket Role', context)) {
+    if (!_isDropdownSelected(state.cricketRole?.name, 'Cricket Role', context)) {
       return false;
     }
-    if (!_isDropdownSelected(
-        state.battingPosition?.name, 'Batting Position', context)) {
+    if (!_isDropdownSelected(state.battingPosition?.name, 'Batting Position', context)) {
       return false;
     }
-    if (!_isDropdownSelected(
-        state.bowlingStyle?.name, 'Bowling Style', context)) {
+    if (!_isDropdownSelected(state.bowlingStyle?.name, 'Bowling Style', context)) {
       return false;
     }
-    if (state.isBowler &&
-        !_isDropdownSelected(state.bowlingArm?.name, 'Bowling Arm', context)) {
+    if (state.isBowler && !_isDropdownSelected(state.bowlingArm?.name, 'Bowling Arm', context)) {
       return false;
     }
     return true;
@@ -202,7 +189,6 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
         TTextStrings.error,
         THelperFunction.getErrorMessage(error.code),
       );
-      
     } else {
       THelperFunction.showAlertDialog(
         context,
@@ -222,7 +208,6 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
 }
 
 // Create a provider
-final playerAuthProvider =
-    StateNotifierProvider<PlayerAuthNotifier, PlayerAuthState>((ref) {
+final playerAuthProvider = StateNotifierProvider<PlayerAuthNotifier, PlayerAuthState>((ref) {
   return PlayerAuthNotifier(ref);
 });

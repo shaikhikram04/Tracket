@@ -4,18 +4,9 @@ import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/models/team_score.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:uuid/uuid.dart';
-
-enum TossDecision { batting, fielding }
-
-enum MatchType { friendly, practice, challenged }
-
-enum MatchFormat { over5, over10, over20, over50, test }
-
-enum MatchStatus { scheduled, live, completed, abandoned, cancelled }
-
-enum WinningMethod { byRuns, byWickets, tied, noResult }
 
 const uuid = Uuid();
 
@@ -94,10 +85,8 @@ class Match {
   bool get isInProgress => status == MatchStatus.live;
 
   String matchCompleteStatement() {
-    if (winningMethod == WinningMethod.byRuns ||
-        winningMethod == WinningMethod.byWickets) {
-      final winningTeamName =
-          winningTeamId == team1.teamId ? team1.teamName : team2.teamName;
+    if (winningMethod == WinningMethod.byRuns || winningMethod == WinningMethod.byWickets) {
+      final winningTeamName = winningTeamId == team1.teamId ? team1.teamName : team2.teamName;
 
       final wayToWin =
           '$winningMargin ${winningMethod == WinningMethod.byRuns ? TTextStrings.runs : TTextStrings.wickets}';
@@ -190,9 +179,7 @@ class Match {
 
   List<MatchPlayerInfo> getBattingTeamPlayersBeforeInnStart() {
     if (battingTeam == null) return [];
-    return battingTeamBeforeInnStart!.teamId == team1.teamId
-        ? team1Players
-        : team2Players;
+    return battingTeamBeforeInnStart!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
   List<MatchPlayerInfo> getBowlingTeamPlayers() {
@@ -202,9 +189,7 @@ class Match {
 
   List<MatchPlayerInfo> getBowlingTeamPlayersBeforeInnStar() {
     if (bowlingTeam == null) return [];
-    return bowlingTeamBeforeInnStart!.teamId == team1.teamId
-        ? team1Players
-        : team2Players;
+    return bowlingTeamBeforeInnStart!.teamId == team1.teamId ? team1Players : team2Players;
   }
 
   // Match initialization methods
@@ -339,22 +324,18 @@ class Match {
       team1Players: getPlayers(map['team1Players']),
       team2Players: getPlayers(map['team2Players']),
       noOfPlayer: map['noOfPlayer'],
-      matchFormat:
-          MatchFormat.values.firstWhere((e) => e.name == map['matchFormat']),
+      matchFormat: MatchFormat.values.firstWhere((e) => e.name == map['matchFormat']),
       matchType: MatchType.values.firstWhere((e) => e.name == map['matchType']),
       venue: map['venue'],
       schedule: map['schedule'].toDate(),
       participants: map['participants'],
       isTeam1WonToss: map['isTeam1WonToss'],
-      tossDecision: map['tossDecision'] != null
-          ? TossDecision.values.firstWhere((e) => e.name == map['tossDecision'])
-          : null,
+      tossDecision:
+          map['tossDecision'] != null ? TossDecision.values.firstWhere((e) => e.name == map['tossDecision']) : null,
       status: MatchStatus.values.firstWhere((e) => e.name == map['status']),
       winningTeamId: map['winningTeamId'],
-      winningMethod: map['winningMethod'] != null
-          ? WinningMethod.values
-              .firstWhere((e) => e.name == map['winningMethod'])
-          : null,
+      winningMethod:
+          map['winningMethod'] != null ? WinningMethod.values.firstWhere((e) => e.name == map['winningMethod']) : null,
       winningMargin: map['winningMargin'],
       createdAt: map['createdAt'],
       updatedAt: map['updatedAt'],

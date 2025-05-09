@@ -1,30 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/players/models/all_format_stats.dart';
 import 'package:tracket/features/teams/models/team_details.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
-enum CricketRole {
-  batsman('Batsman'),
-  bowler('Bowler'),
-  allRounder('All-Rounder'),
-  wicketKeeper('Wicketkeeper');
 
-  const CricketRole(this.description);
-  final String description;
-}
-
-enum Position {
-  righty,
-  lefty,
-}
-
-enum BowlingStyle {
-  none,
-  fast,
-  mediumFast,
-  legSpin,
-  offSpin,
-  chinaMan,
-}
 
 class PlayerCricketDetails {
   final CricketRole cricketRole;

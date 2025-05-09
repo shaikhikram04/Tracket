@@ -11,6 +11,7 @@ import 'package:tracket/features/matches/providers/current_over_runs_provider.da
 import 'package:tracket/features/matches/providers/extras_provider.dart';
 import 'package:tracket/features/matches/providers/match_provider.dart';
 import 'package:tracket/features/matches/services/matches_services.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 
 class InningsStateNotifier extends StateNotifier<List<Inning?>> {
@@ -64,10 +65,9 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     );
 
     if (currentBowlerIndex == -1) {
-      final currBowlerInfo =
-          ref.read(matchStateProvider)!.getBowlingTeamPlayers().firstWhere(
-                (bowler) => bowler.playerId == currentInnings!.currentBowlerId,
-              );
+      final currBowlerInfo = ref.read(matchStateProvider)!.getBowlingTeamPlayers().firstWhere(
+            (bowler) => bowler.playerId == currentInnings!.currentBowlerId,
+          );
 
       final bowlingStats = BowlingScore(
         uuid: currBowlerInfo.playerId,
@@ -107,13 +107,11 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     if (_currentInningIndex == 0) {
       state = [
         state.first!.copyWith(
-          strikerPosition: outBatsmanPosition == currentInnings!.strikerPosition
+          strikerPosition:
+              outBatsmanPosition == currentInnings!.strikerPosition ? battingPosition : currentInnings!.strikerPosition,
+          nonStrikerPosition: outBatsmanPosition == currentInnings!.nonStrikerPosition
               ? battingPosition
-              : currentInnings!.strikerPosition,
-          nonStrikerPosition:
-              outBatsmanPosition == currentInnings!.nonStrikerPosition
-                  ? battingPosition
-                  : currentInnings!.nonStrikerPosition,
+              : currentInnings!.nonStrikerPosition,
           battingStats: [...currentInnings!.battingStats, newBatsmanStat],
         ),
         state.last,
@@ -122,13 +120,11 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       state = [
         state.first,
         state.last!.copyWith(
-          strikerPosition: outBatsmanPosition == currentInnings!.strikerPosition
+          strikerPosition:
+              outBatsmanPosition == currentInnings!.strikerPosition ? battingPosition : currentInnings!.strikerPosition,
+          nonStrikerPosition: outBatsmanPosition == currentInnings!.nonStrikerPosition
               ? battingPosition
-              : currentInnings!.strikerPosition,
-          nonStrikerPosition:
-              outBatsmanPosition == currentInnings!.nonStrikerPosition
-                  ? battingPosition
-                  : currentInnings!.nonStrikerPosition,
+              : currentInnings!.nonStrikerPosition,
           battingStats: [...currentInnings!.battingStats, newBatsmanStat],
         ),
       ];
@@ -169,9 +165,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       state = [
         state.first!.copyWith(
           currentBowlerId: newBowlerId,
-          bowlingStats: isExistingBowler
-              ? null
-              : [...currentInnings!.bowlingStats, newBowlerStat!],
+          bowlingStats: isExistingBowler ? null : [...currentInnings!.bowlingStats, newBowlerStat!],
         ),
         state.last,
       ];
@@ -180,9 +174,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
         state.first,
         state.last!.copyWith(
           currentBowlerId: newBowlerId,
-          bowlingStats: isExistingBowler
-              ? null
-              : [...currentInnings!.bowlingStats, newBowlerStat!],
+          bowlingStats: isExistingBowler ? null : [...currentInnings!.bowlingStats, newBowlerStat!],
         ),
       ];
     }
@@ -201,9 +193,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       final matchState = ref.read(matchStateProvider)!;
       final playersList = matchState.getBowlingTeamPlayers();
 
-      return playersList
-          .firstWhere((player) => player.playerId == wkId)
-          .playerName;
+      return playersList.firstWhere((player) => player.playerId == wkId).playerName;
     } catch (e) {
       return TTextStrings.unknown;
     }
@@ -253,22 +243,17 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
       ballType = BallType.legBye;
     }
 
-    final currentOverLastBall = ref.read(currentOverRunsProvider).isNotEmpty
-        ? ref.read(currentOverRunsProvider).last.ballNumber
-        : 0;
+    final currentOverLastBall =
+        ref.read(currentOverRunsProvider).isNotEmpty ? ref.read(currentOverRunsProvider).last.ballNumber : 0;
 
-    final currentOverBallCount = extras.isWide || extras.isNoBall
-        ? currentOverLastBall
-        : currentOverLastBall + 1;
+    final currentOverBallCount = extras.isWide || extras.isNoBall ? currentOverLastBall : currentOverLastBall + 1;
 
     final ballOutcome = BallOutcome(
       type: ballType,
       runs: runs,
       isWicket: isWicket,
       reasonOfOut: reasonOfOut,
-      ballNumber: currentOverBallCount % 6 == 0 && currentOverBallCount > 0
-          ? 6
-          : currentOverBallCount % 6,
+      ballNumber: currentOverBallCount % 6 == 0 && currentOverBallCount > 0 ? 6 : currentOverBallCount % 6,
       ballId: uuid.v4(),
       timestamp: Timestamp.now(),
       isBoundary: isFour || isSix,
@@ -276,8 +261,7 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
 
     ref.read(currentOverRunsProvider.notifier).addBalls(ballOutcome);
 
-    final bool isOverCompleted =
-        ref.read(currentOverRunsProvider.notifier).isOverCompleted();
+    final bool isOverCompleted = ref.read(currentOverRunsProvider.notifier).isOverCompleted();
 
     //* Calculate the total team runs for this delivery.
     //* - For a wide: 1 (penalty) + any additional runs (from running).
@@ -300,16 +284,13 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
     final noOfPlayers = matchState.noOfPlayer;
     final matchOvers = matchState.over;
 
-    final isAllOut =
-        currentInnings!.wickets + (isWicket ? 1 : 0) == (noOfPlayers - 1);
+    final isAllOut = currentInnings!.wickets + (isWicket ? 1 : 0) == (noOfPlayers - 1);
 
-    final currentInningBallCount =
-        currentInnings!.balls + (extras.isWide || extras.isNoBall ? 0 : 1);
+    final currentInningBallCount = currentInnings!.balls + (extras.isWide || extras.isNoBall ? 0 : 1);
 
-    final isInningCompleted =
-        (target != null && currentInnings!.runs + totalTeamRuns >= target!) ||
-            currentInningBallCount == matchOvers * 6 ||
-            isAllOut;
+    final isInningCompleted = (target != null && currentInnings!.runs + totalTeamRuns >= target!) ||
+        currentInningBallCount == matchOvers * 6 ||
+        isAllOut;
 
     //* Update the current innings with this delivery.
     final updatedInnings = currentInnings!.addDelivery(
@@ -354,19 +335,15 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
             method: winningMethod,
             margin: winningMargin,
           );
-          
+
       ref.read(additionalMatchProvider.notifier).setIsMatchCompleted(true);
     } else if (isInningCompleted) {
       ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
     }
 
-    final teamScore = _currentInningIndex == 0
-        ? matchState.team1Score!
-        : matchState.team2Score!;
-    final updatedTeamScore = teamScore.addDelevery(
-        runs: totalTeamRuns,
-        isAddBall: extras.shouldAddRunsToTeam,
-        isWicket: isWicket);
+    final teamScore = _currentInningIndex == 0 ? matchState.team1Score! : matchState.team2Score!;
+    final updatedTeamScore =
+        teamScore.addDelevery(runs: totalTeamRuns, isAddBall: extras.shouldAddRunsToTeam, isWicket: isWicket);
 
     ref.read(matchStateProvider.notifier).updateTeamScore(updatedTeamScore);
 
@@ -410,7 +387,6 @@ class InningsStateNotifier extends StateNotifier<List<Inning?>> {
   }
 }
 
-final inningsStateProvider =
-    StateNotifierProvider<InningsStateNotifier, List<Inning?>>(
+final inningsStateProvider = StateNotifierProvider<InningsStateNotifier, List<Inning?>>(
   (ref) => InningsStateNotifier(ref),
 );

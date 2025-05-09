@@ -3,16 +3,17 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/features/notifications/models/notification.dart' ;
+import 'package:tracket/common/widgets/no_data_found.dart';
+import 'package:tracket/features/notifications/models/notification.dart';
 import 'package:tracket/features/notifications/services/notification_services.dart';
 import 'package:tracket/features/notifications/widgets/request_card.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/providers/providers.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-import 'package:tracket/common/widgets/no_data_found.dart';
 
 class RequestList extends ConsumerStatefulWidget {
   const RequestList({
@@ -57,11 +58,7 @@ class _RequestListState extends ConsumerState<RequestList> {
   @override
   Widget build(BuildContext context) {
     if (requestList.isEmpty) {
-      return const NoDataFound(
-        title: 'No Request Found',
-        message: '',
-        iconData: AppIconData.notificationOff
-      );
+      return const NoDataFound(title: 'No Request Found', message: '', iconData: AppIconData.notificationOff);
     }
     return ListView.builder(
       itemCount: requestList.length,
@@ -81,8 +78,7 @@ class _RequestListState extends ConsumerState<RequestList> {
             playerId: request.playerDetails!.id,
             teamId: request.teamDetails!.id,
           ),
-          onAcceptRequest: (WidgetRef ref) =>
-              _acceptRequest(request, index, isPlayer, ref),
+          onAcceptRequest: (WidgetRef ref) => _acceptRequest(request, index, isPlayer, ref),
           onRejectRequest: () => _rejectRequest(
             context,
             index: index,
@@ -138,12 +134,9 @@ class _RequestListState extends ConsumerState<RequestList> {
     _toggleButton(request.notificationId, true, ref);
     try {
       if (!isPlayer) {
-        final teamDocRef = FirebaseFirestore.instance
-            .collection(FirestoreCollections.teams)
-            .doc(request.to);
+        final teamDocRef = FirebaseFirestore.instance.collection(FirestoreCollections.teams).doc(request.to);
 
-        final teamPlayers =
-            await teamDocRef.collection(FirestoreCollections.teamPlayers).get();
+        final teamPlayers = await teamDocRef.collection(FirestoreCollections.teamPlayers).get();
 
         final teamData = await teamDocRef.get();
 

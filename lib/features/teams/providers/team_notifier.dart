@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/features/players/models/player_details.dart';
 import 'package:tracket/features/teams/models/team.dart';
-import 'package:tracket/features/teams/models/team_role.dart';
 import 'package:tracket/features/teams/providers/team_state.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 
 class TeamNotifier extends StateNotifier<TeamState> {
@@ -85,11 +85,8 @@ class TeamNotifier extends StateNotifier<TeamState> {
     try {
       state = state.copyWith(isLoading: true, error: null);
 
-      final updatedPlayersList = state.team.playersList
-          .where((player) => player.id != playerId)
-          .toList();
-      final updatedPlayerIds =
-          state.team.playerIds.where((id) => id != playerId).toList();
+      final updatedPlayersList = state.team.playersList.where((player) => player.id != playerId).toList();
+      final updatedPlayerIds = state.team.playerIds.where((id) => id != playerId).toList();
 
       await updateField(
         playersList: updatedPlayersList,
@@ -130,8 +127,7 @@ class TeamNotifier extends StateNotifier<TeamState> {
   }
 
   Future<void> updatePlayerRole(String playerId, TeamRole role) async {
-    final playerIndex =
-        state.team.playersList.indexWhere((player) => player.id == playerId);
+    final playerIndex = state.team.playersList.indexWhere((player) => player.id == playerId);
 
     if (playerIndex == -1) {
       state = state.copyWith(error: TTextStrings.teamPlayerNotFound);

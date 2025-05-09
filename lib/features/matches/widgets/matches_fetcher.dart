@@ -4,15 +4,9 @@ import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/no_data_found.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/widgets/match_card.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/utility_classes/app_icon_data.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
-
-enum MatchesFetcherType {
-  userMatches,
-  completed,
-  live,
-  upcoming,
-}
 
 class MatchesFetcher extends StatelessWidget {
   const MatchesFetcher({

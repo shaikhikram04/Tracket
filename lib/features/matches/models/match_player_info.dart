@@ -1,5 +1,6 @@
 import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/features/players/models/player_details.dart';
+import 'package:tracket/utils/constants/enums.dart';
 
 class MatchPlayerInfo {
   const MatchPlayerInfo({
@@ -32,8 +33,7 @@ class MatchPlayerInfo {
         longCricketRole: snap['longCricketRole'],
       );
 
-  static List<MatchPlayerInfo> fromPlayerDetailList(
-      List<PlayerDetails> players) {
+  static List<MatchPlayerInfo> fromPlayerDetailList(List<PlayerDetails> players) {
     return players.map(
       (player) {
         return MatchPlayerInfo(
