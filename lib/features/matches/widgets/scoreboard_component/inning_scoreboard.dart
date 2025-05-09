@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
-import 'package:tracket/features/matches/models/inning.dart';
+import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/match_squad.dart';
 import 'package:tracket/features/matches/widgets/scoreboard_component/batting_scorecard.dart';

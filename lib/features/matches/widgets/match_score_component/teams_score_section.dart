@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracket/features/matches/models/inning.dart';
+import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/utils/constants/colors.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/features/matches/models/ball_outcome.dart';
 import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
-import 'package:tracket/features/matches/models/inning.dart';
+import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/models/match.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/providers/additional_match_provider.dart';

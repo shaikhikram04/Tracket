@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tracket/features/matches/models/inning.dart';
+import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/screens/operator_side_scoring_screen/blur_overlay.dart';
 import 'package:tracket/utils/constants/colors.dart';
 

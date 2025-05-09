@@ -89,8 +89,7 @@ class BallOutcome {
     );
   }
 
-  static List<BallOutcome> fromQuerySnapshot(
-      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+  static List<BallOutcome> fromQuerySnapshot(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
     return docs.map((doc) => BallOutcome.fromMap(doc.data())).toList();
   }
 }

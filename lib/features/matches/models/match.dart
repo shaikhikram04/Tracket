@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/matches/models/ball_outcome.dart';
-import 'package:tracket/features/matches/models/inning.dart';
+import 'package:tracket/features/matches/models/inning/inning.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/models/match_team_info.dart';
 import 'package:tracket/features/matches/models/team_score.dart';
