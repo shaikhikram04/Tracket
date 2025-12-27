@@ -54,6 +54,7 @@ class PlayerAuthNotifier extends StateNotifier<PlayerAuthState> {
       bowlingStyle: PlayerCricketDetails.getBowlingStyle(style),
       isBowler: isBowler,
     );
+    
   }
 
   void updateField({

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/utils/constants/enums.dart';
 
 /// Represents the outcome of a single ball in a cricket match.

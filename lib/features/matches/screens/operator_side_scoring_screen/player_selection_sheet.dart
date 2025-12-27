@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/models/match_player_info.dart';
 import 'package:tracket/features/matches/widgets/base_selection_sheet.dart';
-import 'package:tracket/features/players/models/player_cricket_detail.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/formatters/formatter.dart';
