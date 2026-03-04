@@ -4,7 +4,7 @@ import 'package:tracket/utils/constants/colors.dart';
 class TTabBarTheme {
   const TTabBarTheme._();
 
-  static const TabBarTheme light = TabBarTheme(
+  static const TabBarThemeData light = TabBarThemeData(
     labelColor: primaryColor,
     unselectedLabelColor: Colors.black54,
     indicatorSize: TabBarIndicatorSize.label,
@@ -27,7 +27,7 @@ class TTabBarTheme {
     ),
   );
 
-  static const TabBarTheme dark = TabBarTheme(
+  static const TabBarThemeData dark = TabBarThemeData(
     labelColor: primaryLight,
     unselectedLabelColor: Colors.white54,
     indicatorSize: TabBarIndicatorSize.label,
