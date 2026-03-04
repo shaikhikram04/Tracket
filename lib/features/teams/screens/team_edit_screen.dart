@@ -14,7 +14,7 @@ import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/utils/team_constants.dart';
 import 'package:tracket/features/teams/widgets/capacity_selector.dart';
 import 'package:tracket/features/teams/widgets/squad.dart';
-import 'package:tracket/utils/cloud_storage/supabase_services.dart';
+import 'package:tracket/utils/cloud_storage/imagekit_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
@@ -103,7 +103,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
     try {
       String? logoUrl;
       if (_image != null) {
-        logoUrl = await SupabaseServices.uploadImage(
+        logoUrl = await ImageKitServices.uploadImage(
           imageByte: _image!,
           fileName: '${_teamState.team.id}.jpg',
           isExist: _teamState.team.logoUrl.isNotEmpty,

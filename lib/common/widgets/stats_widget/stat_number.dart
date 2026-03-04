@@ -16,7 +16,7 @@ class StatNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '${prefix ?? ''}$number${suffix ?? ''}',
+      (number < 0) ? "N/A" : '${prefix ?? ''}$number${suffix ?? ''}',
       style: style,
     );
   }

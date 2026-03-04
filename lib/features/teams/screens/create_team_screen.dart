@@ -8,7 +8,7 @@ import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/features/teams/models/team_form_data.dart';
 import 'package:tracket/features/teams/services/teams_services.dart';
 import 'package:tracket/features/teams/utils/team_constants.dart';
-import 'package:tracket/utils/cloud_storage/supabase_services.dart';
+import 'package:tracket/utils/cloud_storage/imagekit_services.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/paddings.dart';
 import 'package:tracket/utils/constants/sizes.dart';
@@ -86,7 +86,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
       final teamId = uuid.v4();
 
       if (_teamFormData.logo != null) {
-        final logoUrl = await SupabaseServices.uploadImage(
+        final logoUrl = await ImageKitServices.uploadImage(
           imageByte: _teamFormData.logo!,
           fileName: teamId,
           isExist: false,
