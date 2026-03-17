@@ -4,11 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tracket/features/authentication/models/player_signup_data.dart';
 import 'package:tracket/features/authentication/models/verification_data.dart';
 import 'package:tracket/features/authentication/services/auth_service.dart';
 import 'package:tracket/features/authentication/services/email_verification_services.dart';
+import 'package:tracket/features/authentication/services/player_auth_services.dart';
 import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/features/players/models/player.dart';
+import 'package:tracket/utils/constants/enums.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 import 'package:tracket/utils/utility_classes/firestore_collections.dart';
@@ -18,6 +22,7 @@ class FirebaseAuthMethods extends AuthService {
   // Static instances
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   static const Uuid uuid = Uuid();
 
   // Error message constants
@@ -116,6 +121,66 @@ class FirebaseAuthMethods extends AuthService {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  /// Signs in the user with Google authentication
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) return null;
+
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await _auth.signInWithCredential(credential);
+    } on FirebaseAuthException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Checks whether a Firestore profile exists for the user
+  static Future<bool> hasUserProfile(String userId) async {
+    final profileDoc =
+        await _firestore.collection(FirestoreCollections.players).doc(userId).get();
+    return profileDoc.exists;
+  }
+
+  /// Creates player profile and starter stats from onboarding details
+  Future<void> completePlayerOnboarding({
+    required String playerName,
+    required CricketRole role,
+    required Position battingHand,
+    required BowlingStyle bowlingStyle,
+    required Position standardPosition,
+  }) async {
+    final user = currentUser;
+
+    final email = user.email;
+    if (email == null || email.trim().isEmpty) {
+      throw StateError('Signed-in account has no email address');
+    }
+
+    final signupData = PlayerSignupData(
+      playerId: user.uid,
+      playerName: playerName.trim(),
+      email: email.trim(),
+      cricketRole: role,
+      battingPosition: battingHand,
+      bowlingStyle: bowlingStyle,
+      bowlingArm: bowlingStyle == BowlingStyle.none ? null : standardPosition,
+      imageUrl: user.photoURL ?? '',
+    );
+
+    final result = await PlayerAuthService.signupPlayer(data: signupData);
+    if (result != TTextStrings.success) {
+      throw StateError(result);
     }
   }
 
@@ -289,6 +354,7 @@ class FirebaseAuthMethods extends AuthService {
   @override
   Future<void> logout() async {
     try {
+      await _googleSignIn.signOut();
       await _auth.signOut();
     } catch (e) {
       rethrow;

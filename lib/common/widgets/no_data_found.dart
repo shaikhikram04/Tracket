@@ -26,6 +26,7 @@ class NoDataFound extends StatelessWidget {
 
     return Center(
       child: Container(
+        padding: const EdgeInsets.all(TSizes.spaceBtwSections),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -1,12 +1,10 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/features/authentication/screens/auth_screen.dart';
-import 'package:tracket/features/home/screens/home.dart';
+import 'package:tracket/features/authentication/screens/auth_gate_screen.dart';
 import 'package:tracket/utils/theme/theme.dart';
 
 import 'firebase_options.dart';
@@ -17,6 +15,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await FirebaseAuth.instance.setLanguageCode('en');
 
   await dotenv.load();
 
@@ -30,8 +30,6 @@ class Tracket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currUser = FirebaseAuth.instance.currentUser;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
@@ -40,11 +38,7 @@ class Tracket extends StatelessWidget {
       title: 'Tracket',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      home: currUser == null || !currUser.emailVerified ? const AuthScreen() : const HomeScreen(),
-
-      // home: const Scaffold(
-      //   body: ChatScreen(),
-      // ),
+      home: const AuthGateScreen(),
     );
   }
 }

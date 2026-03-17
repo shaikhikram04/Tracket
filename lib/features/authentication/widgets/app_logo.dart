@@ -6,8 +6,9 @@ import 'package:tracket/utils/devices/devices_utility.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class AppLogo extends StatelessWidget {
-  const AppLogo({super.key});
-  static const double _maxLogoHeight = TSizes.appLogoHeightMax;
+  const AppLogo({super.key, this.withName = false});
+
+  final bool withName;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,17 @@ class AppLogo extends StatelessWidget {
     return Padding(
       padding: TPadding.vPaddingXl,
       child: Image.asset(
-        isDark ? TImages.appLogoDark : TImages.appLogo,
-        height: height * 0.25 > _maxLogoHeight ? _maxLogoHeight : height * 0.25,
+        withName
+            ? isDark
+                ? TImages.appLogoWithNameDark
+                : TImages.appLogoWithName
+            : isDark
+                ? TImages.appLogoDark
+                : TImages.appLogo,
+        height: height * 0.15,
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => const Icon(Icons.error, size: TSizes.appLogoHeightMin),
+        errorBuilder: (context, error, stackTrace) =>
+            const Icon(Icons.error, size: TSizes.appLogoHeightMin),
       ),
     );
   }
