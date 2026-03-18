@@ -17,13 +17,6 @@ enum HighlightSize {
   large // Larger size
 }
 
-enum AuthScreenType {
-  userLogin,
-  userSignup,
-  playerLogin,
-  playerSignup,
-}
-
 // Enum for innings status
 enum InningsStatus { notStarted, inProgress, declared, allOut, completed }
 

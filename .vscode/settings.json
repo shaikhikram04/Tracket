@@ -1,7 +1,12 @@
 {
   "dart.flutterSdkPath": ".fvm/flutter_sdk",
-  "cSpell.words": [
-    "tracket",
-    "Xperia"
-  ]
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "[dart]": {
+    "editor.defaultFormatter": "Dart-Code.dart-code"
+  },
+  "cSpell.words": ["tracket", "Xperia"]
 }

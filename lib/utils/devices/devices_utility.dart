@@ -116,12 +116,4 @@ class TDeviceUtils {
   static bool isIOS() {
     return Platform.isIOS;
   }
-
-  // static Future<void> launchUrl(String url) async {
-  //   if (await canLaunchUrlString(url)) {
-  //     await launchUrlString(url);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
 }

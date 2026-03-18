@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tracket/features/authentication/screens/auth_screen.dart';
+import 'package:tracket/features/authentication/screens/auth_gate_screen.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/home/drawer/drawer_header.dart';
 import 'package:tracket/features/home/drawer/drawer_tile.dart';
@@ -13,6 +13,37 @@ import 'package:tracket/utils/helpers/helping_function.dart';
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
 
+  void _showDeletingDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      useRootNavigator: true,
+      builder: (_) => PopScope(
+        canPop: false,
+        child: AlertDialog(
+          content: Row(
+            children: const [
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2.2),
+              ),
+              SizedBox(width: 12),
+              Expanded(child: Text('Deleting account...')),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _hideDeletingDialog(BuildContext context) {
+    final navigator = Navigator.of(context, rootNavigator: true);
+    if (navigator.canPop()) {
+      navigator.pop();
+    }
+  }
+
   Future<void> _logoutUser(BuildContext context) async {
     try {
       await FirebaseAuthMethods().logout();
@@ -20,7 +51,7 @@ class MainDrawer extends ConsumerWidget {
       if (!context.mounted) return;
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const AuthScreen()),
+        MaterialPageRoute(builder: (context) => const AuthGateScreen()),
         (route) => false,
       );
     } catch (e) {
@@ -54,17 +85,22 @@ class MainDrawer extends ConsumerWidget {
 
     if (shouldDelete != true || !context.mounted) return;
 
+    _showDeletingDialog(context);
+
     try {
       await FirebaseAuthMethods().deleteCurrentAccount();
 
       if (!context.mounted) return;
+      _hideDeletingDialog(context);
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const AuthScreen()),
+        MaterialPageRoute(builder: (context) => const AuthGateScreen()),
         (route) => false,
       );
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
+
+      _hideDeletingDialog(context);
 
       final message = e.code == 'requires-recent-login'
           ? 'Please sign in again and retry deleting your account.'
@@ -72,6 +108,8 @@ class MainDrawer extends ConsumerWidget {
       THelperFunction.showSnackBar(message, context);
     } catch (e) {
       if (!context.mounted) return;
+
+      _hideDeletingDialog(context);
       THelperFunction.showSnackBar(e.toString(), context);
     }
   }

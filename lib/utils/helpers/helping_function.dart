@@ -2,9 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:tracket/common/widgets/circular_loading_indicator.dart';
-import 'package:tracket/features/authentication/screens/verification_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 
@@ -32,32 +30,6 @@ class THelperFunction {
 
   /// Returns a Color object based on the provided color name string
   static Color? getColor(String value) => _colorMap[value];
-
-  /// Shows a success-themed snackbar
-  static void showSuccessSnackBar(
-    String content,
-    BuildContext context, {
-    Duration duration = const Duration(seconds: 3),
-  }) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-
-    final snackBar = SnackBar(
-      backgroundColor: primaryColor,
-      behavior: SnackBarBehavior.floating,
-      duration: duration,
-      margin: const EdgeInsets.all(8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      content: Row(
-        children: [
-          const Icon(Icons.check_circle, color: Colors.white),
-          const SizedBox(width: 12),
-          Expanded(child: Text(content)),
-        ],
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
 
   /// Shows an error-themed snackbar
   static void showErrorSnackBar(
@@ -115,15 +87,6 @@ class THelperFunction {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  /// Shows a dialog for email verification
-  static void showVerificationDialog(BuildContext context, String email) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (_) => VerificationScreen(email),
-    );
   }
 
   /// Shows an alert dialog with an icon
@@ -276,29 +239,6 @@ class THelperFunction {
     ];
   }
 
-  /// Maps error codes to user-friendly error messages
-  static String getErrorMessage(String errorCode) {
-    const errorMessages = {
-      'Email-is-already-in-use-as-user': TTextStrings.emailUsedByUser,
-      'Email-is-already-in-use-as-player': TTextStrings.emailUsedByPlayer,
-      'invalid-email': 'The email address is invalid',
-      'user-disabled': 'This user account has been disabled',
-      'user-not-found': 'No user found with this email',
-      'wrong-password': 'Incorrect password',
-      'weak-password': 'The password is too weak',
-      'network-request-failed': 'Network error. Please check your connection.',
-      'connection-error':
-          'Unable to connect to servers. Please try again later.',
-      'match-not-found': 'Match details not found',
-      'player-already-exists': 'Player already exists in this team',
-      'team-not-found': 'Team details not found',
-      'insufficient-permissions':
-          'You do not have permission to perform this action',
-    };
-
-    return errorMessages[errorCode] ?? TTextStrings.unexpectedError;
-  }
-
   /// Returns a styled Text widget for titles
   static Text getTitleText(String title, BuildContext context) {
     return Text(
@@ -357,7 +297,7 @@ class THelperFunction {
         if (contextCallback != null) {
           contextCallback(dialogContext);
         }
-        
+
         return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
@@ -384,14 +324,6 @@ class THelperFunction {
     );
   }
 
-  /// Truncates text to a specified length and adds ellipsis
-  static String truncateText(String text, int maxLength) {
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return '${text.substring(0, maxLength)}...';
-  }
-
   /// Checks if the current theme is dark mode
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
@@ -410,48 +342,6 @@ class THelperFunction {
   /// Gets the screen width
   static double screenWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
-  }
-
-  /// Formats a date to a specified format
-  static String getFormattedDate(
-    DateTime date, {
-    String format = 'dd MMM yyyy',
-  }) {
-    return DateFormat(format).format(date);
-  }
-
-  /// Removes duplicate items from a list
-  static List<T> removeDuplicates<T>(List<T> list) {
-    return list.toSet().toList();
-  }
-
-  /// Wraps a list of widgets into rows with specified number of items per row
-  static List<Widget> wrapWidgets(List<Widget> widgets, int rowSize) {
-    final wrappedList = <Widget>[];
-
-    for (var i = 0; i < widgets.length; i += rowSize) {
-      final rowChildren = widgets.sublist(
-          i, i + rowSize > widgets.length ? widgets.length : i + rowSize);
-      wrappedList.add(Row(children: rowChildren));
-    }
-
-    return wrappedList;
-  }
-
-  /// Shows a success dialog with a checkmark icon
-  static void showSuccessDialog(
-    BuildContext context, {
-    required String title,
-    required String message,
-  }) {
-    showIconAlertDialog(
-      context,
-      title: title,
-      errorMessage: message,
-      icon: Icons.check_circle,
-      headerColor: primaryColor,
-      iconColor: Colors.white,
-    );
   }
 
   /// Shows a themed confirmation dialog
@@ -502,26 +392,5 @@ class THelperFunction {
     );
 
     return result ?? false;
-  }
-
-  /// Returns responsive padding based on screen size
-  static EdgeInsets responsivePadding(BuildContext context) {
-    final width = screenWidth(context);
-    if (width < 600) {
-      return const EdgeInsets.all(16);
-    } else if (width < 1200) {
-      return const EdgeInsets.all(24);
-    } else {
-      return const EdgeInsets.all(32);
-    }
-  }
-
-  /// Returns a theme-appropriate color based on the current theme
-  static Color getThemeAwareColor(
-    BuildContext context,
-    Color lightColor,
-    Color darkColor,
-  ) {
-    return isDarkMode(context) ? darkColor : lightColor;
   }
 }

@@ -45,32 +45,9 @@ class TTextStrings {
   static const String testKey = 'test';
 
   //! -------------------- Authentication --------------------
-  static const String email = 'Email';
-  static const String password = 'Password';
-  static const String username = 'Username';
-  static const String playerName = 'Player Name';
 
-  static const String forgetPassword = 'Forget Password?';
-  static const String wantToSignup = 'Sign Up?';
-  static const String wantToLogin = 'Login?';
-
-  static const String login = 'Login';
-  static const String signup = 'Sign Up';
   static const String logout = 'Logout';
   static const String deleteAccount = 'Delete Account';
-
-  static const String enterEmail = 'Enter your email';
-  static const String editEmail = 'Edit email';
-  static const String resetPassword = 'Reset Password';
-  static const String resendEmail = 'Resend Email';
-  static const String resetEmailSent = 'Reset Email Sent';
-  static const String resetPasswordMessage =
-      'Enter your registered email address. We\'ll send you a link to reset your password.';
-  static const String backToLogin = 'Back to Login';
-  static const String authentication = 'Authentication';
-  static const String sendEmail = 'Send Email';
-  static const String verified = 'Verified';
-  static const String resendVerificationEmail = 'Resend Verification Email';
 
   static String resetEmailSentMsg(String email) =>
       'A password reset link has been sent to ${email.trim()}. Please check your inbox!';
