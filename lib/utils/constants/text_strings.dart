@@ -301,4 +301,7 @@ class TTextStrings {
   static const String noTournaments = 'No Tournaments Scheduled';
   static const String noTournamentsMessage =
       'Please check back later for updates.';
+
+  //! -------------------- Theme --------------------
+  static const String darkMode = 'Dark Mode';
 }

@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tracket/features/authentication/screens/auth_gate_screen.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/home/drawer/drawer_header.dart';
 import 'package:tracket/features/home/drawer/drawer_tile.dart';
+import 'package:tracket/features/home/providers/theme_provider.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
@@ -18,11 +19,11 @@ class MainDrawer extends ConsumerWidget {
       context: context,
       barrierDismissible: false,
       useRootNavigator: true,
-      builder: (_) => PopScope(
+      builder: (_) => const PopScope(
         canPop: false,
         child: AlertDialog(
           content: Row(
-            children: const [
+            children: [
               SizedBox(
                 height: 20,
                 width: 20,
@@ -118,8 +119,10 @@ class MainDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final player = ref.watch(playerProvider);
+    final themeMode = ref.watch(themeProvider);
+    final themeNotifier = ref.read(themeProvider.notifier);
 
-    final isDark = THelperFunction.isDarkMode(context);
+    final isDark = themeMode == ThemeMode.dark;
 
     return Drawer(
       backgroundColor: isDark
@@ -129,6 +132,25 @@ class MainDrawer extends ConsumerWidget {
       child: Column(
         children: [
           MainDrawerHeader(player: player, width: width),
+          SwitchListTile.adaptive(
+            value: isDark,
+            onChanged: (value) => themeNotifier.setTheme(isDark: value),
+            tileColor: primaryColor.withValues(alpha: 0.1),
+            secondary: Icon(
+              isDark ? Icons.dark_mode : Icons.light_mode,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
+            ),
+            title: Text(
+              TTextStrings.darkMode,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: isDark
+                        ? DarkThemeColors.primaryText
+                        : LightThemeColors.primaryText,
+                  ),
+            ),
+          ),
           DrawerTile(
             isDark: isDark,
             leadingIcon: Icons.logout,
