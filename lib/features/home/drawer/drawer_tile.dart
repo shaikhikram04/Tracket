@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/sizes.dart';
-import 'package:tracket/utils/constants/text_strings.dart';
 
 class DrawerTile extends StatelessWidget {
   const DrawerTile({
@@ -26,14 +25,20 @@ class DrawerTile extends StatelessWidget {
     return ListTile(
       tileColor: primaryColor.withValues(alpha: 0.1),
       leading: Icon(
-        Icons.logout,
+        leadingIcon,
         size: TSizes.iconMd,
-        color: leadingIconColor ?? (isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText),
+        color: leadingIconColor ??
+            (isDark
+                ? DarkThemeColors.primaryText
+                : LightThemeColors.primaryText),
       ),
       title: Text(
-        TTextStrings.logout,
+        text,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: textColor ?? (isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText),
+              color: textColor ??
+                  (isDark
+                      ? DarkThemeColors.primaryText
+                      : LightThemeColors.primaryText),
             ),
       ),
       onTap: onTap,

@@ -26,7 +26,22 @@ class FirebaseAuthMethods extends AuthService {
   static const Uuid uuid = Uuid();
 
   // Error message constants
-  static const String _invalidRoleError = 'This email is used as a %s. Please login as a %s!';
+  static const String _invalidRoleError =
+      'This email is used as a %s. Please login as a %s!';
+
+  Future<void> _deleteSubCollection({
+    required DocumentReference<Map<String, dynamic>> parentDoc,
+    required String collectionName,
+  }) async {
+    final collectionSnap = await parentDoc.collection(collectionName).get();
+    if (collectionSnap.docs.isEmpty) return;
+
+    final batch = _firestore.batch();
+    for (final doc in collectionSnap.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
+  }
 
   @override
   User get currentUser {
@@ -92,7 +107,10 @@ class FirebaseAuthMethods extends AuthService {
   /// Fetches the current user's document snapshot from Firestore
   Future<DocumentSnapshot<Map<String, dynamic>>> get getUserSnap async {
     try {
-      final snap = await _firestore.collection(FirestoreCollections.players).doc(currentUserId).get();
+      final snap = await _firestore
+          .collection(FirestoreCollections.players)
+          .doc(currentUserId)
+          .get();
 
       if (!snap.exists) {
         throw StateError('User document does not exist');
@@ -147,8 +165,10 @@ class FirebaseAuthMethods extends AuthService {
 
   /// Checks whether a Firestore profile exists for the user
   static Future<bool> hasUserProfile(String userId) async {
-    final profileDoc =
-        await _firestore.collection(FirestoreCollections.players).doc(userId).get();
+    final profileDoc = await _firestore
+        .collection(FirestoreCollections.players)
+        .doc(userId)
+        .get();
     return profileDoc.exists;
   }
 
@@ -257,7 +277,9 @@ class FirebaseAuthMethods extends AuthService {
         );
       }
     } on FirebaseAuthException catch (error) {
-      final opponentRole = expectedRole == TTextStrings.userRole ? TTextStrings.playerRole : TTextStrings.userRole;
+      final opponentRole = expectedRole == TTextStrings.userRole
+          ? TTextStrings.playerRole
+          : TTextStrings.userRole;
       if (!context.mounted) return;
       if (error.code == TTextStrings.userNotFound) {
         THelperFunction.showAlertDialog(
@@ -266,7 +288,8 @@ class FirebaseAuthMethods extends AuthService {
           TTextStrings.userNotFoundMessage,
         );
       } else if (error.code == TTextStrings.invalidCredentialCode) {
-        THelperFunction.showSnackBar(TTextStrings.wrongEmailOrPassword, context);
+        THelperFunction.showSnackBar(
+            TTextStrings.wrongEmailOrPassword, context);
         rethrow;
       } else if (error.code == 'email-used-by-$opponentRole') {
         _auth.signOut();
@@ -282,8 +305,8 @@ class FirebaseAuthMethods extends AuthService {
   }
 
   /// Handles unverified user login flow
-  Future<void> _handleUnverifiedUser(
-      BuildContext context, Ref ref, String email, User user, String expectedRole) async {
+  Future<void> _handleUnverifiedUser(BuildContext context, Ref ref,
+      String email, User user, String expectedRole) async {
     if (!context.mounted) return;
 
     THelperFunction.showVerificationDialog(context, email);
@@ -297,15 +320,19 @@ class FirebaseAuthMethods extends AuthService {
       imageUrl: '',
     );
 
-    await EmailVerificationService.checkEmailVerification(data: verificationData);
+    await EmailVerificationService.checkEmailVerification(
+        data: verificationData);
   }
 
   /// Verifies that the user has the expected role
-  Future<void> _verifyUserRole(String email, String expectedRole, BuildContext context) async {
+  Future<void> _verifyUserRole(
+      String email, String expectedRole, BuildContext context) async {
     final role = await getUserRole(email);
 
     if (role != expectedRole) {
-      final opponentRole = expectedRole == TTextStrings.userRole ? TTextStrings.playerRole : TTextStrings.userRole;
+      final opponentRole = expectedRole == TTextStrings.userRole
+          ? TTextStrings.playerRole
+          : TTextStrings.userRole;
 
       await _auth.signOut();
 
@@ -336,8 +363,11 @@ class FirebaseAuthMethods extends AuthService {
   /// Gets the role associated with an email address
   static Future<String> getUserRole(String email) async {
     try {
-      final userSnap =
-          await _firestore.collection(FirestoreCollections.players).where('email', isEqualTo: email).limit(1).get();
+      final userSnap = await _firestore
+          .collection(FirestoreCollections.players)
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
 
       if (userSnap.docs.isEmpty) {
         throw StateError('User with email $email not found');
@@ -349,13 +379,40 @@ class FirebaseAuthMethods extends AuthService {
     }
   }
 
-
-   /// Logs out the current user
+  /// Logs out the current user
   @override
   Future<void> logout() async {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteCurrentAccount() async {
+    try {
+      final user = currentUser;
+      final userDoc =
+          _firestore.collection(FirestoreCollections.players).doc(user.uid);
+
+      await _deleteSubCollection(
+        parentDoc: userDoc,
+        collectionName: FirestoreCollections.stats,
+      );
+
+      await _deleteSubCollection(
+        parentDoc: userDoc,
+        collectionName: FirestoreCollections.playerTeams,
+      );
+
+      await userDoc.delete();
+
+      await _googleSignIn.signOut();
+      await user.delete();
+    } on FirebaseAuthException {
+      rethrow;
     } catch (e) {
       rethrow;
     }

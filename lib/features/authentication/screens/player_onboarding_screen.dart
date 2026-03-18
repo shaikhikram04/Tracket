@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/enums.dart';
@@ -20,7 +22,7 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
 
   CricketRole? _selectedRole;
   Position? _battingHand;
-  _BowlingType? _bowlingType;
+  BowlingStyle? _bowlingType;
   Position? _standardPosition;
 
   @override
@@ -60,8 +62,14 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
         playerName: _nameController.text.trim(),
         role: _selectedRole!,
         battingHand: _battingHand!,
-        bowlingStyle: _mapBowlingType(_bowlingType!),
+        bowlingStyle: _bowlingType!,
         standardPosition: _standardPosition!,
+      );
+
+      if (!mounted) return;
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
       );
     } catch (error) {
       if (!mounted) return;
@@ -70,17 +78,6 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
       if (mounted) {
         setState(() => _isSubmitting = false);
       }
-    }
-  }
-
-  BowlingStyle _mapBowlingType(_BowlingType type) {
-    switch (type) {
-      case _BowlingType.pace:
-        return BowlingStyle.mediumFast;
-      case _BowlingType.spin:
-        return BowlingStyle.offSpin;
-      case _BowlingType.none:
-        return BowlingStyle.none;
     }
   }
 
@@ -149,7 +146,7 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
         const _StepIcon(icon: Icons.sports_cricket_rounded),
         const SizedBox(height: 20),
         Text(
-          "What's your name on the sheet?",
+          "What's your name?",
           style: textTheme.headlineMedium
               ?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
         ),
@@ -208,21 +205,21 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
           childAspectRatio: 1.05,
           children: [
             _RoleCard(
-              icon: Icons.sports_cricket_rounded,
+              iconPath: 'assets/icons/batter.svg',
               title: 'Batter',
               subtitle: 'Top-order run machine',
               selected: _selectedRole == CricketRole.batsman,
               onTap: () => setState(() => _selectedRole = CricketRole.batsman),
             ),
             _RoleCard(
-              icon: Icons.adjust_rounded,
+              iconPath: 'assets/icons/bowler.svg',
               title: 'Bowler',
               subtitle: 'Wicket-taking threat',
               selected: _selectedRole == CricketRole.bowler,
               onTap: () => setState(() => _selectedRole = CricketRole.bowler),
             ),
             _RoleCard(
-              icon: Icons.bolt_rounded,
+              iconPath: 'assets/icons/allrounder.svg',
               title: 'All-Rounder',
               subtitle: 'Impact with bat & ball',
               selected: _selectedRole == CricketRole.allRounder,
@@ -230,7 +227,7 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
                   setState(() => _selectedRole = CricketRole.allRounder),
             ),
             _RoleCard(
-              icon: Icons.sports_handball_rounded,
+              iconPath: 'assets/icons/wicketkeeper.svg',
               title: 'Keeper',
               subtitle: 'Behind the stumps',
               selected: _selectedRole == CricketRole.wicketKeeper,
@@ -268,7 +265,7 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
               ?.copyWith(color: Colors.white.withValues(alpha: 0.55)),
         ),
         const SizedBox(height: 22),
-        _SectionTitle(title: 'BATTING HAND'),
+        const _SectionTitle(title: 'BATTING HAND'),
         const SizedBox(height: 10),
         _SegmentedToggle<Position>(
           options: const [
@@ -279,48 +276,55 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
           onSelected: (value) => setState(() => _battingHand = value),
         ),
         const SizedBox(height: 22),
-        _SectionTitle(title: 'BOWLING TYPE'),
+        const _SectionTitle(title: 'BOWLING STYLE'),
         const SizedBox(height: 10),
-        _SegmentedToggle<_BowlingType>(
+        _OptionGrid<BowlingStyle>(
+          columns: 3,
           options: const [
-            _OptionLabel(value: _BowlingType.pace, label: 'Pace'),
-            _OptionLabel(value: _BowlingType.spin, label: 'Spin'),
-            _OptionLabel(value: _BowlingType.none, label: 'N/A'),
+            _OptionLabel(value: BowlingStyle.none, label: 'None'),
+            _OptionLabel(value: BowlingStyle.fast, label: 'Fast'),
+            _OptionLabel(value: BowlingStyle.mediumFast, label: 'Medium Fast'),
+            _OptionLabel(value: BowlingStyle.legSpin, label: 'Leg Spin'),
+            _OptionLabel(value: BowlingStyle.offSpin, label: 'Off Spin'),
+            _OptionLabel(value: BowlingStyle.chinaMan, label: 'Chinaman'),
           ],
           selected: _bowlingType,
           onSelected: (value) => setState(() => _bowlingType = value),
         ),
         const SizedBox(height: 22),
-        _SectionTitle(title: 'STANDARD POSITION'),
-        const SizedBox(height: 10),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.04),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<Position>(
-              value: _standardPosition,
-              hint: const Text('Select position',
-                  style: TextStyle(color: Colors.white70)),
-              iconEnabledColor: Colors.white70,
-              dropdownColor: const Color(0xFF14211E),
-              isExpanded: true,
-              items: const [
-                DropdownMenuItem(
-                    value: Position.lefty,
-                    child: Text('Left', style: TextStyle(color: Colors.white))),
-                DropdownMenuItem(
-                    value: Position.righty,
-                    child:
-                        Text('Right', style: TextStyle(color: Colors.white))),
-              ],
-              onChanged: (value) => setState(() => _standardPosition = value),
+        if (_bowlingType != null && _bowlingType != BowlingStyle.none) ...[
+          const _SectionTitle(title: 'BOWLING ARM'),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.04),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<Position>(
+                value: _standardPosition,
+                hint: const Text('Select Bowling Arm',
+                    style: TextStyle(color: Colors.white70)),
+                iconEnabledColor: Colors.white70,
+                dropdownColor: const Color(0xFF14211E),
+                isExpanded: true,
+                items: const [
+                  DropdownMenuItem(
+                      value: Position.lefty,
+                      child:
+                          Text('Left', style: TextStyle(color: Colors.white))),
+                  DropdownMenuItem(
+                      value: Position.righty,
+                      child:
+                          Text('Right', style: TextStyle(color: Colors.white))),
+                ],
+                onChanged: (value) => setState(() => _standardPosition = value),
+              ),
             ),
           ),
-        ),
+        ],
         const SizedBox(height: 24),
         _PrimaryActionButton(
           label: 'Start Tracking 🏏',
@@ -423,14 +427,14 @@ class _PrimaryActionButton extends StatelessWidget {
 
 class _RoleCard extends StatelessWidget {
   const _RoleCard({
-    required this.icon,
+    required this.iconPath,
     required this.title,
     required this.subtitle,
     required this.selected,
     required this.onTap,
   });
 
-  final IconData icon;
+  final String iconPath;
   final String title;
   final String subtitle;
   final bool selected;
@@ -456,7 +460,10 @@ class _RoleCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: selected ? primaryLight : Colors.white, size: 28),
+            SvgPicture.asset(iconPath,
+                color: selected ? primaryLight : Colors.white,
+                width: 28,
+                height: 28),
             const SizedBox(height: 10),
             Text(
               title,
@@ -528,7 +535,7 @@ class _SegmentedToggle<T> extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
                     margin: const EdgeInsets.symmetric(horizontal: 2),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: selected == option.value
@@ -562,8 +569,67 @@ class _OptionLabel<T> {
   final String label;
 }
 
-enum _BowlingType {
-  pace,
-  spin,
-  none,
+class _OptionGrid<T> extends StatelessWidget {
+  const _OptionGrid({
+    required this.options,
+    required this.selected,
+    required this.onSelected,
+    this.columns = 3,
+  });
+
+  final List<_OptionLabel<T>> options;
+  final T? selected;
+  final ValueChanged<T> onSelected;
+  final int columns;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const spacing = 8.0;
+        final chipWidth =
+            (constraints.maxWidth - (spacing * (columns - 1))) / columns;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: options
+              .map(
+                (option) => SizedBox(
+                  width: chipWidth,
+                  child: GestureDetector(
+                    onTap: () => onSelected(option.value),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: selected == option.value
+                            ? primaryColor.withValues(alpha: 0.32)
+                            : Colors.white.withValues(alpha: 0.04),
+                        border: Border.all(
+                          color: selected == option.value
+                              ? primaryMedium
+                              : Colors.white.withValues(alpha: 0.08),
+                        ),
+                      ),
+                      child: Text(
+                        option.label,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: selected == option.value
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
+  }
 }

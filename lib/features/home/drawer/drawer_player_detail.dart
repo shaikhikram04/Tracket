@@ -27,7 +27,7 @@ class DrawerPlayerDetail extends StatelessWidget {
             ),
           ),
           Text(
-            player.role,
+            player.playerCricketDetails?.cricketRole.name ?? '',
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!

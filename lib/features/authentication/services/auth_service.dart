@@ -18,5 +18,6 @@ abstract class AuthService {
     required String expectedRole,
   });
   Future<void> logout();
+  Future<void> deleteCurrentAccount();
   Future<String> resetPassword(String email);
 }

@@ -57,6 +57,7 @@ class TTextStrings {
   static const String login = 'Login';
   static const String signup = 'Sign Up';
   static const String logout = 'Logout';
+  static const String deleteAccount = 'Delete Account';
 
   static const String enterEmail = 'Enter your email';
   static const String editEmail = 'Edit email';
@@ -87,12 +88,15 @@ class TTextStrings {
 
   //! -------------------- Verification Messages --------------------
   static const String waitForEmailVerification = 'Wait for email verification';
-  static const String emailVerificationSuccessfully = 'Verification email sent successfully!';
-  static const String emailVerificationFailed = 'Email verification failed. Please try again.';
+  static const String emailVerificationSuccessfully =
+      'Verification email sent successfully!';
+  static const String emailVerificationFailed =
+      'Email verification failed. Please try again.';
   static const String loginSuccessfully = 'Login successful!';
 
   static const String confirmExit = 'Confirm Exit';
-  static const String confirmExitMessage = 'Leaving now will cancel the verification process. Are you sure?';
+  static const String confirmExitMessage =
+      'Leaving now will cancel the verification process. Are you sure?';
 
   //! -------------------- Roles --------------------
   static const String user = 'User';
@@ -101,23 +105,34 @@ class TTextStrings {
   static const String playerRole = 'player';
 
   //! -------------------- Error Messages --------------------
-  static const String teamCapacityError = 'The team has reached its maximum capacity.';
-  static const String unexpectedError = 'An unexpected error occurred. Please try again later.';
-  static const String somethingWentWrong = 'Something went wrong. Please try again later.';
+  static const String teamCapacityError =
+      'The team has reached its maximum capacity.';
+  static const String unexpectedError =
+      'An unexpected error occurred. Please try again later.';
+  static const String somethingWentWrong =
+      'Something went wrong. Please try again later.';
   static const String error = 'Error';
-  static const String wrongEmailOrPassword = 'Wrong email or password. Please try again.';
+  static const String wrongEmailOrPassword =
+      'Wrong email or password. Please try again.';
   static const String loadingPlayerDataError = 'Error on loading player data :';
   static const String failedToPickImage = 'Failed to pick image:';
   static const String failedToUploadLogo = 'Failed to upload logo:';
-  static const String networkErrorMessage = 'Network error. Please check your connection.';
+  static const String networkErrorMessage =
+      'Network error. Please check your connection.';
 
   //! -------------------- Authentication Errors --------------------
-  static const String emailUsedByUser = 'This email is already in use. Try another email or log in as a user.';
-  static const String emailUsedByPlayer = 'This email is already in use. Try another email or log in as a player.';
+  static const String emailUsedByUser =
+      'This email is already in use. Try another email or log in as a user.';
+  static const String emailUsedByPlayer =
+      'This email is already in use. Try another email or log in as a player.';
   static const String verificationTimeout = 'Verification timed out.';
   static const String noAuthenticationUser = 'No authenticated user found.';
   static const String userNotFound = 'User not found.';
-  static const String userNotFoundMessage = 'No user found with the provided email. Please sign up first.';
+  static const String userNotFoundMessage =
+      'No user found with the provided email. Please sign up first.';
+  static const String deleteAccountTitle = 'Delete account?';
+  static const String deleteAccountMessage =
+      'This action is permanent. Your profile and stats will be deleted and cannot be restored.';
 
   static const String unknown = 'Unknown';
 
@@ -129,7 +144,8 @@ class TTextStrings {
   //! -------------------- Firebase Auth Error Codes --------------------
   static const String emailAlreadyInUse = 'email-already-in-use';
   static const String emailUsedByUserCode = 'Email-is-already-in-use-as-user';
-  static const String emailUsedByPlayerCode = 'Email-is-already-in-use-as-player';
+  static const String emailUsedByPlayerCode =
+      'Email-is-already-in-use-as-player';
   static const String userNotFoundCode = 'user-not-found';
   static const String invalidCredentialCode = 'invalid-credential';
 
@@ -141,7 +157,8 @@ class TTextStrings {
   //! -------------------- Teams --------------------
   static const String teamLoading = 'Loading your teams...';
   static const String noTeam = 'No Team Found Yet';
-  static const String noTeamMessage = 'Join or create a team to get started. Explore teams and connect with players.';
+  static const String noTeamMessage =
+      'Join or create a team to get started. Explore teams and connect with players.';
   static const String searchPlayers = 'Search players...';
   static const String searchTeams = 'Search teams...';
   static const String addPlayer = 'Add Player';
@@ -152,7 +169,8 @@ class TTextStrings {
   static const String teamDetails = 'Team Details';
   static const String privateTeam = 'Private Team';
   static const String privateTeams = 'Private Teams';
-  static const String privateTeamMessage = 'Only invited players can join this team.';
+  static const String privateTeamMessage =
+      'Only invited players can join this team.';
   static const String advancedSettings = 'Advanced Settings';
   static const String maxTeamCapacity = 'Max Team Capacity';
   static const String exploreTeam = 'Explore Teams';
@@ -166,10 +184,12 @@ class TTextStrings {
   static const String teamLogo = 'Team Logo';
   static const String teamLogoMessage = 'Upload a Team Logo here.';
   static const String discardChanges = 'Discard Changes?';
-  static const String discardChangesMessage = 'You have unsaved changes. Are you sure you want to discard them?';
+  static const String discardChangesMessage =
+      'You have unsaved changes. Are you sure you want to discard them?';
   static const String editTeam = 'Edit Team';
   static const String editTeamDetails = 'Edit Team Details';
-  static const String editTeamDetailsDescription = 'Modify team information and preferences.';
+  static const String editTeamDetailsDescription =
+      'Modify team information and preferences.';
   static const String primaryInformation = 'Primary Information';
   static const String teamCapacity = 'Team Capacity';
   static const String teamRoles = 'Team Roles';
@@ -180,13 +200,18 @@ class TTextStrings {
   static const String losses = 'Losses';
   static const String ties = 'Ties';
   static const String makeTeamPrivate = 'Make Team Private';
-  static const String makeTeamPrivateDescription = 'When your team is private, only admins can add new members.';
-  static const String makeTeamPrivateMessage = 'Team is now private. New members require approval.';
-  static const String makeTeamPublicMessage = 'Team is now public. Anyone can join without approval.';
+  static const String makeTeamPrivateDescription =
+      'When your team is private, only admins can add new members.';
+  static const String makeTeamPrivateMessage =
+      'Team is now private. New members require approval.';
+  static const String makeTeamPublicMessage =
+      'Team is now public. Anyone can join without approval.';
   static const String teamSettings = 'Team Settings';
-  static const String teamSettingsDescription = 'Manage team configuration and permissions.';
+  static const String teamSettingsDescription =
+      'Manage team configuration and permissions.';
   static const String teamAdministrators = 'Team Administrators';
-  static const String requestAndChallengeManagement = 'Request and Challenge Management';
+  static const String requestAndChallengeManagement =
+      'Request and Challenge Management';
   static const String requests = 'Requests';
   static const String challenges = 'Challenges';
   static const String privacySettings = 'Privacy Settings';
@@ -202,34 +227,52 @@ class TTextStrings {
 
   //! -------------------- Team Error --------------------
   static const String failedToUpdateTeam = 'Failed to update team :';
-  static const String failedToUpdateTeamMessage = 'Failed to update team. Please try again later.';
+  static const String failedToUpdateTeamMessage =
+      'Failed to update team. Please try again later.';
   static const String failedToUpdateTeamField = 'Failed to update team field :';
   static const String teamPlayerNotFound = 'Player not found in team';
   static const String failedToDeletePlayer = 'Failed to delete player:';
-  static const String failedToDeletePlayerMessage = 'Failed to delete player. Please try again later.';
-  static const String teamHasReachedMaxCapacity = 'Team has reached maximum capacity';
+  static const String failedToDeletePlayerMessage =
+      'Failed to delete player. Please try again later.';
+  static const String teamHasReachedMaxCapacity =
+      'Team has reached maximum capacity';
   static const String playerAlreadyInTeam = 'Player already exists in team';
   static const String failedToAddPlayer = 'Failed to add player:';
-  static const String failedToAddPlayerMessage = 'Failed to add player. Please try again later.';
-  static const String failedToUpdatePlayerRole = 'Failed to update player role:';
-  static const String capacityCannotBeReduce = 'Team capacity cannot be reduce below current team size';
-  static const String capacityCannotBeLessThanOne = 'Team capacity cannot be less than 1';
-  static const String failedToUpdateTeamCapacity = 'Failed to update team capacity:';
-  static const String failedToUpdateTeamPrivacyMessage = 'Failed to update team privacy. Please try again later.';
-  static const String failedToLoadPlayers = 'Failed to load players. Please try again.';
-  static const String noPlayersFoundMatchingSearch = 'No players found matching your search';
+  static const String failedToAddPlayerMessage =
+      'Failed to add player. Please try again later.';
+  static const String failedToUpdatePlayerRole =
+      'Failed to update player role:';
+  static const String capacityCannotBeReduce =
+      'Team capacity cannot be reduce below current team size';
+  static const String capacityCannotBeLessThanOne =
+      'Team capacity cannot be less than 1';
+  static const String failedToUpdateTeamCapacity =
+      'Failed to update team capacity:';
+  static const String failedToUpdateTeamPrivacyMessage =
+      'Failed to update team privacy. Please try again later.';
+  static const String failedToLoadPlayers =
+      'Failed to load players. Please try again.';
+  static const String noPlayersFoundMatchingSearch =
+      'No players found matching your search';
   static const String noPlayersFound = 'No players found';
-  static const String noPlayersFoundMessage = 'No players found in the team. Please add players to the team.';
+  static const String noPlayersFoundMessage =
+      'No players found in the team. Please add players to the team.';
   static const String failedToCreateTeam = 'Failed to create team:';
   static const String noTeamAvailable = 'No Teams Available';
   static const String noTeamAvailableMessage = 'Be the first to create a team!';
-  static const String noTeamAvailableJoinMessage = 'All teams are already joined or no teams exist yet.';
+  static const String noTeamAvailableJoinMessage =
+      'All teams are already joined or no teams exist yet.';
   static const String noTeamFoundMatchingSearch = 'No teams found, matching';
-  static const String noTeamFoundMatchingSearch2 = 'No teams found matching your criteria.';
-  static const String maxTeamCapacityReached = 'Maximum team capacity is ${TeamConstants.maxTeamSize} players.';
-  static const String minTeamCapacityReached = 'Minimum team capacity is ${TeamConstants.minTeamSize} players.';
-  static const String unableToFetchTeamData = 'Unable to fetch team data. Please try again later.';
-  static const String failedToDeleteTeamMessage = 'Failed to delete team. Please try again later.';
+  static const String noTeamFoundMatchingSearch2 =
+      'No teams found matching your criteria.';
+  static const String maxTeamCapacityReached =
+      'Maximum team capacity is ${TeamConstants.maxTeamSize} players.';
+  static const String minTeamCapacityReached =
+      'Minimum team capacity is ${TeamConstants.minTeamSize} players.';
+  static const String unableToFetchTeamData =
+      'Unable to fetch team data. Please try again later.';
+  static const String failedToDeleteTeamMessage =
+      'Failed to delete team. Please try again later.';
   static const String teamOptions = 'Team Options';
 
   //! -------------------- Team Role --------------------
@@ -238,23 +281,29 @@ class TTextStrings {
 
   //! -------------------- Admin --------------------
   static const String addAdmin = 'Add Admin';
-  static const String addAdminMessage = 'Select players to grant admin privileges';
-  static const String noAvailablePlayers = 'No available players to add as admin';
-  static const String noAvailablePlayersMessage = 'All players are already administrators';
+  static const String addAdminMessage =
+      'Select players to grant admin privileges';
+  static const String noAvailablePlayers =
+      'No available players to add as admin';
+  static const String noAvailablePlayersMessage =
+      'All players are already administrators';
   static const String adminPrivileges = 'Admin Privileges';
 
   static const String manageTeamSettings = 'Manage team settings and details';
   static const String manageTeamMembers = 'Add or remove team members';
-  static const String manageTeamMatches = 'Create and Manage team matches and schedules';
+  static const String manageTeamMatches =
+      'Create and Manage team matches and schedules';
 
   //! -------------------- Challenge Match --------------------
   static const String vs = 'v/s';
   static const String selectTeam = "Select Your Team";
-  static const String selectTeamSubtitle = "Choose the team you want to challenge with";
+  static const String selectTeamSubtitle =
+      "Choose the team you want to challenge with";
 
   //! -------------------- Challenge Match Error --------------------
   static const String alreadyChallenged = 'Already Challenged';
-  static const String alreadyChallengedDesc = 'This team has already challenged the current team.';
+  static const String alreadyChallengedDesc =
+      'This team has already challenged the current team.';
 
   //! -------------------- Matches --------------------
   static const String noResult = 'No Result';
@@ -263,12 +312,16 @@ class TTextStrings {
   static const String wickets = 'wickets';
 
   //! -------------------- Match Error --------------------
-  static const String cantAddMaidenOver = 'Cannot add maiden over: current over is incomplete';
+  static const String cantAddMaidenOver =
+      'Cannot add maiden over: current over is incomplete';
   static const String inValidDeliveryParameter = 'Invalid delivery parameter.';
-  static const String tossNotDone = 'Toss details must be set before initializing innings';
-  static const String inningsNotStarted = 'First innings must be completed before starting second innings';
+  static const String tossNotDone =
+      'Toss details must be set before initializing innings';
+  static const String inningsNotStarted =
+      'First innings must be completed before starting second innings';
 
   //! -------------------- Tournaments --------------------
   static const String noTournaments = 'No Tournaments Scheduled';
-  static const String noTournamentsMessage = 'Please check back later for updates.';
+  static const String noTournamentsMessage =
+      'Please check back later for updates.';
 }

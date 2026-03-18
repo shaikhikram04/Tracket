@@ -34,6 +34,7 @@ dependencies:
   intl: ^0.20.2
   lottie: ^3.3.1
   uuid: ^4.4.2
+  flutter_svg: ^2.2.4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.3
@@ -64,6 +65,8 @@ flutter:
     - assets/animations/
     - assets/splash/
     - assets/logos/
+    - assets/fonts/
+    - assets/icons/
     - .env
 
   fonts:
