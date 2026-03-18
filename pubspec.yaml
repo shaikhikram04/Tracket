@@ -44,18 +44,29 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/splash/splash_light.png
+  image: assets/splash/Tracket_Logo_with_name_splash.png
   color_dark: "#121212"
-  image_dark: assets/splash/splash_dark.png
+  image_dark: assets/splash/Tracket_Logo_with_name_dark_splash.png
+  android_gravity: center
+  ios_content_mode: center
+  web_image_mode: contain
 
   android: true
   ios: true
 
   android_12:
-    image: assets/splash/android12_light.png
+    image: assets/splash/Tracket_Logo_android12_padded.png
     icon_background_color: "#ffffff"
-    image_dark: assets/splash/android12_dark.png
+    image_dark: assets/splash/Tracket_Logo_dark_android12_padded.png
     icon_background_color_dark: "#121212"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/logos/Tracket_Logo.png
+  adaptive_icon_foreground: assets/logos/Tracket_Logo_dark.png
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_monochrome: assets/logos/Tracket_Logo_dark.png
 
 flutter:
   uses-material-design: true

@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
+import 'package:tracket/features/home/screens/home.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/enums.dart';
+import 'package:tracket/utils/constants/image_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class PlayerOnboardingScreen extends StatefulWidget {
@@ -205,21 +206,21 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
           childAspectRatio: 1.05,
           children: [
             _RoleCard(
-              iconPath: 'assets/icons/batter.svg',
+              iconPath: TImages.batterIcon,
               title: 'Batter',
               subtitle: 'Top-order run machine',
               selected: _selectedRole == CricketRole.batsman,
               onTap: () => setState(() => _selectedRole = CricketRole.batsman),
             ),
             _RoleCard(
-              iconPath: 'assets/icons/bowler.svg',
+              iconPath: TImages.bowlerIcon,
               title: 'Bowler',
               subtitle: 'Wicket-taking threat',
               selected: _selectedRole == CricketRole.bowler,
               onTap: () => setState(() => _selectedRole = CricketRole.bowler),
             ),
             _RoleCard(
-              iconPath: 'assets/icons/allrounder.svg',
+              iconPath: TImages.allRounderIcon,
               title: 'All-Rounder',
               subtitle: 'Impact with bat & ball',
               selected: _selectedRole == CricketRole.allRounder,
@@ -227,7 +228,7 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
                   setState(() => _selectedRole = CricketRole.allRounder),
             ),
             _RoleCard(
-              iconPath: 'assets/icons/wicketkeeper.svg',
+              iconPath: TImages.wicketKeeperIcon,
               title: 'Keeper',
               subtitle: 'Behind the stumps',
               selected: _selectedRole == CricketRole.wicketKeeper,
