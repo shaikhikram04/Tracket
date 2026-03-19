@@ -701,8 +701,10 @@ class MatchesServices {
         ...team2Players.map((player) => player.playerId),
       ];
 
+      final uniquePlayerIds = allPlayersId.toSet().toList();
+
       // Exit early if there are no players to update
-      if (allPlayersId.isEmpty) return;
+      if (uniquePlayerIds.isEmpty) return;
 
       final allBattingStats = [...inning1BattingStats, ...inning2BattingStats];
       final allBowlingStats = [...inning1BowlingStats, ...inning2BowlingStats];
@@ -710,32 +712,49 @@ class MatchesServices {
       // Create a batch for all updates
       final batch = _firestore.batch();
 
-      // Get all player documents in a single query
-      final querySnapshot = await _firestore
-          .collection(FirestoreCollections.players)
-          .where('playerId', whereIn: allPlayersId)
-          .get();
+      // Firestore whereIn has value count limits; chunk requests for reliability.
+      const whereInChunkSize = 10;
+      final Map<String, DocumentReference<Map<String, dynamic>>>
+          playerDocRefMap = {};
 
-      // Create a map for faster lookup
-      final Map<String, DocumentSnapshot> playerDocsMap = {
-        for (var doc in querySnapshot.docs) doc.id: doc
-      };
+      for (int start = 0;
+          start < uniquePlayerIds.length;
+          start += whereInChunkSize) {
+        final end = (start + whereInChunkSize > uniquePlayerIds.length)
+            ? uniquePlayerIds.length
+            : start + whereInChunkSize;
+        final chunk = uniquePlayerIds.sublist(start, end);
 
-      // Get all player stats in a more efficient way
-      final Map<String, DocumentSnapshot> playerStatsMap = {};
+        final querySnapshot = await _firestore
+            .collection(FirestoreCollections.players)
+            .where('playerId', whereIn: chunk)
+            .get();
+
+        for (final doc in querySnapshot.docs) {
+          final data = doc.data();
+          final playerId = (data['playerId'] as String?) ?? doc.id;
+          playerDocRefMap[playerId] = doc.reference;
+        }
+      }
+
+      // Get all player stats docs in parallel.
+      final Map<String, DocumentSnapshot<Map<String, dynamic>>> playerStatsMap =
+          {};
+      final Map<String, DocumentReference<Map<String, dynamic>>>
+          playerStatsRefMap = {};
       final List<Future<void>> statsFutures = [];
 
-      for (final playerId in playerDocsMap.keys) {
-        statsFutures.add(_firestore
-            .collection(FirestoreCollections.players)
-            .doc(playerId)
+      for (final playerId in uniquePlayerIds) {
+        final playerDocRef = playerDocRefMap[playerId];
+        if (playerDocRef == null) continue;
+
+        final statsDocRef = playerDocRef
             .collection(FirestoreCollections.stats)
-            .doc(matchFormat.name)
-            .get()
-            .then((snapshot) {
-          if (snapshot.exists) {
-            playerStatsMap[playerId] = snapshot;
-          }
+            .doc(matchFormat.name);
+        playerStatsRefMap[playerId] = statsDocRef;
+
+        statsFutures.add(statsDocRef.get().then((snapshot) {
+          playerStatsMap[playerId] = snapshot;
         }));
       }
 
@@ -747,6 +766,7 @@ class MatchesServices {
           batch: batch,
           allBattingStats: allBattingStats,
           playerStatsMap: playerStatsMap,
+          playerStatsRefMap: playerStatsRefMap,
           matchFormat: matchFormat);
 
       // Process bowling stats
@@ -754,17 +774,18 @@ class MatchesServices {
           batch: batch,
           allBowlingStats: allBowlingStats,
           playerStatsMap: playerStatsMap,
+          playerStatsRefMap: playerStatsRefMap,
           matchFormat: matchFormat);
 
       // Update match count for all players
-      for (final playerId in playerDocsMap.keys) {
-        batch.update(
-          _firestore
-              .collection(FirestoreCollections.players)
-              .doc(playerId)
-              .collection(FirestoreCollections.stats)
-              .doc(matchFormat.name),
+      for (final playerId in uniquePlayerIds) {
+        final statsDocRef = playerStatsRefMap[playerId];
+        if (statsDocRef == null) continue;
+
+        batch.set(
+          statsDocRef,
           {'matches': FieldValue.increment(1)},
+          SetOptions(merge: true),
         );
       }
 
@@ -780,17 +801,21 @@ class MatchesServices {
   static void _processBattingStats({
     required WriteBatch batch,
     required List<BattingScore> allBattingStats,
-    required Map<String, DocumentSnapshot> playerStatsMap,
+    required Map<String, DocumentSnapshot<Map<String, dynamic>>> playerStatsMap,
+    required Map<String, DocumentReference<Map<String, dynamic>>>
+        playerStatsRefMap,
     required MatchFormat matchFormat,
   }) {
     for (final battingStat in allBattingStats) {
       final playerId = battingStat.uuid;
       final playerStats = playerStatsMap[playerId];
+      final playerStatsRef = playerStatsRefMap[playerId];
 
-      if (playerStats == null || !playerStats.exists) continue;
+      if (playerStatsRef == null) continue;
 
-      final data = playerStats.data() as Map<String, dynamic>;
-      final highestScore = data['battingStats.highestScore'] ?? 0;
+      final data = playerStats?.data();
+      final highestScore =
+          (data?['battingStats']?['highestScore'] as num?)?.toInt() ?? 0;
       final needToUpdateHighScore = battingStat.runs > highestScore;
 
       final Map<String, dynamic> updates = {
@@ -815,13 +840,10 @@ class MatchesServices {
         updates['battingStats.hundreds'] = FieldValue.increment(1);
       }
 
-      batch.update(
-        _firestore
-            .collection(FirestoreCollections.players)
-            .doc(playerId)
-            .collection(FirestoreCollections.stats)
-            .doc(matchFormat.name),
+      batch.set(
+        playerStatsRef,
         updates,
+        SetOptions(merge: true),
       );
     }
   }
@@ -830,19 +852,22 @@ class MatchesServices {
   static void _processBowlingStats({
     required WriteBatch batch,
     required List<BowlingScore> allBowlingStats,
-    required Map<String, DocumentSnapshot> playerStatsMap,
+    required Map<String, DocumentSnapshot<Map<String, dynamic>>> playerStatsMap,
+    required Map<String, DocumentReference<Map<String, dynamic>>>
+        playerStatsRefMap,
     required MatchFormat matchFormat,
   }) {
     for (final bowlingStat in allBowlingStats) {
       final playerId = bowlingStat.uuid;
       final playerStats = playerStatsMap[playerId];
+      final playerStatsRef = playerStatsRefMap[playerId];
 
-      if (playerStats == null || !playerStats.exists) continue;
+      if (playerStatsRef == null) continue;
 
-      final data = playerStats.data() as Map<String, dynamic>;
-      final Map<String, dynamic> bestBowlingFigure =
-          data['bowlingStats.bestBallingFigure'] ??
-              {'wicket': 0, 'runGiven': 0, 'ballDelivered': 0};
+      final data = playerStats?.data();
+      final Map<String, dynamic> bestBowlingFigure = (data?['bowlingStats']
+              ?['bestBallingFigure'] as Map<String, dynamic>?) ??
+          {'wicket': 0, 'runGiven': 0, 'ballDelivered': 0};
 
       bool needToUpdateBestBowling = _shouldUpdateBestBowling(
         currentWickets: bowlingStat.wickets,
@@ -866,13 +891,10 @@ class MatchesServices {
         ).toJson;
       }
 
-      batch.update(
-        _firestore
-            .collection(FirestoreCollections.players)
-            .doc(playerId)
-            .collection(FirestoreCollections.stats)
-            .doc(matchFormat.name),
+      batch.set(
+        playerStatsRef,
         updates,
+        SetOptions(merge: true),
       );
     }
   }
