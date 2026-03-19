@@ -3,8 +3,10 @@ import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/common/widgets/custom_widgets/my_card.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/common/widgets/stats_widget/stat_basic_card.dart';
+import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/players/models/player.dart';
 import 'package:tracket/features/players/models/player_stats.dart';
+import 'package:tracket/features/players/screens/edit_player_profile_screen.dart';
 import 'package:tracket/features/players/services/players_services.dart';
 import 'package:tracket/features/players/widgets/achievements.dart';
 import 'package:tracket/features/players/widgets/batting_stats.dart';
@@ -118,10 +120,24 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         backgroundColor: primaryColor,
         foregroundColor: onPrimary,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () {},
-          ),
+          if (widget.playerId == FirebaseAuthMethods().currentUserId)
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: _isLoading
+                  ? null
+                  : () async {
+                      final updated = await Navigator.of(context).push<bool>(
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              EditPlayerProfileScreen(player: _playerData),
+                        ),
+                      );
+
+                      if (updated == true) {
+                        await _loadPlayerData();
+                      }
+                    },
+            ),
         ],
         centerTitle: false,
         shape: Border.all(color: primaryColor, width: 0),

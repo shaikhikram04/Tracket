@@ -72,7 +72,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
 
   // Options
   final List<String> matchFormatOptions = THelperFunction.matchFormatToString();
-  final List<String> matchTypeOptions = THelperFunction.enumToString(MatchType.values);
+  final List<String> matchTypeOptions =
+      THelperFunction.enumToString(MatchType.values);
 
   @override
   void initState() {
@@ -118,20 +119,23 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
       if (!mounted) return;
       _handleError('Failed to load team data', e);
     } finally {
-      _isLoading.value = false;
-      setState(() {});
+      setState(() {
+        _isLoading.value = false;
+      });
     }
   }
 
   void _handleError(String message, [dynamic error]) {
     if (!mounted) return;
-    THelperFunction.showSnackBar('$message${error != null ? ': $error' : ''}', context);
+    THelperFunction.showSnackBar(
+        '$message${error != null ? ': $error' : ''}', context);
   }
 
   void onAddPlayer() {
     SquadSelectionSheet.show(
       context,
-      playersList: MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
+      playersList:
+          MatchPlayerInfo.fromPlayerDetailList(_challengerTeam.playersList),
       noOfPlayersCanBeSelected: _noOfPlayers.value.toInt(),
       onSubmit: (List<MatchPlayerInfo> selectedPlayers) {
         _updateSelectedPlayers(selectedPlayers);
@@ -149,7 +153,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         _captainController.text = player.playerName.toUpperCase();
         _captainId.value = player.playerId;
       }
-      if (wicketkeeper.isEmpty && player.playerId == _challengerTeam.wicketkeeperId) {
+      if (wicketkeeper.isEmpty &&
+          player.playerId == _challengerTeam.wicketkeeperId) {
         _wicketkeeperController.text = player.playerName.toUpperCase();
         _wicketkeeperId.value = player.playerId;
       }
@@ -340,7 +345,8 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
                   label: value.toInt().toString(),
                   onChanged: (newValue) {
                     _noOfPlayers.value = newValue;
-                    if (newValue.toInt() != _selectedPlayers.value.length && _selectedPlayers.value.isNotEmpty) {
+                    if (newValue.toInt() != _selectedPlayers.value.length &&
+                        _selectedPlayers.value.isNotEmpty) {
                       _selectedPlayers.value = [];
                       setState(() {});
                     }
@@ -388,15 +394,16 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         value: value,
         title: Text(
           'Allow Spectators',
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(color: isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText, fontSize: 15),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText,
+              fontSize: 15),
         ),
         subtitle: const Text(
           'Any one can see this match',
         ),
-        activeColor: InteractiveColors.focused,
+        activeThumbColor: InteractiveColors.focused,
         onChanged: (value) {
           setState(() {
             _allowSpectators.value = value;
@@ -436,9 +443,12 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
   Widget _buildScheduleRow(bool isDark) {
     return Row(
       children: [
-        _getScheduleContainer(DateFormat.yMMMd().format(_matchDate.value), isDark),
+        _getScheduleContainer(
+            DateFormat.yMMMd().format(_matchDate.value), isDark),
         const SizedBox(width: 10),
-        _getScheduleContainer(MaterialLocalizations.of(context).formatTimeOfDay(_matchTime.value), isDark),
+        _getScheduleContainer(
+            MaterialLocalizations.of(context).formatTimeOfDay(_matchTime.value),
+            isDark),
         IconButton(
           onPressed: () async {
             final initialDate = DateTime.now().add(const Duration(minutes: 5));
@@ -507,7 +517,11 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
         height: 40,
         padding: const EdgeInsets.symmetric(horizontal: 6),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: isDark ? DarkThemeColors.primaryText : LightThemeColors.primaryText),
+          border: Border.all(
+              width: 1,
+              color: isDark
+                  ? DarkThemeColors.primaryText
+                  : LightThemeColors.primaryText),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Align(

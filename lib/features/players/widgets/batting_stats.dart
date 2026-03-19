@@ -22,11 +22,12 @@ class BattingStats extends StatelessWidget {
         ]),
         StatRow(stats: [
           {
-            'number': playerStats.battingStats.strikeRate,
+            'number': playerStats.battingStats.strikeRate.toStringAsFixed(2),
             'label': 'Strike Rate'
           },
           {
-            'number': playerStats.battingStats.battingAverage,
+            'number':
+                playerStats.battingStats.battingAverage.toStringAsFixed(2),
             'label': 'Average'
           },
           {
