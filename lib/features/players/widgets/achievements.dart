@@ -27,7 +27,13 @@ class Achievements extends StatelessWidget {
       ),
       const SizedBox(height: 25),
       CustomButton.primary(
-        onPressed: () {},
+        onPressed: () {
+          THelperFunction.showAlertDialog(
+            context,
+            'No Achievements Yet',
+            'There are no achievements available yet. New achievements will be added soon.',
+          );
+        },
         text: 'View Available Achievements',
         size: ButtonSize.medium,
         textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(

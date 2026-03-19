@@ -108,26 +108,10 @@ class MatchScoringScreen extends StatelessWidget {
       centerTitle: false,
       shape: Border(
         bottom: BorderSide(
-          color: theme.dividerColor,
+          color: theme.dividerColor.withValues(alpha: 0.3),
           width: 0.5,
         ),
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.share_outlined),
-          onPressed: () {
-            // Implement share functionality
-          },
-          tooltip: 'Share match details',
-        ),
-        IconButton(
-          icon: const Icon(Icons.more_vert),
-          onPressed: () {
-            // Show additional options
-          },
-          tooltip: 'More options',
-        ),
-      ],
     );
   }
 }
