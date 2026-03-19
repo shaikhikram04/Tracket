@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tracket/common/widgets/image_circle_avatar.dart';
 import 'package:tracket/features/players/screens/player_profile_screen.dart';
 import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/enums.dart';
+import 'package:tracket/utils/constants/image_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class SquadPlayerTile extends StatelessWidget {
@@ -36,7 +38,9 @@ class SquadPlayerTile extends StatelessWidget {
     return Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-      color: isDark ? DarkThemeColors.secondaryBackground : LightThemeColors.secondaryBackground,
+      color: isDark
+          ? DarkThemeColors.secondaryBackground
+          : LightThemeColors.secondaryBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
@@ -45,7 +49,8 @@ class SquadPlayerTile extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => THelperFunction.pushScreen(context, PlayerProfileScreen(playerId: playerId)),
+        onTap: () => THelperFunction.pushScreen(
+            context, PlayerProfileScreen(playerId: playerId)),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -60,7 +65,8 @@ class SquadPlayerTile extends StatelessWidget {
                   isWicketKeeper: isWicketKeeper,
                 ),
               ),
-              if (isEdit && teamRole != TeamRole.owner) _DeleteButton(onDelete: onDelete),
+              if (isEdit && teamRole != TeamRole.owner)
+                _DeleteButton(onDelete: onDelete),
             ],
           ),
         ),
@@ -145,14 +151,31 @@ class _PlayerInfo extends StatelessWidget {
             if (isCaptain)
               _RoleLabel(
                 label: 'Captain',
-                color: isDark ? DarkThemeColors.batsmanColor : LightThemeColors.batsmanColor,
-                icon: Icons.star_rounded,
+                color: isDark
+                    ? DarkThemeColors.batsmanColor
+                    : LightThemeColors.batsmanColor,
+                icon: Icon(
+                  Icons.star_rounded,
+                  size: 14,
+                  color: isDark
+                      ? DarkThemeColors.batsmanColor
+                      : LightThemeColors.batsmanColor,
+                ),
               ),
             if (isWicketKeeper)
               _RoleLabel(
                 label: 'Wicketkeeper',
-                color: isDark ? DarkThemeColors.wicketKeeperColor : LightThemeColors.wicketKeeperColor,
-                icon: Icons.sports_cricket_rounded,
+                color: isDark
+                    ? DarkThemeColors.wicketKeeperColor
+                    : LightThemeColors.wicketKeeperColor,
+                icon: SvgPicture.asset(
+                  TImages.wicketKeeperIcon,
+                  width: 14,
+                  height: 14,
+                  color: isDark
+                      ? DarkThemeColors.wicketKeeperColor
+                      : LightThemeColors.wicketKeeperColor,
+                ),
               ),
           ],
         ),
@@ -170,7 +193,7 @@ class _RoleLabel extends StatelessWidget {
 
   final String label;
   final Color color;
-  final IconData icon;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -183,11 +206,7 @@ class _RoleLabel extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 14,
-            color: color,
-          ),
+          icon,
           const SizedBox(width: 4),
           Text(
             label,
