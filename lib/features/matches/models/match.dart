@@ -37,6 +37,7 @@ class Match {
   final String? startBy;
   final TeamScore? team1Score;
   final TeamScore? team2Score;
+  final bool isScoreTeamMapped;
 
   Match({
     required this.id,
@@ -65,6 +66,7 @@ class Match {
     this.status = MatchStatus.scheduled,
     this.team1Score,
     this.team2Score,
+    this.isScoreTeamMapped = true,
   });
 
   // Match configuration getters
@@ -172,6 +174,15 @@ class Match {
     }
   }
 
+  int get team1InningNumber {
+    final inning1BattingTeam = _getTossWinnerTeam(TossDecision.batting);
+    if (inning1BattingTeam == null) return 1;
+
+    return inning1BattingTeam.teamId == team1.teamId ? 1 : 2;
+  }
+
+  int get team2InningNumber => team1InningNumber == 1 ? 2 : 1;
+
   List<MatchPlayerInfo> getBattingTeamPlayers() {
     if (battingTeam == null) return [];
     return battingTeam!.teamId == team1.teamId ? team1Players : team2Players;
@@ -229,10 +240,10 @@ class Match {
     return inning2;
   }
 
-  Match setTossDecision(TossDecision decision, bool _isTeam1WonToss) {
+  Match setTossDecision(TossDecision decision, bool isTeam1WonToss) {
     return copyWith(
       tossDecision: decision,
-      isTeam1WonToss: _isTeam1WonToss,
+      isTeam1WonToss: isTeam1WonToss,
     );
   }
 
@@ -241,14 +252,14 @@ class Match {
     required WinningMethod method,
     required int margin,
   }) {
-    final _winningTeamId = winningTeamId;
+    final winningTeamId0 = winningTeamId;
     final winningMethod = method;
     final winningMargin = margin;
 
     final status = MatchStatus.completed;
 
     return copyWith(
-      winningTeamId: _winningTeamId,
+      winningTeamId: winningTeamId0,
       winningMethod: winningMethod,
       winningMargin: winningMargin,
       status: status,
@@ -314,13 +325,34 @@ class Match {
         'startBy': startBy,
         'team1Score': team1Score?.toMap(),
         'team2Score': team2Score?.toMap(),
+        'isScoreTeamMapped': isScoreTeamMapped,
       };
 
   factory Match.fromMap(Map<String, dynamic> map) {
+    final team1 = MatchTeamInfo.fromMap(map['team1']);
+    final team2 = MatchTeamInfo.fromMap(map['team2']);
+    final isTeam1WonToss = map['isTeam1WonToss'];
+    final tossDecision =
+        map['tossDecision'] != null ? TossDecision.values.firstWhere((e) => e.name == map['tossDecision']) : null;
+    final isScoreTeamMapped = map['isScoreTeamMapped'] == true;
+
+    TeamScore? resolvedTeam1Score = TeamScore.fromMap(map['team1Score']);
+    TeamScore? resolvedTeam2Score = TeamScore.fromMap(map['team2Score']);
+
+    if (!isScoreTeamMapped && tossDecision != null && isTeam1WonToss != null) {
+      final isTeam1BattingFirst = tossDecision == TossDecision.batting ? isTeam1WonToss : !isTeam1WonToss;
+
+      if (!isTeam1BattingFirst) {
+        final temp = resolvedTeam1Score;
+        resolvedTeam1Score = resolvedTeam2Score;
+        resolvedTeam2Score = temp;
+      }
+    }
+
     return Match(
       id: map['id'],
-      team1: MatchTeamInfo.fromMap(map['team1']),
-      team2: MatchTeamInfo.fromMap(map['team2']),
+      team1: team1,
+      team2: team2,
       team1Players: getPlayers(map['team1Players']),
       team2Players: getPlayers(map['team2Players']),
       noOfPlayer: map['noOfPlayer'],
@@ -329,9 +361,8 @@ class Match {
       venue: map['venue'],
       schedule: map['schedule'].toDate(),
       participants: map['participants'],
-      isTeam1WonToss: map['isTeam1WonToss'],
-      tossDecision:
-          map['tossDecision'] != null ? TossDecision.values.firstWhere((e) => e.name == map['tossDecision']) : null,
+      isTeam1WonToss: isTeam1WonToss,
+      tossDecision: tossDecision,
       status: MatchStatus.values.firstWhere((e) => e.name == map['status']),
       winningTeamId: map['winningTeamId'],
       winningMethod:
@@ -344,8 +375,9 @@ class Match {
       challengeAcceptedBy: map['challengeAcceptedBy'],
       startBy: map['startBy'],
       currentInningNumber: map['currentInningNumber'],
-      team1Score: TeamScore.fromMap(map['team1Score']),
-      team2Score: TeamScore.fromMap(map['team2Score']),
+      team1Score: resolvedTeam1Score,
+      team2Score: resolvedTeam2Score,
+      isScoreTeamMapped: true,
     );
   }
 
@@ -366,6 +398,7 @@ class Match {
     TeamScore? team1Score,
     TeamScore? team2Score,
     String? startedBy,
+    bool? isScoreTeamMapped,
   }) {
     return Match(
       id: id,
@@ -392,7 +425,8 @@ class Match {
       updatedAt: Timestamp.now(),
       team1Score: team1Score ?? this.team1Score,
       team2Score: team2Score ?? this.team2Score,
-      startBy: startedBy ?? this.startBy,
+      startBy: startedBy ?? startBy,
+      isScoreTeamMapped: isScoreTeamMapped ?? this.isScoreTeamMapped,
     );
   }
 }

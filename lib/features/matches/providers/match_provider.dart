@@ -51,7 +51,10 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   void updateTeamScore(TeamScore teamScore) {
     if (state == null) return;
 
-    if (state!.currentInningNumber == 1) {
+    final battingTeam = state!.battingTeam;
+    if (battingTeam == null) return;
+
+    if (battingTeam.teamId == state!.team1.teamId) {
       state = state!.copyWith(team1Score: teamScore);
     } else {
       state = state!.copyWith(team2Score: teamScore);
@@ -59,7 +62,8 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   }
 
   //* Sets the toss result and decision.
-  void setTossResult({required bool isTeam1Won, required TossDecision decision}) {
+  void setTossResult(
+      {required bool isTeam1Won, required TossDecision decision}) {
     if (state == null) return;
 
     state = state!.setTossDecision(decision, isTeam1Won);
@@ -74,19 +78,34 @@ class MatchStateNotifier extends StateNotifier<Match?> {
   void startFirstInning() {
     if (state == null) return;
 
-    state = state!.copyWith(
+    final match = state!;
+    final isTeam1BattingFirst =
+        match.battingTeamBeforeInnStart?.teamId == match.team1.teamId;
+    final initialScore = TeamScore(runs: 0, balls: 0, wickets: 0);
+
+    state = match.copyWith(
       currentInningNumber: 1,
       status: MatchStatus.live,
-      team1Score: TeamScore(runs: 0, balls: 0, wickets: 0),
+      team1Score: isTeam1BattingFirst == true ? initialScore : match.team1Score,
+      team2Score:
+          isTeam1BattingFirst == false ? initialScore : match.team2Score,
     );
   }
 
   void startSecondInning() {
     if (state == null) return;
 
-    state = state!.copyWith(
+    final match = state!;
+    final isTeam1BattingSecond =
+        match.bowlingTeam?.teamId == match.team1.teamId;
+    final initialScore = TeamScore(runs: 0, balls: 0, wickets: 0);
+
+    state = match.copyWith(
       currentInningNumber: 2,
-      team2Score: TeamScore(runs: 0, balls: 0, wickets: 0),
+      team1Score:
+          isTeam1BattingSecond == true ? initialScore : match.team1Score,
+      team2Score:
+          isTeam1BattingSecond == false ? initialScore : match.team2Score,
     );
   }
 

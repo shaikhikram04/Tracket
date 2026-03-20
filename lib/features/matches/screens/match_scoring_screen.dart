@@ -82,6 +82,8 @@ class MatchScoringScreen extends StatelessWidget {
               team2Players: match.team2Players,
               team1: match.team1,
               team2: match.team2,
+              team1InningNumber: match.team1InningNumber,
+              team2InningNumber: match.team2InningNumber,
             ),
           ],
         ),

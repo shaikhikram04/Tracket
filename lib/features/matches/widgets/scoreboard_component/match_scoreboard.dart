@@ -14,6 +14,8 @@ class Scoreboard extends BaseTabScreen {
     required this.team2Players,
     required this.team1,
     required this.team2,
+    required this.team1InningNumber,
+    required this.team2InningNumber,
   });
 
   final String matchId;
@@ -21,6 +23,8 @@ class Scoreboard extends BaseTabScreen {
   final List<MatchPlayerInfo> team2Players;
   final MatchTeamInfo team1;
   final MatchTeamInfo team2;
+  final int team1InningNumber;
+  final int team2InningNumber;
 
   @override
   State<Scoreboard> createState() => _ScoreboardState();
@@ -65,12 +69,12 @@ class _ScoreboardState extends State<Scoreboard>
         _buildTeamContent(
           team: widget.team1,
           players: widget.team1Players,
-          inningNumber: 1,
+          inningNumber: widget.team1InningNumber,
         ),
         _buildTeamContent(
           team: widget.team2,
           players: widget.team2Players,
-          inningNumber: 2,
+          inningNumber: widget.team2InningNumber,
         ),
       ],
     );

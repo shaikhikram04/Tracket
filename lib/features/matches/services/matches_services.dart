@@ -235,13 +235,18 @@ class MatchesServices {
           .set(bowler.toMap());
 
       //* update match field
-      final team1Score = TeamScore(runs: 0, balls: 0, wickets: 0);
+      final initialScore = TeamScore(runs: 0, balls: 0, wickets: 0);
+      final isTeam1BattingFirst =
+          decision == TossDecision.batting ? isTeam1WonToss : !isTeam1WonToss;
+      final scoreField = isTeam1BattingFirst ? 'team1Score' : 'team2Score';
+
       await matchDocRef.update({
         'isTeam1WonToss': isTeam1WonToss,
         'tossDecision': decision.name,
         'currentInningNumber': 1,
         'status': MatchStatus.live.name,
-        'team1Score': team1Score.toMap(),
+        scoreField: initialScore.toMap(),
+        'isScoreTeamMapped': true,
       });
     } catch (e) {
       print(e);
@@ -254,6 +259,7 @@ class MatchesServices {
     required BattingScore striker,
     required BattingScore nonStriker,
     required BowlingScore bowler,
+    required bool isTeam1Batting,
   }) async {
     try {
       final matchDocRef =
@@ -282,10 +288,13 @@ class MatchesServices {
           .set(bowler.toMap());
 
       //* update match field
-      final team2Score = TeamScore(runs: 0, balls: 0, wickets: 0);
+      final initialScore = TeamScore(runs: 0, balls: 0, wickets: 0);
+      final scoreField = isTeam1Batting ? 'team1Score' : 'team2Score';
+
       await matchDocRef.update({
         'currentInningNumber': 2,
-        'team2Score': team2Score.toMap(),
+        scoreField: initialScore.toMap(),
+        'isScoreTeamMapped': true,
       });
     } catch (e) {
       print(e);
@@ -331,7 +340,7 @@ class MatchesServices {
       if (innings.length < 2) {
         innings.add(null);
       }
-      if (innings.length < 1) {
+      if (innings.isEmpty) {
         innings.add(null);
       }
     } catch (e) {
@@ -344,6 +353,7 @@ class MatchesServices {
   static Future<void> updateMatchScore({
     required String matchId,
     required int currentInningNo,
+    required bool isTeam1Batting,
     required int runs,
     required bool isFour,
     required bool isSix,
@@ -430,7 +440,8 @@ class MatchesServices {
           _firestore.collection(FirestoreCollections.matches).doc(matchId);
 
       await matchDocRef.update({
-        'team${currentInningNo}Score': teamScore.toMap(),
+        isTeam1Batting ? 'team1Score' : 'team2Score': teamScore.toMap(),
+        'isScoreTeamMapped': true,
         if (isMatchCompleted) ...{
           'status': MatchStatus.completed.name,
           'winningTeamId': winningTeamId,

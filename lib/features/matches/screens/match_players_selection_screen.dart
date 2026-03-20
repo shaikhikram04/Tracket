@@ -94,6 +94,7 @@ class _MatchPlayersSelectionScreenState
           striker: striker,
           nonStriker: nonStriker,
           bowler: bowler,
+          isTeam1Batting: match.battingTeam?.teamId == match.team1.teamId,
         );
 
       await MatchesServices.deleteBallsCollection(match.id);
