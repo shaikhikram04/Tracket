@@ -61,10 +61,10 @@ class BattingStats {
 
   static BattingStats fromMap(Map<String, dynamic> snap) {
     return BattingStats(
-      ballsFaced: snap['ballsFaced'],
+      ballsFaced: snap['ballFaced'] ?? snap['ballsFaced'],
       fifties: snap['fifties'],
       four: snap['four'],
-      highestScore: snap['highestScore'],
+      highestScore: snap['highestScore'],   
       hundreds: snap['hundreds'],
       innings: snap['innings'],
       outCount: snap['outCount'],

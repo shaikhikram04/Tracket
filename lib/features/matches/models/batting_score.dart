@@ -89,7 +89,7 @@ class BattingScore {
       uuid: map['uuid'] ?? '',
       playerName: map['playerName'] ?? '',
       runs: map['runs'] ?? 0,
-      ballsFaced: map['ballsFaced'] ?? 0,
+      ballsFaced: map['ballFaced'] ?? map['ballsFaced'] ?? 0,
       fours: map['fours'] ?? 0,
       sixes: map['sixes'] ?? 0,
       isOut: map['isOut'] ?? false,
