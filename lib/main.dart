@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +46,6 @@ class Tracket extends ConsumerWidget {
       theme: TracketTheme.lightTheme,
       darkTheme: TracketTheme.darkTheme,
       title: 'Tracket',
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
       home: const AuthGateScreen(),
     );
   }

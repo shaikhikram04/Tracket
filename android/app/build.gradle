@@ -14,6 +14,25 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def readSigningValue = { propertyKey, envKey ->
+    def valueFromFile = keystoreProperties.getProperty(propertyKey)
+    if (valueFromFile != null && !valueFromFile.trim().isEmpty()) {
+        return valueFromFile
+    }
+
+    def valueFromEnv = System.getenv(envKey)
+    if (valueFromEnv != null && !valueFromEnv.trim().isEmpty()) {
+        return valueFromEnv
+    }
+
+    return null
+}
+
+def releaseKeyAlias = readSigningValue('keyAlias', 'ANDROID_KEY_ALIAS')
+def releaseKeyPassword = readSigningValue('keyPassword', 'ANDROID_KEY_PASSWORD')
+def releaseStoreFile = readSigningValue('storeFile', 'ANDROID_STORE_FILE')
+def releaseStorePassword = readSigningValue('storePassword', 'ANDROID_STORE_PASSWORD')
+
 android {
     namespace = "com.ikramkolekar.tracket"
     compileSdk = flutter.compileSdkVersion
@@ -41,16 +60,20 @@ android {
 
     signingConfigs {
         release {
-            keyAlias = keystoreProperties['keyAlias']
-            keyPassword = keystoreProperties['keyPassword']
-            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword = keystoreProperties['storePassword']
+            keyAlias = releaseKeyAlias
+            keyPassword = releaseKeyPassword
+            storeFile = releaseStoreFile ? file(releaseStoreFile) : null
+            storePassword = releaseStorePassword
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug
+            if (!releaseKeyAlias || !releaseKeyPassword || !releaseStoreFile || !releaseStorePassword) {
+                throw new GradleException(
+                    "Missing release signing configuration. Set values in android/key.properties (excluded from git) or ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD, ANDROID_STORE_FILE, ANDROID_STORE_PASSWORD environment variables."
+                )
+            }
             signingConfig = signingConfigs.release
         }
     }

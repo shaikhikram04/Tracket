@@ -31,6 +31,10 @@ migrate_working_dir/
 .pub/
 /build/
 /android/app/google-services.json
+/android/key.properties
+/android/signing_credentials.local.txt
+/android/app/*.jks
+/android/app/*.keystore
 firebase.json
 
 # secrets
