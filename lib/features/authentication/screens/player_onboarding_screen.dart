@@ -44,7 +44,9 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
   bool get _canContinueStepOne => _nameController.text.trim().isNotEmpty;
   bool get _canContinueStepTwo => _selectedRole != null;
   bool get _canFinishStepThree =>
-      _battingHand != null && _bowlingType != null && _standardPosition != null;
+      _battingHand != null &&
+      _bowlingType != null &&
+      (_bowlingType == BowlingStyle.none || _standardPosition != null);
 
   void _goNext() {
     if (_step == 0 && !_canContinueStepOne) return;

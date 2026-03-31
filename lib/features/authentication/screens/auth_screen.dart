@@ -1,4 +1,7 @@
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/authentication/widgets/app_logo.dart';
 import 'package:tracket/utils/constants/colors.dart';
@@ -15,17 +18,52 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   bool _isGoogleLoading = false;
 
+  void _authUiLog(
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    developer.log(
+      message,
+      name: 'TracketAuth.UI',
+      error: error,
+      stackTrace: stackTrace,
+    );
+    print('[TracketAuth.UI] $message');
+    if (error != null) {
+      print('[TracketAuth.UI][error] $error');
+    }
+  }
+
   Future<void> _handleGoogleSignIn() async {
     if (_isGoogleLoading) return;
 
+    _authUiLog('Google sign-in button tapped');
     setState(() => _isGoogleLoading = true);
     try {
-      await FirebaseAuthMethods().signInWithGoogle();
-    } catch (error) {
+      final credential = await FirebaseAuthMethods().signInWithGoogle();
+      _authUiLog(
+        'Google sign-in call completed; hasCredential=${credential != null}',
+      );
+    } on PlatformException catch (error, stackTrace) {
+      _authUiLog(
+        'PlatformException from Google sign-in; code=${error.code}; message=${error.message}; details=${error.details}',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      if (!mounted) return;
+      THelperFunction.showErrorSnackBar(error.toString(), context);
+    } catch (error, stackTrace) {
+      _authUiLog(
+        'Unhandled exception in Google sign-in handler',
+        error: error,
+        stackTrace: stackTrace,
+      );
       if (!mounted) return;
       THelperFunction.showErrorSnackBar(error.toString(), context);
     } finally {
       if (mounted) {
+        _authUiLog('Google sign-in handler finished; loading reset');
         setState(() => _isGoogleLoading = false);
       }
     }

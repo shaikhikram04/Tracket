@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,13 +20,33 @@ class FirebaseAuthMethods extends AuthService {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   static const Uuid uuid = Uuid();
 
+  void _authLog(
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    developer.log(
+      message,
+      name: 'TracketAuth.GoogleSignIn',
+      error: error,
+      stackTrace: stackTrace,
+    );
+    print('[TracketAuth.GoogleSignIn] $message');
+    if (error != null) {
+      print('[TracketAuth.GoogleSignIn][error] $error');
+    }
+  }
+
   Future<void> _reauthenticateWithGoogleIfNeeded(User user) async {
     final isGoogleUser =
         user.providerData.any((p) => p.providerId == 'google.com');
     if (!isGoogleUser) return;
 
+    _authLog('Re-authentication with Google started for uid=${user.uid}');
+
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) {
+      _authLog('Re-authentication cancelled by user for uid=${user.uid}');
       throw FirebaseAuthException(
         code: 'requires-recent-login',
         message: 'Reauthentication is required to delete this account.',
@@ -39,6 +60,7 @@ class FirebaseAuthMethods extends AuthService {
     );
 
     await user.reauthenticateWithCredential(credential);
+    _authLog('Re-authentication with Google succeeded for uid=${user.uid}');
   }
 
   Future<void> _deleteSubCollection({
@@ -109,20 +131,45 @@ class FirebaseAuthMethods extends AuthService {
   /// Signs in the user with Google authentication
   Future<UserCredential?> signInWithGoogle() async {
     try {
+      _authLog('Google sign-in flow started');
       final googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return null;
+      if (googleUser == null) {
+        _authLog('Google sign-in cancelled by user at account picker');
+        return null;
+      }
+
+      _authLog(
+        'Google account selected; hasEmail=${googleUser.email.isNotEmpty}',
+      );
 
       final googleAuth = await googleUser.authentication;
+      _authLog(
+        'Google auth tokens received; hasIdToken=${googleAuth.idToken != null}, hasAccessToken=${googleAuth.accessToken != null}',
+      );
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      return await _auth.signInWithCredential(credential);
-    } on FirebaseAuthException {
+      final userCredential = await _auth.signInWithCredential(credential);
+      _authLog(
+        'Firebase sign-in succeeded; uid=${userCredential.user?.uid ?? 'unknown'}',
+      );
+      return userCredential;
+    } on FirebaseAuthException catch (e, st) {
+      _authLog(
+        'FirebaseAuthException during Google sign-in; code=${e.code}; message=${e.message}',
+        error: e,
+        stackTrace: st,
+      );
       rethrow;
-    } catch (e) {
+    } catch (e, st) {
+      _authLog(
+        'Unexpected exception during Google sign-in',
+        error: e,
+        stackTrace: st,
+      );
       rethrow;
     }
   }
