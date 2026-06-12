@@ -12,11 +12,11 @@ import 'package:tracket/utils/utility_classes/custom_button.dart';
 
 class ScoringControls extends ConsumerWidget {
   const ScoringControls({
-    Key? key,
+    super.key,
     required this.onExtra,
     required this.isBlur,
     required this.makeUnBlur,
-  }) : super(key: key);
+  });
 
   final VoidCallback onExtra;
   final VoidCallback makeUnBlur;
@@ -135,35 +135,8 @@ class ScoringControls extends ConsumerWidget {
                 Wrap(
                   spacing: 10,
                   runSpacing: 2,
-                  children: ['Wide', 'No Ball', 'Leg Bye', 'Bye'].map((extra) {
-                    // Determine if this button should appear blurred based on current extras.
-                    bool shouldBlur = false;
-                    if (isBlur) {
-                      switch (extra) {
-                        case 'Wide':
-                          // If Wide is NOT selected but any other extra is selected,
-                          // then disable Wide.
-                          shouldBlur = extras.isWide ||
-                              (extras.isNoBall ||
-                                  extras.isLegBye ||
-                                  extras.isBye);
-                          break;
-                        case 'No Ball':
-                          // No Ball is only allowed if Wide is not selected.
-                          shouldBlur = extras.isNoBall || extras.isWide;
-                          break;
-                        case 'Leg Bye':
-                          // Leg Bye cannot be combined with Wide or Bye.
-                          shouldBlur = extras.isLegBye ||
-                              (extras.isWide || extras.isBye);
-                          break;
-                        case 'Bye':
-                          // Bye cannot be combined with Wide or Leg Bye.
-                          shouldBlur = extras.isBye ||
-                              (extras.isWide || extras.isLegBye);
-                          break;
-                      }
-                    }
+                  children: _extraButtons(extras).map((btn) {
+                    final shouldBlur = isBlur && btn.isDisabled;
                     return ClipRRect(
                       child: Stack(
                         children: [
@@ -172,32 +145,9 @@ class ScoringControls extends ConsumerWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 onExtra();
-                                switch (extra) {
-                                  case 'Wide':
-                                    ref
-                                        .read(extrasProvider.notifier)
-                                        .updateExtras((state) =>
-                                            state.copyWith(isWide: true));
-                                    break;
-                                  case 'No Ball':
-                                    ref
-                                        .read(extrasProvider.notifier)
-                                        .updateExtras((state) =>
-                                            state.copyWith(isNoBall: true));
-                                    break;
-                                  case 'Leg Bye':
-                                    ref
-                                        .read(extrasProvider.notifier)
-                                        .updateExtras((state) =>
-                                            state.copyWith(isLegBye: true));
-                                    break;
-                                  case 'Bye':
-                                    ref
-                                        .read(extrasProvider.notifier)
-                                        .updateExtras((state) =>
-                                            state.copyWith(isBye: true));
-                                    break;
-                                }
+                                ref
+                                    .read(extrasProvider.notifier)
+                                    .updateExtras(btn.apply);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amberAccent,
@@ -209,7 +159,7 @@ class ScoringControls extends ConsumerWidget {
                                 ),
                               ),
                               child: Text(
-                                extra,
+                                btn.label,
                                 style: GoogleFonts.poppins(
                                   color: DarkThemeColors.surfaceColor,
                                   fontSize: 14,
@@ -218,7 +168,6 @@ class ScoringControls extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          // If shouldBlur is true, apply a blur overlay to this button.
                           if (shouldBlur) const BlurOverlay(),
                         ],
                       ),
@@ -302,3 +251,38 @@ class ScoringControls extends ConsumerWidget {
     );
   }
 }
+
+class _ExtraButton {
+  final String label;
+  final bool isDisabled;
+  final ExtrasState Function(ExtrasState) apply;
+
+  const _ExtraButton({
+    required this.label,
+    required this.isDisabled,
+    required this.apply,
+  });
+}
+
+List<_ExtraButton> _extraButtons(ExtrasState e) => [
+      _ExtraButton(
+        label: 'Wide',
+        isDisabled: e.isWide || e.isNoBall || e.isLegBye || e.isBye,
+        apply: (s) => s.copyWith(isWide: true),
+      ),
+      _ExtraButton(
+        label: 'No Ball',
+        isDisabled: e.isNoBall || e.isWide,
+        apply: (s) => s.copyWith(isNoBall: true),
+      ),
+      _ExtraButton(
+        label: 'Leg Bye',
+        isDisabled: e.isLegBye || e.isWide || e.isBye,
+        apply: (s) => s.copyWith(isLegBye: true),
+      ),
+      _ExtraButton(
+        label: 'Bye',
+        isDisabled: e.isBye || e.isWide || e.isLegBye,
+        apply: (s) => s.copyWith(isBye: true),
+      ),
+    ];

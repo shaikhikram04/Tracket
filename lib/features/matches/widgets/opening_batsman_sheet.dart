@@ -9,10 +9,10 @@ class OpeningBatsmenSheet extends StatefulWidget {
   final Function(MatchPlayerInfo striker, MatchPlayerInfo nonStriker) onConfirm;
 
   const OpeningBatsmenSheet({
-    Key? key,
+    super.key,
     required this.availablePlayers,
     required this.onConfirm,
-  }) : super(key: key);
+  });
 
   @override
   State<OpeningBatsmenSheet> createState() => _OpeningBatsmenSheetState();
@@ -65,8 +65,8 @@ class _OpeningBatsmenSheetState extends State<OpeningBatsmenSheet> {
                     nonStriker = null;
                   } else if (striker == null) {
                     striker = player;
-                  } else if (nonStriker == null) {
-                    nonStriker = player;
+                  } else {
+                    nonStriker ??= player;
                   }
                 });
               },

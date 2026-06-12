@@ -11,10 +11,10 @@ class OpeningBowlerSheet extends StatefulWidget {
   final Function(MatchPlayerInfo bowler) onConfirm;
 
   const OpeningBowlerSheet({
-    Key? key,
+    super.key,
     required this.availablePlayers,
     required this.onConfirm,
-  }) : super(key: key);
+  });
 
   @override
   State<OpeningBowlerSheet> createState() => _OpeningBowlerSheetState();
@@ -38,46 +38,44 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
           Navigator.pop(context);
         }
       },
-      content: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: widget.availablePlayers.length,
-        itemBuilder: (context, index) {
-          final player = widget.availablePlayers[index];
-          final isSelected = selectedBowler == player;
-          final canBowl = player.cricketRole == CricketRole.bowler || player.cricketRole == CricketRole.allRounder;
+      content: RadioGroup<MatchPlayerInfo>(
+        groupValue: selectedBowler,
+        onChanged: (MatchPlayerInfo? value) =>
+            setState(() => selectedBowler = value),
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          itemCount: widget.availablePlayers.length,
+          itemBuilder: (context, index) {
+            final player = widget.availablePlayers[index];
+            final isSelected = selectedBowler == player;
+            final canBowl = player.cricketRole == CricketRole.bowler || player.cricketRole == CricketRole.allRounder;
 
-          if (!canBowl) return const SizedBox.shrink();
+            if (!canBowl) return const SizedBox.shrink();
 
-          return Card(
-            elevation: isSelected ? 4 : 1,
-            margin: const EdgeInsets.symmetric(vertical: 4),
-            color: isSelected
-                ? isDark
-                    ? Colors.green[400]
-                    : Colors.green[100]
-                : isDark
-                    ? DarkThemeColors.cardColor
-                    : LightThemeColors.cardColor,
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  selectedBowler = player;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Radio<MatchPlayerInfo>(
-                      value: player,
-                      groupValue: selectedBowler,
-                      onChanged: (MatchPlayerInfo? value) {
-                        setState(() {
-                          selectedBowler = value;
-                        });
-                      },
-                      activeColor: grassGreen,
-                    ),
+            return Card(
+              elevation: isSelected ? 4 : 1,
+              margin: const EdgeInsets.symmetric(vertical: 4),
+              color: isSelected
+                  ? isDark
+                      ? Colors.green[400]
+                      : Colors.green[100]
+                  : isDark
+                      ? DarkThemeColors.cardColor
+                      : LightThemeColors.cardColor,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedBowler = player;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Radio<MatchPlayerInfo>(
+                        value: player,
+                        activeColor: grassGreen,
+                      ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +93,8 @@ class _OpeningBowlerSheetState extends State<OpeningBowlerSheet> {
               ),
             ),
           );
-        },
+          },
+        ),
       ),
     );
   }
