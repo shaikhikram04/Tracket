@@ -346,7 +346,7 @@ class _CreateTeamScreenState extends ConsumerState<CreateTeamScreen> {
                 ),
                 value: _isPrivate,
                 onChanged: (value) => setState(() => _isPrivate = value),
-                activeColor: isDark ? lightGrassGreen : grassGreen,
+                activeThumbColor: isDark ? lightGrassGreen : grassGreen,
                 contentPadding: EdgeInsets.zero,
               ),
               const SizedBox(height: TSizes.spaceBtwItems),

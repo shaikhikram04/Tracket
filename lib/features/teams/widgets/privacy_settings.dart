@@ -47,7 +47,7 @@ class _PrivacySettingsState extends State<PrivacySettings> {
         subtitle: const Text(
           TTextStrings.makeTeamPrivateDescription,
         ),
-        activeColor: InteractiveColors.focused,
+        activeThumbColor: InteractiveColors.focused,
         onChanged: (value) {
           setState(() {
             isSwitchedOn = value;

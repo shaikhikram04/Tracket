@@ -464,7 +464,8 @@ class _RoleCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(iconPath,
-                color: selected ? primaryLight : Colors.white,
+                colorFilter: ColorFilter.mode(
+                    selected ? primaryLight : Colors.white, BlendMode.srcIn),
                 width: 28,
                 height: 28),
             const SizedBox(height: 10),

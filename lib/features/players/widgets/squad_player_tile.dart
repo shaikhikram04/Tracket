@@ -172,9 +172,11 @@ class _PlayerInfo extends StatelessWidget {
                   TImages.wicketKeeperIcon,
                   width: 14,
                   height: 14,
-                  color: isDark
-                      ? DarkThemeColors.wicketKeeperColor
-                      : LightThemeColors.wicketKeeperColor,
+                  colorFilter: ColorFilter.mode(
+                      isDark
+                          ? DarkThemeColors.wicketKeeperColor
+                          : LightThemeColors.wicketKeeperColor,
+                      BlendMode.srcIn),
                 ),
               ),
           ],
