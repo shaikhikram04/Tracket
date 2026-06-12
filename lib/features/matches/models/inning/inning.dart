@@ -221,7 +221,7 @@ class Inning {
         battingStats: battingStats ?? this.battingStats,
         bowlingStats: bowlingStats ?? this.bowlingStats,
         balls: balls ?? this.balls,
-        fours: fours ?? this.balls,
+        fours: fours ?? this.fours,
         runs: runs ?? this.runs,
         sixes: sixes ?? this.sixes,
         status: status ?? this.status,

@@ -1,7 +1,7 @@
 class TeamScore {
-  final runs;
-  final balls;
-  final wickets;
+  final int runs;
+  final int balls;
+  final int wickets;
 
   TeamScore({
     required this.runs,
@@ -13,7 +13,7 @@ class TeamScore {
   int get completedOvers => balls ~/ 6;
   int get remainingBalls => balls % 6;
 
-  String get oversDisplay => '$completedOvers.${remainingBalls}';
+  String get oversDisplay => '$completedOvers.$remainingBalls';
 
   TeamScore addDelevery({
     required int runs,
@@ -22,8 +22,8 @@ class TeamScore {
   }) {
     return TeamScore(
       runs: this.runs + runs,
-      balls: this.balls + (isAddBall ? 1 : 0),
-      wickets: this.wickets + (isWicket ? 1 : 0),
+      balls: balls + (isAddBall ? 1 : 0),
+      wickets: wickets + (isWicket ? 1 : 0),
     );
   }
 

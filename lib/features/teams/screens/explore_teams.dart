@@ -28,6 +28,7 @@ class _ExploreTeamsState extends State<ExploreTeams> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = THelperFunction.isDarkMode(context);

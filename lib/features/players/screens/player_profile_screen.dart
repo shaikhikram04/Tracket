@@ -41,10 +41,13 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
     super.initState();
   }
 
+  String get _resolvedPlayerId =>
+      widget.playerId ?? FirebaseAuthMethods().currentUserId;
+
   Future<void> _loadPlayerData() async {
     setState(() => _isLoading = true);
     try {
-      final player = await PlayersServices.getPlayerFromId(widget.playerId!);
+      final player = await PlayersServices.getPlayerFromId(_resolvedPlayerId);
       setState(() => _playerData = player);
     } catch (error) {
       if (mounted) {
@@ -120,7 +123,7 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
         backgroundColor: primaryColor,
         foregroundColor: onPrimary,
         actions: [
-          if (widget.playerId == FirebaseAuthMethods().currentUserId)
+          if (_resolvedPlayerId == FirebaseAuthMethods().currentUserId)
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: _isLoading
