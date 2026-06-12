@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tracket/common/widgets/app_bar/T_app_bar.dart';
+import 'package:tracket/common/widgets/app_bar/t_app_bar.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/home/drawer/main_drawer.dart';
 import 'package:tracket/features/home/utils/constants.dart';
@@ -45,7 +45,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     } catch (error) {
       if (mounted) {
-        THelperFunction.showErrorSnackBar('${TTextStrings.loadingPlayerDataError} $error', context);
+        THelperFunction.showErrorSnackBar(
+            '${TTextStrings.loadingPlayerDataError} $error', context);
       }
     } finally {
       if (mounted) {
@@ -68,12 +69,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // Calculate the actual index for title and bottom navigation
     final navigationIndex = _selectedIndex % HomeConstants.titles.length;
     final title = HomeConstants.titles[navigationIndex];
-    
+
     return Scaffold(
-      appBar: TAppBar(title: title, actions: const [NotificationIcon(hasNotification: false)]),
+      appBar: TAppBar(
+          title: title,
+          actions: const [NotificationIcon(hasNotification: false)]),
       drawer: const MainDrawer(),
-      body: IndexedStack(index: _selectedIndex, children: HomeConstants.screens),
-      bottomNavigationBar: TBottomNavigationBar(navigationIndex: navigationIndex, onTap: _selectItem),
+      body:
+          IndexedStack(index: _selectedIndex, children: HomeConstants.screens),
+      bottomNavigationBar: TBottomNavigationBar(
+          navigationIndex: navigationIndex, onTap: _selectItem),
     );
   }
 }

@@ -15,7 +15,7 @@ const Color secondaryLight = Color(0xFF5DADE2); // Lighter blue
 // Field and Pitch inspired colors
 const grassGreen = Color(0xFF2E7D32); // Natural grass color
 const lightGrassGreen = Color(0xFF81C784); // Light green for highlights
-const darkGrassGreen = const Color(0xFF1B5E20);
+const darkGrassGreen = Color(0xFF1B5E20);
 const pitchBrown = Color(0xFFB87A3D); // Cricket pitch color
 const lightPitchBrown = Color(0xFFBCAAA4); // Light brown
 const boundaryRope = Color(0xFFE57373); // Boundary rope inspired

@@ -28,7 +28,7 @@ class BowlingScore {
   int get remainingBalls => balls % 6;
 
   String get oversDisplay =>
-      remainingBalls == 0 ? overs.toString() : '$overs.${remainingBalls}';
+      remainingBalls == 0 ? overs.toString() : '$overs.$remainingBalls';
 
   double get economy {
     if (balls == 0) return 0;

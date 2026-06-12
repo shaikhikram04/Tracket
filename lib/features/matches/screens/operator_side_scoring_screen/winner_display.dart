@@ -8,11 +8,11 @@ class WinningStatusWidget extends StatelessWidget {
   final String animationPath;
 
   const WinningStatusWidget({
-    Key? key,
+    super.key,
     required this.winningTeam,
     required this.winningMargin,
     required this.animationPath,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ class ScoreboardSection extends StatelessWidget {
   final bool isTeam1Batting;
 
   const ScoreboardSection({
-    Key? key,
+    super.key,
     required this.team1Name,
     required this.team2Name,
     required this.currentInning,
@@ -22,7 +22,7 @@ class ScoreboardSection extends StatelessWidget {
     required this.isBlur,
     required this.totalOvers,
     required this.isTeam1Batting,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +200,7 @@ class ScoreboardSection extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  '${currentInning?.oversDisplay ?? '0.0'}/${totalOvers}',
+                                  '${currentInning?.oversDisplay ?? '0.0'}/$totalOvers',
                                   style: GoogleFonts.poppins(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

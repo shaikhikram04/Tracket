@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class StatNumber extends StatelessWidget {
   const StatNumber({
+    super.key,
     required this.number,
     required this.style,
     this.prefix,

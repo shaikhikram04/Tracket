@@ -15,9 +15,9 @@ class StartMatchScreen extends ConsumerStatefulWidget {
   // final Match match;
 
   const StartMatchScreen({
-    Key? key,
+    super.key,
     // required this.match,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<StartMatchScreen> createState() => _StartMatchScreenState();

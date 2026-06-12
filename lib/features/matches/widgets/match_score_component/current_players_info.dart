@@ -3,7 +3,7 @@ import 'package:tracket/features/matches/models/batting_score.dart';
 import 'package:tracket/features/matches/models/bowling_score.dart';
 
 class CurrentPlayersInfo extends StatelessWidget {
-  CurrentPlayersInfo({
+  const CurrentPlayersInfo({
     super.key,
     required this.batsmen,
     required this.bowler,

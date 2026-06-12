@@ -8,11 +8,11 @@ class LossStatusWidget extends StatelessWidget {
   final String animationPath;
 
   const LossStatusWidget({
-    Key? key,
+    super.key,
     required this.losingTeam,
     required this.losingMargin,
     required this.animationPath,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

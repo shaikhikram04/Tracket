@@ -4,7 +4,7 @@ import 'package:tracket/utils/constants/colors.dart';
 class TSliderTheme {
   const TSliderTheme._();
 
-  static const SliderThemeData lightSliderTheme = const SliderThemeData(
+  static const SliderThemeData lightSliderTheme = SliderThemeData(
     thumbColor: primaryColor,
     activeTrackColor: primaryColor,
     valueIndicatorColor: primaryColor,
@@ -16,7 +16,7 @@ class TSliderTheme {
     inactiveTrackColor: Colors.grey,
   );
 
-  static const SliderThemeData darkSliderTheme = const SliderThemeData(
+  static const SliderThemeData darkSliderTheme = SliderThemeData(
     thumbColor: primaryLight,
     activeTrackColor: primaryLight,
     valueIndicatorColor: primaryLight,

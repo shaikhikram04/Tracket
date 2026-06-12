@@ -1,4 +1,5 @@
 // Player-specific authentication
+import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracket/features/authentication/models/player_signup_data.dart';
 import 'package:tracket/features/players/models/all_format_stats.dart';
@@ -45,7 +46,7 @@ class PlayerAuthService {
       return TTextStrings.success;
     } catch (e) {
       // Log the error for debugging
-      print('Player signup error: $e');
+      debugPrint('Player signup error: $e');
       return e.toString();
     }
   }

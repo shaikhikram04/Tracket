@@ -8,6 +8,7 @@ import 'package:tracket/utils/helpers/helping_function.dart';
 
 class TeamsList extends StatelessWidget {
   const TeamsList({
+    super.key,
     required this.teams,
     required this.player,
   });

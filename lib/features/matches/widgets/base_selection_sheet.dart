@@ -12,7 +12,7 @@ class BaseSelectionSheet extends StatelessWidget {
   final bool confirmEnabled;
 
   const BaseSelectionSheet({
-    Key? key,
+    super.key,
     required this.title,
     required this.instructions,
     required this.content,
@@ -20,7 +20,7 @@ class BaseSelectionSheet extends StatelessWidget {
     this.showCancelButton = true,
     this.onConfirm,
     this.confirmEnabled = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

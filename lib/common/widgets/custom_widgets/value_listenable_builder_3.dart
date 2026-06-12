@@ -10,13 +10,13 @@ class ValueListenableBuilder3<A, B, C> extends StatelessWidget {
   final Widget? child;
 
   const ValueListenableBuilder3({
-    Key? key,
+    super.key,
     required this.first,
     required this.second,
     required this.third,
     required this.builder,
     this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

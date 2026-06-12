@@ -96,7 +96,7 @@ class MatchesServices {
         'challengedTeams': FieldValue.arrayUnion([notification.notificationId])
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -130,7 +130,7 @@ class MatchesServices {
         });
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
     return teamPlayers;
@@ -181,7 +181,7 @@ class MatchesServices {
         NotificationStatus.accept,
       );
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -195,7 +195,7 @@ class MatchesServices {
           .doc(matchId)
           .update({'startBy': startBy});
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -249,7 +249,7 @@ class MatchesServices {
         'isScoreTeamMapped': true,
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -297,7 +297,7 @@ class MatchesServices {
         'isScoreTeamMapped': true,
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -344,7 +344,7 @@ class MatchesServices {
         innings.add(null);
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
     return innings;
@@ -424,7 +424,7 @@ class MatchesServices {
         isMaidenOver: isMaiden,
       );
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
     int newStrikerPosition = strikerPosition;
@@ -686,11 +686,12 @@ class MatchesServices {
         'currentBowlerId': currentBowlerId,
       });
 
-      if (newBowlerStat != null)
+      if (newBowlerStat != null) {
         await inningDocRef
             .collection(FirestoreCollections.bowlingStats)
             .doc(newBowlerStat.uuid)
             .set(newBowlerStat.toMap());
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

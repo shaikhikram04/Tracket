@@ -69,7 +69,7 @@ class BattingScorecard extends StatelessWidget {
 
   /// Builds the team name and score header row
   Widget _buildTeamHeaderRow() {
-    String oversText = ' (${overs} ov)';
+    String oversText = ' ($overs ov)';
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -145,7 +145,7 @@ class BattingScorecard extends StatelessWidget {
 
   /// Builds the total score row
   Widget _buildTotalRow(bool isDark) {
-    String oversText = ' in ${overs} overs';
+    String oversText = ' in $overs overs';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -409,7 +409,7 @@ class _BattingColumn extends StatelessWidget {
                     ]),
               );
             },
-          ).toList(),
+          ),
         ],
       ),
     );

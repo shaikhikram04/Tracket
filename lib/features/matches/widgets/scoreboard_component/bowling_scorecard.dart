@@ -82,7 +82,7 @@ class _ScrollableStatsSection extends StatelessWidget {
         if (remainingBalls == 0) {
           return overs.toString();
         }
-        return '$overs.${remainingBalls}';
+        return '$overs.$remainingBalls';
       }),
       _StatConfig('M', (b) => b.maidenOvers, 40),
       _StatConfig('R', (b) => b.runsGiven, 60),

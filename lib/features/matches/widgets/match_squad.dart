@@ -16,7 +16,7 @@ class MatchSquad extends StatelessWidget {
   final double iconSize;
 
   const MatchSquad({
-    Key? key,
+    super.key,
     this.title = 'Squad',
     required this.players,
     required this.captainId,
@@ -26,7 +26,7 @@ class MatchSquad extends StatelessWidget {
     this.titleSize = 16,
     this.iconSize = 26,
     this.onAddPlayer,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

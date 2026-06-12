@@ -57,9 +57,9 @@ class TPadding {
 
   //* highlighted label Padding
   static const highlightedLabelSm =
-      const EdgeInsets.symmetric(horizontal: 8, vertical: 2);
+      EdgeInsets.symmetric(horizontal: 8, vertical: 2);
   static const highlightedLabelMd =
-      const EdgeInsets.symmetric(horizontal: 12, vertical: 4);
+      EdgeInsets.symmetric(horizontal: 12, vertical: 4);
   static const highlightedLabelLg =
-      const EdgeInsets.symmetric(horizontal: 16, vertical: 6);
+      EdgeInsets.symmetric(horizontal: 16, vertical: 6);
 }

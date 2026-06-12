@@ -192,8 +192,9 @@ class _CricketMatchTabsState extends State<CricketMatchTabs> {
   }
 
   Color _getTabBackgroundColor(bool isSelected, bool isLive) {
-    if (isLive && isSelected)
+    if (isLive && isSelected) {
       return StatusColors.liveMatch.withValues(alpha: 0.1);
+    }
     if (isSelected) return primaryColor.withValues(alpha: 0.1);
     return Colors.transparent;
   }

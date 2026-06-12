@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -67,12 +68,12 @@ class ImageKitServices {
         final String url = responseData['url'] as String;
         return url;
       } else {
-        print('Error uploading to ImageKit: ${response.statusCode}');
-        print('Response: ${response.body}');
+        debugPrint('Error uploading to ImageKit: ${response.statusCode}');
+        debugPrint('Response: ${response.body}');
         return null;
       }
     } catch (e) {
-      print('Error uploading to ImageKit: $e');
+      debugPrint('Error uploading to ImageKit: $e');
       return null;
     }
   }
@@ -101,7 +102,7 @@ class ImageKitServices {
 
       return response.statusCode == 204;
     } catch (e) {
-      print('Error deleting image from ImageKit: $e');
+      debugPrint('Error deleting image from ImageKit: $e');
       return false;
     }
   }

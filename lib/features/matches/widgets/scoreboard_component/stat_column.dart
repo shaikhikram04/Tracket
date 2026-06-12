@@ -9,6 +9,7 @@ class StatColumn extends StatelessWidget {
   final double height;
 
   const StatColumn({
+    super.key,
     required this.title,
     required this.values,
     required this.width,

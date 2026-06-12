@@ -14,6 +14,7 @@ class PlayerStatsSection extends StatelessWidget {
   final int strikerPosition;
 
   const PlayerStatsSection({
+    super.key,
     required this.batsman1,
     required this.batsman2,
     required this.bowler,

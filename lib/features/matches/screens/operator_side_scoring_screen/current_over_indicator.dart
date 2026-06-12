@@ -15,6 +15,7 @@ class CurrentOverIndicator extends StatelessWidget {
   final Color bgColor;
 
   const CurrentOverIndicator({
+    super.key,
     required this.balls,
     required this.isBlur,
     required this.remainingBalls,
@@ -25,14 +26,19 @@ class CurrentOverIndicator extends StatelessWidget {
 
   // Get ball color based on outcome
   Color _getBallColor(BallOutcome? ballOutcome, bool isDark) {
-    if (ballOutcome == null) return isDark ? Colors.grey.shade600 : Colors.grey.shade200;
+    if (ballOutcome == null) {
+      return isDark ? Colors.grey.shade600 : Colors.grey.shade200;
+    }
 
     if (ballOutcome.isWicket) return InteractiveColors.inputError;
 
     // Extras (wides, no-balls, etc.)
     if (ballOutcome.type == BallType.wide) return Colors.amber;
     if (ballOutcome.type == BallType.noBall) return Colors.orange;
-    if (ballOutcome.type == BallType.bye || ballOutcome.type == BallType.legBye) return Colors.teal;
+    if (ballOutcome.type == BallType.bye ||
+        ballOutcome.type == BallType.legBye) {
+      return Colors.teal;
+    }
     // return Colors.deepOrange; // Other extras
 
     // Check if it's a boundary (4 or 6 runs)
@@ -120,7 +126,8 @@ class CurrentOverIndicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           balls.length + remainingBalls,
-          (index) => _buildBallIndicator(index < balls.length ? balls[index] : null, isDark),
+          (index) => _buildBallIndicator(
+              index < balls.length ? balls[index] : null, isDark),
         ),
       ),
     );

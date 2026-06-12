@@ -8,9 +8,9 @@ class StatBasicCard extends StatefulWidget {
   final Map<String, Map<String, int>> statsData;
 
   const StatBasicCard({
-    Key? key,
+    super.key,
     required this.statsData,
-  }) : super(key: key);
+  });
 
   @override
   State<StatBasicCard> createState() => _PlayerStatBasicCard();

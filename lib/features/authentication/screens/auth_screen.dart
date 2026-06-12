@@ -29,9 +29,9 @@ class _AuthScreenState extends State<AuthScreen> {
       error: error,
       stackTrace: stackTrace,
     );
-    print('[TracketAuth.UI] $message');
+    debugPrint('[TracketAuth.UI] $message');
     if (error != null) {
-      print('[TracketAuth.UI][error] $error');
+      debugPrint('[TracketAuth.UI][error] $error');
     }
   }
 
