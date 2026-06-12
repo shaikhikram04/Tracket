@@ -46,16 +46,20 @@ class ActionButton extends ConsumerWidget {
   final double loadingStrokeWidth;
 
   /// Returns the relevant ID based on the button type
-  String get currentId => buttonType == ActionButtonType.joinTeam ? teamInfo.id : playerInfo.id;
+  String get currentId =>
+      buttonType == ActionButtonType.joinTeam ? teamInfo.id : playerInfo.id;
 
   /// Determines whether the button is disabled due to capacity constraints
   bool _isDisabledDueToCapacity() {
-    return !isTeamHasCapacity && (buttonType == ActionButtonType.addPlayer || buttonType == ActionButtonType.joinTeam);
+    return !isTeamHasCapacity &&
+        (buttonType == ActionButtonType.addPlayer ||
+            buttonType == ActionButtonType.joinTeam);
   }
 
   /// Gets the appropriate button text based on state and button type
   String _getButtonText(bool isAdded) {
-    final isOffer = buttonType == ActionButtonType.addPlayer || buttonType == ActionButtonType.addAdmin;
+    final isOffer = buttonType == ActionButtonType.addPlayer ||
+        buttonType == ActionButtonType.addAdmin;
 
     if (!isPrivate) {
       return isAdded
@@ -71,7 +75,9 @@ class ActionButton extends ConsumerWidget {
   /// Updates the request status in the provider
   void _updateRequestStatus(String id, bool isAdding, WidgetRef ref) {
     final notifier = ref.read(requestProvider.notifier);
-    isAdding ? notifier.addRequestInProgress(id) : notifier.markRequestSuccess(id);
+    isAdding
+        ? notifier.addRequestInProgress(id)
+        : notifier.markRequestSuccess(id);
   }
 
   /// Handles the button press action
@@ -92,11 +98,13 @@ class ActionButton extends ConsumerWidget {
     try {
       await _processAction(ref, context);
     } catch (e) {
-      THelperFunction.showErrorSnackBar(
-        'Error: ${e.toString()}',
-        context,
-        duration: const Duration(seconds: 2),
-      );
+      if (context.mounted) {
+        THelperFunction.showErrorSnackBar(
+          'Error: ${e.toString()}',
+          context,
+          duration: const Duration(seconds: 2),
+        );
+      }
     } finally {
       _updateRequestStatus(currentId, false, ref);
     }
@@ -148,9 +156,12 @@ class ActionButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final requestStatus = ref.watch(requestProvider);
-    final isRequestInProgress = requestStatus.requestInProgress.contains(currentId);
+    final isRequestInProgress =
+        requestStatus.requestInProgress.contains(currentId);
     final isRequestSuccess = requestStatus.requestSuccess.contains(currentId);
-    final isAdded = (idsList.contains(currentId) && buttonType != ActionButtonType.addAdmin) || isRequestSuccess;
+    final isAdded = (idsList.contains(currentId) &&
+            buttonType != ActionButtonType.addAdmin) ||
+        isRequestSuccess;
 
     final isDisabled = isAdded || isRequestInProgress;
 
@@ -158,7 +169,9 @@ class ActionButton extends ConsumerWidget {
       duration: const Duration(milliseconds: 200),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: isAdded ? InteractiveColors.buttonDisabled : InteractiveColors.buttonEnabled,
+          backgroundColor: isAdded
+              ? InteractiveColors.buttonDisabled
+              : InteractiveColors.buttonEnabled,
           foregroundColor: Colors.black87,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),

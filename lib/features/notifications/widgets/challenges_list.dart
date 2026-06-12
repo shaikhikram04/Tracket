@@ -87,7 +87,7 @@ class _ChallengesListState extends State<ChallengesList> {
       setState(() {
         challengeList.removeAt(index);
       });
-    } else {
+    } else if (mounted) {
       THelperFunction.showSnackBar('Failed to cancel challenge! : ${result.error}', context);
     }
   }
@@ -126,7 +126,9 @@ class _ChallengesListState extends State<ChallengesList> {
           );
           activeTimers.remove(index); // Clean up the timer reference
         } catch (e) {
-          THelperFunction.showSnackBar('Failed to reject challenge : ${e}', context);
+          if (context.mounted) {
+            THelperFunction.showSnackBar('Failed to reject challenge : $e', context);
+          }
         }
       }
     });

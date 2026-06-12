@@ -194,7 +194,7 @@ class _AcceptChallengeScreenState extends State<AcceptChallengeScreen> {
 
       // We're using a slight delay to ensure the snackbar appears in the parent screen
       Future.delayed(const Duration(milliseconds: 100), () {
-        if (context.mounted) {
+        if (mounted) {
           THelperFunction.showSnackBar(successMessage, context);
         }
       });

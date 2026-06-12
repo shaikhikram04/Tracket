@@ -99,6 +99,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
           teamAllFormatStats.addAll({stats.id: stats.data()});
         }
 
+        if (!mounted) return;
         final teamPlayer = await TeamsServices.getTeamPlayersFromId(widget.teamId!, context);
         final teamObject = Team.fromJson(team.data()!, teamPlayer, teamAllFormatStats);
         ref.read(teamProvider.notifier).updateTeam(teamObject);
@@ -132,7 +133,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
     });
   }
 
-  void _followTeam(String teamId, String userId, bool isFollow) {
+  void _followTeam(String teamId, bool isFollow) {
     setState(() {
       isFollowing = true;
     });
@@ -358,7 +359,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                               child: isFollowed
                                   ? CustomButton.secondary(
                                       isLoading: isFollowing,
-                                      onPressed: () => _followTeam(teamState.team.id, player.id, false),
+                                      onPressed: () => _followTeam(teamState.team.id, false),
                                       text: TTextStrings.unfollowButton,
                                       backgroundColor: LightThemeColors.surfaceColor,
                                       borderColor: darkGrassGreen,
@@ -369,7 +370,7 @@ class _TeamProfileScreenState extends ConsumerState<TeamProfileScreen> {
                                     )
                                   : CustomButton.primary(
                                       isLoading: isFollowing,
-                                      onPressed: () => _followTeam(teamState.team.id, player.id, true),
+                                      onPressed: () => _followTeam(teamState.team.id, true),
                                       text: TTextStrings.followButton,
                                       backgroundColor: darkGrassGreen,
                                       textStyle: Theme.of(context)

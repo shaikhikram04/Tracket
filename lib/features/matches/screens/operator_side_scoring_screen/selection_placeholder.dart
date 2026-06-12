@@ -19,7 +19,8 @@ class SelectionPlaceholder extends ConsumerStatefulWidget {
   const SelectionPlaceholder({super.key});
 
   @override
-  ConsumerState<SelectionPlaceholder> createState() => _SelectionPlaceholderState();
+  ConsumerState<SelectionPlaceholder> createState() =>
+      _SelectionPlaceholderState();
 }
 
 class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
@@ -29,11 +30,11 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     final matchCondition = ref.read(additionalMatchProvider);
 
     if (matchCondition.isMatchCompleted) {
-      _endMatch(context, ref);
+      _endMatch();
     }
   }
 
-  void _showNextBowlerSelection(BuildContext context, WidgetRef ref) {
+  void _showNextBowlerSelection() {
     final matchState = ref.read(matchStateProvider)!;
     final playersList = matchState.getBowlingTeamPlayers();
 
@@ -42,28 +43,33 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
       type: SelectionType.bowler,
       allPlayers: playersList,
       onPlayerSelected: (player) async {
-        // Handle the selected bowler
         ref.read(inningsStateProvider.notifier).changeBowler(player.playerId);
         ref.read(additionalMatchProvider.notifier).setIsOverCompleted(false);
         ref.read(currentOverRunsProvider.notifier).clear();
 
-        await MatchesServices.deleteBallsCollection(ref.read(matchStateProvider)!.id);
+        await MatchesServices.deleteBallsCollection(
+            ref.read(matchStateProvider)!.id);
       },
       nonAvailablePlayers: [],
-      playingPlayerId: ref.watch(inningsStateProvider.notifier).currentInnings!.currentBowlerId,
+      playingPlayerId: ref
+          .watch(inningsStateProvider.notifier)
+          .currentInnings!
+          .currentBowlerId,
     );
   }
 
-  void _showNextBatsmanSelection(BuildContext context, WidgetRef ref) {
-    final battingStats = ref.read(inningsStateProvider.notifier).currentInnings!.battingStats;
+  void _showNextBatsmanSelection() {
+    final battingStats =
+        ref.read(inningsStateProvider.notifier).currentInnings!.battingStats;
 
     final nonAvailablePlayersId = <String>[];
     String playingPlayer = '';
     for (final batsman in battingStats) {
-      if (batsman.isOut)
+      if (batsman.isOut) {
         nonAvailablePlayersId.add(batsman.uuid);
-      else
+      } else {
         playingPlayer = batsman.uuid;
+      }
     }
 
     final playersList = ref.read(matchStateProvider)!.getBattingTeamPlayers();
@@ -80,13 +86,12 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     );
   }
 
-  void _startNextInning(BuildContext context, WidgetRef ref) {
-    // Handle the next inning
-    THelperFunction.pushScreen(context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
+  void _startNextInning() {
+    THelperFunction.pushScreen(
+        context, const MatchPlayersSelectionScreen(isInning1ToStart: false));
   }
 
-  Future<void> _endMatch(BuildContext context, WidgetRef ref) async {
-    // Handle the match completion
+  Future<void> _endMatch() async {
     final matchState = ref.read(matchStateProvider)!;
     final team1Players = matchState.team1Players;
     final team2Players = matchState.team2Players;
@@ -104,11 +109,9 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
     final matchFormat = matchState.matchFormat;
     final isTeam1Won = matchState.winningTeamId == matchState.team1.teamId;
 
-    // Create a BuildContext reference for the dialog
     BuildContext? dialogContext;
 
     try {
-      //* showing circular progress indicator
       THelperFunction.showLoadingDialog(
         context,
         message: 'Finishing match...',
@@ -134,54 +137,63 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
         inning2BowlingStats: inning2BowlingStats,
       );
     } catch (e) {
-      THelperFunction.showErrorSnackBar('Failed to add score in stats.', context);
+      if (mounted) {
+        THelperFunction.showErrorSnackBar(
+            'Failed to add score in stats.', context);
+      }
     } finally {
-      if (dialogContext != null) {
+      if (dialogContext != null && dialogContext!.mounted) {
         Navigator.of(dialogContext!).pop();
       }
     }
   }
 
   String _getTitle(AdditionalMatchState completionState) {
-    if (completionState.isInningsCompleted)
+    if (completionState.isInningsCompleted) {
       return 'Inning Completed';
-    else if (completionState.isWicketDown)
+    } else if (completionState.isWicketDown) {
       return 'Wicket Down';
-    else if (completionState.isOverCompleted) return 'Over Completed';
+    } else if (completionState.isOverCompleted) {
+      return 'Over Completed';
+    }
     return '';
   }
 
   String _getSubtitle(AdditionalMatchState completionState) {
-    if (completionState.isInningsCompleted)
+    if (completionState.isInningsCompleted) {
       return 'Tap to proceed next inning';
-    else if (completionState.isWicketDown)
+    } else if (completionState.isWicketDown) {
       return 'Tap to select next batsman';
-    else if (completionState.isOverCompleted) return 'Tap to change bowler';
+    } else if (completionState.isOverCompleted) {
+      return 'Tap to change bowler';
+    }
     return '';
   }
 
   String _getButtonText(AdditionalMatchState completionState) {
-    if (completionState.isMatchCompleted) return 'End Match';
-    if (completionState.isInningsCompleted)
+    if (completionState.isMatchCompleted) {
+      return 'End Match';
+    }
+    if (completionState.isInningsCompleted) {
       return 'Start 2nd Inning';
-    else if (completionState.isWicketDown)
+    } else if (completionState.isWicketDown) {
       return 'Select Batsman';
-    else if (completionState.isOverCompleted) return 'Change Bowler';
+    } else if (completionState.isOverCompleted) {
+      return 'Change Bowler';
+    }
     return '';
   }
 
-  void _onTap(
-    BuildContext context,
-    WidgetRef ref,
-    AdditionalMatchState completionState,
-  ) {
-    if (completionState.isMatchCompleted)
-      _endMatch(context, ref);
-    else if (completionState.isInningsCompleted)
-      _startNextInning(context, ref);
-    else if (completionState.isWicketDown)
-      _showNextBatsmanSelection(context, ref);
-    else if (completionState.isOverCompleted) _showNextBowlerSelection(context, ref);
+  void _onTap(AdditionalMatchState completionState) {
+    if (completionState.isMatchCompleted) {
+      _endMatch();
+    } else if (completionState.isInningsCompleted) {
+      _startNextInning();
+    } else if (completionState.isWicketDown) {
+      _showNextBatsmanSelection();
+    } else if (completionState.isOverCompleted) {
+      _showNextBowlerSelection();
+    }
   }
 
   @override
@@ -194,9 +206,11 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
 
       final operatorId = matchState.startBy;
       final winningTeamPlayers = matchState.winningTeamPlayers;
-      final isOperatorTeamWin = winningTeamPlayers.any((player) => player.playerId == operatorId);
+      final isOperatorTeamWin =
+          winningTeamPlayers.any((player) => player.playerId == operatorId);
 
-      final marginSuffix = matchState.winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets';
+      final marginSuffix =
+          matchState.winningMethod == WinningMethod.byRuns ? 'runs' : 'wickets';
       final String marginText = '${matchState.winningMargin} $marginSuffix';
 
       return isOperatorTeamWin
@@ -209,39 +223,42 @@ class _SelectionPlaceholderState extends ConsumerState<SelectionPlaceholder> {
               losingMargin: 'Lost by $marginText',
               animationPath: 'assets/animations/sad_face.json',
             );
-    } else
-      return Container(
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _getTitle(completionState),
-              style: GoogleFonts.poppins(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+    }
+
+    return SizedBox(
+      height: 300,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            _getTitle(completionState),
+            style: GoogleFonts.poppins(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 10),
-            Text(
-              _getSubtitle(completionState),
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                color: isDark ? DarkThemeColors.secondaryText : LightThemeColors.secondaryText,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            _getSubtitle(completionState),
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              color: isDark
+                  ? DarkThemeColors.secondaryText
+                  : LightThemeColors.secondaryText,
+              fontWeight: FontWeight.w500,
             ),
-            const SizedBox(height: 20),
-            CustomButton.primary(
-              onPressed: () => _onTap(context, ref, completionState),
-              text: _getButtonText(completionState),
-              textStyle: Theme.of(context).textTheme.titleLarge,
-              borderRadius: 15,
-              height: 50,
-              width: 300,
-            ),
-          ],
-        ),
-      );
+          ),
+          const SizedBox(height: 20),
+          CustomButton.primary(
+            onPressed: () => _onTap(completionState),
+            text: _getButtonText(completionState),
+            textStyle: Theme.of(context).textTheme.titleLarge,
+            borderRadius: 15,
+            height: 50,
+            width: 300,
+          ),
+        ],
+      ),
+    );
   }
 }

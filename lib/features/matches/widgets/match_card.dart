@@ -31,6 +31,7 @@ class MatchCard extends ConsumerWidget {
         matchId: match.id,
       );
 
+      if (!context.mounted) return;
       ref.read(matchStateProvider.notifier).setMatch(match, startBy);
 
       await THelperFunction.pushScreen(
@@ -40,6 +41,7 @@ class MatchCard extends ConsumerWidget {
             : const CricketScoringScreen(),
       );
     } catch (e) {
+      if (!context.mounted) return;
       THelperFunction.showErrorSnackBar('Failed to start a match: $e', context);
     }
   }
@@ -61,7 +63,6 @@ class MatchCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Match _match = match;
     final String currentUserId = FirebaseAuthMethods().currentUserId;
 
     final isDark = THelperFunction.isDarkMode(context);
@@ -70,7 +71,7 @@ class MatchCard extends ConsumerWidget {
       onTap: () => THelperFunction.pushScreen(
           context,
           MatchScoringScreen(
-            match: _match,
+            match: match,
           )),
       child: Card(
         elevation: 3,
@@ -97,7 +98,7 @@ class MatchCard extends ConsumerWidget {
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.8),
                   ),
-                  _match.status == MatchStatus.live
+                  match.status == MatchStatus.live
                       ? HighlightedLabel(
                           text: 'LIVE',
                           textStyle:
@@ -108,7 +109,7 @@ class MatchCard extends ConsumerWidget {
                           color: StatusColors.liveMatch.withValues(alpha: 0.2),
                         )
                       : Text(
-                          DateFormat.MMMEd().format(_match.schedule),
+                          DateFormat.MMMEd().format(match.schedule),
                           style: TextStyle(
                             color: isDark
                                 ? DarkThemeColors.primaryText
@@ -120,10 +121,10 @@ class MatchCard extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               MatchTeamsRow(match: match, versusBgColor: Colors.grey[200]!),
-              if (_match.status == MatchStatus.scheduled) ...[
+              if (match.status == MatchStatus.scheduled) ...[
                 const SizedBox(height: 16),
                 Text(
-                  'Starts at ${DateFormat('hh:mm a').format(_match.schedule)}',
+                  'Starts at ${DateFormat('hh:mm a').format(match.schedule)}',
                   style: TextStyle(
                     color: isDark
                         ? DarkThemeColors.primaryText
@@ -133,7 +134,7 @@ class MatchCard extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
               ],
-              // if (_match.status == MatchStatus.live) ...[
+              // if (match.status == MatchStatus.live) ...[
               //   const SizedBox(height: 16),
               //   Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
               //   const SizedBox(height: 16),
@@ -154,11 +155,11 @@ class MatchCard extends ConsumerWidget {
               //             children: [
               //               _buildMatchPlayerText(
               //                 context,
-              //                 _match.currentBatsmen![0].playerName,
+              //                 match.currentBatsmen![0].playerName,
               //               ),
               //               const SizedBox(width: 8),
               //               Text(
-              //                 '${_match.currentBatsmen![0].runs} (${_match.currentBatsmen![0].balls})',
+              //                 '${match.currentBatsmen![0].runs} (${match.currentBatsmen![0].balls})',
               //                 style: TextStyle(
               //                   color: Theme.of(context).primaryColor,
               //                   fontWeight: FontWeight.w500,
@@ -171,11 +172,11 @@ class MatchCard extends ConsumerWidget {
               //             children: [
               //               _buildMatchPlayerText(
               //                 context,
-              //                 _match.currentBatsmen![1].playerName,
+              //                 match.currentBatsmen![1].playerName,
               //               ),
               //               const SizedBox(width: 8),
               //               Text(
-              //                 '${_match.currentBatsmen![1].runs} (${_match.currentBatsmen![1].balls})',
+              //                 '${match.currentBatsmen![1].runs} (${match.currentBatsmen![1].balls})',
               //                 style: TextStyle(
               //                   color: Theme.of(context).primaryColor,
               //                   fontWeight: FontWeight.w500,
@@ -197,10 +198,10 @@ class MatchCard extends ConsumerWidget {
               //           const SizedBox(height: 4),
               //           _buildMatchPlayerText(
               //             context,
-              //             _match.currentBowlers!.playerName,
+              //             match.currentBowlers!.playerName,
               //           ),
               //           Text(
-              //             '${_match.currentBowlers!.runsGiven}/${_match.currentBowlers!.wickets} (${_match.currentBowlers!.oversDisplay})',
+              //             '${match.currentBowlers!.runsGiven}/${match.currentBowlers!.wickets} (${match.currentBowlers!.oversDisplay})',
               //             style: TextStyle(
               //               color: Theme.of(context).primaryColor,
               //               fontWeight: FontWeight.w500,

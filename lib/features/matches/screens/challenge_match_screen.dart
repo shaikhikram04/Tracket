@@ -459,7 +459,7 @@ class _CreateMatchScreenState extends State<ChallengeMatchScreen> {
               initialDate: initialDate,
             );
 
-            if (!context.mounted) return;
+            if (!mounted) return;
             final selectedTime = await showTimePicker(
               context: context,
               initialTime: TimeOfDay.now(),

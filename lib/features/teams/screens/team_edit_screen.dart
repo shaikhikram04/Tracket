@@ -111,6 +111,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
         );
       }
 
+      if (!mounted) return;
       await TeamsServices.updateTeamField(
         context,
         teamId: _teamState.team.id,
@@ -175,7 +176,7 @@ class _TeamEditScreenState extends ConsumerState<TeamEditScreen> {
             message: TTextStrings.discardChangesMessage,
             confirmText: TTextStrings.discardButton,
           );
-          if (isDiscard) {
+          if (isDiscard && context.mounted) {
             Navigator.of(context).pop();
           }
         } else {

@@ -16,26 +16,26 @@ import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
 class CricketScoringScreen extends ConsumerStatefulWidget {
-  const CricketScoringScreen({Key? key}) : super(key: key);
+  const CricketScoringScreen({super.key});
 
   @override
-  _CricketScoringScreenState createState() => _CricketScoringScreenState();
+  ConsumerState<CricketScoringScreen> createState() =>
+      _CricketScoringScreenState();
 }
 
 class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
-  late ValueNotifier<bool> isLoading;
+  bool _isLoading = false;
   bool _isBlur = false;
 
   @override
   void initState() {
     super.initState();
-    isLoading = ValueNotifier(false);
     loadInningData();
   }
 
   Future<void> loadInningData() async {
     setState(() {
-      isLoading.value = true;
+      _isLoading = true;
     });
 
     final matchState = ref.read(matchStateProvider);
@@ -70,12 +70,16 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         ref.read(additionalMatchProvider.notifier).setIsInningsCompleted(true);
       }
     } catch (e) {
-      THelperFunction.showSnackBar('Failed to sent innings : $e', context);
+      if (mounted) {
+        THelperFunction.showSnackBar('Failed to load innings: $e', context);
+      }
     }
 
-    setState(() {
-      isLoading.value = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _onExtraButtonTab() {
@@ -115,7 +119,7 @@ class _CricketScoringScreenState extends ConsumerState<CricketScoringScreen> {
         //   ),
         // ],
       ),
-      body: isLoading.value == true
+      body: _isLoading
           ? const CircularLoadingIndicator()
           : SingleChildScrollView(
               child: Column(

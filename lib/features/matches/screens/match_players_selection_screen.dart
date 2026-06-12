@@ -46,18 +46,20 @@ class _MatchPlayersSelectionScreenState
     });
 
     //* setup match field before starting the inning
-    if (widget.isInning1ToStart)
+    if (widget.isInning1ToStart) {
       ref.read(matchStateProvider.notifier).startFirstInning();
-    else
+    } else {
       ref.read(matchStateProvider.notifier).startSecondInning();
+    }
 
     final match = ref.read(matchStateProvider)!;
 
     final Inning inning;
-    if (widget.isInning1ToStart)
+    if (widget.isInning1ToStart) {
       inning = match.initializeFirstInnings(bowlerId: _bowler!.playerId);
-    else
+    } else {
       inning = match.initializeSecondInnings(bowlerId: _bowler!.playerId);
+    }
 
     try {
       final striker = BattingScore(
@@ -77,7 +79,7 @@ class _MatchPlayersSelectionScreenState
         playerName: _bowler!.playerName,
       );
 
-      if (widget.isInning1ToStart)
+      if (widget.isInning1ToStart) {
         await MatchesServices.startMatch(
           matchId: match.id,
           isTeam1WonToss: match.isTeam1WonToss!,
@@ -87,7 +89,7 @@ class _MatchPlayersSelectionScreenState
           nonStriker: nonStriker,
           bowler: bowler,
         );
-      else
+      } else {
         await MatchesServices.startSecondInning(
           matchId: match.id,
           inning2: inning,
@@ -96,6 +98,7 @@ class _MatchPlayersSelectionScreenState
           bowler: bowler,
           isTeam1Batting: match.battingTeam?.teamId == match.team1.teamId,
         );
+      }
 
       await MatchesServices.deleteBallsCollection(match.id);
 
@@ -105,6 +108,7 @@ class _MatchPlayersSelectionScreenState
         ref.read(additionalMatchProvider.notifier).setIsWicketDown(false);
       }
 
+      if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const CricketScoringScreen(),

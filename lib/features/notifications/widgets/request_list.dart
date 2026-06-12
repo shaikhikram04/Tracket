@@ -111,7 +111,7 @@ class _RequestListState extends ConsumerState<RequestList> {
       setState(() {
         requestList.removeAt(index);
       });
-    } else {
+    } else if (mounted) {
       THelperFunction.showSnackBar(result.error!, context);
     }
   }
@@ -176,7 +176,7 @@ class _RequestListState extends ConsumerState<RequestList> {
           teamId: teamId,
           challengedTeamId: null,
         );
-        if (!result.success) {
+        if (!result.success && mounted) {
           THelperFunction.showSnackBar(result.error!, context);
         }
       }
@@ -229,7 +229,7 @@ class _RequestListState extends ConsumerState<RequestList> {
           teamId: teamId,
           challengedTeamId: null,
         );
-        if (!result.success) {
+        if (!result.success && context.mounted) {
           THelperFunction.showSnackBar(result.error!, context);
         }
         activeTimers.remove(index); // Clean up the timer reference

@@ -161,7 +161,7 @@ class _NotificationsListState extends State<NotificationsList> {
           teamId: teamId,
           challengedTeamId: null,
         );
-        if (!result.success) {
+        if (!result.success && mounted) {
           THelperFunction.showSnackBar(result.error!, context);
         }
       }
@@ -217,7 +217,7 @@ class _NotificationsListState extends State<NotificationsList> {
           teamId: teamId,
           challengedTeamId: challengedTeamId,
         );
-        if (!result.success) {
+        if (!result.success && context.mounted) {
           THelperFunction.showSnackBar(result.error!, context);
         }
         activeTimers.remove(index); // Clean up the timer reference
