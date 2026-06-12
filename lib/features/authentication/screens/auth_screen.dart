@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
@@ -80,33 +81,169 @@ class _AuthScreenState extends State<AuthScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             children: [
-              const Spacer(flex: 2),
+              const SizedBox(height: 40),
               const AppLogo(),
-              const SizedBox(height: 12),
-              Text(
-                'Your game, quantified.',
-                style: textTheme.headlineMedium
-                    ?.copyWith(color: DarkThemeColors.secondaryText),
-              ),
-              const Spacer(flex: 2),
+              const SizedBox(height: 36),
+              const _IntroSlides(),
+              const Spacer(),
               _AuthActionButton(
                 icon: Image.asset(TImages.googleLogo, height: 24),
                 label: 'Continue with Google',
                 onPressed: _handleGoogleSignIn,
                 isLoading: _isGoogleLoading,
               ),
-              const SizedBox(height: 72),
+              const SizedBox(height: 16),
               Text(
                 'By continuing, you agree to the Fair Play terms.',
                 style: textTheme.bodyMedium
                     ?.copyWith(color: Colors.white.withValues(alpha: 0.45)),
                 textAlign: TextAlign.center,
               ),
-              const Spacer(flex: 3),
+              const SizedBox(height: 32),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SlideData {
+  const _SlideData({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+}
+
+const _kSlides = [
+  _SlideData(
+    icon: Icons.group_add_rounded,
+    title: 'Create Your Team',
+    subtitle: 'Build a squad and invite your players to join.',
+  ),
+  _SlideData(
+    icon: Icons.sports_cricket_rounded,
+    title: 'Challenge Rivals',
+    subtitle: 'Send match challenges to any team in the app.',
+  ),
+  _SlideData(
+    icon: Icons.bar_chart_rounded,
+    title: 'Track Your Stats',
+    subtitle: 'Scores and stats update automatically after every ball.',
+  ),
+];
+
+class _IntroSlides extends StatefulWidget {
+  const _IntroSlides();
+
+  @override
+  State<_IntroSlides> createState() => _IntroSlidesState();
+}
+
+class _IntroSlidesState extends State<_IntroSlides> {
+  final _controller = PageController();
+  int _current = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+      final next = (_current + 1) % _kSlides.length;
+      _controller.animateToPage(
+        next,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 168,
+          child: PageView.builder(
+            controller: _controller,
+            itemCount: _kSlides.length,
+            onPageChanged: (i) => setState(() => _current = i),
+            itemBuilder: (context, i) {
+              final slide = _kSlides[i];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: primaryColor.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                            color: primaryMedium.withValues(alpha: 0.4)),
+                      ),
+                      child: Icon(slide.icon, color: primaryLight, size: 28),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      slide.title,
+                      style: textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      slide.subtitle,
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.55),
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            _kSlides.length,
+            (i) => AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              width: _current == i ? 20 : 6,
+              height: 6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: _current == i
+                    ? primaryMedium
+                    : Colors.white.withValues(alpha: 0.25),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

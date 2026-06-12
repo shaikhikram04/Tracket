@@ -70,6 +70,15 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
       );
 
       if (!mounted) return;
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        isDismissible: true,
+        builder: (_) => const _WelcomeBottomSheet(),
+      );
+
+      if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const HomeScreen()),
         (route) => false,
@@ -298,34 +307,13 @@ class _PlayerOnboardingScreenState extends State<PlayerOnboardingScreen> {
         if (_bowlingType != null && _bowlingType != BowlingStyle.none) ...[
           const _SectionTitle(title: 'BOWLING ARM'),
           const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.04),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<Position>(
-                value: _standardPosition,
-                hint: const Text('Select Bowling Arm',
-                    style: TextStyle(color: Colors.white70)),
-                iconEnabledColor: Colors.white70,
-                dropdownColor: const Color(0xFF14211E),
-                isExpanded: true,
-                items: const [
-                  DropdownMenuItem(
-                      value: Position.lefty,
-                      child:
-                          Text('Left', style: TextStyle(color: Colors.white))),
-                  DropdownMenuItem(
-                      value: Position.righty,
-                      child:
-                          Text('Right', style: TextStyle(color: Colors.white))),
-                ],
-                onChanged: (value) => setState(() => _standardPosition = value),
-              ),
-            ),
+          _SegmentedToggle<Position>(
+            options: const [
+              _OptionLabel(value: Position.lefty, label: 'Left'),
+              _OptionLabel(value: Position.righty, label: 'Right'),
+            ],
+            selected: _standardPosition,
+            onSelected: (value) => setState(() => _standardPosition = value),
           ),
         ],
         const SizedBox(height: 24),
@@ -634,6 +622,92 @@ class _OptionGrid<T> extends StatelessWidget {
               .toList(),
         );
       },
+    );
+  }
+}
+
+class _WelcomeBottomSheet extends StatelessWidget {
+  const _WelcomeBottomSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF1A2D29), Color(0xFF0D1715)],
+        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              color: primaryColor.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: primaryMedium.withValues(alpha: 0.4)),
+            ),
+            child: const Icon(
+              Icons.sports_cricket_rounded,
+              color: primaryLight,
+              size: 36,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            "You're all set!",
+            style: textTheme.headlineSmall?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "Now create or join a team — that's where your matches and stats live.",
+            textAlign: TextAlign.center,
+            style: textTheme.bodyMedium?.copyWith(
+              color: Colors.white.withValues(alpha: 0.6),
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 28),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14)),
+              ),
+              child: const Text(
+                "Let's Go",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tracket/common/widgets/app_bar/t_app_bar.dart';
+import 'package:tracket/common/widgets/circular_loading_indicator.dart';
 import 'package:tracket/features/authentication/services/firebase_auth_methods.dart';
 import 'package:tracket/features/home/drawer/main_drawer.dart';
 import 'package:tracket/features/home/utils/constants.dart';
 import 'package:tracket/features/home/widgets/bottom_navigation_bar.dart';
 import 'package:tracket/features/home/widgets/notification_icon.dart';
+import 'package:tracket/features/matches/screens/matches_screen.dart';
 import 'package:tracket/features/players/providers/player_provider.dart';
+import 'package:tracket/features/players/screens/player_profile_screen.dart';
+import 'package:tracket/features/teams/screens/explore_teams.dart';
+import 'package:tracket/features/teams/screens/teams_screen.dart';
 import 'package:tracket/utils/constants/text_strings.dart';
 import 'package:tracket/utils/helpers/helping_function.dart';
 
@@ -21,6 +26,15 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   var _selectedIndex = 0;
   bool _isLoading = true;
+
+  late final List<Widget> _screens = [
+    const TeamsScreen(),
+    MatchesScreen(
+        onGoToTeams: () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const ExploreTeams()))),
+    const PlayerProfileScreen(showAppBar: false),
+    const Scaffold(body: CircularLoadingIndicator()),
+  ];
 
   @override
   void initState() {
@@ -75,8 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           title: title,
           actions: const [NotificationIcon(hasNotification: false)]),
       drawer: const MainDrawer(),
-      body:
-          IndexedStack(index: _selectedIndex, children: HomeConstants.screens),
+      body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: TBottomNavigationBar(
           navigationIndex: navigationIndex, onTap: _selectItem),
     );

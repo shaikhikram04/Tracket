@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tracket/features/matches/widgets/match_tabs.dart';
 import 'package:tracket/features/matches/widgets/matches_fetcher.dart';
+import 'package:tracket/utils/constants/colors.dart';
 import 'package:tracket/utils/constants/enums.dart';
 
 class MatchesScreen extends StatefulWidget {
-  const MatchesScreen({super.key});
+  const MatchesScreen({super.key, this.onGoToTeams});
+
+  final VoidCallback? onGoToTeams;
 
   @override
   State<MatchesScreen> createState() => _MatchesScreenState();
@@ -60,6 +63,18 @@ class _MatchesScreenState extends State<MatchesScreen> {
           ),
         ],
       ),
+      floatingActionButton: widget.onGoToTeams != null
+          ? FloatingActionButton.extended(
+              onPressed: widget.onGoToTeams,
+              backgroundColor: primaryColor,
+              foregroundColor: onPrimary,
+              icon: const Icon(Icons.sports_cricket_rounded),
+              label: const Text(
+                'Challenge a Team',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            )
+          : null,
     );
   }
 }

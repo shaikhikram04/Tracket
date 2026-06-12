@@ -18,9 +18,11 @@ class PlayerProfileScreen extends StatefulWidget {
   const PlayerProfileScreen({
     super.key,
     this.playerId,
+    this.showAppBar = true,
   });
 
   final String? playerId;
+  final bool showAppBar;
 
   @override
   State<PlayerProfileScreen> createState() => _PlayerProfileScreenState();
@@ -118,33 +120,55 @@ class _PlayerProfileScreenState extends State<PlayerProfileScreen> {
     final isDark = THelperFunction.isDarkMode(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Player Profile'),
-        backgroundColor: primaryColor,
-        foregroundColor: onPrimary,
-        actions: [
-          if (_resolvedPlayerId == FirebaseAuthMethods().currentUserId)
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: _isLoading
-                  ? null
-                  : () async {
-                      final updated = await Navigator.of(context).push<bool>(
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              EditPlayerProfileScreen(player: _playerData),
-                        ),
-                      );
+      appBar: widget.showAppBar
+          ? AppBar(
+              title: const Text('Player Profile'),
+              backgroundColor: primaryColor,
+              foregroundColor: onPrimary,
+              actions: [
+                if (_resolvedPlayerId == FirebaseAuthMethods().currentUserId)
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            final updated =
+                                await Navigator.of(context).push<bool>(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    EditPlayerProfileScreen(player: _playerData),
+                              ),
+                            );
 
-                      if (updated == true) {
-                        await _loadPlayerData();
-                      }
-                    },
-            ),
-        ],
-        centerTitle: false,
-        shape: Border.all(color: primaryColor, width: 0),
-      ),
+                            if (updated == true) {
+                              await _loadPlayerData();
+                            }
+                          },
+                  ),
+              ],
+              centerTitle: false,
+              shape: Border.all(color: primaryColor, width: 0),
+            )
+          : null,
+      floatingActionButton: !widget.showAppBar &&
+              !_isLoading &&
+              _resolvedPlayerId == FirebaseAuthMethods().currentUserId
+          ? FloatingActionButton.small(
+              backgroundColor: primaryColor,
+              foregroundColor: onPrimary,
+              tooltip: 'Edit Profile',
+              onPressed: () async {
+                final updated = await Navigator.of(context).push<bool>(
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        EditPlayerProfileScreen(player: _playerData),
+                  ),
+                );
+                if (updated == true) await _loadPlayerData();
+              },
+              child: const Icon(Icons.edit),
+            )
+          : null,
       body: _isLoading
           ? const CircularLoadingIndicator()
           : SingleChildScrollView(
